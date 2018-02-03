@@ -1,6 +1,8 @@
 ## Background
 
-Why a book on data science / data analysis in education using R?
+These are some thoughts and ideas for a **collaborative book on data science (or data analysis) in education**. Thus, it touches on but is not focused on students themselves doing data science / data analysis, but rather on administrators, teachers, analysts, policymakers, and researchers doing data science / data analysis.
+
+*Why a book on data science / data analysis in education using R?*
 
 There are specific opportunities and challenges that make data science in education somewhat distinct from data science more generally:
 
@@ -41,6 +43,10 @@ There are specific opportunities and challenges that make data science in educat
     * 9: Multi-level models 
     * 10: Text analysis
     * 11: Longitudinal analysis
+    
+* Section 4: Future Directions
+    * 12: Building the capacity of educational data scientists / data analysts
+    * 13: Students themselves doing data science / data analysis
 
 ## Notes
 
