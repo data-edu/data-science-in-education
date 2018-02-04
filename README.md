@@ -1,3 +1,7 @@
+## Planning
+
+Check the [planning](/planning/) folder for process- and outline-related information.
+
 ## Background
 
 These are some thoughts and ideas for a **collaborative book on data science (or data analysis) in education**. Thus, it touches on but is not focused on students themselves doing data science / data analysis, but rather on administrators, teachers, analysts, policymakers, and researchers doing data science / data analysis.
