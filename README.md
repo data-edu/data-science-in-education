@@ -2,7 +2,9 @@
 
 Check the [planning](/planning/) folder for process- and outline-related information.
 
-This project started in a [#dataedu Slack channel](https://dataedu.slack.com/). In alphabetical order, the following authors are working on this project:
+This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). 
+
+In alphabetical order, the following authors are working on this project:
 
 - @kierisi
 - @MenakaK
