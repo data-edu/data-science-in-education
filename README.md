@@ -23,6 +23,7 @@ There are specific opportunities and challenges that make data science in educat
     
 * The approaches / methodologies used:
     * have to deal with messy data
+    * need to respond flexibly to potential scarcity of school/community resources
     * multi-level models
     * text data
     * log-trace data
@@ -51,6 +52,7 @@ There are specific opportunities and challenges that make data science in educat
 * Section 4: Future Directions
     * 12: Building the capacity of educational data scientists / data analysts
     * 13: Students themselves doing data science / data analysis
+    * 14: Using data in education to inform policy change
 
 ## Notes
 
