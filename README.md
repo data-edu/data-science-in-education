@@ -9,4 +9,4 @@
   - [@MenakaK](https://github.com/MenakaK)
   - [@jkaipp](https://github.com/jkaipp)
   - [@jrosen48](https://github.com/jrosen48) ([email](mailto:jrosen@msu.edu), [Twitter](http://twitter.com/jrosenberg6432), [website](http://jmichaelrosenberg.com))
-  - [@restrellado](https://github.com/restrellado)
+  - [@restrellado](https://github.com/restrellado), ([Twitter](http://twitter.com/ryanes), [website](https://ryanestrellado.netlify.com/))
