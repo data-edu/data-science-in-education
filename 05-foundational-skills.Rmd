@@ -6,6 +6,120 @@
 
 ## Importing / exporting data from various sources
 
+
+### Install R Studio and R
+
+First, you'll need to download the latest versions of R Studio and R. Although we'll exclusively be using R Studio, R Studio needs to have R installed, as well. You can find links here:
+
+Download R Studio: [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
+
+Download R: [https://cran.r-project.org/](https://cran.r-project.org/)
+
+Don't worry; you won't mess anything up if you download (or even install!) the wrong file. Once you've installed both, we can get to work doing some data analysis.
+
+### Loading data
+
+You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R and among Excel, R, as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is CSV, or a comma-separated-values file. 
+
+The CSV file is useful because you can open it with Excel and save Excel files as CSV files. Additionally, and as its name indicates, a CSV file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. Not surprisingly, Google Sheets easily converts CSV files into a Sheet, and also easily saves Sheets as CSV files. 
+
+For these reasons, we start with reading CSV files. 
+
+#### Loading CSV files
+
+The easiest way to read a CSV file is with the function `read_csv()`. It is from a package, or an add-on to R, called `readr`, but we are going to install `readr` as well as other packages that work well together as part of a group of packages named the `tidyverse`. To install all of the packages in the tidyverse, use the following command:
+
+```{r, eval = F}
+install.packages("tidyverse")
+```
+
+You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. Note, here there is a way to install a package using code or part of the R Studio interface. Usually, using code is a bit quicker, but sometimes (as we will see in a moment) using the interface can be very useful and sometimes complimentary to use of code. 
+
+We have now installed the tidyverse. We only have to install a package once, but to use it, we have to load it each time we start a new R session. We will discuss what an R session is later on; for now, know that we have to load a package to use it. We do that with `library()`:
+
+```{r, eval = F}
+library(tidyverse)
+```
+
+And now we can load a file. We are going to call the data `student_responses`:
+
+```{r, eval = F}
+
+```
+
+Since we loaded the data, we now want to look at it. We can just type its name, and a summary of the data will print: 
+
+```{r, eval = F}
+
+```
+
+This was a minor task, but if you loaded a file and printed it, give yourself a pat on the back. It is no joke to say that many times simply being able to load a file into new software. We are now well on our way to carrying out analysis of our data.
+
+#### Loading Excel files
+
+We will now do the same with an Excel file. You might be thinking that you can simply open the file in Excel and then save it as a CSV. This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel, and it is easy enough to do this.
+
+The package that we use, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
+
+Once we have installed readxl, we have to load it (just like tidyverse):
+
+```{r, eval = F}
+# install.packages("readxl")
+library(readxl)
+```
+
+We can then use `read_xlsx()` in the same way as `read_csv()`:
+
+```{r, eval = F}
+x <- read_xls()
+x <- read_xlsx()
+
+```
+
+And we can print the data we loaded in the same way:
+
+```{r, eval = F}
+
+```
+
+#### Loading SAV files
+
+The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). First, install the package `haven`, load it, and the use the function `read_sav()`:
+
+```{r, eval = F}
+# install.packages("haven")
+library(haven)
+
+x <- read_sav("")
+
+```
+
+#### Google Sheets
+
+Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
+
+```{r, eval = F}
+# install.packages("googlesheets")
+library(googlesheets)
+```
+
+When you run the command below, a link to authenticate with your Google account will open in your browser. 
+
+```{r, eval = F}
+my_sheets <- gs_ls()
+```
+
+You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
+
+```{r, eval = F}
+df <- gs_title('title')
+df <- gs_read(df)
+```
+
+### Conclusion
+
+For more on reading files, we will discuss how to use functions to read every file in a folder (or, to write many different files to a folder).
+
 ## Modeling data
 
 ## Communicating / sharing results
