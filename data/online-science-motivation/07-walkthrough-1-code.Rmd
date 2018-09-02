@@ -71,11 +71,32 @@ library(here)
 ```
 
 ```{r}
-f <- here::here("data", "online-science-motivation", "raw", "RR_Course_Data.csv")
-RR_Course_Data <- read_csv(f)
+# Gradebook and log-trace data for F15 and S16 semesters
+RR_Course_Data <- read_csv(here::here("data", "online-science-motivation", "raw", "RR_Course_Data.csv"))
 
-f <- here::here("data", "online-science-motivation", "raw", "CS1.csv")
-CS1 <- read_csv(f) # this is the pre-survey for the Fall, 2015 and Spring, 2016 semesters
+# Pre-survey for the F15 and S16 semesters
+CS1 <- read_csv(here::here("data", "online-science-motivation", "raw", "CS1.csv")) 
+
+# Post-survey for the F15 and S16 semesters
+CS2 <- read_csv(here::here("data", "online-science-motivation", "raw", "CS2.csv")) # this is the pre-survey for the Fall, 2015 and Spring, 2016 semesters
+
+# Pre-survey for S17 semester
+ps3 <- read_excel(here::here("data", "online-science-motivation", "raw", "CS_1_7_13_17.xls"))
+
+# Post-survey for S17 semester
+df2 <- read_excel(here::here("data", "online-science-motivation", "raw", "CS_2_7_13_17.xls"))
+
+# NOT SURE!
+x <- read_csv(here::here("data", "online-science-motivation", "raw", "RR_S3.csv"))
+
+# Log-trace data for F15 and S16 semesters?
+ts_12 <- read_csv(here::here("data", "online-science-motivation", "raw", "RR_Minutes.csv"))
+
+# Gradebook for S17 semester
+td_12 <- read_csv(here::here("data", "online-science-motivation", "raw", "RR_Course_Data.csv"))
+
+# Log-trace data for S17 semester
+td_3 <- read_excel(here::here("data", "online-science-motivation", "raw", "Ranelluci Study Data Pull Request.xlsx"))
 ```
 
 ```{r}
@@ -136,8 +157,8 @@ ps12_f <- arrange(ps12_f, student_ID, date)
 
 ps12_f <- ps12_f %>% distinct(student_ID, .keep_all=T)
 
-f <- here::here("data", "online-science-motivation", "raw", "CS2.csv")
-CS2 <- read_csv(f) # this is the pre-survey for the Fall, 2015 and Spring, 2016 semesters
+# f <- here::here("data", "online-science-motivation", "raw", "CS2.csv")
+# CS2 <- read_csv(f) # this is the pre-survey for the Fall, 2015 and Spring, 2016 semesters
 
 CS2$Q1MaincellgroupRow4_rc <- car::recode(CS2$Q1MaincellgroupRow4, "1=5; 2=4; 5=1; 4=2")
 CS2$Q1MaincellgroupRow7_rc <- car::recode(CS2$Q1MaincellgroupRow7, "1=5; 2=4; 5=1; 4=2")
@@ -173,9 +194,9 @@ ps12_f <- left_join(ps12_f, CS2, by = "student_ID")
 # 2. Pre-processing (for semester 3)
 
 ```{r}
-f <- here::here("data", "online-science-motivation", "raw", "CS_1_7_13_17.xls")
-
-ps3 <- read_excel(f)
+# f <- here::here("data", "online-science-motivation", "raw", "CS_1_7_13_17.xls")
+# 
+# ps3 <- read_excel(f)
 
 ps3$Q1MaincellgroupRow31_rc <- car::recode(ps3$Q1MaincellgroupRow31, "1=5; 2=4; 5=1; 4=2")
 ps3$Q1MaincellgroupRow61_rc <- car::recode(ps3$Q1MaincellgroupRow61, "1=5; 2=4; 5=1; 4=2")
@@ -219,8 +240,8 @@ ps3_f <- select(ps3,
 
 ps3_f <- ps3_f %>% arrange(student_ID, date) %>% distinct(student_ID, .keep_all = T)
 
-f <- here::here("data", "online-science-motivation", "raw", "CS_2_7_13_17.xls")
-df2 <- read_excel(f)
+# f <- here::here("data", "online-science-motivation", "raw", "CS_2_7_13_17.xls")
+# df2 <- read_excel(f)
 
 df2$post_int <- (df2$Q2MaincellgroupRow01 + df2$Q2MaincellgroupRow71 + df2$Q2MaincellgroupRow91 + df2$Q2MaincellgroupRow41) / 4
 df2$post_uv <- (df2$Q2MaincellgroupRow11 + df2$Q2MaincellgroupRow51+ df2$Q2MaincellgroupRow81) / 3 # dropped 7
@@ -308,9 +329,9 @@ d <- select(d, -date.y, -date.x)
 # 4. Processing all gradebook data
 
 ```{r}
-f <- here::here("data", "online-science-motivation", "raw", "RR_S3.csv")
-
-x <- read_csv(r)
+# f <- here::here("data", "online-science-motivation", "raw", "RR_S3.csv")
+# 
+# x <- read_csv(r)
 x <- select(x, course_ID = Course_ID, student_ID = CU_Pk1, Item_Position:last_access_date)
 x <- rename(x, Grade_Category = Grade_Catagory)
 
@@ -332,14 +353,14 @@ df <- left_join(d, xx, by = "student_ID")
 
 ```{r}
 library(readxl)
-f <- here::here("data", "online-science-motivation", "raw", "RR_Minutes.csv")
-ts_12 <- read_csv(f)
-
-f <- here::here("data", "online-science-motivation", "raw", "RR_Course_Data.csv")
-td_12 <- read_csv(f)
-
-f <- here::here("data", "online-science-motivation", "raw", "Ranelluci Study Data Pull Request.xlsx")
-td_3 <- read_excel(f)
+# f <- here::here("data", "online-science-motivation", "raw", "RR_Minutes.csv")
+# ts_12 <- read_csv(f)
+# 
+# f <- here::here("data", "online-science-motivation", "raw", "RR_Course_Data.csv")
+# td_12 <- read_csv(f)
+# 
+# f <- here::here("data", "online-science-motivation", "raw", "Ranelluci Study Data Pull Request.xlsx")
+# td_3 <- read_excel(f)
 
 td_12 <- td_12 %>% 
     select(student_ID = Bb_UserPK, course_ID = CourseSectionOrigID,
