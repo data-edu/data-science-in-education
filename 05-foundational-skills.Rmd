@@ -1,51 +1,14 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
 # Foundational Skills
 
 ## Getting started
 
-First, you will need to download the latest versions of R Studio and R. Although you will likely exclusively use R Studio, this software (R Studio) needs to have R installed, as well, as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
+First, you will need to download the latest versions of R Studio and R. Although we'll exclusively be using R Studio, R Studio needs to have R installed, as well. You can find links here:
 
-### Downloading R Studio
+Download R Studio: [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
 
-*To download R Studio*:
+Download R: [https://cran.r-project.org/](https://cran.r-project.org/)
 
-- Visit this page here: [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
-- Beneath "Installers for Supported Platforms", find your operating system and download and install the application.
-
-### Downloading R
-
-*To download R*: 
-
-- Visit this page here to download R: [https://cran.r-project.org/](https://cran.r-project.org/)
-- Find your operating system (Mac, Windows, or Linux)
-- Download the 'latest release' on the page for your operating system and download and install the application
-
-Don't worry; you will not mess anything up if you download (or even install!) the wrong file. Once you've installed both, you can get started.
-
-If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. One good place to start is the [R Studio Community](https://community.rstudio.com/) is a great place to start.
-
-## Check that it worked
-
-Open R Studio.  Find the console window and type in `2 + 2`. If what you can guess is returned (hint: it's what you expect!), then R Studio *and* R both work.
-
-## Help, I'm completely new to using R / R Studio!
-
-If you're completely new, Swirl is a great place to start, as it helps you to learn R *from within R Studio*. Visit this page to see some directions: [http://swirlstats.com](http://swirlstats.com).
-
-If you have a bit more confidence but still feel like you need some time to get started, [Data Camp](https://www.datacamp.com/) is another good place to start. 
-
-And if you're ready to go, please proceed to the next sections on processing and preparing, plotting, loading, and modeling data and sharing results.
-
-## Processing / preparing data
-
-One of the most important steps is to process and prepare data. This walk through starts here instead of loading data because of the importance of these steps and because they're exciting places to begin: you can quickly transform an unruly data set into one ready to be plotted or modeled. 
-
-## Plotting data
+Don't worry; you will not mess anything up if you download (or even install!) the wrong file. Once you've installed both, we can get to work doing some data analysis.
 
 ## Importing / exporting data from various sources
 
@@ -67,19 +30,40 @@ install.packages("tidyverse")
 
 You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. Note, here there is a way to install a package using code or part of the R Studio interface. Usually, using code is a bit quicker, but sometimes (as we will see in a moment) using the interface can be very useful and sometimes complimentary to use of code. 
 
-We have now installed the tidyverse. We only have to install a package once, but to use it, we have to load it each time we start a new R session. We will discuss what an R session is later on; for now, know that we have to load a package to use it. We do that with `library()`:
+We have now installed the tidyverse. We only have to install a package once, but to use it, we have to load it each time we start a new R session. We will discuss what an R session is later on; for now, know that we have to load a package to use it. We do that with `library()`. 
+
+##### Creating projects
+
+First, we're going to take a few steps to set ourselves to make the analysis easier; namely, through the use of Projects, an R Studio-specific organizational tool. 
+
+To create a project, in R Studio, navigate to "File" and then "New Directory". Then, click "New Project". Choose a directory name for the project that helps you to remember that this is a project that involves data science in education; it can be convenient if the name is typed in `lower-case-letters-separated-by-dashes`, like that. You can also choose the sub-directory. If you are just using this to learn and to test out creating a project, you may consider placing it in your downloads or another temporary directory so that you remember to remove it later.
+
+Next, you'll need to copy this URL:
+
+`https://goo.gl/wPmujv`
+
+Here's what it resolves to (it's a CSV file):
+
+`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/sch-quest.csv`
+
+This bit of code downloads the file to your working directory. Run this to download it so in the next step you can read it into R. As a note: There are ways to read the file directory (from the web) into R. Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a CSV extension).
+
+```{r}
+u <- "https://goo.gl/wPmujv"
+download.file(url = u, destfile = paste0(getwd(), "/student-responses-data.csv"))
+```
+
+In R Studio, you should see the file in the Files tab (this should be the case if you created a project with R Studio; if not, it should be whatever your working directory is set to; run `getwd()` to find out. If things are not working, consider downloading the file in the manual way; and then move it into the directory that the R Project you created it.
 
 ```{r, eval = F}
 library(tidyverse)
 ```
 
-And now we can load a file. 
 
-
-We are going to call the data `student_responses`:
-
+And now we can load a file. We are going to call the data `student_responses`:
 ```{r, eval = F}
-student_responses <- read_csv(here::here("data/")) # need to add file
+# readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
+
 ```
 
 Since we loaded the data, we now want to look at it. We can just type its name, and a summary of the data will print: 
@@ -103,10 +87,11 @@ Once we have installed readxl, we have to load it (just like tidyverse):
 library(readxl)
 ```
 
-We can then use `read_excel()` in the same way as `read_csv()`:
+We can then use `read_xlsx()` in the same way as `read_csv()`:
 
 ```{r, eval = F}
-x <- read_excel()
+x <- read_xls()
+x <- read_xlsx()
 
 ```
 
@@ -150,45 +135,10 @@ df <- gs_title('title')
 df <- gs_read(df)
 ```
 
+### Conclusion
+
+For more on reading files, we will discuss how to use functions to read every file in a folder (or, to write many different files to a folder).
+
 ## Modeling data
 
-This section focuses on two types of models, *t*-tests and linear models (for regressions).
-
-```{r, t-test}
-
-```
-
-```{r, lm}
-
-```
-
 ## Communicating / sharing results
-
-R Markdown is a highly convenient way to communicate and share results. Navigate to "New File" and then "R Markdown". [add]
-
-Then, click "Knit to PDF" or "Knit to Word".
-
-## Other foundational notes
-
-### Configuring R Studio
-
-There are a number of changes you *can* (but do not need to) make to configure R Studio. If you navigate to the Preferences menu in R Studio, you'll see a number of options you can change, from the appearance of the application to which windows appear where.
-
-One important consideration is whether to save your workspace when you close R Studio. By default, R Studio saves all of the objects in your environment. This means that any data that you have loaded--or new data or objects that you have created, such as by merging two data sets together or creating a plot--will, by default, still exist when you open R Studio next. In general, this is not ideal, because it means that you may have taken steps interactively that are not documented your code. This means that when you share your code, or re-run it from the start, it may not work. An easy way to change this is to tell R Studio to start from scratch (in terms of your workspace) each time you open it. You can do that by changing the dropdown menu pointed out in the image below to "Never".
-
-![optional caption text](images/save-workspace-reminder.jpg)
-
-While this may seem like a dramatic step - never saving your workspace - it is the foundation for doing reproducible work and research using R Studio (and R). It also represents one of the biggest shifts from using software like Excel or SPSS, where most steps are not documented in code. This involves a shift from thinking that your most permanent and important part of an analysis is your data to thinking of the most important part as being the code: with the code, you can keep your data in its original form, process it, and then save a processed file, through running code. This also means that when you have to make a change to this code, you can re-run the entire analysis easily. 
-
-### R Studio Projects
-
-R Studio projects are a good way to organize related work. In R Studio, navigate to "New Project" from the file menu [add].
-
-### Getting data in and out
-
-`clipr` is a package to easily copy data into and out of R using the clipboard. [add]
-
-`datapasta` is another option. [add]
-
-### GitHub and version control
-
