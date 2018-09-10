@@ -24,7 +24,7 @@ Don't worry; you will not mess anything up if you download (or even install!) th
 
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. One good place to start is the [R Studio Community](https://community.rstudio.com/) is a great place to start.
 
-**For more information on installing R and R Studio, check out DataCamp's Installing R](https://www.datacamp.com/community/tutorials/installing-R-windows-mac-ubuntu).**
+**For more information on installing R and R Studio, check out DataCamp's [Installing R](https://www.datacamp.com/community/tutorials/installing-R-windows-mac-ubuntu).**
 
 ## Check that it worked
 
@@ -46,7 +46,7 @@ To create a project, in R Studio, navigate to "File" and then "New Directory".
 
 Then, click "New Project". Choose a directory name for the project that helps you to remember that this is a project that involves data science in education; it can be convenient if the name is typed in `lower-case-letters-separated-by-dashes`, like that. You can also choose the sub-directory. If you are just using this to learn and to test out creating a project, you may consider placing it in your downloads or another temporary directory so that you remember to remove it later.
 
-Even if you do not create a Project, you can always check where your working directory (i.e., where your R is pointing) is by running `getwd()`. To change it manually, run `setwd(desired_file_path_here)`.
+Even if you do not create a Project, you can always check where your working directory (i.e., where your R is pointing) is by running `getwd()`. To change it manually, run `setwd(desired/file/path/here)`.
 
 ## Packages
 
@@ -220,9 +220,9 @@ Great job loading a file and printing it! We are now well on our way to carrying
 
 ### Loading Excel files
 
-We will now do the same with an Excel file. You might be thinking that you can simply open the file in Excel and then save it as a CSV. This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel, and it is easy enough to do this.
+We will now do the same with an Excel file. You might be thinking that you can open the file in Excel and then save it as a CSV. This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel.
 
-The package that we use, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
+The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 
@@ -231,13 +231,14 @@ Once we have installed readxl, we have to load it (just like tidyverse):
 library(readxl)
 ```
 
-We can then use `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
+We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
 
 ```{r, eval = F}
-my_data <- read_excel("path/to/file.xlsx")
+my_data <-
+    read_excel("path/to/file.xlsx")
 ```
 
-Of course, were this run, you can replace `my_data` with a name you like. Generally, it's easy to use short and easy-to-type names for data, as you will be typing and using it a lot. 
+Of course, were this run, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
 
 Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of R Studio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, R Studio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
 
@@ -248,7 +249,8 @@ The same factors that apply to reading Excel files apply to reading `SAV` files 
 ```{r, eval = F}
 # install.packages("haven")
 library(haven)
-my_data <- read_sav("path/to/file.xlsx")
+my_data <-
+    read_sav("path/to/file.xlsx")
 ```
 
 ### Google Sheets
@@ -261,6 +263,7 @@ library(googlesheets)
 ```
 
 When you run the command below, a link to authenticate with your Google account will open in your browser. 
+
 ```{r, eval = F}
 my_sheets <- gs_ls()
 ```
@@ -272,47 +275,55 @@ df <- gs_title('title')
 df <- gs_read(df)
 ```
 
-### Saving files
+### Saving Files
 
-Saving files is relatively easy (compared to loading them). Using our data frame `student_responses`, we can save it as a CSV (for example) with the following function:
+Using our data frame `student_responses`, we can save it as a CSV (for example) with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
 
 ```{r, eval = FALSE}
 write_csv(student_responses, "student-responses.csv")
 ```
 
-That will save a CSV file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can directly and simply load a CSV file in Excel.
+That will save a CSV file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a CSV and directly load it in Excel.
 
 ### Conclusion
 
-For more on reading files, we will discuss how to use functions to read every file in a folder (or, to write many different files to a folder).
+We will detail the functions used to read every file in a folder (or, to write files to a folder).
 
-## Processing data
+**For more information on installing R and R Studio, check out DataCamp's [R Data Import Tutorial](https://www.datacamp.com/community/tutorials/installing-R-windows-mac-ubuntu).**
 
-Now that we have loaded `student_responses`, we can process it. This section highlights some common data processing functions. 
+## Processing Data
 
-We're also going to introduce a powerful, unusual *operator* in R, the pipe. The pipe is this symbol: `%>%`. It lets you *compose* functions. It does this by passing the output of one function to the next.
+Now that we have loaded `student_responses` into an object, we can process it. This section highlights some common data processing functions. 
 
-Here's an example. Let's say that we want to select just a few variables from the `student_responses` dataset. Here's how we would do that using `select()`.
+We're also going to introduce a powerful, unusual *operator* in R, the pipe. The pipe is this symbol: `%>%`. It lets you *compose* functions. It does this by passing the output of one function to the next. A handy shortcut for writing out `%>%` is Command + Shift + M.
+
+Here's an example. Let's say that we want to select a few variables from the `student_responses` dataset and save those variables into a new object, `student_mot_vars`. Here's how we would do that using `dplyr::select()`.
 
 ```{r}
-student_mot_vars <- select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE)
+student_mot_vars <- # save object student_mot_vars by...
+    student_responses %>% # using dataframe student_responses
+    select(SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
 ```
 
-Note that we saved the output from the `select()` function to a new data frame, this one called `student_mot_vars`. We could save it back to `student_responses`, which would simply overwrite the existing data frame (with more variables), i.e. (the following code is not run here):
+Note that we saved the output from the `select()` function to `student_mot_vars` but we could also save it back to `student_responses`, which would simply overwrite the original data frame (the following code is not run here):
 
 ```{r, eval = F}
-student_responses <- select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE)
+student_responses <- # save object student_responses by...
+    student_responses %>% # using dataframe student_responses
+    select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
 ```
 
-We could also rename them at the same time we select them; I put these on separate lines so I could add the comment, but you could do this all in the same line, too; it does not make a difference in terms of how `select()` will work.
+We can also rename the variables at the same time we select them. I put these on separate lines so I could add the comment, but you could do this all in the same line, too. It does not make a difference in terms of how `select()` will work.
 
 ```{r}
-student_mot_vars <- select(student_responses,
-                            student_efficacy = SCIEEFF,
-                            student_joy = JOYSCIE,
-                            student_broad_interest = INTBRSCI,
-                            student_epistemic_beliefs = EPIST,
-                            student_instrumental_motivation = INSTSCIE)
+student_mot_vars <- # save object student_mot_vars by...
+    student_responses %>% # using dataframe student_responses
+    select(student_efficacy = SCIEEFF, # selecting variable SCIEEFF and renaming to student_efficiency
+           student_joy = JOYSCIE, # selecting variable JOYSCIE and renaming to student_joy
+           student_broad_interest = INTBRSCI, # selecting variable INTBRSCI and renaming to student_broad_interest
+           student_epistemic_beliefs = EPIST, # selecting variable EPIST and renaming to student_epistemic_beliefs
+           student_instrumental_motivation = INSTSCIE # selecting variable INSTSCIE and renaming to student_instrumental_motivation
+    )
 ```
 
 [will add more on creating new variables, filtering grouping and summarizing, and joining data sets]
