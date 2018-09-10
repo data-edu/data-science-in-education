@@ -2,11 +2,11 @@
 
 ## Getting started
 
-First, you will need to download the latest versions of R and R Studio. R is a free environment for statistical computing and graphings using the programming language R. R Studio is a set of integrated tools that allows for a more user-friendly experience for writing in R.
+First, you will need to download the latest versions of R and R Studio. R is a free environment for statistical computing and graphics using the programming language R. R Studio is a set of integrated tools that allows for a more user-friendly experience for writing in R.
 
-Although you will likely use R Studio as your main editor, it needs to have R installed, as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
+Although you will likely use R Studio as your main editor, you must first install R, as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
 
-### Downloading R and R Studio
+## Downloading R and R Studio
 
 *To download R*:
 
@@ -36,7 +36,7 @@ If you have a bit more confidence but still feel like you need some time to get 
 
 And if you're ready to go, please proceed to the next sections on processing and preparing, plotting, loading, and modeling data and sharing results.
 
-## Creating projects
+## Creating Projects
 
 Before proceeding, we're going to take a few steps to set ourselves to make the analysis easier; namely, through the use of Projects, an R Studio-specific organizational tool. 
 
@@ -44,11 +44,62 @@ To create a project, in R Studio, navigate to "File" and then "New Directory".
 
 Then, click "New Project". Choose a directory name for the project that helps you to remember that this is a project that involves data science in education; it can be convenient if the name is typed in `lower-case-letters-separated-by-dashes`, like that. You can also choose the sub-directory. If you are just using this to learn and to test out creating a project, you may consider placing it in your downloads or another temporary directory so that you remember to remove it later.
 
+## Packages
+
+"Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data and documentation,. Packages increase the functionality of R by improving and expanding on base R (basic R functions). 
+
+### Installing and Loading Packages
+
+To download a package, you must call `install.packages()`:
+
+```{r}
+install.packages("dplyr")
+```
+
+*After* the package is installed, it must be loaded into your R Studio session using `library()`:
+
+```{r}
+library(dplyr)
+```
+
+> a package is a like a book, a library is like a library; you use library() to check a package out of the library
+> - Hadley Wickham, Chief Scientist, R Studio
+
+### Running Functions from Packages
+
+Once you have loaded the package in your session, you can run the functions that are contained within that package. To find a list of all those functions, you can run this in the R Studio console:
+
+```{r}
+help(package = dplyr)
+```
+
+The documentation should tell you what the function does, what arguments (details) needed for it to successfully run, examples, and what the output should look like.
+
+If you know the specific function that you want to look up, you can run this in the R Studio console:
+
+```{r}
+??dplyr::filter
+```
+
+Once you know what you want to do with the function, you can run it in your code:
+
+```{r}
+dat <-
+    data.frame(stringsAsFactors=FALSE,
+               letter = c("A", "A", "A", "B", "B"),
+               number = c(1L, 2L, 3L, 4L, 5L))
+
+dat
+
+filter(dat, letter == "A")
+```
+
+
 ## Loading data from various sources
 
-In this section, we'll start with loading data.
+In this section, we'll load data.
 
-You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R and among Excel, R, as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is CSV, or a comma-separated-values file. 
+You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is CSV, or a comma-separated-values file. 
 
 The CSV file is useful because you can open it with Excel and save Excel files as CSV files. Additionally, and as its name indicates, a CSV file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. Not surprisingly, Google Sheets easily converts CSV files into a Sheet, and also easily saves Sheets as CSV files. 
 
