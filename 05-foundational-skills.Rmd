@@ -1,14 +1,14 @@
 # Foundational Skills
 
-## Getting started
+## Getting Started
 
-First, you will need to download the latest versions of R and R Studio. R is a free environment for statistical computing and graphics using the programming language R. R Studio is a set of integrated tools that allows for a more user-friendly experience for writing in R.
+First, you will need to download the latest versions of R and R Studio. R is a free environment for statistical computing and graphics using the programming language R. R Studio is a set of integrated tools that allows for a more user-friendly experience for using R.
 
-Although you will likely use R Studio as your main editor, you must first install R, as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
+Although you will likely use R Studio as your main console and editor, you must first install R as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
 
 ## Downloading R and R Studio
 
-*To download R*:
+### To download R:
 
 - Visit this page to download R: [https://cran.r-project.org/](https://cran.r-project.org/)
 - Find your operating system (Mac, Windows, or Linux)
@@ -16,13 +16,15 @@ Although you will likely use R Studio as your main editor, you must first instal
 
 Don't worry; you will not mess anything up if you download (or even install!) the wrong file. Once you've installed both, you can get started.
 
-*To download R Studio*:
+### To download R Studio:
 
 - Visit this page to download R studio: [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
 - Find your operating system (Mac, Windows, or Linux)
 - Download the 'latest release' on the page for your operating system and download and install the application
 
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. One good place to start is the [R Studio Community](https://community.rstudio.com/) is a great place to start.
+
+**For more information on installing R and R Studio, check out DataCamp's Installing R](https://www.datacamp.com/community/tutorials/installing-R-windows-mac-ubuntu).**
 
 ## Check that it worked
 
@@ -53,7 +55,7 @@ Then, click "New Project". Choose a directory name for the project that helps yo
 To download a package, you must call `install.packages()`:
 
 ```{r}
-install.packages("dplyr")
+install.packages("dplyr", repos = "http://cran.us.r-project.org")
 ```
 
 *After* the package is installed, it must be loaded into your R Studio session using `library()`:
@@ -84,17 +86,30 @@ If you know the specific function that you want to look up, you can run this in 
 Once you know what you want to do with the function, you can run it in your code:
 
 ```{r}
-dat <-
+dat <- # example data frame
     data.frame(stringsAsFactors=FALSE,
                letter = c("A", "A", "A", "B", "B"),
                number = c(1L, 2L, 3L, 4L, 5L))
 
 dat
 
-filter(dat, letter == "A")
+filter(dat, letter == "A") # using dplyr::filter
 ```
 
-_For more information, check out DataCamp's [Beginner's Guide to R Packages](https://www.datacamp.com/community/tutorials/r-packages-guide).
+**For more information on R packages, check out DataCamp's [Beginner's Guide to R Packages article](https://www.datacamp.com/community/tutorials/r-packages-guide).**
+
+### Welcome to the Tidyverse
+
+The Tidyverse is a set of packages for data manipulation, exploration, and visualization using the design philosophy of 'tidy' data. Tidy data has a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table.
+
+You can installing and load the complete Tidyverse with:
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+**For more information on tidy data, check out [Hadley Wickhams's Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.html).**
 
 ## Loading data from various sources
 
