@@ -1,3 +1,13 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r, setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, out.width = "80%")
+```
+
 # Foundational Skills
 
 ## Getting Started
@@ -56,7 +66,7 @@ Even if you do not create a Project, you can always check where your working dir
 
 To download a package, you must call `install.packages()`:
 
-```{r, eval = F}
+```{r, eval = FALSE}
 install.packages("dplyr", repos = "http://cran.us.r-project.org")
 ```
 
@@ -116,7 +126,7 @@ You can installing and load the complete Tidyverse with:
 install.packages("tidyverse")
 ```
 
-```{r}
+```{r, message = FALSE}
 library(tidyverse)
 ```
 
@@ -211,9 +221,9 @@ student_responses <-
     read_csv("./data/student-responses-data.csv")
 ```
 
-Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset: 
+Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 glimpse(student_responses)
 ```
 
@@ -229,7 +239,7 @@ The package for loading Excel files, `readxl`, is not a part of the tidyverse, s
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 
-```{r, eval = F}
+```{r, eval = FALSE}
 install.packages("readxl")
 ```
 
@@ -239,7 +249,7 @@ library(readxl)
 
 We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
 
-```{r, eval = F}
+```{r, eval = FALSE}
 my_data <-
     read_excel("path/to/file.xlsx")
 ```
@@ -252,7 +262,7 @@ Note that one easy way to find the path to a file is to use the "Import Dataset"
 
 The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). First, install the package `haven`, load it, and the use the function `read_sav()`:
 
-```{r, eval = F}
+```{r, eval = FALSE}
 install.packages("haven")
 ```
 
@@ -266,7 +276,7 @@ my_data <-
 
 Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
 
-```{r, eval = F}
+```{r, eval = FALSE}
 install.packages("googlesheets")
 ```
 
@@ -276,13 +286,13 @@ library(googlesheets)
 
 When you run the command below, a link to authenticate with your Google account will open in your browser. 
 
-```{r, eval = F}
+```{r, eval = FALSE}
 my_sheets <- gs_ls()
 ```
 
 You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
 
-```{r, eval = F}
+```{r, eval = FALSE}
 df <- gs_title('title')
 df <- gs_read(df)
 ```
@@ -319,7 +329,7 @@ student_mot_vars <- # save object student_mot_vars by...
 
 Note that we saved the output from the `select()` function to `student_mot_vars` but we could also save it back to `student_responses`, which would simply overwrite the original data frame (the following code is not run here):
 
-```{r, eval = F}
+```{r, eval = FALSE}
 student_responses <- # save object student_responses by...
     student_responses %>% # using dataframe student_responses
     select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
