@@ -1,0 +1,7 @@
+# How Computational Tools and a Culture of Openness Supported the Collaboratively Authoring of a Text
+
+Ryan Estrellado, San Diego County Office of Education  
+Jesse Mostipak, Teaching Trust  
+Joshua Rosenberg, University of Tennessee, Knoxville  
+
+Doing data science in education is promising and challenging. This presentation reports on efforts to expand access to data science through the collaborative authoring of a book about data science in education and a *language* for data science in this context. The roles of R Markdown and Bookdown and git and Github to support individuals who have never met in person to work together are described through examples of how dilemmas were addressed. We discuss how writing the book in the open made possible the the contribtutions of individuals from a myriad of roles in education (i.e., administrators, data analysts, teachers, and researchers) and improved the product. Challenges and opportunities from working to develop a language for data science in an area in which some of the features of data science are not yet accepted are described through solutions the authors have developed through their experiences in K-12 and higher education contexts, from strategies to emphasize the role of data across organizations to working in the open even when confidential data is used.
