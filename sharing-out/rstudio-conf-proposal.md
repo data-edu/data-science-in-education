@@ -20,4 +20,4 @@ Jesse is a former molecular biologist turned public school teacher who eventuall
 
 ## Joshua Rosenberg
 
-Joshua is an Assistant Professor of STEM Education at the University of Tennessee, Knoxville. In his research, he tries to understand how learners work with data as a context for learning, particularly in science content areas. A former high school science teacher, Joshua has also taught classes in science education, teacher education, educational psychology, educational technology, and research methods at the post-secondary level. Joshua earned his Ph.D. from Michigan State University in 2018.
+Joshua is an Assistant Professor of STEM Education at the University of Tennessee, Knoxville. In his research, he tries to understand how learners work with data as a context for learning, particularly in science content areas. A former high school science teacher, Joshua has also taught classes in science education, teacher education, educational psychology, educational technology, and research methods at the post-secondary level.
