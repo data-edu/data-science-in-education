@@ -1,7 +1,24 @@
 # Planting the seeds: Expanding access to data science in education
 
+# Authors: 
 Ryan Estrellado, San Diego County Office of Education  
 Jesse Mostipak, Teaching Trust  
 Joshua Rosenberg, University of Tennessee, Knoxville  
 
-Doing data science in education is promising and challenging. This presentation reports on efforts to expand access to data science through the collaborative authoring of a book about data science in education and a language for data science in this context. The roles of R Markdown and Bookdown and git/Github to support individuals who have never met in person to work together are described through examples of how dilemmas were addressed. We show how writing the book in the open made possible the contributions of individuals from a myriad of roles in education (i.e., administrators, data analysts, teachers, and researchers) and improved the product. Challenges and opportunities from working to develop a language for data science in a profession in which some of the features of data science are not yet accepted are described through the authors' teaching, administrative, and research-related experiences in K-12 and higher education contexts and emphasize strategies to expand the role of data and data science across organizations. Implications and opportunities for other professions in which interest in data science is growing are discussed.
+# Abstract
+This presentation reports on efforts to expand access to data science through the collaborative writing of a book about data science in education. Contributors to the book work together through the use of tools like git/GitHub and Bookdown to describe the challenge of doing data science in education—and its promise. We show how writing the book in the open empowers individuals from a myriad of roles in education to contribute and improve the product. Contributors draw from their experiences in K-12 and higher education contexts to bring definition to data science in the education setting. Last, the authors discuss how the growth of data science in education has implications for other professions that are beginning to explore data science.
+
+# Biographies
+
+## Ryan Estrellado
+
+Ryan is a public school administrator whose mission is to explore and share ways to create new education knowledge through data science techniques. An everyday rstudio user, Ryan uses data analysis to consult and train school staff and administrators on a variety of topics.
+
+## Jesse Motsipak
+
+Jesse is a former molecular biologist turned public school teacher who eventually taught herself enough R and statistics to become a career data scientist. Starting with her first data science job, Jesse has built data science departments from the ground up at three organizations - often as the only data scientist on staff - and continues to develop and refine her skillset by helping educational nonprofits become more data driven.
+
+## Joshua Rosenberg
+
+Joshau is an Assistant Professor of STEM Education at the University of Tennessee, Knoxville. In his research, I try understand how learners work with data as a context for learning, particularly in science content areas. A former high school science teacher, Joshua has also taught classes in science education, teacher education, educational psychology, educational technology, and research methods at the post-secondary level. Joshua earned his Ph.D. from Michigan State University in 2018.
+
