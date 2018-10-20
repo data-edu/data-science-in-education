@@ -1,10 +1,30 @@
 ---
-title: 'Education Dataset Analysis Pipeline: Walk Through #2'
+title: 'Education Dataset Analysis Pipeline: Gradebook Walkthrough'
 output: html_document
 ---
+## Introduction
+Gradebooks are nearly ubiquitous throughout K-12 classrooms, whether they exist as standalone Excel files, Google Sheets, or in proprietary software. 
 
+This walkthrough goes through a series of analyses using the data science framework (link), using the sample [Assessment Types - Points](http://web.mit.edu/jabbott/www/excelgradetracker.html) Excel gradebook template from MIT. All data in the sample gradebook have been generated, and do not reflect individual student data.
+
+*** 
+
+## Driving Question and Objectives
+
+***
+
+## Data Import
+Setting up our environment (note: how deep do we go into working directories?!)
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+```
+
+Importing our data (need to sim data for 25 students)
+Check text for object naming conventions, discussion of .csv, .xlsx, versatility of import functions within the `tidyverse`
+File naming - issues that can arise from spaces
+```{r}
+gradebook <- readxl::read_excel(here("/data/gradebooks", "ExcelGradeTrackerAssessmentTypePoints_SIMDATA_01.xlsx"))
 ```
 
 ## R Markdown
