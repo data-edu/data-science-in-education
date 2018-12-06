@@ -116,10 +116,8 @@ rf_fit <- train(final_grade ~ pre_int + pre_uv + pre_percomp + time_spent + cour
 summary(rf_fit)
 ```
 
-
-
-FinalGrade_prediction <- predict(object = RF_FinalGrade,   # model object 
-                                 newdata = data_test)  # train dataset
+```{}
+FinalGrade_prediction <- predict(rf_fit, data_test)
 
 FinalGrade_prediction <- as.data.frame(FinalGrade_prediction)
 
@@ -134,53 +132,10 @@ p <- d %>%
     mutate(abs_diff = Emily_residuals(final_grade, pred_final_grade),
            diff = final_grade - pred_final_grade)
 
-# p %>% select (pred_final_grade, abs_diff, diff) %>% summarize_all(funs(mean))
 
-# p %>% 
-#     select(final_grade, pred_final_grade) %>% 
-#     gather(key, val, final_grade:pred_final_grade) %>% 
-#     ggplot(aes(x = val, fill = key, color = key)) +
-#     geom_density(alpha = .4)
-# 
-#-----------------------------
-# 5. Model Evaluation
-#-----------------------------
-
-#Take test data frames and cbind new prediction matrix
 FinalGrade_data <- cbind(data_test, FinalGrade_prediction)
 
-#Call my newly created function, first arg = predicted, second arg = observed
-
-Residuals_FinalGrade <- Emily_residuals(FinalGrade_data$FinalGrade_prediction , FinalGrade_data$final_grade)
-
-# Residuals_FinalGrade %>% 
-#     as_data_frame() %>% 
-#     ggplot(aes(x = value)) +
-#     geom_density()
-
-#plot the errors in a density plot
-# FinalGrade_resid_plot <- plot(density(Residuals_FinalGrade), 
-#                               main = "Absolute Value of Out-of-Sample\n Residuals for Final Grade Model",
-#                               xlab = "Residuals",
-#                               ylab = "Density")
-
-# FinalGrade_resid_plot
-
-#VARIABLE IMPORTANCE PLOT
-# varImpPlot(RF_FinalGrade)
-
-# varImp(RF_FinalGrade) #this gives us the actual values for the variable importance MSE
-
-#importance(RF_FinalGrade)
-
-```
-
-```{r, include = FALSE, eval = TRUE}
-
-rf_m <- randomForest(formula = final_grade ~ pre_int + pre_uv + pre_percomp + time_spent + cogproc + social + posemo + negemo + n,
-                     method = "regression",
-                     data = data_train)
-rf_pred <- predict(rf_m, data_test)
+Residuals_FinalGrade <- calc_resid(FinalGrade_data$FinalGrade_prediction, FinalGrade_data$final_grade)
 ```
 
 # 3. RESULTS 
@@ -271,7 +226,18 @@ For the 99 observations in the test dataset, this figure revealed there to be a 
 
 The number of posts to the discussion forum by students was the most predictive of all the variables in the model, followed by the time students spent on the course. After the course students were in (not considered a trace measure), the negative affect evidenced by students' discussion forum posts and the extent of the cognitive processing evidenced by them were the next most important.
 
-# 4. DISCUSSION
+# Results for RQ4
+
+<!-- Need to add! -->
+
+```{r}
+rf_fit <- train(final_grade ~ pre_int + pre_uv + pre_percomp + time_spent + course_ID + cogproc + social + posemo + negemo + n,
+                data = data_train,
+                method = 'regression')
+summary(rf_fit)
+```
+
+# 4. Discussion
 
 Overall, our random forest model explained a large amount of the variance in achievement in this study (e.g., 55.49%). However, the predictive accuracy of the model might ideally be higher: the absolute value of the average difference between the predicted final grade and actual final grade was 11.8%. This discrepancy suggests that whereas our model did a good job at explaining variance in the outcome of achievement, it did not perform as well in its prediction of "unseen" test data as would be ideal. Future research should thus explore whether the predictive accuracy of the model could be further developed. Even so, our predictive accuracy is not so low as to be unhelpful. Rather, this study offers interesting insights as to the relative importance of motivation constructs and trace measures of engagement in terms of explanatory power in explaining middle school students' online science course grades. Surprisingly, we found that trace measures of engagement with a LMS were more predictive of student achievement than motivation variables.
 
