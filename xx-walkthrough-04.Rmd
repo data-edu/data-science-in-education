@@ -1,0 +1,140 @@
+# Walkthrough 1
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
+here::set_here(path = "~/documents/data-science-in-education")
+```
+
+---
+title: A quick introduction and tutorial on a cool social network analysis model for influence
+author: ''
+date: '2018-08-02'
+slug: social-network-analysis-model-for-influence
+categories: [r]
+tags: []
+description: Influence models seem complex but are actually just regressions.
+meta_img: /_media/images/msurbanstem-soc.png
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+)
+```
+
+Social network is increasingly common in education ([Sweet, 2016](https://www.tandfonline.com/doi/abs/10.1080/00461520.2016.1208093)). Very often, social network analysis is used to create sociograms, or depictions of a network. I did this in a  paper I recently co-authored ([here is a pre-print](https://jrosen48.github.io/_media/pre-prints/Rosenberg-Greenhalgh-Wolf-Koehler-2017-JCMST.pdf)), we worked hard to create this figure:
+
+<img src="/images/msurbanstem-soc.png" style="width: 300px; height: 300px" ></a>
+
+Such figures (we thought--and I think) look nice and they are often useful for understanding the characteristics of a network and the relations that are part of it. And to be sure, algorithms - models, in a sense - are used to place the nodes/vertices (the "points") in the graph. But we want to go further by using models for specific patterns in the data, namely:
+
+1. Who has relationships with whom?
+2. How relationships have an impact in terms of an outcome?
+
+In this post, I wanted to share a bit on the second type, or an **influence** model. I first wrote this about a year ago and so had to stare at it for awhile until it makes sense (at least a bit--I take responsibility for any mistakes, glaring or otherwise), but I want to try to break this down, because I think it contains some cool ideas about influence:
+
+$$
+{ y }_{ it2 }\quad =\quad \rho \sum _{ i'\quad =\quad 1 }^{ n }{ { w }_{ ii' }^{  } } { y }_{ i't1 }^{  }\quad +\quad { \gamma  }_{ it1 }^{  }\quad +\quad { \varepsilon  }_{ i }^{  }
+$$
+
+Some outcome measured at a *second* time point (i.e., after a school year) for individual $i$:
+
+$$
+{ y }_{ it2 }
+$$
+
+Is predicted by that individual's *first* time point measure:
+
+$$
+{ \gamma  }_{ it1 }^{  }
+$$
+A residual term:
+
+$$
+{ \varepsilon  }_{ i }^{  }
+$$
+And, importantly, an influence term:
+
+$$
+\sum _{ i'\quad =\quad 1 }^{ n }{ { w }_{ ii' }^{  } } { y }_{ i't1 }^{  }\quad 
+$$
+
+This behemoth needs more breaking down. $\rho$ is just the coefficient, like $\beta$ in a regression equation.
+
+This part says something like, for individual $i$, find all of the other individuals they have some relationship with.
+
+$$
+\sum _{ i'\quad =\quad 1 }^{ n }
+$$
+
+From $i' = 1$, or the first individual, up to, for an individual with ten relationships, so $n = 10$ for example, to $i' = 10$, do *this*:
+
+$$
+{ { w }_{ ii' }^{  } } { y }_{ i't1 }^{  }
+$$
+
+Multiply the weight, $w$ of the relationship (i.e., how strong the relationship is or how many interactions there were) between $i$ and $i'$ by $i'$'s value on the outcome at time 1.
+
+That's really the (key to) the whole thing. The idea is that the influence term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
+
+It's a big, highly-confusing model, but one that is super cool, because you can quantify "the network effect." It's also fundamentally a regression. That's really it. All the work goes into calculating the influence term.
+
+With Sarah Galey, I wrote a little code with an example. That code is below. In another post, I'd like to try to dive into this more, and maybe in another write about the other type of model I mentioned above, one for exploring who has relationships with whom (or a *selection* model), related to a project focused around the [#NGSSchat hashtag](https://twitter.com/search?q=%23ngsschat&src=typd).
+
+```{r}
+library(dplyr) # need to install with install.packages("dplyr") if not already installed (just need to do first time)
+
+data1 <- data.frame(nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4), 
+                    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6), 
+                    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
+
+data2 <- data.frame(nominee = c(1, 2, 3, 4, 5, 6), 
+                    yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+
+data3 <- data.frame(nominator = c(1, 2, 3, 4, 5, 6),
+                    yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+
+# merge data1 and data2
+# note: we want the nominee's indegree because this is who the nominator is being exposed to
+
+data <- left_join(data1, data2, by = "nominee")
+data$nominee <- as.character(data$nominee) # this makes merging later easier
+
+# calculate indegree in tempdata and merge with data
+tempdata <- data.frame(table(data$nominee))
+names(tempdata) <- c("nominee", "indegree") # rename the column "nominee"
+tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
+data <- left_join(data, tempdata, by = "nominee")
+
+# Calculating exposure and an exposure term that uses indegree, exposure_plus
+data$exposure <- data$relate * data$yvar1
+data$exposure_plus <- data$exposure * (data$indegree + 1)
+
+# Calculating mean exposure
+mean_exposure <-
+    data %>%
+    group_by(nominator) %>%
+    summarize(exposure_mean = mean(exposure))
+
+mean_exposure_plus <-
+    data %>%
+    group_by(nominator) %>%
+    summarize(exposure_plus_mean = mean(exposure_plus))
+
+# need a final data set with mean_exposure, mean_exposure_plus, degree, yvar1, and yvar2 added
+
+mean_exposure_terms <- dplyr::left_join(mean_exposure, mean_exposure_plus, by = "nominator")
+
+names(data2) <- c("nominator", "yvar1") # rename nominee as nominator to merge these
+final_data <- dplyr::left_join(mean_exposure_terms, data2, by = "nominator")
+final_data <- dplyr::left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+
+# regression (linear models)
+
+model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+summary(model1)
+
+model2 <- lm(yvar2 ~ yvar1 + exposure_plus_mean, data = final_data)
+summary(model2)
+```
