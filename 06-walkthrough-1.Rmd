@@ -77,11 +77,11 @@ s12_time_spent
 
 ## Joining the data
 
-To join the course data and pre-survey data, we need to create similar *keys*.
+To join the course data and pre-survey data, we need to create similar *keys*. In other words, our goal here is to have one variable that matches across both datasets, so that we can merge the datasets on the basis of that variable. 
 
-Namely, both have variables for the course and the student, thought they have different names in each.
+For these data, both have variables for the course and the student, thought they have different names in each. Our first goal will be to rename two variables in each of our datasets so that they will match. One variable will correspond to the course, and the other will correspond to the student. We are not changing anything in the data itself at this step - instead, we are just cleaning it up so that we can look at the data all in one place.
 
-Let's start with the pre-survey data.
+Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
 
 ```{r}
 s12_pre_survey <- s12_pre_survey %>% 
@@ -93,7 +93,7 @@ s12_pre_survey
 
 Looks better now!
 
-Let's proceed to the course data.
+Let's proceed to the course data. Our goal is to rename two variables that correspond to the course and the student so that we can match with the other variables we just created for the pre-survey data.
 
 ```{r}
 s12_course_data <- s12_course_data %>% 
@@ -103,17 +103,22 @@ s12_course_data <- s12_course_data %>%
 s12_course_data
 ```
 
-Now we can join these using the **dplyr** function, `left_join()`:
+Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`. 
+Let's save our joined data as a new object called "dat."
 
 ```{r}
 dat <- left_join(s12_course_data, s12_pre_survey, by = c("student_id", "course_id"))
 
-ddd
+dat
 ```
 
-Note that they're now combined, even though the course data has many more rows: The pre_survey data has been join for each student by course combination.
+Note that they're now combined, even though the course data has many more rows: The pre_survey data has been joined for each student by course combination.
 
 # Linear model (regression)
+
+Now that our data are ready to go, we can start to ask some questions of the data. 
+
+One thing we might be wondering is - 
 
 ```{r}
 
