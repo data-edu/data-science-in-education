@@ -1,8 +1,10 @@
-# Walkthrough 1
+---
+title: 'Education Dataset Analysis Pipeline: Walkthrough #1'
+output: html_document
+---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
-here::set_here(path = "~/documents/data-science-in-education")
 ```
 
 # Background 
@@ -112,20 +114,99 @@ dat <- left_join(s12_course_data, s12_pre_survey, by = c("student_id", "course_i
 dat
 ```
 
+Just one more data frame to merge.
+
+```{r}
+s12_time_spent <- rename(s12_time_spent, student_id = Bb_UserPK, course_id = CourseSectionOrigID)
+s12_time_spent <- mutate(s12_time_spent, student_id = as.integer(student_id))
+dat <- dat %>% left_join(s12_time_spent, by = c("student_id", "course_id"))
+```
+
 Note that they're now combined, even though the course data has many more rows: The pre_survey data has been joined for each student by course combination.
 
-# Linear model (regression)
+We have a pretty large data frame! Let's take a quick look.
+
+```{r}
+dat
+```
+
+It looks like we have neary 30,000 observations from 30 variables.
 
 Now that our data are ready to go, we can start to ask some questions of the data. 
 
-One thing we might be wondering is - 
+# Visualizations and Models
+
+One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (nothing that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
 ```{r}
-
+dat <- dat %>% 
+    group_by(student_id, course_id) %>% 
+    mutate(Points_Earned = as.integer(Points_Earned)) %>% 
+    summarize(total_points_possible = sum(Points_Possible, na.rm = TRUE),
+              total_points_earned = sum(Points_Earned, na.rm = TRUE)) %>% 
+    mutate(percentage_earned = total_points_earned/total_points_possible) %>% 
+    ungroup() %>% 
+    left_join(dat) # note that we join this back to the original data frame to retain all of the variables
 ```
 
-# Multi-level model
+## Visualization of the relationship between time spent on course and percentage of points earned
+
+<!-- This is really trivial and obvious; need a new/better relationship -->
 
 ```{r}
+ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
+    geom_point()
+```
 
-``
+There appears to be *some* relationship. What if we added a line of best fit - a linear model?
+
+```{r}
+ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
+    geom_point() + 
+    geom_smooth(method = "lm")
+```
+
+So, it appeares that the more time students spent on the course, the more points they earned.
+
+# Linear model (regression)
+
+We can find out exactly what the relationship is using a linear model.
+
+```{r}
+m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
+summary(m_linear)
+```
+
+## But what about different courses?
+
+Is this course-specific differences in how much time students' spend on the course--and in how time spent is related to the percentage of points studented earned.
+
+```{r}
+ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
+    geom_point()
+```
+
+```{r}
+ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+There appears to be so. One way we can test is to use what is called a multi-level model. This requires a new package; one of the most common for estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*, or levels, in the data are.
+
+```{r}
+# install.packages("lme4")
+library(lme4)
+m_course <- lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
+summary(m_course)
+```
+
+A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the **sjstats** package for doing this.
+
+```{r}
+# install.packages("sjstats")
+library(sjstats)
+icc(m_course)
+```
+
+This shows that nearly 17% of the variability in the percentage of points students earned can be explained simply by knowing what class they are in. 
