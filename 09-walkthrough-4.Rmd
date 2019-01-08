@@ -1,4 +1,7 @@
-# Walkthrough 1
+---
+title: 'Education Dataset Analysis Pipeline: Walk Through #4'
+output: html_document
+---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
@@ -42,25 +45,46 @@ First, let's create three different data frames. Here is what they should contai
     - This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*
 - Data frames indicating the values of some behavior - an outcome - at two different time points
 
-<!-- May want to change to `data_frame()` (instead of) `data.frame()`. -->
-<!-- May want to properly simulate this data instead of type it in - ugh - and to make the data set much larger/more realistic -->
-<!-- May want to change integers indicating nominator and nomine -->
+We use the **simstudy** package to simulate the data (and the **dplyr** package to process the data a bit).
+
+Let's first generate `data1`.
 
 ```{r}
+library(simstudy)
 library(dplyr)
 
-data1 <- data.frame(nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4), 
-                    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6), 
-                    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
+set.seed("20190101")
 
-data2 <- data.frame(nominee = c(1, 2, 3, 4, 5, 6), 
-                    yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+def <- defData(varname = "nominator", dist = "categorical", formula = catProbs(n = 200)) 
+def <- defData(def, varname = "nominee", dist = "categorical", formula = catProbs(n = 200))
+def <- defData(def, varname = "relate", dist = "nonrandom", formula = 1)
 
-data3 <- data.frame(nominator = c(1, 2, 3, 4, 5, 6),
-                    yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+data1 <- genData(500, def)
+```
 
-# merge data1 and data2
-# note: we want the nominee's indegree because this is who the nominator is being exposed to
+`data2`:
+
+```{r}
+unique_nominators <- unique(data1$nominator) # need these to determine how many rows to generate
+unique_nominees <- unique(data1$nominee)
+
+def <- defData(varname = "yvar1", dist = "normal", formula = 2, variance = 2)
+
+data2 <- genData(length(unique_nominees), def)
+data2 <- data2 %>% 
+    mutate(nominee = unique_nominees) %>% 
+    select(nominee, yvar1)
+```
+
+And `data3`:
+
+```{r}
+def <- defData(varname = "yvar2", dist = "normal", formula = 5, variance = 2)
+
+data3 <- genData(length(unique_nominators), def)
+data3 <- data3 %>% 
+    mutate(nominator = unique_nominators) %>% 
+    select(nominator, yvar2)
 ```
 
 ### Joining the data
@@ -68,44 +92,49 @@ data3 <- data.frame(nominator = c(1, 2, 3, 4, 5, 6),
 Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
 
 ```{r}
+library(dplyr)
+
 data <- left_join(data1, data2, by = "nominee")
 data$nominee <- as.character(data$nominee) # this makes merging later easier
 
 # calculate indegree in tempdata and merge with data
-tempdata <- data.frame(table(data$nominee))
+tempdata <- data.frame(table(data$nominee)) # this needs to be calculated differently
 names(tempdata) <- c("nominee", "indegree") # rename the column "nominee"
 tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
 data <- left_join(data, tempdata, by = "nominee")
 ```
 
-### Calculating exposure and an exposure term
+Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
+
+```{r}
+data <- as_tibble(data)
+data
+```
+
+### Calculating an exposure term
 
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
-````{r}
+```{r}
+# Calculating exposure
 data$exposure <- data$relate * data$yvar1
-data$exposure_plus <- data$exposure * (data$indegree + 1)
 
 # Calculating mean exposure
-mean_exposure <-
-    data %>%
+mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
-
-mean_exposure_plus <-
-    data %>%
-    group_by(nominator) %>%
-    summarize(exposure_plus_mean = mean(exposure_plus))
 ```
 
-As need a final data set with `mean_exposure`, `mean_exposure_plus`, `degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
+What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
+
+As we need a final data set with `mean_exposure`, `mean_exposure_plus`, `degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
 
 ```{r}
-mean_exposure_terms <- dplyr::left_join(mean_exposure, mean_exposure_plus, by = "nominator")
+mean_exposure_terms <- left_join(mean_exposure, mean_exposure_plus, by = "nominator")
 
 names(data2) <- c("nominator", "yvar1") # rename nominee as nominator to merge these
-final_data <- dplyr::left_join(mean_exposure_terms, data2, by = "nominator")
-final_data <- dplyr::left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+final_data <- left_join(mean_exposure_terms, data2, by = "nominator")
+final_data <- left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
 ```
 
 ### Regression (linear models)
@@ -113,12 +142,8 @@ final_data <- dplyr::left_join(final_data, data3, by = "nominator") # data3 alre
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 
 ```{r}
-
 model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 summary(model1)
-
-model2 <- lm(yvar2 ~ yvar1 + exposure_plus_mean, data = final_data)
-summary(model2)
 ```
 
 Note that these models show ...
