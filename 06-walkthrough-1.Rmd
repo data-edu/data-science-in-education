@@ -13,7 +13,7 @@ In the 2015-2016 and 2016-2017 school years, researchers at Michigan State Unive
 
 The study involved a number of different data sources which were brought to bear to understand students' motivation:
 
-1. A self-report survey for three distinct but related aspects of studnets' motivation
+1. A self-report survey for three distinct but related aspects of students' motivation
 2. Log-trace data, such as data output from the learning management system
 3. Achievement-related and gradebook data
 4. Discussion board data
@@ -130,7 +130,7 @@ This led to pulling out the subject, semester, and section from the course ID; v
 
 To join the course data and pre-survey data, we need to create similar *keys*. In other words, our goal here is to have one variable that matches across both datasets, so that we can merge the datasets on the basis of that variable. 
 
-For these data, both have variables for the course and the student, thought they have different names in each. Our first goal will be to rename two variables in each of our datasets so that they will match. One variable will correspond to the course, and the other will correspond to the student. We are not changing anything in the data itself at this step - instead, we are just cleaning it up so that we can look at the data all in one place.
+For these data, both have variables for the course and the student, though they have different names in each. Our first goal will be to rename two variables in each of our datasets so that they will match. One variable will correspond to the course, and the other will correspond to the student. We are not changing anything in the data itself at this step - instead, we are just cleaning it up so that we can look at the data all in one place.
 
 Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
 
@@ -163,7 +163,7 @@ dat <- left_join(s12_course_data, s12_pre_survey, by = c("student_id", "course_i
 dat
 ```
 
-Just one more data frame to merge.
+Just one more data frame to merge:
 
 ```{r}
 s12_time_spent <- rename(s12_time_spent, student_id = Bb_UserPK, course_id = CourseSectionOrigID)
@@ -185,7 +185,7 @@ Now that our data are ready to go, we can start to ask some questions of the dat
 
 # Visualizations and Models
 
-One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (nothing that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
+One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (noting that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
 ```{r}
 dat <- dat %>% 
@@ -228,7 +228,9 @@ summary(m_linear)
 
 ## But what about different courses?
 
-Is this course-specific differences in how much time students' spend on the course--and in how time spent is related to the percentage of points studented earned.
+Is there course-specific differences in how much time students spend on the 
+course as well as in how time spent is related to the percentage of points 
+students earned?
 
 ```{r}
 ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
