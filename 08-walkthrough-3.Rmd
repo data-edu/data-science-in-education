@@ -92,15 +92,40 @@ d <- na.omit(d)
 nrow(d)
 ```
 
-Now, we will prepare the **train** and **test** datasets.
+First, machine learning methods often involve using a large number of variables. Oftentimes, some of these variables will not be suitable to use: they may be highly correlated with other variables, for instance, or may have very little - or no - variability. Indeed, for the data set used in this study, one variables has the same (character string) value for all of the observations. We can detect this variable and any others using the following function:
+
+```{r}
+nearZeroVar(d, saveMetrics = TRUE)
+```
+
+If we look at `enrollment_status`, we will see that it is "Approved/Enrolled" for *all* of the students. When we use this in certian models, t may cause some problems, and so we remove it first.
+
+```{r}
+d <- select(d, -enrollment_status)
+```
+
+Note that many times you may wish to pre-process the variables, such as by centering or scaling them; we do this *only* for the numeric variables (not the character or factor variables) here.
+
+```{r}
+d <- mutate_if(d, 
+               is.numeric, scale)
+```
+
+Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later.
 
 ```{r}
 trainIndex <- createDataPartition(d$final_grade,
-                                  p = .8, list = FALSE)
+                                  p = .8, 
+                                  list = FALSE,
+                                  times = 1)
 
 d_train <- d[ trainIndex,] # can we make this tidy?
 d_test <- d[-trainIndex,]
+```
 
+Let's turn all of the character variables into factors. 
+
+```{r, eval = FALSe}
 d_test <- d_test %>%
     mutate_if(is.character, as.factor)
 
@@ -108,16 +133,21 @@ d_train <- d_train %>%
     mutate_if(is.character, as.factor)
 ```
 
-Finally, we will use caret to estimate the models.
+Finally, we will estimate the models.
 
-Here is the first set of results.
+Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predic
 
 ```{r}
-rf_fit <- train(final_grade ~ pre_int + pre_uv + pre_percomp + time_spent + course_ID + cogproc + social + posemo + negemo + n,
-                data = data_train,
-                method = 'cforest')
-summary(rf_fit)
+rf_fit <- train(final_grade ~ .,
+                data = d_train,
+                method = "cforest")
+
+rf_fit
 ```
+
+We have some results! First, we see that we have 400 samples, or 400 observations, the number in the train data set. No pre-processing steps were specified in the model fitting (note that) these the output of `preProcess` can be passed to `train()` to center, scale, and transform the data in many other ways. Next, note that a resampling technique has been used: this is not for validating the model (per se), but is rather for selecting tuning parameters, or options that need to be specified as a part of the modeling. These parameters can be manually provided, or can be estimated via strategies such as the bootstrap resample (or *k*-folds cross validation).
+
+It appears that the model with the value of the **mtry** tuning parameter equal to 42 seemed to explain the data best.
 
 ```{}
 
