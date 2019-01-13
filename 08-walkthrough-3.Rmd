@@ -78,22 +78,18 @@ d <- read_csv(f)
 
 d <-d %>% filter(!str_detect(course_ID, "S217"))
 
-d <- d%>% 
+d <- d %>% 
     select(pre_int, pre_uv,  pre_percomp, time_spent,course_ID, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)
 ```
+
+## Use of caret
 
 Here, we remove observations with missing data (per our note above about random forests requiring complete cases).
 
 ```{r}
-nrow(data)
-data <- na.omit(data)
-nrow(data)
-```
-
-We will also treat course ID as a factor.
-
-```{r}
-d$course_ID <- as.factor(d$course_ID)
+nrow(d)
+d <- na.omit(d)
+nrow(d)
 ```
 
 Now, we will prepare the **train** and **test** datasets.
