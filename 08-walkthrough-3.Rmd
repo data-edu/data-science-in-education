@@ -140,14 +140,29 @@ Here, we will use the train function, passing *all* of the variables in the data
 ```{r}
 rf_fit <- train(final_grade ~ .,
                 data = d_train,
-                method = "cforest")
+                method = "ranger")
 
 rf_fit
 ```
 
 We have some results! First, we see that we have 400 samples, or 400 observations, the number in the train data set. No pre-processing steps were specified in the model fitting (note that) these the output of `preProcess` can be passed to `train()` to center, scale, and transform the data in many other ways. Next, note that a resampling technique has been used: this is not for validating the model (per se), but is rather for selecting tuning parameters, or options that need to be specified as a part of the modeling. These parameters can be manually provided, or can be estimated via strategies such as the bootstrap resample (or *k*-folds cross validation).
 
-It appears that the model with the value of the **mtry** tuning parameter equal to 42 seemed to explain the data best.
+It appears that the model with the value of the **mtry** tuning parameter equal to 42 seemed to explain the data best, the **splirule* being "extratrees", and **min.node.size** held constant at a value of 5. 
+
+Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling.
+
+```{r}
+train_control <- trainControl(method = "repeatedcv",
+                              number = 10,
+                              repeats = 10)
+
+rf_fit1 <- train(final_grade ~ .,
+                data = d_train,
+                method = "ranger",
+                trControl = train_control)
+
+rf_fit1
+```
 
 ```{}
 
