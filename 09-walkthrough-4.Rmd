@@ -104,11 +104,7 @@ tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character d
 data <- left_join(data, tempdata, by = "nominee")
 ```
 
-<<<<<<< HEAD
 Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
-=======
-Let's take a look at the merged data.
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 
 ```{r}
 data <- as_tibble(data)
@@ -120,24 +116,14 @@ data
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
 ```{r}
-<<<<<<< HEAD
 # Calculating exposure
-=======
-# Calculating exposure and an exposure term that uses indegree, exposure_plus
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 data$exposure <- data$relate * data$yvar1
 
 # Calculating mean exposure
 mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
-<<<<<<< HEAD
-=======
 
-mean_exposure_plus <- data %>%
-    group_by(nominator) %>%
-    summarize(exposure_plus_mean = mean(exposure_plus))
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
