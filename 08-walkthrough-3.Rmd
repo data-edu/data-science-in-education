@@ -7,7 +7,7 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed, eval = TRUE, echo = FALSE,
                       message = FALSE, warning = FALSE)
 ```
 
-# Background
+## Background
 
 One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses (Allen & Seaman, 2008). 
 
@@ -22,7 +22,7 @@ We take up the following four questions:
 3. Which types of trace measures are most predictive of achievement?
 4. How does a random forest compare to a simple linear model (regression)?
 
-# Information about the dataset 
+## Information about the dataset 
 
 This dataset came from 499 students enrolled in online middle school science courses in 2015-2016. The data were originally collected for use as a part of a research study, though the findings have not been published anywhere, yet.
 
@@ -38,7 +38,7 @@ At the beginning of the semester, students were asked to complete the pre-course
 
 In this walkthrough, we used the R package **caret** to carry out the analyses.
 
-# Information on random forests
+## Information on random forests
 
 500 trees were grown as part of our random forest. We partitioned the data before conducting the main analysis so that neither the training nor the testing data set would be disproportionately representative of high-achieving or low-achieving students. The training data set consisted of 80% of the original data (n = 400 cases), whereas the testing data set consisted of 20% of the original data (n = 99 cases). We built our random forest model on the training data set, and then evaluated the model on the testing data set. Three variables were tried at each node.
 
@@ -54,7 +54,7 @@ The outcome was the final course grade that the student earned. The predictor va
 
 To interpret our findings, we examined three main things: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model.
 
-# Analysis
+## Analysis
 
 ```{r}
 library(tidyverse)
@@ -75,7 +75,7 @@ d <- d %>%
     select(pre_int, pre_uv,  pre_percomp, time_spent,course_ID, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)
 ```
 
-## Use of caret
+#### Use of caret
 
 Here, we remove observations with missing data (per our note above about random forests requiring complete cases).
 
