@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 11 Education Dataset Analysis Pipeline: Walk Through #4 | Data Science in Education</title>
+  <meta name="description" content="This is a book about data science in education.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 11 Education Dataset Analysis Pipeline: Walk Through #4 | Data Science in Education" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book about data science in education." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Education Dataset Analysis Pipeline: Walk Through #4 | Data Science in Education" />
+  
+  <meta name="twitter:description" content="This is a book about data science in education." />
+  
+
+
+
+<meta name="date" content="2019-01-17">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="education-dataset-analysis-pipeline-walk-through-3.html">
+<link rel="next" href="advanced-uses.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.0.1" data-path="introduction.html"><a href="introduction.html#the-challenge-of-data-science-in-education"><i class="fa fa-check"></i><b>1.0.1</b> The Challenge of Data Science in Education</a></li>
+<li class="chapter" data-level="1.0.2" data-path="introduction.html"><a href="introduction.html#meeting-the-challenge"><i class="fa fa-check"></i><b>1.0.2</b> Meeting the Challenge</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>2</b> How to Use This Book</a></li>
+<li class="chapter" data-level="3" data-path="unique-challenges.html"><a href="unique-challenges.html"><i class="fa fa-check"></i><b>3</b> Unique Challenges</a><ul>
+<li class="chapter" data-level="3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#a-reproducible-approach"><i class="fa fa-check"></i><b>3.1</b> A Reproducible Approach</a></li>
+<li class="chapter" data-level="3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>3.2</b> A Self-Driven Analytic Approach</a></li>
+<li class="chapter" data-level="3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#unique-challenges-1"><i class="fa fa-check"></i><b>3.3</b> Unique challenges</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#challenges-common-to-doing-data-science-in-any-domain"><i class="fa fa-check"></i><b>3.3.1</b> Challenges common to doing data science in any domain</a></li>
+<li class="chapter" data-level="3.3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#lack-of-processes-and-procedures"><i class="fa fa-check"></i><b>3.3.2</b> Lack of processes and procedures</a></li>
+<li class="chapter" data-level="3.3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#few-guidelines-from-research-and-evaluation"><i class="fa fa-check"></i><b>3.3.3</b> Few guidelines from research and evaluation</a></li>
+<li class="chapter" data-level="3.3.4" data-path="unique-challenges.html"><a href="unique-challenges.html#limited-training-and-educational-opportunities-for-educational-data-science"><i class="fa fa-check"></i><b>3.3.4</b> Limited training and educational opportunities for educational data science</a></li>
+<li class="chapter" data-level="3.3.5" data-path="unique-challenges.html"><a href="unique-challenges.html#the-complex-and-messy-nature-of-educational-data"><i class="fa fa-check"></i><b>3.3.5</b> The complex and messy nature of educational data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="unique-challenges.html"><a href="unique-challenges.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>3.3.6</b> Ethical and legal concerns</a></li>
+<li class="chapter" data-level="3.3.7" data-path="unique-challenges.html"><a href="unique-challenges.html#analytic-challenges"><i class="fa fa-check"></i><b>3.3.7</b> Analytic challenges</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="foundational-skills.html"><a href="foundational-skills.html"><i class="fa fa-check"></i><b>4</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="4.1" data-path="foundational-skills.html"><a href="foundational-skills.html#track-one-getting-started"><i class="fa fa-check"></i><b>4.1</b> Track One: Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="foundational-skills.html"><a href="foundational-skills.html#downloading-r-and-r-studio"><i class="fa fa-check"></i><b>4.2</b> Downloading R and R Studio</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r"><i class="fa fa-check"></i><b>4.2.1</b> To download R:</a></li>
+<li class="chapter" data-level="4.2.2" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r-studio"><i class="fa fa-check"></i><b>4.2.2</b> To download R Studio:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="foundational-skills.html"><a href="foundational-skills.html#check-that-it-worked"><i class="fa fa-check"></i><b>4.3</b> Check that it worked</a></li>
+<li class="chapter" data-level="4.4" data-path="foundational-skills.html"><a href="foundational-skills.html#help-im-completely-new-to-using-r-r-studio"><i class="fa fa-check"></i><b>4.4</b> Help, I’m completely new to using R / R Studio!</a></li>
+<li class="chapter" data-level="4.5" data-path="foundational-skills.html"><a href="foundational-skills.html#creating-projects"><i class="fa fa-check"></i><b>4.5</b> Creating Projects</a></li>
+<li class="chapter" data-level="4.6" data-path="foundational-skills.html"><a href="foundational-skills.html#packages"><i class="fa fa-check"></i><b>4.6</b> Packages</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="foundational-skills.html"><a href="foundational-skills.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>4.6.1</b> Installing and Loading Packages</a></li>
+<li class="chapter" data-level="4.6.2" data-path="foundational-skills.html"><a href="foundational-skills.html#running-functions-from-packages"><i class="fa fa-check"></i><b>4.6.2</b> Running Functions from Packages</a></li>
+<li class="chapter" data-level="4.6.3" data-path="foundational-skills.html"><a href="foundational-skills.html#track-two-welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>4.6.3</b> Track Two: Welcome to the Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-data-from-various-sources"><i class="fa fa-check"></i><b>4.7</b> Loading Data from Various Sources</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>4.7.1</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="4.7.2" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-a-csv-file"><i class="fa fa-check"></i><b>4.7.2</b> Loading a CSV File</a></li>
+<li class="chapter" data-level="4.7.3" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-excel-files"><i class="fa fa-check"></i><b>4.7.3</b> Loading Excel files</a></li>
+<li class="chapter" data-level="4.7.4" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-sav-files"><i class="fa fa-check"></i><b>4.7.4</b> Loading SAV files</a></li>
+<li class="chapter" data-level="4.7.5" data-path="foundational-skills.html"><a href="foundational-skills.html#google-sheets"><i class="fa fa-check"></i><b>4.7.5</b> Google Sheets</a></li>
+<li class="chapter" data-level="4.7.6" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-files"><i class="fa fa-check"></i><b>4.7.6</b> Saving Files</a></li>
+<li class="chapter" data-level="4.7.7" data-path="foundational-skills.html"><a href="foundational-skills.html#conclusion"><i class="fa fa-check"></i><b>4.7.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="foundational-skills.html"><a href="foundational-skills.html#processing-data"><i class="fa fa-check"></i><b>4.8</b> Processing Data</a></li>
+<li class="chapter" data-level="4.9" data-path="foundational-skills.html"><a href="foundational-skills.html#communicating-sharing-results"><i class="fa fa-check"></i><b>4.9</b> Communicating / sharing results</a></li>
+<li class="chapter" data-level="4.10" data-path="foundational-skills.html"><a href="foundational-skills.html#other-foundational-notes"><i class="fa fa-check"></i><b>4.10</b> Other foundational notes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#configuring-r-studio"><i class="fa fa-check"></i><b>4.10.1</b> Configuring R Studio</a></li>
+<li class="chapter" data-level="4.10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#getting-data-in-and-out"><i class="fa fa-check"></i><b>4.10.2</b> Getting data in and out</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html"><i class="fa fa-check"></i><b>5</b> Education Dataset Analysis Pipeline: Walkthrough #1</a><ul>
+<li class="chapter" data-level="5.1" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#self-report-survey"><i class="fa fa-check"></i><b>5.1</b> 1. Self-report survey</a></li>
+<li class="chapter" data-level="5.2" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#log-trace-data"><i class="fa fa-check"></i><b>5.2</b> 2. Log-trace data</a></li>
+<li class="chapter" data-level="5.3" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#achievement-related-and-gradebook-data"><i class="fa fa-check"></i><b>5.3</b> 3. Achievement-related and gradebook data</a></li>
+<li class="chapter" data-level="5.4" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#discussion-board-data"><i class="fa fa-check"></i><b>5.4</b> 4. Discussion board data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="processing-the-data.html"><a href="processing-the-data.html"><i class="fa fa-check"></i><b>6</b> Processing the data</a><ul>
+<li class="chapter" data-level="6.1" data-path="processing-the-data.html"><a href="processing-the-data.html#viewing-the-data"><i class="fa fa-check"></i><b>6.1</b> Viewing the data</a></li>
+<li class="chapter" data-level="6.2" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-pre-survey-data"><i class="fa fa-check"></i><b>6.2</b> Processing the pre-survey data</a></li>
+<li class="chapter" data-level="6.3" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-course-data"><i class="fa fa-check"></i><b>6.3</b> Processing the course data</a></li>
+<li class="chapter" data-level="6.4" data-path="processing-the-data.html"><a href="processing-the-data.html#joining-the-data"><i class="fa fa-check"></i><b>6.4</b> Joining the data</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html"><i class="fa fa-check"></i><b>7</b> Visualizations and Models</a><ul>
+<li class="chapter" data-level="7.1" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html#visualization-of-the-relationship-between-time-spent-on-course-and-percentage-of-points-earned"><i class="fa fa-check"></i><b>7.1</b> Visualization of the relationship between time spent on course and percentage of points earned</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-model-regression.html"><a href="linear-model-regression.html"><i class="fa fa-check"></i><b>8</b> Linear model (regression)</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-model-regression.html"><a href="linear-model-regression.html#but-what-about-different-courses"><i class="fa fa-check"></i><b>8.1</b> But what about different courses?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><i class="fa fa-check"></i><b>9</b> Education Dataset Analysis Pipeline: Gradebook Walkthrough</a><ul>
+<li class="chapter" data-level="9.1" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#driving-question-and-objectives"><i class="fa fa-check"></i><b>9.2</b> Driving Question and Objectives</a></li>
+<li class="chapter" data-level="9.3" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#data-import"><i class="fa fa-check"></i><b>9.3</b> Data Import</a></li>
+<li class="chapter" data-level="9.4" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#r-markdown"><i class="fa fa-check"></i><b>9.4</b> R Markdown</a></li>
+<li class="chapter" data-level="9.5" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#including-plots"><i class="fa fa-check"></i><b>9.5</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html"><i class="fa fa-check"></i><b>10</b> Education Dataset Analysis Pipeline: Walk Through #3</a><ul>
+<li class="chapter" data-level="10.1" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#background"><i class="fa fa-check"></i><b>10.1</b> Background</a></li>
+<li class="chapter" data-level="10.2" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-about-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Information about the dataset</a></li>
+<li class="chapter" data-level="10.3" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-on-random-forests"><i class="fa fa-check"></i><b>10.3</b> Information on random forests</a></li>
+<li class="chapter" data-level="10.4" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#analysis"><i class="fa fa-check"></i><b>10.4</b> Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html"><i class="fa fa-check"></i><b>11</b> Education Dataset Analysis Pipeline: Walk Through #4</a><ul>
+<li class="chapter" data-level="11.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#background-1"><i class="fa fa-check"></i><b>11.1</b> Background</a></li>
+<li class="chapter" data-level="11.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-and-influence"><i class="fa fa-check"></i><b>11.2</b> Selection and influence</a></li>
+<li class="chapter" data-level="11.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#an-example-of-influence"><i class="fa fa-check"></i><b>11.3</b> An example of influence</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#creating-example-data-in-the-form-of-an-edgelist"><i class="fa fa-check"></i><b>11.3.1</b> Creating example data in the form of an edgelist</a></li>
+<li class="chapter" data-level="11.3.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#joining-the-data-1"><i class="fa fa-check"></i><b>11.3.2</b> Joining the data</a></li>
+<li class="chapter" data-level="11.3.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#calculating-an-exposure-term"><i class="fa fa-check"></i><b>11.3.3</b> Calculating an exposure term</a></li>
+<li class="chapter" data-level="11.3.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#regression-linear-models"><i class="fa fa-check"></i><b>11.3.4</b> Regression (linear models)</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-models"><i class="fa fa-check"></i><b>11.4</b> Selection models</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="advanced-uses.html"><a href="advanced-uses.html"><i class="fa fa-check"></i><b>12</b> Advanced Uses</a><ul>
+<li class="chapter" data-level="12.1" data-path="advanced-uses.html"><a href="advanced-uses.html#multi-level-models"><i class="fa fa-check"></i><b>12.1</b> Multi-level models</a></li>
+<li class="chapter" data-level="12.2" data-path="advanced-uses.html"><a href="advanced-uses.html#text-analysis"><i class="fa fa-check"></i><b>12.2</b> Text analysis</a></li>
+<li class="chapter" data-level="12.3" data-path="advanced-uses.html"><a href="advanced-uses.html#longitudinal-analysis"><i class="fa fa-check"></i><b>12.3</b> Longitudinal analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="solutions-for-adopting-data-science-techniques-in-education.html"><a href="solutions-for-adopting-data-science-techniques-in-education.html"><i class="fa fa-check"></i><b>13</b> Solutions for Adopting Data Science Techniques in Education</a></li>
+<li class="chapter" data-level="14" data-path="students-doing-data-science.html"><a href="students-doing-data-science.html"><i class="fa fa-check"></i><b>14</b> Students doing data science</a></li>
+<li class="chapter" data-level="15" data-path="resources-used-in-the-creation-of-this-text.html"><a href="resources-used-in-the-creation-of-this-text.html"><i class="fa fa-check"></i><b>15</b> Resources used in the creation of this text</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="education-dataset-analysis-pipeline-walk-through-4" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Education Dataset Analysis Pipeline: Walk Through #4</h1>
+<div id="background-1" class="section level2">
+<h2><span class="header-section-number">11.1</span> Background</h2>
+<p>Relationships are important to us. In the case of many research techniques, relationships are–deservedly–the focus of analyses. It is not very difficult to imagine <em>qualitative</em> techniques to study relationships: One could ask other individuals about who their friends are, why they are their friends, and what they like to do when with them.</p>
+<p>Increasingly, it is also not hard to imagine <em>quantitative</em> techniques to study relationships, too. In a way, the same questions that could be used qualitatively can serve as the basis for the quantitative study of relationships. Indeed, social network analysis uses these relations in a range of visualizations as well as statistical models.</p>
+<p>Let us first consider visualizations.</p>
+<!-- Add example visualization here using ggraph? and ideas for how to create and modify visualizations -->
+<p>Visualizations of social networks are interesting and powerful–and increasingly common.</p>
+<p>Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.</p>
+</div>
+<div id="selection-and-influence" class="section level2">
+<h2><span class="header-section-number">11.2</span> Selection and influence</h2>
+<p>One way to consider these models and methods is in terms of two <em>processes</em> at play in our relationships (cite). These two processes are commonly (though not exclusively) the focus of statistical analyses of networks. In addition to not being exclusive, they do not interact independently: they affect each other reciprocally (Xu, Frank, &amp; Penuel, 2018). They are:</p>
+<ul>
+<li>Selection: the processes regarding who chooses to have a relationship with whom</li>
+<li>Infuence: the processes regarding how who we have relationships with affects our behavior</li>
+</ul>
+<p>While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior–or measuring some outcome). Happily, the use of these methods has expanded along with <strong>R</strong>: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it)</p>
+<p>In this walkthrough, the influence model is the focus. Nevertheless, we provide some direction for how to carry out selection modeling, too, at the end.</p>
+</div>
+<div id="an-example-of-influence" class="section level2">
+<h2><span class="header-section-number">11.3</span> An example of influence</h2>
+<p>In this example, we create some example data that can be used to explore questions about how influence works. Note that Joshua Rosenberg and Sarah Galey initially wrote the following code for a walkthrough shared on Ken Frank’s website <a href="https://msu.edu/~kenfrank/resources.htm">here</a>.</p>
+<div id="creating-example-data-in-the-form-of-an-edgelist" class="section level3">
+<h3><span class="header-section-number">11.3.1</span> Creating example data in the form of an edgelist</h3>
+<p>First, let’s create three different data frames. Here is what they should contain:</p>
+<ul>
+<li>A data frame indicating who the <em>nominator</em> and <em>nominee</em> for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation
+<ul>
+<li>This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an <em>edgelist</em></li>
+</ul></li>
+<li>Data frames indicating the values of some behavior - an outcome - at two different time points</li>
+</ul>
+<p>We use the <strong>simstudy</strong> package to simulate the data (and the <strong>dplyr</strong> package to process the data a bit).</p>
+<p>Let’s first generate <code>data1</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(simstudy)
+<span class="kw">library</span>(dplyr)
+
+<span class="kw">set.seed</span>(<span class="st">&quot;20190101&quot;</span>)
+
+def &lt;-<span class="st"> </span><span class="kw">defData</span>(<span class="dt">varname =</span> <span class="st">&quot;nominator&quot;</span>, <span class="dt">dist =</span> <span class="st">&quot;categorical&quot;</span>, <span class="dt">formula =</span> <span class="kw">catProbs</span>(<span class="dt">n =</span> <span class="dv">200</span>)) 
+def &lt;-<span class="st"> </span><span class="kw">defData</span>(def, <span class="dt">varname =</span> <span class="st">&quot;nominee&quot;</span>, <span class="dt">dist =</span> <span class="st">&quot;categorical&quot;</span>, <span class="dt">formula =</span> <span class="kw">catProbs</span>(<span class="dt">n =</span> <span class="dv">200</span>))
+def &lt;-<span class="st"> </span><span class="kw">defData</span>(def, <span class="dt">varname =</span> <span class="st">&quot;relate&quot;</span>, <span class="dt">dist =</span> <span class="st">&quot;nonrandom&quot;</span>, <span class="dt">formula =</span> <span class="dv">1</span>)
+
+data1 &lt;-<span class="st"> </span><span class="kw">genData</span>(<span class="dv">500</span>, def)</code></pre></div>
+<p><code>data2</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">unique_nominators &lt;-<span class="st"> </span><span class="kw">unique</span>(data1<span class="op">$</span>nominator) <span class="co"># need these to determine how many rows to generate</span>
+unique_nominees &lt;-<span class="st"> </span><span class="kw">unique</span>(data1<span class="op">$</span>nominee)
+
+def &lt;-<span class="st"> </span><span class="kw">defData</span>(<span class="dt">varname =</span> <span class="st">&quot;yvar1&quot;</span>, <span class="dt">dist =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">formula =</span> <span class="dv">2</span>, <span class="dt">variance =</span> <span class="dv">2</span>)
+
+data2 &lt;-<span class="st"> </span><span class="kw">genData</span>(<span class="kw">length</span>(unique_nominees), def)
+data2 &lt;-<span class="st"> </span>data2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">nominee =</span> unique_nominees) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(nominee, yvar1)</code></pre></div>
+<p>And <code>data3</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">def &lt;-<span class="st"> </span><span class="kw">defData</span>(<span class="dt">varname =</span> <span class="st">&quot;yvar2&quot;</span>, <span class="dt">dist =</span> <span class="st">&quot;normal&quot;</span>, <span class="dt">formula =</span> <span class="dv">5</span>, <span class="dt">variance =</span> <span class="dv">2</span>)
+
+data3 &lt;-<span class="st"> </span><span class="kw">genData</span>(<span class="kw">length</span>(unique_nominators), def)
+data3 &lt;-<span class="st"> </span>data3 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">nominator =</span> unique_nominees) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(nominator, yvar2)</code></pre></div>
+</div>
+<div id="joining-the-data-1" class="section level3">
+<h3><span class="header-section-number">11.3.2</span> Joining the data</h3>
+<p>Next, we’ll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+
+data &lt;-<span class="st"> </span><span class="kw">left_join</span>(data1, data2, <span class="dt">by =</span> <span class="st">&quot;nominee&quot;</span>)
+data<span class="op">$</span>nominee &lt;-<span class="st"> </span><span class="kw">as.character</span>(data<span class="op">$</span>nominee) <span class="co"># this makes merging later easier</span>
+
+<span class="co"># calculate indegree in tempdata and merge with data</span>
+tempdata &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">table</span>(data<span class="op">$</span>nominee)) <span class="co"># this needs to be calculated differently</span>
+<span class="kw">names</span>(tempdata) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;nominee&quot;</span>, <span class="st">&quot;indegree&quot;</span>) <span class="co"># rename the column &quot;nominee&quot;</span>
+tempdata<span class="op">$</span>nominee &lt;-<span class="st"> </span><span class="kw">as.character</span>(tempdata<span class="op">$</span>nominee) <span class="co"># makes nominee a character data type, instead of a factor, which can cause problems</span>
+data &lt;-<span class="st"> </span><span class="kw">left_join</span>(data, tempdata, <span class="dt">by =</span> <span class="st">&quot;nominee&quot;</span>)</code></pre></div>
+<p>Let’s take a look at the merged data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(data)
+data</code></pre></div>
+</div>
+<div id="calculating-an-exposure-term" class="section level3">
+<h3><span class="header-section-number">11.3.3</span> Calculating an exposure term</h3>
+<p>This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term “captures” how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual’s initial report of the outcome, i.e., their time 1 prior value, so it is a model for <em>change</em> in some outcome.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculating exposure</span>
+data<span class="op">$</span>exposure &lt;-<span class="st"> </span>data<span class="op">$</span>relate <span class="op">*</span><span class="st"> </span>data<span class="op">$</span>yvar1
+
+<span class="co"># Calculating mean exposure</span>
+mean_exposure &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(nominator) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">summarize</span>(<span class="dt">exposure_mean =</span> <span class="kw">mean</span>(exposure))</code></pre></div>
+<p>What this data frame - <code>mean_exposure</code> - contains is the mean of the outcome (in this case, <code>yvar1</code>) for all of the individuals the nominator had a relation with.</p>
+<p>As we need a final data set with <code>mean_exposure</code>, <code>mean_exposure_plus</code>, <code>degree</code>, <code>yvar1</code>, and <code>yvar2</code> added, we’ll process the data a bit more.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean_exposure_terms &lt;-<span class="st"> </span><span class="kw">left_join</span>(mean_exposure, mean_exposure_plus, <span class="dt">by =</span> <span class="st">&quot;nominator&quot;</span>)
+
+<span class="kw">names</span>(data2) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;nominator&quot;</span>, <span class="st">&quot;yvar1&quot;</span>) <span class="co"># rename nominee as nominator to merge these</span>
+final_data &lt;-<span class="st"> </span><span class="kw">left_join</span>(mean_exposure_terms, data2, <span class="dt">by =</span> <span class="st">&quot;nominator&quot;</span>)
+final_data &lt;-<span class="st"> </span><span class="kw">left_join</span>(final_data, data3, <span class="dt">by =</span> <span class="st">&quot;nominator&quot;</span>) <span class="co"># data3 already has nominator, so no need to change</span></code></pre></div>
+</div>
+<div id="regression-linear-models" class="section level3">
+<h3><span class="header-section-number">11.3.4</span> Regression (linear models)</h3>
+<p>Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model1 &lt;-<span class="st"> </span><span class="kw">lm</span>(yvar2 <span class="op">~</span><span class="st"> </span>yvar1 <span class="op">+</span><span class="st"> </span>exposure_mean, <span class="dt">data =</span> final_data)
+<span class="kw">summary</span>(model1)</code></pre></div>
+<p>Note that these models show …</p>
+<!-- Will want to interpret using the (needs-to-be) simulated data -->
+<p>So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, <em>the network effect</em>, something that is sometimes not considered, especially in education (Sweet, 2017). It’s also fundamentally a regression. That’s really it, as the majority of the work goes into calculating the exposure term.</p>
+</div>
+</div>
+<div id="selection-models" class="section level2">
+<h2><span class="header-section-number">11.4</span> Selection models</h2>
+<p>While this tutorial focused on influence models, selection models are also commonly used - and are commonly of interest not only to researchers but also to administrators and teachers (and even to youth and students).</p>
+<p>Here, we briefly describe a few possible approaches for using a selection model.</p>
+<p>At its core, the selection model is a regression - albeit, one that is a generalization of one, namely, a logistic regression (sometimes termed a generalized linear model, because it is <em>basically</em> a regression but is one with an outcome that consists just of 0’s and 1’s). Thus, the most straight-away way to use a selection model is to use a logistic regression where all of the relations (note the <code>relate</code> variable in <code>data1</code> above) are indicated with a 1. But, here is the important and challenging step: all of the <em>possible relations</em> (i.e., all of the relations that are possible between all of the individuals in a network) are indicated with a 0 in an edgelist. Note that, again, an edgelist is the preferred data structure for carrying out this analysis. This step involves some data wrangling, especially the idea of widening or lengthening a data frame.</p>
+<!-- May want to add a short bit of code on this using `gather()` and `spread()` -->
+<p>Once all of the relations are indicated with a 1 or a 0, then a simple linear regression can be used. Imagine that we are interested in whether individuals from the <em>same</em> group are more or less likely to interact than those from different groups; same could be created in the data frame based upon knowing which group both nominator and nominee are from:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m_selection &lt;-<span class="st"> </span><span class="kw">glm</span>(relate <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>same, <span class="dt">data =</span> edgelist1)</code></pre></div>
+<p>While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall–and not considering this may mean other effects, like the one associated with being from the <em>same</em> group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1’s and 0’s, have been developed.</p>
+<p>One type of model extends the logistic regression. It can be used for data that is not only 1’s and 0’s but also data that is normally distributed or has fixed-ranks. It is the <strong>amen</strong> package available <a href="https://cran.r-project.org/web/packages/amen/index.html">here</a>.</p>
+<p>A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available <a href="https://cran.r-project.org/web/packages/ergm/index.html">here</a>. That R package, <strong>ergm</strong>, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), <strong>statnet</strong>. A link to the statnet packages is <a href="https://statnet.org/">here</a>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="education-dataset-analysis-pipeline-walk-through-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="advanced-uses.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

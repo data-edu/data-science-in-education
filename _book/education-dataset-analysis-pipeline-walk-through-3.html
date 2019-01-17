@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 10 Education Dataset Analysis Pipeline: Walk Through #3 | Data Science in Education</title>
+  <meta name="description" content="This is a book about data science in education.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 10 Education Dataset Analysis Pipeline: Walk Through #3 | Data Science in Education" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book about data science in education." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Education Dataset Analysis Pipeline: Walk Through #3 | Data Science in Education" />
+  
+  <meta name="twitter:description" content="This is a book about data science in education." />
+  
+
+
+
+<meta name="date" content="2019-01-17">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="education-dataset-analysis-pipeline-gradebook-walkthrough.html">
+<link rel="next" href="education-dataset-analysis-pipeline-walk-through-4.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.0.1" data-path="introduction.html"><a href="introduction.html#the-challenge-of-data-science-in-education"><i class="fa fa-check"></i><b>1.0.1</b> The Challenge of Data Science in Education</a></li>
+<li class="chapter" data-level="1.0.2" data-path="introduction.html"><a href="introduction.html#meeting-the-challenge"><i class="fa fa-check"></i><b>1.0.2</b> Meeting the Challenge</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>2</b> How to Use This Book</a></li>
+<li class="chapter" data-level="3" data-path="unique-challenges.html"><a href="unique-challenges.html"><i class="fa fa-check"></i><b>3</b> Unique Challenges</a><ul>
+<li class="chapter" data-level="3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#a-reproducible-approach"><i class="fa fa-check"></i><b>3.1</b> A Reproducible Approach</a></li>
+<li class="chapter" data-level="3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>3.2</b> A Self-Driven Analytic Approach</a></li>
+<li class="chapter" data-level="3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#unique-challenges-1"><i class="fa fa-check"></i><b>3.3</b> Unique challenges</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#challenges-common-to-doing-data-science-in-any-domain"><i class="fa fa-check"></i><b>3.3.1</b> Challenges common to doing data science in any domain</a></li>
+<li class="chapter" data-level="3.3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#lack-of-processes-and-procedures"><i class="fa fa-check"></i><b>3.3.2</b> Lack of processes and procedures</a></li>
+<li class="chapter" data-level="3.3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#few-guidelines-from-research-and-evaluation"><i class="fa fa-check"></i><b>3.3.3</b> Few guidelines from research and evaluation</a></li>
+<li class="chapter" data-level="3.3.4" data-path="unique-challenges.html"><a href="unique-challenges.html#limited-training-and-educational-opportunities-for-educational-data-science"><i class="fa fa-check"></i><b>3.3.4</b> Limited training and educational opportunities for educational data science</a></li>
+<li class="chapter" data-level="3.3.5" data-path="unique-challenges.html"><a href="unique-challenges.html#the-complex-and-messy-nature-of-educational-data"><i class="fa fa-check"></i><b>3.3.5</b> The complex and messy nature of educational data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="unique-challenges.html"><a href="unique-challenges.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>3.3.6</b> Ethical and legal concerns</a></li>
+<li class="chapter" data-level="3.3.7" data-path="unique-challenges.html"><a href="unique-challenges.html#analytic-challenges"><i class="fa fa-check"></i><b>3.3.7</b> Analytic challenges</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="foundational-skills.html"><a href="foundational-skills.html"><i class="fa fa-check"></i><b>4</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="4.1" data-path="foundational-skills.html"><a href="foundational-skills.html#track-one-getting-started"><i class="fa fa-check"></i><b>4.1</b> Track One: Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="foundational-skills.html"><a href="foundational-skills.html#downloading-r-and-r-studio"><i class="fa fa-check"></i><b>4.2</b> Downloading R and R Studio</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r"><i class="fa fa-check"></i><b>4.2.1</b> To download R:</a></li>
+<li class="chapter" data-level="4.2.2" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r-studio"><i class="fa fa-check"></i><b>4.2.2</b> To download R Studio:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="foundational-skills.html"><a href="foundational-skills.html#check-that-it-worked"><i class="fa fa-check"></i><b>4.3</b> Check that it worked</a></li>
+<li class="chapter" data-level="4.4" data-path="foundational-skills.html"><a href="foundational-skills.html#help-im-completely-new-to-using-r-r-studio"><i class="fa fa-check"></i><b>4.4</b> Help, I’m completely new to using R / R Studio!</a></li>
+<li class="chapter" data-level="4.5" data-path="foundational-skills.html"><a href="foundational-skills.html#creating-projects"><i class="fa fa-check"></i><b>4.5</b> Creating Projects</a></li>
+<li class="chapter" data-level="4.6" data-path="foundational-skills.html"><a href="foundational-skills.html#packages"><i class="fa fa-check"></i><b>4.6</b> Packages</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="foundational-skills.html"><a href="foundational-skills.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>4.6.1</b> Installing and Loading Packages</a></li>
+<li class="chapter" data-level="4.6.2" data-path="foundational-skills.html"><a href="foundational-skills.html#running-functions-from-packages"><i class="fa fa-check"></i><b>4.6.2</b> Running Functions from Packages</a></li>
+<li class="chapter" data-level="4.6.3" data-path="foundational-skills.html"><a href="foundational-skills.html#track-two-welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>4.6.3</b> Track Two: Welcome to the Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-data-from-various-sources"><i class="fa fa-check"></i><b>4.7</b> Loading Data from Various Sources</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>4.7.1</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="4.7.2" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-a-csv-file"><i class="fa fa-check"></i><b>4.7.2</b> Loading a CSV File</a></li>
+<li class="chapter" data-level="4.7.3" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-excel-files"><i class="fa fa-check"></i><b>4.7.3</b> Loading Excel files</a></li>
+<li class="chapter" data-level="4.7.4" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-sav-files"><i class="fa fa-check"></i><b>4.7.4</b> Loading SAV files</a></li>
+<li class="chapter" data-level="4.7.5" data-path="foundational-skills.html"><a href="foundational-skills.html#google-sheets"><i class="fa fa-check"></i><b>4.7.5</b> Google Sheets</a></li>
+<li class="chapter" data-level="4.7.6" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-files"><i class="fa fa-check"></i><b>4.7.6</b> Saving Files</a></li>
+<li class="chapter" data-level="4.7.7" data-path="foundational-skills.html"><a href="foundational-skills.html#conclusion"><i class="fa fa-check"></i><b>4.7.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="foundational-skills.html"><a href="foundational-skills.html#processing-data"><i class="fa fa-check"></i><b>4.8</b> Processing Data</a></li>
+<li class="chapter" data-level="4.9" data-path="foundational-skills.html"><a href="foundational-skills.html#communicating-sharing-results"><i class="fa fa-check"></i><b>4.9</b> Communicating / sharing results</a></li>
+<li class="chapter" data-level="4.10" data-path="foundational-skills.html"><a href="foundational-skills.html#other-foundational-notes"><i class="fa fa-check"></i><b>4.10</b> Other foundational notes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#configuring-r-studio"><i class="fa fa-check"></i><b>4.10.1</b> Configuring R Studio</a></li>
+<li class="chapter" data-level="4.10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#getting-data-in-and-out"><i class="fa fa-check"></i><b>4.10.2</b> Getting data in and out</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html"><i class="fa fa-check"></i><b>5</b> Education Dataset Analysis Pipeline: Walkthrough #1</a><ul>
+<li class="chapter" data-level="5.1" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#self-report-survey"><i class="fa fa-check"></i><b>5.1</b> 1. Self-report survey</a></li>
+<li class="chapter" data-level="5.2" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#log-trace-data"><i class="fa fa-check"></i><b>5.2</b> 2. Log-trace data</a></li>
+<li class="chapter" data-level="5.3" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#achievement-related-and-gradebook-data"><i class="fa fa-check"></i><b>5.3</b> 3. Achievement-related and gradebook data</a></li>
+<li class="chapter" data-level="5.4" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#discussion-board-data"><i class="fa fa-check"></i><b>5.4</b> 4. Discussion board data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="processing-the-data.html"><a href="processing-the-data.html"><i class="fa fa-check"></i><b>6</b> Processing the data</a><ul>
+<li class="chapter" data-level="6.1" data-path="processing-the-data.html"><a href="processing-the-data.html#viewing-the-data"><i class="fa fa-check"></i><b>6.1</b> Viewing the data</a></li>
+<li class="chapter" data-level="6.2" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-pre-survey-data"><i class="fa fa-check"></i><b>6.2</b> Processing the pre-survey data</a></li>
+<li class="chapter" data-level="6.3" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-course-data"><i class="fa fa-check"></i><b>6.3</b> Processing the course data</a></li>
+<li class="chapter" data-level="6.4" data-path="processing-the-data.html"><a href="processing-the-data.html#joining-the-data"><i class="fa fa-check"></i><b>6.4</b> Joining the data</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html"><i class="fa fa-check"></i><b>7</b> Visualizations and Models</a><ul>
+<li class="chapter" data-level="7.1" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html#visualization-of-the-relationship-between-time-spent-on-course-and-percentage-of-points-earned"><i class="fa fa-check"></i><b>7.1</b> Visualization of the relationship between time spent on course and percentage of points earned</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-model-regression.html"><a href="linear-model-regression.html"><i class="fa fa-check"></i><b>8</b> Linear model (regression)</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-model-regression.html"><a href="linear-model-regression.html#but-what-about-different-courses"><i class="fa fa-check"></i><b>8.1</b> But what about different courses?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><i class="fa fa-check"></i><b>9</b> Education Dataset Analysis Pipeline: Gradebook Walkthrough</a><ul>
+<li class="chapter" data-level="9.1" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#driving-question-and-objectives"><i class="fa fa-check"></i><b>9.2</b> Driving Question and Objectives</a></li>
+<li class="chapter" data-level="9.3" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#data-import"><i class="fa fa-check"></i><b>9.3</b> Data Import</a></li>
+<li class="chapter" data-level="9.4" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#r-markdown"><i class="fa fa-check"></i><b>9.4</b> R Markdown</a></li>
+<li class="chapter" data-level="9.5" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#including-plots"><i class="fa fa-check"></i><b>9.5</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html"><i class="fa fa-check"></i><b>10</b> Education Dataset Analysis Pipeline: Walk Through #3</a><ul>
+<li class="chapter" data-level="10.1" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#background"><i class="fa fa-check"></i><b>10.1</b> Background</a></li>
+<li class="chapter" data-level="10.2" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-about-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Information about the dataset</a></li>
+<li class="chapter" data-level="10.3" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-on-random-forests"><i class="fa fa-check"></i><b>10.3</b> Information on random forests</a></li>
+<li class="chapter" data-level="10.4" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#analysis"><i class="fa fa-check"></i><b>10.4</b> Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html"><i class="fa fa-check"></i><b>11</b> Education Dataset Analysis Pipeline: Walk Through #4</a><ul>
+<li class="chapter" data-level="11.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#background-1"><i class="fa fa-check"></i><b>11.1</b> Background</a></li>
+<li class="chapter" data-level="11.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-and-influence"><i class="fa fa-check"></i><b>11.2</b> Selection and influence</a></li>
+<li class="chapter" data-level="11.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#an-example-of-influence"><i class="fa fa-check"></i><b>11.3</b> An example of influence</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#creating-example-data-in-the-form-of-an-edgelist"><i class="fa fa-check"></i><b>11.3.1</b> Creating example data in the form of an edgelist</a></li>
+<li class="chapter" data-level="11.3.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#joining-the-data-1"><i class="fa fa-check"></i><b>11.3.2</b> Joining the data</a></li>
+<li class="chapter" data-level="11.3.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#calculating-an-exposure-term"><i class="fa fa-check"></i><b>11.3.3</b> Calculating an exposure term</a></li>
+<li class="chapter" data-level="11.3.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#regression-linear-models"><i class="fa fa-check"></i><b>11.3.4</b> Regression (linear models)</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-models"><i class="fa fa-check"></i><b>11.4</b> Selection models</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="advanced-uses.html"><a href="advanced-uses.html"><i class="fa fa-check"></i><b>12</b> Advanced Uses</a><ul>
+<li class="chapter" data-level="12.1" data-path="advanced-uses.html"><a href="advanced-uses.html#multi-level-models"><i class="fa fa-check"></i><b>12.1</b> Multi-level models</a></li>
+<li class="chapter" data-level="12.2" data-path="advanced-uses.html"><a href="advanced-uses.html#text-analysis"><i class="fa fa-check"></i><b>12.2</b> Text analysis</a></li>
+<li class="chapter" data-level="12.3" data-path="advanced-uses.html"><a href="advanced-uses.html#longitudinal-analysis"><i class="fa fa-check"></i><b>12.3</b> Longitudinal analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="solutions-for-adopting-data-science-techniques-in-education.html"><a href="solutions-for-adopting-data-science-techniques-in-education.html"><i class="fa fa-check"></i><b>13</b> Solutions for Adopting Data Science Techniques in Education</a></li>
+<li class="chapter" data-level="14" data-path="students-doing-data-science.html"><a href="students-doing-data-science.html"><i class="fa fa-check"></i><b>14</b> Students doing data science</a></li>
+<li class="chapter" data-level="15" data-path="resources-used-in-the-creation-of-this-text.html"><a href="resources-used-in-the-creation-of-this-text.html"><i class="fa fa-check"></i><b>15</b> Resources used in the creation of this text</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="education-dataset-analysis-pipeline-walk-through-3" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Education Dataset Analysis Pipeline: Walk Through #3</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Seed for random number generation</span>
+<span class="kw">set.seed</span>(<span class="dv">42</span>)
+knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">cache.extra =</span> knitr<span class="op">::</span>rand_seed, <span class="dt">eval =</span> <span class="ot">TRUE</span>, <span class="dt">echo =</span> <span class="ot">FALSE</span>, <span class="dt">results =</span> <span class="st">&#39;hide&#39;</span>,
+                      <span class="dt">message =</span> <span class="ot">FALSE</span>, <span class="dt">warning =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div id="background" class="section level2">
+<h2><span class="header-section-number">10.1</span> Background</h2>
+<p>One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses (Allen &amp; Seaman, 2008).</p>
+<p>In this walkthrough, we examine the educational experiences of students in online science courses at a virtual middle school in order to characterize their motivation to achieve and their tangible engagement with the course in terms of behavioral trace measures. To do so, we use a robust data set, which includes self-reported motivation as well as behavioral trace data collected from a learning management system (LMS) to identify predictors of final course grade. Our work examines the idea of educational success in terms of student interactions with an online science course.</p>
+<p>One meaningful perspective from which to consider students’ engagement with online courses is related to their motivation to achieve. More specifically, it is important to consider how and why students are engaging with the course. Considering the psychological mechanisms behind achievement is valuable because doing so may help to identify meaningful points of intervention for educators and for researchers and administrators in online <em>and</em> face-to-face courses interested in the intersection between behavioral trace measures and students’ motivational and affective experiences in such courses.</p>
+<p>We take up the following four questions:</p>
+<ol style="list-style-type: decimal">
+<li>Is motivation more predictive of course grades as compared to other online indicators of engagement?</li>
+<li>Which types of motivation are most predictive of achievement?</li>
+<li>Which types of trace measures are most predictive of achievement?</li>
+<li>How does a random forest compare to a simple linear model (regression)?</li>
+</ol>
+</div>
+<div id="information-about-the-dataset" class="section level2">
+<h2><span class="header-section-number">10.2</span> Information about the dataset</h2>
+<p>This dataset came from 499 students enrolled in online middle school science courses in 2015-2016. The data were originally collected for use as a part of a research study, though the findings have not been published anywhere, yet.</p>
+<p>The setting of this study was a public, provider of individual online courses in a Midwestern state. In particular, the context was two semesters (Fall and Spring) of offerings of five online science courses (Anatomy &amp; Physiology, Forensic Science, Oceanography, Physics, and Biology), with a total of 36 classes.</p>
+<p>Specific information in the dataset included:</p>
+<ul>
+<li>a pre-course survey students completed about their self-reported motivation in science — in particular, their perceived competence, utility value, and interest</li>
+<li>the time students spent on the course (obtained from the LMS, Blackboard) and their final course grades as well as their involvement in discussion forums</li>
+<li>for discussion board responses, we used the Linguistic Inquiry and Word Count (LIWC; Pennebaker, Boyd, Jordan, &amp; Blackburn, 2015) to calculate the number of posts per student and variables for the mean levels of students’ cognitive processing, positive affect, negative affect, and social-related discourse</li>
+</ul>
+<p>At the beginning of the semester, students were asked to complete the pre-course survey about their perceived competence, utility value, and interest. At the end of the semester, the time students spent on the course, their final course grades, and the contents of the discussion forums were collected.</p>
+<p>In this walkthrough, we used the R package <strong>caret</strong> to carry out the analyses.</p>
+</div>
+<div id="information-on-random-forests" class="section level2">
+<h2><span class="header-section-number">10.3</span> Information on random forests</h2>
+<p>500 trees were grown as part of our random forest. We partitioned the data before conducting the main analysis so that neither the training nor the testing data set would be disproportionately representative of high-achieving or low-achieving students. The training data set consisted of 80% of the original data (n = 400 cases), whereas the testing data set consisted of 20% of the original data (n = 99 cases). We built our random forest model on the training data set, and then evaluated the model on the testing data set. Three variables were tried at each node.</p>
+<p>Note that the random forest algorithm does not accept cases with missing data, and so we deleted cases listwise if data were missing. This decision eliminated 51 cases from our original data set, to bring us to our final sample size of 499 unique students.</p>
+<p>For our analyses, we used Random Forest modeling (Breiman, 2001). Random forest is an extension of decision tree modeling, whereby a collection of decision trees are simultaneously “grown” and are evaluated based on out-of-sample predictive accuracy (Breiman, 2001). Random forest is random in two main ways: first, each tree is only allowed to “see” and split on a limited number of predictors instead of all the predictors in the parameter space; second, a random subsample of the data is used to grow each individual tree, such that no individual case is weighted too heavily in the final prediction.</p>
+<p>Whereas some machine learning approaches (e.g., boosted trees) would utilize an iterative model-building approach, random forest estimates all the decision trees at once. In this way, each tree is independent of every other tree. Thus, the random forest algorithm provides a robust regression approach that is distinct from other modeling approaches. The final random forest model aggregates the findings across all the separate trees in the forest in order to offer a collection of “most important” variables as well as a percent variance explained for the final model.</p>
+<p>A random forest is well suited to the research questions that we had here because it allows for nonlinear modeling. We hypothesized complex relationships between students’ motivation, their engagement with the online courses, and their achievement. For this reason, a traditional regressive or structural equation model would have been insufficient to model the parameter space we were interesting in modeling. Our random forest model had one outcome and eleven predictors. A common tuning parameter for machine learning models is the number of variables considered at each split (Kuhn, 2008); we considered three variables at each split for this analysis.</p>
+<p>The outcome was the final course grade that the student earned. The predictor variables included motivation variables (interest value, utility value, and science perceived competence) and trace variables (the amount of time spent in the course, the course name, the number of discussion board posts over the course of the semester, the mean level of cognitive processing evident in discussion board posts, the positive affect evident in discussion board posts, the negative affect evident in discussion board posts, and the social-related discourse evident in their discussion board posts). We used this random forest model to address all three of our research questions.</p>
+<p>To interpret our findings, we examined three main things: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model.</p>
+</div>
+<div id="analysis" class="section level2">
+<h2><span class="header-section-number">10.4</span> Analysis</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(caret)
+<span class="kw">library</span>(here)</code></pre></div>
+<p>First, we will load the data, <em>filter</em> the data to include only the data from one year, and <em>select</em> variables of interest.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;online-science-motivation-w-disc.csv&quot;</span>)
+
+d &lt;-<span class="st"> </span><span class="kw">read_csv</span>(f)
+
+d &lt;-d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">str_detect</span>(course_ID, <span class="st">&quot;S217&quot;</span>))
+
+d &lt;-<span class="st"> </span>d <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(pre_int, pre_uv,  pre_percomp, time_spent,course_ID, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)</code></pre></div>
+<div id="use-of-caret" class="section level4">
+<h4><span class="header-section-number">10.4.0.1</span> Use of caret</h4>
+<p>Here, we remove observations with missing data (per our note above about random forests requiring complete cases).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(d)
+d &lt;-<span class="st"> </span><span class="kw">na.omit</span>(d)
+<span class="kw">nrow</span>(d)</code></pre></div>
+<p>First, machine learning methods often involve using a large number of variables. Oftentimes, some of these variables will not be suitable to use: they may be highly correlated with other variables, for instance, or may have very little - or no - variability. Indeed, for the data set used in this study, one variables has the same (character string) value for all of the observations. We can detect this variable and any others using the following function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nearZeroVar</span>(d, <span class="dt">saveMetrics =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>If we look at <code>enrollment_status</code>, we will see that it is “Approved/Enrolled” for <em>all</em> of the students. When we use this in certian models, t may cause some problems, and so we remove it first.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">select</span>(d, <span class="op">-</span>enrollment_status)</code></pre></div>
+<p>Note that many times you may wish to pre-process the variables, such as by centering or scaling them; we could this with code like the following, which is not run here, as we will first try this out with the variables’ original values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-<span class="st"> </span><span class="kw">mutate_if</span>(d, 
+               is.numeric, scale)</code></pre></div>
+<p>Now, we will prepare the <strong>train</strong> and <strong>test</strong> datasets, using the caret function for creating data partitions. Here, the <strong>p</strong> argument specifies what proportion of the data we want to be in the <strong>training</strong> partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. Note the <code>times = 1</code> argument; this function can be used to create <em>multiple</em> train and test sets, something we will describe in more detail later.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trainIndex &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(d<span class="op">$</span>final_grade,
+                                  <span class="dt">p =</span> .<span class="dv">8</span>, 
+                                  <span class="dt">list =</span> <span class="ot">FALSE</span>,
+                                  <span class="dt">times =</span> <span class="dv">1</span>)
+
+d_train &lt;-<span class="st"> </span>d[ trainIndex,] <span class="co"># can we make this tidy?</span>
+d_test &lt;-<span class="st"> </span>d[<span class="op">-</span>trainIndex,]</code></pre></div>
+<p>Let’s turn all of the character variables into factors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d_test &lt;-<span class="st"> </span>d_test <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor)
+
+d_train &lt;-<span class="st"> </span>d_train <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor)</code></pre></div>
+<p>Finally, we will estimate the models.</p>
+<p>Here, we will use the train function, passing <em>all</em> of the variables in the data frame (except for the outcome, or dependent variable, <code>final_grade</code>) as predictors. NOte that you can read more about the specific random forest implementation chosen <a href="http://topepo.github.io/caret/train-models-by-tag.html#random-forest">here</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf_fit &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,
+                <span class="dt">data =</span> d_train,
+                <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>)
+
+rf_fit</code></pre></div>
+<p>We have some results! First, we see that we have 400 samples, or 400 observations, the number in the train data set. No pre-processing steps were specified in the model fitting (note that) these the output of <code>preProcess</code> can be passed to <code>train()</code> to center, scale, and transform the data in many other ways. Next, note that a resampling technique has been used: this is not for validating the model (per se), but is rather for selecting tuning parameters, or options that need to be specified as a part of the modeling. These parameters can be manually provided, or can be estimated via strategies such as the bootstrap resample (or <em>k</em>-folds cross validation).</p>
+<p>It appears that the model with the value of the <strong>mtry</strong> tuning parameter equal to 42 seemed to explain the data best, the <strong>splirule* being “extratrees”, and </strong>min.node.size** held constant at a value of 5.</p>
+<p>Let’s see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">train_control &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>,
+                              <span class="dt">number =</span> <span class="dv">10</span>,
+                              <span class="dt">repeats =</span> <span class="dv">10</span>)
+
+rf_fit1 &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,
+                <span class="dt">data =</span> d_train,
+                <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,
+                <span class="dt">trControl =</span> train_control)
+
+rf_fit1</code></pre></div>
+<p>The same tuning parameter values seem to be found with this method. Let’s check just one last thing - what if we do not fix <strong>min.node.size</strong> to five?</p>
+<p>Let’s create our own grid of values to test. We’ll stick with the default bootstrap resampling method to choose the best model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tune_grid &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">mtry =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">22</span>, <span class="dv">42</span>),
+                         <span class="dt">splitrule =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>),
+                         <span class="dt">min.node.size =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>))
+
+rf_fit2 &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,
+                <span class="dt">data =</span> d_train,
+                <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,
+                <span class="dt">tuneGrid =</span> tune_grid)
+
+rf_fit2</code></pre></div>
+<p>The model with the same values as identified before but with <strong>min.node.size</strong> equal to 1 seems to fit best, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make.</p>
+<p>Let’s take a look at this model. We will first note the large number of independent variables: this is due to the factors being treated as dummy codes. We can also note the *OOB prediction error (MSE)`, of 0.351, and the proportion of the variance explained, or R squared, of 0.658.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rf_fit2<span class="op">$</span>finalModel</code></pre></div>
+<p>Things to do next…</p>
+<ul>
+<li>see how predicted values compare to those in the test set to understand predictive accuracy</li>
+<li>examine variable importance</li>
+<li>compare predictive accuracy of the model to a linear model (regression)</li>
+</ul>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="education-dataset-analysis-pipeline-walk-through-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

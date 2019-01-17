@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Chapter 5 Education Dataset Analysis Pipeline: Walkthrough #1 | Data Science in Education</title>
+  <meta name="description" content="This is a book about data science in education.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Chapter 5 Education Dataset Analysis Pipeline: Walkthrough #1 | Data Science in Education" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book about data science in education." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Education Dataset Analysis Pipeline: Walkthrough #1 | Data Science in Education" />
+  
+  <meta name="twitter:description" content="This is a book about data science in education." />
+  
+
+
+
+<meta name="date" content="2019-01-17">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="foundational-skills.html">
+<link rel="next" href="processing-the-data.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.0.1" data-path="introduction.html"><a href="introduction.html#the-challenge-of-data-science-in-education"><i class="fa fa-check"></i><b>1.0.1</b> The Challenge of Data Science in Education</a></li>
+<li class="chapter" data-level="1.0.2" data-path="introduction.html"><a href="introduction.html#meeting-the-challenge"><i class="fa fa-check"></i><b>1.0.2</b> Meeting the Challenge</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>2</b> How to Use This Book</a></li>
+<li class="chapter" data-level="3" data-path="unique-challenges.html"><a href="unique-challenges.html"><i class="fa fa-check"></i><b>3</b> Unique Challenges</a><ul>
+<li class="chapter" data-level="3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#a-reproducible-approach"><i class="fa fa-check"></i><b>3.1</b> A Reproducible Approach</a></li>
+<li class="chapter" data-level="3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>3.2</b> A Self-Driven Analytic Approach</a></li>
+<li class="chapter" data-level="3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#unique-challenges-1"><i class="fa fa-check"></i><b>3.3</b> Unique challenges</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="unique-challenges.html"><a href="unique-challenges.html#challenges-common-to-doing-data-science-in-any-domain"><i class="fa fa-check"></i><b>3.3.1</b> Challenges common to doing data science in any domain</a></li>
+<li class="chapter" data-level="3.3.2" data-path="unique-challenges.html"><a href="unique-challenges.html#lack-of-processes-and-procedures"><i class="fa fa-check"></i><b>3.3.2</b> Lack of processes and procedures</a></li>
+<li class="chapter" data-level="3.3.3" data-path="unique-challenges.html"><a href="unique-challenges.html#few-guidelines-from-research-and-evaluation"><i class="fa fa-check"></i><b>3.3.3</b> Few guidelines from research and evaluation</a></li>
+<li class="chapter" data-level="3.3.4" data-path="unique-challenges.html"><a href="unique-challenges.html#limited-training-and-educational-opportunities-for-educational-data-science"><i class="fa fa-check"></i><b>3.3.4</b> Limited training and educational opportunities for educational data science</a></li>
+<li class="chapter" data-level="3.3.5" data-path="unique-challenges.html"><a href="unique-challenges.html#the-complex-and-messy-nature-of-educational-data"><i class="fa fa-check"></i><b>3.3.5</b> The complex and messy nature of educational data</a></li>
+<li class="chapter" data-level="3.3.6" data-path="unique-challenges.html"><a href="unique-challenges.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>3.3.6</b> Ethical and legal concerns</a></li>
+<li class="chapter" data-level="3.3.7" data-path="unique-challenges.html"><a href="unique-challenges.html#analytic-challenges"><i class="fa fa-check"></i><b>3.3.7</b> Analytic challenges</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="foundational-skills.html"><a href="foundational-skills.html"><i class="fa fa-check"></i><b>4</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="4.1" data-path="foundational-skills.html"><a href="foundational-skills.html#track-one-getting-started"><i class="fa fa-check"></i><b>4.1</b> Track One: Getting Started</a></li>
+<li class="chapter" data-level="4.2" data-path="foundational-skills.html"><a href="foundational-skills.html#downloading-r-and-r-studio"><i class="fa fa-check"></i><b>4.2</b> Downloading R and R Studio</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r"><i class="fa fa-check"></i><b>4.2.1</b> To download R:</a></li>
+<li class="chapter" data-level="4.2.2" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r-studio"><i class="fa fa-check"></i><b>4.2.2</b> To download R Studio:</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="foundational-skills.html"><a href="foundational-skills.html#check-that-it-worked"><i class="fa fa-check"></i><b>4.3</b> Check that it worked</a></li>
+<li class="chapter" data-level="4.4" data-path="foundational-skills.html"><a href="foundational-skills.html#help-im-completely-new-to-using-r-r-studio"><i class="fa fa-check"></i><b>4.4</b> Help, I’m completely new to using R / R Studio!</a></li>
+<li class="chapter" data-level="4.5" data-path="foundational-skills.html"><a href="foundational-skills.html#creating-projects"><i class="fa fa-check"></i><b>4.5</b> Creating Projects</a></li>
+<li class="chapter" data-level="4.6" data-path="foundational-skills.html"><a href="foundational-skills.html#packages"><i class="fa fa-check"></i><b>4.6</b> Packages</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="foundational-skills.html"><a href="foundational-skills.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>4.6.1</b> Installing and Loading Packages</a></li>
+<li class="chapter" data-level="4.6.2" data-path="foundational-skills.html"><a href="foundational-skills.html#running-functions-from-packages"><i class="fa fa-check"></i><b>4.6.2</b> Running Functions from Packages</a></li>
+<li class="chapter" data-level="4.6.3" data-path="foundational-skills.html"><a href="foundational-skills.html#track-two-welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>4.6.3</b> Track Two: Welcome to the Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-data-from-various-sources"><i class="fa fa-check"></i><b>4.7</b> Loading Data from Various Sources</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>4.7.1</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="4.7.2" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-a-csv-file"><i class="fa fa-check"></i><b>4.7.2</b> Loading a CSV File</a></li>
+<li class="chapter" data-level="4.7.3" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-excel-files"><i class="fa fa-check"></i><b>4.7.3</b> Loading Excel files</a></li>
+<li class="chapter" data-level="4.7.4" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-sav-files"><i class="fa fa-check"></i><b>4.7.4</b> Loading SAV files</a></li>
+<li class="chapter" data-level="4.7.5" data-path="foundational-skills.html"><a href="foundational-skills.html#google-sheets"><i class="fa fa-check"></i><b>4.7.5</b> Google Sheets</a></li>
+<li class="chapter" data-level="4.7.6" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-files"><i class="fa fa-check"></i><b>4.7.6</b> Saving Files</a></li>
+<li class="chapter" data-level="4.7.7" data-path="foundational-skills.html"><a href="foundational-skills.html#conclusion"><i class="fa fa-check"></i><b>4.7.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="foundational-skills.html"><a href="foundational-skills.html#processing-data"><i class="fa fa-check"></i><b>4.8</b> Processing Data</a></li>
+<li class="chapter" data-level="4.9" data-path="foundational-skills.html"><a href="foundational-skills.html#communicating-sharing-results"><i class="fa fa-check"></i><b>4.9</b> Communicating / sharing results</a></li>
+<li class="chapter" data-level="4.10" data-path="foundational-skills.html"><a href="foundational-skills.html#other-foundational-notes"><i class="fa fa-check"></i><b>4.10</b> Other foundational notes</a><ul>
+<li class="chapter" data-level="4.10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#configuring-r-studio"><i class="fa fa-check"></i><b>4.10.1</b> Configuring R Studio</a></li>
+<li class="chapter" data-level="4.10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#getting-data-in-and-out"><i class="fa fa-check"></i><b>4.10.2</b> Getting data in and out</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html"><i class="fa fa-check"></i><b>5</b> Education Dataset Analysis Pipeline: Walkthrough #1</a><ul>
+<li class="chapter" data-level="5.1" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#self-report-survey"><i class="fa fa-check"></i><b>5.1</b> 1. Self-report survey</a></li>
+<li class="chapter" data-level="5.2" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#log-trace-data"><i class="fa fa-check"></i><b>5.2</b> 2. Log-trace data</a></li>
+<li class="chapter" data-level="5.3" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#achievement-related-and-gradebook-data"><i class="fa fa-check"></i><b>5.3</b> 3. Achievement-related and gradebook data</a></li>
+<li class="chapter" data-level="5.4" data-path="education-dataset-analysis-pipeline-walkthrough-1.html"><a href="education-dataset-analysis-pipeline-walkthrough-1.html#discussion-board-data"><i class="fa fa-check"></i><b>5.4</b> 4. Discussion board data</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="processing-the-data.html"><a href="processing-the-data.html"><i class="fa fa-check"></i><b>6</b> Processing the data</a><ul>
+<li class="chapter" data-level="6.1" data-path="processing-the-data.html"><a href="processing-the-data.html#viewing-the-data"><i class="fa fa-check"></i><b>6.1</b> Viewing the data</a></li>
+<li class="chapter" data-level="6.2" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-pre-survey-data"><i class="fa fa-check"></i><b>6.2</b> Processing the pre-survey data</a></li>
+<li class="chapter" data-level="6.3" data-path="processing-the-data.html"><a href="processing-the-data.html#processing-the-course-data"><i class="fa fa-check"></i><b>6.3</b> Processing the course data</a></li>
+<li class="chapter" data-level="6.4" data-path="processing-the-data.html"><a href="processing-the-data.html#joining-the-data"><i class="fa fa-check"></i><b>6.4</b> Joining the data</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html"><i class="fa fa-check"></i><b>7</b> Visualizations and Models</a><ul>
+<li class="chapter" data-level="7.1" data-path="visualizations-and-models.html"><a href="visualizations-and-models.html#visualization-of-the-relationship-between-time-spent-on-course-and-percentage-of-points-earned"><i class="fa fa-check"></i><b>7.1</b> Visualization of the relationship between time spent on course and percentage of points earned</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-model-regression.html"><a href="linear-model-regression.html"><i class="fa fa-check"></i><b>8</b> Linear model (regression)</a><ul>
+<li class="chapter" data-level="8.1" data-path="linear-model-regression.html"><a href="linear-model-regression.html#but-what-about-different-courses"><i class="fa fa-check"></i><b>8.1</b> But what about different courses?</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><i class="fa fa-check"></i><b>9</b> Education Dataset Analysis Pipeline: Gradebook Walkthrough</a><ul>
+<li class="chapter" data-level="9.1" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#introduction-1"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#driving-question-and-objectives"><i class="fa fa-check"></i><b>9.2</b> Driving Question and Objectives</a></li>
+<li class="chapter" data-level="9.3" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#data-import"><i class="fa fa-check"></i><b>9.3</b> Data Import</a></li>
+<li class="chapter" data-level="9.4" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#r-markdown"><i class="fa fa-check"></i><b>9.4</b> R Markdown</a></li>
+<li class="chapter" data-level="9.5" data-path="education-dataset-analysis-pipeline-gradebook-walkthrough.html"><a href="education-dataset-analysis-pipeline-gradebook-walkthrough.html#including-plots"><i class="fa fa-check"></i><b>9.5</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html"><i class="fa fa-check"></i><b>10</b> Education Dataset Analysis Pipeline: Walk Through #3</a><ul>
+<li class="chapter" data-level="10.1" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#background"><i class="fa fa-check"></i><b>10.1</b> Background</a></li>
+<li class="chapter" data-level="10.2" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-about-the-dataset"><i class="fa fa-check"></i><b>10.2</b> Information about the dataset</a></li>
+<li class="chapter" data-level="10.3" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#information-on-random-forests"><i class="fa fa-check"></i><b>10.3</b> Information on random forests</a></li>
+<li class="chapter" data-level="10.4" data-path="education-dataset-analysis-pipeline-walk-through-3.html"><a href="education-dataset-analysis-pipeline-walk-through-3.html#analysis"><i class="fa fa-check"></i><b>10.4</b> Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html"><i class="fa fa-check"></i><b>11</b> Education Dataset Analysis Pipeline: Walk Through #4</a><ul>
+<li class="chapter" data-level="11.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#background-1"><i class="fa fa-check"></i><b>11.1</b> Background</a></li>
+<li class="chapter" data-level="11.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-and-influence"><i class="fa fa-check"></i><b>11.2</b> Selection and influence</a></li>
+<li class="chapter" data-level="11.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#an-example-of-influence"><i class="fa fa-check"></i><b>11.3</b> An example of influence</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#creating-example-data-in-the-form-of-an-edgelist"><i class="fa fa-check"></i><b>11.3.1</b> Creating example data in the form of an edgelist</a></li>
+<li class="chapter" data-level="11.3.2" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#joining-the-data-1"><i class="fa fa-check"></i><b>11.3.2</b> Joining the data</a></li>
+<li class="chapter" data-level="11.3.3" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#calculating-an-exposure-term"><i class="fa fa-check"></i><b>11.3.3</b> Calculating an exposure term</a></li>
+<li class="chapter" data-level="11.3.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#regression-linear-models"><i class="fa fa-check"></i><b>11.3.4</b> Regression (linear models)</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="education-dataset-analysis-pipeline-walk-through-4.html"><a href="education-dataset-analysis-pipeline-walk-through-4.html#selection-models"><i class="fa fa-check"></i><b>11.4</b> Selection models</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="advanced-uses.html"><a href="advanced-uses.html"><i class="fa fa-check"></i><b>12</b> Advanced Uses</a><ul>
+<li class="chapter" data-level="12.1" data-path="advanced-uses.html"><a href="advanced-uses.html#multi-level-models"><i class="fa fa-check"></i><b>12.1</b> Multi-level models</a></li>
+<li class="chapter" data-level="12.2" data-path="advanced-uses.html"><a href="advanced-uses.html#text-analysis"><i class="fa fa-check"></i><b>12.2</b> Text analysis</a></li>
+<li class="chapter" data-level="12.3" data-path="advanced-uses.html"><a href="advanced-uses.html#longitudinal-analysis"><i class="fa fa-check"></i><b>12.3</b> Longitudinal analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="solutions-for-adopting-data-science-techniques-in-education.html"><a href="solutions-for-adopting-data-science-techniques-in-education.html"><i class="fa fa-check"></i><b>13</b> Solutions for Adopting Data Science Techniques in Education</a></li>
+<li class="chapter" data-level="14" data-path="students-doing-data-science.html"><a href="students-doing-data-science.html"><i class="fa fa-check"></i><b>14</b> Students doing data science</a></li>
+<li class="chapter" data-level="15" data-path="resources-used-in-the-creation-of-this-text.html"><a href="resources-used-in-the-creation-of-this-text.html"><i class="fa fa-check"></i><b>15</b> Resources used in the creation of this text</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="education-dataset-analysis-pipeline-walkthrough-1" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Education Dataset Analysis Pipeline: Walkthrough #1</h1>
+<p>In the 2015-2016 and 2016-2017 school years, researchers at Michigan State University carried out a study on students’ motivation to learn in online science classes. The online science classes were part of a statewide online course provider designed to supplement (and not replace) students’ enrollment in their local school. For example, students may choose to enroll in an online physics class because one was not offered at their school (or they were not able to take it given their schedule).</p>
+<p>The study involved a number of different data sources which were brought to bear to understand students’ motivation:</p>
+<ol style="list-style-type: decimal">
+<li>A self-report survey for three distinct but related aspects of students’ motivation</li>
+<li>Log-trace data, such as data output from the learning management system</li>
+<li>Achievement-related and gradebook data</li>
+<li>Discussion board data</li>
+<li>Achievement-related (i.e., final grade) data</li>
+</ol>
+<p>First, these different data sources will be described in terms of how they were provided by the school.</p>
+<div id="self-report-survey" class="section level2">
+<h2><span class="header-section-number">5.1</span> 1. Self-report survey</h2>
+<p>This was data collected before the start of the course via self-report survey. The survey included 10 items, each corresponding to one of three <em>measures</em>, namely, for interest, utility value, and perceived competence:</p>
+<ol style="list-style-type: decimal">
+<li>I think this course is an interesting subject. (Interest)</li>
+<li>What I am learning in this class is relevant to my life. (Utility value)</li>
+<li>I consider this topic to be one of my best subjects. (Perceive competence)</li>
+<li>I am not interested in this course. (Interest - reverse coded)</li>
+<li>I think I will like learning about this topic. (Interest)</li>
+<li>I think what we are studying in this course is useful for me to know. (Utility value)</li>
+<li>I don’t feel comfortable when it comes to answering questions in this area. (Perceived competence)</li>
+<li>I think this subject is interesting. (Interest)</li>
+<li>I find the content of this course to be personally meaningful. (Utility value)</li>
+<li>I’ve always wanted to learn more about this subject. (Interest)</li>
+</ol>
+</div>
+<div id="log-trace-data" class="section level2">
+<h2><span class="header-section-number">5.2</span> 2. Log-trace data</h2>
+<p>Log-trace data is data generated from our interactions with digital technologies. In education, an increasingly common source of log-trace data is that generated from interactions with learning management systems. The data for this walk-through is a <em>summary of</em> log-trace data, namely, the number of minutes students spent on the course. Thus, while this data is rich, you can imagine even more complex sources of log-trace data (i.e. timestamps associated with when students started and stopped accessing the course!).</p>
+</div>
+<div id="achievement-related-and-gradebook-data" class="section level2">
+<h2><span class="header-section-number">5.3</span> 3. Achievement-related and gradebook data</h2>
+<p>This is a common source of data, namely, one associated with graded assignments students completed. In this walkthrough, we just examine students’ final grade.</p>
+</div>
+<div id="discussion-board-data" class="section level2">
+<h2><span class="header-section-number">5.4</span> 4. Discussion board data</h2>
+<!-- NOTE - may not include this, as it is hard to confidently anonymize a medium-ish sized data set -->
+<p>Discussion board data is both rich and unstructured, in that it is primarily in the form of written text. We examine a small subset of the discussion board data in this walkthrough.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="foundational-skills.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="processing-the-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["book.pdf", "book.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
