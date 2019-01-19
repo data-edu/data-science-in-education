@@ -119,12 +119,15 @@ s12_pre_survey  <- s12_pre_survey  %>%
     # Convert all question responses to numeric
     mutate_at(vars(q1:q10), funs(as.numeric))
 
-# reverse the scale of two questions for consistency.
-
+# Function for reversing scales 
 reverse_scale <- function(question) {
-  # note, even though 3 is not transformed, case_when expects a match for all
+    # Reverses the response scales for consistency 
+    #   Args: 
+    #     question: survey question 
+    #   Returns: a numeric converted response
+  # Note: even though 3 is not transformed, case_when expects a match for all
   # possible conditions, so it's best practice to label each possible input
-  # and use TRUE ~ as the final statement returning NA for unexpected inputs.
+  # and use TRUE ~ as the final statement returning NA for unexpected inputs
   x <- case_when(question == 1 ~ 5, 
                  question == 2 ~ 4,
                  question == 4 ~ 2,
@@ -134,6 +137,7 @@ reverse_scale <- function(question) {
   x
 }
 
+# Reverse scale for questions 4 and 7
 s12_pre_survey <- s12_pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
@@ -144,13 +148,23 @@ s12_pre_survey <- s12_pre_survey %>%
 
 s12_measure_mean <- s12_pre_survey %>% 
     gather(question, response, c(q1:q10)) %>% 
-    mutate(measure = "", 
-           measure = ifelse(question %in% c("q1", "q4", "q5", "q8", "q10"), "int", measure), 
-           measure = ifelse(question %in% c("q2", "q6", "q9"), "uv", measure), 
-           measure = ifelse(question %in% c("q3", "q7"), "pc", measure)) %>% 
+    mutate(
+        # Initialize measure variable as character
+        measure = "", 
+        # Interest measure
+        measure = ifelse(question %in% c("q1", "q4", "q5", "q8", "q10"), "int", measure), 
+        # Utility value measure
+        measure = ifelse(question %in% c("q2", "q6", "q9"), "uv", measure), 
+        # Perceived competence measure
+        measure = ifelse(question %in% c("q3", "q7"), "pc", measure)
+        ) %>% 
     group_by(measure) %>% 
-    summarise(mean_response = mean(response, na.rm = TRUE), 
-              percent_NA = mean(is.na(response)))
+    summarise(
+        # Mean response for each measure
+        mean_response = mean(response, na.rm = TRUE), 
+        # Percent of each measure that had NAs in the response field
+        percent_NA = mean(is.na(response))
+        )
 
 s12_measure_mean
 ```
