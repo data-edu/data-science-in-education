@@ -152,15 +152,12 @@ s12_measure_mean <- s12_pre_survey %>%
     # Gather questions and responses 
     gather(question, response, c(q1:q10)) %>% 
     mutate(
-        # Initialize measure variable as character
-        measure = "", 
-        # Interest measure
-        measure = ifelse(question %in% c("q1", "q4", "q5", "q8", "q10"), "int", measure), 
-        # Utility value measure
-        measure = ifelse(question %in% c("q2", "q6", "q9"), "uv", measure), 
-        # Perceived competence measure
-        measure = ifelse(question %in% c("q3", "q7"), "pc", measure)
-        ) %>% 
+        measure = case_when(
+            question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int", 
+            question %in% c("q2", "q6", "q9") ~ "uv", 
+            question %in% c("q3", "q7") ~ "pc", 
+            TRUE ~ NA_character_
+        )) %>% 
     group_by(measure) %>% 
     summarise(
         # Mean response for each measure
