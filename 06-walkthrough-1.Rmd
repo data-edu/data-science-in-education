@@ -142,11 +142,9 @@ s12_pre_survey <- s12_pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
 
-# Int: 1, 4, 5, 8, 10
-# UV: 2, 6, 9
-# PC: 3, 7
-
+# Add measure variable 
 s12_measure_mean <- s12_pre_survey %>% 
+    # Gather questions and responses 
     gather(question, response, c(q1:q10)) %>% 
     mutate(
         # Initialize measure variable as character
