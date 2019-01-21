@@ -100,13 +100,17 @@ s12_time_spent
 
 ## Processing the pre-survey data
 
-Often, survey data needs to be processed in order to be (most) useful. Here, we process the self-report items into three scales, for: interest, self-efficacy, and utility value.
+Often, survey data needs to be processed in order to be (most) useful. Here, we process the self-report items into three scales, for: interest, self-efficacy, and utility value. We do this by 
+
+ - Renaming the question variables to something more managable 
+ - Reversing the response scales on questions 4 and 7 
+ - Categorizing each question into a measure 
+ - Computing the mean of each measure 
 
 ```{r}
-# rename the qustions something easier to work with because R is case sensitive
-# and working with variable names in mix case is prone to error.
-
 s12_pre_survey  <- s12_pre_survey  %>%
+    # Rename the qustions something easier to work with because R is case sensitive
+    # and working with variable names in mix case is prone to error
     rename(q1 = Q1MaincellgroupRow1,
            q2 = Q1MaincellgroupRow2,
            q3 = Q1MaincellgroupRow3,
@@ -116,37 +120,53 @@ s12_pre_survey  <- s12_pre_survey  %>%
            q7 = Q1MaincellgroupRow7,
            q8 = Q1MaincellgroupRow8,
            q9 = Q1MaincellgroupRow9,
-           q10 = Q1MaincellgroupRow10)
+           q10 = Q1MaincellgroupRow10) %>% 
+    # Convert all question responses to numeric
+    mutate_at(vars(q1:q10), funs(as.numeric))
 
-# reverse the scale of two questions for consistency.
-
+# Function for reversing scales 
 reverse_scale <- function(question) {
-  # note, even though 3 is not transformed, case_when expects a match for all
+    # Reverses the response scales for consistency 
+    #   Args: 
+    #     question: survey question 
+    #   Returns: a numeric converted response
+  # Note: even though 3 is not transformed, case_when expects a match for all
   # possible conditions, so it's best practice to label each possible input
-  # and use TRUE ~ as the final statement returning NA for unexpected inputs.
-  x <- case_when(question == 1 ~ 5
+  # and use TRUE ~ as the final statement returning NA for unexpected inputs
+  x <- case_when(question == 1 ~ 5, 
                  question == 2 ~ 4,
                  question == 4 ~ 2,
                  question == 5 ~ 1,
                  question == 3 ~ 3,
-                 TRUE ~ NA_integer_))
+                 TRUE ~ NA_real_)
   x
 }
 
+# Reverse scale for questions 4 and 7
 s12_pre_survey <- s12_pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
 
-# Int: 1, 4, 5, 8, 10
-# UV: 2, 6, 9
-# PC: 3, 7
+# Add measure variable 
+s12_measure_mean <- s12_pre_survey %>% 
+    # Gather questions and responses 
+    gather(question, response, c(q1:q10)) %>% 
+    mutate(
+        measure = case_when(
+            question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int", 
+            question %in% c("q2", "q6", "q9") ~ "uv", 
+            question %in% c("q3", "q7") ~ "pc", 
+            TRUE ~ NA_character_
+        )) %>% 
+    group_by(measure) %>% 
+    summarise(
+        # Mean response for each measure
+        mean_response = mean(response, na.rm = TRUE), 
+        # Percent of each measure that had NAs in the response field
+        percent_NA = mean(is.na(response))
+        )
 
-# need to change these to be within a mutate
-s12_pre_survey <- s12_pre_survey %>%
-  mutate(int = mean(q1, q4, q8, q10, q5),
-         uv = mean(q2, q6, q9),
-         percomp = mean(q3, q7),
-         tv = mean(q1, q2, q5, q6, q8, q9, q10)
+s12_measure_mean
 ```
 
 ## Processing the course data
