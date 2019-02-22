@@ -185,8 +185,33 @@ Let's take a look at this model. We will first note the large number of independ
 rf_fit2$finalModel
 ```
 
-Things to do next...
+## Predicted values
 
-- see how predicted values compare to those in the test set to understand predictive accuracy
-- examine variable importance
-- compare predictive accuracy of the model to a linear model (regression)
+Using the simpler model without treating `min.node.size` as a tuning parameter, let's explore predicted values. In particular, we can see how predicted values compare to those in the test set to understand predictive accuracy.
+
+We'll re-run the model, but will add an argument to call the variable importance metric.
+
+```{r}
+rf_fit_imp <- train(final_grade ~ .,
+                data = d_train,
+                method = "ranger")
+
+rf_fit_imp
+varImp(rf_fit_imp)
+```
+
+## Value importance measures
+
+Random forests can generate variable importance measures.
+
+```{r}
+
+```
+
+## Comparing a random forest to a regression
+
+You may be curious about comparing the predictive accuracy of the model to a linear model (a regression).
+
+```{r}
+
+```
