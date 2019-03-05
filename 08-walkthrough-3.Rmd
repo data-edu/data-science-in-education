@@ -107,6 +107,12 @@ d <- mutate_if(d,
                is.numeric, scale)
 ```
 
+We will want to make character string variables into factors.
+
+```{r}
+d <- mutate_if(d, is.character, as.factor)
+```
+
 Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later.
 
 ```{r}
@@ -115,7 +121,7 @@ trainIndex <- createDataPartition(d$final_grade,
                                   list = FALSE,
                                   times = 1)
 
-d_train <- d[ trainIndex,] # can we make this tidy?
+d_train <- d[ trainIndex,] # can we make this tidy w/ filter
 d_test <- d[-trainIndex,]
 ```
 
@@ -194,18 +200,18 @@ In particular, let's explore predicted values. In particular, we can see how pre
 First, let's calculte the Root Mean Square Error (RMSE), just to gain practice working with the model output.
 
 ```{r}
-d_train <- mutate(d_train, 
+d_train_augmented <- mutate(d_train, 
                   pred = predict(rf_fit, d_train),
                   obs = final_grade, # this is to calculate summmary statistics using caret
-                  raw_diff = y_pred - final_grade,
-                  abs_diff = abs(y_pred - final_grade))
+                  raw_diff = pred - final_grade,
+                  abs_diff = abs(pred - final_grade))
 
-d_train %>%
+d_train_augmented %>%
     summarize(MAE = mean(abs_diff),
               RMSE = sqrt(mean(raw_diff^2)))
 ```
 
-We can calulate these automatically using the **caret** `defaultSummary()` function (which just requires columns with `obs` and `pred` in it in a data frame):
+We can calculate these automatically using the **caret** `defaultSummary()` function (which just requires columns with `obs` and `pred` in it in a data frame):
 
 ```{r}
 # install.packages("MLmetrics")
@@ -217,6 +223,14 @@ The RMSE and MAE values correspond to those we calculated manually. Note that an
 So, what do these values tell us? On average, our predictions are around 4 percentage points away from their actual values. Not so bad!
 
 Why use RMSE, though, over MAE? [Note: don't kow why].
+
+# Examining predictive accuracy on the test data set
+
+What if we use the test data set - data not used to train the model?
+
+```{r}
+predict(rf_fit, d_test)
+```
 
 ## Variable importance measures
 
@@ -263,10 +277,22 @@ varImp(rf_fit_imp_permutation) %>%
 ```
 
 They are similar but somewhat different. One takeaway from this analysis is that what course students are in seems to have a different effect depending on the course. Also, how much students write in their discussion posts (`n`) seems to be very important - as does the time students spend in their course. Finally, there are some subject level differences (in terms of how predictive subject is). Perhaps grades should be normalized within subject: would this still be an important predictor, then?
+
 ## Comparing a random forest to a regression
 
 You may be curious about comparing the predictive accuracy of the model to a linear model (a regression).
 
-```{r}
+```{r, warning = FALSE}
+d_train_lm <- mutate_if(d_train, is.character, as.factor) # may want to move this earlier; it seems important for method = lm but not ranger, for some reason
 
+lm_fit <- train(final_grade ~ .,
+                data = d_train_lm, 
+                method = "lm")
+
+d_train_lm <- mutate(d_train, 
+                     obs = final_grade,
+                     pred = predict(lm_fit, d_train_lm))
+
+defaultSummary(as.data.frame(d_train_lm))
+defaultSummary(as.data.frame(d_train_augmented))
 ```
