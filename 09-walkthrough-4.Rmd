@@ -34,10 +34,70 @@ library(dplyr)
 
 set.seed("20190101")
 
+rec_vars <- defData(varname = "r0", dist = "normal", formula = 0, variance = 3,
+    id = "receive_id")
+rec_vars <- defData(rec_vars, varname = "rec_n_ties", dist = "noZeroPoisson",
+    formula = 3)
+
+rec_d <- genData(100, rec_vars)
+
+sen_vars <- defData(varname = "s0", dist = "normal", formula = 0, variance = 3,
+    id = "send_id")
+sen_vars <- defData(sen_vars, varname = "sen_n_ties", dist = "noZeroPoisson",
+    formula = 3)
+
+sen_d <- genData(100, rec_vars)
+
+head(dt_ind)
+
+ties <- defDataAdd(varname = "t0", dist = "binary", formula = 0, variance = 2)
+gen.class <- defDataAdd(gen.class, varname = "nStudents", dist = "noZeroPoisson", 
+    formula = 20)
+
+dtClass <- genCluster(dtSchool, "idSchool", numIndsVar = "nClasses", level1ID = "idClass")
+dtClass <- addColumns(gen.class, dtClass)
+
+head(dtClass, 10)
+
+# gen.class <- defDataAdd(varname = "t0", dist = "binary", formula = )
+# gen.class <- defDataAdd(gen.class, varname = "nStudents", dist = "noZeroPoisson", 
+#     formula = 20)
+# 
+# dtClass <- genCluster(dtSchool, "idSchool", numIndsVar = "nClasses", level1ID = "idClass")
+# dtClass <- addColumns(gen.class, dtClass)
+# 
+# 
+# 
+# dt_receive <- genData(8, gen.school)
+# 
+# gen_send <- defData(varname = "s0", dist = "normal", formula = 0, variance = 3, 
+#     id = "send_id")
+# gen_send <- defData(gen_send, varname = "n_ties", dist = "noZeroPoisson", 
+#     formula = 3)
+# 
+# dt_send <- addColumns(gen_receive, gen_send)
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# dtSchool <- genData(8, gen.school)
+# 
+# gen.class <- defDataAdd(varname = "c0", dist = "normal", formula = 0, variance = 2)
+# 
+# dtClass <- genCluster(dtSchool, "school_id", numIndsVar = "n_ties", level1ID = "idClass")
+# dtClass <- addColumns(gen.class, dtClass)
+# 
+# head(dtClass, 10)
+
 df1 <- defData(varname = 'nominator', dist = 'categorical', formula = catProbs(n = 200)) %>%
     defData(varname = 'nominee', dist = 'categorical', formula = catProbs(n = 200)) %>%
     defData(varname = 'relate', dist = 'nonrandom', formula = 1) %>%
     genData(500, .)
+
+df1
 ```
 
 Now, a second data frame named `df2`:
