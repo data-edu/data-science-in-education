@@ -50,8 +50,26 @@ We use the **simstudy** package to simulate the data (and the **dplyr** package 
 Let's first generate `data1`.
 
 ```{r}
+library(tidyverse)
+
+create_yvar2 = function(yv1) {
+  # Creates yvar2 as a linear outcome of yvar1 
+  # Args: 
+  #   yv1: yvar1
+  yv1 * .25 + rnorm(n = 1, mean = 10, sd = 100)
+}
+
+#------------------------------------------------------------------------------
+
+# Make the dataset 
+high_y_values <- tibble(
+  yvar1 = sample(1000:10000, 100, replace = TRUE)) %>% 
+  mutate(yvar2 = map_dbl(yvar1, create_yvar2))
+
+```
+
+```{r}
 library(simstudy)
-library(dplyr)
 
 set.seed("20190101")
 
@@ -60,6 +78,7 @@ def <- defData(def, varname = "nominee", dist = "categorical", formula = catProb
 def <- defData(def, varname = "relate", dist = "nonrandom", formula = 1)
 
 data1 <- genData(500, def)
+data1
 ```
 
 `data2`:

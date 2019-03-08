@@ -26,4 +26,4 @@ A note on the purpose of this section: This section can serve the same purpose a
 - Now that educators are familiar with some data science techniques, it's time to tackle applying and sharing those techniques at work. This is its own skill.  
 - Connect the skills taught in Part 2 to the unique challenges discussed in Part 1 
 - Explore how to use programming, statistics, and content knowledge in an education workplace that is new to data science  
-- Explore how educators can teach today's students to prepare them for using data in future work places
+- Explore how educators can teach today's students to prepare them for using data in future work placesadding a line
