@@ -16,70 +16,6 @@ Relationships are important to us. In the case of many research techniques, rela
 
 Increasingly, it is also not hard to imagine *quantitative* techniques to study relationships, too. In a way, the same questions that could be used qualitatively can serve as the basis for the quantitative study of relationships. Indeed, **social network analysis** uses these relations in a range of visualizations as well as statistical models.
 
-## Creating example data in the form of an edgelist 
-
-First, let's create three different data frames. Here is what they should contain:
-
-- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation.
-    - This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*.
-- Data frames indicating the values of some behavior - an outcome - at two different time points.
-
-We use the **simstudy** package to simulate the data (and the **dplyr** package to process the data a bit).
-
-Let's first generate a data frame called `df1`:
-
-```{r}
-library(simstudy)
-library(dplyr)
-
-set.seed("20190101")
-
-df1 <- defData(varname = 'nominator', dist = 'categorical', formula = catProbs(n = 200)) %>%
-    defData(varname = 'nominee', dist = 'categorical', formula = catProbs(n = 200)) %>%
-    defData(varname = 'relate', dist = 'nonrandom', formula = 1) %>%
-    genData(500, .)
-```
-
-Now, a second data frame named `df2`:
-
-```{r}
-# We need to know unique nominators and unique nominees
-# to determine how many rows to generate
-unique_nominators <- unique(df1$nominator) 
-unique_nominees <- unique(df1$nominee)
-
-df2 <- defData(varname = "yvar1", dist = "normal", formula = 2, variance = 2) %>%
-    genData(length(unique_nominees), .) %>%
-    mutate(nominee = unique_nominees) %>% 
-    select(nominee, yvar1)
-```
-
-And a third data frame, `df3`:
-
-```{r}
-df3 <- defData(varname = "yvar2", dist = "normal", formula = 5, variance = 2) %>%
-    genData(length(unique_nominators), .) %>%
-    mutate(nominator = unique_nominators) %>% 
-    select(nominator, yvar2)
-```
-
-### Joining the data
-
-Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualizations that are informative.
-
-```{r}
-library(dplyr)
-
-data <- df1 %>% left_join(df2, by = "nominee")
-data$nominee <- as.character(data$nominee) # this makes merging later easier
-
-# calculate indegree in tempdata and merge with data
-tempdata <- data$nominee %>% table %>% as.data.frame  # this needs to be calculated differently
-names(tempdata) <- c("nominee", "indegree")  # rename the column "nominee"
-tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
-data <- data %>% left_join(tempdata, by = "nominee")
-```
-
 ## Creating a network graph
 
 Now, we'll use the **igraph** package to create a *graph* of our simulated data's network. Once we have this graph, we can calculate many useful descriptive statistics associated with the network's features:  
@@ -114,7 +50,7 @@ network_summary <- sim_graph %>% V %>% length %>%  # number of vertices/nodes
     rbind(sim_graph %>% vertex_attr('degree') %>% median) %>% 
     rbind(sim_graph %>% vertex_attr('degree') %>% min) %>%
     rbind(sim_graph %>% vertex_attr('degree') %>% max)
-    
+
 colnames(network_summary) <- c("")
 rownames(network_summary) <- c("Number of nodes: ", "Number of edges: ", "Diameter: ",
                                "Density: ", "Transitivity: ", "Reciprocity: ",
@@ -146,7 +82,7 @@ library(igraph)
 giant_cluster <- sim_graph %>% 
     set_vertex_attr(name='membership', 
                     value = clusters(sim_graph) %>% as.data.frame %>% pull(membership)
-                    ) %>%
+    ) %>%
     delete_vertices({vertex_attr(., 'membership') != 1} %>% which)
 ```
 
@@ -172,18 +108,18 @@ It is important to note that a different result is returned each time the spingl
 ```{r}
 csg_matrix <- matrix(NA, nrow=1, ncol=100)
 for (i in 1:100) {
-        print(i)
-        set.seed(i)
-        csg = giant_cluster %>% cluster_spinglass
-        csg_matrix[1,i] <- max(csg$membership)
+    print(i)
+    set.seed(i)
+    csg = giant_cluster %>% cluster_spinglass
+    csg_matrix[1,i] <- max(csg$membership)
 }
 
 csg_matrix_summary <- csg_matrix %>% length %>%
-        rbind(csg_matrix %>% mean %>% round(2)) %>% 
-        rbind(csg_matrix %>% sd %>% round(2)) %>% 
-        rbind(csg_matrix %>% median) %>% 
-        rbind(csg_matrix %>% min) %>%
-        rbind(csg_matrix %>% max)
+    rbind(csg_matrix %>% mean %>% round(2)) %>% 
+    rbind(csg_matrix %>% sd %>% round(2)) %>% 
+    rbind(csg_matrix %>% median) %>% 
+    rbind(csg_matrix %>% min) %>%
+    rbind(csg_matrix %>% max)
 colnames(csg_matrix_summary) <- c("")
 rownames(csg_matrix_summary) <- c("number of tests: ", "mean: ", "sd: ",  "median: ", "min: ", "max: ")
 csg_matrix_summary
@@ -197,9 +133,9 @@ set.seed(our_seed)  # set the seed
 csg <- giant_cluster %>% cluster_spinglass
 
 csg_summary <- csg$vcount %>% 
-        rbind(giant_cluster %>% gsize) %>% 
-        rbind(csg$csize %>% length) %>% 
-        rbind(csg$modularity %>% round(4))
+    rbind(giant_cluster %>% gsize) %>% 
+    rbind(csg$csize %>% length) %>% 
+    rbind(csg$modularity %>% round(4))
 colnames(csg_summary) <- c("")
 rownames(csg_summary) <- c("Number of nodes: ", "Number of edges: ", "Number of clusters: ", "Modularity: ")
 csg_summary
@@ -221,8 +157,8 @@ A '0' result from this procudure indicates that no randomized networks have comm
 degrees <- giant_cluster %>% as.undirected %>% degree(mode='all', loops=FALSE)
 qr_vl <- replicate(100, sample_degseq(degrees, method="vl"), 
                    simplify=FALSE) %>%
-        lapply(cluster_spinglass) %>%
-        sapply(modularity) 
+    lapply(cluster_spinglass) %>%
+    sapply(modularity) 
 sum(qr_vl > csg$modularity) / 100
 ```
 
@@ -268,7 +204,7 @@ viz_random <- ggraph(layout_randomly) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 viz_mds <- ggraph(layout_mds) +
     geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
     geom_node_point(alpha=.75, size=4, color=csg_palette) +
@@ -277,7 +213,7 @@ viz_mds <- ggraph(layout_mds) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 viz_fr <- ggraph(layout_fr) +
     geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
     geom_node_point(alpha=.75, size=4, color=csg_palette) +
@@ -286,7 +222,7 @@ viz_fr <- ggraph(layout_fr) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 viz_drl <- ggraph(layout_drl) +
     geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
     geom_node_point(alpha=.75, size=4, color=csg_palette) +
@@ -295,7 +231,7 @@ viz_drl <- ggraph(layout_drl) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 viz_kk <- ggraph(layout_kk) +
     geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
     geom_node_point(alpha=.75, size=4, color=csg_palette) +
@@ -304,7 +240,7 @@ viz_kk <- ggraph(layout_kk) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 viz_sugiyama <- ggraph(layout_sugiyama) +
     geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
     geom_node_point(alpha=.75, size=4, color=csg_palette) +
@@ -313,7 +249,7 @@ viz_sugiyama <- ggraph(layout_sugiyama) +
           panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
           axis.title = element_blank(), axis.text = element_blank(),
           axis.ticks = element_blank(), legend.position="none"
-        )
+    )
 
 grid.arrange(viz_random, viz_mds, viz_fr,
              viz_drl, viz_kk, viz_sugiyama, 
@@ -321,10 +257,6 @@ grid.arrange(viz_random, viz_mds, viz_fr,
 ```
 
 The layouts above are as follows: the first row has 1.) a *random* plotting of nodes and 2.) the *MDS* algorithm. The second row has 3.) the *FR* algorithm and 4.) the *DRL* algorithm. The third row as 5.) the *KK* algorithm, and 6.) the *Sugiyama* algorithm. Each of these is appropriate in different situations; if unsure of which to use, the *nicely* option automatically selects an algorithm based on the network size.
-
-
-
-
 
 ## Selection and influence
 
@@ -339,15 +271,19 @@ While these are complex, they can be studied with the type of data collected fro
 
 In this walkthrough, the influence model is the focus. Nevertheless, we provide some direction for how to carry out selection modeling, too, at the end. 
 
+## Creating example data in the form of an edgelist 
+
+First, let's create three different data frames. Here is what they should contain:
+
+- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation.
+- This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*.
+- Data frames indicating the values of some behavior - an outcome - at two different time points.
+
 ## An example of influence
 
 In this example, we create some example data that can be used to explore questions about how influence works. Note that Joshua Rosenberg and Sarah Galey initially wrote the following code for a walkthrough shared on Ken Frank's website [here](https://msu.edu/~kenfrank/resources.htm).
 
-<<<<<<< HEAD
 Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
-=======
-Let's take a look at the merged data.
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 
 ```{r}
 data <- as_tibble(data)
@@ -359,24 +295,13 @@ data
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
 ```{r}
-<<<<<<< HEAD
 # Calculating exposure
-=======
-# Calculating exposure and an exposure term that uses indegree, exposure_plus
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 data$exposure <- data$relate * data$yvar1
 
 # Calculating mean exposure
 mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
-<<<<<<< HEAD
-=======
-
-mean_exposure_plus <- data %>%
-    group_by(nominator) %>%
-    summarize(exposure_plus_mean = mean(exposure_plus))
->>>>>>> 2c0cdf5fc112012b0fb8b8b0993f3fbe7224bd46
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
@@ -400,9 +325,7 @@ model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 summary(model1)
 ```
 
-Note that these models show ...
-
-<!-- Will want to interpret using the (needs-to-be) simulated data -->
+Note that these models show ... [add]
 
 So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Sweet, 2017). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
 
