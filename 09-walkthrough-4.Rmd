@@ -1,55 +1,95 @@
 ---
-title: 'Education Dataset Analysis Pipeline: Walk Through #4'
-output: html_document
+title: 'Education Dataset Analysis Pipeline: Walkthrough #4'
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, cache=FALSE)
 here::set_here(path = "~/documents/data-science-in-education")
 ```
 
 ## Background
 
-Relationships are important to us. In the case of many research techniques, relationships are--deservedly--the focus of analyses. It is not very difficult to imagine *qualitative* techniques to study relationships: One could ask other individuals about who their friends are, why they are their friends, and what they like to do when with them. 
+Relationships are important to us. In the case of many research techniques, relationships are&mdash;deservedly&mdash;the focus of analyses. It is not very difficult to imagine *qualitative* techniques to study relationships: one could ask other individuals about who their friends are, why they are their friends, and what they like to do when with them. 
 
-Increasingly, it is also not hard to imagine *quantitative* techniques to study relationships, too. In a way, the same questions that could be used qualitatively can serve as the basis for the quantitative study of relationships. Indeed, social network analysis uses these relations in a range of visualizations as well as statistical models.
+Increasingly, it is also not hard to imagine *quantitative* techniques to study relationships, too. In a way, the same questions that could be used qualitatively can serve as the basis for the quantitative study of relationships. Indeed, **social network analysis** uses these relations in a range of visualizations as well as statistical models.
 
-Let us first consider visualizations.
+## Creating a network graph
 
-<!-- Add example visualization here using ggraph? and ideas for how to create and modify visualizations -->
+Now, we'll use the **igraph** package to create a *graph* of our simulated data's network. Once we have this graph, we can calculate many useful descriptive statistics associated with the network's features:  
 
-Visualizations of social networks are interesting and powerful--and increasingly common.
+- *Diameter*: The length of the longest geodesic; that is, the max distance between two nodes in the network.  
+- *Density*: The ratio of the number of edges and the number of possible edges for a network of that size.  
+- *Transitivity*: The balance of connections. Also called the clustering coefficient. The probability that the adjacent vertices of a vertex are connected. When the clustering coefficient is large it implies that a graph is highly clustered around a few nodes; when it is low it implies that the links in the graph are relatively evenly spread among all the nodes (Hogan, 2017).  
+- *Reciprocity*: The proportion of mutual connections (in a directed network). The probability that the opposite counterpart of a directed edge is also included in the graph.  
+- *Degree*: The number of connections someone has with others nominating or being a nominee (Kadushin, 2012).
 
-Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
+Keep in mind that measures such as diameter and density “can be misleading when comparing graphs of substantially different sizes” (Hogan, 2017, p. 255). Therefore, these measures should only be used to compare networks of similar size, or the same network at different points in time.
 
-## Selection and influence
-
-One way to consider these models and methods is in terms of two *processes* at play in our relationships (cite). These two processes are commonly (though not exclusively) the focus of statistical analyses of networks. In addition to not being exclusive, they do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). They are:
-
-- Selection: the processes regarding who chooses to have a relationship with whom
-- Infuence: the processes regarding how who we have relationships with affects our behavior
-
-While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with **R**: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it)
-
-In this walkthrough, the influence model is the focus. Nevertheless, we provide some direction for how to carry out selection modeling, too, at the end. 
-
-## An example of influence
-
-In this example, we create some example data that can be used to explore questions about how influence works. Note that Joshua Rosenberg and Sarah Galey initially wrote the following code for a walkthrough shared on Ken Frank's website [here](https://msu.edu/~kenfrank/resources.htm).
-
-### Creating example data in the form of an edgelist 
-
-First, let's create three different data frames. Here is what they should contain:
-
-- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation
-    - This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*
-- Data frames indicating the values of some behavior - an outcome - at two different time points
-
-We use the **simstudy** package to simulate the data (and the **dplyr** package to process the data a bit).
-
-Let's first generate `data1`.
+First, let's create the network graph, called `sim_graph`:
 
 ```{r}
+library(igraph)
+sim_graph <- data %>% select(nominator, nominee) %>%  # this creates an edgelist
+    as.matrix %>% 
+    graph_from_edgelist(directed=TRUE) %>%
+    set_vertex_attr(name='degree', value=degree(., mode='total', loops=FALSE)) %>% 
+    set_vertex_attr(name='in_degree', value=degree(., mode='in', loops=FALSE)) %>% 
+    set_vertex_attr(name='out_degree', value=degree(., mode='out', loops=FALSE))
+
+network_summary <- sim_graph %>% V %>% length %>%  # number of vertices/nodes
+    rbind(sim_graph %>% gsize) %>%  # number of edges
+    rbind(sim_graph %>% diameter) %>%  # max distance between two vertices
+    rbind({sim_graph %>% edge_density * 100} %>% round(2)) %>%     
+    rbind({sim_graph %>% transitivity("global") * 100} %>% round(2)) %>% 
+    rbind({sim_graph %>% reciprocity * 100} %>% round(2))  %>%
+    rbind(sim_graph %>% vertex_attr('degree') %>% mean %>% round(2)) %>% 
+    rbind(sim_graph %>% vertex_attr('degree') %>% sd %>% round(2)) %>% 
+    rbind(sim_graph %>% vertex_attr('degree') %>% median) %>% 
+    rbind(sim_graph %>% vertex_attr('degree') %>% min) %>%
+    rbind(sim_graph %>% vertex_attr('degree') %>% max)
+
+colnames(network_summary) <- c("")
+rownames(network_summary) <- c("Number of nodes: ", "Number of edges: ", "Diameter: ",
+                               "Density: ", "Transitivity: ", "Reciprocity: ",
+                               "Mean degree: ", "SD degree: ", "Median degree: ",
+                               "Min degree: ", "Max degree: ")
+network_summary
+```
+
+## Clustering
+
+With a graph of our simulated network, we can see if *clustering* occurs in this network and describe some characteristics of these clusters.  
+
+First, a definition: a *cluster*&mdash;also called a community or group&mdash;is a set of nodes with many edges inside the community and few edges between outside it (i.e. between the community itself and the rest of the graph). There are numerous methods for determining network clusters, but here we use the *spinglass clustering algorithm*, which maps community detection onto finding the ground state of an infinite range spin glass. Csardi, Nepusz, and Airoldi (2016, pp. 132-133) explained:
+
+>
+The clustering method of [Reichardt and Bornholdt](https://arxiv.org/abs/cond-mat/0603718) (2006) is motivated by spin glass models from statistical physics. Such models are used to describe and explain magnetism at the microscopic scale at finite temperatures. Reichardt and Bornholdt (2006) drew an analogy between spin glass models and the problem of community detection on graphs and proposed an algorithm based on the simulated annealing of the spin glass model to obtain well-defined communities in a graph. A spin glass model consists of a set of particles called spins that are coupled by ferromagnetic or antiferromagnetic bonds. Each spin can be in one of k possible states. The well-known Potts model then defines the total energy of the spin glass with a given spin configuration... Spins and interactions in the Potts model are very similar to graphs: each spin in the model corresponds to a vertex, and each interaction corresponds to an edge... Reichardt and Bornholdt (2006) gave efficient update rules for the above energy function, making it possible to apply a simulated annealing procedure to find the ground state of the model that corresponds to a low energy configuration. Their algorithm starts from a random configuration of spins and tries to flip all the spins once in each time step. After each individual spin flip, the energy of the new configuration is evaluated.
+>
+
+In other words, the spinglass clustering algorithm partitions nodes into communities by optimizing an energy function. The energy is optimized using the following function (Reichardt and Bornholdt, 2008): 
+$$H({\sigma}) = -\sum(a_{ij} \textrm{internal links}) + \sum(b_{ij}\textrm{internal non-links}) + \sum(c_{ij}\textrm{external links}) - \sum(d_{ij}\textrm{external non-links})$$. 
+
+This function penalizes missing edges or non-links of people/nodes in the same cluster and present links or edges between people/nodes in different clusters. It also rewards present links or edges between people/nodes in the same cluster and missing links or edges between people/nodes in different clusters. Thus, a lower score (i.e., lower energy level) is better as it means that the internal links and external non-links have more weightage in that model. In other words, in a strong model, members within clusters are strongly linked and members in separate clusters are weakly linked . Here, $a_{ij}, b_{ij}, c_{ij}, d_{ij}$ represent the individual weights of the four components. 
+
+The initial R code to produce spinglass clusters is straightforward. First, we identify one "giant" cluster&mdash;basically, all nodes that have even a loose connection to each other and create a new network graph by removing any nodes that are not part of the giant cluster. Let's call the graph of the giant cluster `giant_cluster`:
+
+```{r}
+library(igraph)
+
+giant_cluster <- sim_graph %>% 
+    set_vertex_attr(name='membership', 
+                    value = clusters(sim_graph) %>% as.data.frame %>% pull(membership)
+    ) %>%
+    delete_vertices({vertex_attr(., 'membership') != 1} %>% which)
+```
+
+Next, we separate the giant cluster into more meaningful clusters, as determined by the spinglass clustering algorithm. We store the cluster information in `csg0`:
+
+```{r}
+<<<<<<< HEAD
 library(tidyverse)
 
 create_yvar2 = function(yv1) {
@@ -70,59 +110,210 @@ high_y_values <- tibble(
 
 ```{r}
 library(simstudy)
+=======
+csg_0 <- giant_cluster %>% cluster_spinglass  # creates the clusters; 'csg' = cluster spinglass
+csg_0$membership %>% unique %>% length  # number of clusters/communities/groups
+```
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 
-set.seed("20190101")
+One of the important outcomes of this method is the _modularity_ value $M$. Modularity measures how good the division is, or how separated are the different vertex types from each other. The spinglass algorithm looks for the modularity of the optimal partition. For a given network, the partition with maximum modularity corresponds to the optimal community structure (i.e., a higher $M$ is better).
 
-def <- defData(varname = "nominator", dist = "categorical", formula = catProbs(n = 200)) 
-def <- defData(def, varname = "nominee", dist = "categorical", formula = catProbs(n = 200))
-def <- defData(def, varname = "relate", dist = "nonrandom", formula = 1)
+The maximum modularity score is +1 and according to Hogan (2017), networks with a modularity above 0.3 as "very modular," meanig that most edges are within communities. Note also that if $M$ = 0, all nodes belong to one group.
 
+<<<<<<< HEAD
 data1 <- genData(500, def)
 data1
+=======
+```{r modularity, include=TRUE}
+csg_0$modularity
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
-`data2`:
+### Identifying the "typical" number of clusters returned with the spinglass algorithm
+
+It is important to note that a different result is returned each time the spinglass clustering algorithm is run. For this reason, we needed to run a number of simulations to see what the "typical" number of clusters are. We ran the algorithm 100 times and looked at the mean and median number of clusters obtained. We made a note of a _seed_ that produced the median number of clusters, confirmed that this was reproducible, and then set this seed so that all future work will be run with this same clustering configuration.
 
 ```{r}
-unique_nominators <- unique(data1$nominator) # need these to determine how many rows to generate
-unique_nominees <- unique(data1$nominee)
+csg_matrix <- matrix(NA, nrow=1, ncol=100)
+for (i in 1:100) {
+    print(i)
+    set.seed(i)
+    csg = giant_cluster %>% cluster_spinglass
+    csg_matrix[1,i] <- max(csg$membership)
+}
 
-def <- defData(varname = "yvar1", dist = "normal", formula = 2, variance = 2)
-
-data2 <- genData(length(unique_nominees), def)
-data2 <- data2 %>% 
-    mutate(nominee = unique_nominees) %>% 
-    select(nominee, yvar1)
+csg_matrix_summary <- csg_matrix %>% length %>%
+    rbind(csg_matrix %>% mean %>% round(2)) %>% 
+    rbind(csg_matrix %>% sd %>% round(2)) %>% 
+    rbind(csg_matrix %>% median) %>% 
+    rbind(csg_matrix %>% min) %>%
+    rbind(csg_matrix %>% max)
+colnames(csg_matrix_summary) <- c("")
+rownames(csg_matrix_summary) <- c("number of tests: ", "mean: ", "sd: ",  "median: ", "min: ", "max: ")
+csg_matrix_summary
 ```
-
-And `data3`:
 
 ```{r}
-def <- defData(varname = "yvar2", dist = "normal", formula = 5, variance = 2)
+## select a seed from this list which reproduces the median number of clusters
+seeds <-{as.vector(csg_matrix) == median(csg_matrix)} %>% which
+our_seed <- seeds[1]
+set.seed(our_seed)  # set the seed
+csg <- giant_cluster %>% cluster_spinglass
 
-data3 <- genData(length(unique_nominators), def)
-data3 <- data3 %>% 
-    mutate(nominator = unique_nominees) %>% 
-    select(nominator, yvar2)
+csg_summary <- csg$vcount %>% 
+    rbind(giant_cluster %>% gsize) %>% 
+    rbind(csg$csize %>% length) %>% 
+    rbind(csg$modularity %>% round(4))
+colnames(csg_summary) <- c("")
+rownames(csg_summary) <- c("Number of nodes: ", "Number of edges: ", "Number of clusters: ", "Modularity: ")
+csg_summary
+
+print("Size of each cluster: ", quote=FALSE); print(csg$csize)
 ```
 
-### Joining the data
+### Test of statistical significance for spinglass clusters
 
-Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
+The test for statistical significance for spinglass clustering is a bit different than the familiar tests that return $p$-values (Csardi, Nepusz, & Airoldi (2016, pp. 132-138).
+
+The idea behind this test of significance is that a random network of equal size and degree distribution as our observed network should have a lower modularity score--that is, if the observed network does in fact have statistically significant clustering.
+
+The following R procedure generates 100 randomized instances of our network (with the same size and degree distribution) using the `sample_ degseq()` function. The `method = 'vl'` ensures that there are no loop edges in the randomly generated networks. We then applied the spinglass clustering algorithm to each of the 100 randomized instances of the network.
+
+A '0' result from this procudure indicates that no randomized networks have community structure with a modularity score that is higher than the one obtained from the original, observed network. Hence a '0' result means that our network has significant community structure; any non-zero results means that the detected spinglass clusters are not statistically significant.
+
+```{r spinglass_sig_test, include=TRUE}
+degrees <- giant_cluster %>% as.undirected %>% degree(mode='all', loops=FALSE)
+qr_vl <- replicate(100, sample_degseq(degrees, method="vl"), 
+                   simplify=FALSE) %>%
+    lapply(cluster_spinglass) %>%
+    sapply(modularity) 
+sum(qr_vl > csg$modularity) / 100
+```
+
+## Network Visualization with Clusters
+
+Visualizations of social networks are interesting and powerful--and increasingly common.
+
+Here, we create a visualization of our network structure, using the color palette generated by our spinglass clustering.
 
 ```{r}
-library(dplyr)
-
-data <- left_join(data1, data2, by = "nominee")
-data$nominee <- as.character(data$nominee) # this makes merging later easier
-
-# calculate indegree in tempdata and merge with data
-tempdata <- data.frame(table(data$nominee)) # this needs to be calculated differently
-names(tempdata) <- c("nominee", "indegree") # rename the column "nominee"
-tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
-data <- left_join(data, tempdata, by = "nominee")
+## color-blind palette
+## source: https://jacksonlab.agronomy.wisc.edu/2016/05/23/15-level-colorblind-friendly-palette/
+palette <- c("#000000","#004949","#009292","#ff6db6","#ffb6db",
+             "#490092","#006ddb","#b66dff","#6db6ff","#b6dbff",
+             "#920000","#924900","#db6d00","#24ff24","#ffff6d")
+csg_palette <- palette[csg$membership]
 ```
 
+Here, we used the _Fruchterman-Reingold layout algorithm_ (`layout = 'fr'`), which is appropriate for large (but still with less than 1,000 nodes), potentially disconnected networks.
+
+```{r}
+library(ggraph)
+library(gridExtra)
+
+layout_randomly <- giant_cluster %>% create_layout(layout='randomly')
+layout_mds <- giant_cluster %>% create_layout(layout='mds')
+layout_fr <- giant_cluster %>% create_layout(layout='fr')
+layout_drl <- giant_cluster %>% create_layout(layout='drl')
+layout_kk <- giant_cluster %>% create_layout(layout='kk')
+layout_sugiyama <- giant_cluster %>% create_layout(layout='sugiyama')
+
+## Additional layout algorithms to try:
+#layout_auto <- giant_cluster %>% create_layout(layout='nicely')
+#layout_lgl <- giant_cluster %>% create_layout(layout='lgl')
+#layout_dh <- giant_cluster %>% create_layout(layout='dh')
+#layout_graphopt <- giant_cluster %>% create_layout(layout='graphopt')
+
+viz_random <- ggraph(layout_randomly) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+viz_mds <- ggraph(layout_mds) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+viz_fr <- ggraph(layout_fr) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+viz_drl <- ggraph(layout_drl) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+viz_kk <- ggraph(layout_kk) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+viz_sugiyama <- ggraph(layout_sugiyama) +
+    geom_edge_link(width=.1, arrow = arrow(length=unit(1, 'mm'))) +
+    geom_node_point(alpha=.75, size=4, color=csg_palette) +
+    theme_bw() +
+    theme(plot.background = element_blank(), panel.border = element_blank(),
+          panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          axis.title = element_blank(), axis.text = element_blank(),
+          axis.ticks = element_blank(), legend.position="none"
+    )
+
+grid.arrange(viz_random, viz_mds, viz_fr,
+             viz_drl, viz_kk, viz_sugiyama, 
+             nrow = 3)
+```
+
+<<<<<<< HEAD
+=======
+The layouts above are as follows: the first row has 1.) a *random* plotting of nodes and 2.) the *MDS* algorithm. The second row has 3.) the *FR* algorithm and 4.) the *DRL* algorithm. The third row as 5.) the *KK* algorithm, and 6.) the *Sugiyama* algorithm. Each of these is appropriate in different situations; if unsure of which to use, the *nicely* option automatically selects an algorithm based on the network size.
+
+## Selection and influence
+
+Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
+
+One way to consider these models and methods is in terms of two *processes* at play in our relationships (cite). These two processes are commonly (though not exclusively) the focus of statistical analyses of networks. In addition to not being exclusive, they do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). They are:
+
+- *Selection*: the processes regarding who chooses to have a relationship with whom
+- *Infuence*: the processes regarding how who we have relationships with affects our behavior
+
+While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with **R**: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it).
+
+In this walkthrough, the influence model is the focus. Nevertheless, we provide some direction for how to carry out selection modeling, too, at the end. 
+
+## Creating example data in the form of an edgelist 
+
+First, let's create three different data frames. Here is what they should contain:
+
+- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation.
+- This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*.
+- Data frames indicating the values of some behavior - an outcome - at two different time points.
+
+## An example of influence
+
+In this example, we create some example data that can be used to explore questions about how influence works. Note that Joshua Rosenberg and Sarah Galey initially wrote the following code for a walkthrough shared on Ken Frank's website [here](https://msu.edu/~kenfrank/resources.htm).
+
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
 
 ```{r}
@@ -142,7 +333,10 @@ data$exposure <- data$relate * data$yvar1
 mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
+<<<<<<< HEAD
 
+=======
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
@@ -166,9 +360,7 @@ model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 summary(model1)
 ```
 
-Note that these models show ...
-
-<!-- Will want to interpret using the (needs-to-be) simulated data -->
+Note that these models show ... [add]
 
 So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Sweet, 2017). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
 
@@ -193,3 +385,25 @@ While this is a straightforward way to carry out a selection model, there are so
 One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed or has fixed-ranks. It is the **amen** package available [here](https://cran.r-project.org/web/packages/amen/index.html).
 
 A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, **ergm**, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), **statnet**. A link to the statnet packages is [here](https://statnet.org/).
+
+## References
+
+Bates, D., Maechler, M., Bolker, B., & Walker, S. (2018). lme4: Linear mixed-effects models using 'Eigen' and S4 (Version 1.1-19) [R package]. Retrieved from https://cran.r-project.org/package=lme4
+
+Csardi, G. (2018). igraph: Network analysis and visualization (Version 1.2.2) [R package]. Retrieved from https://CRAN.R-project.org/package=igraph
+
+Csardi, G., Nepusz, T., & Airoldi, E. M. (2016). *Statistical network analysis with igraph*. New York, NY: Springer. Retrieved from https://sites.fas.harvard.edu/~airoldi/pub/books/BookDraft-CsardiNepuszAiroldi2016.pdf
+
+Hogan, B. (2017). Online social networks: Concepts for data collection and analysis. In N. G. Fielding, R. M. Lee, & G. Blank (Eds.), *The SAGE handbook of online research methods* (2nd ed., pp. ). London, UK: SAGE.
+
+Kadushin, C. (2012). *Understanding social networks: Theories, concepts, and findings.* New York, NY: Oxford University Press.
+
+Pedersen, T. L. (2018). ggraph: An implementation of grammar of graphics for graphs and networks (Version 1.0.2) [R package]. Retrieved from https://CRAN.R-project.org/package=ggraph
+
+R Core Team. (2018). R: A language and environment for statistical computing (Version 3.5.0) [Computer software]. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/
+
+Reichardt, J., & Bornholdt, S. (2006). Statistical mechanics of community detection. *Physical Review E, 74*(1), 016110. Retrieved from https://arxiv.org/abs/cond-mat/0603718
+
+Wickham, H., Chang, W., & RStudio. (2016). ggplot2: Create elegant data visualisations using the grammar of graphics (Version 2.2.1) [R package]. Retrieved from https://CRAN.R-project.org/package=ggplot2
+
+Wickham, H., Francois, R., Henry, L., Muller, K., & RStudio. (2018). dplyr: A grammar of data manipulation (Version 0.7.6) [R package]. Retrieved from https://CRAN.R-project.org/package=dplyr

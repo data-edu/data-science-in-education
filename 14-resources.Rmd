@@ -1,0 +1,5 @@
+# Resources used in the creation of this text
+
+__[National Center for Research in Policy and Practice: Findings from a National Study on Research Use Among School and District Leaders](http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf)__   
+
+_Summary_: A survey of 733 school principals and district leaders within US mid-sized and large school districts, focused on how educational leaders use research to inform their decision-making.

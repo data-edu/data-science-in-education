@@ -28,9 +28,16 @@ A note on the purpose of this section: This section can serve the same purpose a
 - Now that educators are familiar with some data science techniques, it's time to tackle applying and sharing those techniques at work. This is its own skill.  
 - Connect the skills taught in Part 2 to the unique challenges discussed in Part 1 
 - Explore how to use programming, statistics, and content knowledge in an education workplace that is new to data science  
-<<<<<<< HEAD
-- Explore how educators can teach today's students to prepare them for using data in future work placesadding a line
-=======
 - Explore how educators can teach today's students to prepare them for using data in future work places
 
->>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
+**Git Issue Labels** 
+
+To help contributors participate, we're using labels so folks who are new to the repo can identify tasks to participate in. If you're working on an issue, it helps us if you assign the issue to yourself so we know who to reach if we want to collaborate. The labels are: 
+
+`test code`: Need help running the file locally and reporting back if everything worked. If it didn't, it helps us if we have a description of what went wrong. 
+
+`discussion`: Sometimes we need help talking through a topic to help us make a good design choice for our readers.
+
+`help wanted`: Need help getting code to run or writing a section. We'll make sure the problem we're trying to work out is clearly stated in the issue comments. 
+
+`writing`: New content needed. At least one author will be assigned to `writing` issues, but we welcome collaboration! Feel free to message the author on Slack or in the issue comments to coordinate. 
