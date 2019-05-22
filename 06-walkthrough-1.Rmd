@@ -51,12 +51,16 @@ Discussion board data is both rich and unstructured, in that it is primarily in 
 
 # Processing the data
 
+This analysis uses R packages, which are collections of R code that help users code more efficiently. We load these packages with the function `library`. In particular, the packages we'll use will help us load Excel files, organize the structure of the data, work with dates in the data, and navigate file directories. 
+
 ```{r, loading-packages}
 library(readxl)
 library(tidyverse)
 library(lubridate)
 library(here)
 ```
+
+This code chunk loads the log trace data using the `read_csv` function. Note that we call `read_csv` three times, once for each of the three logtrace datasets. We assign each of the datasets a name using `<-`.
 
 ```{r}
 # Gradebook and log-trace data for F15 and S16 semesters
@@ -92,6 +96,8 @@ s12_time_spent <- read_csv(
 
 ## Viewing the data
 
+Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset. 
+
 ```{r}
 s12_pre_survey 
 s12_course_data
@@ -106,6 +112,10 @@ Often, survey data needs to be processed in order to be (most) useful. Here, we 
  - Reversing the response scales on questions 4 and 7 
  - Categorizing each question into a measure 
  - Computing the mean of each measure 
+
+Let's take these steps in order: 
+
+1. Rename the question columns to something much simpler: 
 
 ```{r}
 s12_pre_survey  <- s12_pre_survey  %>%
@@ -123,6 +133,12 @@ s12_pre_survey  <- s12_pre_survey  %>%
            q10 = Q1MaincellgroupRow10) %>% 
     # Convert all question responses to numeric
     mutate_at(vars(q1:q10), funs(as.numeric))
+```
+
+2. Next we'll reverse the scale of the survey responses on questions 4 and 7 so the responses for all questions can be interpreted in the same way. Rather than write a lot of code once to reverse the scales for question 4 then writing it again to reverse the scales on question 7, we'll build a function that does that job for us. Then we'll use the same function for question 4 and question 7. This will result in much less code, plus it will make it easier for us to change in the future. 
+
+```{r}
+# This part of the code is where we write the function:
 
 # Function for reversing scales 
 reverse_scale <- function(question) {
@@ -142,16 +158,29 @@ reverse_scale <- function(question) {
   x
 }
 
+# And here's where we use that function to reverse the scales
+
 # Reverse scale for questions 4 and 7
 s12_pre_survey <- s12_pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
+```
 
+3. We'll accomplish the last two steps in one chunk of code. First we'll create a column called `measure` and we'll fill that column with one of three question categories: 
+
+ - `int`: interest
+ - `uv`: utility value 
+ - `pc`: self efficacy
+
+After that we'll find the mean response of each category using `mean` function.
+
+```{r}
 # Add measure variable 
 s12_measure_mean <- s12_pre_survey %>% 
     # Gather questions and responses 
     gather(question, response, c(q1:q10)) %>% 
     mutate(
+        # Here's where we make the column of question categories 
         measure = case_when(
             question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int", 
             question %in% c("q2", "q6", "q9") ~ "uv", 
@@ -160,6 +189,7 @@ s12_measure_mean <- s12_pre_survey %>%
         )) %>% 
     group_by(measure) %>% 
     summarise(
+        # Here's where we compute the mean of the responses 
         # Mean response for each measure
         mean_response = mean(response, na.rm = TRUE), 
         # Percent of each measure that had NAs in the response field
