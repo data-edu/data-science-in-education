@@ -16,6 +16,90 @@ Speed comes from daily practice.
 
 Let's look at a few examples 
 
+Preparing data is an example of an activity that gets much faster when using data science techniques. Imagine you are a consultant for a school that uses an online quiz system and each teacher's quiz export looks like this:
+
+```{r}
+library(tidyverse)
+set.seed(45)
+
+quizzes_1 <- tibble(
+    teacher_id = 1, 
+    student_id = c(1:3), 
+    quiz_1 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_2 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_3 = sample(c(0:100), 3, replace = TRUE)
+)
+
+quizzes_1
+```
+
+Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? 
+
+First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `gather` to separate the quiz number and its score for each student will get us a long way: 
+
+```{r}
+quizzes_1 %>% 
+    gather(quiz_number, score, -c(teacher_id, student_id))
+```
+
+This structure makes it easy to compute a number of summary statistics, like getting the mean quiz score for each student: 
+
+```{r}
+quizzes_1 %>% 
+    gather(quiz_number, score, -c(teacher_id, student_id)) %>% 
+    group_by(student_id) %>% 
+    summarise(quiz_mean = mean(score))
+```
+
+Again, for one dataset this computation is fairly straight forward and can be done with a number of software tools. But what about doing this repeatedly for twenty five teacher quiz exports? Let's look at one way we can do this fairly quickly using R. We'll start by creating two additional datasets as an example: 
+```{r}
+# Second imaginary dataset
+quizzes_2 <- tibble(
+    teacher_id = 2, 
+    student_id = c(4:6), 
+    quiz_1 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_2 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_3 = sample(c(0:100), 3, replace = TRUE)
+)
+
+# Third imaginary dataset
+quizzes_3 <- tibble(
+    teacher_id = 3, 
+    student_id = c(7:9), 
+    quiz_1 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_2 = sample(c(0:100), 3, replace = TRUE), 
+    quiz_3 = sample(c(0:100), 3, replace = TRUE)
+)
+```
+
+The method we'll use to compute the mean quiz score for each student is to  
+
+1. Use `bind_rows` to combine all three quiz exports into one dataset. Remember, this can be done because each teacher's export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names 
+
+1. Paste the code we used in the first example into the script so it cleans and computes the mean on the combined dataset
+
+```{r}
+# Use `bind_rows` to combine the three quiz exports 
+all_quizzes <- bind_rows(quizzes_1, quizzes_2, quizzes_3) 
+```
+
+Note there are now nine rows, one for each student in our dataset of three teacher quiz exports: 
+
+```{r}
+all_quizzes
+```
+
+Finally, we'll paste the code we used in the first example to prepare the data and compute the mean on the larger dataset: 
+
+```{r}
+all_quizzes %>% 
+    gather(quiz_number, score, -c(teacher_id, student_id)) %>% 
+    group_by(student_id) %>% 
+    summarise(quiz_mean = mean(score))
+```
+
+The difference in time it takes to do this on three quiz exports using R versus non-programming tools is perhaps not significant. But the speed of computing means across larger volumes of data--say thirty quiz exports--is truly useful to an education consultant looking to help many educators. 
+
 ## Data in Context 
 
 When cleaning and analyzing data is laborious, people tend to generate less data. This can be a problem because less data means less context for the data you do have. Without context, it is difficult to conduct one of the primary cognitive tasks of data analysis: making comparisons. 
