@@ -8,15 +8,25 @@ The power of doing data a analysis with a programming language like R comes from
 
 Having a routine that allows you to answer analytic questions quickly means that you you'll be tackling a larger volume of analytic questions. 
 
-Quickly answering analytic questions has a chain effect. It works something like this: When a consultant quickly answers a teacher's analytic question about their students' latest batch of quiz scores, the collaborative analytic process feels more like a fast-paced inspiring conversation with a teammate instead of sluggish correspondence between two people on opposite ends of the country. It's possible to take so long to answer a question like "Is this batch of quiz scores meaningfully different from the ones my students had six months ago?" that the question itself is unimportant by the time the answer arrives! These are the perils of working in a fast-paced education environment where the nature of information teachers want to make daily decisions changes frequently. Doing things quickly helps people. Helping people builds confidence. Confidence builds innovation. 
+Imagine an education consultant working with a school district to help them measure the effect of a new intervention on how well their students are learning math. During this process the superintendent presents the idea of comparing quiz scores at the schools in the district. The speed at which the consultant offers some initial answers is important for the purposes of keeping the analytic conversation going. 
 
-Functional programming allows you to apply an analytic procedure on many datasets. 
+When a consultant quickly answers a teacher's analytic question about their students' latest batch of quiz scores, the collaborative analytic process feels more like a fast-paced inspiring conversation with a teammate instead of sluggish correspondence between two people on opposite ends of the country. We've all experienced situations where a question like "Is this batch of quiz scores meaningfully different from the ones my students had six months ago?" took so long to answer that the question itself is unimportant by the time the answer arrives! 
 
-Speed comes from daily practice. 
+Users of data science techniques in education have wonderful opportunities to contribute in situations like this because speedy answers can be the very thing that sparks more important analytic questions. In our example of the education consultant presented with a superintendent's curiosity about quiz score results, it is not too hard to imagine many other great questions resulting from the initial answers: 
 
-Let's look at a few examples 
+ - How big was the effect of the new intervention, if any? 
+ - Do we see similar effects across student subgroups, especially the subgroups we are trying to help the most? 
+ - Do we see similar effects across grade levels? 
 
-Preparing data is an example of an activity that gets much faster when using data science techniques. Imagine you are a consultant for a school that uses an online quiz system and each teacher's quiz export looks like this:
+The trick here is to use statistics, programming, and knowledge about education to raise and answer the right questions quickly so the process feels like a conversation. When there's too much time between analytic questions and their answers, educators lose the momentum required to follow the logical and exploratory path towards understanding the needs of their students. 
+
+*Example: Preparing quiz data to compute average scores* 
+
+```{r}
+# TODO: Add an intervention column to make this example feel more connected to the anecdote 
+```
+
+Let's take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
 ```{r}
 library(tidyverse)
@@ -34,7 +44,6 @@ quizzes_1
 ```
 
 Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? 
-
 First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `gather` to separate the quiz number and its score for each student will get us a long way: 
 
 ```{r}
@@ -52,6 +61,7 @@ quizzes_1 %>%
 ```
 
 Again, for one dataset this computation is fairly straight forward and can be done with a number of software tools. But what about doing this repeatedly for twenty five teacher quiz exports? Let's look at one way we can do this fairly quickly using R. We'll start by creating two additional datasets as an example: 
+
 ```{r}
 # Second imaginary dataset
 quizzes_2 <- tibble(
@@ -99,6 +109,19 @@ all_quizzes %>%
 ```
 
 The difference in time it takes to do this on three quiz exports using R versus non-programming tools is perhaps not significant. But the speed of computing means across larger volumes of data--say thirty quiz exports--is truly useful to an education consultant looking to help many educators. 
+
+```{r}
+# TODO: Develop these ideas more: 
+```
+
+Quickly answering analytic questions has a chain effect. It works something like this: Doing things quickly helps people. Helping people builds confidence. Confidence builds innovation. 
+
+Functional programming allows you to apply an analytic procedure on many datasets. 
+
+Speed comes from daily practice. 
+
+Let's look at a few examples 
+
 
 ## Data in Context 
 
