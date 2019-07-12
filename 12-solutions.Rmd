@@ -143,12 +143,23 @@ Here are more ways to get faster at answering analytic questions:
 
 Improving outcomes in education is about learning, obviously for the students, but just as importantly for the people teaching the students. The more data is available to examine, the more school staff learn about what is working for their students. Using R to prepare and analyze data so it is repeatable and easy to share increases the amount of data you can work with on an order of magnitude compared to tools like Google Sheets. 
 
+Working with data past a certain size, say 10,000 rows, is difficult because you have to interact with each row through the graphical user interface. Instead, you can work with larger datasets like using programming languages like R to issue complex instructions for acting on the data rather than using a mouse and keyboard to act on what you can see on the screen. 
+
+*Example: Replacing Many Student Names With Numerical IDs*
+
+Say, for example, an elementary school administrator wants to replace each student name in a classroom dataset with a unique numerical ID. Doing this in a spreadsheet using good old fashioned data entry is fairly straightforward. Doing this for a whole school's worth of classrooms though, demands a different approach. Rather than hand enter a unique id into a spreadsheet, the administrator can write an R script that executes the following steps: 
+
+ 1. Use `read_csv` to store every classroom's student list into the computer's memory
+ 1. Use `bind_rows` to combine the separate lists into one long list 
+ 1. Use `mutate` to replace student names with a randomized and unique numerical ID 
+ 1. Use `split` to separate the data into classrooms again 
+ 1. Use `purrr` and `write_csv` to create and rename individual spreadsheets to send back to teachers 
+ 
+With some initial investment into thoughtful coding on the front end of this problem, the admininistrator now has a script she can use repeatedly in the future when she needs to do this task again.
+
 ```{r}
-# TODO: Describe examples of differences in scale 
-# How row limits and processing limits of Excel
-
+# TODO: More examples of differences in scale 
 ```
-
 
 When cleaning and analyzing data is laborious, people tend to generate less data. This can be a problem because less data means less context for the data you do have. Without context, it is difficult to conduct one of the primary cognitive tasks of data analysis: making comparisons. 
 
