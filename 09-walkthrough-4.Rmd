@@ -89,16 +89,44 @@ giant_cluster <- sim_graph %>%
 Next, we separate the giant cluster into more meaningful clusters, as determined by the spinglass clustering algorithm. We store the cluster information in `csg0`:
 
 ```{r}
+<<<<<<< HEAD
+library(tidyverse)
+
+create_yvar2 = function(yv1) {
+  # Creates yvar2 as a linear outcome of yvar1 
+  # Args: 
+  #   yv1: yvar1
+  yv1 * .25 + rnorm(n = 1, mean = 10, sd = 100)
+}
+
+#------------------------------------------------------------------------------
+
+# Make the dataset 
+high_y_values <- tibble(
+  yvar1 = sample(1000:10000, 100, replace = TRUE)) %>% 
+  mutate(yvar2 = map_dbl(yvar1, create_yvar2))
+
+```
+
+```{r}
+library(simstudy)
+=======
 csg_0 <- giant_cluster %>% cluster_spinglass  # creates the clusters; 'csg' = cluster spinglass
 csg_0$membership %>% unique %>% length  # number of clusters/communities/groups
 ```
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 
 One of the important outcomes of this method is the _modularity_ value $M$. Modularity measures how good the division is, or how separated are the different vertex types from each other. The spinglass algorithm looks for the modularity of the optimal partition. For a given network, the partition with maximum modularity corresponds to the optimal community structure (i.e., a higher $M$ is better).
 
 The maximum modularity score is +1 and according to Hogan (2017), networks with a modularity above 0.3 as "very modular," meanig that most edges are within communities. Note also that if $M$ = 0, all nodes belong to one group.
 
+<<<<<<< HEAD
+data1 <- genData(500, def)
+data1
+=======
 ```{r modularity, include=TRUE}
 csg_0$modularity
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
 ### Identifying the "typical" number of clusters returned with the spinglass algorithm
@@ -256,6 +284,8 @@ grid.arrange(viz_random, viz_mds, viz_fr,
              nrow = 3)
 ```
 
+<<<<<<< HEAD
+=======
 The layouts above are as follows: the first row has 1.) a *random* plotting of nodes and 2.) the *MDS* algorithm. The second row has 3.) the *FR* algorithm and 4.) the *DRL* algorithm. The third row as 5.) the *KK* algorithm, and 6.) the *Sugiyama* algorithm. Each of these is appropriate in different situations; if unsure of which to use, the *nicely* option automatically selects an algorithm based on the network size.
 
 ## Selection and influence
@@ -283,6 +313,7 @@ First, let's create three different data frames. Here is what they should contai
 
 In this example, we create some example data that can be used to explore questions about how influence works. Note that Joshua Rosenberg and Sarah Galey initially wrote the following code for a walkthrough shared on Ken Frank's website [here](https://msu.edu/~kenfrank/resources.htm).
 
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
 
 ```{r}
@@ -302,6 +333,10 @@ data$exposure <- data$relate * data$yvar1
 mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
+<<<<<<< HEAD
+
+=======
+>>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
