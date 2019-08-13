@@ -3,11 +3,49 @@ title: ""
 output: html_document
 ---
 
+In this walkthrough we'll be learning about how graduation rates changed from 2017 to 2018 for a large school district. We'll do that primarily by identifying the average change in the school district, and estimating how much difference we can expect to see when we look at individual schools. The summary statistics we'll be using to explore these questions are the mean and the standard deviation. 
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 ```
 
+## Vocabulary 
+
+Mean
+Median
+Standard deviation 
+Aggregate
+
 # Background
+
+People doing data science in education will, sooner or later, find themselves working with publicly available data. Even if your analysis is focused on one school, analyzing data on a larger scale--at the district, county, or state level for example--provides much needed context and comparison for your project. And there is a lot of available. On the United States Department of Education's website alone, you will find all sorts of data, ranging from elementary school student outcomes to college cost.
+
+So what's the tradeoff for getting to use such an abundant source of context and comparison? Any data available to the public cannot contain personally identifiable information. Therefore almost all publicly available data is a summarized version of student level data. 
+
+Student level data contains personal information about students. It usually means that each row of the dataset represents an observation about one student: 
+
+```{r}
+library(tidyverse) 
+set.seed(25)
+
+student <- tibble(
+    student_id = c("a", "b", "c", "d", "e", "f"), 
+    test_score = sample(0:100, 6), 
+    school = rep(c("Roosevelt", "Lincoln", "Kennedy"), 2)
+)
+
+student
+```
+
+The six row dataset displays the test scores and schools of six students. Reducing this down to a three row dataset displaying the average test score of three schools anonymizes the dataset: 
+
+```{r}
+student %>% 
+    group_by(school) %>% 
+    summarise(average = mean(test_score))
+```
+
+Summarizing like this is known as "aggregation", because doing so combines numerous personally identifiable datapoints into a smaller amount of anonymous datapoints. 
 
 A common situation encountered when using data for analyzing the education sector, particularly for analysts who are not directly working with schools or districts, is the prevalence of aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates or state test proficiency scores by grade and subject.
 
@@ -20,15 +58,3 @@ These datasets are large, lagging, and often suppressed to protect privacy. Beca
 ### Making Comparisons
 
 ### Finding Inequities
-
-
-
-
-
-
-
-
-
-
-
-
