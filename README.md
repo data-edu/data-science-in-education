@@ -1,4 +1,4 @@
-# Data Science in Education
+# Data Science in Education Using R
 
 * [How to Contribute](#Contributing)
 
