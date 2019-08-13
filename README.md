@@ -1,8 +1,6 @@
-# Data Science in Education Book 
+# Data Science in Education
 
-- Check the [planning](/planning/) folder for process- and outline-related information.
-
-- This project started in the #dataedu [Slack channel](https://dataedu.slack.com/) - please get in touch to join!
+* [How to Contribute](#Contributing)
 
 ## The Aims of This Book
 
@@ -23,6 +21,101 @@ And, the reader will be able to:
 * Identify and apply solutions to education data’s unique challenges, such as cleaning datasets and working with private student data 
 * Apply a basic analytic workflow through practice with education datasets
 * Be thoughtful, empathetic, and effective when introducing data science techniques in their education jobs
+
+1. Introduction: Who Are Data Scientists in Education? 
+
+    - The Challenge of Data Science in Education 
+    - Meeting the Challenge
+
+2. How to Use This Book 
+
+    - Read the Book Cover to Cover
+    - Pick a Chapter That is Useful for Your Level of Experience and Start There*
+    - Read Through the Walkthroughs and Run the Code
+    - Mention of why we're using the Tidyverse
+    - Mention of the benefits of keeping R up-to-date, learning to deal with functions that are no longer supported, and proactively writing code so it is easier to update in response to new versions
+
+3. What is Data Science in Education?
+
+    - Example #1: Leading Office Culture Toward a Data-Driven Approach
+    - Example #2: Helping School Districts Plan to Meet Their Goals
+    - Example #3: Doing and Empowering Research On Data Scientists in Education
+
+4. Unique Challenges
+
+    - Challenges common to doing data science in any domain 
+    - Lack of Processes and Procedures 
+    - Few Guidelines From Research and Evaluation
+    - Limited Training and Educational Opportunities 
+    - The Complex and Messy Nature of Educational Data
+    - Ethical and Legal Concerns
+    - Analytic Challenges
+
+5. Foundational Skills: Track One (Getting Started)
+
+    - Downloading R and RStudio
+    - Check That It Worked
+    - Help, I'm Completely New to Using R / RStudio!
+    - Creating Projects
+    - Packages
+    - Installing and Loading Packages
+    - Running Functions from Packages
+
+6. Foundational Skills: Track Two (Welcome to the Tidyverse)
+
+    - Loading Data from Various Sources
+    - Saving Files
+    - Processing Data
+    - Communicating / Sharing Results With R Markdown
+    - Configuring R Studio
+    - Getting Data Into and Out of R
+
+7. Walkthrough #1: Analyzing Gradebook Data Using the Data Science Framework
+
+8. Walkthrough #2: Understanding Student Motivation to Learn Using Multi-Level Modeling
+
+9. Walkthrough #3: Understanding Online Course Motivation with Machine Learning
+
+10. Walkthrough #4: Creating Network Graphs of Simulated Data
+
+    - Add a discussion of use cases for network analysis to our existing social media example
+
+11. Walkthrough #5: Exploring Nationally- and Internationally-Representative Data
+
+12. Walkthrough #6: Looking at Longitudinal Data
+
+13. Solutions for Adapting Data Science Techniques in Education
+
+    - Matching your analytic strengths to the data needs of your organization 
+    - The change process
+    - Understanding the culture of your organization
+    - Building a network
+    - To code or not to code
+    - A practical guide to introducing new analytic techniques
+
+14. Teaching Data Science
+
+    - A Pedagogical Framework for Data Science Education
+
+15. Resources
+
+    - Books
+    - Websites and Web-based Resources
+    - Courses and Communities
+
+16. Learning More
+
+    - Work in the Open
+    - Welcoming Others
+    - Asking For and Receiving Help
+    - Adopting a Growth Mindset
+
+
+# Contributing
+
+- Check the [planning](/planning/) folder for process- and outline-related information.
+
+- This project started in the #dataedu [Slack channel](https://dataedu.slack.com/) - please get in touch to join!
 
 **Git Issue Labels** 
 
