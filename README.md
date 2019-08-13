@@ -22,6 +22,8 @@ And, the reader will be able to:
 * Apply a basic analytic workflow through practice with education datasets
 * Be thoughtful, empathetic, and effective when introducing data science techniques in their education jobs
 
+## Outline
+
 1. Introduction: Who Are Data Scientists in Education? 
 
     - The Challenge of Data Science in Education 
@@ -32,8 +34,6 @@ And, the reader will be able to:
     - Read the Book Cover to Cover
     - Pick a Chapter That is Useful for Your Level of Experience and Start There*
     - Read Through the Walkthroughs and Run the Code
-    - Mention of why we're using the Tidyverse
-    - Mention of the benefits of keeping R up-to-date, learning to deal with functions that are no longer supported, and proactively writing code so it is easier to update in response to new versions
 
 3. What is Data Science in Education?
 
@@ -78,8 +78,6 @@ And, the reader will be able to:
 
 10. Walkthrough #4: Creating Network Graphs of Simulated Data
 
-    - Add a discussion of use cases for network analysis to our existing social media example
-
 11. Walkthrough #5: Exploring Nationally- and Internationally-Representative Data
 
 12. Walkthrough #6: Looking at Longitudinal Data
@@ -109,7 +107,6 @@ And, the reader will be able to:
     - Welcoming Others
     - Asking For and Receiving Help
     - Adopting a Growth Mindset
-
 
 # Contributing
 
