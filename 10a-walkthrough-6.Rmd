@@ -11,16 +11,37 @@ The authors chose to use a publicly available dataset for this walkthrough. Like
 
 # About This Dataset 
 
+You can download these datasets on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee]("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee").
+
 # Preparing the Dataset 
+
+When you are designing an analysis that uses multiple datasets that all have the same structure, you can read in each dataset using one chunk of code. This chunk of code will store each dataset as an element of a list. 
+
+Before doing that, you can explore just one of the datasets briefly to see what you can learn about the dataset's structure. Picking up clues from this initial exploration of one dataset informs how you read in all the datasets at once later on. For example, this first dataset has some headerlines that don't actually contain data: 
 
 ```{r}
 library(tidyverse)
+
+read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv")
 ```
 
 ```{r}
-test <- read_csv("/Users/ryanestrellado/Downloads/bchildcountandedenvironments2017-18.csv", skip = 4)
+read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4)
+```
 
-str(test)
+Storing each dataset as an element in a list starts with storing each dataset's filename as an element of a list: 
+
+```{r}
+filenames <- list.files("10a-walkthrough-6-data", full.names = TRUE)
+
+# A list of filenames and paths
+filenames
+```
+
+```{r}
+all_files <- filenames %>% map(., ~read_csv(., skip = 4))
+
+all_files
 ```
 
 # Cleaning the Dataset 
