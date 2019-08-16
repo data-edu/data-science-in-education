@@ -8,7 +8,9 @@ output: html_document
 # Vocabulary 
 
 Read in
-Aggregate data
+Aggregate data 
+Vector 
+List
 
 # 11.1 Introduction 
 
@@ -39,6 +41,12 @@ read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4
 ```
 
 Using the `skip` argument tells `read_csv` to think of the line containing "Year", "State Name", and so on as the first line. That's why passing `skip = 4` as an argument to `read_csv` gives you a dataset with "Year", "State Name", and so on as variable names. 
+
+Will the `read_csv` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
+
+ - Store a vector of filenames and paths in a list. These paths point to our datasets
+ - Pass the list of filenames as arguments to `read_csv` using `purrr::map`, including `skip = 4` in our `read_csv` call
+ - Examine the new list of datasets to see if the variable names are correct in each
 
 Storing each dataset as an element in a list starts with storing each dataset's filename as an element of a list: 
 
