@@ -1,9 +1,14 @@
 ---
-title: "Walkthrough: Longitudinal Analysis"
+title: "Chapter 11 Walkthrough: Longitudinal Analysis"
 author: 
 date: 
 output: html_document
 ---
+
+# Vocabulary 
+
+Read in
+Aggregate data
 
 # Introduction 
 
@@ -17,7 +22,7 @@ You can download these datasets on the United States Department of Education web
 
 When you are designing an analysis that uses multiple datasets that all have the same structure, you can read in each dataset using one chunk of code. This chunk of code will store each dataset as an element of a list. 
 
-Before doing that, you can explore just one of the datasets briefly to see what you can learn about the dataset's structure. Picking up clues from this initial exploration of one dataset informs how you read in all the datasets at once later on. For example, this first dataset has some headerlines that don't actually contain data: 
+Before doing that, you can explore just one of the datasets briefly to see what you can learn about the dataset's structure. Clues from this initial exploration of one dataset informs how you read in all the datasets at once later on. For example, this first dataset has some lines at the top that don't actually contain data: 
 
 ```{r}
 library(tidyverse)
@@ -25,9 +30,15 @@ library(tidyverse)
 read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv")
 ```
 
+The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actually rows. They're notes the authors left at the top of the dataset to show when the dataset was changed. 
+
+`read_csv` uses the first row as the variable names unless told otherwise, so we need to explicitly tell `read_csv` to skip those lines using the `skip` argument. If we don't, `read_csv` assumes the very first line--the one that says "Extraction Date:"--is the correct row of variable names: 
+
 ```{r}
 read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4)
 ```
+
+Using the `skip` argument tells `read_csv` to think of the line containing "Year", "State Name", and so on as the first line. That's why passing `skip = 4` as an argument to `read_csv` gives you a dataset with "Year", "State Name", and so on as variable names. 
 
 Storing each dataset as an element in a list starts with storing each dataset's filename as an element of a list: 
 
