@@ -20,7 +20,7 @@ The authors chose to use a publicly available dataset for this walkthrough. Like
 
 You can download these datasets on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee]("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee").
 
-# 11.2.1 Reading In the Dataset 
+# 11.2.1 Reading In One Dataset 
 
 When you are designing an analysis that uses multiple datasets that all have the same structure, you can read in each dataset using one chunk of code. This chunk of code will store each dataset as an element of a list. 
 
@@ -34,19 +34,30 @@ read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv")
 
 The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actually rows. They're notes the authors left at the top of the dataset to show when the dataset was changed. 
 
-`read_csv` uses the first row as the variable names unless told otherwise, so we need to explicitly tell `read_csv` to skip those lines using the `skip` argument. If we don't, `read_csv` assumes the very first line--the one that says "Extraction Date:"--is the correct row of variable names: 
+`read_csv` uses the first row as the variable names unless told otherwise, so we need to explicitly tell `read_csv` to skip those lines using the `skip` argument. If we don't, `read_csv` assumes the very first line--the one that says "Extraction Date:"--is the correct row of variable names. That's why calling `read_csv` without the `skip` argument results in a bunch of column names like `X4`. When there's no obvious column name to read in, `read_csv` names them `X[...]` and let's you know in a warning message. 
+
+Try using `skip = 4` in your call to `read_csv`:
 
 ```{r}
 read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4)
 ```
 
-Using the `skip` argument tells `read_csv` to think of the line containing "Year", "State Name", and so on as the first line. That's why passing `skip = 4` as an argument to `read_csv` gives you a dataset with "Year", "State Name", and so on as variable names. 
+The `skip` argument told `read_csv` to think of the line containing "Year", "State Name", and so on as the first line. That's why using `skip = 4` gave you a dataset with "Year", "State Name", and so on as variable names. 
+
+# 11.2.1 Reading In Many Datasets 
 
 Will the `read_csv` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
 
  - Store a vector of filenames and paths in a list. These paths point to our datasets
  - Pass the list of filenames as arguments to `read_csv` using `purrr::map`, including `skip = 4` in our `read_csv` call
  - Examine the new list of datasets to see if the variable names are correct in each
+
+Imagine a widget-making machine that works by acting on raw materials it receives on a conveyer belt. This widget-making machine follows one set of instructions on each of the raw materials it receives. You are the operator of the machine and you design instructions to get a widget out of the raw materials. Your plan might look something like this: 
+
+ - *Raw materials*: a list of filenames and their paths 
+ - *Widget-making machine*: `purrr:map()`
+ - *Widget-making instructions*: `read_csv(path, skip = 4) 
+ - *Expected widgets*: a list of datasets
 
 Storing each dataset as an element in a list starts with storing each dataset's filename as an element of a list: 
 
