@@ -59,18 +59,23 @@ Imagine a widget-making machine that works by acting on raw materials it receive
  - *Widget-making instructions*: `read_csv(path, skip = 4) 
  - *Expected widgets*: a list of datasets
 
-Storing each dataset as an element in a list starts with storing each dataset's filename as an element of a list: 
+Let's create the raw materials first. Use `list.files` to make a list of filenames and their paths and name that list `filenames`: 
 
 ```{r}
+# Get filenames from the data folder 
 filenames <- list.files("10a-walkthrough-6-data", full.names = TRUE)
 
 # A list of filenames and paths
 filenames
 ```
 
+That made a list of six filenames, one for each year's worth of child count data stored in the data folder. Now pass our raw materials, the list called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
+
 ```{r}
+# Pass filenames to map and read_csv
 all_files <- filenames %>% map(., ~read_csv(., skip = 4))
 
+# A list of datasets
 all_files
 ```
 
