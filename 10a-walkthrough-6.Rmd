@@ -69,7 +69,7 @@ filenames <- list.files("10a-walkthrough-6-data", full.names = TRUE)
 filenames
 ```
 
-That made a list of six filenames, one for each year's worth of child count data stored in the data folder. Now pass our raw materials, the list called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
+That made a list of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the list called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
 
 ```{r}
 # Pass filenames to map and read_csv
@@ -77,6 +77,24 @@ all_files <- filenames %>% map(., ~read_csv(., skip = 4))
 
 # A list of datasets
 all_files
+```
+
+It is important here to think ahead. Ultimately we want to combine all the datasets in `all_files` into one dataset using `bind_rows`. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using `map` and `names`: 
+
+```{r}
+all_files %>% map(names)
+```
+
+And we can check the number of columns by using `map` and `ncol`:
+
+```{r}
+all_files %>% map(ncol)
+```
+
+If this is your first time working on publicly available education data, congratulations on finding an extremely common problem! By now you've noticed that not only do the number of columns not match, but the column names are not all the same. This is a problem because we won't be able to combine the datasets into one long one. When we try, `bind_rows` returns a dataets with 100 columns instead of the expected 50. 
+
+```{r}
+bind_rows(all_files)
 ```
 
 # 11.2.2 Cleaning the Dataset 
