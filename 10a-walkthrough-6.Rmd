@@ -99,6 +99,35 @@ bind_rows(all_files)
 
 # 11.2.2 Cleaning the Dataset 
 
+1. Fix the variable names in the 2016 data 
+2. Select the gender-related variables 
+3. Rename the variables 
+4. Combine the datasets 
+5. Tidy the dataset
+
+## Fix the variable names in the 2016 data
+
+```{r}
+filenames
+```
+
+Once know the 2016 dataset is stored in the fifth element of our list, we can pluck it out by using double brackets: 
+
+```{r}
+all_files[[5]]
+```
+
+```{r}
+all_files[[5]] <- read_csv(filenames[[5]], skip = 3)
+```
+
+## Select the gender-related variables 
+
+```{r}
+all_files[[1]] %>% 
+    select_at(vars(Year, contains("State", ignore.case = FALSE), contains("male"))) 
+```
+
 # 11.3 How have Child Counts Changed Over Time? 
 
 # 11.3.1 Transform the Dataset 
