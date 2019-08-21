@@ -123,10 +123,53 @@ all_files[[5]] <- read_csv(filenames[[5]], skip = 3)
 
 ## Select the gender-related variables 
 
+This is a good place to think carefully about which variables we pick. Let's go through each one. 
+
 ```{r}
 all_files[[1]] %>% 
     select_at(vars(Year, contains("State", ignore.case = FALSE), contains("male"))) 
 ```
+
+```{r}
+pick_vars <- function(df) {
+    df %>% 
+        select_at(vars(Year, contains("State", ignore.case = FALSE), contains("male"))) 
+}
+
+all_files <- all_files %>% 
+    map(pick_vars)
+```
+
+## Combine six datasets in a list into one dataset 
+
+When we use `names` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
+
+```{r}
+all_files %>% map(names)
+```
+
+That means that we can now combine all six datasets into one using `bind_rows`. We'll call this newly combined dataset `child_counts`:
+
+```{r}
+child_counts <-  all_files %>% 
+    bind_rows()
+```
+
+Since we know that a) each of our six datasets had six variables and b) our combined dataset also has six variables, we can conclude that all our rows combined together correctly. But let's use `str` to verify: 
+
+```{r}
+str(child_counts)
+```
+
+## Convert classes
+
+```{r}
+child_counts <- child_counts %>% 
+    mutate_at(vars(contains("male")), as.numeric) 
+child_counts
+```
+
+## Explore and address NAS
 
 # 11.3 How have Child Counts Changed Over Time? 
 
