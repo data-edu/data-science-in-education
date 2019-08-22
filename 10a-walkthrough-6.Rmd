@@ -161,12 +161,41 @@ Since we know that a) each of our six datasets had six variables and b) our comb
 str(child_counts)
 ```
 
-## Convert classes
+In the next section we'll be preparing the dataset for visualization and modeling by "tidying" it. When we write code to transfor datasets, we have to repeatedly type the column names so it's useful to change column names to ones with reasonable lengths and without spaces. 
 
 ```{r}
 child_counts <- child_counts %>% 
-    mutate_at(vars(contains("male")), as.numeric) 
+    rename(state = "State Name", 
+           f_3_5 = "Female Age 3 to 5", 
+           m_3_5 = "Male Age 3 to 5", 
+           f_6_21 = "Female Age 6 to 21", 
+           m_6_21 = "Male Age 6 to 21")
+```
+
+## Convert classes
+
+The values in the count columns, `f_3_5` for example, represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to conveniently change the count columns. 
+
+```{r}
+child_counts <- child_counts %>% 
+    mutate_at(vars(f_3_5:m_6_21), as.numeric) 
 child_counts
+```
+
+Changing these count columns from character classes to number classes resulted in two changes. First, the `chr` under these variable names has no changed to `dbl`, short for "double-precision". This lets us know that R recognizes these values as numbers with decimal points. Second, the blank values changed to `NA`. When R sees a character class value like `"4"`, it knows to change it to numeric class `4`. But there is no obvious number represented by a character class like `""`, so it changes it to `NA`: 
+
+```{r}
+# Convert a character to a number 
+as.numeric("4")
+
+# Convert a blank character to number
+as.numeric("")
+```
+
+## Tidy the dataset 
+
+```{r}
+
 ```
 
 ## Explore and address NAS
