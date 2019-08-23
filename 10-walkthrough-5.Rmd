@@ -1,5 +1,5 @@
 ---
-title: "Education Dataset Analysis Pipeline: Walkthrough #5"
+title: "Performing Descriptive Analysis on Aggregate Data"
 output: html_document
 ---
 
@@ -12,41 +12,56 @@ library(here)
 
 ## Introduction
 
-A common situation encountered when using data for analyzing the education sector, particularly for analysts who are not directly working with schools or districts, is the prevalence of aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates or state test proficiency scores by grade and subject.
+A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates or state test proficiency scores by grade and subject.
 
-These datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to use in decision-making. However, these datasets are available to all analysts for gleaning insights about education and can be used for landscape analyses or to supplement other analyses.
+These datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to use to prove causal linkages. However, these datasets can help analysts understand the landscape of needs and opportunities in the field of education through descriptive analysis.
+
+Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is needed to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
+
+Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to improve for the future.
 
 ## Data
 
 There are many publicly available aggregate datasets. On the federal level, examples include:
 
-- [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assements and adjusted cohort graduation rates. These data are school- and district-level.
+- [Common Core of Data (CCD)](https://nces.ed.gov/ccd/), which is the US Department of Education's primary database on public elementary and secondary education.
+
+- [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.
 
 - [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html), which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.
 
-- [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), a nationally representative assessment of educational progress in the United States. These data are national-, state-, and select city-level.
+- [Integrated Postsecondary Education Data System (IPEDS)](https://nces.ed.gov/ipeds/), which is the US Department of Education's primary database on postsecondary education.
+
+- [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), an assessment of educational progress in the United States. Often called the "nation's report card."
+
+There is an immense amount of data available in the education field. Descriptive analysis requires us to be deliberate by honing in on a research or policy question. By honing in on what we're hoping to accomplish, we can distill these datasets into something meaningful.
+
+For the purposes of this walkthrough, we will be looking at NAEP 2017 results. The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years. The data allows us to look across states and time.
 
 ### Import
 
-For the purposes of this walkthrough, we will be looking at NAEP 2017 results. These files, pulled from the [Nation's Report Card](https://www.nationsreportcard.gov/math_2017/nation/achievement?grade=4), are woefully not tidy and instead come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.
+These files are available on the [Nation's Report Card](https://www.nationsreportcard.gov/math_2017/nation/achievement?grade=4); however, they are not tidy and come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.
 
 ```{r}
 naep17 <-
-    readxl::read_xlsx(here::here("data", "naep", "2017_Results_Appendix_Math_State.xlsx"), sheet = 5, skip = 8)
+    readxl::read_xlsx(
+        here::here("data", "naep", "2017_Results_Appendix_Math_State.xlsx"), 
+        sheet = 5, 
+        skip = 8)
 ```
 
 ### Cleaning
 
-Once imported, the dataset contains a column with different states/jurisdiction, columns with the various years and the proficiency rates for each one, and miscellaenous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible. We will remove the columns with significance status, the rows with additional information, and transform the proficiency rates to numeric.
+Once imported, the dataset contains a column with different states/jurisdiction, columns with the various years and the proficiency rates for each one, and miscellaneous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible. We will remove the columns with significance status, the rows with additional information, and transform the proficiency rates to numeric.
 
 ```{r}
-head(naep17)
+str(naep17)
 ```
 
 ```{r}
 naep17_clean <-
     naep17 %>% 
-    select(-dplyr::contains("X")) %>%  # selecting only years allowing accomodations
+    dplyr::select(-dplyr::contains("X")) %>%  # selecting only years allowing accomodations
     slice(-57:-62) %>% # remove rows containing additional information
     mutate_at(vars(2:13), funs(as.numeric(.)/100)) %>% # transforming proficiency rates to numeric decimals
     select(-2:-4) %>% # years allowing accomodations
@@ -56,6 +71,8 @@ naep17_clean <-
 ```
 
 ## Analysis
+
+Now that we have our clean dataset, we can proceed to 
 
 ### Discovering Distributions
 
@@ -77,5 +94,3 @@ naep17_clean <-
 
 Loeb, S., Dynarski, S., McFarland, D., Morris, P., Reardon, S., & Reber, S. (2017). [Descriptive analysis in education: A guide for researchers.](https://ies.ed.gov/ncee/pubs/20174023/pdf/20174023.pdf) (NCEE 2017–4023). Washington, DC: U.S. Department
 of Education, Institute of Education Sciences, National Center for Education Evaluation and Regional Assistance. 
-
-
