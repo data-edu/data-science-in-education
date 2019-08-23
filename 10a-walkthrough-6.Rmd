@@ -100,9 +100,10 @@ bind_rows(all_files)
 # 11.2.2 Cleaning the Dataset 
 
 1. Fix the variable names in the 2016 data 
-2. Select the gender-related variables 
+2. Select variables 
 3. Rename the variables 
 4. Combine the datasets 
+1. Filter for the desired disabilities and age groups
 5. Tidy the dataset
 
 ## Fix the variable names in the 2016 data
@@ -121,19 +122,19 @@ all_files[[5]]
 all_files[[5]] <- read_csv(filenames[[5]], skip = 3)
 ```
 
-## Select the gender-related variables 
+## Select variables 
 
-This is a good place to think carefully about which variables we pick. Let's go through each one. 
+This is a good place to think carefully about which variables we pick. Let's go through each one. Our analytic questions are about gender so we'll pick those. We'll need to filter later by disability category and program location so we'll pick those later. We'll also hang on to state and reporting year for comparisons.
 
 ```{r}
 all_files[[1]] %>% 
-    select_at(vars(Year, contains("State", ignore.case = FALSE), contains("male"))) 
+    select_at(vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))) 
 ```
 
 ```{r}
 pick_vars <- function(df) {
     df %>% 
-        select_at(vars(Year, contains("State", ignore.case = FALSE), contains("male"))) 
+        select_at(vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))) 
 }
 
 all_files <- all_files %>% 
@@ -155,10 +156,18 @@ child_counts <-  all_files %>%
     bind_rows()
 ```
 
-Since we know that a) each of our six datasets had six variables and b) our combined dataset also has six variables, we can conclude that all our rows combined together correctly. But let's use `str` to verify: 
+Since we know that a) each of our six datasets had eight variables and b) our combined dataset also has eight variables, we can conclude that all our rows combined together correctly. But let's use `str` to verify: 
 
 ```{r}
 str(child_counts)
+```
+
+## Filter for the desired disabilities and age groups
+
+```{r}
+child_counts <- child_counts %>% 
+    filter(`SEA Disability Category` == "All Disabilities", 
+           `SEA Education Environment` %in% c("Total, Age 3-5", "Total, Age 6-21")) 
 ```
 
 In the next section we'll be preparing the dataset for visualization and modeling by "tidying" it. When we write code to transfor datasets, we have to repeatedly type the column names so it's useful to change column names to ones with reasonable lengths and without spaces. 
@@ -170,6 +179,13 @@ child_counts <- child_counts %>%
            m_3_5 = "Male Age 3 to 5", 
            f_6_21 = "Female Age 6 to 21", 
            m_6_21 = "Male Age 6 to 21")
+```
+
+## Clean state names
+
+```{r}
+child_counts <- child_counts %>% 
+    mutate(state = tolower(state)) 
 ```
 
 ## Convert classes
@@ -195,7 +211,8 @@ as.numeric("")
 ## Tidy the dataset 
 
 ```{r}
-
+test <- child_counts %>% 
+    gather(gender, students, f_3_5:m_6_21)
 ```
 
 ## Explore and address NAS
