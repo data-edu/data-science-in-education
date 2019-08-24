@@ -174,7 +174,10 @@ In the next section we'll be preparing the dataset for visualization and modelin
 
 ```{r}
 child_counts <- child_counts %>% 
-    rename(state = "State Name", 
+    rename(year = Year,
+           state = "State Name", 
+           age = "SEA Education Environment",
+           disability = "SEA Disability Category", 
            f_3_5 = "Female Age 3 to 5", 
            m_3_5 = "Male Age 3 to 5", 
            f_6_21 = "Female Age 6 to 21", 
@@ -188,13 +191,25 @@ child_counts <- child_counts %>%
     mutate(state = tolower(state)) 
 ```
 
+```{r}
+child_counts <- child_counts %>% 
+    gather(gender, total, f_3_5:m_6_21) %>% 
+    mutate(gender = case_when(
+        gender == "f_3_5" ~ "f", 
+        gender == "m_3_5" ~ "m", 
+        gender == "f_6_21" ~ "m", 
+        gender == "m_6_21" ~ "m", 
+        TRUE ~ as.character(gender)
+    ))
+```
+
 ## Convert classes
 
 The values in the count columns, `f_3_5` for example, represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to conveniently change the count columns. 
 
 ```{r}
 child_counts <- child_counts %>% 
-    mutate_at(vars(f_3_5:m_6_21), as.numeric) 
+    mutate(total = as.numeric(total)) 
 child_counts
 ```
 
