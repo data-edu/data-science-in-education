@@ -78,7 +78,7 @@ And, the reader will be able to:
 
 10. Walkthrough #4: Creating Network Graphs of Simulated Data
 
-11. Walkthrough #5: Performing Descriptive Analysis on Aggregate Data
+11. Walkthrough #5: Exploring Nationally- and Internationally-Representative Data
 
 12. Walkthrough #6: Looking at Longitudinal Data
 
