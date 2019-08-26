@@ -273,7 +273,7 @@ child_counts <- child_counts %>%
 
 The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to conveniently change the count columns. 
 
-```{r}
+```{r convert to numeric}
 child_counts <- child_counts %>% 
     mutate(total = as.numeric(total)) 
 child_counts
@@ -287,6 +287,13 @@ as.numeric("4")
 
 # Convert a blank character to number
 as.numeric("")
+```
+
+Similarly, the variable `year` needs to be changed from the character format to the date format. Doing so will make sure R treats this variable like a point in time when we plot our dataset. The package `lubridate` has a handy function called `ymd` that can help us. We just have to use the `truncated` argument to let R know we don't have a month and date to convert. 
+
+```{r convert date}
+child_counts <- child_counts %>% 
+    mutate(year = ymd(year, truncated = 2))
 ```
 
 ## Explore and address NAs
@@ -307,19 +314,23 @@ We can simplify our dataset by removing these rows, leaving us with one row for 
 
 ... asscoiated with a state and reporting year: 
 
-```{r}
+```{r remove NAs}
 child_counts <- child_counts %>% 
     filter(!is.na(total)) 
 ```
 
 We can verify that we have the four rows we want per year and state when we do our sort again: 
 
-```{r}
+```{r verify rows}
 child_counts %>% 
     arrange(year, state, gender)
 ```
 
 # 11.3 How have Child Counts Changed Over Time? 
+
+```{r}
+child_counts
+```
 
 # 11.3.1 Transform the Dataset 
 
