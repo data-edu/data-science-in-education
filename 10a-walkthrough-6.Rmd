@@ -292,6 +292,8 @@ as.numeric("")
 Similarly, the variable `year` needs to be changed from the character format to the date format. Doing so will make sure R treats this variable like a point in time when we plot our dataset. The package `lubridate` has a handy function called `ymd` that can help us. We just have to use the `truncated` argument to let R know we don't have a month and date to convert. 
 
 ```{r convert date}
+library(lubridate)
+
 child_counts <- child_counts %>% 
     mutate(year = ymd(year, truncated = 2))
 ```
@@ -328,13 +330,19 @@ child_counts %>%
 
 # 11.3 How have Child Counts Changed Over Time? 
 
-```{r}
-child_counts
+# 11.3.2 Visualize the Dataset  
+
+```{r filter most populated}
+high_pop <- child_counts %>% 
+    filter(state %in% c("california", "texas", "new york", "florida", "illinois"))
 ```
 
-# 11.3.1 Transform the Dataset 
-
-# 11.3.2 Visualize the Dataset  
+```{r}
+high_pop %>% 
+    filter(gender == "f", state == "california") %>%
+    ggplot(aes(x = year, y = total, color = state)) + 
+    geom_freqpoly(stat = "identity")
+```
 
 # 11.3.3 Model the Dataset 
 
