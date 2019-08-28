@@ -339,12 +339,45 @@ high_pop <- child_counts %>%
 
 ```{r}
 high_pop %>% 
-    filter(gender == "f", state == "california") %>%
+    filter(gender == "f", age == "Total, Age 6-21") %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity")
 ```
 
+```{r}
+high_pop %>% 
+    group_by(year, state) %>% 
+    summarise(n = sum(total)) %>% 
+    ggplot(aes(x = year, y = n, color = state)) + 
+    geom_freqpoly(stat = "identity")
+```
+
+```{r}
+high_pop %>% 
+    group_by(year, state) %>% 
+    summarise(n = sum(total)) %>% 
+    ggplot(aes(x = state, y = n)) + 
+    geom_boxplot()
+```
+
+```{r}
+high_pop %>% 
+    filter(age == "Total, Age 6-21") %>% 
+    spread(gender, total) %>% 
+    mutate(ratio = m / f) %>%
+    ggplot(aes(x = year, y = ratio, color = state)) + 
+    geom_freqpoly(stat = "identity") + 
+    labs(title = "Male student to female student ratio over time", 
+         subtitle = "Ages 6-21")
+```
+
 # 11.3.3 Model the Dataset 
+
+Model differences in identification by gender: 
+
+```{r}
+high_pop
+```
 
 # 11.4 Ask More Questions  
 
