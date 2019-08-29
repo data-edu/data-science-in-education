@@ -372,7 +372,18 @@ high_pop %>%
 ```
 
 ```{r plot female students to male students}
+child_counts %>% 
+    filter(age == "Total, Age 6-21") %>%
+    spread(gender, total) %>% 
+ggplot(aes(x = f, y = m)) + 
+    geom_point(size = 3, alpha = .5)
+```
 
+```{r where does the gap start}
+child_counts %>% 
+    filter(age == "Total, Age 6-21") %>%
+    spread(gender, total) %>% 
+    filter(f < 500000)
 ```
 
 # 11.3.3 Model the Dataset 
