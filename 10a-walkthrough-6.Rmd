@@ -337,14 +337,14 @@ high_pop <- child_counts %>%
     filter(state %in% c("california", "texas", "new york", "florida", "illinois"))
 ```
 
-```{r}
+```{r total female students over time}
 high_pop %>% 
     filter(gender == "f", age == "Total, Age 6-21") %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity")
 ```
 
-```{r}
+```{r total students over time }
 high_pop %>% 
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
@@ -352,7 +352,7 @@ high_pop %>%
     geom_freqpoly(stat = "identity")
 ```
 
-```{r}
+```{r median total per state}
 high_pop %>% 
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
@@ -360,7 +360,7 @@ high_pop %>%
     geom_boxplot()
 ```
 
-```{r}
+```{r male to female ratio over time }
 high_pop %>% 
     filter(age == "Total, Age 6-21") %>% 
     spread(gender, total) %>% 
@@ -371,12 +371,31 @@ high_pop %>%
          subtitle = "Ages 6-21")
 ```
 
+```{r plot female students to male students}
+
+```
+
 # 11.3.3 Model the Dataset 
 
 Model differences in identification by gender: 
 
-```{r}
-high_pop
+```{r make model data}
+model_data <- child_counts %>% 
+    filter(age == "Total, Age 6-21") %>% 
+    mutate(year = as.factor(year(year))) %>% 
+    spread(gender, total) %>% 
+    # Compute male student to female student ratio 
+    mutate(ratio = m / f) %>% 
+    select(-c(age, disability))
+```
+
+```{r check factor sample sizes}
+model_data %>% count(year)
+```
+
+```{r fit model for year predicting ratio }
+ratio_year <- lm(ratio ~ year, data = model_data)
+summary(ratio_year)
 ```
 
 # 11.4 Ask More Questions  
