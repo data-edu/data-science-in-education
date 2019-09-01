@@ -10,15 +10,21 @@ library(tidyverse)
 library(here)
 ```
 
-## Introduction
+## Introduction to Aggregate Data
 
-A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates or state test proficiency scores by grade and subject.
+A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or averaged survey responses.
 
-These datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to use to prove causal linkages. However, these datasets can help analysts understand the landscape of needs and opportunities in the field of education through descriptive analysis.
+Aggregated datasets are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state's department of education website for anybody to download and use.
 
-Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is needed to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
+For education data practicioners, these reports and datasets can be analyzed to address questions related to their field of interest. However, publicly available, aggregate datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlyiing issues or making causal statements.
 
-Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to improve for the future.
+In this chapter, we will walk through how running descriptive analysis on a publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is used to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
+
+Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.
+
+### Disaggregating Aggregated Data
+
+
 
 ## Data
 
@@ -34,6 +40,12 @@ There are many publicly available aggregate datasets. On the federal level, exam
 
 - [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), an assessment of educational progress in the United States. Often called the "nation's report card." The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.
 
+On the state and district level, examples include:
+
+- [California Department of Education](https://www.cde.ca.gov/ds/)
+
+- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data)
+
 ## Data Selection and Research Questions
 
 There is an immense amount of data available in the education field. Descriptive analysis requires us to be deliberate by honing in on a research or policy question. By honing in on what we're hoping to accomplish, we can distill these datasets into something meaningful.
@@ -48,6 +60,8 @@ For the purposes of this walkthrough, we will be looking at 8th grade Math NAEP 
 ### Import
 
 These files are available on the [Nation's Report Card](https://www.nationsreportcard.gov/); however, they are not tidy and come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.
+
+* 
 
 ```{r, echo = F}
 naep17 <-
@@ -78,7 +92,7 @@ naep17_tidy <-
     rename(race = race_ethnicity_used_to_report_trends_school_reported) # shortening name
 ```
 
-We want to make sure our data is as complete and accurate as possible. We can use `groupby()` to see where our missing values are by jurisdiction or subgroup - or both! Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
+We want to make sure our data is as complete and accurate as possible. We can use `group_by()` to see where our missing values are by jurisdiction or subgroup - or both! Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
 
 ```{r}
 naep17_tidy %>% # see missing values by jurisdiction
@@ -107,6 +121,20 @@ naep17_tidy %>%
               sd = sd(at_or_above_proficient_clean, na.rm = T))
 ```
 
+### Making Comparisons
+
+#### Defining the comparison
+
+> An important determination is whether our data _can_ be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It may be up to the analyst to create constructs that are comparable.
+
+Now that we understand the distribution and variance within the groups in our data, we can start to answer our first research question:
+
+* Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?
+
+We must consider what 'difference' means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we'll take a look at difference of average proficiency rates becasue we want to see how this varies by geography, but this might not answer your research question depending on your context.
+
+#### Communicating the comparison
+
 Although a table is a convenient way of demonstrating a lot of information, it requires a lot of parsing for readers. Data visualization is another manner in which we can quickly communicate research findings. Data visualization can also display patterns or issues with the data.
 
 Generally, we want to make sure our visualizations are functional, familiar, and tell our message clearly and directly. Given our audience (you!), we decided to showcase the measures of central tendancy using boxplots.
@@ -121,19 +149,10 @@ naep_race_plot <-
 naep_race_plot
 ```
 
-
-### Making Comparisons
-
-Now that we understand the distribution and variance within the groups in our data, we can compare these datapoints.
-
-> An important determination is whether our data _can_ be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It may be up to the analyst to create constructs that are comparable.
-
-We can start to answer our first research question:
-
-* Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?
+## Ranking
 
 
-## Creating Categories
+## Differences in Group
 
 
 
