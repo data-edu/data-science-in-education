@@ -33,7 +33,7 @@ Disaggregated data is essential in identifying where solutions are needed to sol
 
 ## Data
 
-There are many publicly available aggregate datasets. On the international level, perhaps the most well known is:
+There are many education-related, publicly available aggregate datasets. On the international level, perhaps the most well known is:
 
 - [Programme for International Student Assessment (PISA)](http://www.oecd.org/pisa/), which measures 15-year-old school pupils' scholastic performance on mathematics, science, and reading.
 
@@ -94,7 +94,7 @@ The dataset contains a column with year, states/jurisdiction, race/ethnicity, an
 naep17_tidy <-
     naep17 %>%
     janitor::clean_names() %>% 
-    dplyr::slice(-319:-342) %>% # remove rows containing additional information
+    dplyr::slice(-319:-342) # remove rows containing additional information
     
 colnames(naep17_tidy)
 ```
@@ -111,12 +111,26 @@ naep17_tidy <-
     naep17_tidy %>%
     dplyr::mutate(at_or_above_proficient_clean =  stringr::str_replace(at_or_above_proficient, '\\*', '')) %>% # create a new column without *
     dplyr::mutate_at(vars(at_or_above_proficient_clean),
-              funs(as.numeric(.)/100)) %>% # transforming proficiency rates to numeric decimals
+              funs(as.numeric(.)/100)) # transforming proficiency rates to numeric decimals
+```
+
+Finally, let's make the dataset as tidy as possible.
+
+- We use `select()` to remove the redundant proficiency column.
+- We use `rename()` to shorten the subgroup column name.
+
+```{r}
+naep17_tidy <-
+    naep17_tidy %>%
     dplyr::select(-at_or_above_proficient) %>% # removing original proficiency columns
     dplyr::rename(race = race_ethnicity_used_to_report_trends_school_reported) # shortening name
 ```
 
-We want to make sure our data is as complete and accurate as possible. We can use `group_by()` to see where our missing values are by jurisdiction or subgroup - or both! Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
+### Looking at missing data
+
+We want to make sure our data is as complete and accurate as possible. We can use `group_by()` to see where our missing values are by jurisdiction or subgroup - or both!
+
+Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
 
 ```{r}
 naep17_tidy %>% # see missing values by jurisdiction
@@ -125,24 +139,39 @@ naep17_tidy %>% # see missing values by jurisdiction
     arrange(desc(sumNA))
 ```
 
+Grouping by race/ethnicity, we see that American Indian/Alaska Native is the subgroup with the most missing data. This makes sense as American Indians and Alaska Natives make up a small percentage of the population and would be suppressed in many states. If your analysis wants to focus on this subgroup, you must find additional sources of information.
+
+```{r}
+naep17_tidy %>% # see missing values by jurisdiction
+    group_by(race) %>%
+    summarise(sumNA = sum(is.na(at_or_above_proficient_clean))) %>%
+    arrange(desc(sumNA))
+```
+
 ## Analysis
 
-Now that we have our clean dataset, we can start answering our research questions for our descriptive analysis.
+Now that we have our clean dataset, we can start answering our research questions for our descriptive analysis. 
 
 ### Discovering Distributions
 
-We can begin our analysis looking at measures of central tendancy and variation. They can be straightforward but compelling ways to describe measures related to our research questions. 
+We can begin our analysis looking at measures of central tendancy and variation. Especially if you are not familiar with the dataset, these measures can give you a sense of the range, variation, etc. of the data you are looking at. They can help guide our research questions into areas we find compelling.
+
+Let's look at only national proficiency rates across all races.
 
 ```{r}
 naep17_tidy %>% 
-    filter(jurisdiction != "National") %>% 
-    group_by(race) %>% 
+    filter(jurisdiction == "National") %>% 
     summarize(min = min(at_or_above_proficient_clean, na.rm = T),
               q1 = quantile(at_or_above_proficient_clean, 0.25, na.rm = T),
               mean = mean(at_or_above_proficient_clean, na.rm = T),
               q3 = quantile(at_or_above_proficient_clean, 0.75, na.rm = T),
               max = max(at_or_above_proficient_clean, na.rm = T),
               sd = sd(at_or_above_proficient_clean, na.rm = T))
+```
+
+```{r}
+
+
 ```
 
 ### Making Comparisons
@@ -156,6 +185,18 @@ Now that we understand the distribution and variance within the groups in our da
 * Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?
 
 We must consider what 'difference' means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we'll take a look at difference of average proficiency rates becasue we want to see how this varies by geography, but this might not answer your research question depending on your context.
+
+```{r}
+naep17_tidy %>% 
+    filter(jurisdiction != "National") %>% 
+    group_by(race) %>% 
+    summarize(min = min(at_or_above_proficient_clean, na.rm = T),
+              q1 = quantile(at_or_above_proficient_clean, 0.25, na.rm = T),
+              mean = mean(at_or_above_proficient_clean, na.rm = T),
+              q3 = quantile(at_or_above_proficient_clean, 0.75, na.rm = T),
+              max = max(at_or_above_proficient_clean, na.rm = T),
+              sd = sd(at_or_above_proficient_clean, na.rm = T))
+```
 
 #### Communicating the comparison
 
