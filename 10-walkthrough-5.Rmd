@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 
 library(tidyverse)
 library(here)
+library(readxl)
 ```
 
 ## Introduction to Aggregate Data
@@ -16,19 +17,27 @@ A common situation encountered when using data for analyzing the education secto
 
 Aggregated datasets are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state's department of education website for anybody to download and use.
 
-For education data practicioners, these reports and datasets can be analyzed to address questions related to their field of interest. However, publicly available, aggregate datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlyiing issues or making causal statements.
+Federal and international education datasets provide additional context for evaluating education systems. In the US, some federal datasets aim to consolidate important metrics from all states. This can be quite useful because each state has its own repository of data and to go through each state to download a particular metric is a significant effort. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less useable. The federal government also funds assessments and surveys which are disseminated to the public.
 
-In this chapter, we will walk through how running descriptive analysis on a publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is used to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
+For education data practicioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlyiing issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.
+
+In this chapter, we will walk through how running descriptive analysis on a national publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is used to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
 
 Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.
 
 ### Disaggregating Aggregated Data
 
+Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components. Common disaggregations for students include race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).
 
+Disaggregated data is essential in identifying where solutions are needed to solve disparities in opportunity, resources, and treatment. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing. Disaggregated data allows us to monitor equity in educational resources and outcomes.
 
 ## Data
 
-There are many publicly available aggregate datasets. On the federal level, examples include:
+There are many publicly available aggregate datasets. On the international level, perhaps the most well known is:
+
+- [Programme for International Student Assessment (PISA)](http://www.oecd.org/pisa/), which measures 15-year-old school pupils' scholastic performance on mathematics, science, and reading.
+
+On the federal level, examples include:
 
 - [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html), which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.
 
@@ -61,7 +70,9 @@ For the purposes of this walkthrough, we will be looking at 8th grade Math NAEP 
 
 These files are available on the [Nation's Report Card](https://www.nationsreportcard.gov/); however, they are not tidy and come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.
 
-* 
+- `readxl` allows us to import .xlsx files.
+- The `skip` argument allows us to not read in the first 8 lines (as they are unnecessary).
+- `str()` gives us a sneak peak at what the data looks like.
 
 ```{r, echo = F}
 naep17 <-
@@ -74,22 +85,35 @@ str(naep17) # notice the proficiency rates are imported as characters
 
 ### Cleaning
 
-The dataset contains a column with year, states/jurisdiction, race/ethnicity, and the proficiency rates for each one, and miscellaneous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible. We will remove the rows with additional information and transform the proficiency rates to numeric.
+The dataset contains a column with year, states/jurisdiction, race/ethnicity, and the proficiency rates for each one, and miscellaneous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible.
 
-The dataset denotes statistical significance with an asterisk. If we change the proficiency column to numeric without cleaning this up, all those datapoints will be transformed to NA. We will need to get rid of them before transforming the column to numeric.
-
-Note that there are states that suppress values for ethnicity/races whose populations are too small to report. These will show up as NA in our tidy dataset.
+- `janitor` is an excellent package with many handy functions, including `clean_names()` that transforms column names to R-friendly formats (such as removing spaces, making every word lowercase).
+- `dplyr::slice()` selects rows by positions. Because we want to remove rows, the row numbers are negative. Another way of writing this line is `dplyr::slice(1:318)`. *Caution:* all rows selected (either to keep or remove) must have the same sign (either all positive or all negative).
 
 ```{r, warning = FALSE}
 naep17_tidy <-
     naep17 %>%
     janitor::clean_names() %>% 
     dplyr::slice(-319:-342) %>% # remove rows containing additional information
-    mutate(at_or_above_proficient_clean =  stringr::str_replace(at_or_above_proficient, '\\*', '')) %>% # create a new column without *
-    mutate_at(vars(at_or_above_proficient_clean),
+    
+colnames(naep17_tidy)
+```
+
+The dataset denotes statistical significance in column `at_or_above_proficient` with an asterisk next to the percentage (e.g., 44*). If we change this column to numeric without cleaning up the asterisks, all those datapoints will be transformed to `NA` as it will be converting a character to a numeric. We will need to get rid of them first.
+
+Note that there are states that suppress proficiency rates for ethnicity/races whose populations are too small to report, denoted by special characters (‡). These will show up as `NA` when we change the column to numeric.
+
+- We 'mutate' the proficiency column by removing astericks in the string (`str_replace()`).
+- Now that the astericks are removed, we can transform the column to numeric using `as.numeric.` Dividing by 100 gives us a percentage.
+
+```{r}
+naep17_tidy <-
+    naep17_tidy %>%
+    dplyr::mutate(at_or_above_proficient_clean =  stringr::str_replace(at_or_above_proficient, '\\*', '')) %>% # create a new column without *
+    dplyr::mutate_at(vars(at_or_above_proficient_clean),
               funs(as.numeric(.)/100)) %>% # transforming proficiency rates to numeric decimals
-    select(-at_or_above_proficient) %>% # removing original proficiency columns
-    rename(race = race_ethnicity_used_to_report_trends_school_reported) # shortening name
+    dplyr::select(-at_or_above_proficient) %>% # removing original proficiency columns
+    dplyr::rename(race = race_ethnicity_used_to_report_trends_school_reported) # shortening name
 ```
 
 We want to make sure our data is as complete and accurate as possible. We can use `group_by()` to see where our missing values are by jurisdiction or subgroup - or both! Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
@@ -166,3 +190,6 @@ Another example of descriptive analysis is network analysis, covered in Walkthro
 
 Loeb, S., Dynarski, S., McFarland, D., Morris, P., Reardon, S., & Reber, S. (2017). [Descriptive analysis in education: A guide for researchers.](https://ies.ed.gov/ncee/pubs/20174023/pdf/20174023.pdf) (NCEE 2017–4023). Washington, DC: U.S. Department
 of Education, Institute of Education Sciences, National Center for Education Evaluation and Regional Assistance. 
+
+National Forum on Education Statistics. (2016). [Forum Guide to Collecting and Using Disaggregated Data on Racial/Ethnic
+Subgroups.](https://nces.ed.gov/pubs2017/NFES2017017.pdf) (NFES 2017-017). U.S. Department of Education. Washington, DC: National Center for Education Statistics.
