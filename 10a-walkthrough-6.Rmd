@@ -64,7 +64,7 @@ Imagine a widget-making machine that works by acting on raw materials it receive
 
 Let's create the raw materials first. Use `list.files` to make a list of filenames and their paths and name that list `filenames`: 
 
-```{r}
+```{r get filenames}
 # Get filenames from the data folder 
 filenames <- list.files("10a-walkthrough-6-data", full.names = TRUE)
 
@@ -74,7 +74,7 @@ filenames
 
 That made a list of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the list called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
 
-```{r}
+```{r read list of CSVs}
 # Pass filenames to map and read_csv
 all_files <- filenames %>% map(., ~read_csv(., skip = 4))
 
@@ -84,8 +84,18 @@ all_files
 
 It is important here to think ahead. Ultimately we want to combine all the datasets in `all_files` into one dataset using `bind_rows`. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using `map` and `names`: 
 
-```{r}
+```{r include=FALSE}
 all_files %>% map(names)
+```
+
+We can use `identical` to test the variables of two datasets. For example, we can show the variable names of the first and datasets don't match, but the names from the third and second do match. 
+
+```{r check names}
+# Variables of first and second dataset don't match
+identical(names(all_files[[1]]), names(all_files[[2]]))
+
+# Variables of third and second files match
+identical(names(all_files[[3]]), names(all_files[[2]]))
 ```
 
 And we can check the number of columns by using `map` and `ncol`:
@@ -96,7 +106,7 @@ all_files %>% map(ncol)
 
 If this is your first time working on education data, congratulations on finding an extremely common problem! By now you've not only noticed that the number of columns don't match across datasets, but the column names don't match either. This is a problem because we won't be able to combine the datasets into one long one. When we try, `bind_rows` returns a dataets with 100 columns instead of the expected 50. 
 
-```{r}
+```{r combine datasets}
 bind_rows(all_files)
 ```
 
@@ -273,7 +283,7 @@ child_counts <- child_counts %>%
 
 The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to conveniently change the count columns. 
 
-```{r}
+```{r convert to numeric}
 child_counts <- child_counts %>% 
     mutate(total = as.numeric(total)) 
 child_counts
@@ -287,6 +297,15 @@ as.numeric("4")
 
 # Convert a blank character to number
 as.numeric("")
+```
+
+Similarly, the variable `year` needs to be changed from the character format to the date format. Doing so will make sure R treats this variable like a point in time when we plot our dataset. The package `lubridate` has a handy function called `ymd` that can help us. We just have to use the `truncated` argument to let R know we don't have a month and date to convert. 
+
+```{r convert date}
+library(lubridate)
+
+child_counts <- child_counts %>% 
+    mutate(year = ymd(year, truncated = 2))
 ```
 
 ## Explore and address NAs
@@ -307,25 +326,137 @@ We can simplify our dataset by removing these rows, leaving us with one row for 
 
 ... asscoiated with a state and reporting year: 
 
-```{r}
+```{r remove NAs}
 child_counts <- child_counts %>% 
     filter(!is.na(total)) 
 ```
 
 We can verify that we have the four rows we want per year and state when we do our sort again: 
 
-```{r}
+```{r verify rows}
 child_counts %>% 
     arrange(year, state, gender)
 ```
 
 # 11.3 How have Child Counts Changed Over Time? 
 
-# 11.3.1 Transform the Dataset 
-
 # 11.3.2 Visualize the Dataset  
 
+```{r filter most populated}
+high_pop <- child_counts %>% 
+    filter(state %in% c("california", "texas", "new york", "florida", "illinois"))
+```
+
+```{r total female students over time}
+high_pop %>% 
+    filter(gender == "f", age == "Total, Age 6-21") %>%
+    ggplot(aes(x = year, y = total, color = state)) + 
+    geom_freqpoly(stat = "identity")
+```
+
+```{r total students over time }
+high_pop %>% 
+    group_by(year, state) %>% 
+    summarise(n = sum(total)) %>% 
+    ggplot(aes(x = year, y = n, color = state)) + 
+    geom_freqpoly(stat = "identity")
+```
+
+```{r median total per state}
+high_pop %>% 
+    group_by(year, state) %>% 
+    summarise(n = sum(total)) %>% 
+    ggplot(aes(x = state, y = n)) + 
+    geom_boxplot()
+```
+
+```{r male to female ratio over time }
+high_pop %>% 
+    filter(age == "Total, Age 6-21") %>% 
+    spread(gender, total) %>% 
+    mutate(ratio = m / f) %>%
+    ggplot(aes(x = year, y = ratio, color = state)) + 
+    geom_freqpoly(stat = "identity") + 
+    labs(title = "Male student to female student ratio over time", 
+         subtitle = "Ages 6-21")
+```
+
+```{r plot female students to male students}
+child_counts %>% 
+    filter(age == "Total, Age 6-21") %>%
+    spread(gender, total) %>% 
+ggplot(aes(x = f, y = m)) + 
+    geom_point(size = 3, alpha = .5) + 
+    labs(title = "Comparison of female students to male students in special education", 
+         subtitle = "Counts of students in each state, ages 6-21", 
+         x = "Female students", 
+         y = "Male students", 
+         caption = "Data: US Dept of Education"
+    )
+```
+
+```{r where does the gap start}
+child_counts %>% 
+    filter(age == "Total, Age 6-21") %>%
+    spread(gender, total) %>% 
+    filter(f > 500000) %>%
+    count(state)
+```
+
+```{r plot without outliers}
+child_counts %>% 
+    filter(age == "Total, Age 6-21") %>%
+    spread(gender, total) %>% 
+    filter(f < 500000) %>%
+    ggplot(aes(x = f, y = m)) + 
+    geom_point(size = 3, alpha = .5) + 
+    labs(title = "Comparison of female students to male students in special education", 
+         subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states", 
+         x = "Female students", 
+         y = "Male students", 
+         caption = "Data: US Dept of Education")
+```
+
 # 11.3.3 Model the Dataset 
+
+Model differences in identification by gender: 
+
+```{r make model data}
+model_data <- child_counts %>% 
+    filter(age == "Total, Age 6-21") %>% 
+    mutate(year = as.factor(year(year))) %>% 
+    spread(gender, total) %>% 
+    # Exclude outliers
+    filter(f < 500000) %>% 
+    # Compute male student to female student ratio 
+    mutate(ratio = m / f) %>% 
+    select(-c(age, disability))
+```
+
+```{r check factor sample sizes}
+model_data %>% count(year)
+```
+
+```{r fit model for year predicting ratio }
+ratio_year <- lm(ratio ~ year, data = model_data)
+summary(ratio_year)
+```
+
+```{r average female to male ratio}
+summary(model_data)
+```
+
+```{r visualize female to male ratio}
+model_data %>% 
+    gather(gender, students, c(f, m)) %>%
+    ggplot(aes(x = year, y = students, color = gender)) + 
+    geom_boxplot() + 
+    labs(title = "Median male and female student counts in special education", 
+         subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
+         x = "", 
+         y = "", 
+         caption = "Data: US Dept of Education")
+```
 
 # 11.4 Ask More Questions  
 
