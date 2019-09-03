@@ -344,7 +344,7 @@ In the last section we focused on importing our dataset. In this section, we wil
 
 # 11.3.2 Visualize the Dataset  
 
-Plotting this many states can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `min_rank()` to help us learn which states have the highest average count of special education students: 
+Plotting this many states can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest average count of special education students: 
 
 ```{r}
 child_counts %>% 
@@ -353,22 +353,29 @@ child_counts %>%
     top_n(6, mean_count)
 ```
 
-For reasons we will see in a later visualization, we are going to exclude outlying areas and freely associated states. 
+These six states have the highest mean count of students in special education over the six years we are examining. For reasons we will see in a later visualization, we are going to exclude outlying areas and freely associated states. That leaves us us with five states: California, Florida, New York, Pennsylvania, and Texas. We can get rid of all other states but these by using `filter()`. We'll call this new dataset `high_count`:
 
 ```{r filter most populated}
-high_pop <- child_counts %>% 
+high_count <- child_counts %>% 
     filter(state %in% c("california", "florida", "new york", "pennsylvania", "texas"))
 ```
 
+Now we can use `high_count` to do some initial exploration. Our analysis is about comparing counts of male and female students in special education, but with visualization is a great way to explore related curiosities. You may surprise yourself with what you find exploring. You may come up with more interesting hypotheses, find that your initial hypothesis requires more data transformation, or find interesting subsets of the data (as we did here with our freely associated states value in the `state` column). You can let your curiosity and intuition drive this part of the analysis. In that spirit, we'll visualize specific genders and age groups. Feel free to try these, but also try the other student groups for practice and more exploration.
+
 ```{r total female students over time}
-high_pop %>% 
+high_count %>% 
     filter(gender == "f", age == "Total, Age 6-21") %>%
     ggplot(aes(x = year, y = total, color = state)) + 
-    geom_freqpoly(stat = "identity")
+    geom_freqpoly(stat = "identity") +
+    labs(title = "Count of female students in special education over time", 
+         subtitle = "Ages 6-21. Selected states in the US", 
+         x = "", 
+         y = "Total students", 
+         caption = "Data: US Dept of Education")
 ```
 
 ```{r total students over time }
-high_pop %>% 
+high_count %>% 
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = year, y = n, color = state)) + 
@@ -376,7 +383,7 @@ high_pop %>%
 ```
 
 ```{r median total per state}
-high_pop %>% 
+high_count %>% 
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = state, y = n)) + 
@@ -384,7 +391,7 @@ high_pop %>%
 ```
 
 ```{r male to female ratio over time }
-high_pop %>% 
+high_count %>% 
     filter(age == "Total, Age 6-21") %>% 
     spread(gender, total) %>% 
     mutate(ratio = m / f) %>%
