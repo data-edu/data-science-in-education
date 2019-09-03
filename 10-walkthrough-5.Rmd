@@ -1,5 +1,5 @@
 ---
-title: "Exploring Nationally- and Internationally-Representative Data"
+title: "Exploring Aggregate Data"
 output: html_document
 ---
 
@@ -27,9 +27,13 @@ Descriptive analysis of aggregate data can help us identify patterns that may no
 
 ### Disaggregating Aggregated Data
 
-Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components. Common disaggregations for students include race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).
+Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).
 
-Disaggregated data is essential in identifying where solutions are needed to solve disparities in opportunity, resources, and treatment. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing. Disaggregated data allows us to monitor equity in educational resources and outcomes.
+### Disaggregating Data and Equity
+
+Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
+
+It is important to define what equity means to your team so you know whether you are meeting your equity goals.
 
 ## Data
 
@@ -51,9 +55,9 @@ On the federal level, examples include:
 
 On the state and district level, examples include:
 
-- [California Department of Education](https://www.cde.ca.gov/ds/)
+- [California Department of Education](https://www.cde.ca.gov/ds/), which is the state department of education website. It includes both downloadable CSV files and "Data Quest", which lets you query the data online.
 
-- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data)
+- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
 
 ## Data Selection and Research Questions
 
@@ -136,7 +140,8 @@ Running the code below, we see that Maine is the state with the most NA's, total
 naep17_tidy %>% # see missing values by jurisdiction
     group_by(jurisdiction) %>% 
     summarise(sumNA = sum(is.na(at_or_above_proficient_clean))) %>%
-    arrange(desc(sumNA))
+    arrange(desc(sumNA)) %>% 
+    knitr::kable()
 ```
 
 Grouping by race/ethnicity, we see that American Indian/Alaska Native is the subgroup with the most missing data. This makes sense as American Indians and Alaska Natives make up a small percentage of the population and would be suppressed in many states. If your analysis wants to focus on this subgroup, you must find additional sources of information.
@@ -169,22 +174,19 @@ naep17_tidy %>%
               sd = sd(at_or_above_proficient_clean, na.rm = T))
 ```
 
-```{r}
-
-
-```
+This gives us a general sense of what proficiency rates look like.
 
 ### Making Comparisons
 
 #### Defining the comparison
 
-> An important determination is whether our data _can_ be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It may be up to the analyst to create constructs that are comparable.
+> An important determination is whether our data _can_ be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It is discouraged to track percent at and above proficienct across time for the NAEP assessments. Therefore, we will only look at one year of data.
 
 Now that we understand the distribution and variance within the groups in our data, we can start to answer our first research question:
 
 * Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?
 
-We must consider what 'difference' means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we'll take a look at difference of average proficiency rates becasue we want to see how this varies by geography, but this might not answer your research question depending on your context.
+We must consider what 'difference' means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we'll take a look at difference of average proficiency rates because we want to see how this varies by geography, but this might not answer your research question depending on your context.
 
 ```{r}
 naep17_tidy %>% 
@@ -195,7 +197,8 @@ naep17_tidy %>%
               mean = mean(at_or_above_proficient_clean, na.rm = T),
               q3 = quantile(at_or_above_proficient_clean, 0.75, na.rm = T),
               max = max(at_or_above_proficient_clean, na.rm = T),
-              sd = sd(at_or_above_proficient_clean, na.rm = T))
+              sd = sd(at_or_above_proficient_clean, na.rm = T)) %>% 
+    knitr::kable()
 ```
 
 #### Communicating the comparison
@@ -215,9 +218,6 @@ naep_race_plot
 ```
 
 ## Ranking
-
-
-## Differences in Group
 
 
 
