@@ -340,11 +340,24 @@ child_counts %>%
 
 # 11.3 How have Child Counts Changed Over Time? 
 
+In the last section we focused on importing our dataset. In this section, we will shift our focus to exploring the dataset. We will use two tools for learning from this dataset. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students in time. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
+
 # 11.3.2 Visualize the Dataset  
+
+Plotting this many states can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `min_rank()` to help us learn which states have the highest average count of special education students: 
+
+```{r}
+child_counts %>% 
+    group_by(state) %>% 
+    summarise(mean_count = mean(total)) %>% 
+    top_n(6, mean_count)
+```
+
+For reasons we will see in a later visualization, we are going to exclude outlying areas and freely associated states. 
 
 ```{r filter most populated}
 high_pop <- child_counts %>% 
-    filter(state %in% c("california", "texas", "new york", "florida", "illinois"))
+    filter(state %in% c("california", "florida", "new york", "pennsylvania", "texas"))
 ```
 
 ```{r total female students over time}
@@ -381,12 +394,15 @@ high_pop %>%
          subtitle = "Ages 6-21")
 ```
 
+At the start of this section, we chose to exclude outlying areas and freely associated states. You'll see in this visualization that there are some states that have a child count that is so high that it leaves a huge gap in x-axis values. This can be problematic when we try to learn from fitting our model later. 
+
 ```{r plot female students to male students}
 child_counts %>% 
     filter(age == "Total, Age 6-21") %>%
     spread(gender, total) %>% 
 ggplot(aes(x = f, y = m)) + 
     geom_point(size = 3, alpha = .5) + 
+    geom_smooth() +
     labs(title = "Comparison of female students to male students in special education", 
          subtitle = "Counts of students in each state, ages 6-21", 
          x = "Female students", 
