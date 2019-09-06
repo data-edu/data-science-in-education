@@ -12,6 +12,7 @@ Aggregate data
 Vector 
 List
 Tidy format
+Subset
 `select_at`
 `mutate`
 
@@ -360,19 +361,38 @@ high_count <- child_counts %>%
     filter(state %in% c("california", "florida", "new york", "pennsylvania", "texas"))
 ```
 
-Now we can use `high_count` to do some initial exploration. Our analysis is about comparing counts of male and female students in special education, but with visualization is a great way to explore related curiosities. You may surprise yourself with what you find exploring. You may come up with more interesting hypotheses, find that your initial hypothesis requires more data transformation, or find interesting subsets of the data (as we did here with our freely associated states value in the `state` column). You can let your curiosity and intuition drive this part of the analysis. In that spirit, we'll visualize specific genders and age groups. Feel free to try these, but also try the other student groups for practice and more exploration.
+Now we can use `high_count` to do some initial exploration. Our analysis is about comparing counts of male and female students in special education, but with visualization is a great way to explore related curiosities. You may surprise yourself with what you find exploring by visualizing or summarising your datasets. You might come up with more interesting hypotheses, find that your initial hypothesis requires more data transformation, or find interesting subsets of the data--we'll saw a little of that in the surprisingly high `mean_count` of freely associated states in the `state` column). Let your curiosity and intuition drive this part of the analysis. It's one of the activities that makes data analysis a creative process. 
+
+In that spirit, we'll start exploring by visualizing specific genders and age groups. Feel free to try these, but also try the other student groups for practice and more exploration. 
+Try copying and running this code in your console to see what it does: 
 
 ```{r total female students over time}
 high_count %>% 
     filter(gender == "f", age == "Total, Age 6-21") %>%
     ggplot(aes(x = year, y = total, color = state)) + 
-    geom_freqpoly(stat = "identity") +
+    geom_freqpoly(stat = "identity") + 
     labs(title = "Count of female students in special education over time", 
-         subtitle = "Ages 6-21. Selected states in the US", 
-         x = "", 
-         y = "Total students", 
-         caption = "Data: US Dept of Education")
+         subtitle = "Ages 6-21")
 ```
+
+That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
+
+Let's look at that closer: We used `filter` to subset our dataset for students who are female and ages 6 to 21. We used `aes` to connect visual elements of our plot to our data. We connected the x-axis to `year`, the y-axis to `total`, and the color of the line to `state`.
+
+It's worth calling out one more thing, since it's a technique we'll be using as we explore further. Note here that, instead of storing our new dataset in a new variable, we filter the dataset then use the pipe operator `%>%` to feed it to `ggplot`. Since we're exploring freely, we don't need to create a lot of new variables we probably won't need later. This will change once we've learned a few new things about our dataset. At that point, we'll start targeting specific questions and having a newly named subsetted dataset will be convenient. 
+
+We can also try the same plot, but subsetting for male students instead. We can use the same code we used for the last plot, but filter for the value "m" in the `gender` field: 
+
+```{r total male students over time}
+high_count %>% 
+    filter(gender == "m", age == "Total, Age 6-21") %>%
+    ggplot(aes(x = year, y = total, color = state)) + 
+    geom_freqpoly(stat = "identity") + 
+    labs(title = "Count of male students in special education over time", 
+         subtitle = "Ages 6-21")
+```
+
+We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by` and `summarise`. 
 
 ```{r total students over time }
 high_count %>% 
@@ -382,24 +402,51 @@ high_count %>%
     geom_freqpoly(stat = "identity")
 ```
 
+So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
+
 ```{r median total per state}
 high_count %>% 
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = state, y = n)) + 
-    geom_boxplot()
+    geom_boxplot() + 
+    labs(title = "Median student count", 
+         subtitle = "All ages and genders")
 ```
+
+The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
+
+What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated states) do not have similar counts to each other. The student counts for each state also appear to have grown over time. 
+
+But how can we start comparing the male student count to the female student count? One way is to use a ratio: 
+
+>In mathematics, a ratio is a relationship between two numbers indicating how many times the first number contains the second.
+>Wikpedia
+
+We can use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and during the same year. Our coding strategy will be to 
+
+ - Use `spread` to create separate columns for male and female students. 
+ - Use `mutate` to create a new variable called `ratio`. The values in this column will be the result of dividing the count of male students by the count of female students 
+ 
+Note here that the we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special educatino more or less than male students. 
 
 ```{r male to female ratio over time }
 high_count %>% 
-    filter(age == "Total, Age 6-21") %>% 
+    group_by(year, state, gender) %>% 
+    summarise(total = sum(total)) %>%
+    # Create new columns for male and female student counts
     spread(gender, total) %>% 
+    # Create a new ratio column
     mutate(ratio = m / f) %>%
     ggplot(aes(x = year, y = ratio, color = state)) + 
     geom_freqpoly(stat = "identity") + 
     labs(title = "Male student to female student ratio over time", 
-         subtitle = "Ages 6-21")
+         subtitle = "Ages 3-21")
 ```
+
+The result suggests that this ratio has declined between the years 2012 and 2017. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
+
+# 11.3.3 Model the Dataset 
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. You'll see in this visualization that there are some states that have a child count that is so high that it leaves a huge gap in x-axis values. This can be problematic when we try to learn from fitting our model later. 
 
@@ -439,8 +486,6 @@ child_counts %>%
          y = "Male students", 
          caption = "Data: US Dept of Education")
 ```
-
-# 11.3.3 Model the Dataset 
 
 Model differences in identification by gender: 
 
