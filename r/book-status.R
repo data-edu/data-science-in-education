@@ -4,11 +4,14 @@ library(tidyverse)
 # library(tidycode) # wondering if we can also count code
 library(wordcountaddin)
 
-list.files() %>% 
-    as.data.frame() %>% 
-    set_names("filename") %>% 
-    filter(str_detect(filename, ".Rmd")) %>% 
-    mutate(filename = as.character(filename)) %>% 
-    mutate(wordcount = map(unlist(.), word_count))
+# Calculating word count
+tibble(file = list.files()) %>% 
+    filter(str_detect(file, ".Rmd")) %>% 
+    mutate(file = as.character(file)) %>% 
+    mutate(wordcount = map_int(unlist(.), word_count))
 
-
+tibble(file = list.files()) %>% 
+    filter(str_detect(file, ".Rmd")) %>% 
+    mutate(file = as.character(file)) %>% 
+    mutate(wordcount = map_int(unlist(.), word_count)) %>% 
+    summarize(total_wordcount = sum(wordcount))
