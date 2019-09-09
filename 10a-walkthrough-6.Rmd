@@ -162,7 +162,7 @@ Try printing `all_files` now. You can confirm we fixed the problem by verifying 
 
 Now that we know all our datasets have variable names, we can start simplifying our datasets by picking the variables. This is a good place to think carefully about which variables we pick. This usually requires a fair amount of trial and error, but here is what we found we needed: 
 
- - Our analytic questions are about gender so let's pick the gender variables 
+ - Our analytic questions are about gender so let's pick the gender variable
  - Later, we'll need to filter our dataset by disability category and program location so we'll want `SEA Education Environment` and `SEA Disability Category`
  - We want to make comparisons by state and reporting year so we'll also pick `State Name` and `Year`
 
@@ -262,6 +262,10 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 >1. Each variable forms a column.
 >2. Each observation forms a row.
 >3. Each type of observational unit forms a table.
+
+*A note on the gender variable in this dataset*
+
+*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a document by Andrew Park of The Williams Institute at UCLA [authored a document](https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf).*
 
 The gender variables in our dataset are spread across four columns, one representing a combination of gender and age range. We can use `gather` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
@@ -584,11 +588,40 @@ Now let's visualize this using our boxplots:
 
 ```{r visualize female to male ratio}
 model_data %>% 
-    gather(gender, students, c(f, m)) %>%
+    gather(gender, students, c(f, m)) %>% 
     ggplot(aes(x = year, y = students, color = gender)) + 
     geom_boxplot() + 
     scale_y_continuous(labels = scales::comma) + 
     labs(title = "Median male and female student counts in special education", 
+         subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
+         x = "", 
+         y = "", 
+         caption = "Data: US Dept of Education")
+```
+
+```{r visualize female to male ratio 2}
+model_data %>% 
+    gather(gender, students, c(f, m)) %>%
+    ggplot(aes(x = year, y = students)) + 
+    geom_boxplot() + 
+    facet_grid(~ gender) +
+    scale_y_continuous(labels = scales::comma) + 
+    labs(title = "Median male and female student counts in special education", 
+         subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
+         x = "", 
+         y = "", 
+         caption = "Data: US Dept of Education")
+```
+
+```{r visualize female to male ratio 3}
+library(ggridges)
+
+model_data %>% 
+    gather(gender, students, c(f, m)) %>%
+    ggplot(aes(x = students, y = gender)) + 
+    geom_density_ridges() +
+    scale_x_continuous(labels = scales::comma) +
+    labs(title = "Density estimates for male and female student counts in special education", 
          subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
          x = "", 
          y = "", 
