@@ -10,7 +10,7 @@
 library(tidyverse)
 if (!require("extrafont")) install.packages("extrafont")
 library(extrafont)
-font_import(pattern = "Arial Rounded Bold")
+font_import(pattern = "Arial Rounded Bold|ARLRDBD")
 
 #' Function
 theme_dataedu <-
