@@ -65,16 +65,128 @@ Make an illustration that shows how these are related, highlighting where in the
 
 ## Chapter overview
 This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. Our goal is to get you working with R (using the RStudio IDE) through applied examples as quickly as possible.  
+
 Each chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.  
 
 Please note that this chapter is not intended to be a full and complete introduction to using R for data science. There are many excellent resources available which provide this kind of instruction, and we've listed them for you on page [AAA] in the **Resources** section [link for bookdown version].  
 
-## Mental model
+What we won't cover: GitHub, database creation//administration
 
+## Mental model
+No two data science projects are the same, and rather than be overly prescriptive, this chapter errs on the side of creating a general framework for you to use as a touchstone or home base as you work through this text. The four basic concepts we will use to build our framework are:  
+
+* **Data**
+* **Projects**  
+* **Packages**  
+* **Functions**  
+
+You're likely using this text because you have some data that you'd like to do something with, and you'd like to try doing said thing using R. The mental model we'll create for this scenario is that data exists externally from R, and needs to be brought into R so that we can work with it.  
+
+Our model is that we bring our (external) data into and R Project within RStudio, and then using functions - from packages as well as functions that we write ourselves - to do the things we want to do with our data. Clear as mud, right?  
+
+We'll say more about each component later in this chapter, but for now let's break down this image: [INSERT ILLUSTRATION].  
+
+We have **data** that we bring into a Project within RStudio. RStudio is the interface that we use to access and manipulate R. Sometimes you'll hear RStudio referred to as an IDE, or "Interactive Development Environment." We use an IDE - in this case RStudio - because it adds features that make our data science lives a little (and sometimes a lot!) easier. You can read more about everything that RStudio offers here (I couldn't find a great resource on this - does anyone have one? Might be worth creating a blog post on it!)  
+
+Within RStudio we set up a **Project**. This is the home of all of the files, images, reports, and code that we'll create for a single project. While there are a myriad of ways to set up the files in your Project, the method we'll use in this text is:  
+
+[IMAGE with src, data (sub: raw, for use), results, images] 
+
+Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder, and to never open that data, _especially if that data is in an `.xls* or .csv` format! Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7).  
+
+# Walkthroughs
+Each of these walk-throughs are intended to take you through worked examples of our mental model, starting with a small, straightforward data set with lots of instruction and support, and subsequently increasing in complexity. These walkthroughs were designed to give you a solid foundation in how to approach a data science project and workflow, with principles that will readily apply to each of the walk-through chapters.  
+
+These walk-throughs prioritize code over explanations, but you can find more detailed rationale for each component of our mental model at the end of the chapter.  
+
+## A quick walk-through
+**How do I create a Project?**  
+Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) 
+
+**The data**  
+R comes with built in data sets, the list of which you can see by running `data()` (go ahead, try it!) You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes (link out//define) and other various examples. Using built-in data sets are a great way to work with R code using a data set that "just works."   
+
+Think of any data science project as consisting of data and code. We use code to manipulate data, which means that when we are troubleshooting we need to think about whether or not our code is the source of the error, if our data is the source of the error, or if the error comes from the interaction of the code with the data.  
+
+One way to help your troubleshooting is to use a built-in data set because you can then (largely, ideally) eliminate errors that are arising from the data itself.  
+
+For this walk-through we're going to use the built-in UCB Admissions data set. We can load the data by running the following code:  
+```{r}
+UCBAdmissions
+```
+
+**What format is my data in?**   
+Upon running the above code you should see a table printed out in the Console. This is all well and good, but it doesn't store//load//save (what's the correct term) the data in our environment, because it's technically _always available_ to our environment.  
+
+Let's treat this dataset more like an external data set that we would bring in:  
+```{r}
+ucb_data <- UCBAdmissions
+```
+**Unpacking the code**  
+If we read our code from left to right, it says: (include an illustration)  
+> Create an object named `ucb_data`, and assign the UCBAdmissions dataset to this object  
+
+In other words, we've connected the _name_ of an object (`ucb_data`) to a _something_ (in this case the UCBAdmissions data set) using the assignment operator: `<-`. When we create an object in our environment in this way it allows us to repeatedly access and manipulate it.
+
+**Did it work?**  
+In your `Environment` pane you should now see your "imported" data as `ucb_data`. Make sure you have the `Grid` selection, as follows:  
+
+[IMAGE]  
+
+What we've done is create an _object_ in our environment. In this instance our object is a data set. We've named it `ucb_data`, and it is a `table`.  
+
+While you can absolutely work with tables in R, we want to get our data into one of two special _types_ of tables: a dataframe or a tibble. There are various reasons for choosing one over the other, [ELABORATE - what level of depth would be useful? Move to end of the chapter? Or just focus on tibbles and mention data frames? - would require consistency throughout text]  
+
+We can create a `tibble` like this:  
+```{r}
+ucb_data_01 <- tibble::as_tibble(UCBAdmissions)
+```
+
+**Unpacking the code**  
+Translating our code to English, we can say: (include an illustration)    
+> Create an object named `ucb_data_01`, and assign the UCBAdmissions to `ucb_data_01`. But don't _just_ assign the UCBAdmissions data set! First convert the UCBAdmissions data set to a tibble using the `as_tibble()` function from the `tibble` package.  
+
+lolwut.
+
+
+
+
+**What goes where?**  
+**Is the data tame?**  
+**Is the data tidy?**  
+**What's in the data?**  
+**How can we visualize the data?**  
+**What model can we build from the data?**  
+**How can we communicate our findings?**  
+
+## Let's do one together!  
+**Grab your data**  
+[Kaggle Massachusetts Public Schools Data](https://www.kaggle.com/ndalziel/massachusetts-public-schools-data/download)  
+
+Comes as a .zip file (explain this?)
+
+Extension questions on ggplot 
+
+## Your turn
+Use your own data (we recommend a sample)
+
+# Explanations
 ## Data
-You're likely reading this book because you have some data - in a spreadsheet, data base, written on a piece of paper, or otherwise - that you'd like to analyze. 
+You're likely reading this book because you have some data - in a spreadsheet, data base, written on a piece of paper, or otherwise - that you'd like to analyze. This chapter will go over the basic data science workflow of:  
+
+* Importing data
+* Inspecting data
+* Taming data
+* Tidying data
+* Exploring data
+* Visualizing data
+* Modeling data
+* Communicating data
+
+as well as touch on some aspects of data types and data structures. This is not intended to be a comprehensive, in-depth look at any of these steps, but rather provide a general framework and approach. There are many excellent texts and resources available to further explore these concepts, as outlined in [CHAPTER]. 
 
 ## Project
+When working in R we strongly advocate for the use of Projects in all of your projects -- even if your work consists of a single script and a small data set. Projects are a fantastic method for building a reproducible workflow by containing all of the files related to a Project within a single directory (Callout: directory is another term for folder - you can have many sub-directories within a master directory, in other words, sub-folders within one main folder). By coupling Projects with the use of the `here` package we can create a directory of files that will (generally) survive moving folders around on your computer as well as allow you to share your Project with someone and allow them to reproduce your work with very little fussing.
 
 ## Package
 
