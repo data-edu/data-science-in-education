@@ -167,11 +167,11 @@ Now that we know all our datasets have variable names, we can start simplifying 
  - Later, we'll need to filter our dataset by disability category and program location so we'll want `SEA Education Environment` and `SEA Disability Category`
  - We want to make comparisons by state and reporting year so we'll also pick `State Name` and `Year`
 
-Combining `select_at` and `contains` is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains`:
+Combining `select` and `contains` is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains`:
 
 ```{r}
 all_files[[1]] %>% 
-    select_at(vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))) 
+    select(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male")) 
 ```
 
 That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
@@ -259,7 +259,7 @@ child_counts <- child_counts %>%
 
 ## Tidy the dataset 
 
-Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data*, Hadley Wickham defines tidy datasets where
+Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* (2014), Hadley Wickham defines tidy datasets where
 
 >1. Each variable forms a column.
 >2. Each observation forms a row.
@@ -267,7 +267,7 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 
 *A note on the gender variable in this dataset*
 
-*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a document by Andrew Park of The Williams Institute at UCLA [authored a document](https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf).*
+*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a document by Andrew Park (2016) of The Williams Institute at UCLA.*
 
 The gender variables in our dataset are spread across four columns, one representing a combination of gender and age range. We can use `gather` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
@@ -458,7 +458,7 @@ By visually inspecting, we can hypothesize that there was not significant change
 
 # 11.3.3 Model the Dataset 
 
-When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction* Kieran Healy teaches us that 
+When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction* Kieran Healy (2019) teaches us that 
 
 >Visualizations encode numbers in lines, shapes, and colors. That means that our interpretation of these encodings is partly conditional on how we perceive geometric shapes and relationships generally.
 
@@ -670,10 +670,20 @@ Longitudinal analysis is typically done with student-level data because educator
 
 Aggregate data is valuable because it allows us to learn from populations that are larger or different from the local student-level population. Think of it as an opportunity to learn from totaled up student data from other states or the whole country.
 
-In his book *Thinking Fast and Slow*, Daniel Kahneman discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to focus on conclusions we can draw from immediately available information and to ignore analysis of the larger context. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often a students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
+In his book *Thinking Fast and Slow*, Daniel Kahneman (2011) discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to focus on conclusions we can draw from immediately available information and to ignore analysis of the larger context. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often a students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
 
 For example, consider an analysis of student-level data in a school district over time. student-level data allows us to ask questions about our local population: One such question is: Are the rates of special education identification for male students different from other gender identitites *in our district*? This style of question looks *inward* at your own educational system. 
 
 Taking a cue from Daniel Kahneman, we should also ask what this pattern looks like in other states or in the country. Aggregate data allows us to ask questions about a different or larger population: One such question is Are the reates of special education identification for male students different from other gender identities *in the United States*? This style of question looks for answers *outside* your own educational system. The combination of these two lines of inquiry are powerful way to generate new knowledge about the student experience. 
 
 So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data without an MOU that gives access to student-level data. In situations where student-level data *is* available, including aggregate level data acts as an excellent way to combat the base rate fallacy. 
+
+# 11.5 References 
+
+Wickham, H. (2014). Tidy data. *Journal of Statistical Software*, 59(10).  Retrieved from [https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)
+
+Park, A. (2016). Reachable: data collection methods for sexual orientation and gender identity. Retrieved from [https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf](https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf)
+
+Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ: Princeton University Press.
+
+Kahneman, D. (2011). Thinking, fast and slow. New York :Farrar, Straus and Giroux. 
