@@ -167,11 +167,11 @@ Now that we know all our datasets have variable names, we can start simplifying 
  - Later, we'll need to filter our dataset by disability category and program location so we'll want `SEA Education Environment` and `SEA Disability Category`
  - We want to make comparisons by state and reporting year so we'll also pick `State Name` and `Year`
 
-Combining `select_at` and `contains` is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains`:
+Combining `select` and `contains` is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains`:
 
 ```{r}
 all_files[[1]] %>% 
-    select_at(vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))) 
+    select(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male")) 
 ```
 
 That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
