@@ -64,16 +64,16 @@ Make an illustration that shows how these are related, highlighting where in the
 
 
 ## Chapter overview
-This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. Our goal is to get you working with R (using the RStudio IDE) through applied examples as quickly as possible.  
+This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. Our goal is to get you working with R (using the RStudio *I*ntegrated *D*evelopment *E*nvironment, or IDE for short) through applied examples as quickly as possible.  
 
-Each chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.  
+Each walkthrough chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.  
 
-Please note that this chapter is not intended to be a full and complete introduction to using R for data science. There are many excellent resources available which provide this kind of instruction, and we've listed them for you on page [AAA] in the **Resources** section [link for bookdown version].  
+Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. There are many excellent resources available which provide this kind of instruction, and we've listed them for you on page [AAA] in the **Resources** section [link for bookdown version].  
 
-What we won't cover: GitHub, database creation//administration
+What we won't cover: GitHub, database creation//administration (I think? Or do we cover GitHub at some point?)
 
-## Mental model
-No two data science projects are the same, and rather than be overly prescriptive, this chapter errs on the side of creating a general framework for you to use as a touchstone or home base as you work through this text. The four basic concepts we will use to build our framework are:  
+## Mental model (would these be helpful in every chapter? Is model the wrong word - in that it's likely to get conflated with modeling?)
+No two data science projects are the same, and rather than be overly prescriptive, this chapter errs on the side of creating a general framework for you to use as a touchstone (or home base) as you work through this text. The four basic concepts we will use to build our framework are:  
 
 * **Data**
 * **Projects**  
@@ -82,7 +82,7 @@ No two data science projects are the same, and rather than be overly prescriptiv
 
 You're likely using this text because you have some data that you'd like to do something with, and you'd like to try doing said thing using R. The mental model we'll create for this scenario is that data exists externally from R, and needs to be brought into R so that we can work with it.  
 
-Our model is that we bring our (external) data into and R Project within RStudio, and then using functions - from packages as well as functions that we write ourselves - to do the things we want to do with our data. Clear as mud, right?  
+Our model is that we bring our (external) data into and R Project within RStudio, and then using functions - functions from packages as well as functions that we write ourselves - to do the things we want to do with our data. Clear as mud, right?  
 
 We'll say more about each component later in this chapter, but for now let's break down this image: [INSERT ILLUSTRATION].  
 
@@ -92,23 +92,107 @@ Within RStudio we set up a **Project**. This is the home of all of the files, im
 
 [IMAGE with src, data (sub: raw, for use), results, images] 
 
-Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder, and to never open that data, _especially if that data is in an `.xls* or .csv` format! Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7).  
+It's OK (and totally normal) for your initial projects to consist of only one or two files. As your skill set grows and develops you'll need more and more files, and laying the groundwork for a file structure now will make future you very happy.  
+
+Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder, and to never open that data, _especially if that data is in an `.xls* or .csv` format!_ Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7). At best you need to re-download the file, and at worst you've made a significant amount of work for yourself.    
 
 # Walkthroughs
-Each of these walk-throughs are intended to take you through worked examples of our mental model, starting with a small, straightforward data set with lots of instruction and support, and subsequently increasing in complexity. These walkthroughs were designed to give you a solid foundation in how to approach a data science project and workflow, with principles that will readily apply to each of the walk-through chapters.  
+Each of the walk-throughs in this chapter are intended to take you through worked examples of our mental model, starting with a small, straightforward data set with lots of instruction and support, and subsequently increasing in complexity. These walkthroughs were designed to give you a solid foundation in how to approach a data science project and workflow, with principles that will readily apply to each of the walk-through chapters.  
 
-These walk-throughs prioritize code over explanations, but you can find more detailed rationale for each component of our mental model at the end of the chapter.  
+These walk-throughs are set up to provide you with the entire code first, then walk you through each step of the mental model by explaining each section of code, and how it fits within our framework.  
 
-## A quick walk-through
+Each walk-through follows the same seven steps: (call out more explicitly in first walk-through). Note that steps 1 and 2 do not involve any coding. The first step (generally, in the context of this book) happens completely independent of R and RStudio, and the second step involves setting up RStudio.  
+
+Steps 3 - 7 all happen using code within RStudio.  
+
+A full analysis would include at least two additional steps: modeling the data and communicating your findings. We won't touch on modeling the data in this walk-through, as the bulk of the chapter walk-throughs go through different modeling techniques. However if you're looking to get started in modeling we recommend [BOOK//RESOURCE].  
+
+Likewise we will not be covering how to communicate your findings in this Chapter, but know that you can use RMarkdown from within RStudio to satisfy most, if not all, of your reporting needs.  
+
+Framework for walk-throughs in this chapter:  
+
+1. Download your data (or decide on data set, if using a built-in data set)
+2. Create a new Project in RStudio
+3. Import your data set
+4. Inspect your data set 
+5. Tame and tidy your data
+7. Explore your data (including visualizations)  
+
+## A quick walk-through (I'm not yet happy with this structure)
+
+The code for this walk-through is:  
+
+```{r}
+
+# 1. Download//decide on a data set
+
+# 2. Create a Project in RStudio - no code involved
+
+# 3. Import your data 
+
+UCBAdmissions
+
+ucb_data <- UCBAdmissions
+
+ucb_data_01 <- tibble::as_tibble(UCBAdmissions)
+
+# 4. Inspect your data 
+
+View(ucb_data_01)
+
+glimpse(ucb_data_01)
+summary(ucb_data_01)
+
+# 5. Tame and tidy your data 
+
+library(dplyr)
+ucb_data_02 <- ucb_data_01 %>%
+    rename(Count = n) 
+
+# 6. Explore your data 
+
+library(ggplot2)
+
+ggplot(ucb_data_02) +
+    geom_boxplot(aes(Dept, Count))
+
+ucb_data_02 %>% 
+    group_by(Dept) %>% 
+    summarise(Total = sum(Count)) 
+
+ucb_data_02 %>% 
+    group_by(Dept) %>% 
+    summarise(Total = sum(Count)) %>% 
+    ggplot() +
+    geom_col(aes(x = Dept, y = Total)) 
+
+```
+
+
+### Before we code (incorporate into framework//mental model//schematic image)  
+
 **How do I create a Project?**  
-Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) 
+Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) To create a Project you will need to be in RStudio.  
 
-**The data**  
-R comes with built in data sets, the list of which you can see by running `data()` (go ahead, try it!) You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes (link out//define) and other various examples. Using built-in data sets are a great way to work with R code using a data set that "just works."   
+From within RStudio, follow these steps:  
+
+1. Click on File
+2. Select New Project
+3. Choose New Directory
+4. Click on New Project
+5. Enter your Project's name in the box that says "Directory name"
+6. Choose where to save your Project by clicking on "Browse" next to the box labeled "Create project as a subdirectory of: "
+7. Click "Create Project"  
+
+If you are looking for more resources, including information on using a git repository, whether or not you should open in a new session, etc., please see AAA and BBB resources.  
+
+### Coding in RStudio 
+**Import your data data**  
+R comes with built in data sets, the list of which you can see by running `data()` in the Console (go ahead, try it! You can do this by typing `data()` in the Console window and hitting Enter.) You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes (link out//define) and other various examples. Using built-in data sets are a great way to work with R code using a data set that "just works."   
 
 Think of any data science project as consisting of data and code. We use code to manipulate data, which means that when we are troubleshooting we need to think about whether or not our code is the source of the error, if our data is the source of the error, or if the error comes from the interaction of the code with the data.  
 
-One way to help your troubleshooting is to use a built-in data set because you can then (largely, ideally) eliminate errors that are arising from the data itself.  
+One way to help your troubleshooting is to use a built-in data set because you can then (largely and ideally) eliminate errors that are arising from the data itself.  
 
 For this walk-through we're going to use the built-in UCB Admissions data set. We can load the data by running the following code:  
 ```{r}
@@ -128,6 +212,7 @@ If we read our code from left to right, it says: (include an illustration)
 
 In other words, we've connected the _name_ of an object (`ucb_data`) to a _something_ (in this case the UCBAdmissions data set) using the assignment operator: `<-`. When we create an object in our environment in this way it allows us to repeatedly access and manipulate it.
 
+### In RStudio, but not coding  
 **Did it work?**  
 In your `Environment` pane you should now see your "imported" data as `ucb_data`. Make sure you have the `Grid` selection, as follows:  
 
@@ -137,40 +222,94 @@ What we've done is create an _object_ in our environment. In this instance our o
 
 While you can absolutely work with tables in R, we want to get our data into one of two special _types_ of tables: a dataframe or a tibble. There are various reasons for choosing one over the other, [ELABORATE - what level of depth would be useful? Move to end of the chapter? Or just focus on tibbles and mention data frames? - would require consistency throughout text]  
 
+### Coding in RStudio
 We can create a `tibble` like this:  
 ```{r}
 ucb_data_01 <- tibble::as_tibble(UCBAdmissions)
 ```
 
 **Unpacking the code**  
-Translating our code to English, we can say: (include an illustration)    
+Translating our code to something more conversational, we can say: (include an illustration)    
 > Create an object named `ucb_data_01`, and assign the UCBAdmissions to `ucb_data_01`. But don't _just_ assign the UCBAdmissions data set! First convert the UCBAdmissions data set to a tibble using the `as_tibble()` function from the `tibble` package.  
 
 lolwut.
 
+To break that down another way, it's helpful to know that R reads everything on the left of the assignment operator, `<-`, first, and while it reads from left to right, it starts with the innermost set of parentheses per object.  
 
+We can recognize functions in R by the use of parentheses. For example, `data()` is a function that pulls up all of the existing data sets within R.  
+The parentheses within a function can be empty, but sometimes a function requires arguments in order to work. Arguments are the components that go inside the parentheses of a function, like when we coerced our `UCBAdmissions` data into a tibble.  
 
+We can see which arguments a function uses by calling up the help documentation. We do this by going to the Console and typing a `?` followed by the function's name, then hitting enter. For example, run `?data` in the Console (notice that there is not a space between the question mark and the function's name).  
 
-**What goes where?**  
-**Is the data tame?**  
-**Is the data tidy?**  
-**What's in the data?**  
-**How can we visualize the data?**  
-**What model can we build from the data?**  
-**How can we communicate our findings?**  
+Now try `?mutate` - what's different?   
+
+`mutate` is a function from the `dplyr` package - a package we'll use extensively throughout this book. But because we haven't brought the `dplyr` package into R yet (how does this fit into the mental model? Is this the right place to talk about this? - might be too far out of scope and belong at the end, in the explanations section.) R doesn't "see" the `mutate` function as existing.  
+
+If we want to search all of R's packages (on our computer? look into this - may require package installation section) we can use `??function_name`, in this case `??mutate`.  
+
+This brings up the entire list of packages that mention a `mutate` function. It's important to note that there is no requirement that function names be specific within the entire world of R (OK this definitely goes at the end). There's not a lot stopping every package on CRAN (all 10,000+ of them!) from having their own `mutate` function. That's not necessarily a problem, as you likely won't be running every package on CRAN simultaneously over the course of this book.  
+
+However we can address two quick ways of dealing with this:  
+
+The order in which you load your packages matters! If there are conflicting functions between packages, the package loaded most recently will take priority.   
+
+But what if you need a function from a package that was loaded earlier?  
+
+It might be tempting to re-load the earlier package, but we don't recommend this - it's going to cause you headaches further down the line when you try to re-run your script. Instead, keep in mind option two:  
+
+Explicitly tell R which package to load a function from - independent of the order in which you loaded the packages - by using a double colon (is this what it's called?) `::`.   
+
+This brings us full circle back to translating everything we did with the `UCBAdmissions` data, where we saw the code `tibble::as_tibble(UCBAdmissions)`. The use of the `::` is how we tell R to go to the `tibble` package and pull out the `as_tibble` function.   
+
+"But wait!" you say, "we've never loaded a package!" Exactly! We can call functions from packages without loading the package into our environment by using the `::`. The only requirement is that the package be installed on the machine that we're using (confirm that this is true).  
+
+**Inspecting the data**  
+
+**Taming and Tidying the data**   
+When we talk about tame and tidy data we're talking about two separate concepts. Tame data refers to 
+
+Naming preferences - rules in R, prioritize consistency
+
+Load packages at the top of a script, why doing it differently this time around
+
+**Exploring the data** 
+printing to the console vs. storing as an object
+ 
 
 ## Let's do one together!  
+Code for this section - we'll talk about sections of code that differ from the code in the first walk-through, but won't be re-explaining code structures that should be familiar to you now (you might need to go back to the explanations in the first walk-through and take notes!)
+```{r}
+library(tidyverse) 
+library(here) 
+```
+
+
 **Grab your data**  
 [Kaggle Massachusetts Public Schools Data](https://www.kaggle.com/ndalziel/massachusetts-public-schools-data/download)  
 
 Comes as a .zip file (explain this?)
 
-Extension questions on ggplot 
+Cover how to load a package - loading vs. installation
+Pipes!
 
-## Your turn
-Use your own data (we recommend a sample)
+Extension questions on ggplot, + vs. %>%
 
-# Explanations
+## Your turn (should we create our own worked examples for reference?)
+Use your own data (we recommend a handful of samples - look to #TidyTuesday?) to complete the following steps:  
+
+1. Download one of our recommended data sets, or use your own data set
+2. Create a new Project in RStudio
+3. Import your data set
+4. Inspect your data set - how big is it? What missing values do you have? 
+5. Is your data tame and tidy? If not, make it so.
+6. Explore your data - try some new-to-you visualization techniques! 
+7. Build a model of your data - don't worry at this point if it is robust or accurate or has strong predictive power. We're largely interested in completing the steps of our framework  
+9. Write up a report of each step in this section using RMarkdown. Include text, code, and at least one graph and one table.  
+
+### Additional resources for each step in "your turn"
+
+
+# Explanations - may cut? not sure yet.
 ## Data
 You're likely reading this book because you have some data - in a spreadsheet, data base, written on a piece of paper, or otherwise - that you'd like to analyze. This chapter will go over the basic data science workflow of:  
 
@@ -192,5 +331,4 @@ When working in R we strongly advocate for the use of Projects in all of your pr
 
 ## Function
 
-
-
+Would a section on "things we've learned the hard way" be beneficial?  
