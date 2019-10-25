@@ -9,14 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# THOUGHTS
+# GUIDING THOUGHTS
 What are we uniquely positioned to provide guidance and insights on, and what is 
 best outsourced to an additional resource?   
 
-What does the reader know?  
+What does the already reader know? (update this post-interview synthesis)  
 
 
-## For separate chapter?
+## For separate chapter
 
 * Installing R//RStudio
 * Environment//pane layout
@@ -53,112 +53,41 @@ Make an illustration that shows how these are related, highlighting where in the
     + How does data integrate with packages and functions within a Project?
 
 ## Chapter overview
-This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. Our goal is to get you working with R (using the RStudio *I*ntegrated *D*evelopment *E*nvironment, or IDE for short) through applied examples as quickly as possible.  
+This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. Our goal is to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of applied examples.  
 
 Each walkthrough chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.  
 
 Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. There are many excellent resources available which provide this kind of instruction, and we've listed them for you on page [AAA] in the **Resources** section [link for bookdown version].  
 
-What we won't cover: GitHub, database creation//administration (I think? Or do we cover GitHub at some point?)
-
-## Mental model (would these be helpful in every chapter? Is model the wrong word - in that it's likely to get conflated with modeling?)
-No two data science projects are the same, and rather than be overly prescriptive, this chapter errs on the side of creating a general framework for you to use as a touchstone (or home base) as you work through this text. The four basic concepts we will use to build our framework are:  
+## Foundational Skills Framework
+No two data science projects are the same, and rather than be overly prescriptive, this chapter errs on the side of creating a general framework for you to use as a  home base as you work through this text. The four basic concepts we will use to build our framework are:  
 
 * **Data**
 * **Projects**  
 * **Packages**  
 * **Functions**  
 
-You're likely using this text because you have some data that you'd like to do something with, and you'd like to try doing said thing using R. The mental model we'll create for this scenario is that data exists externally from R, and needs to be brought into R so that we can work with it.  
+You're likely using this text because you have some data that you'd like to do something with, and you'd like to try doing said thing using R. The framework we'll use assumes that your data exists externally from R in a `.csv` file, and needs to be brought into R so that we can work with it.  
 
-Our model is that we bring our (external) data into and R Project within RStudio, and then using functions - functions from packages as well as functions that we write ourselves - to do the things we want to do with our data. Clear as mud, right?  
+While it is possible to connect directly to a database from within R, we do not cover those skills in this text. For those curious as to how to accomplish this, we recommend the following resources [AAA].  
 
-We'll say more about each component later in this chapter, but for now let's break down this image: [INSERT ILLUSTRATION].  
+[We'll say more about each component later in this chapter, but for now let's break down this image: [INSERT ILLUSTRATION].  
 
-We have **data** that we bring into a Project within RStudio. RStudio is the interface that we use to access and manipulate R. Sometimes you'll hear RStudio referred to as an IDE, or "Interactive Development Environment." We use an IDE - in this case RStudio - because it adds features that make our data science lives a little (and sometimes a lot!) easier. You can read more about everything that RStudio offers here (I couldn't find a great resource on this - does anyone have one? Might be worth creating a blog post on it!)  
+[Illustration of framework]
 
-Within RStudio we set up a **Project**. This is the home of all of the files, images, reports, and code that we'll create for a single project. While there are a myriad of ways to set up the files in your Project, the method we'll use in this text is:  
+We have **data** that we bring into a Project within RStudio. RStudio is the interface that we use to access and manipulate R. Sometimes you'll hear RStudio referred to as an IDE, or "Interactive Development Environment." We use an IDE - in this case RStudio, although you could use others - because it adds features that make our analytical lives a little (and sometimes a lot!) easier. You can read more about everything that RStudio offers here (I couldn't find a great resource on this - does anyone have one? Might be worth creating a blog post on it!)  
+
+Within RStudio we set up a **Project**. This is the home for all of the files, images, reports, and code that we'll create for a single project. While there are a myriad of ways to set up the files in your Project, the method we'll use in this text is:  
 
 [IMAGE with src, data (sub: raw, for use), results, images] 
 
 It's OK (and totally normal) for your initial projects to consist of only one or two files. As your skill set grows and develops you'll need more and more files, and laying the groundwork for a file structure now will make future you very happy.  
 
-Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder, and to never open that data, _especially if that data is in an `.xls* or .csv` format!_ Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7). At best you need to re-download the file, and at worst you've made a significant amount of work for yourself.    
+We use Projects because they create a self-contained file for a given analysis in R. This means that if you want to share your Project with a colleague they will not have to reset file paths (or even know anything about file paths!) in order to re-run your analysis.  
 
-# Walkthroughs
-Each of the walk-throughs in this chapter are intended to take you through worked examples of our mental model, starting with a small, straightforward data set with lots of instruction and support, and subsequently increasing in complexity. These walkthroughs were designed to give you a solid foundation in how to approach a data science project and workflow, with principles that will readily apply to each of the walk-through chapters.  
+And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future, at least in terms of file path structures. You may run into issues with packages being out of date and functions being deprecated - in which case you may be interested in learning more about how to set up a Project within Docker [AAA].  
 
-These walk-throughs are set up to provide you with the entire code first, then walk you through each step of the mental model by explaining each section of code, and how it fits within our framework.  
-
-Each walk-through follows the same seven steps: (call out more explicitly in first walk-through). Note that steps 1 and 2 do not involve any coding. The first step (generally, in the context of this book) happens completely independent of R and RStudio, and the second step involves setting up RStudio.  
-
-Steps 3 - 7 all happen using code within RStudio.  
-
-A full analysis would include at least two additional steps: modeling the data and communicating your findings. We won't touch on modeling the data in this walk-through, as the bulk of the chapter walk-throughs go through different modeling techniques. However if you're looking to get started in modeling we recommend [BOOK//RESOURCE].  
-
-Likewise we will not be covering how to communicate your findings in this Chapter, but know that you can use RMarkdown from within RStudio to satisfy most, if not all, of your reporting needs.  
-
-Framework for walk-throughs in this chapter:  
-
-1. Download your data (or decide on data set, if using a built-in data set)
-2. Create a new Project in RStudio
-3. Import your data set
-4. Inspect your data set 
-5. Tame and tidy your data
-7. Explore your data (including visualizations)  
-
-## A quick walk-through (I'm not yet happy with this structure)
-
-The code for this walk-through is:  
-
-```{r}
-
-# 1. Download//decide on a data set
-
-# 2. Create a Project in RStudio - no code involved
-
-# 3. Import your data 
-
-UCBAdmissions
-
-ucb_data <- UCBAdmissions
-
-ucb_data_01 <- tibble::as_tibble(UCBAdmissions)
-
-# 4. Inspect your data 
-
-View(ucb_data_01)
-
-glimpse(ucb_data_01)
-summary(ucb_data_01)
-
-# 5. Tame and tidy your data 
-
-library(dplyr)
-ucb_data_02 <- ucb_data_01 %>%
-    rename(Count = n) 
-
-# 6. Explore your data 
-
-library(ggplot2)
-
-ggplot(ucb_data_02) +
-    geom_boxplot(aes(Dept, Count))
-
-ucb_data_02 %>% 
-    group_by(Dept) %>% 
-    summarise(Total = sum(Count)) 
-
-ucb_data_02 %>% 
-    group_by(Dept) %>% 
-    summarise(Total = sum(Count)) %>% 
-    ggplot() +
-    geom_col(aes(x = Dept, y = Total)) 
-
-```
-
-
-### Before we code (incorporate into framework//mental model//schematic image)  
+## Setting up your Project
 
 **How do I create a Project?**  
 Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) To create a Project you will need to be in RStudio.  
@@ -176,53 +105,141 @@ From within RStudio, follow these steps:
 If you are looking for more resources, including information on using a git repository, whether or not you should open in a new session, etc., please see AAA and BBB resources.  
 
 ### Coding in RStudio 
-**Import your data data**  
+**Import your data**  
 R comes with built in data sets, the list of which you can see by running `data()` in the Console (go ahead, try it! You can do this by typing `data()` in the Console window and hitting Enter.) You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes (link out//define) and other various examples. Using built-in data sets are a great way to work with R code using a data set that "just works."   
 
 Think of any data science project as consisting of data and code. We use code to manipulate data, which means that when we are troubleshooting we need to think about whether or not our code is the source of the error, if our data is the source of the error, or if the error comes from the interaction of the code with the data.  
 
-One way to help your troubleshooting is to use a built-in data set because you can then (largely and ideally) eliminate errors that are arising from the data itself.  
+For this chapter we'll be using data from the Massachusetts Public School System that was originally downloaded from Kaggle on October 23, 2019. Access the data by ???. 
 
-For this walk-through we're going to use the built-in UCB Admissions data set. We can load the data by running the following code:  
+Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. 
+
+When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder and to never open that data, _especially if that data is in an `.xls* or .csv` format!_ Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7). At best you need to re-download the file, and at worst you've made a significant amount of work for yourself.    
+
+## Code for Foundational Skills
+
+The following code comprises all of the code that we'll use in this chapter. We present it here in its entirety, and then break it down into chunks in order to explain what's happening.  
+
+This code may resemble the start of an analytical workflow, but does not walk you through a complete analysis. Instead, the code chosen below is used to highlight key features and foundational skills that comprise the interaction of packages and functions with data. We recommend the text [R for Data Science]("https://r4ds.had.co.nz/") for those looking for a more in-depth look into completing an analytical workflow in R.   
+
+We do not recommend running the following block of code all at once! It intentionally contains errors that will prevent it from running in its entirety. Instead we recommend creating a new `.R` script and adding chunks of code as we discuss them in the book, running each chunk of code as we go along in order to better see what is happening in a given line of code.    
+
 ```{r}
-UCBAdmissions
+# Installing packages
+
+# install.packages("tidyverse")
+# install.packages("janitor")
+# install.packages("skimr")
+# install.packages("here")
+
+# Setting up your environment
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(here)
+
+# Importing data
+read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+              "MA_Public_Schools_2017.csv"))
+
+read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+              "MA_Public_Schools_2017.csv")) -> my_data
+
+ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+                              "MA_Public_Schools_2017.csv"))
+
+# Exploring and manipulating your data
+names(ma_data_init)
+
+glimpse(ma_dat_init)  
+glimpse(ma_data_init)
+summary(ma_data_init)
+
+glimpse(ma_data_init$Town)
+summary(ma_data_init$Town)
+
+glimpse(ma_data_init$AP_Test Takers)
+glimpse(ma_data_init$`AP_Test Takers`)
+summary(ma_data_init$`AP_Test Takers`)
+
+ma_data_init %>% 
+    group_by(District Name) %>%  
+    count()
+
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    count()  
+    
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    count() %>% 
+    filter(n > 10)
+
+# ma_data_init %>% 
+#     group_by(`District Name`) %>% 
+#     count() %>% 
+#     filter(n > 10) %>% 
+#     arrange(desc(n)
+
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n > 10) %>%
+    arrange(desc(n))
+
+ma_data_init %>% 
+    skim()
+
+ma_data_init %>% 
+    skim(`AP_Test Takers`)
+
+ma_data_init %>% 
+    skim(`District Name`, `AP_Test Takers`)
+
+ma_data_init %>% 
+    skim(`District Name`:TOTAL_Enrollment)
+
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    skim()
+
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    skim(TOTAL_Enrollment)
+ma_data_init %>% 
+    rename(district_name = `District Name`)
+
+ma_data_init %>% 
+    rename(district_name = `District Name`) %>% 
+    select(district_name)
+
+ma_data_init %>% 
+    rename(district_name = `District Name`,
+           grade = Grade) %>% 
+    select(district_name, grade)
+
+ma_data_init %>% 
+    rename(district_name = `District Name`,
+           grade = Grade) %>% 
+    select(district_name, grade) %>% 
+    skim()
+
+ma_data %>% 
+    clean_names()
+
+01_ma_data <- ma_data_init %>%  #' intentional error
+    clean_names()
+
+$_ma_data <- ma_data_init %>%  #' intentional error
+    clean_names()
+
+ma_data_01 <- ma_data_init %>% 
+    clean_names()
+
 ```
 
-**What format is my data in?**   
-Upon running the above code you should see a table printed out in the Console. This is all well and good, but it doesn't store//load//save (what's the correct term) the data in our environment, because it's technically _always available_ to our environment.  
 
-Let's treat this dataset more like an external data set that we would bring in:  
-```{r}
-ucb_data <- UCBAdmissions
-```
-**Unpacking the code**  
-If we read our code from left to right, it says: (include an illustration)  
-> Create an object named `ucb_data`, and assign the UCBAdmissions dataset to this object  
-
-In other words, we've connected the _name_ of an object (`ucb_data`) to a _something_ (in this case the UCBAdmissions data set) using the assignment operator: `<-`. When we create an object in our environment in this way it allows us to repeatedly access and manipulate it.
-
-### In RStudio, but not coding  
-**Did it work?**  
-In your `Environment` pane you should now see your "imported" data as `ucb_data`. Make sure you have the `Grid` selection, as follows:  
-
-[IMAGE]  
-
-What we've done is create an _object_ in our environment. In this instance our object is a data set. We've named it `ucb_data`, and it is a `table`.  
-
-While you can absolutely work with tables in R, we want to get our data into one of two special _types_ of tables: a dataframe or a tibble. There are various reasons for choosing one over the other, [ELABORATE - what level of depth would be useful? Move to end of the chapter? Or just focus on tibbles and mention data frames? - would require consistency throughout text]  
-
-### Coding in RStudio
-We can create a `tibble` like this:  
-```{r}
-ucb_data_01 <- tibble::as_tibble(UCBAdmissions)
-```
-
-**Unpacking the code**  
-Translating our code to something more conversational, we can say: (include an illustration)    
-> Create an object named `ucb_data_01`, and assign the UCBAdmissions to `ucb_data_01`. But don't _just_ assign the UCBAdmissions data set! First convert the UCBAdmissions data set to a tibble using the `as_tibble()` function from the `tibble` package.  
-
-lolwut.
-
+## Old text - keep until reincorporated
 To break that down another way, it's helpful to know that R reads everything on the left of the assignment operator, `<-`, first, and while it reads from left to right, it starts with the innermost set of parentheses per object.  
 
 We can recognize functions in R by the use of parentheses. For example, `data()` is a function that pulls up all of the existing data sets within R.  
@@ -252,78 +269,10 @@ This brings us full circle back to translating everything we did with the `UCBAd
 
 "But wait!" you say, "we've never loaded a package!" Exactly! We can call functions from packages without loading the package into our environment by using the `::`. The only requirement is that the package be installed on the machine that we're using (confirm that this is true).  
 
-**Inspecting the data**  
-Inspecting the data is a bit different from exploring the data 
-
-**Taming and Tidying the data**   
-When we talk about tame and tidy data we're talking about two separate concepts. Tame data refers to 
-
-Naming preferences - rules in R, prioritize consistency
-
-Load packages at the top of a script, why doing it differently this time around
-
-**Exploring the data** 
-printing to the console vs. storing as an object
  
 
-## Let's do one together!  
-Code for this section - we'll talk about sections of code that differ from the code in the first walk-through, but won't be re-explaining code structures that should be familiar to you now (you might need to go back to the explanations in the first walk-through and take notes!)
-```{r}
-library(tidyverse) 
-library(here) 
-```
-
-
+## May not need
 **Grab your data**  
 [Kaggle Massachusetts Public Schools Data](https://www.kaggle.com/ndalziel/massachusetts-public-schools-data/download)  
 
 Comes as a .zip file (explain this?)
-
-Cover how to load a package - loading vs. installation
-
-The `here` package.
-
-Hypothesizing how code will change data and confirming using Environment pane data
-
-Draw what you have and what you want - what steps will get you there? 
-
-Extension questions on ggplot, + vs. %>%
-
-## Your turn (should we create our own worked examples for reference?)
-Use your own data (we recommend a handful of samples - look to #TidyTuesday?) to complete the following steps:  
-
-1. Download one of our recommended data sets, or use your own data set
-2. Create a new Project in RStudio
-3. Import your data set
-4. Inspect your data set - how big is it? What missing values do you have? 
-5. Is your data tame and tidy? If not, make it so.
-6. Explore your data - try some new-to-you visualization techniques! 
-7. Build a model of your data - don't worry at this point if it is robust or accurate or has strong predictive power. We're largely interested in completing the steps of our framework  
-9. Write up a report of each step in this section using RMarkdown. Include text, code, and at least one graph and one table.  
-
-### Additional resources for each step in "your turn"
-
-
-# Explanations - may cut? not sure yet.
-## Data
-You're likely reading this book because you have some data - in a spreadsheet, data base, written on a piece of paper, or otherwise - that you'd like to analyze. This chapter will go over the basic data science workflow of:  
-
-* Importing data
-* Inspecting data
-* Taming data
-* Tidying data
-* Exploring data
-* Visualizing data
-* Modeling data
-* Communicating data
-
-as well as touch on some aspects of data types and data structures. This is not intended to be a comprehensive, in-depth look at any of these steps, but rather provide a general framework and approach. There are many excellent texts and resources available to further explore these concepts, as outlined in [CHAPTER]. 
-
-## Project
-When working in R we strongly advocate for the use of Projects in all of your projects -- even if your work consists of a single script and a small data set. Projects are a fantastic method for building a reproducible workflow by containing all of the files related to a Project within a single directory (Callout: directory is another term for folder - you can have many sub-directories within a master directory, in other words, sub-folders within one main folder). By coupling Projects with the use of the `here` package we can create a directory of files that will (generally) survive moving folders around on your computer as well as allow you to share your Project with someone and allow them to reproduce your work with very little fussing.
-
-## Package
-
-## Function
-
-Would a section on "things we've learned the hard way" be beneficial?  
