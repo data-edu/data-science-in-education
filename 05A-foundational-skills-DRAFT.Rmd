@@ -88,6 +88,7 @@ We use Projects because they create a self-contained file for a given analysis i
 And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future, at least in terms of file path structures. You may run into issues with packages being out of date and functions being deprecated - in which case you may be interested in learning more about how to set up a Project within Docker [AAA].  
 
 ## Setting up your Project
+note: how in-depth into file structures do we want to go?
 
 **How do I create a Project?**  
 Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) To create a Project you will need to be in RStudio.  
@@ -140,7 +141,7 @@ library(here)
 
 # Importing data
 read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-              "MA_Public_Schools_2017.csv"))
+              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
 
 read_csv(here("zz_jesse_practice_scripts/data/for_use", 
               "MA_Public_Schools_2017.csv")) -> my_data
@@ -187,42 +188,22 @@ ma_data_init %>%
     filter(n > 10) %>%
     arrange(desc(n))
 
-ma_data_init %>% 
-    skim()
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n = 10) %>%
+    arrange(desc(n))
 
-ma_data_init %>% 
-    skim(`AP_Test Takers`)
-
-ma_data_init %>% 
-    skim(`District Name`, `AP_Test Takers`)
-
-ma_data_init %>% 
-    skim(`District Name`:TOTAL_Enrollment)
-
-ma_data_init %>% 
-    group_by(`District Name`) %>% 
-    skim()
-
-ma_data_init %>% 
-    group_by(`District Name`) %>% 
-    skim(TOTAL_Enrollment)
-ma_data_init %>% 
-    rename(district_name = `District Name`)
-
-ma_data_init %>% 
-    rename(district_name = `District Name`) %>% 
-    select(district_name)
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n == 10) %>%
+    arrange(desc(n))
 
 ma_data_init %>% 
     rename(district_name = `District Name`,
            grade = Grade) %>% 
     select(district_name, grade)
-
-ma_data_init %>% 
-    rename(district_name = `District Name`,
-           grade = Grade) %>% 
-    select(district_name, grade) %>% 
-    skim()
 
 ma_data %>% 
     clean_names()
@@ -238,8 +219,224 @@ ma_data_01 <- ma_data_init %>%
 
 ```
 
+## Packages and Functions
 
-## Old text - keep until reincorporated
+**From the outside in**  
+Packages are a collection of functions, and most packages are designed for: a specific data set, a specific field, a specific set of tasks. Functions are individual components within a package, and functions are what we use to interact with our data.  
+
+**From the inside out**  
+To put it another way, an R user might write a series of functions that they find themselves needing to use repeatedly in a variety of projects. Instead of re-writing (or copying and pasting) the functions each time they need to use them, an R user can collect all of these individual functions inside a package. The R user can then load the package any time that they want to use the functions, using a single line of code instead of tens to tens of thousands of lines of code for each function.  
+
+Most of the packages we'll be working with in this book are available on the **C**omprehensive **R** **A**rchive **N**etwork, or [CRAN]9https://cran.r-project.org/), which means that we can install them using the same set of commands from within R.  
+
+The process of submitting a package and having it published through CRAN is beyond the scope of this book, and it's important to point out that you - yes, you! - can create a package for yourself and never submit it for publication.  
+
+Lastly, some packages are available directly from developers via GitHub.  
+
+[image]
+
+**The Tidyverse, a package of packages**
+The tidyverse is a single package that contains additional packages, and within each of those individual packages are a set of functions. The tidyverse is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. As of this writing, the tidyverse is the only known package of packages.  
+
+[image]
+
+## Installing and loading a package
+
+It is entirely possible to do all of your work in R without ever using a package, however we do not recommend that approach due to the wealth of packages available that help reduce both the learning curve associated with R as well as the amount of time spent on any given analytical project.  
+
+In order to access the functions within a package, you must first install the package on your computer. If the package is on CRAN we can install it by running the following code:  
+`install.packages("package_name")`  
+
+Once a package is installed on your computer you do not have to re-install it in order to use the functions in the package (until you update R - is this still the case, or am I thinking of something else?).  
+
+It is common to load a package into your R environment if you know that you'll be using the functions from within the package. We load a package using the following code:  
+
+`library(package_name)`  
+
+Sometimes you'll see `require()` instead of `library()`. We strongly advocate for the use of `library()`, as it forces R to load the package, and if the package is not installed or there are issues with the package, will give you an error message. `require()` on the other hand will not give an error if the package is not available or if there are issues with the package. Using `library()` will help to eliminate sources of confusion later on.  
+
+### Recognizing a function
+Functions in R can be spotted by the use of a word adjacent to a set of parentheses, like so: `word()`
+
+The word (or set of words) represent the name of the function, and the parenthesis are where we can provide arguments to a function, if arguments are needed for the function to run. Many functions in R packages do not _require_ arguments, and will use a set of default arguments unless you provide something different from the default.
+
+### Running code in R  
+In order to run code in R you need to type your code either in the Console or within an `.R` (or `.Rmd`) script. For the purposes of this chapter we recommend creating an `.R` script to type all of your code because you can add comments and then save your `.R` script for reference, whereas anything that you type in the Console will disappear as soon as you restart or close R.  
+
+To run code in the Console, you type your code and hit 'Enter'.  
+
+To run code in an R script, you can run a single line by highlighting it (or placing your cursor at the end of the line) and hitting `Ctrl` + `Enter` (get Mac codes).  
+
+You can also run your code by highlighting it and clicking the `Run` button.
+
+[image]
+
+### Run this code
+Take a few minutes to type out and run the following code:  
+
+```{r}
+# Installing packages
+
+install.packages("tidyverse")
+install.packages("janitor")
+install.packages("skimr")
+install.packages("here")
+
+# Setting up your environment
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(here)
+```
+
+What did you notice happening in the Console?  
+
+### How to find a package
+
+### How to learn more about a package
+
+### Function conflicts: between packages, between base R and loaded packages
+
+### Commenting in R
+`#` and `#'`
+
+## Using functions to import data
+
+### Run this code
+```{r}
+read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
+
+read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+              "MA_Public_Schools_2017.csv")) -> my_data
+
+ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+                              "MA_Public_Schools_2017.csv"))
+```
+
+What do you notice happening in the Console? 
+
+### The assignment operator
+`<-` and `->`
+
+### The `here` package 
+
+### Data types
+
+## Datasets and variables
+
+```{r}
+# Exploring and manipulating your data
+names(ma_data_init)
+
+glimpse(ma_dat_init)  
+glimpse(ma_data_init)
+summary(ma_data_init)
+
+glimpse(ma_data_init$Town)
+summary(ma_data_init$Town)
+
+glimpse(ma_data_init$AP_Test Takers)
+glimpse(ma_data_init$`AP_Test Takers`)
+summary(ma_data_init$`AP_Test Takers`)
+```
+
+### Tibbles and dataframes, oh my!
+
+### The `$` operator
+
+### Spaces in names
+
+## The pipe operator
+
+```{r}
+ma_data_init %>% 
+    group_by(District Name) %>%  
+    count()
+
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    count()  
+    
+ma_data_init %>% 
+    group_by(`District Name`) %>% 
+    count() %>% 
+    filter(n > 10)
+
+# ma_data_init %>% 
+#     group_by(`District Name`) %>% 
+#     count() %>% 
+#     filter(n > 10) %>% 
+#     arrange(desc(n)
+```
+
+### Piping practices 
+
+### Closing your parentheses
+
+## Finicky functions (rename this section)
+
+```{r}
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n > 10) %>%
+    arrange(desc(n))
+
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n = 10) %>%
+    arrange(desc(n))
+
+ma_data_init %>%
+    group_by(`District Name`) %>%
+    count() %>%
+    filter(n == 10) %>%
+    arrange(desc(n))
+
+ma_data_init %>% 
+    rename(district_name = `District Name`,
+           grade = Grade) %>% 
+    select(district_name, grade)
+```
+
+### When functions need arguments and when they don't
+
+### Functions within functions
+Saw in import as well
+
+### The difference between `=` and `==` 
+
+### Writing your own functions
+
+## Creating objects
+
+```{r}
+ma_data %>% 
+    clean_names()
+
+01_ma_data <- ma_data_init %>%  #' intentional error
+    clean_names()
+
+$_ma_data <- ma_data_init %>%  #' intentional error
+    clean_names()
+
+ma_data_01 <- ma_data_init %>% 
+    clean_names()
+```
+
+### Object-oriented programming (OOP)  
+
+### Analysis vs. development  
+Using pre-made functions vs. writing our own functions and packages, exploring pre-made functions 
+
+
+
+
+
+
+## Old text - keep until reincorporated//readdressed
 To break that down another way, it's helpful to know that R reads everything on the left of the assignment operator, `<-`, first, and while it reads from left to right, it starts with the innermost set of parentheses per object.  
 
 We can recognize functions in R by the use of parentheses. For example, `data()` is a function that pulls up all of the existing data sets within R.  
