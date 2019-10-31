@@ -210,7 +210,6 @@ s12_course_data <- s12_course_data %>%
            into = c('subject', 'semester', 'section'),
            sep = '-',
            remove = FALSE)
-
 ```
 
 This led to pulling out the subject, semester, and section from the course ID; variables that we can use later on.
@@ -281,6 +280,8 @@ Now that our data are ready to go, we can start to ask some questions of the dat
 
 # Visualizations and Models
 
+
+
 One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (noting that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
 ```{r}
@@ -300,7 +301,7 @@ dat <- dat %>%
 
 ```{r}
 ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
-    geom_point()
+    geom_point() 
 ```
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
@@ -317,6 +318,8 @@ So, it appeares that the more time students spent on the course, the more points
 
 We can find out exactly what the relationship is using a linear model.
 
+<!-- Note that we discuss this elsewhere, too? -->
+
 ```{r}
 m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
 summary(m_linear)
@@ -324,9 +327,32 @@ summary(m_linear)
 
 ## But what about different courses?
 
-Is there course-specific differences in how much time students spend on the 
+Are there course-specific differences in how much time students spend on the 
 course as well as in how time spent is related to the percentage of points 
-students earned?
+students earned? There are a number of ways to approach this question. Let's use 
+our linear model.
+
+Specifically, we can dummy-code the groups, which means that each group will be associated with a different intercept. We will save this to an object that we will call `m_linear_dc`, where the `dc` stands for dummy code.
+
+<!-- Will probably need to walk through this a lot more slowly - and so not sure that this chapter belongs here -->
+
+```{r}
+m_linear_dc <- lm(percentage_earned ~ TimeSpent + course_id, data = dat)
+```
+
+The output will be a bit, well, long, because each group will have its own intercept. Here it is:
+
+<!-- Wonder if there's a package we can use to print these table in a prettier way -->
+
+```{r}
+summary(m_linear_dc)
+```
+
+We can plot these varying intercepts through the use of the {broom} package.
+
+```{r}
+broom::tidy(m_linear_dc)
+```
 
 ```{r}
 ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
@@ -339,7 +365,9 @@ ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
     geom_smooth(method = "lm")
 ```
 
-There appears to be so. One way we can test is to use what is called a multi-level model. This requires a new package; one of the most common for estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*, or levels, in the data are.
+There appears to be so. 
+
+One way we can test is to use what is called a multi-level model. This requires a new package; one of the most common for estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*, or levels, in the data are.
 
 ```{r}
 # install.packages("lme4")
