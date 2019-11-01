@@ -1,0 +1,96 @@
+# Text analysis
+
+```{r}
+library(tidyverse)
+```
+
+You can view the data here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918
+
+There are a number of ways you can access it.
+
+### 1: Downloading the file directly via R
+
+```{r}
+url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwBh9-W3VZgHWWuM2NTsruuN1viqdS7oYXN6Q2Ztu-8-IxFjLtLEWCBoQzvzXcp2ddnwgCj_M3JEZ/pub?gid=400689247&single=true&output=csv"
+
+file_name <- "" # add a file name that ends in .csv
+
+download.file(url, destfile = file_name)
+```
+
+### 2: Manually downloading the file
+
+To manually download the file, navigate to the data (here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247) and then navigate to the **Archive** tab, and then click *File* -> *Download* -> *Comma-separated values* (or *Microsoft Excel*).
+
+### 3: Collect your own!
+
+Use [TAGS](https://tags.hawksey.info/). 
+
+This requries that you authenticate with Google and Twitter accounts.
+
+# Reading the data
+
+Next, you will need to read the data into R. Depending on how you accessed the data, there are a number of ways to do this.
+
+*If* you downloaded the file directly via R (option 1, above), then you can read the data using the same file name (saved to `file_name`) you used above.
+
+Either type the same file name, in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below (or use `file_name` directly and try to figure out what's happening!):
+
+```{r}
+d <- read_csv()
+d
+```
+
+*If* you manually downloaded the file (and saved it to the directory you are working in), then it may be helpful to rename the file. Consider naming the file something easy to understand and to type. Then, read the data by typing the file name in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below. 
+
+Note: another option is to use click the name of the file in your 'Files' window and then to click 'Import Dataset'; it is important to copy the code that that wizard generates into a script so that you can re-run your analyses.
+
+```{r}
+d <- read_csv()
+d
+```
+
+If you haven't already, be sure to type `d` into the console (or to run the chunk above) to see what the data looks like. If something doesn't look right, consider what might have gone wrong (when accessing, renaming, or reading the data).
+
+# Preparing the data for the analysis
+
+Text data can be stored a number of ways. We will focus on a common data structure, a document-term matrix. 
+
+The idea that is essential for understanding a document-term matrix is that it is simply a data frame with every term across every document comprising the columns, and every document being represented with each row. 
+
+We will use the **quanteda** R package to create a document term matrix. To do so, we will use the `tokens()` function, which takes as a first argument the column of a data frame with text. An easy way to do this is via the `pull()` function, which returns just one column from a data frame. Pass to `pull()` the name of your data frame and the name of the column `text`, e.g., `pull(my_data_frame, text)`, directly to the tokens function.
+
+```{r}
+# install.packages("quanteda")
+library(quanteda)
+my_tokens <- tokens()
+```
+
+Run `?tokens` in your console. Make some changes to the arguments to process the data in a way that is suited to the Twitter data (check out the arguments that begin `remove_`).
+
+Once you have tokenized the text ina  way that you think is suitable, proceed to the next function, `dfm()`, which creates a document term matrix.
+
+```{r}
+my_dfm <- dfm(my_tokens)
+```
+
+One argument that you can add to `dfm()` that is commonly helpful is `remove = stopwords("english")`. There are a number of options for how you remove stopwords, or common words: check `?stopwords()` and see how to try out the different options. Another argument that is helpful argument is `stem`, which can be set to `TRUE` but defaults to `FALSE`. If set to true, words will be reduced to a common "stem," e.g., the words "writing" and "written" may be reduced to "writ".
+
+# Creating output
+
+Though a basic step, assessing the most frequent terms can be powerful. The `topfeatures()` function can be helpful for this; simply pass `my_dfm` as the first argument to it to see the results.
+
+```{r}
+topfeatures(my_dfm)
+```
+
+Can you change the number of terms that are returned (hint: check `?topfeatures`)? Are the results interpretable? If not, what changes can you make (either through what you pass to `tokens()` or `dfm()`) to improve the output?
+
+A common representation that can be helpful for communicating what the most frequent terms are is a word cloud; simply pass `my_dfm` to `textplot_wordcloud()` (and check `?textplot_wordcloud` to see the options you can change).
+
+```{r}
+textplot_wordcloud(my_dfm)
+```
+
+While wordclouds are common (and are fun to interpret), there are a number of other representations of how frequent terms are (and many analyses that can be run using text data). If you made it this far, check out the Quanteda Tutorials book: https://tutorials.quanteda.io/.
+```
