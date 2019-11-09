@@ -294,3 +294,21 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 
 ### Build Linear Model
 
+Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the lm() function, where the arguments are:
+
+* Your predictor (formative_assessments)
+* Your response (running_average)
+* The data (gradebook)
+
+```{r}
+linear_mod <- 
+  lm(running_average ~ formative_assessments, data = gradebook)
+
+summary(linear_mod)
+```
+
+The formula reads as follows: 
+
+```
+running_average = 50.11511 + 0.42136*formative_assessments
+```
