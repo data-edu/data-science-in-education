@@ -328,8 +328,9 @@ m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
 sjPlot::tab_model(m_linear)
 ```
 
+
 Another way that we can generate table output is with a function from the 
-`sjPlot` package, `plot_model`.
+`sjPlot` package, `tab_model`.
 
 ```{r}
 sjPlot::tab_model(m_linear)
@@ -347,6 +348,60 @@ apaTables::apa.reg.table(m_summary, filename = "m_summary_regression_table.doc")
 
 <!-- Wonder if we also want to show how to do correlation tables with this package -->
 
+The time spent variable is on a very large scale (minutes); what if we transform it to 
+represent the number of hours that students spent on the course into hours? Let's use 
+the `mutate()` function we used earlier. We'll end the variable name in `_hours`, 
+to represent what this variable means.
+
+```{r}
+dat <- dat %>% mutate(TimeSpent_hours = TimeSpent/60)
+m_linear_1 <- lm(percentage_earned ~ TimeSpent_hours, data = dat)
+sjPlot::tab_model(m_linear_1)
+```
+
+The scale stil does not seem quite right. What if we standardized the variable 
+to have a mean of zero and a standard deviation of one?
+
+```{r}
+dat <- dat %>% mutate(TimeSpent_std = scale(TimeSpent))
+m_linear_2 <- lm(percentage_earned ~ TimeSpent_std, data = dat)
+sjPlot::tab_model(m_linear_2)
+```
+
+That seems to make more sense - although, there is a different interpretation 
+now for the time spent variable: for every one standard deviation increase in 
+the amount of time spent on the course, the percentage of points a student earns 
+increases by .11, or 11 percentage points. 
+
+Let's extend our regression model: what other variables may matter? Perhaps there
+are differences based on the subject of the course. We can add subject as a variable easily:
+
+```{r}
+m_linear_3 <- lm(percentage_earned ~ scale(TimeSpent) + subject, data = dat)
+```
+
+We can use `sjPlot::tab_model()` once again to view the results:
+
+```{r}
+sjPlot::tab_model(m_linear_3)
+```
+
+It looks like subject `FrSc` - forensic science - and subject `Ocn` - 
+oceanography - are associated with a higher percentage of points earned, overall.
+
+<!-- Not sure the following is very interpretable - cutting unless a better  -->
+<!-- interaction term can be specified -->
+<!-- Is it possible that the relationship between time spent on the course and the  -->
+<!-- percentage of points earned differs as a function of the subject? To find out,  -->
+<!-- we can specify an interaction term. An interaction term represents the additional  -->
+<!-- impact of two variables both being high - or low - on the dependent variable; in -->
+<!-- this case, the percentage of points earned. -->
+
+<!-- ```{r} -->
+<!-- m_linear_4 <- lm(percentage_earned ~ scale(TimeSpent)*subject, data = dat) -->
+<!-- sjPlot::tab_model(m_linear_4) -->
+<!-- ``` -->
+
 ## But what about different courses?
 
 Are there course-specific differences in how much time students spend on the 
@@ -354,9 +409,9 @@ course as well as in how time spent is related to the percentage of points
 students earned? There are a number of ways to approach this question. Let's use 
 our linear model.
 
-Specifically, we can dummy-code the groups, which means that each group will be associated with a different intercept. We will save this to an object that we will call `m_linear_dc`, where the `dc` stands for dummy code.
-
-<!-- Will probably need to walk through this a lot more slowly - and so not sure that this chapter belongs here -->
+Specifically, we can dummy-code the groups, which means that each group will be 
+associated with a different intercept. We will save this output to 
+`m_linear_courses`, where the `dc` stands for dummy code.
 
 ```{r}
 m_linear_dc <- lm(percentage_earned ~ TimeSpent + course_id, data = dat)
