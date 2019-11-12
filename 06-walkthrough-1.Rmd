@@ -1,13 +1,10 @@
----
-title: 'Education Dataset Analysis Pipeline: Walkthrough #1'
-output: html_document
----
+# Education Dataset Analysis Pipeline: Walkthrough #1
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 ```
 
-# Background 
+## Background 
 
 In the 2015-2016 and 2016-2017 school years, researchers at Michigan State University carried out a study on students' motivation to learn in online science classes. The online science classes were part of a statewide online course provider designed to supplement (and not replace) students' enrollment in their local school. For example, students may choose to enroll in an online physics class because one was not offered at their school (or they were not able to take it given their schedule).
 
@@ -21,7 +18,7 @@ The study involved a number of different data sources which were brought to bear
 
 First, these different data sources will be described in terms of how they were provided by the school.
 
-## 1. Self-report survey 
+### Data source #1: Self-report survey 
 
 This was data collected before the start of the course via self-report survey. The survey included 10 items, each corresponding to one of three *measures*, namely, for interest, utility value, and perceived competence:
 
@@ -36,20 +33,20 @@ This was data collected before the start of the course via self-report survey. T
 9.	I find the content of this course to be personally meaningful. (Utility value)
 10.	I’ve always wanted to learn more about this subject. (Interest)
 
-## 2. Log-trace data 
+### Data source #2: Log-trace data 
 
 Log-trace data is data generated from our interactions with digital technologies. In education, an increasingly common source of log-trace data is that generated from interactions with learning management systems. The data for this walk-through is a *summary of* log-trace data, namely, the number of minutes students spent on the course. Thus, while this data is rich, you can imagine even more complex sources of log-trace data (i.e. timestamps associated with when students started and stopped accessing the course!).
 
-## 3. Achievement-related and gradebook data
+### Data source #3: Achievement-related and gradebook data
 
 This is a common source of data, namely, one associated with graded assignments students completed. In this walkthrough, we just examine students' final grade.
 
-## 4. Discussion board data
+### Data source #4: Discussion board data
 <!-- NOTE - may not include this, as it is hard to confidently anonymize a medium-ish sized data set -->
 
 Discussion board data is both rich and unstructured, in that it is primarily in the form of written text. We examine a small subset of the discussion board data in this walkthrough.
 
-# Processing the data
+## Processing the data
 
 This analysis uses R packages, which are collections of R code that help users code more efficiently. We load these packages with the function `library`. In particular, the packages we'll use will help us load Excel files, organize the structure of the data, work with dates in the data, and navigate file directories. 
 
@@ -278,9 +275,7 @@ It looks like we have neary 30,000 observations from 30 variables.
 
 Now that our data are ready to go, we can start to ask some questions of the data. 
 
-# Visualizations and Models
-
-
+## Visualizations and Models
 
 One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (noting that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
@@ -314,7 +309,7 @@ ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
 
 So, it appeares that the more time students spent on the course, the more points they earned.
 
-# Linear model (regression)
+## Linear model (regression)
 
 We can find out exactly what the relationship is using a linear model.
 
