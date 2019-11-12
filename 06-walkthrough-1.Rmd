@@ -409,22 +409,70 @@ course as well as in how time spent is related to the percentage of points
 students earned? There are a number of ways to approach this question. Let's use 
 our linear model.
 
-Specifically, we can dummy-code the groups, which means that each group will be 
+Specifically, we can dummy-code the groups, which means that we will add a 
+number of variables to our data set.
+
+We can see how dummy coding works through using the {dummies} package, though, 
+as we will see, you often do not need to manually dummy code variables like this.
+
+Let's consider the **iris** data that comes built into R, but, since we are 
+fans of the {tidyverse}, we will first change it into a tibble.
+
+```{r}
+iris <- as_tibble(iris)
+iris
+```
+
+As we can see, the `Species` variable is a factor. If we consider how we could 
+include a variable such as this in a linear model, things may become a little 
+confusing. `Species` seems to be made up of, well, words, such as "setosa." The
+common way to approach this is through dummy coding, where you create new 
+variables for each of the possible values of `Species` (such as "setosa"). Then, 
+these new variables have a value of 1 when the row is associated with that level
+(i.e., the first row in the data frame above would have a 1 for a column named 
+`setosa`).
+
+The number of levels to be created is always the number of different possible values 
+minus one, because each group will be modeled in comparison to the group without
+a column, or what is commonly called the reference group. This may be clearer 
+with an example. Let's return to {dummies}.
+
+How many possible values are there for `Species`? We can check with the `levels`
+function.
+
+```{r}
+levels(iris$Species)
+```
+
+```{r}
+dummy(iris$Species) %>% View()
+  head()
+```
+
+
+
+
+each group will be 
 associated with a different intercept. We will save this output to 
-`m_linear_courses`, where the `dc` stands for dummy code.
+`m_linear_courses`, where the `dc` stands for dummy code. We will keep 
+the variables we used in our last set of models - `TimeSpent` and `subject` - as
+independent variables.
 
 ```{r}
-m_linear_dc <- lm(percentage_earned ~ TimeSpent + course_id, data = dat)
+m_linear_dc <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
 
-The output will be a bit, well, long, because each group will have its own intercept. Here it is:
-
-<!-- Wonder if there's a package we can use to print these table in a prettier way -->
+The output will be a bit, well, long, because each group will have its own 
+intercept. Here it is:
 
 ```{r}
-summary(m_linear_dc)
+sjPlot::tab_model(m_linear_dc)
 ```
 
+Wow! That is a lot of effects. In addition to the time spent and subject 
+variables, the model estimated the difference, accounting for the effects of 
+being not in a subject, but in a single teacher's classroom - all relative to 
+one classroom which is 
 We can plot these varying intercepts through the use of the {broom} package.
 
 ```{r}
