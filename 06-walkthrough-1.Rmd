@@ -609,7 +609,7 @@ model considers there to be strong evidence for a group effect, whereas in the
 latter, the model recognizes that there is less certainty about a group (class)
 effect for that particular group. Multi-level models are very common in educational research for cases such as 
 this: accounting for the way in which students take the same classes, or even go 
-to the same school (see Raudenbush & Bryk, 2001).
+to the same school (see Raudenbush & Bryk, 2002).
 
 The way that a multi-level model does this "regularizing" is by considering the 
 groups (and not the data points, in this case) to be samples from a larger 
@@ -639,26 +639,13 @@ in districts - you get the picture!). Educational data is complex, and so it is
 not surprising that multi-level models may be encountered in educational data 
 science analyses, reports, and articles. 
 
-We can plot these varying intercepts through the use of the {broom} package.
-
-```{r}
-broom::tidy(m_linear_dc)
-```
-
-```{r}
-ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
-    geom_point()
-```
-
-```{r}
-ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
-    geom_point() +
-    geom_smooth(method = "lm")
-```
-
-There appears to be so. 
-
-One way we can test is to use what is called a multi-level model. This requires a new package; one of the most common for estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*, or levels, in the data are.
+Fortunately, for all of the complicated details, multi-level models are very 
+easy to use in R. Their requires a new package; one of the most common for 
+estimating these types of models is **lme4**. We use it very similarly to the 
+`lm()` function, but we pass it an additional argument about what the *groups*, 
+in the data are. Such a model is often referred to as as "varying intercepts" 
+multi-level model, because what is different between the groups is the effect 
+of being a student in a class: the intercepts between groups vary.
 
 ```{r}
 # install.packages("lme4")
@@ -667,12 +654,59 @@ m_course <- lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 summary(m_course)
 ```
 
-A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the **sjstats** package for doing this.
+As we mentioned earlier, a common way to understand how much variability is at 
+the group level is to calculate the *intra-class* correlation. This value is the
+proportion of the variability in the outcome (the *y*-variable) that is 
+accounted for solely by the groups identified in the model. There is a useful 
+function in the **performance** package for doing this.
 
 ```{r}
-# install.packages("sjstats")
-library(sjstats)
+# install.packages("performance")
+library(performance)
 icc(m_course)
 ```
 
-This shows that nearly 17% of the variability in the percentage of points students earned can be explained simply by knowing what class they are in. 
+This shows that nearly 17% of the variability in the percentage of points 
+students earned can be explained simply by knowing what class they are in. 
+
+There is much more to do with multi-level models. We briefly discuss a 
+common extension to the model we just used - although such a model, in which
+the effects of being a student in a class are recognized through specifying 
+what the groups are, is very common. The extensions is for adding 
+additional levels.
+
+The data that we are using is all from one school, and so we cannot estimate a 
+"two-level" model. Imagine, however, that instead of 26 classes, we had data 
+from students from 230 classes, and that these classes were from 15 schools. We 
+could estimate a two-level, varying intercepts (where there are now two groups 
+with effects) model very similar to the model we estimated above, but simply 
+with another group added for the school. The model will account for the way in 
+which the classes are nested within the schools automatically (Bates, Maechler, 
+Bolker, & Walker, 2015). 
+
+```{r}
+m_course_school <- lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+```
+
+Were we to estimate this model (and then use the `icc()` function), we would 
+see two ICC values representing the proportion of the variation in the dependent
+variable explained by each of the two groups we added - the course *and* the
+school. You can add further still levels to the model, as the {lme4} package was
+designed for complex multi-level models (and even those with not nested, but
+crossed random effects; a topic beyond the scope of this walkthrough, but which 
+is described in West, Welch, & Galecki, 2015).
+
+There is much more that can be done with multi-level models. For further 
+reading, we recommend the sources we cited in the walkthrough:
+
+- [Raudenbush & Bryk (2002)](https://www.amazon.com/Hierarchical-Linear-Models-Applications-Quantitative/dp/076191904X)
+- [West, Welch, & Galecki (2015)](http://www-personal.umich.edu/~bwest/almmussp.html)
+
+Finally, we mention that multi-level models have similarities to the Bayesian 
+methods which are becoming more common among some R users - and educational 
+data scientists. We recommend the following references for Bayesian methods that
+directly reference and build on the models that are able to be estimated using 
+{lme4}.
+
+- [Gelman & Hill (2006)](https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X/ref=sr_1_1?keywords=andrew+gelman&qid=1573607019&s=books&sr=1-1)
+- [Burkner (2019)](https://cran.r-project.org/web/packages/brms/vignettes/brms_overview.pdf)
