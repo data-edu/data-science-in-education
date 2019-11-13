@@ -579,8 +579,65 @@ intercept.
 ## Toward multi-level models
 
 Dummy-coding is a very helpful strategy. It is particularly useful with a small 
-number of groups (i.e., for )
+number of groups (i.e., for estimating the effects of being in one of the five
+subjects in the online science data set). With effects such as being a student 
+in a particular class, though, the output seems to be less useful: it is hard to
+interpret the 25 different effects (and to compare them to the intercept). 
 
+Maybe more important than the challenge of interpreting them, analysts often 
+have the goal not of determining the effect of being in a specific class, *per 
+se*, but rather to account for the fact that students share a class. This is 
+important because linear models (i.e., the model we estimated using `lm()`)
+have an assumption that the data points are - apart from sharing levels of the
+variables that are used in the model - independent, or not correlated. This is 
+what is meant by the "assumption of independence" or of "independently and 
+identically distributed" (i.i.d.) residuals (CITE Field). 
+
+Multi-level models are a way to deal with the difficulty of interpreting the 
+estimated effects for each of many groups, like classes, and to address the 
+assumption of independence. Multi-level models do this by still estimating the 
+effect of being a student in each group, but with a key difference from linear 
+models: Instead of determining how difference the observations in a group are 
+from those in the reference group, the multi-level model "regularizes" the 
+difference based on how systematically different the groups are. Groups that are 
+comprised of individuals who are consistently different (higher or lower) than 
+individuals on average are not regularized very much - their estimated 
+difference may be close to the estimate from a multi-level model - whereas 
+groups with only a few individuals, or with a lot of variability within 
+individuals, would be regularized a lot. In the former case, the multi-level 
+model considers there to be strong evidence for a group effect, whereas in the 
+latter, the model recognizes that there is less certainty about a group (class)
+effect for that particular group. Multi-level models are very common in educational research for cases such as 
+this: accounting for the way in which students take the same classes, or even go 
+to the same school (see Raudenbush & Bryk, 2001).
+
+The way that a multi-level model does this "regularizing" is by considering the 
+groups (and not the data points, in this case) to be samples from a larger 
+population of classes. By considering the effects of groups to be samples from a 
+larger population, the model is able to use information not only particular to 
+each group (as the models created using `lm()`), but also information across all
+of the data. Using multi-level models means that the assumption of independence 
+can be addressed; their use also means that individual coefficients for 
+classes do not need to be included (or interpreted, thankfully!), though they 
+are still included in and accounted for in the model. As we describe, the way
+that information about the groups is reported is usually in the form of the 
+*intraclass correlation coefficient* (ICC), which explains the proportion of 
+variation in the dependent variable that the groups explain. Smaller ICCs (such 
+as ICCs with values of 0.05, representing 5% of the variation in the dependent 
+variable) mean that the groups are not very important; larger ICCs, such as 
+ICCs with values of 0.10 or larger (values as high as 0.50 are not uncommon!),
+indicate that groups are important and that they have to do with a lot of the 
+differences observed in the dependent variable (and that not including them 
+may potentially ignore the assumption of independence in a case in which it may 
+be important to recognize it - and lead to bias in the results).
+
+That was a lot of technical information about multi-level models; thank you for
+sticking with us through it! We wanted to incldue this as multi-level models 
+are common: consider how often the data you collect involves students nested 
+(or grouped) in classes, or classes nested in schools (or even schools nested 
+in districts - you get the picture!). Educational data is complex, and so it is 
+not surprising that multi-level models may be encountered in educational data 
+science analyses, reports, and articles. 
 
 We can plot these varying intercepts through the use of the {broom} package.
 
