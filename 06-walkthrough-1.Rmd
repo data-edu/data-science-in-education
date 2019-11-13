@@ -414,6 +414,8 @@ our linear model.
 Specifically, we can dummy-code the groups, which means that we will add a 
 number of variables to our data set.
 
+### The role of dummy codes
+
 We can see how dummy coding works through using the {dummies} package, though, 
 as we will see, you often do not need to manually dummy code variables like this.
 
@@ -434,10 +436,7 @@ these new variables have a value of 1 when the row is associated with that level
 (i.e., the first row in the data frame above would have a 1 for a column named 
 `setosa`).
 
-The number of levels to be created is always the number of different possible values 
-minus one, because each group will be modeled in comparison to the group without
-a column, or what is commonly called the reference group. This may be clearer 
-with an example. Let's return to {dummies}.
+Let's return to {dummies}.
 
 How many possible values are there for `Species`? We can check with the `levels`
 function.
@@ -446,16 +445,70 @@ function.
 levels(iris$Species)
 ```
 
+When we run the `dummy()` function on the `Species` variable, we can see that it
+returns *three* variables, one for each of the three levels of Species - 
+"setosa", "versicolor", and "virginica".
+
 ```{r}
-dummy(iris$Species) %>% View()
+dummy(iris$Species) %>%
   head()
 ```
 
-each group will be 
-associated with a different intercept. We will save this output to 
-`m_linear_courses`, where the `dc` stands for dummy code. We will keep 
-the variables we used in our last set of models - `TimeSpent` and `subject` - as
-independent variables.
+We can confirm that every row associated with a specific species has a 1 in the 
+column it corresponds to. We can do this by binding together the dummy codes and 
+the **iris** data and then counting, for each of the three species, how much of 
+the rows for each dummy code were coded with a "1".
+
+For example, when the `Species` is "setosa", the variable `Speciessetosa` always 
+equals 1 - as is the case for the other species (for their respective variables). 
+
+```{r}
+species_dummy_coded <- dummies::dummy(iris$Species)
+species_dummy_coded <- as_tibble(species_dummy_coded)
+iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
+
+iris_with_dummy_codes %>% 
+  count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
+```
+
+Okay, this covers how dummy codes work: but, how do they work when used in a 
+model, like the linear model we have been using (with `lm()`)? 
+
+In the context of using `lm()` (and many other functions in R) is that the 
+number of levels to be created is always the number of different possible values 
+minus one, because each group will be modeled in comparison to the group without
+a column, or what is commonly called the reference group. 
+
+Why can every group not simply have their own dummy-coded column? The reason has 
+to do with how the dummy codes are used. The purpose of the dummy code is to 
+show how different the dependent variable is for all of the observations that 
+are in that group (i.e., for all of the flowers that are setosa specimens). In 
+order to represent how different those flowers are, they have to be compared to 
+something else - and the intercept of the model usually represents this 
+"something else." However, if every level of a factor (such as `Species`) is 
+dummy-coded, then there would be no cases available to estimate an intercept -
+in short, the dummy code would not be compared to anything else. For this 
+reason, one group is typically selected as the reference group, that which every 
+other group is compared to.
+
+### Using dummy codes
+
+This may be clearer with an example. Let's return to our online science class 
+data and consider the effect of being in a specific class in the data set. 
+First, let's determine how many classes there are. We can use the `count()` 
+function.
+
+```{r}
+dat %>% 
+  count(course_id) %>% 
+  nrow()
+```
+
+There are 26 distinct courses.
+
+We will save this output to `m_linear_courses`, where the `dc` stands for 
+dummy code. We will keep  the variables we used in our last set of models - 
+`TimeSpent` and `subject` - as independent variables.
 
 ```{r}
 m_linear_dc <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
@@ -470,8 +523,65 @@ sjPlot::tab_model(m_linear_dc)
 
 Wow! That is a lot of effects. In addition to the time spent and subject 
 variables, the model estimated the difference, accounting for the effects of 
-being not in a subject, but in a single teacher's classroom - all relative to 
-one classroom which is 
+being a student in a specific class. Let's count how many classes 
+there are. If we count the number of classes, we see that there are 25 - and not
+26! One has been automatically selected as the reference group, and every other 
+class's coefficient represents how different each class is from it. The 
+intercept's value of 0.74 represents the percentage of points that students in 
+the reference group class, which is automatically the first level of the 
+`course_id` variable when it is converted to a factor, "AnPhA-S116-01".
+
+We can easily choose another class to serve as a reference group. Imagine, for 
+example, that we want "course_idPhysA-S116-01" to be the reference group. The 
+`fct_relevel()` function (which is a part of the {tidyverse} suite of packages) 
+makes it easy to do this. 
+
+```{r}
+dat <- dat %>% 
+  mutate(course_id = fct_relevel(course_id, "course_idPhysA-S116-01"))
+```
+
+We can now see that *that* group is no longer listed as an independent variable, 
+or a predictor: every coefficient in this model is now in reference to it.
+
+```{r}
+m_linear_dc_1 <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+sjPlot::tab_model(m_linear_dc_1)
+```
+
+Using dummy codes is very common - they are used in nearly every case in which 
+you are using a model (such as a linear model, through `lm()`) and you have 
+variables that are factors. A benefit of using `lm()` (and many other functions) 
+in R for modeling, such as the `lme4::lmer()` function we discuss later is that 
+if you have variables which are not factors, but simply character strings, they 
+will be automatically changed to factors when used in a model. This means, for 
+instance, that if you have a variable for the subject matter of courses labeled 
+"mathematics", "science", "english language" (typed like that!), "social 
+studies", and "art", and you include this variable in an `lm()` model, then the 
+function will automatically dummy-code these for you. The only essential step 
+that is not taken for you is choosing which is the reference group.
+
+We note that there are cases in which *not having a reference group* that the
+other, dummy-coded groups are compared to is desired. In such cases, no 
+intercept is estimated. This can be done by passing a -1 as the first value 
+after the tilde, as follows:
+
+```{r}
+m_linear_dc_2 <- lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
+sjPlot::tab_model(m_linear_dc_2)
+```
+
+This does not work in many cases, and it is much more common to dummy-code 
+factors, and so we emphasized that in this walkthrough, although want you to 
+be aware that it is possible (though uncommon) to estimate a model without an 
+intercept.
+
+## Toward multi-level models
+
+Dummy-coding is a very helpful strategy. It is particularly useful with a small 
+number of groups (i.e., for )
+
+
 We can plot these varying intercepts through the use of the {broom} package.
 
 ```{r}
