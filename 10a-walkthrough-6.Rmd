@@ -1,9 +1,18 @@
 ---
-title: "Chapter 11 Walkthrough: Longitudinal Analysis"
-author: 
-date: 
-output: html_document
+title: 'Chapter 11 Walkthrough: Longitudinal Analysis'
+author: "Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez"
+date: "2019-11-1"
+output:
+  word_document: default
+  html_document: default
 ---
+
+```{r, echo = FALSE, message = FALSE}
+source("r/theme_dataedu.R")
+source("r/palette_dataedu.R")
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
 
 # Vocabulary 
 
@@ -34,7 +43,7 @@ When you are designing an analysis that uses multiple datasets that all have the
 
 Before doing that, you can explore just one of the datasets briefly to see what you can learn about the dataset's structure. Clues from this initial exploration of one dataset informs how you read in all the datasets at once later on. For example, this first dataset has some lines at the top that don't actually contain data: 
 
-```{r}
+```{r, echo = FALSE}
 library(tidyverse)
 
 read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv")
@@ -46,7 +55,7 @@ The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actuall
 
 Try using `skip = 4` in your call to `read_csv`:
 
-```{r}
+```{r, echo = FALSE}
 read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4)
 ```
 
@@ -81,10 +90,7 @@ That made a vector of six filenames, one for each year of child count data store
 
 ```{r read list of CSVs}
 # Pass filenames to map and read_csv
-all_files <- filenames %>% map(., ~read_csv(., skip = 4))
-
-# A list of datasets
-all_files
+all_files <- filenames %>% map(., ~read_csv(., skip = 4)) # note - this code is not run!
 ```
 
 It is important here to think ahead. Ultimately we want to combine all the datasets in `all_files` into one dataset using `bind_rows`. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using `map` and `names`: 
@@ -153,7 +159,7 @@ all_files[[5]]
 
 We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using the `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
 
-```{r}
+```{r, echo = FALSE}
 all_files[[5]] <- read_csv(filenames[[5]], skip = 3)
 ```
 
@@ -381,7 +387,8 @@ high_count %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity") + 
     labs(title = "Count of female students in special education over time", 
-         subtitle = "Ages 6-21")
+         subtitle = "Ages 6-21") +
+    theme_dataedu()
 ```
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
@@ -398,7 +405,8 @@ high_count %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity") + 
     labs(title = "Count of male students in special education over time", 
-         subtitle = "Ages 6-21")
+         subtitle = "Ages 6-21") +
+  theme_dataedu()
 ```
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by` and `summarise`. 
@@ -408,7 +416,8 @@ high_count %>%
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = year, y = n, color = state)) + 
-    geom_freqpoly(stat = "identity")
+    geom_freqpoly(stat = "identity") +
+  theme_dataedu()
 ```
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
@@ -419,8 +428,9 @@ high_count %>%
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = state, y = n)) + 
     geom_boxplot() + 
-    labs(title = "Median student count", 
-         subtitle = "All ages and genders")
+    labs(title = "Median student count",
+         subtitle = "All ages and genders") +
+  theme_dataedu() 
 ```
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
@@ -451,7 +461,8 @@ high_count %>%
     geom_freqpoly(stat = "identity") + 
     scale_y_continuous(limits = c(1.5, 2.5)) +
     labs(title = "Male student to female student ratio over time", 
-         subtitle = "Ages 6-21")
+         subtitle = "Ages 6-21") +
+  theme_dataedu()
 ```
 
 By visually inspecting, we can hypothesize that there was not significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset by verifying and quantifying the relationship between two variables beyond simply visualizing them. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
@@ -482,7 +493,8 @@ ggplot(aes(x = f, y = m)) +
          x = "Female students", 
          y = "Male students", 
          caption = "Data: US Dept of Education"
-    )
+    ) +
+  theme_dataedu()
 ```
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot from this dataset about what happens between in states where there are 250,000 and 1,750,000 female students in any given year. 
@@ -537,7 +549,8 @@ Earlier we asked the question Do we have enough data points for the count of fem
 ```{r}
 ggplot(data = model_data, aes(x = year, y = ratio)) + 
     geom_jitter(alpha = .5) + 
-    labs(title = "Male to female ratio across years (jittered)")
+    labs(title = "Male to female ratio across years (jittered)") +
+  theme_dataedu()
 ```
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
@@ -598,7 +611,8 @@ model_data %>%
          subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
          x = "", 
          y = "", 
-         caption = "Data: US Dept of Education")
+         caption = "Data: US Dept of Education") +
+  theme_dataedu()
 ```
 
 ```{r visualize female to male ratio 2}
@@ -612,7 +626,8 @@ model_data %>%
          subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
          x = "", 
          y = "", 
-         caption = "Data: US Dept of Education")
+         caption = "Data: US Dept of Education") +
+  theme_dataedu()
 ```
 
 ```{r visualize female to male ratio 3}
@@ -627,7 +642,8 @@ model_data %>%
          subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
          x = "", 
          y = "", 
-         caption = "Data: US Dept of Education")
+         caption = "Data: US Dept of Education") +
+  theme_dataedu()
 ```
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output available to you so you can reference specific actual coefficient estimates when needed. 
