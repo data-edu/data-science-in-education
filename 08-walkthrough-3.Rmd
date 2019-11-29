@@ -1,16 +1,6 @@
----
-title: 'Education Dataset Analysis Pipeline: Walk Through #3'
-output: html_document
----
+# Walkthrough 03: Title Here
 
-```{r analysis-preferences}
-# Seed for random number generation
-set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed, eval = TRUE, echo = FALSE, results = 'hide',
-                      message = FALSE, warning = FALSE)
-```
-
-# Background
+## Introduction
 
 One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses (Allen & Seaman, 2008). 
 
@@ -25,45 +15,7 @@ We take up the following four questions:
 3. Which types of trace measures are most predictive of achievement?
 4. How does a random forest compare to a simple linear model (regression)?
 
-# Information about the dataset 
-
-This dataset came from 499 students enrolled in online middle school science courses in 2015-2016. The data were originally collected for use as a part of a research study, though the findings have not been published anywhere, yet.
-
-The setting of this study was a public, provider of individual online courses in a Midwestern state. In particular, the context was two semesters (Fall and Spring) of offerings of five online science courses (Anatomy & Physiology, Forensic Science, Oceanography, Physics, and Biology), with a total of 36 classes. 
-
-Specific information in the dataset included:
-
-- a pre-course survey students completed about their self-reported motivation in science — in particular, their perceived competence, utility value, and interest
-- the time students spent on the course (obtained from the LMS, Blackboard) and their final course grades as well as their involvement in discussion forums
-- for discussion board responses, we used the Linguistic Inquiry and Word Count (LIWC; Pennebaker, Boyd, Jordan, & Blackburn, 2015) to calculate the number of posts per student and variables for the mean levels of students' cognitive processing, positive affect, negative affect, and social-related discourse
----
-title: 'Education Dataset Analysis Pipeline: Walk Through #3'
-output: html_document
----
-
-```{r analysis-preferences}
-# Seed for random number generation
-set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed, eval = TRUE, echo = FALSE, results = 'hide',
-                      message = FALSE, warning = FALSE)
-```
-
-# Background
-
-One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses (Allen & Seaman, 2008). 
-
-In this walkthrough, we examine the educational experiences of students in online science courses at a virtual middle school in order to characterize their motivation to achieve and their tangible engagement with the course in terms of behavioral trace measures. To do so, we use a robust data set, which includes self-reported motivation as well as behavioral trace data collected from a learning management system (LMS) to identify predictors of final course grade. Our work examines the idea of educational success in terms of student interactions with an online science course.
-
-One meaningful perspective from which to consider students' engagement with online courses is related to their motivation to achieve. More specifically, it is important to consider how and why students are engaging with the course. Considering the psychological mechanisms behind achievement is valuable because doing so may help to identify meaningful points of intervention for educators and for researchers and administrators in online *and* face-to-face courses interested in the intersection between behavioral trace measures and students' motivational and affective experiences in such courses.
-
-We take up the following four questions:
-
-1. Is motivation more predictive of course grades as compared to other online indicators of engagement?
-2. Which types of motivation are most predictive of achievement?
-3. Which types of trace measures are most predictive of achievement?
-4. How does a random forest compare to a simple linear model (regression)?
-
-# Information about the dataset 
+# Data Sources
 
 This dataset came from 499 students enrolled in online middle school science courses in 2015-2016. The data were originally collected for use as a part of a research study, though the findings have not been published anywhere, yet.
 
@@ -79,7 +31,7 @@ At the beginning of the semester, students were asked to complete the pre-course
 
 In this walkthrough, we used the R package **caret** to carry out the analyses.
 
-# Information on random forests
+## Information on random forests
 
 500 trees were grown as part of our random forest. We partitioned the data before conducting the main analysis so that neither the training nor the testing data set would be disproportionately representative of high-achieving or low-achieving students. The training data set consisted of 80% of the original data (n = 400 cases), whereas the testing data set consisted of 20% of the original data (n = 99 cases). We built our random forest model on the training data set, and then evaluated the model on the testing data set. Three variables were tried at each node.
 

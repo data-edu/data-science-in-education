@@ -1,18 +1,8 @@
----
-title: 'Education Dataset Analysis Pipeline: Walkthrough #4'
-output:
-  pdf_document: default
-  html_document: default
----
+# Walkthrough 04: Title Here
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, cache=FALSE)
-here::set_here(path = "~/documents/data-science-in-education")
-```
+## Introduction
 
-## Background
-
-Relationships are important to us. In the case of many research techniques, relationships are&mdash;deservedly&mdash;the focus of analyses. It is not very difficult to imagine *qualitative* techniques to study relationships: one could ask other individuals about who their friends are, why they are their friends, and what they like to do when with them. 
+Relationships are important to us. In the case of many research techniques, relationships are - deservedly - the focus of analyses. It is not very difficult to imagine *qualitative* techniques to study relationships: one could ask other individuals about who their friends are, why they are their friends, and what they like to do when with them. 
 
 Increasingly, it is also not hard to imagine *quantitative* techniques to study relationships, too. In a way, the same questions that could be used qualitatively can serve as the basis for the quantitative study of relationships. Indeed, **social network analysis** uses these relations in a range of visualizations as well as statistical models.
 
@@ -89,7 +79,6 @@ giant_cluster <- sim_graph %>%
 Next, we separate the giant cluster into more meaningful clusters, as determined by the spinglass clustering algorithm. We store the cluster information in `csg0`:
 
 ```{r}
-<<<<<<< HEAD
 library(tidyverse)
 
 create_yvar2 = function(yv1) {
@@ -110,23 +99,19 @@ high_y_values <- tibble(
 
 ```{r}
 library(simstudy)
-=======
 csg_0 <- giant_cluster %>% cluster_spinglass  # creates the clusters; 'csg' = cluster spinglass
 csg_0$membership %>% unique %>% length  # number of clusters/communities/groups
 ```
->>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 
 One of the important outcomes of this method is the _modularity_ value $M$. Modularity measures how good the division is, or how separated are the different vertex types from each other. The spinglass algorithm looks for the modularity of the optimal partition. For a given network, the partition with maximum modularity corresponds to the optimal community structure (i.e., a higher $M$ is better).
 
 The maximum modularity score is +1 and according to Hogan (2017), networks with a modularity above 0.3 as "very modular," meanig that most edges are within communities. Note also that if $M$ = 0, all nodes belong to one group.
 
-<<<<<<< HEAD
 data1 <- genData(500, def)
 data1
 =======
 ```{r modularity, include=TRUE}
 csg_0$modularity
->>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
 ### Identifying the "typical" number of clusters returned with the spinglass algorithm
@@ -333,10 +318,6 @@ data$exposure <- data$relate * data$yvar1
 mean_exposure <- data %>%
     group_by(nominator) %>%
     summarize(exposure_mean = mean(exposure))
-<<<<<<< HEAD
-
-=======
->>>>>>> 58d1f3d32df76c709efd19069c532b125f465a3d
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
