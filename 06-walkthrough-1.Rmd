@@ -1,13 +1,6 @@
----
-title: 'Education Dataset Analysis Pipeline: Walkthrough #1'
-output: html_document
----
+# Walkthrough 01: Title Here 
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
-```
-
-# Background 
+## Introduction
 
 In the 2015-2016 and 2016-2017 school years, researchers at Michigan State University carried out a study on students' motivation to learn in online science classes. The online science classes were part of a statewide online course provider designed to supplement (and not replace) students' enrollment in their local school. For example, students may choose to enroll in an online physics class because one was not offered at their school (or they were not able to take it given their schedule).
 
@@ -15,13 +8,15 @@ The study involved a number of different data sources which were brought to bear
 
 1. A self-report survey for three distinct but related aspects of students' motivation
 2. Log-trace data, such as data output from the learning management system
-3. Achievement-related and gradebook data
+3. Achievement-related and grade book data
 4. Discussion board data
 5. Achievement-related (i.e., final grade) data
 
 First, these different data sources will be described in terms of how they were provided by the school.
 
-## 1. Self-report survey 
+## Data Sources
+
+### 1. Self-Report Survey 
 
 This was data collected before the start of the course via self-report survey. The survey included 10 items, each corresponding to one of three *measures*, namely, for interest, utility value, and perceived competence:
 
@@ -36,20 +31,20 @@ This was data collected before the start of the course via self-report survey. T
 9.	I find the content of this course to be personally meaningful. (Utility value)
 10.	I’ve always wanted to learn more about this subject. (Interest)
 
-## 2. Log-trace data 
+### 2. Log-Trace Data 
 
 Log-trace data is data generated from our interactions with digital technologies. In education, an increasingly common source of log-trace data is that generated from interactions with learning management systems. The data for this walk-through is a *summary of* log-trace data, namely, the number of minutes students spent on the course. Thus, while this data is rich, you can imagine even more complex sources of log-trace data (i.e. timestamps associated with when students started and stopped accessing the course!).
 
-## 3. Achievement-related and gradebook data
+### 3. Achievement-related and gradebook data
 
 This is a common source of data, namely, one associated with graded assignments students completed. In this walkthrough, we just examine students' final grade.
 
-## 4. Discussion board data
+### 4. Discussion board data
 <!-- NOTE - may not include this, as it is hard to confidently anonymize a medium-ish sized data set -->
 
 Discussion board data is both rich and unstructured, in that it is primarily in the form of written text. We examine a small subset of the discussion board data in this walkthrough.
 
-# Processing the data
+## Load Packages
 
 This analysis uses R packages, which are collections of R code that help users code more efficiently. We load these packages with the function `library`. In particular, the packages we'll use will help us load Excel files, organize the structure of the data, work with dates in the data, and navigate file directories. 
 
@@ -62,6 +57,8 @@ library(here)
 
 This code chunk loads the log trace data using the `read_csv` function. Note that we call `read_csv` three times, once for each of the three logtrace datasets. We assign each of the datasets a name using `<-`.
 
+## Import Data
+ 
 ```{r}
 # Gradebook and log-trace data for F15 and S16 semesters
 s12_course_data <- read_csv(
@@ -94,7 +91,7 @@ s12_time_spent <- read_csv(
 )
 ```
 
-## Viewing the data
+## Viewing the Data
 
 Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset. 
 
@@ -104,11 +101,13 @@ s12_course_data
 s12_time_spent
 ```
 
-## Processing the pre-survey data
+## Process Data
+
+### 1. Self-Report Survey 
 
 Often, survey data needs to be processed in order to be (most) useful. Here, we process the self-report items into three scales, for: interest, self-efficacy, and utility value. We do this by 
 
- - Renaming the question variables to something more managable 
+ - Renaming the question variables to something more manageable 
  - Reversing the response scales on questions 4 and 7 
  - Categorizing each question into a measure 
  - Computing the mean of each measure 
@@ -199,7 +198,7 @@ s12_measure_mean <- s12_pre_survey %>%
 s12_measure_mean
 ```
 
-## Processing the course data
+### 2. Course Data
 
 We also can process the course data in order to obtain more information.
 
@@ -215,7 +214,7 @@ s12_course_data <- s12_course_data %>%
 
 This led to pulling out the subject, semester, and section from the course ID; variables that we can use later on.
 
-## Joining the data
+## Joining the Data
 
 To join the course data and pre-survey data, we need to create similar *keys*. In other words, our goal here is to have one variable that matches across both datasets, so that we can merge the datasets on the basis of that variable. 
 
@@ -243,7 +242,8 @@ s12_course_data <- s12_course_data %>%
 s12_course_data
 ```
 
-Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`. 
+Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`.
+
 Let's save our joined data as a new object called "dat."
 
 ```{r}
@@ -275,11 +275,11 @@ We have a pretty large data frame! Let's take a quick look.
 dat
 ```
 
-It looks like we have neary 30,000 observations from 30 variables.
+It looks like we have nearly 30,000 observations from 30 variables.
 
 Now that our data are ready to go, we can start to ask some questions of the data. 
 
-# Visualizations and Models
+## Visualizing the Data
 
 One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (noting that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
@@ -294,7 +294,7 @@ dat <- dat %>%
     left_join(dat) # note that we join this back to the original data frame to retain all of the variables
 ```
 
-## Visualization of the relationship between time spent on course and percentage of points earned
+### Visualization of the relationship between time spent on course and percentage of points earned
 
 <!-- This is really trivial and obvious; need a new/better relationship -->
 
@@ -311,9 +311,9 @@ ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
     geom_smooth(method = "lm")
 ```
 
-So, it appeares that the more time students spent on the course, the more points they earned.
+So, it appears that the more time students spent on the course, the more points they earned.
 
-# Linear model (regression)
+## Modeling the Data
 
 We can find out exactly what the relationship is using a linear model.
 
@@ -324,9 +324,7 @@ summary(m_linear)
 
 ## But what about different courses?
 
-Is there course-specific differences in how much time students spend on the 
-course as well as in how time spent is related to the percentage of points 
-students earned?
+Is there course-specific differences in how much time students spend on the course as well as in how time spent is related to the percentage of points students earned?
 
 ```{r}
 ggplot(dat, aes(x = TimeSpent, y = percentage_earned, color = course_id)) +
@@ -356,4 +354,4 @@ library(sjstats)
 icc(m_course)
 ```
 
-This shows that nearly 17% of the variability in the percentage of points students earned can be explained simply by knowing what class they are in. 
+This shows that nearly 17% of the variability in the percentage of points students earned can be explained simply by knowing what class they are in.
