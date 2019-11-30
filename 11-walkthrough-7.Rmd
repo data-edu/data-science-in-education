@@ -35,17 +35,22 @@ You can view the tidytuesday tweets dataset here: [https://github.com/data-edu/d
 
 # Reading the data 
 
-Let's start by getting the data into our programming environment so we can start analyzing it. For this analysis, we'll be using the `tidyverse` and `here` packages. 
+Let's start by getting the data into our programming environment so we can start analyzing it. For this analysis, we'll be using the `tidyverse`, `here`, and `dataedu` packages. Just a reminder, if you haven't already installed the `dataedu` package, you can do so by typing this code: 
+
+```{r eval=FALSE}
+devtools::install_github("data-edu/dataedu")
+```
 
 ```{r load packages}
 library(tidyverse)
 library(here)
+library(dataedu)
 ```
 
-No we can use `read_rds` to read the tidytuesday dataset and assign it to the variable `raw_tweets`. We use `read_rds` here because the tweets dataset we're using is in the .rds file format. 
+We've conveniently included the raw dataset of tidytuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 ```{r read data}
-raw_tweets <- read_rds(here("data", "tidytuesday", "rtweet-processed-tidytuesday-data.rds"))
+raw_tweets <- tt_tweets
 ```
 
 Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse` or `str` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
