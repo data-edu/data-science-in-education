@@ -623,37 +623,6 @@ model_data %>%
   theme_dataedu()
 ```
 
-```{r visualize female to male ratio 2}
-model_data %>% 
-    gather(gender, students, c(f, m)) %>%
-    ggplot(aes(x = year, y = students)) + 
-    geom_boxplot() + 
-    facet_grid(~ gender) +
-    scale_y_continuous(labels = scales::comma) + 
-    labs(title = "Median male and female student counts in special education", 
-         subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
-         x = "", 
-         y = "", 
-         caption = "Data: US Dept of Education") +
-  theme_dataedu()
-```
-
-```{r visualize female to male ratio 3}
-library(ggridges)
-
-model_data %>% 
-    gather(gender, students, c(f, m)) %>%
-    ggplot(aes(x = students, y = gender)) + 
-    geom_density_ridges() +
-    scale_x_continuous(labels = scales::comma) +
-    labs(title = "Density estimates for male and female student counts in special education", 
-         subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
-         x = "", 
-         y = "", 
-         caption = "Data: US Dept of Education") +
-  theme_dataedu()
-```
-
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
 # 11.4 Aggregate Data as Context for Student Data 
