@@ -387,8 +387,8 @@ high_count %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity") + 
     labs(title = "Count of female students in special education over time", 
-         subtitle = "Ages 6-21") +
-    theme_dataedu()
+         subtitle = "Ages 6-21") #+
+    #theme_dataedu()
 ```
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
@@ -405,8 +405,8 @@ high_count %>%
     ggplot(aes(x = year, y = total, color = state)) + 
     geom_freqpoly(stat = "identity") + 
     labs(title = "Count of male students in special education over time", 
-         subtitle = "Ages 6-21") +
-  theme_dataedu()
+         subtitle = "Ages 6-21") #+
+  #theme_dataedu()
 ```
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by` and `summarise`. 
@@ -416,8 +416,8 @@ high_count %>%
     group_by(year, state) %>% 
     summarise(n = sum(total)) %>% 
     ggplot(aes(x = year, y = n, color = state)) + 
-    geom_freqpoly(stat = "identity") +
-  theme_dataedu()
+    geom_freqpoly(stat = "identity") #+
+  #theme_dataedu()
 ```
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
@@ -429,8 +429,8 @@ high_count %>%
     ggplot(aes(x = state, y = n)) + 
     geom_boxplot() + 
     labs(title = "Median student count",
-         subtitle = "All ages and genders") +
-  theme_dataedu() 
+         subtitle = "All ages and genders") #+
+  #theme_dataedu() 
 ```
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
@@ -461,8 +461,8 @@ high_count %>%
     geom_freqpoly(stat = "identity") + 
     scale_y_continuous(limits = c(1.5, 2.5)) +
     labs(title = "Male student to female student ratio over time", 
-         subtitle = "Ages 6-21") +
-  theme_dataedu()
+         subtitle = "Ages 6-21") #+
+  #theme_dataedu()
 ```
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
@@ -492,9 +492,8 @@ ggplot(aes(x = f, y = m)) +
          subtitle = "Counts of students in each state, ages 6-21", 
          x = "Female students", 
          y = "Male students", 
-         caption = "Data: US Dept of Education"
-    ) +
-  theme_dataedu()
+         caption = "Data: US Dept of Education") #+
+  #theme_dataedu()
 ```
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
@@ -557,8 +556,8 @@ Let's visualize the ratio values across all years as an additional check. Note t
 ```{r ratios across years}
 ggplot(data = model_data, aes(x = year, y = ratio)) + 
     geom_jitter(alpha = .5) + 
-    labs(title = "Male to female ratio across years (jittered)") +
-  theme_dataedu()
+    labs(title = "Male to female ratio across years (jittered)") #+
+  #theme_dataedu()
 ```
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
@@ -619,8 +618,8 @@ model_data %>%
          subtitle = "Ages 6-21. Does not include outlying areas and freely associated states", 
          x = "", 
          y = "", 
-         caption = "Data: US Dept of Education") +
-  theme_dataedu()
+         caption = "Data: US Dept of Education") #+
+  #theme_dataedu()
 ```
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
