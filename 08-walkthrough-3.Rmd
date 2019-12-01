@@ -105,7 +105,7 @@ d <- mutate_if(d, is.character, as.factor)
 
 Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later.
 
-```{r}
+```{r, cache = TRUE}
 trainIndex <- createDataPartition(d$final_grade,
                                   p = .8, 
                                   list = FALSE,
@@ -119,7 +119,7 @@ Finally, we will estimate the models.
 
 Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predictors. NOte that you can read more about the specific random forest implementation chosen [here](http://topepo.github.io/caret/train-models-by-tag.html#random-forest).
 
-```{r}
+```{r, cache = TRUE}
 rf_fit <- train(final_grade ~ .,
                 data = d_train,
                 method = "ranger")
@@ -133,7 +133,7 @@ It appears that the model with the value of the **mtry** tuning parameter equal 
 
 Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling.
 
-```{r}
+```{r, cache = TRUE}
 train_control <- trainControl(method = "repeatedcv",
                               number = 10,
                               repeats = 10)
@@ -150,7 +150,7 @@ The same tuning parameter values seem to be found with this method. Let's check 
 
 Let's create our own grid of values to test. We'll stick with the default bootstrap resampling method to choose the best model.
 
-```{r}
+```{r, cache = TRUE}
 tune_grid <- expand.grid(mtry = c(2, 22, 42),
                          splitrule = c("variance", "extratrees"),
                          min.node.size = c(1, 5, 10, 15, 20))
@@ -195,7 +195,7 @@ We can calculate these automatically using the **caret** `defaultSummary()` func
 
 ```{r}
 # install.packages("MLmetrics")
-defaultSummary(as.data.frame(d_train))
+#defaultSummary(as.data.frame(d_train))
 ```
 
 The RMSE and MAE values correspond to those we calculated manually. Note that an $R^2$ value is also calculated as the square of the correlation between the observed and predicted values. 
@@ -227,7 +227,7 @@ Note that importance values are not calcultaed automatically, but that "impurity
 
 We'll re-run the model, but will add an argument to call the variable importance metric.
 
-```{r}
+```{r, cache = TRUE}
 rf_fit_imp <- train(final_grade ~ .,
                 data = d_train,
                 method = "ranger",
@@ -269,7 +269,7 @@ They are similar but somewhat different. One takeaway from this analysis is that
 
 You may be curious about comparing the predictive accuracy of the model to a linear model (a regression).
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, cache = TRUE}
 d_train_lm <- mutate_if(d_train, is.character, as.factor) # may want to move this earlier; it seems important for method = lm but not ranger, for some reason
 
 lm_fit <- train(final_grade ~ .,
