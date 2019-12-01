@@ -79,11 +79,17 @@ equals 1 - as is the case for the other species (for their respective
 variables). `bind_cols()` is a useful tidyverse function for binding together 
 data frames by column.
 
-``` {r}
+```{r}
 species_dummy_coded <- dummies::dummy(iris$Species)
 species_dummy_coded <- as_tibble(species_dummy_coded)
 iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
+```
 
+Let's look at the results.
+
+<!-- I can't figure out why the following won't run - it runs when I run it code chunk-by-chunk, but not when I render! -->
+
+```{r, eval = FALSE}
 iris_with_dummy_codes %>% 
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -115,7 +121,7 @@ data and consider the effect (for a student) of being in a specific class in the
 First, let's determine how many classes there are. We can use the `count()`
 function.
 
-``` {r}
+```{r}
 dat %>% 
   count(course_id) %>% 
   nrow()
@@ -127,14 +133,14 @@ We will save this output to `m_linear_courses`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
 and `subject` - as independent variables.
 
-``` {r}
+```{r}
 m_linear_dc <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
 
 The output will be a bit, well, long, because each group will have its own
 intercept. Here it is:
 
-``` {r}
+```{r}
 sjPlot::tab_model(m_linear_dc)
 ```
 
@@ -270,12 +276,11 @@ in the data are. Such a model is often referred to as a "varying intercepts"
 multi-level model, because what is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
-Let's do a bit of processing first; see 
 ``` {r}
 # install.packages("lme4") # note that this only needs to be run one time, after which the package will be installed on your local computer
 library(lme4)
 m_course <- lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
-summary(m_course)
+sjPlot::tab_model(m_course)
 ```
 
 In a way, what is going on above is straightforward (and similar to what we have seen with `lm()`), but, it is also different and potentially confusing. Parentheses are not commonly used with `lm()`; there is a term (`(1|course_id)`) in parentheses. Also, the bar symbol - `|` - is not commonly used with `lm()`. 
@@ -288,7 +293,7 @@ That is basically it, but there is potentially more to the story: in addition to
 To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (Gelman & Hill, 2005; McIlreath, 2015); one way to think about the "regularizing" going on is that estimates for each group (class) are made 
 taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
 
-There is another part of the above code to mention. The `summary()` function comparably as it does for `lm()` models, providing output for the model, including some fit statistics as well as coefficients and their standard errors and estimates. There are two things to note about `lmer()` output:
+There is another part of the above code to mention. The `sjPlot::tab_model()` function comparably as it does for `lm()` models, providing output for the model, including some fit statistics as well as coefficients and their standard errors and estimates. There are two things to note about `lmer()` output:
 
 1. *p*-values are not automatically provided, due to debates in the wider field about how to calculate the degrees of freedom for coefficients (run `?lme4::pvalues` to see a discussion of the issue as well as solutions; we have found the lmerTest to be helpful as an easy solution, though we note that some of the recommendations available through `?lme4::pvalues` may be preferable, as the technique lmerTest implements has some known issues)
 2. There
@@ -321,7 +326,7 @@ with another group added for the school. The model will account for the way in
 which the classes are nested within the schools automatically (Bates, Maechler,
 Bolker, & Walker, 2015).
 
-``` {r}
+``` {r, eval = FALSE}
 # this model would specify a group effect for both the course nad school
 m_course_school <- lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
