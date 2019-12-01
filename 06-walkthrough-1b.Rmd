@@ -1,179 +1,48 @@
----
-title: "06-walkthrough-1b"
-output: html_document
----
+# Walkthrough #1B
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+This walkthrough accompanies walkthrough XXX, which focused on preparing the
+data and beginning to viusualize and model the data. Here, we focus on an
+extension of the models we ran, one focused on how to address the fact that
+students in our dataset shared classes.
 
-
-## Visualizations and Models
-
-### The relationship between time spent on course and percentage of points earned
-
-One thing we might be wondering is how time spent on course is related to students' final grade.
-
-<!-- This is really trivial and obvious; need a new/better relationship -->
+First, let's load the tidyverse and read the data we processed in walkthrough XXX.
 
 ```{r}
-ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() 
+library(tidyverse)
+dat <- read_csv("data/online-science-motivation/processed/dat.csv")
 ```
-
-There appears to be *some* relationship. What if we added a line of best fit - a linear model?
-
-```{r}
-ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() + 
-  geom_smooth(method = "lm")
-```
-
-So, it appeares that the more time students spent on the course, the more points they earned.
-
-## Linear model (regression)
-
-We can find out exactly what the relationship is using a linear model. We also discuss linear models in walkthrough XXX.
-
-Here, we predict `percentage_earned`, or the percentage of the total points that
-are possible for a student to earn. Here, percentage earned is the dependent, or
-*y*-variable, and so we enter it first, after the `lm()` command, before the 
-tilde (`~`) symbol. To the right of the tilde is one independent variable, 
-`TimeSpent`, or the time that students spent on the course. We also pass the 
-data frame, `dat`. At this point, we're ready to run the model. Let's run this
-line of code and save the results to an object - we chose `m_linear`, but any 
-name will work, as well as the `summary()` function on the output.
-
-```{r}
-m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
-sjPlot::tab_model(m_linear)
-```
-
-Another way that we can generate table output is with a function from the 
-`sjPlot` package, `tab_model`.
-
-```{r}
-sjPlot::tab_model(m_linear)
-```
-
-This will work well for R Markdown documents (or simply to interpet the model in
-R). If you want to save the model for use in a Word document, the 
-[apaTables](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful;
-just pass the name of the regression model, like we did with `sjPlot::tab_model()`, 
-as well as a file name that ends in `.doc` to the `filename` argument, i.e.: 
-
-```{r, eval = FALSE}
-library(apaTables)
-apa.reg.table(m_summary, filename = "m_summary_regression_table.doc")
-```
-
-<!-- Wonder if we also want to show how to do correlation tables with this package -->
-
-You might be wondering what else the apaTables package does; we encourage you to read more about the package here: https://cran.r-project.org/web/packages/apaTables/index.html. The vignette is especially helpful. One function that may be useful for writing manuscripts is the following function for creating correlation tables; the function takes, as an input, a data frame with the variables for which you wish to calculate correlations. We will create the same measures (based on the survey items) that we used earlier to understand how the percentage of points earned is related to these measures (and how all of the variables relate to one another:
-
-```{r}
-s12_measure_mean <- s12_pre_survey %>% 
-  # Gather questions and responses 
-  gather(question, response, c(q1:q10)) %>% 
-  mutate(
-    # Here's where we make the column of question categories 
-    measure = case_when(
-      question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int", 
-      question %in% c("q2", "q6", "q9") ~ "uv", 
-      question %in% c("q3", "q7") ~ "pc", 
-      TRUE ~ NA_character_
-    )) %>% 
-  
-  select(percentage_earned, int, uv, pc)
-apa.cor.table()
-```
-
-The time spent variable is on a very large scale (minutes); what if we transform it to 
-represent the number of hours that students spent on the course into hours? Let's use 
-the `mutate()` function we used earlier. We'll end the variable name in `_hours`, 
-to represent what this variable means.
-
-```{r}
-dat <- dat %>% mutate(TimeSpent_hours = TimeSpent/60)
-m_linear_1 <- lm(percentage_datearned ~ TimeSpent_hours, data = dat)
-sjPlot::tab_model(m_linear_1)
-```
-
-The scale stil does not seem quite right. What if we standardized the variable 
-to have a mean of zero and a standard deviation of one?
-
-```{r}
-dat <- dat %>% mutate(TimeSpent_std = scale(TimeSpent))
-m_linear_2 <- lm(percentage_earned ~ TimeSpent_std, data = dat)
-sjPlot::tab_model(m_linear_2)
-```
-
-That seems to make more sense - although, there is a different interpretation 
-now for the time spent variable: for every one standard deviation increase in 
-the amount of time spent on the course, the percentage of points a student earns 
-increases by .11, or 11 percentage points. 
-
-Let's extend our regression model: what other variables may matter? Perhaps there
-are differences based on the subject of the course. We can add subject as a variable easily:
-
-```{r}
-m_linear_3 <- lm(percentage_earned ~ scale(TimeSpent) + subject, data = dat)
-```
-
-We can use `sjPlot::tab_model()` once again to view the results:
-
-```{r}
-sjPlot::tab_model(m_linear_3)
-```
-
-It looks like subject `FrSc` - forensic science - and subject `Ocn` - 
-oceanography - are associated with a higher percentage of points earned, overall.
-
-<!-- Not sure the following is very interpretable - cutting unless a better  -->
-<!-- interaction term can be specified -->
-<!-- Is it possible that the relationship between time spent on the course and the  -->
-<!-- percentage of points earned differs as a function of the subject? To find out,  -->
-<!-- we can specify an interaction term. An interaction term represents the additional  -->
-<!-- impact of two variables both being high - or low - on the dependent variable; in -->
-<!-- this case, the percentage of points earned. -->
-
-<!-- ```{r} -->
-<!-- m_linear_4 <- lm(percentage_earned ~ scale(TimeSpent)*subject, data = dat) -->
-<!-- sjPlot::tab_model(m_linear_4) -->
-<!-- ``` -->
-
-<!-- THIS COULD BE THE START OF A NEW WALKTHROUGH HERE -->
 
 ## But what about different courses?
 
-Are there course-specific differences in how much time students spend on the 
-course as well as in how time spent is related to the percentage of points 
-students earned? There are a number of ways to approach this question. Let's use 
+Are there course-specific differences in how much time students spend on the
+course as well as in how time spent is related to the percentage of points
+students earned? There are a number of ways to approach this question. Let's use
 our linear model.
 
-Specifically, we can dummy-code the groups, which means that we will add a 
+Specifically, we can dummy-code the groups, which means that we will add a
 number of variables to our data set.
 
 ### The role of dummy codes
 
-We can see how dummy coding works through using the {dummies} package, though, 
-as we will see, you often do not need to manually dummy code variables like this.
+We can see how dummy coding works through using the {dummies} package, though,
+as we will see, you often do not need to manually dummy code variables like
+this.
 
-Let's consider the **iris** data that comes built into R, but, since we are 
-fans of the {tidyverse}, we will first change it into a tibble.
+Let's consider the **iris** data that comes built into R, but, since we are fans
+of the {tidyverse}, we will first change it into a tibble.
 
-```{r}
+``` {r}
 iris <- as_tibble(iris)
 iris
 ```
 
-As we can see, the `Species` variable is a factor. If we consider how we could 
-include a variable such as this in a linear model, things may become a little 
+As we can see, the `Species` variable is a factor. If we consider how we could
+include a variable such as this in a linear model, things may become a little
 confusing. `Species` seems to be made up of, well, words, such as "setosa." The
-common way to approach this is through dummy coding, where you create new 
-variables for each of the possible values of `Species` (such as "setosa"). Then, 
+common way to approach this is through dummy coding, where you create new
+variables for each of the possible values of `Species` (such as "setosa"). Then,
 these new variables have a value of 1 when the row is associated with that level
-(i.e., the first row in the data frame above would have a 1 for a column named 
+(i.e., the first row in the data frame above would have a 1 for a column named
 `setosa`).
 
 Let's return to {dummies}.
@@ -181,64 +50,68 @@ Let's return to {dummies}.
 How many possible values are there for `Species`? We can check with the `levels`
 function.
 
-```{r}
+``` {r}
 levels(iris$Species)
 ```
 
 When we run the `dummy()` function on the `Species` variable, we can see that it
-returns *three* variables, one for each of the three levels of Species - 
+returns *three* variables, one for each of the three levels of Species -
 "setosa", "versicolor", and "virginica".
 
-```{r}
+``` {r}
 dummy(iris$Species) %>%
   head()
 ```
 
-We can confirm that every row associated with a specific species has a 1 in the 
-column it corresponds to. We can do this by binding together the dummy codes and 
-the **iris** data and then counting, for each of the three species, how much of 
+We can confirm that every row associated with a specific species has a 1 in the
+column it corresponds to. We can do this by binding together the dummy codes and
+the **iris** data and then counting, for each of the three species, how much of
 the rows for each dummy code were coded with a "1".
 
-For example, when the `Species` is "setosa", the variable `Speciessetosa` always 
-equals 1 - as is the case for the other species (for their respective variables). 
+For example, when the `Species` is "setosa", the variable `Speciessetosa` always
+equals 1 - as is the case for the other species (for their respective
+variables).
 
-```{r}
+``` {r}
 species_dummy_coded <- dummies::dummy(iris$Species)
 species_dummy_coded <- as_tibble(species_dummy_coded)
 iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
-
-iris_with_dummy_codes %>% 
-  count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
-Okay, this covers how dummy codes work: but, how do they work when used in a 
-model, like the linear model we have been using (with `lm()`)? 
+iris\_with\_dummy\_codes %\>% count(Species, Speciessetosa, Speciesversicolor,
+Speciesvirginica)
 
-In the context of using `lm()` (and many other functions in R) is that the 
-number of levels to be created is always the number of different possible values 
+``` 
+```
+
+Okay, this covers how dummy codes work: but, how do they work when used in a
+model, like the linear model we have been using (with `lm()`)?
+
+In the context of using `lm()` (and many other functions in R) is that the
+number of levels to be created is always the number of different possible values
 minus one, because each group will be modeled in comparison to the group without
-a column, or what is commonly called the reference group. 
+a column, or what is commonly called the reference group.
 
-Why can every group not simply have their own dummy-coded column? The reason has 
-to do with how the dummy codes are used. The purpose of the dummy code is to 
-show how different the dependent variable is for all of the observations that 
-are in that group (i.e., for all of the flowers that are setosa specimens). In 
-order to represent how different those flowers are, they have to be compared to 
-something else - and the intercept of the model usually represents this 
-"something else." However, if every level of a factor (such as `Species`) is 
+Why can every group not simply have their own dummy-coded column? The reason has
+to do with how the dummy codes are used. The purpose of the dummy code is to
+show how different the dependent variable is for all of the observations that
+are in that group (i.e., for all of the flowers that are setosa specimens). In
+order to represent how different those flowers are, they have to be compared to
+something else - and the intercept of the model usually represents this
+"something else." However, if every level of a factor (such as `Species`) is
 dummy-coded, then there would be no cases available to estimate an intercept -
-in short, the dummy code would not be compared to anything else. For this 
-reason, one group is typically selected as the reference group, that which every 
+in short, the dummy code would not be compared to anything else. For this
+reason, one group is typically selected as the reference group, that which every
 other group is compared to.
 
 ### Using dummy codes
 
-This may be clearer with an example. Let's return to our online science class 
-data and consider the effect of being in a specific class in the data set. 
-First, let's determine how many classes there are. We can use the `count()` 
+This may be clearer with an example. Let's return to our online science class
+data and consider the effect of being in a specific class in the data set.
+First, let's determine how many classes there are. We can use the `count()`
 function.
 
-```{r}
+``` {r}
 dat %>% 
   count(course_id) %>% 
   nrow()
@@ -246,207 +119,211 @@ dat %>%
 
 There are 26 distinct courses.
 
-We will save this output to `m_linear_courses`, where the `dc` stands for 
-dummy code. We will keep  the variables we used in our last set of models - 
-`TimeSpent` and `subject` - as independent variables.
+We will save this output to `m_linear_courses`, where the `dc` stands for dummy
+code. We will keep the variables we used in our last set of models - `TimeSpent`
+and `subject` - as independent variables.
 
-```{r}
+``` {r}
 m_linear_dc <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
 
-The output will be a bit, well, long, because each group will have its own 
+The output will be a bit, well, long, because each group will have its own
 intercept. Here it is:
 
-```{r}
+``` {r}
 sjPlot::tab_model(m_linear_dc)
 ```
 
-Wow! That is a lot of effects. In addition to the time spent and subject 
-variables, the model estimated the difference, accounting for the effects of 
-being a student in a specific class. Let's count how many classes 
-there are. If we count the number of classes, we see that there are 25 - and not
-26! One has been automatically selected as the reference group, and every other 
-class's coefficient represents how different each class is from it. The 
-intercept's value of 0.74 represents the percentage of points that students in 
-the reference group class, which is automatically the first level of the 
-`course_id` variable when it is converted to a factor, "AnPhA-S116-01".
+Wow! That is a lot of effects. In addition to the time spent and subject
+variables, the model estimated the difference, accounting for the effects of
+being a student in a specific class. Let's count how many classes there are. If
+we count the number of classes, we see that there are 25 - and not 26! One has
+been automatically selected as the reference group, and every other class's
+coefficient represents how different each class is from it. The intercept's
+value of 0.74 represents the percentage of points that students in the reference
+group class, which is automatically the first level of the `course_id` variable
+when it is converted to a factor, "AnPhA-S116-01".
 
-We can easily choose another class to serve as a reference group. Imagine, for 
-example, that we want "course_idPhysA-S116-01" to be the reference group. The 
-`fct_relevel()` function (which is a part of the {tidyverse} suite of packages) 
-makes it easy to do this. 
+We can easily choose another class to serve as a reference group. Imagine, for
+example, that we want "course\_idPhysA-S116-01" to be the reference group. The
+`fct_relevel()` function (which is a part of the {tidyverse} suite of packages)
+makes it easy to do this.
 
-```{r}
+``` {r}
 dat <- dat %>% 
   mutate(course_id = fct_relevel(course_id, "course_idPhysA-S116-01"))
 ```
 
-We can now see that *that* group is no longer listed as an independent variable, 
+We can now see that *that* group is no longer listed as an independent variable,
 or a predictor: every coefficient in this model is now in reference to it.
 
-```{r}
+``` {r}
 m_linear_dc_1 <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 sjPlot::tab_model(m_linear_dc_1)
 ```
 
-Using dummy codes is very common - they are used in nearly every case in which 
-you are using a model (such as a linear model, through `lm()`) and you have 
-variables that are factors. A benefit of using `lm()` (and many other functions) 
-in R for modeling, such as the `lme4::lmer()` function we discuss later is that 
-if you have variables which are not factors, but simply character strings, they 
-will be automatically changed to factors when used in a model. This means, for 
-instance, that if you have a variable for the subject matter of courses labeled 
-"mathematics", "science", "english language" (typed like that!), "social 
-studies", and "art", and you include this variable in an `lm()` model, then the 
-function will automatically dummy-code these for you. The only essential step 
+Using dummy codes is very common - they are used in nearly every case in which
+you are using a model (such as a linear model, through `lm()`) and you have
+variables that are factors. A benefit of using `lm()` (and many other functions)
+in R for modeling, such as the `lme4::lmer()` function we discuss later is that
+if you have variables which are not factors, but simply character strings, they
+will be automatically changed to factors when used in a model. This means, for
+instance, that if you have a variable for the subject matter of courses labeled
+"mathematics", "science", "english language" (typed like that!), "social
+studies", and "art", and you include this variable in an `lm()` model, then the
+function will automatically dummy-code these for you. The only essential step
 that is not taken for you is choosing which is the reference group.
 
 We note that there are cases in which *not having a reference group* that the
-other, dummy-coded groups are compared to is desired. In such cases, no 
-intercept is estimated. This can be done by passing a -1 as the first value 
+other, dummy-coded groups are compared to is desired. In such cases, no
+intercept is estimated. This can be done by passing a -1 as the first value
 after the tilde, as follows:
 
-```{r}
+``` {r}
 m_linear_dc_2 <- lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
 sjPlot::tab_model(m_linear_dc_2)
 ```
 
-This does not work in many cases, and it is much more common to dummy-code 
-factors, and so we emphasized that in this walkthrough, although want you to 
-be aware that it is possible (though uncommon) to estimate a model without an 
+This does not work in many cases, and it is much more common to dummy-code
+factors, and so we emphasized that in this walkthrough, although want you to be
+aware that it is possible (though uncommon) to estimate a model without an
 intercept.
 
 ## Toward multi-level models
 
-Dummy-coding is a very helpful strategy. It is particularly useful with a small 
+Dummy-coding is a very helpful strategy. It is particularly useful with a small
 number of groups (i.e., for estimating the effects of being in one of the five
-subjects in the online science data set). With effects such as being a student 
+subjects in the online science data set). With effects such as being a student
 in a particular class, though, the output seems to be less useful: it is hard to
-interpret the 25 different effects (and to compare them to the intercept). 
+interpret the 25 different effects (and to compare them to the intercept).
 
-Maybe more important than the challenge of interpreting them, analysts often 
-have the goal not of determining the effect of being in a specific class, *per 
-se*, but rather to account for the fact that students share a class. This is 
-important because linear models (i.e., the model we estimated using `lm()`)
-have an assumption that the data points are - apart from sharing levels of the
-variables that are used in the model - independent, or not correlated. This is 
-what is meant by the "assumption of independence" or of "independently and 
-identically distributed" (i.i.d.) residuals (CITE Field). 
+Maybe more important than the challenge of interpreting them, analysts often
+have the goal not of determining the effect of being in a specific class, *per
+se*, but rather to account for the fact that students share a class. This is
+important because linear models (i.e., the model we estimated using `lm()`) have
+an assumption that the data points are - apart from sharing levels of the
+variables that are used in the model - independent, or not correlated. This is
+what is meant by the "assumption of independence" or of "independently and
+identically distributed" (i.i.d.) residuals (CITE Field).
 
-Multi-level models are a way to deal with the difficulty of interpreting the 
-estimated effects for each of many groups, like classes, and to address the 
-assumption of independence. Multi-level models do this by still estimating the 
-effect of being a student in each group, but with a key difference from linear 
-models: Instead of determining how difference the observations in a group are 
-from those in the reference group, the multi-level model "regularizes" the 
-difference based on how systematically different the groups are. Groups that are 
-comprised of individuals who are consistently different (higher or lower) than 
-individuals on average are not regularized very much - their estimated 
-difference may be close to the estimate from a multi-level model - whereas 
-groups with only a few individuals, or with a lot of variability within 
-individuals, would be regularized a lot. In the former case, the multi-level 
-model considers there to be strong evidence for a group effect, whereas in the 
+Multi-level models are a way to deal with the difficulty of interpreting the
+estimated effects for each of many groups, like classes, and to address the
+assumption of independence. Multi-level models do this by still estimating the
+effect of being a student in each group, but with a key difference from linear
+models: Instead of determining how difference the observations in a group are
+from those in the reference group, the multi-level model "regularizes" the
+difference based on how systematically different the groups are. Groups that are
+comprised of individuals who are consistently different (higher or lower) than
+individuals on average are not regularized very much - their estimated
+difference may be close to the estimate from a multi-level model - whereas
+groups with only a few individuals, or with a lot of variability within
+individuals, would be regularized a lot. In the former case, the multi-level
+model considers there to be strong evidence for a group effect, whereas in the
 latter, the model recognizes that there is less certainty about a group (class)
-effect for that particular group. Multi-level models are very common in educational research for cases such as 
-this: accounting for the way in which students take the same classes, or even go 
-to the same school (see Raudenbush & Bryk, 2002).
+effect for that particular group. Multi-level models are very common in
+educational research for cases such as this: accounting for the way in which
+students take the same classes, or even go to the same school (see Raudenbush &
+Bryk, 2002).
 
-The way that a multi-level model does this "regularizing" is by considering the 
-groups (and not the data points, in this case) to be samples from a larger 
-population of classes. By considering the effects of groups to be samples from a 
-larger population, the model is able to use information not only particular to 
+The way that a multi-level model does this "regularizing" is by considering the
+groups (and not the data points, in this case) to be samples from a larger
+population of classes. By considering the effects of groups to be samples from a
+larger population, the model is able to use information not only particular to
 each group (as the models created using `lm()`), but also information across all
-of the data. Using multi-level models means that the assumption of independence 
-can be addressed; their use also means that individual coefficients for 
-classes do not need to be included (or interpreted, thankfully!), though they 
-are still included in and accounted for in the model. As we describe, the way
-that information about the groups is reported is usually in the form of the 
-*intraclass correlation coefficient* (ICC), which explains the proportion of 
-variation in the dependent variable that the groups explain. Smaller ICCs (such 
-as ICCs with values of 0.05, representing 5% of the variation in the dependent 
-variable) mean that the groups are not very important; larger ICCs, such as 
-ICCs with values of 0.10 or larger (values as high as 0.50 are not uncommon!),
-indicate that groups are important and that they have to do with a lot of the 
-differences observed in the dependent variable (and that not including them 
-may potentially ignore the assumption of independence in a case in which it may 
-be important to recognize it - and lead to bias in the results).
+of the data. Using multi-level models means that the assumption of independence
+can be addressed; their use also means that individual coefficients for classes
+do not need to be included (or interpreted, thankfully!), though they are still
+included in and accounted for in the model. As we describe, the way that
+information about the groups is reported is usually in the form of the
+*intraclass correlation coefficient* (ICC), which explains the proportion of
+variation in the dependent variable that the groups explain. Smaller ICCs (such
+as ICCs with values of 0.05, representing 5% of the variation in the dependent
+variable) mean that the groups are not very important; larger ICCs, such as ICCs
+with values of 0.10 or larger (values as high as 0.50 are not uncommon!),
+indicate that groups are important and that they have to do with a lot of the
+differences observed in the dependent variable (and that not including them may
+potentially ignore the assumption of independence in a case in which it may be
+important to recognize it - and lead to bias in the results).
 
 That was a lot of technical information about multi-level models; thank you for
-sticking with us through it! We wanted to incldue this as multi-level models 
-are common: consider how often the data you collect involves students nested 
-(or grouped) in classes, or classes nested in schools (or even schools nested 
-in districts - you get the picture!). Educational data is complex, and so it is 
-not surprising that multi-level models may be encountered in educational data 
-science analyses, reports, and articles. 
+sticking with us through it! We wanted to incldue this as multi-level models
+are common: consider how often the data you collect involves students nested (or
+grouped) in classes, or classes nested in schools (or even schools nested in
+districts - you get the picture!). Educational data is complex, and so it is
+not surprising that multi-level models may be encountered in educational data
+science analyses, reports, and articles.
 
-Fortunately, for all of the complicated details, multi-level models are very 
-easy to use in R. Their requires a new package; one of the most common for 
-estimating these types of models is **lme4**. We use it very similarly to the 
-`lm()` function, but we pass it an additional argument about what the *groups*, 
-in the data are. Such a model is often referred to as as "varying intercepts" 
-multi-level model, because what is different between the groups is the effect 
-of being a student in a class: the intercepts between groups vary.
+Fortunately, for all of the complicated details, multi-level models are very
+easy to use in R. Their requires a new package; one of the most common for
+estimating these types of models is **lme4**. We use it very similarly to the
+`lm()` function, but we pass it an additional argument about what the *groups*,
+in the data are. Such a model is often referred to as as "varying intercepts"
+multi-level model, because what is different between the groups is the effect of
+being a student in a class: the intercepts between groups vary.
 
-```{r}
+``` {r}
 # install.packages("lme4")
 library(lme4)
 m_course <- lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 summary(m_course)
 ```
 
-As we mentioned earlier, a common way to understand how much variability is at 
+As we mentioned earlier, a common way to understand how much variability is at
 the group level is to calculate the *intra-class* correlation. This value is the
-proportion of the variability in the outcome (the *y*-variable) that is 
-accounted for solely by the groups identified in the model. There is a useful 
+proportion of the variability in the outcome (the *y*-variable) that is
+accounted for solely by the groups identified in the model. There is a useful
 function in the **performance** package for doing this.
 
-```{r}
+``` {r}
 # install.packages("performance")
 library(performance)
 icc(m_course)
 ```
 
-This shows that nearly 17% of the variability in the percentage of points 
-students earned can be explained simply by knowing what class they are in. 
+This shows that nearly 17% of the variability in the percentage of points
+students earned can be explained simply by knowing what class they are in.
 
-There is much more to do with multi-level models. We briefly discuss a 
-common extension to the model we just used - although such a model, in which
-the effects of being a student in a class are recognized through specifying 
-what the groups are, is very common. The extensions is for adding 
-additional levels.
+There is much more to do with multi-level models. We briefly discuss a common
+extension to the model we just used - although such a model, in which the
+effects of being a student in a class are recognized through specifying what the
+groups are, is very common. The extensions is for adding additional levels.
 
-The data that we are using is all from one school, and so we cannot estimate a 
-"two-level" model. Imagine, however, that instead of 26 classes, we had data 
-from students from 230 classes, and that these classes were from 15 schools. We 
-could estimate a two-level, varying intercepts (where there are now two groups 
-with effects) model very similar to the model we estimated above, but simply 
-with another group added for the school. The model will account for the way in 
-which the classes are nested within the schools automatically (Bates, Maechler, 
-Bolker, & Walker, 2015). 
+The data that we are using is all from one school, and so we cannot estimate a
+"two-level" model. Imagine, however, that instead of 26 classes, we had data
+from students from 230 classes, and that these classes were from 15 schools. We
+could estimate a two-level, varying intercepts (where there are now two groups
+with effects) model very similar to the model we estimated above, but simply
+with another group added for the school. The model will account for the way in
+which the classes are nested within the schools automatically (Bates, Maechler,
+Bolker, & Walker, 2015).
 
-```{r}
+``` {r}
 m_course_school <- lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
-Were we to estimate this model (and then use the `icc()` function), we would 
-see two ICC values representing the proportion of the variation in the dependent
+Were we to estimate this model (and then use the `icc()` function), we would see
+two ICC values representing the proportion of the variation in the dependent
 variable explained by each of the two groups we added - the course *and* the
 school. You can add further still levels to the model, as the {lme4} package was
 designed for complex multi-level models (and even those with not nested, but
-crossed random effects; a topic beyond the scope of this walkthrough, but which 
+crossed random effects; a topic beyond the scope of this walkthrough, but which
 is described in West, Welch, & Galecki, 2015).
 
-There is much more that can be done with multi-level models. For further 
+There is much more that can be done with multi-level models. For further
 reading, we recommend the sources we cited in the walkthrough:
 
-- [Raudenbush & Bryk (2002)](https://www.amazon.com/Hierarchical-Linear-Models-Applications-Quantitative/dp/076191904X)
-- [West, Welch, & Galecki (2015)](http://www-personal.umich.edu/~bwest/almmussp.html)
+  - [Raudenbush & Bryk
+    (2002)](https://www.amazon.com/Hierarchical-Linear-Models-Applications-Quantitative/dp/076191904X)
+  - [West, Welch, & Galecki
+    (2015)](http://www-personal.umich.edu/~bwest/almmussp.html)
 
-Finally, we mention that multi-level models have similarities to the Bayesian 
-methods which are becoming more common among some R users - and educational 
-data scientists. We recommend the following references for Bayesian methods that
-directly reference and build on the models that are able to be estimated using 
+Finally, we mention that multi-level models have similarities to the Bayesian
+methods which are becoming more common among some R users - and educational data
+scientists. We recommend the following references for Bayesian methods that
+directly reference and build on the models that are able to be estimated using
 {lme4}.
 
-- [Gelman & Hill (2006)](https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X/ref=sr_1_1?keywords=andrew+gelman&qid=1573607019&s=books&sr=1-1)
-- [Burkner (2019)](https://cran.r-project.org/web/packages/brms/vignettes/brms_overview.pdf)
+  - [Gelman & Hill
+    (2006)](https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X/ref=sr_1_1?keywords=andrew+gelman&qid=1573607019&s=books&sr=1-1)
+  - [Burkner
+    (2019)](https://cran.r-project.org/web/packages/brms/vignettes/brms_overview.pdf)
