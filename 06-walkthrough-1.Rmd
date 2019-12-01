@@ -1,4 +1,4 @@
-# Education Dataset Analysis Pipeline: Walkthrough \#1
+# Education Dataset Analysis Pipeline: Walkthrough #1
 
 ``` {r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
@@ -25,7 +25,7 @@ understand students' motivation:
 First, these different data sources will be described in terms of how they were
 provided by the school.
 
-### Data source \#1: Self-report survey
+### Data source #1: Self-report survey
 
 This was data collected before the start of the course via self-report survey.
 The survey included 10 items, each corresponding to one of three *measures*,
@@ -45,7 +45,7 @@ namely, for interest, utility value, and perceived competence:
     value)
 10. I’ve always wanted to learn more about this subject. (Interest)
 
-### Data source \#2: Log-trace data
+### Data source #2: Log-trace data
 
 *Log-trace data* is data generated from our interactions with digital
 technologies, such as archived data from social media postings (see Chapter XXX
@@ -58,12 +58,12 @@ data is rich, you can imagine even more complex sources of log-trace data (i.e.
 timestamps associated with when students started and stopped accessing the
 course!).
 
-### Data source \#3: Achievement-related and gradebook data
+### Data source #3: Achievement-related and gradebook data
 
 This is a common source of data, namely, one associated with graded assignments
 students completed. In this walkthrough, we just examine students' final grade.
 
-### Data source \#4: Discussion board data
+### Data source #4: Discussion board data
 
 Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight
@@ -98,7 +98,6 @@ s12_course_data <- read_csv(
     "s12-course-data.csv"
   )
 )
-```
 
 # Pre-survey for the F15 and S16 semesters
 
@@ -109,8 +108,6 @@ s12\_pre\_survey \<- read\_csv( here( "data", "online-science-motivation",
 
 s12\_time\_spent \<- read\_csv( here( "data", "online-science-motivation",
 "raw", "s12-course-minutes.csv" ) )
-
-``` 
 ```
 
 ## Viewing the data
@@ -165,39 +162,30 @@ s12_pre_survey  <- s12_pre_survey  %>%
     and question 7. This will result in much less code, plus it will make it
     easier for us to change in the future.
 
-``` {r}
+```{r}
 # This part of the code is where we write the function:
-```
-
-# Function for reversing scales
-
-reverse\_scale \<- function(question) {
-
-# Reverses the response scales for consistency
-
-# Args:
-
-# question: survey question
-
-# Returns: a numeric converted response
-
-# Note: even though 3 is not transformed, case\_when expects a match for all
-
-# possible conditions, so it's best practice to label each possible input
-
-# and use TRUE \~ as the final statement returning NA for unexpected inputs
-
-x \<- case\_when(question == 1 \~ 5, question == 2 \~ 4, question == 4 \~ 2,
-question == 5 \~ 1, question == 3 \~ 3, TRUE \~ NA\_real\_) x }
-
+# Function for reversing scales 
+reverse_scale <- function(question) {
+    # Reverses the response scales for consistency 
+    #   Args: 
+    #     question: survey question 
+    #   Returns: a numeric converted response
+  # Note: even though 3 is not transformed, case_when expects a match for all
+  # possible conditions, so it's best practice to label each possible input
+  # and use TRUE ~ as the final statement returning NA for unexpected inputs
+  x <- case_when(question == 1 ~ 5, 
+                 question == 2 ~ 4,
+                 question == 4 ~ 2,
+                 question == 5 ~ 1,
+                 question == 3 ~ 3,
+                 TRUE ~ NA_real_)
+  x
+}
 # And here's where we use that function to reverse the scales
-
 # Reverse scale for questions 4 and 7
-
-s12\_pre\_survey \<- s12\_pre\_survey %\>% mutate(q4 = reverse\_scale(q4), q7 =
-reverse\_scale(q7))
-
-``` 
+s12_pre_survey <- s12_pre_survey %>%
+  mutate(q4 = reverse_scale(q4),
+         q7 = reverse_scale(q7))
 ```
 
 3.  We'll accomplish the last two steps in one chunk of code. First we'll create
@@ -268,18 +256,13 @@ the course, and the other will correspond to the student. We are not changing
 anything in the data itself at this step - instead, we are just cleaning it up
 so that we can look at the data all in one place.
 
-Let's start with the pre-survey data. We will rename RespondentID and
-opdata\_CourseID to be student\_id and course\_id, respectively.
+Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
 
-``` {r}
+```{r}
 s12_pre_survey <- s12_pre_survey %>% 
-  rename(student_id = RespondentId,
-         course_id = opdata_CourseID)
-```
-
-s12\_pre\_survey
-
-``` 
+    rename(student_id = RespondentId,
+           course_id = opdata_CourseID)
+s12_pre_survey
 ```
 
 Looks better now!
@@ -293,42 +276,31 @@ s12_course_data <- s12_course_data %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 ```
+Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`.
 
-Now that we have two variables that are consistent across both datasets - we
-have called them "course\_id" and "student\_id" - we can join these using the
-**dplyr** function, `left_join()`. Let's save our joined data as a new object
-called "dat."
+Let's save our joined data as a new object called "dat."
 
-``` {r}
+```{r}
 dat <- left_join(s12_course_data, 
                  s12_pre_survey, 
                  by = c("student_id", "course_id"))
-```
-
 dat
-
-``` 
 ```
 
 Just one more data frame to merge:
 
-``` {r}
+```{r}
 s12_time_spent <- s12_time_spent %>%
   rename(student_id = Bb_UserPK, 
          course_id = CourseSectionOrigID)
+s12_time_spent <- s12_time_spent %>%
+  mutate(student_id = as.integer(student_id))
+dat <- dat %>% 
+  left_join(s12_time_spent, 
+            by = c("student_id", "course_id"))
 ```
 
-s12\_time\_spent \<- s12\_time\_spent %\>% mutate(student\_id =
-as.integer(student\_id))
-
-dat \<- dat %\>% left\_join(s12\_time\_spent, by = c("student\_id",
-"course\_id"))
-
-``` 
-```
-
-Note that they're now combined, even though the course data has many more rows:
-The pre\_survey data has been joined for each student by course combination.
+Note that they're now combined, even though the course data has many more rows: The pre_survey data has been joined for each student by course combination.
 
 We have a pretty large data frame! Let's take a quick look.
 
