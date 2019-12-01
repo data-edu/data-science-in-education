@@ -428,7 +428,6 @@ name will work, as well as the `summary()` function on the output.
 
 ``` {r}
 m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
-sjPlot::tab_model(m_linear)
 ```
 
 Another way that we can generate table output is with a function from the
@@ -498,36 +497,43 @@ survey_responses %>%
 ```
 
 The time spent variable is on a very large scale (minutes); what if we transform
-it to represent the number of hours that students spent on the course into
-hours? Let's use the `mutate()` function we used earlier. We'll end the variable
+it to represent the number of hours that students spent on the course? Let's use the `mutate()` function we used earlier. We'll end the variable
 name in `_hours`, to represent what this variable means.
 
 ``` {r}
+# ceating a new variable for the amount of time spent in hours
 dat <- dat %>% mutate(TimeSpent_hours = TimeSpent/60)
-m_linear_1 <- lm(percentage_datearned ~ TimeSpent_hours, data = dat)
+# # the same linear model as above, but with the TimeSpent variable in hours
+m_linear_1 <- lm(percentage_earned ~ TimeSpent_hours, data = dat)
+# viewing the output of the linear model
 sjPlot::tab_model(m_linear_1)
 ```
 
-The scale stil does not seem quite right. What if we standardized the variable
+The scale still does not seem quite right. What if we standardized the variable
 to have a mean of zero and a standard deviation of one?
 
 ``` {r}
+# this is to standardize the TimeSpent variable to have a mean of zero and a standard deviation of 1
 dat <- dat %>% mutate(TimeSpent_std = scale(TimeSpent))
-m_linear_2 <- lm(percentage_earned ~ TimeSpent_std, data = dat)
+# the same linear model as above, but with the TimeSpent variable standardized
+m_linear_2 <- lm(percentage_earned ~ TimeSpent_std, data = dat) 
+# viewing the output of the linear model
 sjPlot::tab_model(m_linear_2)
 ```
 
-That seems to make more sense - although, there is a different interpretation
+That seems to make more sense. However, there is a different interpretation
 now for the time spent variable: for every one standard deviation increase in
 the amount of time spent on the course, the percentage of points a student earns
 increases by .11, or 11 percentage points.
 
 Let's extend our regression model: what other variables may matter? Perhaps
 there are differences based on the subject of the course. We can add subject as
-a variable easily:
+a variable easily:it l
 
 ``` {r}
-m_linear_3 <- lm(percentage_earned ~ scale(TimeSpent) + subject, data = dat)
+# a linear model with the subject added 
+# independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:
+m_linear_3 <- lm(percentage_earned ~ TimeSpent_std + subject, data = dat)
 ```
 
 We can use `sjPlot::tab_model()` once again to view the results:
@@ -538,7 +544,7 @@ sjPlot::tab_model(m_linear_3)
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
 oceanography - are associated with a higher percentage of points earned,
-overall.
+overall. This indicates that students in those two classes earned higher grades than students in other science classes in this dataset.
 
 ## What is next?
 
