@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>17 Walkthrough 5: Title Here | Data Science in Education Using R</title>
+  <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="17 Walkthrough 5: Title Here | Data Science in Education Using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="github-repo" content="ivelasq/data-science-in-education" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="17 Walkthrough 5: Title Here | Data Science in Education Using R" />
+  
+  <meta name="twitter:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  
+
+<meta name="author" content="Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez" />
+
+
+<meta name="date" content="2019-12-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="examining-predictive-accuracy-on-the-test-data-set.html"/>
+<link rel="next" href="walkthrough-6-title-here.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="learning-data-science-in-education.html"><a href="learning-data-science-in-education.html"><i class="fa fa-check"></i><b>2</b> Learning Data Science in Education</a><ul>
+<li class="chapter" data-level="2.1" data-path="learning-data-science-in-education.html"><a href="learning-data-science-in-education.html#making-the-path-a-little-clearer"><i class="fa fa-check"></i><b>2.1</b> Making the path a little clearer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>3</b> How to Use this Book</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#getting-started"><i class="fa fa-check"></i><b>3.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-cover-to-cover-and-try-all-the-walkthroughs"><i class="fa fa-check"></i><b>3.1.1</b> Read the Book Cover to Cover and Try All the Walkthroughs</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#pick-a-chapter-that-is-useful-for-your-level-of-experience-and-start-there"><i class="fa fa-check"></i><b>3.1.2</b> Pick a Chapter That is Useful for Your Level of Experience and Start There</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-through-the-walkthroughs-and-run-the-code"><i class="fa fa-check"></i><b>3.1.3</b> Read Through the Walkthroughs and Run the Code</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-note-on-statistics"><i class="fa fa-check"></i><b>3.2</b> A Note on Statistics</a></li>
+<li class="chapter" data-level="3.3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#contributing-to-the-book"><i class="fa fa-check"></i><b>3.3</b> Contributing to the Book</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="what-is-a-data-scientist-in-education.html"><a href="what-is-a-data-scientist-in-education.html"><i class="fa fa-check"></i><b>4</b> What is a Data Scientist in Education?</a></li>
+<li class="chapter" data-level="5" data-path="unique-challenges.html"><a href="unique-challenges.html"><i class="fa fa-check"></i><b>5</b> Unique Challenges</a></li>
+<li class="chapter" data-level="6" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html"><i class="fa fa-check"></i><b>6</b> Challenges Common to Doing Data Science in any Domain</a><ul>
+<li class="chapter" data-level="6.1" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html#a-new-field"><i class="fa fa-check"></i><b>6.1</b> A New Field</a></li>
+<li class="chapter" data-level="6.2" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html#addressing-ambiguity-a-reproducible-approach"><i class="fa fa-check"></i><b>6.2</b> Addressing Ambiguity: A Reproducible Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html"><i class="fa fa-check"></i><b>7</b> Challenges Common to Doing Data Science in Education</a><ul>
+<li class="chapter" data-level="7.1" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#addressing-organizational-resistance-a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>7.1</b> Addressing organizational resistance: A self-driven analytic approach</a></li>
+<li class="chapter" data-level="7.2" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#lack-of-processes-and-guidelines"><i class="fa fa-check"></i><b>7.2</b> Lack of Processes and Guidelines</a></li>
+<li class="chapter" data-level="7.3" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#limited-training-and-educational-opportunities"><i class="fa fa-check"></i><b>7.3</b> Limited Training and Educational Opportunities</a></li>
+<li class="chapter" data-level="7.4" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#the-complex-and-messy-nature-of-education-data"><i class="fa fa-check"></i><b>7.4</b> The Complex and Messy Nature of Education Data</a></li>
+<li class="chapter" data-level="7.5" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>7.5</b> Ethical and Legal Concerns</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analytic-challenges.html"><a href="analytic-challenges.html"><i class="fa fa-check"></i><b>8</b> Analytic Challenges</a></li>
+<li class="chapter" data-level="9" data-path="not-just-challenges.html"><a href="not-just-challenges.html"><i class="fa fa-check"></i><b>9</b> Not Just Challenges</a></li>
+<li class="chapter" data-level="10" data-path="foundational-skills.html"><a href="foundational-skills.html"><i class="fa fa-check"></i><b>10</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#track-one-getting-started"><i class="fa fa-check"></i><b>10.1</b> Track One: Getting Started</a></li>
+<li class="chapter" data-level="10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#downloading-r-and-r-studio"><i class="fa fa-check"></i><b>10.2</b> Downloading R and R Studio</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r"><i class="fa fa-check"></i><b>10.2.1</b> To download R:</a></li>
+<li class="chapter" data-level="10.2.2" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r-studio"><i class="fa fa-check"></i><b>10.2.2</b> To download R Studio:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="foundational-skills.html"><a href="foundational-skills.html#check-that-it-worked"><i class="fa fa-check"></i><b>10.3</b> Check that it worked</a></li>
+<li class="chapter" data-level="10.4" data-path="foundational-skills.html"><a href="foundational-skills.html#help-im-completely-new-to-using-r-r-studio"><i class="fa fa-check"></i><b>10.4</b> Help, I’m completely new to using R / R Studio!</a></li>
+<li class="chapter" data-level="10.5" data-path="foundational-skills.html"><a href="foundational-skills.html#creating-projects"><i class="fa fa-check"></i><b>10.5</b> Creating Projects</a></li>
+<li class="chapter" data-level="10.6" data-path="foundational-skills.html"><a href="foundational-skills.html#packages"><i class="fa fa-check"></i><b>10.6</b> Packages</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="foundational-skills.html"><a href="foundational-skills.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>10.6.1</b> Installing and Loading Packages</a></li>
+<li class="chapter" data-level="10.6.2" data-path="foundational-skills.html"><a href="foundational-skills.html#running-functions-from-packages"><i class="fa fa-check"></i><b>10.6.2</b> Running Functions from Packages</a></li>
+<li class="chapter" data-level="10.6.3" data-path="foundational-skills.html"><a href="foundational-skills.html#track-two-welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>10.6.3</b> Track Two: Welcome to the Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-data-from-various-sources"><i class="fa fa-check"></i><b>10.7</b> Loading Data from Various Sources</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>10.7.1</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="10.7.2" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-a-csv-file"><i class="fa fa-check"></i><b>10.7.2</b> Loading a CSV File</a></li>
+<li class="chapter" data-level="10.7.3" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-excel-files"><i class="fa fa-check"></i><b>10.7.3</b> Loading Excel Files</a></li>
+<li class="chapter" data-level="10.7.4" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-sav-files"><i class="fa fa-check"></i><b>10.7.4</b> Loading SAV Files</a></li>
+<li class="chapter" data-level="10.7.5" data-path="foundational-skills.html"><a href="foundational-skills.html#google-sheets"><i class="fa fa-check"></i><b>10.7.5</b> Google Sheets</a></li>
+<li class="chapter" data-level="10.7.6" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-files"><i class="fa fa-check"></i><b>10.7.6</b> Saving Files</a></li>
+<li class="chapter" data-level="10.7.7" data-path="foundational-skills.html"><a href="foundational-skills.html#conclusion"><i class="fa fa-check"></i><b>10.7.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="foundational-skills.html"><a href="foundational-skills.html#processing-data"><i class="fa fa-check"></i><b>10.8</b> Processing Data</a></li>
+<li class="chapter" data-level="10.9" data-path="foundational-skills.html"><a href="foundational-skills.html#communicating-sharing-results"><i class="fa fa-check"></i><b>10.9</b> Communicating / Sharing Results</a></li>
+<li class="chapter" data-level="10.10" data-path="foundational-skills.html"><a href="foundational-skills.html#other-foundational-notes"><i class="fa fa-check"></i><b>10.10</b> Other Foundational Notes</a><ul>
+<li class="chapter" data-level="10.10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#configuring-r-studio"><i class="fa fa-check"></i><b>10.10.1</b> Configuring R Studio</a></li>
+<li class="chapter" data-level="10.10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#getting-data-in-and-out"><i class="fa fa-check"></i><b>10.10.2</b> Getting Data In and Out</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html"><i class="fa fa-check"></i><b>11</b> Walkthrough 01: Title Here</a><ul>
+<li class="chapter" data-level="11.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#introduction-1"><i class="fa fa-check"></i><b>11.1</b> Introduction</a></li>
+<li class="chapter" data-level="11.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#data-sources"><i class="fa fa-check"></i><b>11.2</b> Data Sources</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#self-report-survey"><i class="fa fa-check"></i><b>11.2.1</b> 1. Self-Report Survey</a></li>
+<li class="chapter" data-level="11.2.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#log-trace-data"><i class="fa fa-check"></i><b>11.2.2</b> 2. Log-Trace Data</a></li>
+<li class="chapter" data-level="11.2.3" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#achievement-related-and-gradebook-data"><i class="fa fa-check"></i><b>11.2.3</b> 3. Achievement-related and gradebook data</a></li>
+<li class="chapter" data-level="11.2.4" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#discussion-board-data"><i class="fa fa-check"></i><b>11.2.4</b> 4. Discussion board data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#load-packages"><i class="fa fa-check"></i><b>11.3</b> Load Packages</a></li>
+<li class="chapter" data-level="11.4" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#import-data"><i class="fa fa-check"></i><b>11.4</b> Import Data</a></li>
+<li class="chapter" data-level="11.5" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#viewing-the-data"><i class="fa fa-check"></i><b>11.5</b> Viewing the Data</a></li>
+<li class="chapter" data-level="11.6" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#process-data"><i class="fa fa-check"></i><b>11.6</b> Process Data</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#self-report-survey-1"><i class="fa fa-check"></i><b>11.6.1</b> 1. Self-Report Survey</a></li>
+<li class="chapter" data-level="11.6.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#course-data"><i class="fa fa-check"></i><b>11.6.2</b> 2. Course Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#joining-the-data"><i class="fa fa-check"></i><b>11.7</b> Joining the Data</a></li>
+<li class="chapter" data-level="11.8" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.8</b> Visualizing the Data</a><ul>
+<li class="chapter" data-level="11.8.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#visualization-of-the-relationship-between-time-spent-on-course-and-percentage-of-points-earned"><i class="fa fa-check"></i><b>11.8.1</b> Visualization of the relationship between time spent on course and percentage of points earned</a></li>
+</ul></li>
+<li class="chapter" data-level="11.9" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#modeling-the-data"><i class="fa fa-check"></i><b>11.9</b> Modeling the Data</a></li>
+<li class="chapter" data-level="11.10" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#but-what-about-different-courses"><i class="fa fa-check"></i><b>11.10</b> But what about different courses?</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html"><i class="fa fa-check"></i><b>12</b> Walkthrough 02: Title Here</a><ul>
+<li class="chapter" data-level="12.1" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#data-sources-1"><i class="fa fa-check"></i><b>12.2</b> Data Sources</a></li>
+<li class="chapter" data-level="12.3" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#load-packages-1"><i class="fa fa-check"></i><b>12.3</b> Load Packages</a></li>
+<li class="chapter" data-level="12.4" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#import-data-1"><i class="fa fa-check"></i><b>12.4</b> Import Data</a></li>
+<li class="chapter" data-level="12.5" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#tidy-data"><i class="fa fa-check"></i><b>12.5</b> Tidy Data</a></li>
+<li class="chapter" data-level="12.6" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#process-data-1"><i class="fa fa-check"></i><b>12.6</b> Process Data</a></li>
+<li class="chapter" data-level="12.7" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#visualize-data"><i class="fa fa-check"></i><b>12.7</b> Visualize Data</a></li>
+<li class="chapter" data-level="12.8" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#model-data"><i class="fa fa-check"></i><b>12.8</b> Model Data</a><ul>
+<li class="chapter" data-level="12.8.1" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#deciding-an-analysis"><i class="fa fa-check"></i><b>12.8.1</b> Deciding an Analysis</a></li>
+<li class="chapter" data-level="12.8.2" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#visualize-data-to-check-assumptions"><i class="fa fa-check"></i><b>12.8.2</b> Visualize Data to Check Assumptions</a></li>
+<li class="chapter" data-level="12.8.3" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#correlation-analysis"><i class="fa fa-check"></i><b>12.8.3</b> Correlation Analysis</a></li>
+<li class="chapter" data-level="12.8.4" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#build-linear-model"><i class="fa fa-check"></i><b>12.8.4</b> Build Linear Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="walkthrough-03-title-here.html"><a href="walkthrough-03-title-here.html"><i class="fa fa-check"></i><b>13</b> Walkthrough 03: Title Here</a><ul>
+<li class="chapter" data-level="13.1" data-path="walkthrough-03-title-here.html"><a href="walkthrough-03-title-here.html#introduction-3"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="data-sources-2.html"><a href="data-sources-2.html"><i class="fa fa-check"></i><b>14</b> Data Sources</a><ul>
+<li class="chapter" data-level="14.1" data-path="data-sources-2.html"><a href="data-sources-2.html#information-on-random-forests"><i class="fa fa-check"></i><b>14.1</b> Information on random forests</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="analysis.html"><a href="analysis.html"><i class="fa fa-check"></i><b>15</b> Analysis</a><ul>
+<li class="chapter" data-level="15.1" data-path="analysis.html"><a href="analysis.html#use-of-caret"><i class="fa fa-check"></i><b>15.1</b> Use of caret</a></li>
+<li class="chapter" data-level="15.2" data-path="analysis.html"><a href="analysis.html#predicted-values"><i class="fa fa-check"></i><b>15.2</b> Predicted values</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html"><i class="fa fa-check"></i><b>16</b> Examining predictive accuracy on the test data set</a><ul>
+<li class="chapter" data-level="16.1" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html#variable-importance-measures"><i class="fa fa-check"></i><b>16.1</b> Variable importance measures</a></li>
+<li class="chapter" data-level="16.2" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html#comparing-a-random-forest-to-a-regression"><i class="fa fa-check"></i><b>16.2</b> Comparing a random forest to a regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html"><i class="fa fa-check"></i><b>17</b> Walkthrough 5: Title Here</a><ul>
+<li class="chapter" data-level="17.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#introduction-to-aggregate-data"><i class="fa fa-check"></i><b>17.1</b> Introduction to Aggregate Data</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#disaggregating-aggregated-data"><i class="fa fa-check"></i><b>17.1.1</b> Disaggregating Aggregated Data</a></li>
+<li class="chapter" data-level="17.1.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#disaggregating-data-and-equity"><i class="fa fa-check"></i><b>17.1.2</b> Disaggregating Data and Equity</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#data"><i class="fa fa-check"></i><b>17.2</b> Data</a></li>
+<li class="chapter" data-level="17.3" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#data-selection-and-research-questions"><i class="fa fa-check"></i><b>17.3</b> Data Selection and Research Questions</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#import"><i class="fa fa-check"></i><b>17.3.1</b> Import</a></li>
+<li class="chapter" data-level="17.3.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#cleaning"><i class="fa fa-check"></i><b>17.3.2</b> Cleaning</a></li>
+<li class="chapter" data-level="17.3.3" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#looking-at-missing-data"><i class="fa fa-check"></i><b>17.3.3</b> Looking at missing data</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#analysis-1"><i class="fa fa-check"></i><b>17.4</b> Analysis</a><ul>
+<li class="chapter" data-level="17.4.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#discovering-distributions"><i class="fa fa-check"></i><b>17.4.1</b> Discovering Distributions</a></li>
+<li class="chapter" data-level="17.4.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#making-comparisons"><i class="fa fa-check"></i><b>17.4.2</b> Making Comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#ranking"><i class="fa fa-check"></i><b>17.5</b> Ranking</a></li>
+<li class="chapter" data-level="17.6" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#results"><i class="fa fa-check"></i><b>17.6</b> Results</a></li>
+<li class="chapter" data-level="17.7" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#conclusion-1"><i class="fa fa-check"></i><b>17.7</b> Conclusion</a></li>
+<li class="chapter" data-level="17.8" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#appendix"><i class="fa fa-check"></i><b>17.8</b> Appendix</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="walkthrough-6-title-here.html"><a href="walkthrough-6-title-here.html"><i class="fa fa-check"></i><b>18</b> Walkthrough 6: Title Here</a></li>
+<li class="chapter" data-level="19" data-path="vocabulary.html"><a href="vocabulary.html"><i class="fa fa-check"></i><b>19</b> Vocabulary</a></li>
+<li class="chapter" data-level="20" data-path="introduction-4.html"><a href="introduction-4.html"><i class="fa fa-check"></i><b>20</b> Introduction</a></li>
+<li class="chapter" data-level="21" data-path="special-education-child-count-and-environment-data.html"><a href="special-education-child-count-and-environment-data.html"><i class="fa fa-check"></i><b>21</b> Special Education Child Count and Environment Data</a></li>
+<li class="chapter" data-level="22" data-path="reading-in-one-dataset.html"><a href="reading-in-one-dataset.html"><i class="fa fa-check"></i><b>22</b> Reading In One Dataset</a></li>
+<li class="chapter" data-level="23" data-path="reading-in-many-datasets.html"><a href="reading-in-many-datasets.html"><i class="fa fa-check"></i><b>23</b> Reading In Many Datasets</a></li>
+<li class="chapter" data-level="24" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html"><i class="fa fa-check"></i><b>24</b> Cleaning the Dataset</a><ul>
+<li class="chapter" data-level="24.1" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#fix-the-variable-names-in-the-2016-data"><i class="fa fa-check"></i><b>24.1</b> Fix the variable names in the 2016 data</a></li>
+<li class="chapter" data-level="24.2" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#pick-variables"><i class="fa fa-check"></i><b>24.2</b> Pick variables</a></li>
+<li class="chapter" data-level="24.3" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#combine-six-datasets-into-one"><i class="fa fa-check"></i><b>24.3</b> Combine six datasets into one</a></li>
+<li class="chapter" data-level="24.4" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#filter-for-the-desired-disabilities-and-age-groups"><i class="fa fa-check"></i><b>24.4</b> Filter for the desired disabilities and age groups</a></li>
+<li class="chapter" data-level="24.5" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#rename-the-variables"><i class="fa fa-check"></i><b>24.5</b> Rename the variables</a></li>
+<li class="chapter" data-level="24.6" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#clean-state-names"><i class="fa fa-check"></i><b>24.6</b> Clean state names</a></li>
+<li class="chapter" data-level="24.7" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#tidy-the-dataset"><i class="fa fa-check"></i><b>24.7</b> Tidy the dataset</a></li>
+<li class="chapter" data-level="24.8" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#convert-data-types"><i class="fa fa-check"></i><b>24.8</b> Convert data types</a></li>
+<li class="chapter" data-level="24.9" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#explore-and-address-nas"><i class="fa fa-check"></i><b>24.9</b> Explore and address NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html"><i class="fa fa-check"></i><b>25</b> How Have Child Counts Changed Over Time?</a><ul>
+<li class="chapter" data-level="25.1" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#visualize-the-dataset"><i class="fa fa-check"></i><b>25.1</b> Visualize the Dataset</a></li>
+<li class="chapter" data-level="25.2" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#model-the-dataset"><i class="fa fa-check"></i><b>25.2</b> Model the Dataset</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#do-we-have-enough-information-for-our-model"><i class="fa fa-check"></i><b>25.2.1</b> Do we have enough information for our model?</a></li>
+<li class="chapter" data-level="25.2.2" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#male-to-female-ratio-over-time"><i class="fa fa-check"></i><b>25.2.2</b> Male to Female Ratio Over Time</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="aggregate-data-as-context-for-student-data.html"><a href="aggregate-data-as-context-for-student-data.html"><i class="fa fa-check"></i><b>26</b> Aggregate Data as Context for Student Data</a></li>
+<li class="chapter" data-level="27" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>27</b> References</a></li>
+<li class="chapter" data-level="28" data-path="walkthrough-7-title-here.html"><a href="walkthrough-7-title-here.html"><i class="fa fa-check"></i><b>28</b> Walkthrough 7: Title Here</a></li>
+<li class="chapter" data-level="29" data-path="introduction-5.html"><a href="introduction-5.html"><i class="fa fa-check"></i><b>29</b> Introduction</a></li>
+<li class="chapter" data-level="30" data-path="about-our-text-dataset.html"><a href="about-our-text-dataset.html"><i class="fa fa-check"></i><b>30</b> About Our Text Dataset</a></li>
+<li class="chapter" data-level="31" data-path="reading-in-the-data.html"><a href="reading-in-the-data.html"><i class="fa fa-check"></i><b>31</b> Reading In the Data</a></li>
+<li class="chapter" data-level="32" data-path="reading-the-data.html"><a href="reading-the-data.html"><i class="fa fa-check"></i><b>32</b> Reading the data</a></li>
+<li class="chapter" data-level="33" data-path="preparing-the-data-for-the-analysis.html"><a href="preparing-the-data-for-the-analysis.html"><i class="fa fa-check"></i><b>33</b> Preparing the data for the analysis</a></li>
+<li class="chapter" data-level="34" data-path="counting-words.html"><a href="counting-words.html"><i class="fa fa-check"></i><b>34</b> Counting words</a></li>
+<li class="chapter" data-level="35" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html"><i class="fa fa-check"></i><b>35</b> Sentiment analysis</a><ul>
+<li class="chapter" data-level="35.1" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#tweets-associated-with-positive"><i class="fa fa-check"></i><b>35.1</b> Tweets associated with positive</a></li>
+<li class="chapter" data-level="35.2" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#tweets-associated-with-negative"><i class="fa fa-check"></i><b>35.2</b> Tweets associated with negative</a></li>
+<li class="chapter" data-level="35.3" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#random-review-of-tweets"><i class="fa fa-check"></i><b>35.3</b> Random review of tweets</a></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="next-steps.html"><a href="next-steps.html"><i class="fa fa-check"></i><b>36</b> Next steps</a></li>
+<li class="chapter" data-level="37" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i><b>37</b> References</a></li>
+<li class="chapter" data-level="38" data-path="solutions.html"><a href="solutions.html"><i class="fa fa-check"></i><b>38</b> Solutions</a><ul>
+<li class="chapter" data-level="38.1" data-path="solutions.html"><a href="solutions.html#introduction-6"><i class="fa fa-check"></i><b>38.1</b> Introduction</a></li>
+<li class="chapter" data-level="38.2" data-path="solutions.html"><a href="solutions.html#the-gift-of-speed-and-scale"><i class="fa fa-check"></i><b>38.2</b> The Gift of Speed and Scale</a><ul>
+<li class="chapter" data-level="38.2.1" data-path="solutions.html"><a href="solutions.html#working-with-data-faster"><i class="fa fa-check"></i><b>38.2.1</b> Working With Data Faster</a></li>
+</ul></li>
+<li class="chapter" data-level="38.3" data-path="solutions.html"><a href="solutions.html#working-with-more-data"><i class="fa fa-check"></i><b>38.3</b> Working With More Data</a></li>
+<li class="chapter" data-level="38.4" data-path="solutions.html"><a href="solutions.html#solving-problems-together"><i class="fa fa-check"></i><b>38.4</b> Solving Problems Together</a></li>
+<li class="chapter" data-level="38.5" data-path="solutions.html"><a href="solutions.html#data-science-in-education-and-empathy"><i class="fa fa-check"></i><b>38.5</b> Data Science in Education and Empathy</a></li>
+<li class="chapter" data-level="38.6" data-path="solutions.html"><a href="solutions.html#build-your-network"><i class="fa fa-check"></i><b>38.6</b> Build Your Network</a></li>
+<li class="chapter" data-level="38.7" data-path="solutions.html"><a href="solutions.html#for-k-12-teachers"><i class="fa fa-check"></i><b>38.7</b> For K-12 Teachers</a></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="teaching-data-science.html"><a href="teaching-data-science.html"><i class="fa fa-check"></i><b>39</b> Teaching Data Science</a><ul>
+<li class="chapter" data-level="39.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#the-pedagogical-principles-this-book-is-based-upon"><i class="fa fa-check"></i><b>39.1</b> The pedagogical principles this book is based upon</a><ul>
+<li class="chapter" data-level="39.1.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#problem-based-learning"><i class="fa fa-check"></i><b>39.1.1</b> Problem-based learning</a></li>
+<li class="chapter" data-level="39.1.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#differentiation"><i class="fa fa-check"></i><b>39.1.2</b> Differentiation</a></li>
+<li class="chapter" data-level="39.1.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#universal-design"><i class="fa fa-check"></i><b>39.1.3</b> Universal Design</a></li>
+<li class="chapter" data-level="39.1.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#working-in-the-open"><i class="fa fa-check"></i><b>39.1.4</b> Working in the Open</a></li>
+</ul></li>
+<li class="chapter" data-level="39.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#strategies-for-teaching-data-science"><i class="fa fa-check"></i><b>39.2</b> Strategies for teaching data science</a><ul>
+<li class="chapter" data-level="39.2.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#provide-a-home-base-for-learners-to-access-resources-and-to-learn-more"><i class="fa fa-check"></i><b>39.2.1</b> Provide a home base for learners to access resources (and to learn more)</a></li>
+<li class="chapter" data-level="39.2.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#when-it-comes-to-writing-code-think-early-and-often"><i class="fa fa-check"></i><b>39.2.2</b> When it comes to writing code, think early and often</a></li>
+<li class="chapter" data-level="39.2.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#dont-touch-that-keyboard"><i class="fa fa-check"></i><b>39.2.3</b> Don’t touch that keyboard!</a></li>
+<li class="chapter" data-level="39.2.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#anticipate-issues-and-sacrifice-accuracy-for-clarity"><i class="fa fa-check"></i><b>39.2.4</b> Anticipate issues (and sacrifice accuracy for clarity)</a></li>
+<li class="chapter" data-level="39.2.5" data-path="teaching-data-science.html"><a href="teaching-data-science.html#start-lessons-or-activities-with-visualizing-data"><i class="fa fa-check"></i><b>39.2.5</b> Start lessons or activities with visualizing data</a></li>
+<li class="chapter" data-level="39.2.6" data-path="teaching-data-science.html"><a href="teaching-data-science.html#consider-representation-in-the-data-and-examples-you-use"><i class="fa fa-check"></i><b>39.2.6</b> Consider representation in the data and examples you use</a></li>
+<li class="chapter" data-level="39.2.7" data-path="teaching-data-science.html"><a href="teaching-data-science.html#draw-on-other-resources"><i class="fa fa-check"></i><b>39.2.7</b> Draw on other resources</a></li>
+</ul></li>
+<li class="chapter" data-level="39.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#general-strategies-related-to-teaching-and-learning"><i class="fa fa-check"></i><b>39.3</b> General strategies related to teaching and learning</a><ul>
+<li class="chapter" data-level="39.3.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#teaching-and-learning-are-complex"><i class="fa fa-check"></i><b>39.3.1</b> Teaching and learning are complex</a></li>
+<li class="chapter" data-level="39.3.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#learners-learn-many-different-things-consciously-and-unconsciously"><i class="fa fa-check"></i><b>39.3.2</b> Learners learn many different things (consciously and unconsciously)</a></li>
+<li class="chapter" data-level="39.3.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#metacognition-is-important-even-though-it-sounds-more-sophisticated-than-it-is"><i class="fa fa-check"></i><b>39.3.3</b> Metacognition is important (even though it sounds more sophisticated than it is!)</a></li>
+<li class="chapter" data-level="39.3.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#learning-strategies-matter"><i class="fa fa-check"></i><b>39.3.4</b> Learning strategies matter</a></li>
+<li class="chapter" data-level="39.3.5" data-path="teaching-data-science.html"><a href="teaching-data-science.html#educators-can-help-students-to-learn"><i class="fa fa-check"></i><b>39.3.5</b> Educators can help students to learn</a></li>
+</ul></li>
+<li class="chapter" data-level="39.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#summary"><i class="fa fa-check"></i><b>39.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="40" data-path="learning-more.html"><a href="learning-more.html"><i class="fa fa-check"></i><b>40</b> Learning More</a><ul>
+<li class="chapter" data-level="40.1" data-path="learning-more.html"><a href="learning-more.html#introduction-7"><i class="fa fa-check"></i><b>40.1</b> Introduction</a></li>
+<li class="chapter" data-level="40.2" data-path="learning-more.html"><a href="learning-more.html#adopt-a-growth-mindset"><i class="fa fa-check"></i><b>40.2</b> Adopt a growth mindset</a></li>
+<li class="chapter" data-level="40.3" data-path="learning-more.html"><a href="learning-more.html#discover-new-information"><i class="fa fa-check"></i><b>40.3</b> Discover new information</a></li>
+<li class="chapter" data-level="40.4" data-path="learning-more.html"><a href="learning-more.html#ask-for-help"><i class="fa fa-check"></i><b>40.4</b> Ask for help</a></li>
+<li class="chapter" data-level="40.5" data-path="learning-more.html"><a href="learning-more.html#discussion-forums"><i class="fa fa-check"></i><b>40.5</b> Discussion forums</a></li>
+<li class="chapter" data-level="40.6" data-path="learning-more.html"><a href="learning-more.html#github-repositories"><i class="fa fa-check"></i><b>40.6</b> GitHub repositories</a></li>
+<li class="chapter" data-level="40.7" data-path="learning-more.html"><a href="learning-more.html#share-what-youve-learned"><i class="fa fa-check"></i><b>40.7</b> Share what you’ve learned</a></li>
+<li class="chapter" data-level="40.8" data-path="learning-more.html"><a href="learning-more.html#where-to-share"><i class="fa fa-check"></i><b>40.8</b> Where to share</a></li>
+<li class="chapter" data-level="40.9" data-path="learning-more.html"><a href="learning-more.html#welcome-others"><i class="fa fa-check"></i><b>40.9</b> Welcome others</a></li>
+<li class="chapter" data-level="40.10" data-path="learning-more.html"><a href="learning-more.html#references-2"><i class="fa fa-check"></i><b>40.10</b> References</a></li>
+<li class="chapter" data-level="40.11" data-path="learning-more.html"><a href="learning-more.html#data-science-courses"><i class="fa fa-check"></i><b>40.11</b> Data science courses</a></li>
+<li class="chapter" data-level="40.12" data-path="learning-more.html"><a href="learning-more.html#education-resources"><i class="fa fa-check"></i><b>40.12</b> Education resources</a></li>
+<li class="chapter" data-level="40.13" data-path="learning-more.html"><a href="learning-more.html#data-visualization"><i class="fa fa-check"></i><b>40.13</b> Data visualization</a></li>
+<li class="chapter" data-level="40.14" data-path="learning-more.html"><a href="learning-more.html#programming-with-r"><i class="fa fa-check"></i><b>40.14</b> Programming with R</a></li>
+<li class="chapter" data-level="40.15" data-path="learning-more.html"><a href="learning-more.html#package-vignettes"><i class="fa fa-check"></i><b>40.15</b> Package vignettes</a></li>
+<li class="chapter" data-level="40.16" data-path="learning-more.html"><a href="learning-more.html#statistics"><i class="fa fa-check"></i><b>40.16</b> Statistics</a></li>
+<li class="chapter" data-level="40.17" data-path="learning-more.html"><a href="learning-more.html#places-to-share-your-work"><i class="fa fa-check"></i><b>40.17</b> Places to share your work</a></li>
+<li class="chapter" data-level="40.18" data-path="learning-more.html"><a href="learning-more.html#learning-communities"><i class="fa fa-check"></i><b>40.18</b> Learning communities</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="walkthrough-5-title-here" class="section level1">
+<h1><span class="header-section-number">17</span> Walkthrough 5: Title Here</h1>
+<div id="introduction-to-aggregate-data" class="section level2">
+<h2><span class="header-section-number">17.1</span> Introduction to Aggregate Data</h2>
+<p>A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. <a href="https://www.edglossary.org/aggregate-data/">Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.</a> Example of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or averaged survey responses.</p>
+<p>Aggregated datasets are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state’s department of education website for anybody to download and use.</p>
+<p>Federal and international education datasets provide additional context for evaluating education systems. In the US, some federal datasets aim to consolidate important metrics from all states. This can be quite useful because each state has its own repository of data and to go through each state to download a particular metric is a significant effort. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less useable. The federal government also funds assessments and surveys which are disseminated to the public.</p>
+<p>For education data practicioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlyiing issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.</p>
+<p>In this chapter, we will walk through how running descriptive analysis on a national publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is used to find out whether there <em>is</em> a phenomenon, <em>what</em> it is, and <em>what</em> we’d be trying to solve through interventions.</p>
+<p>Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.</p>
+<div id="disaggregating-aggregated-data" class="section level3">
+<h3><span class="header-section-number">17.1.1</span> Disaggregating Aggregated Data</h3>
+<p>Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data <em>disaggregated</em> by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).</p>
+</div>
+<div id="disaggregating-data-and-equity" class="section level3">
+<h3><span class="header-section-number">17.1.2</span> Disaggregating Data and Equity</h3>
+<p>Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.</p>
+<p>It is important to define what equity means to your team so you know whether you are meeting your equity goals.</p>
+</div>
+</div>
+<div id="data" class="section level2">
+<h2><span class="header-section-number">17.2</span> Data</h2>
+<p>There are many education-related, publicly available aggregate datasets. On the international level, perhaps the most well known is:</p>
+<ul>
+<li><a href="http://www.oecd.org/pisa/">Programme for International Student Assessment (PISA)</a>, which measures 15-year-old school pupils’ scholastic performance on mathematics, science, and reading.</li>
+</ul>
+<p>On the federal level, examples include:</p>
+<ul>
+<li><p><a href="https://www2.ed.gov/about/offices/list/ocr/data.html">Civil Rights Data Collection (CRDC)</a>, which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.</p></li>
+<li><p><a href="https://nces.ed.gov/ccd/">Common Core of Data (CCD)</a>, which is the US Department of Education’s primary database on public elementary and secondary education.</p></li>
+<li><p><a href="https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html">EdFacts</a>, which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.</p></li>
+<li><p><a href="https://nces.ed.gov/ipeds/">Integrated Postsecondary Education Data System (IPEDS)</a>, which is the US Department of Education’s primary database on postsecondary education.</p></li>
+<li><p><a href="https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx">National Assessment for Educational Progress (NAEP) Data</a>, an assessment of educational progress in the United States. Often called the “nation’s report card.” The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.</p></li>
+</ul>
+<p>On the state and district level, examples include:</p>
+<ul>
+<li><p><a href="https://www.cde.ca.gov/ds/">California Department of Education</a>, which is the state department of education website. It includes both downloadable CSV files and “Data Quest”, which lets you query the data online.</p></li>
+<li><p><a href="https://mpls.k12.mn.us/reports_and_data">Minneapolis Public Schools</a>, which is a district-level website with datasets beyond those listed in the state website.</p></li>
+</ul>
+</div>
+<div id="data-selection-and-research-questions" class="section level2">
+<h2><span class="header-section-number">17.3</span> Data Selection and Research Questions</h2>
+<p>There is an immense amount of data available in the education field. Descriptive analysis requires us to be deliberate by honing in on a research or policy question. By honing in on what we’re hoping to accomplish, we can distill these datasets into something meaningful.</p>
+<p>We want to avoid exploring data without hypotheses in mind. An education data practitioner will likely observe patterns in the data if the dataset is large enough. By setting limits, we can buffer against the possibility of finding patterns that are not meaningful to our work.</p>
+<p>For the purposes of this walkthrough, we will be looking at 8th grade Math NAEP 2017 proficiency data. The data allows us to look across states and subgroups. We can develop research questions to explore, such as:</p>
+<ul>
+<li>Is there a difference between the percent proficient or above for different races in 2017? Which races have the largest difference?</li>
+<li>If there is a difference, does that gap vary by region/state?</li>
+</ul>
+<div id="import" class="section level3">
+<h3><span class="header-section-number">17.3.1</span> Import</h3>
+<p>These files are available on the <a href="https://www.nationsreportcard.gov/">Nation’s Report Card</a>; however, they are not tidy and come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.</p>
+<ul>
+<li><code>readxl</code> allows us to import .xlsx files.</li>
+<li>The <code>skip</code> argument allows us to not read in the first 8 lines (as they are unnecessary).</li>
+<li><code>str()</code> gives us a sneak peak at what the data looks like.</li>
+</ul>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    324 obs. of  4 variables:
+##  $ Year                                                 : chr  &quot;2017&quot; &quot;2017&quot; &quot;2017&quot; &quot;2017&quot; ...
+##  $ Jurisdiction                                         : chr  &quot;National&quot; &quot;National&quot; &quot;National&quot; &quot;National&quot; ...
+##  $ Race/ethnicity used to report trends, school-reported: chr  &quot;White&quot; &quot;Black&quot; &quot;Hispanic&quot; &quot;Asian/Pacific Islander&quot; ...
+##  $ at or above Proficient                               : chr  &quot;44*&quot; &quot;13.2668998032361&quot; &quot;20*&quot; &quot;62*&quot; ...</code></pre>
+</div>
+<div id="cleaning" class="section level3">
+<h3><span class="header-section-number">17.3.2</span> Cleaning</h3>
+<p>The dataset contains a column with year, states/jurisdiction, race/ethnicity, and the proficiency rates for each one, and miscellaneous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible.</p>
+<ul>
+<li><code>janitor</code> is an excellent package with many handy functions, including <code>clean_names()</code> that transforms column names to R-friendly formats (such as removing spaces, making every word lowercase).</li>
+<li><code>dplyr::slice()</code> selects rows by positions. Because we want to remove rows, the row numbers are negative. Another way of writing this line is <code>dplyr::slice(1:318)</code>. <em>Caution:</em> all rows selected (either to keep or remove) must have the same sign (either all positive or all negative).</li>
+</ul>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1">naep17_tidy &lt;-</a>
+<a class="sourceLine" id="cb163-2" title="2"><span class="st">    </span>naep17 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb163-3" title="3"><span class="st">    </span>janitor<span class="op">::</span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb163-4" title="4"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">slice</span>(<span class="op">-</span><span class="dv">319</span><span class="op">:-</span><span class="dv">342</span>) <span class="co"># remove rows containing additional information</span></a>
+<a class="sourceLine" id="cb163-5" title="5">    </a>
+<a class="sourceLine" id="cb163-6" title="6"><span class="kw">colnames</span>(naep17_tidy)</a></code></pre></div>
+<pre><code>## [1] &quot;year&quot;                                                
+## [2] &quot;jurisdiction&quot;                                        
+## [3] &quot;race_ethnicity_used_to_report_trends_school_reported&quot;
+## [4] &quot;at_or_above_proficient&quot;</code></pre>
+<p>The dataset denotes statistical significance in column <code>at_or_above_proficient</code> with an asterisk next to the percentage (e.g., 44*). If we change this column to numeric without cleaning up the asterisks, all those datapoints will be transformed to <code>NA</code> as it will be converting a character to a numeric. We will need to get rid of them first.</p>
+<p>Note that there are states that suppress proficiency rates for ethnicity/races whose populations are too small to report, denoted by special characters (‡). These will show up as <code>NA</code> when we change the column to numeric.</p>
+<ul>
+<li>We ‘mutate’ the proficiency column by removing astericks in the string (<code>str_replace()</code>).</li>
+<li>Now that the astericks are removed, we can transform the column to numeric using <code>as.numeric.</code> Dividing by 100 gives us a percentage.</li>
+</ul>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">naep17_tidy &lt;-</a>
+<a class="sourceLine" id="cb165-2" title="2"><span class="st">    </span>naep17_tidy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb165-3" title="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">at_or_above_proficient_clean =</span>  stringr<span class="op">::</span><span class="kw">str_replace</span>(at_or_above_proficient, <span class="st">&#39;</span><span class="ch">\\</span><span class="st">*&#39;</span>, <span class="st">&#39;&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># create a new column without *</span></a>
+<a class="sourceLine" id="cb165-4" title="4"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(at_or_above_proficient_clean),</a>
+<a class="sourceLine" id="cb165-5" title="5">              <span class="kw">funs</span>(<span class="kw">as.numeric</span>(.)<span class="op">/</span><span class="dv">100</span>)) <span class="co"># transforming proficiency rates to numeric decimals</span></a></code></pre></div>
+<pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once per session.</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<p>Finally, let’s make the dataset as tidy as possible.</p>
+<ul>
+<li>We use <code>select()</code> to remove the redundant proficiency column.</li>
+<li>We use <code>rename()</code> to shorten the subgroup column name.</li>
+</ul>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1">naep17_tidy &lt;-</a>
+<a class="sourceLine" id="cb168-2" title="2"><span class="st">    </span>naep17_tidy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb168-3" title="3"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>at_or_above_proficient) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># removing original proficiency columns</span></a>
+<a class="sourceLine" id="cb168-4" title="4"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">rename</span>(<span class="dt">race =</span> race_ethnicity_used_to_report_trends_school_reported) <span class="co"># shortening name</span></a></code></pre></div>
+</div>
+<div id="looking-at-missing-data" class="section level3">
+<h3><span class="header-section-number">17.3.3</span> Looking at missing data</h3>
+<p>We want to make sure our data is as complete and accurate as possible. We can use <code>group_by()</code> to see where our missing values are by jurisdiction or subgroup - or both!</p>
+<p>Running the code below, we see that Maine is the state with the most NA’s, totalling five in this dataset.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1">naep17_tidy <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see missing values by jurisdiction</span></a>
+<a class="sourceLine" id="cb169-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(jurisdiction) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb169-3" title="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sumNA =</span> <span class="kw">sum</span>(<span class="kw">is.na</span>(at_or_above_proficient_clean))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb169-4" title="4"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(sumNA)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb169-5" title="5"><span class="st">    </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">jurisdiction</th>
+<th align="right">sumNA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Maine</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">Vermont</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="left">Idaho</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">West Virginia</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">Alabama</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">Arkansas</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">District of Columbia</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">Louisiana</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">Mississippi</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">New Hampshire</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">New Mexico</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">Tennessee</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">Utah</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">Wyoming</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">Connecticut</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Delaware</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">Hawaii</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Indiana</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">Missouri</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Montana</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">New Jersey</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">New York</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">North Dakota</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Ohio</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">Oregon</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Rhode Island</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">South Carolina</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Arizona</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">California</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Colorado</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">DoDEA</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Florida</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Georgia</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Illinois</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Iowa</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Kansas</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Kentucky</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Maryland</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Massachusetts</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Michigan</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Minnesota</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Nebraska</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Nevada</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">North Carolina</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Pennsylvania</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">South Dakota</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Texas</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Virginia</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Washington</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Wisconsin</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Alaska</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">National</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Oklahoma</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Grouping by race/ethnicity, we see that American Indian/Alaska Native is the subgroup with the most missing data. This makes sense as American Indians and Alaska Natives make up a small percentage of the population and would be suppressed in many states. If your analysis wants to focus on this subgroup, you must find additional sources of information.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">naep17_tidy <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># see missing values by jurisdiction</span></a>
+<a class="sourceLine" id="cb170-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(race) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-3" title="3"><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">sumNA =</span> <span class="kw">sum</span>(<span class="kw">is.na</span>(at_or_above_proficient_clean))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb170-4" title="4"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(sumNA))</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 2
+##   race                          sumNA
+##   &lt;chr&gt;                         &lt;int&gt;
+## 1 American Indian/Alaska Native    44
+## 2 Asian/Pacific Islander           20
+## 3 Two or more races                20
+## 4 Black                            10
+## 5 Hispanic                          3
+## 6 White                             0</code></pre>
+</div>
+</div>
+<div id="analysis-1" class="section level2">
+<h2><span class="header-section-number">17.4</span> Analysis</h2>
+<p>Now that we have our clean dataset, we can start answering our research questions for our descriptive analysis.</p>
+<div id="discovering-distributions" class="section level3">
+<h3><span class="header-section-number">17.4.1</span> Discovering Distributions</h3>
+<p>We can begin our analysis looking at measures of central tendancy and variation. Especially if you are not familiar with the dataset, these measures can give you a sense of the range, variation, etc. of the data you are looking at. They can help guide our research questions into areas we find compelling.</p>
+<p>Let’s look at only national proficiency rates across all races.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">naep17_tidy <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb172-2" title="2"><span class="st">    </span><span class="kw">filter</span>(jurisdiction <span class="op">==</span><span class="st"> &quot;National&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb172-3" title="3"><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">min =</span> <span class="kw">min</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb172-4" title="4">              <span class="dt">q1 =</span> <span class="kw">quantile</span>(at_or_above_proficient_clean, <span class="fl">0.25</span>, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb172-5" title="5">              <span class="dt">mean =</span> <span class="kw">mean</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb172-6" title="6">              <span class="dt">q3 =</span> <span class="kw">quantile</span>(at_or_above_proficient_clean, <span class="fl">0.75</span>, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb172-7" title="7">              <span class="dt">max =</span> <span class="kw">max</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb172-8" title="8">              <span class="dt">sd =</span> <span class="kw">sd</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T))</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 6
+##     min    q1  mean    q3   max    sd
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.133 0.185 0.324 0.422  0.62 0.188</code></pre>
+<p>This gives us a general sense of what proficiency rates look like.</p>
+</div>
+<div id="making-comparisons" class="section level3">
+<h3><span class="header-section-number">17.4.2</span> Making Comparisons</h3>
+<div id="defining-the-comparison" class="section level4">
+<h4><span class="header-section-number">17.4.2.1</span> Defining the comparison</h4>
+<blockquote>
+<p>An important determination is whether our data <em>can</em> be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It is discouraged to track percent at and above proficienct across time for the NAEP assessments. Therefore, we will only look at one year of data.</p>
+</blockquote>
+<p>Now that we understand the distribution and variance within the groups in our data, we can start to answer our first research question:</p>
+<ul>
+<li>Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?</li>
+</ul>
+<p>We must consider what ‘difference’ means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we’ll take a look at difference of average proficiency rates because we want to see how this varies by geography, but this might not answer your research question depending on your context.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">naep17_tidy <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-2" title="2"><span class="st">    </span><span class="kw">filter</span>(jurisdiction <span class="op">!=</span><span class="st"> &quot;National&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-3" title="3"><span class="st">    </span><span class="kw">group_by</span>(race) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-4" title="4"><span class="st">    </span><span class="kw">summarize</span>(<span class="dt">min =</span> <span class="kw">min</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb174-5" title="5">              <span class="dt">q1 =</span> <span class="kw">quantile</span>(at_or_above_proficient_clean, <span class="fl">0.25</span>, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb174-6" title="6">              <span class="dt">mean =</span> <span class="kw">mean</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb174-7" title="7">              <span class="dt">q3 =</span> <span class="kw">quantile</span>(at_or_above_proficient_clean, <span class="fl">0.75</span>, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb174-8" title="8">              <span class="dt">max =</span> <span class="kw">max</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T),</a>
+<a class="sourceLine" id="cb174-9" title="9">              <span class="dt">sd =</span> <span class="kw">sd</span>(at_or_above_proficient_clean, <span class="dt">na.rm =</span> T)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-10" title="10"><span class="st">    </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">race</th>
+<th align="right">min</th>
+<th align="right">q1</th>
+<th align="right">mean</th>
+<th align="right">q3</th>
+<th align="right">max</th>
+<th align="right">sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">American Indian/Alaska Native</td>
+<td align="right">0.0880695</td>
+<td align="right">0.1085160</td>
+<td align="right">0.1364463</td>
+<td align="right">0.1660658</td>
+<td align="right">0.1756954</td>
+<td align="right">0.0344714</td>
+</tr>
+<tr class="even">
+<td align="left">Asian/Pacific Islander</td>
+<td align="right">0.2500000</td>
+<td align="right">0.5125000</td>
+<td align="right">0.5645064</td>
+<td align="right">0.6500000</td>
+<td align="right">0.7800000</td>
+<td align="right">0.1365433</td>
+</tr>
+<tr class="odd">
+<td align="left">Black</td>
+<td align="right">0.0560070</td>
+<td align="right">0.0979182</td>
+<td align="right">0.1267545</td>
+<td align="right">0.1431932</td>
+<td align="right">0.2249135</td>
+<td align="right">0.0411197</td>
+</tr>
+<tr class="even">
+<td align="left">Hispanic</td>
+<td align="right">0.1167227</td>
+<td align="right">0.1726504</td>
+<td align="right">0.1992072</td>
+<td align="right">0.2296521</td>
+<td align="right">0.3200000</td>
+<td align="right">0.0429432</td>
+</tr>
+<tr class="odd">
+<td align="left">Two or more races</td>
+<td align="right">0.1893336</td>
+<td align="right">0.2756032</td>
+<td align="right">0.3353840</td>
+<td align="right">0.3950000</td>
+<td align="right">0.5100000</td>
+<td align="right">0.0832552</td>
+</tr>
+<tr class="even">
+<td align="left">White</td>
+<td align="right">0.2500000</td>
+<td align="right">0.3786083</td>
+<td align="right">0.4250981</td>
+<td align="right">0.4700000</td>
+<td align="right">0.7700000</td>
+<td align="right">0.0846170</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="communicating-the-comparison" class="section level4">
+<h4><span class="header-section-number">17.4.2.2</span> Communicating the comparison</h4>
+<p>Although a table is a convenient way of demonstrating a lot of information, it requires a lot of parsing for readers. Data visualization is another manner in which we can quickly communicate research findings. Data visualization can also display patterns or issues with the data.</p>
+<p>Generally, we want to make sure our visualizations are functional, familiar, and tell our message clearly and directly. Given our audience (you!), we decided to showcase the measures of central tendancy using boxplots.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" title="1">naep_race_plot &lt;-</a>
+<a class="sourceLine" id="cb175-2" title="2"><span class="st">    </span>naep17_tidy <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb175-3" title="3"><span class="st">    </span><span class="kw">filter</span>(jurisdiction <span class="op">!=</span><span class="st"> &quot;National&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb175-4" title="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> race, <span class="dt">y =</span> at_or_above_proficient_clean)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb175-5" title="5"><span class="st">    </span><span class="kw">geom_boxplot</span>()</a>
+<a class="sourceLine" id="cb175-6" title="6"></a>
+<a class="sourceLine" id="cb175-7" title="7">naep_race_plot</a></code></pre></div>
+<pre><code>## Warning: Removed 97 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="data-science-in-education_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="ranking" class="section level2">
+<h2><span class="header-section-number">17.5</span> Ranking</h2>
+</div>
+<div id="results" class="section level2">
+<h2><span class="header-section-number">17.6</span> Results</h2>
+</div>
+<div id="conclusion-1" class="section level2">
+<h2><span class="header-section-number">17.7</span> Conclusion</h2>
+<p>Another example of descriptive analysis is network analysis, covered in Walkthrough 4.</p>
+</div>
+<div id="appendix" class="section level2">
+<h2><span class="header-section-number">17.8</span> Appendix</h2>
+<p>Loeb, S., Dynarski, S., McFarland, D., Morris, P., Reardon, S., &amp; Reber, S. (2017). <a href="https://ies.ed.gov/ncee/pubs/20174023/pdf/20174023.pdf">Descriptive analysis in education: A guide for researchers.</a> (NCEE 2017–4023). Washington, DC: U.S. Department
+of Education, Institute of Education Sciences, National Center for Education Evaluation and Regional Assistance.</p>
+<p>National Forum on Education Statistics. (2016). <a href="https://nces.ed.gov/pubs2017/NFES2017017.pdf">Forum Guide to Collecting and Using Disaggregated Data on Racial/Ethnic
+Subgroups.</a> (NFES 2017-017). U.S. Department of Education. Washington, DC: National Center for Education Statistics.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="examining-predictive-accuracy-on-the-test-data-set.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="walkthrough-6-title-here.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
