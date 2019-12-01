@@ -387,11 +387,11 @@ the data,
 One thing we might be wondering is how time spent on course is related to
 students' final grade.
 
-<!-- This is really trivial and obvious; need a new/better relationship -->
+We note that ggplot2, which we use to create these plots, is discussed further in chapter XXX.
 
 ``` {r}
-ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() 
+ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) + # this tells ggplot2 what variables to map to what feature of a plot, here, x- anx y-axis locations
+  geom_point() # creates a point with x- and y-axis coordinates specified above
 ```
 
 There appears to be *some* relationship. What if we added a line of best fit - a
@@ -399,8 +399,8 @@ linear model?
 
 ``` {r}
 ggplot(dat, aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() + 
-  geom_smooth(method = "lm")
+  geom_point() + # same as above
+  geom_smooth(method = "lm") # this adds a line of best fit; method = "lm" tells ggplot2 to make the line linear, whereas the default is a smooth like
 ```
 
 So, it appeares that the more time students spent on the course, the more points
