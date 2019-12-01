@@ -17,7 +17,7 @@ The study involved a number of different data sources which were explored to
 understand students' motivation:
 
 1.  A self-report survey for three distinct but related aspects of students'
-    motivation
+motivation
 2.  Log-trace data, such as data output from the learning management system
 3.  Discussion board data
 4.  Achievement-related (i.e., final grade) data
@@ -37,12 +37,12 @@ namely, for interest, utility value, and perceived competence:
 4.  I am not interested in this course. (Interest - reverse coded)
 5.  I think I will like learning about this topic. (Interest)
 6.  I think what we are studying in this course is useful for me to know.
-    (Utility value)
+(Utility value)
 7.  I don’t feel comfortable when it comes to answering questions in this area.
-    (Perceived competence)
+(Perceived competence)
 8.  I think this subject is interesting. (Interest)
 9.  I find the content of this course to be personally meaningful. (Utility
-    value)
+value)
 10. I’ve always wanted to learn more about this subject. (Interest)
 
 ### Data source #2: Log-trace data
@@ -101,13 +101,13 @@ s12_course_data <- read_csv(
 
 # Pre-survey for the F15 and S16 semesters
 
-s12\_pre\_survey \<- read\_csv( here( "data", "online-science-motivation",
-"raw", "s12-pre-survey.csv" ) )
+s12_pre_survey <- read_csv(here("data", "online-science-motivation",
+                                "raw", "s12-pre-survey.csv"))
 
 # Log-trace data for F15 and S16 semesters - this is for time spent
 
-s12\_time\_spent \<- read\_csv( here( "data", "online-science-motivation",
-"raw", "s12-course-minutes.csv" ) )
+s12_time_spent <- read_csv(here("data", "online-science-motivation",
+                                "raw", "s12-course-minutes.csv"))
 ```
 
 ## Viewing the data
@@ -127,10 +127,10 @@ Often, survey data needs to be processed in order to be (most) useful. Here, we
 process the self-report items into three scales, for: interest, self-efficacy,
 and utility value. We do this by
 
-  - Renaming the question variables to something more managable
-  - Reversing the response scales on questions 4 and 7
-  - Categorizing each question into a measure
-  - Computing the mean of each measure
+- Renaming the question variables to something more managable
+- Reversing the response scales on questions 4 and 7
+- Categorizing each question into a measure
+- Computing the mean of each measure
 
 Let's take these steps in order:
 
@@ -155,21 +155,21 @@ s12_pre_survey  <- s12_pre_survey  %>%
 ```
 
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
-    the responses for all questions can be interpreted in the same way. Rather
-    than write a lot of code once to reverse the scales for question 4 then
-    writing it again to reverse the scales on question 7, we'll build a function
-    that does that job for us. Then we'll use the same function for question 4
-    and question 7. This will result in much less code, plus it will make it
-    easier for us to change in the future.
+the responses for all questions can be interpreted in the same way. Rather
+than write a lot of code once to reverse the scales for question 4 then
+writing it again to reverse the scales on question 7, we'll build a function
+that does that job for us. Then we'll use the same function for question 4
+and question 7. This will result in much less code, plus it will make it
+easier for us to change in the future.
 
 ```{r}
 # This part of the code is where we write the function:
 # Function for reversing scales 
 reverse_scale <- function(question) {
-    # Reverses the response scales for consistency 
-    #   Args: 
-    #     question: survey question 
-    #   Returns: a numeric converted response
+  # Reverses the response scales for consistency 
+  #   Args: 
+  #     question: survey question 
+  #   Returns: a numeric converted response
   # Note: even though 3 is not transformed, case_when expects a match for all
   # possible conditions, so it's best practice to label each possible input
   # and use TRUE ~ as the final statement returning NA for unexpected inputs
@@ -189,12 +189,12 @@ s12_pre_survey <- s12_pre_survey %>%
 ```
 
 3.  We'll accomplish the last two steps in one chunk of code. First we'll create
-    a column called `measure` and we'll fill that column with one of three
-    question categories:
+a column called `measure` and we'll fill that column with one of three
+question categories:
 
-  - `int`: interest
-  - `uv`: utility value
-  - `pc`: self efficacy
+- `int`: interest
+- `uv`: utility value
+- `pc`: self efficacy
 
 After that we'll find the mean response of each category using `mean` function.
 
@@ -219,11 +219,9 @@ s12_measure_mean <- s12_pre_survey %>%
     # Percent of each measure that had NAs in the response field
     percent_NA = mean(is.na(response))
   )
-```
 
-s12\_measure\_mean
+s12_measure_mean
 
-``` 
 ```
 
 We will use a similar process later to calculate these variables' correlations.
@@ -260,8 +258,8 @@ Let's start with the pre-survey data. We will rename RespondentID and opdata_Cou
 
 ```{r}
 s12_pre_survey <- s12_pre_survey %>% 
-    rename(student_id = RespondentId,
-           course_id = opdata_CourseID)
+  rename(student_id = RespondentId,
+         course_id = opdata_CourseID)
 s12_pre_survey
 ```
 
@@ -276,6 +274,7 @@ s12_course_data <- s12_course_data %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 ```
+
 Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`.
 
 Let's save our joined data as a new object called "dat."
@@ -444,8 +443,6 @@ library(apaTables)
 apa.reg.table(m_summary, filename = "m_summary_regression_table.doc")
 ```
 
-<!-- Wonder if we also want to show how to do correlation tables with this package -->
-
 You might be wondering what else the apaTables package does; we encourage you to
 read more about the package here:
 <https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
@@ -454,10 +451,10 @@ the following function for creating correlation tables; the function takes, as
 an input, a data frame with the variables for which you wish to calculate
 correlations. We will create the same measures (based on the survey items) that
 we used earlier to understand how the percentage of points earned is related to
-these measures (and how all of the variables relate to one another:
+these measures (and how all of the variables relate to one another):
 
 ``` {r}
-s12_measure_mean <- s12_pre_survey %>% 
+s12_measure<- s12_pre_survey %>% 
   # Gather questions and responses 
   gather(question, response, c(q1:q10)) %>% 
   mutate(
@@ -467,12 +464,14 @@ s12_measure_mean <- s12_pre_survey %>%
       question %in% c("q2", "q6", "q9") ~ "uv", 
       question %in% c("q3", "q7") ~ "pc", 
       TRUE ~ NA_character_
-    )) %>% 
+    ))
 ```
-  
-select(percentage\_earned, int, uv, pc) apa.cor.table()
 
-``` 
+
+```{r}
+s12_measure %>% 
+  select(percentage_earned, int, uv, pc) %>% 
+  apa.cor.table()
 ```
 
 The time spent variable is on a very large scale (minutes); what if we transform
