@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>23 Reading In Many Datasets | Data Science in Education Using R</title>
+  <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="23 Reading In Many Datasets | Data Science in Education Using R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="github-repo" content="ivelasq/data-science-in-education" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="23 Reading In Many Datasets | Data Science in Education Using R" />
+  
+  <meta name="twitter:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  
+
+<meta name="author" content="Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez" />
+
+
+<meta name="date" content="2019-12-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reading-in-one-dataset.html"/>
+<link rel="next" href="cleaning-the-dataset.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="learning-data-science-in-education.html"><a href="learning-data-science-in-education.html"><i class="fa fa-check"></i><b>2</b> Learning Data Science in Education</a><ul>
+<li class="chapter" data-level="2.1" data-path="learning-data-science-in-education.html"><a href="learning-data-science-in-education.html#making-the-path-a-little-clearer"><i class="fa fa-check"></i><b>2.1</b> Making the path a little clearer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i><b>3</b> How to Use this Book</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#getting-started"><i class="fa fa-check"></i><b>3.1</b> Getting Started</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-cover-to-cover-and-try-all-the-walkthroughs"><i class="fa fa-check"></i><b>3.1.1</b> Read the Book Cover to Cover and Try All the Walkthroughs</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#pick-a-chapter-that-is-useful-for-your-level-of-experience-and-start-there"><i class="fa fa-check"></i><b>3.1.2</b> Pick a Chapter That is Useful for Your Level of Experience and Start There</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-through-the-walkthroughs-and-run-the-code"><i class="fa fa-check"></i><b>3.1.3</b> Read Through the Walkthroughs and Run the Code</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#a-note-on-statistics"><i class="fa fa-check"></i><b>3.2</b> A Note on Statistics</a></li>
+<li class="chapter" data-level="3.3" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#contributing-to-the-book"><i class="fa fa-check"></i><b>3.3</b> Contributing to the Book</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="what-is-a-data-scientist-in-education.html"><a href="what-is-a-data-scientist-in-education.html"><i class="fa fa-check"></i><b>4</b> What is a Data Scientist in Education?</a></li>
+<li class="chapter" data-level="5" data-path="unique-challenges.html"><a href="unique-challenges.html"><i class="fa fa-check"></i><b>5</b> Unique Challenges</a></li>
+<li class="chapter" data-level="6" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html"><i class="fa fa-check"></i><b>6</b> Challenges Common to Doing Data Science in any Domain</a><ul>
+<li class="chapter" data-level="6.1" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html#a-new-field"><i class="fa fa-check"></i><b>6.1</b> A New Field</a></li>
+<li class="chapter" data-level="6.2" data-path="challenges-common-to-doing-data-science-in-any-domain.html"><a href="challenges-common-to-doing-data-science-in-any-domain.html#addressing-ambiguity-a-reproducible-approach"><i class="fa fa-check"></i><b>6.2</b> Addressing Ambiguity: A Reproducible Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html"><i class="fa fa-check"></i><b>7</b> Challenges Common to Doing Data Science in Education</a><ul>
+<li class="chapter" data-level="7.1" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#addressing-organizational-resistance-a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>7.1</b> Addressing organizational resistance: A self-driven analytic approach</a></li>
+<li class="chapter" data-level="7.2" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#lack-of-processes-and-guidelines"><i class="fa fa-check"></i><b>7.2</b> Lack of Processes and Guidelines</a></li>
+<li class="chapter" data-level="7.3" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#limited-training-and-educational-opportunities"><i class="fa fa-check"></i><b>7.3</b> Limited Training and Educational Opportunities</a></li>
+<li class="chapter" data-level="7.4" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#the-complex-and-messy-nature-of-education-data"><i class="fa fa-check"></i><b>7.4</b> The Complex and Messy Nature of Education Data</a></li>
+<li class="chapter" data-level="7.5" data-path="challenges-common-to-doing-data-science-in-education.html"><a href="challenges-common-to-doing-data-science-in-education.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>7.5</b> Ethical and Legal Concerns</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="analytic-challenges.html"><a href="analytic-challenges.html"><i class="fa fa-check"></i><b>8</b> Analytic Challenges</a></li>
+<li class="chapter" data-level="9" data-path="not-just-challenges.html"><a href="not-just-challenges.html"><i class="fa fa-check"></i><b>9</b> Not Just Challenges</a></li>
+<li class="chapter" data-level="10" data-path="foundational-skills.html"><a href="foundational-skills.html"><i class="fa fa-check"></i><b>10</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#track-one-getting-started"><i class="fa fa-check"></i><b>10.1</b> Track One: Getting Started</a></li>
+<li class="chapter" data-level="10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#downloading-r-and-r-studio"><i class="fa fa-check"></i><b>10.2</b> Downloading R and R Studio</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r"><i class="fa fa-check"></i><b>10.2.1</b> To download R:</a></li>
+<li class="chapter" data-level="10.2.2" data-path="foundational-skills.html"><a href="foundational-skills.html#to-download-r-studio"><i class="fa fa-check"></i><b>10.2.2</b> To download R Studio:</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="foundational-skills.html"><a href="foundational-skills.html#check-that-it-worked"><i class="fa fa-check"></i><b>10.3</b> Check that it worked</a></li>
+<li class="chapter" data-level="10.4" data-path="foundational-skills.html"><a href="foundational-skills.html#help-im-completely-new-to-using-r-r-studio"><i class="fa fa-check"></i><b>10.4</b> Help, I’m completely new to using R / R Studio!</a></li>
+<li class="chapter" data-level="10.5" data-path="foundational-skills.html"><a href="foundational-skills.html#creating-projects"><i class="fa fa-check"></i><b>10.5</b> Creating Projects</a></li>
+<li class="chapter" data-level="10.6" data-path="foundational-skills.html"><a href="foundational-skills.html#packages"><i class="fa fa-check"></i><b>10.6</b> Packages</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="foundational-skills.html"><a href="foundational-skills.html#installing-and-loading-packages"><i class="fa fa-check"></i><b>10.6.1</b> Installing and Loading Packages</a></li>
+<li class="chapter" data-level="10.6.2" data-path="foundational-skills.html"><a href="foundational-skills.html#running-functions-from-packages"><i class="fa fa-check"></i><b>10.6.2</b> Running Functions from Packages</a></li>
+<li class="chapter" data-level="10.6.3" data-path="foundational-skills.html"><a href="foundational-skills.html#track-two-welcome-to-the-tidyverse"><i class="fa fa-check"></i><b>10.6.3</b> Track Two: Welcome to the Tidyverse</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-data-from-various-sources"><i class="fa fa-check"></i><b>10.7</b> Loading Data from Various Sources</a><ul>
+<li class="chapter" data-level="10.7.1" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>10.7.1</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="10.7.2" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-a-csv-file"><i class="fa fa-check"></i><b>10.7.2</b> Loading a CSV File</a></li>
+<li class="chapter" data-level="10.7.3" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-excel-files"><i class="fa fa-check"></i><b>10.7.3</b> Loading Excel Files</a></li>
+<li class="chapter" data-level="10.7.4" data-path="foundational-skills.html"><a href="foundational-skills.html#loading-sav-files"><i class="fa fa-check"></i><b>10.7.4</b> Loading SAV Files</a></li>
+<li class="chapter" data-level="10.7.5" data-path="foundational-skills.html"><a href="foundational-skills.html#google-sheets"><i class="fa fa-check"></i><b>10.7.5</b> Google Sheets</a></li>
+<li class="chapter" data-level="10.7.6" data-path="foundational-skills.html"><a href="foundational-skills.html#saving-files"><i class="fa fa-check"></i><b>10.7.6</b> Saving Files</a></li>
+<li class="chapter" data-level="10.7.7" data-path="foundational-skills.html"><a href="foundational-skills.html#conclusion"><i class="fa fa-check"></i><b>10.7.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="foundational-skills.html"><a href="foundational-skills.html#processing-data"><i class="fa fa-check"></i><b>10.8</b> Processing Data</a></li>
+<li class="chapter" data-level="10.9" data-path="foundational-skills.html"><a href="foundational-skills.html#communicating-sharing-results"><i class="fa fa-check"></i><b>10.9</b> Communicating / Sharing Results</a></li>
+<li class="chapter" data-level="10.10" data-path="foundational-skills.html"><a href="foundational-skills.html#other-foundational-notes"><i class="fa fa-check"></i><b>10.10</b> Other Foundational Notes</a><ul>
+<li class="chapter" data-level="10.10.1" data-path="foundational-skills.html"><a href="foundational-skills.html#configuring-r-studio"><i class="fa fa-check"></i><b>10.10.1</b> Configuring R Studio</a></li>
+<li class="chapter" data-level="10.10.2" data-path="foundational-skills.html"><a href="foundational-skills.html#getting-data-in-and-out"><i class="fa fa-check"></i><b>10.10.2</b> Getting Data In and Out</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html"><i class="fa fa-check"></i><b>11</b> Walkthrough 01: Title Here</a><ul>
+<li class="chapter" data-level="11.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#introduction-1"><i class="fa fa-check"></i><b>11.1</b> Introduction</a></li>
+<li class="chapter" data-level="11.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#data-sources"><i class="fa fa-check"></i><b>11.2</b> Data Sources</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#self-report-survey"><i class="fa fa-check"></i><b>11.2.1</b> 1. Self-Report Survey</a></li>
+<li class="chapter" data-level="11.2.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#log-trace-data"><i class="fa fa-check"></i><b>11.2.2</b> 2. Log-Trace Data</a></li>
+<li class="chapter" data-level="11.2.3" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#achievement-related-and-gradebook-data"><i class="fa fa-check"></i><b>11.2.3</b> 3. Achievement-related and gradebook data</a></li>
+<li class="chapter" data-level="11.2.4" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#discussion-board-data"><i class="fa fa-check"></i><b>11.2.4</b> 4. Discussion board data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#load-packages"><i class="fa fa-check"></i><b>11.3</b> Load Packages</a></li>
+<li class="chapter" data-level="11.4" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#import-data"><i class="fa fa-check"></i><b>11.4</b> Import Data</a></li>
+<li class="chapter" data-level="11.5" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#viewing-the-data"><i class="fa fa-check"></i><b>11.5</b> Viewing the Data</a></li>
+<li class="chapter" data-level="11.6" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#process-data"><i class="fa fa-check"></i><b>11.6</b> Process Data</a><ul>
+<li class="chapter" data-level="11.6.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#self-report-survey-1"><i class="fa fa-check"></i><b>11.6.1</b> 1. Self-Report Survey</a></li>
+<li class="chapter" data-level="11.6.2" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#course-data"><i class="fa fa-check"></i><b>11.6.2</b> 2. Course Data</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#joining-the-data"><i class="fa fa-check"></i><b>11.7</b> Joining the Data</a></li>
+<li class="chapter" data-level="11.8" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#visualizing-the-data"><i class="fa fa-check"></i><b>11.8</b> Visualizing the Data</a><ul>
+<li class="chapter" data-level="11.8.1" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#visualization-of-the-relationship-between-time-spent-on-course-and-percentage-of-points-earned"><i class="fa fa-check"></i><b>11.8.1</b> Visualization of the relationship between time spent on course and percentage of points earned</a></li>
+</ul></li>
+<li class="chapter" data-level="11.9" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#modeling-the-data"><i class="fa fa-check"></i><b>11.9</b> Modeling the Data</a></li>
+<li class="chapter" data-level="11.10" data-path="walkthrough-01-title-here.html"><a href="walkthrough-01-title-here.html#but-what-about-different-courses"><i class="fa fa-check"></i><b>11.10</b> But what about different courses?</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html"><i class="fa fa-check"></i><b>12</b> Walkthrough 02: Title Here</a><ul>
+<li class="chapter" data-level="12.1" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#introduction-2"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#data-sources-1"><i class="fa fa-check"></i><b>12.2</b> Data Sources</a></li>
+<li class="chapter" data-level="12.3" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#load-packages-1"><i class="fa fa-check"></i><b>12.3</b> Load Packages</a></li>
+<li class="chapter" data-level="12.4" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#import-data-1"><i class="fa fa-check"></i><b>12.4</b> Import Data</a></li>
+<li class="chapter" data-level="12.5" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#tidy-data"><i class="fa fa-check"></i><b>12.5</b> Tidy Data</a></li>
+<li class="chapter" data-level="12.6" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#process-data-1"><i class="fa fa-check"></i><b>12.6</b> Process Data</a></li>
+<li class="chapter" data-level="12.7" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#visualize-data"><i class="fa fa-check"></i><b>12.7</b> Visualize Data</a></li>
+<li class="chapter" data-level="12.8" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#model-data"><i class="fa fa-check"></i><b>12.8</b> Model Data</a><ul>
+<li class="chapter" data-level="12.8.1" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#deciding-an-analysis"><i class="fa fa-check"></i><b>12.8.1</b> Deciding an Analysis</a></li>
+<li class="chapter" data-level="12.8.2" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#visualize-data-to-check-assumptions"><i class="fa fa-check"></i><b>12.8.2</b> Visualize Data to Check Assumptions</a></li>
+<li class="chapter" data-level="12.8.3" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#correlation-analysis"><i class="fa fa-check"></i><b>12.8.3</b> Correlation Analysis</a></li>
+<li class="chapter" data-level="12.8.4" data-path="walkthrough-02-title-here.html"><a href="walkthrough-02-title-here.html#build-linear-model"><i class="fa fa-check"></i><b>12.8.4</b> Build Linear Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="walkthrough-03-title-here.html"><a href="walkthrough-03-title-here.html"><i class="fa fa-check"></i><b>13</b> Walkthrough 03: Title Here</a><ul>
+<li class="chapter" data-level="13.1" data-path="walkthrough-03-title-here.html"><a href="walkthrough-03-title-here.html#introduction-3"><i class="fa fa-check"></i><b>13.1</b> Introduction</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="data-sources-2.html"><a href="data-sources-2.html"><i class="fa fa-check"></i><b>14</b> Data Sources</a><ul>
+<li class="chapter" data-level="14.1" data-path="data-sources-2.html"><a href="data-sources-2.html#information-on-random-forests"><i class="fa fa-check"></i><b>14.1</b> Information on random forests</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="analysis.html"><a href="analysis.html"><i class="fa fa-check"></i><b>15</b> Analysis</a><ul>
+<li class="chapter" data-level="15.1" data-path="analysis.html"><a href="analysis.html#use-of-caret"><i class="fa fa-check"></i><b>15.1</b> Use of caret</a></li>
+<li class="chapter" data-level="15.2" data-path="analysis.html"><a href="analysis.html#predicted-values"><i class="fa fa-check"></i><b>15.2</b> Predicted values</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html"><i class="fa fa-check"></i><b>16</b> Examining predictive accuracy on the test data set</a><ul>
+<li class="chapter" data-level="16.1" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html#variable-importance-measures"><i class="fa fa-check"></i><b>16.1</b> Variable importance measures</a></li>
+<li class="chapter" data-level="16.2" data-path="examining-predictive-accuracy-on-the-test-data-set.html"><a href="examining-predictive-accuracy-on-the-test-data-set.html#comparing-a-random-forest-to-a-regression"><i class="fa fa-check"></i><b>16.2</b> Comparing a random forest to a regression</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html"><i class="fa fa-check"></i><b>17</b> Walkthrough 5: Title Here</a><ul>
+<li class="chapter" data-level="17.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#introduction-to-aggregate-data"><i class="fa fa-check"></i><b>17.1</b> Introduction to Aggregate Data</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#disaggregating-aggregated-data"><i class="fa fa-check"></i><b>17.1.1</b> Disaggregating Aggregated Data</a></li>
+<li class="chapter" data-level="17.1.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#disaggregating-data-and-equity"><i class="fa fa-check"></i><b>17.1.2</b> Disaggregating Data and Equity</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#data"><i class="fa fa-check"></i><b>17.2</b> Data</a></li>
+<li class="chapter" data-level="17.3" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#data-selection-and-research-questions"><i class="fa fa-check"></i><b>17.3</b> Data Selection and Research Questions</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#import"><i class="fa fa-check"></i><b>17.3.1</b> Import</a></li>
+<li class="chapter" data-level="17.3.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#cleaning"><i class="fa fa-check"></i><b>17.3.2</b> Cleaning</a></li>
+<li class="chapter" data-level="17.3.3" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#looking-at-missing-data"><i class="fa fa-check"></i><b>17.3.3</b> Looking at missing data</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#analysis-1"><i class="fa fa-check"></i><b>17.4</b> Analysis</a><ul>
+<li class="chapter" data-level="17.4.1" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#discovering-distributions"><i class="fa fa-check"></i><b>17.4.1</b> Discovering Distributions</a></li>
+<li class="chapter" data-level="17.4.2" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#making-comparisons"><i class="fa fa-check"></i><b>17.4.2</b> Making Comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#ranking"><i class="fa fa-check"></i><b>17.5</b> Ranking</a></li>
+<li class="chapter" data-level="17.6" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#results"><i class="fa fa-check"></i><b>17.6</b> Results</a></li>
+<li class="chapter" data-level="17.7" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#conclusion-1"><i class="fa fa-check"></i><b>17.7</b> Conclusion</a></li>
+<li class="chapter" data-level="17.8" data-path="walkthrough-5-title-here.html"><a href="walkthrough-5-title-here.html#appendix"><i class="fa fa-check"></i><b>17.8</b> Appendix</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="walkthrough-6-title-here.html"><a href="walkthrough-6-title-here.html"><i class="fa fa-check"></i><b>18</b> Walkthrough 6: Title Here</a></li>
+<li class="chapter" data-level="19" data-path="vocabulary.html"><a href="vocabulary.html"><i class="fa fa-check"></i><b>19</b> Vocabulary</a></li>
+<li class="chapter" data-level="20" data-path="introduction-4.html"><a href="introduction-4.html"><i class="fa fa-check"></i><b>20</b> Introduction</a></li>
+<li class="chapter" data-level="21" data-path="special-education-child-count-and-environment-data.html"><a href="special-education-child-count-and-environment-data.html"><i class="fa fa-check"></i><b>21</b> Special Education Child Count and Environment Data</a></li>
+<li class="chapter" data-level="22" data-path="reading-in-one-dataset.html"><a href="reading-in-one-dataset.html"><i class="fa fa-check"></i><b>22</b> Reading In One Dataset</a></li>
+<li class="chapter" data-level="23" data-path="reading-in-many-datasets.html"><a href="reading-in-many-datasets.html"><i class="fa fa-check"></i><b>23</b> Reading In Many Datasets</a></li>
+<li class="chapter" data-level="24" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html"><i class="fa fa-check"></i><b>24</b> Cleaning the Dataset</a><ul>
+<li class="chapter" data-level="24.1" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#fix-the-variable-names-in-the-2016-data"><i class="fa fa-check"></i><b>24.1</b> Fix the variable names in the 2016 data</a></li>
+<li class="chapter" data-level="24.2" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#pick-variables"><i class="fa fa-check"></i><b>24.2</b> Pick variables</a></li>
+<li class="chapter" data-level="24.3" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#combine-six-datasets-into-one"><i class="fa fa-check"></i><b>24.3</b> Combine six datasets into one</a></li>
+<li class="chapter" data-level="24.4" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#filter-for-the-desired-disabilities-and-age-groups"><i class="fa fa-check"></i><b>24.4</b> Filter for the desired disabilities and age groups</a></li>
+<li class="chapter" data-level="24.5" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#rename-the-variables"><i class="fa fa-check"></i><b>24.5</b> Rename the variables</a></li>
+<li class="chapter" data-level="24.6" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#clean-state-names"><i class="fa fa-check"></i><b>24.6</b> Clean state names</a></li>
+<li class="chapter" data-level="24.7" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#tidy-the-dataset"><i class="fa fa-check"></i><b>24.7</b> Tidy the dataset</a></li>
+<li class="chapter" data-level="24.8" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#convert-data-types"><i class="fa fa-check"></i><b>24.8</b> Convert data types</a></li>
+<li class="chapter" data-level="24.9" data-path="cleaning-the-dataset.html"><a href="cleaning-the-dataset.html#explore-and-address-nas"><i class="fa fa-check"></i><b>24.9</b> Explore and address NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html"><i class="fa fa-check"></i><b>25</b> How Have Child Counts Changed Over Time?</a><ul>
+<li class="chapter" data-level="25.1" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#visualize-the-dataset"><i class="fa fa-check"></i><b>25.1</b> Visualize the Dataset</a></li>
+<li class="chapter" data-level="25.2" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#model-the-dataset"><i class="fa fa-check"></i><b>25.2</b> Model the Dataset</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#do-we-have-enough-information-for-our-model"><i class="fa fa-check"></i><b>25.2.1</b> Do we have enough information for our model?</a></li>
+<li class="chapter" data-level="25.2.2" data-path="how-have-child-counts-changed-over-time.html"><a href="how-have-child-counts-changed-over-time.html#male-to-female-ratio-over-time"><i class="fa fa-check"></i><b>25.2.2</b> Male to Female Ratio Over Time</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="aggregate-data-as-context-for-student-data.html"><a href="aggregate-data-as-context-for-student-data.html"><i class="fa fa-check"></i><b>26</b> Aggregate Data as Context for Student Data</a></li>
+<li class="chapter" data-level="27" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>27</b> References</a></li>
+<li class="chapter" data-level="28" data-path="walkthrough-7-title-here.html"><a href="walkthrough-7-title-here.html"><i class="fa fa-check"></i><b>28</b> Walkthrough 7: Title Here</a></li>
+<li class="chapter" data-level="29" data-path="introduction-5.html"><a href="introduction-5.html"><i class="fa fa-check"></i><b>29</b> Introduction</a></li>
+<li class="chapter" data-level="30" data-path="about-our-text-dataset.html"><a href="about-our-text-dataset.html"><i class="fa fa-check"></i><b>30</b> About Our Text Dataset</a></li>
+<li class="chapter" data-level="31" data-path="reading-in-the-data.html"><a href="reading-in-the-data.html"><i class="fa fa-check"></i><b>31</b> Reading In the Data</a></li>
+<li class="chapter" data-level="32" data-path="reading-the-data.html"><a href="reading-the-data.html"><i class="fa fa-check"></i><b>32</b> Reading the data</a></li>
+<li class="chapter" data-level="33" data-path="preparing-the-data-for-the-analysis.html"><a href="preparing-the-data-for-the-analysis.html"><i class="fa fa-check"></i><b>33</b> Preparing the data for the analysis</a></li>
+<li class="chapter" data-level="34" data-path="counting-words.html"><a href="counting-words.html"><i class="fa fa-check"></i><b>34</b> Counting words</a></li>
+<li class="chapter" data-level="35" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html"><i class="fa fa-check"></i><b>35</b> Sentiment analysis</a><ul>
+<li class="chapter" data-level="35.1" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#tweets-associated-with-positive"><i class="fa fa-check"></i><b>35.1</b> Tweets associated with positive</a></li>
+<li class="chapter" data-level="35.2" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#tweets-associated-with-negative"><i class="fa fa-check"></i><b>35.2</b> Tweets associated with negative</a></li>
+<li class="chapter" data-level="35.3" data-path="sentiment-analysis.html"><a href="sentiment-analysis.html#random-review-of-tweets"><i class="fa fa-check"></i><b>35.3</b> Random review of tweets</a></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="next-steps.html"><a href="next-steps.html"><i class="fa fa-check"></i><b>36</b> Next steps</a></li>
+<li class="chapter" data-level="37" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i><b>37</b> References</a></li>
+<li class="chapter" data-level="38" data-path="solutions.html"><a href="solutions.html"><i class="fa fa-check"></i><b>38</b> Solutions</a><ul>
+<li class="chapter" data-level="38.1" data-path="solutions.html"><a href="solutions.html#introduction-6"><i class="fa fa-check"></i><b>38.1</b> Introduction</a></li>
+<li class="chapter" data-level="38.2" data-path="solutions.html"><a href="solutions.html#the-gift-of-speed-and-scale"><i class="fa fa-check"></i><b>38.2</b> The Gift of Speed and Scale</a><ul>
+<li class="chapter" data-level="38.2.1" data-path="solutions.html"><a href="solutions.html#working-with-data-faster"><i class="fa fa-check"></i><b>38.2.1</b> Working With Data Faster</a></li>
+</ul></li>
+<li class="chapter" data-level="38.3" data-path="solutions.html"><a href="solutions.html#working-with-more-data"><i class="fa fa-check"></i><b>38.3</b> Working With More Data</a></li>
+<li class="chapter" data-level="38.4" data-path="solutions.html"><a href="solutions.html#solving-problems-together"><i class="fa fa-check"></i><b>38.4</b> Solving Problems Together</a></li>
+<li class="chapter" data-level="38.5" data-path="solutions.html"><a href="solutions.html#data-science-in-education-and-empathy"><i class="fa fa-check"></i><b>38.5</b> Data Science in Education and Empathy</a></li>
+<li class="chapter" data-level="38.6" data-path="solutions.html"><a href="solutions.html#build-your-network"><i class="fa fa-check"></i><b>38.6</b> Build Your Network</a></li>
+<li class="chapter" data-level="38.7" data-path="solutions.html"><a href="solutions.html#for-k-12-teachers"><i class="fa fa-check"></i><b>38.7</b> For K-12 Teachers</a></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="teaching-data-science.html"><a href="teaching-data-science.html"><i class="fa fa-check"></i><b>39</b> Teaching Data Science</a><ul>
+<li class="chapter" data-level="39.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#the-pedagogical-principles-this-book-is-based-upon"><i class="fa fa-check"></i><b>39.1</b> The pedagogical principles this book is based upon</a><ul>
+<li class="chapter" data-level="39.1.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#problem-based-learning"><i class="fa fa-check"></i><b>39.1.1</b> Problem-based learning</a></li>
+<li class="chapter" data-level="39.1.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#differentiation"><i class="fa fa-check"></i><b>39.1.2</b> Differentiation</a></li>
+<li class="chapter" data-level="39.1.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#universal-design"><i class="fa fa-check"></i><b>39.1.3</b> Universal Design</a></li>
+<li class="chapter" data-level="39.1.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#working-in-the-open"><i class="fa fa-check"></i><b>39.1.4</b> Working in the Open</a></li>
+</ul></li>
+<li class="chapter" data-level="39.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#strategies-for-teaching-data-science"><i class="fa fa-check"></i><b>39.2</b> Strategies for teaching data science</a><ul>
+<li class="chapter" data-level="39.2.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#provide-a-home-base-for-learners-to-access-resources-and-to-learn-more"><i class="fa fa-check"></i><b>39.2.1</b> Provide a home base for learners to access resources (and to learn more)</a></li>
+<li class="chapter" data-level="39.2.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#when-it-comes-to-writing-code-think-early-and-often"><i class="fa fa-check"></i><b>39.2.2</b> When it comes to writing code, think early and often</a></li>
+<li class="chapter" data-level="39.2.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#dont-touch-that-keyboard"><i class="fa fa-check"></i><b>39.2.3</b> Don’t touch that keyboard!</a></li>
+<li class="chapter" data-level="39.2.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#anticipate-issues-and-sacrifice-accuracy-for-clarity"><i class="fa fa-check"></i><b>39.2.4</b> Anticipate issues (and sacrifice accuracy for clarity)</a></li>
+<li class="chapter" data-level="39.2.5" data-path="teaching-data-science.html"><a href="teaching-data-science.html#start-lessons-or-activities-with-visualizing-data"><i class="fa fa-check"></i><b>39.2.5</b> Start lessons or activities with visualizing data</a></li>
+<li class="chapter" data-level="39.2.6" data-path="teaching-data-science.html"><a href="teaching-data-science.html#consider-representation-in-the-data-and-examples-you-use"><i class="fa fa-check"></i><b>39.2.6</b> Consider representation in the data and examples you use</a></li>
+<li class="chapter" data-level="39.2.7" data-path="teaching-data-science.html"><a href="teaching-data-science.html#draw-on-other-resources"><i class="fa fa-check"></i><b>39.2.7</b> Draw on other resources</a></li>
+</ul></li>
+<li class="chapter" data-level="39.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#general-strategies-related-to-teaching-and-learning"><i class="fa fa-check"></i><b>39.3</b> General strategies related to teaching and learning</a><ul>
+<li class="chapter" data-level="39.3.1" data-path="teaching-data-science.html"><a href="teaching-data-science.html#teaching-and-learning-are-complex"><i class="fa fa-check"></i><b>39.3.1</b> Teaching and learning are complex</a></li>
+<li class="chapter" data-level="39.3.2" data-path="teaching-data-science.html"><a href="teaching-data-science.html#learners-learn-many-different-things-consciously-and-unconsciously"><i class="fa fa-check"></i><b>39.3.2</b> Learners learn many different things (consciously and unconsciously)</a></li>
+<li class="chapter" data-level="39.3.3" data-path="teaching-data-science.html"><a href="teaching-data-science.html#metacognition-is-important-even-though-it-sounds-more-sophisticated-than-it-is"><i class="fa fa-check"></i><b>39.3.3</b> Metacognition is important (even though it sounds more sophisticated than it is!)</a></li>
+<li class="chapter" data-level="39.3.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#learning-strategies-matter"><i class="fa fa-check"></i><b>39.3.4</b> Learning strategies matter</a></li>
+<li class="chapter" data-level="39.3.5" data-path="teaching-data-science.html"><a href="teaching-data-science.html#educators-can-help-students-to-learn"><i class="fa fa-check"></i><b>39.3.5</b> Educators can help students to learn</a></li>
+</ul></li>
+<li class="chapter" data-level="39.4" data-path="teaching-data-science.html"><a href="teaching-data-science.html#summary"><i class="fa fa-check"></i><b>39.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="40" data-path="learning-more.html"><a href="learning-more.html"><i class="fa fa-check"></i><b>40</b> Learning More</a><ul>
+<li class="chapter" data-level="40.1" data-path="learning-more.html"><a href="learning-more.html#introduction-7"><i class="fa fa-check"></i><b>40.1</b> Introduction</a></li>
+<li class="chapter" data-level="40.2" data-path="learning-more.html"><a href="learning-more.html#adopt-a-growth-mindset"><i class="fa fa-check"></i><b>40.2</b> Adopt a growth mindset</a></li>
+<li class="chapter" data-level="40.3" data-path="learning-more.html"><a href="learning-more.html#discover-new-information"><i class="fa fa-check"></i><b>40.3</b> Discover new information</a></li>
+<li class="chapter" data-level="40.4" data-path="learning-more.html"><a href="learning-more.html#ask-for-help"><i class="fa fa-check"></i><b>40.4</b> Ask for help</a></li>
+<li class="chapter" data-level="40.5" data-path="learning-more.html"><a href="learning-more.html#discussion-forums"><i class="fa fa-check"></i><b>40.5</b> Discussion forums</a></li>
+<li class="chapter" data-level="40.6" data-path="learning-more.html"><a href="learning-more.html#github-repositories"><i class="fa fa-check"></i><b>40.6</b> GitHub repositories</a></li>
+<li class="chapter" data-level="40.7" data-path="learning-more.html"><a href="learning-more.html#share-what-youve-learned"><i class="fa fa-check"></i><b>40.7</b> Share what you’ve learned</a></li>
+<li class="chapter" data-level="40.8" data-path="learning-more.html"><a href="learning-more.html#where-to-share"><i class="fa fa-check"></i><b>40.8</b> Where to share</a></li>
+<li class="chapter" data-level="40.9" data-path="learning-more.html"><a href="learning-more.html#welcome-others"><i class="fa fa-check"></i><b>40.9</b> Welcome others</a></li>
+<li class="chapter" data-level="40.10" data-path="learning-more.html"><a href="learning-more.html#references-2"><i class="fa fa-check"></i><b>40.10</b> References</a></li>
+<li class="chapter" data-level="40.11" data-path="learning-more.html"><a href="learning-more.html#data-science-courses"><i class="fa fa-check"></i><b>40.11</b> Data science courses</a></li>
+<li class="chapter" data-level="40.12" data-path="learning-more.html"><a href="learning-more.html#education-resources"><i class="fa fa-check"></i><b>40.12</b> Education resources</a></li>
+<li class="chapter" data-level="40.13" data-path="learning-more.html"><a href="learning-more.html#data-visualization"><i class="fa fa-check"></i><b>40.13</b> Data visualization</a></li>
+<li class="chapter" data-level="40.14" data-path="learning-more.html"><a href="learning-more.html#programming-with-r"><i class="fa fa-check"></i><b>40.14</b> Programming with R</a></li>
+<li class="chapter" data-level="40.15" data-path="learning-more.html"><a href="learning-more.html#package-vignettes"><i class="fa fa-check"></i><b>40.15</b> Package vignettes</a></li>
+<li class="chapter" data-level="40.16" data-path="learning-more.html"><a href="learning-more.html#statistics"><i class="fa fa-check"></i><b>40.16</b> Statistics</a></li>
+<li class="chapter" data-level="40.17" data-path="learning-more.html"><a href="learning-more.html#places-to-share-your-work"><i class="fa fa-check"></i><b>40.17</b> Places to share your work</a></li>
+<li class="chapter" data-level="40.18" data-path="learning-more.html"><a href="learning-more.html#learning-communities"><i class="fa fa-check"></i><b>40.18</b> Learning communities</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reading-in-many-datasets" class="section level1">
+<h1><span class="header-section-number">23</span> Reading In Many Datasets</h1>
+<p>Will the <code>read_csv</code> and <code>skip = 4</code> combination work on all our datasets? To find out, we’ll use this strategy:</p>
+<ul>
+<li>Store a vector of filenames and paths in a list. These paths point to our datasets</li>
+<li>Pass the list of filenames as arguments to <code>read_csv</code> using <code>purrr::map</code>, including <code>skip = 4</code>, in our <code>read_csv</code> call</li>
+<li>Examine the new list of datasets to see if the variable names are correct</li>
+</ul>
+<p>Imagine a widget-making machine that works by acting on raw materials it receives on a conveyer belt. This machine executes one set of instructions on each of the raw materials it receives. You are the operator of the machine and you design instructions to get a widget out of the raw materials. Your plan might look something like this:</p>
+<ul>
+<li><em>Raw materials</em>: a list of filenames and their paths</li>
+<li><em>Widget-making machine</em>: <code>purrr:map()</code></li>
+<li><em>Widget-making instructions</em>: `read_csv(path, skip = 4)</li>
+<li><em>Expected widgets</em>: a list of datasets</li>
+</ul>
+<p>Let’s create the raw materials first. Our raw materials will be file paths to each of the CSVs we want to read. Use <code>list.files</code> to make a vector of filename paths and name that vector <code>filenames</code>. <code>list.files</code> returns a vector of file names in the folder specified in the <code>path</code> argument. When we set the <code>full.names</code> argument to “TRUE”, we get a full path of these filenames. This will be useful later when we need the file names and their paths to read our data in.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1"><span class="co"># Get filenames from the data folder </span></a>
+<a class="sourceLine" id="cb185-2" title="2">filenames &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;10a-walkthrough-6-data&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb185-3" title="3"></a>
+<a class="sourceLine" id="cb185-4" title="4"><span class="co"># A list of filenames and paths</span></a>
+<a class="sourceLine" id="cb185-5" title="5">filenames</a></code></pre></div>
+<pre><code>## [1] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2012.csv&quot;   
+## [2] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2013.csv&quot;   
+## [3] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2014.csv&quot;   
+## [4] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2015.csv&quot;   
+## [5] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2016.csv&quot;   
+## [6] &quot;10a-walkthrough-6-data/bchildcountandedenvironments2017-18.csv&quot;</code></pre>
+<p>That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called <code>filenames</code>, to our widget-making machine called <code>map</code> and give the machine the instructions <code>read_csv(., skip = 4)</code>. Name the list of widgets it cranks out <code>all_files</code>:</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" title="1"><span class="co"># Pass filenames to map and read_csv</span></a>
+<a class="sourceLine" id="cb187-2" title="2">all_files &lt;-<span class="st"> </span>filenames <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(., <span class="op">~</span><span class="kw">read_csv</span>(., <span class="dt">skip =</span> <span class="dv">4</span>))</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Year = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 3 parsing failures.
+##   row  col expected                                    actual                                                          file
+## 16228 Year a double -------------------                       &#39;10a-walkthrough-6-data/bchildcountandedenvironments2012.csv&#39;
+## 16229 Year a double -   Data not available                    &#39;10a-walkthrough-6-data/bchildcountandedenvironments2012.csv&#39;
+## 16230 Year a double x   Data supressed due to small cell size &#39;10a-walkthrough-6-data/bchildcountandedenvironments2012.csv&#39;</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Year = col_double()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 4 parsing failures.
+##   row  col expected                                           actual                                                          file
+## 16229 Year a double -------------------                              &#39;10a-walkthrough-6-data/bchildcountandedenvironments2013.csv&#39;
+## 16230 Year a double -  Data not available                            &#39;10a-walkthrough-6-data/bchildcountandedenvironments2013.csv&#39;
+## 16231 Year a double x Data suppressed due to small cell size         &#39;10a-walkthrough-6-data/bchildcountandedenvironments2013.csv&#39;
+## 16232 Year a double * Data flagged due to questionable data quality. &#39;10a-walkthrough-6-data/bchildcountandedenvironments2013.csv&#39;</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Year = col_double()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 3 parsing failures.
+##   row  col expected                                   actual                                                          file
+## 16229 Year a double -------------------                      &#39;10a-walkthrough-6-data/bchildcountandedenvironments2014.csv&#39;
+## 16230 Year a double -  Data not available                    &#39;10a-walkthrough-6-data/bchildcountandedenvironments2014.csv&#39;
+## 16231 Year a double x Data suppressed due to small cell size &#39;10a-walkthrough-6-data/bchildcountandedenvironments2014.csv&#39;</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Year = col_double()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 4 parsing failures.
+##   row  col expected                                          actual                                                          file
+## 16229 Year a double -------------------                             &#39;10a-walkthrough-6-data/bchildcountandedenvironments2015.csv&#39;
+## 16230 Year a double -  Data not available                           &#39;10a-walkthrough-6-data/bchildcountandedenvironments2015.csv&#39;
+## 16231 Year a double x Data suppressed due to small cell size        &#39;10a-walkthrough-6-data/bchildcountandedenvironments2015.csv&#39;
+## 16232 Year a double * Data flagged due to questionable data quality &#39;10a-walkthrough-6-data/bchildcountandedenvironments2015.csv&#39;</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;-&#39; =&gt; &#39;-_1&#39; [6], &#39;-&#39; =&gt;
+## &#39;-_2&#39; [7], &#39;-&#39; =&gt; &#39;-_3&#39; [8], &#39;-&#39; =&gt; &#39;-_4&#39; [9], &#39;-&#39; =&gt; &#39;-_5&#39; [10], &#39;-&#39;
+## =&gt; &#39;-_6&#39; [11], &#39;-&#39; =&gt; &#39;-_7&#39; [12], &#39;-&#39; =&gt; &#39;-_8&#39; [13], &#39;-&#39; =&gt; &#39;-_9&#39; [14],
+## &#39;-&#39; =&gt; &#39;-_10&#39; [15], &#39;-&#39; =&gt; &#39;-_11&#39; [16], &#39;-&#39; =&gt; &#39;-_12&#39; [17], &#39;-&#39; =&gt; &#39;-
+## _13&#39; [18], &#39;-&#39; =&gt; &#39;-_14&#39; [19], &#39;0&#39; =&gt; &#39;0_1&#39; [21], &#39;0&#39; =&gt; &#39;0_2&#39; [22], &#39;0&#39;
+## =&gt; &#39;0_3&#39; [23], &#39;0&#39; =&gt; &#39;0_4&#39; [24], &#39;0&#39; =&gt; &#39;0_5&#39; [25], &#39;0&#39; =&gt; &#39;0_6&#39; [26], &#39;0&#39;
+## =&gt; &#39;0_7&#39; [27], &#39;0&#39; =&gt; &#39;0_8&#39; [28], &#39;4&#39; =&gt; &#39;4_1&#39; [35], &#39;0&#39; =&gt; &#39;0_9&#39; [36], &#39;0&#39;
+## =&gt; &#39;0_10&#39; [40], &#39;77&#39; =&gt; &#39;77_1&#39; [41], &#39;1&#39; =&gt; &#39;1_1&#39; [42], &#39;0&#39; =&gt; &#39;0_11&#39; [44],
+## &#39;0&#39; =&gt; &#39;0_12&#39; [45], &#39;0&#39; =&gt; &#39;0_13&#39; [47], &#39;0&#39; =&gt; &#39;0_14&#39; [48], &#39;0&#39; =&gt;
+## &#39;0_15&#39; [49]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   `2016` = col_double()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 4 parsing failures.
+##   row  col expected                                          actual                                                          file
+## 16227 2016 a double -------------------                             &#39;10a-walkthrough-6-data/bchildcountandedenvironments2016.csv&#39;
+## 16228 2016 a double -  Data not available                           &#39;10a-walkthrough-6-data/bchildcountandedenvironments2016.csv&#39;
+## 16229 2016 a double x Data suppressed due to small cell size        &#39;10a-walkthrough-6-data/bchildcountandedenvironments2016.csv&#39;
+## 16230 2016 a double * Data flagged due to questionable data quality &#39;10a-walkthrough-6-data/bchildcountandedenvironments2016.csv&#39;</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Year = col_double()
+## )
+## See spec(...) for full column specifications.</code></pre>
+<pre><code>## Warning: 4 parsing failures.
+##   row  col expected                                          actual                                                             file
+## 16228 Year a double -------------------                             &#39;10a-walkthrough-6-data/bchildcountandedenvironments2017-18.csv&#39;
+## 16229 Year a double -  Data not available                           &#39;10a-walkthrough-6-data/bchildcountandedenvironments2017-18.csv&#39;
+## 16230 Year a double x Data suppressed due to small cell size        &#39;10a-walkthrough-6-data/bchildcountandedenvironments2017-18.csv&#39;
+## 16231 Year a double * Data flagged due to questionable data quality &#39;10a-walkthrough-6-data/bchildcountandedenvironments2017-18.csv&#39;</code></pre>
+<p>It is important to think ahead here. The goal is to combine the datasets in <code>all_files</code> into one dataset using <code>bind_rows</code>. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using <code>map</code> and <code>names</code>:</p>
+<p>We can use <code>identical</code> to see if the variables from two datasets match. We see that the variable names of the first and second datasets don’t match, but the variables from the second and third do.</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="co"># Variables of first and second dataset don&#39;t match</span></a>
+<a class="sourceLine" id="cb202-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">1</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">2</span>]]))</a></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1"><span class="co"># Variables of third and second files match</span></a>
+<a class="sourceLine" id="cb204-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">2</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">3</span>]]))</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>And we can check the number of columns by using <code>map</code> and <code>ncol</code>:</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" title="1">all_files <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map</span>(ncol)</a></code></pre></div>
+<pre><code>## [[1]]
+## [1] 31
+## 
+## [[2]]
+## [1] 50
+## 
+## [[3]]
+## [1] 50
+## 
+## [[4]]
+## [1] 50
+## 
+## [[5]]
+## [1] 50
+## 
+## [[6]]
+## [1] 50</code></pre>
+<p>Congratulations on finding an extremely common problem in education data! You’ve discovered that niehter the number of columns nor the column names match. This is a problem because we won’t be able to combine the datasets into one. When we try, <code>bind_rows</code> returns a dataet with 100 columns instead of the expected 50.</p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1"><span class="kw">bind_rows</span>(all_files)</a></code></pre></div>
+<pre><code>## # A tibble: 97,386 x 100
+##     Year `State Name` `SEA Education … `SEA Disability… `American India…
+##    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+##  1  2012 ALABAMA      Correctional Fa… All Disabilities -               
+##  2  2012 ALABAMA      Home             All Disabilities 1               
+##  3  2012 ALABAMA      Homebound/Hospi… All Disabilities -               
+##  4  2012 ALABAMA      Inside regular … All Disabilities -               
+##  5  2012 ALABAMA      Inside regular … All Disabilities -               
+##  6  2012 ALABAMA      Inside regular … All Disabilities -               
+##  7  2012 ALABAMA      Other Location … All Disabilities 7               
+##  8  2012 ALABAMA      Other Location … All Disabilities 1               
+##  9  2012 ALABAMA      Parentally Plac… All Disabilities -               
+## 10  2012 ALABAMA      Residential Fac… All Disabilities 0               
+## # … with 97,376 more rows, and 95 more variables: `Asian Age 3-5` &lt;chr&gt;,
+## #   `Black or African American Age 3-5` &lt;chr&gt;, `Hispanic/Latino Age
+## #   3-5` &lt;chr&gt;, `Native Hawaiian or Other Pacific Islander Age 3-5` &lt;chr&gt;,
+## #   `Two or More Races Age 3-5` &lt;chr&gt;, `White Age 3-5` &lt;chr&gt;, `Female Age
+## #   3 to 5` &lt;chr&gt;, `Male Age 3 to 5` &lt;chr&gt;, `LEP Yes Age 3 to 5` &lt;chr&gt;,
+## #   `LEP No Age 3 to 5` &lt;chr&gt;, `Age 3 to 5` &lt;chr&gt;, `Age 6-11` &lt;chr&gt;, `Age
+## #   12-17` &lt;chr&gt;, `Age 18-21` &lt;chr&gt;, `Ages 6-21` &lt;chr&gt;, `LEP Yes Age 6 to
+## #   21` &lt;chr&gt;, `LEP No Age 6 to 21` &lt;chr&gt;, `Female Age 6 to 21` &lt;chr&gt;,
+## #   `Male Age 6 to 21` &lt;chr&gt;, `American Indian or Alaska Native Age 6
+## #   to21` &lt;chr&gt;, `Asian Age 6 to21` &lt;chr&gt;, `Black or African American Age
+## #   6 to21` &lt;chr&gt;, `Hispanic/Latino Age 6 to21` &lt;chr&gt;, `Native Hawaiian or
+## #   Other Pacific Islander Age 6 to21` &lt;chr&gt;, `Two or more races Age 6
+## #   to21` &lt;chr&gt;, `White Age 6 to21` &lt;chr&gt;, `Age 3` &lt;chr&gt;, `Age 4` &lt;chr&gt;,
+## #   `Age 5` &lt;chr&gt;, `Age 6` &lt;chr&gt;, `Age 7` &lt;chr&gt;, `Age 8` &lt;chr&gt;, `Age
+## #   9` &lt;chr&gt;, `Age 10` &lt;chr&gt;, `Age 11` &lt;chr&gt;, `Age 12` &lt;chr&gt;, `Age
+## #   13` &lt;chr&gt;, `Age 14` &lt;chr&gt;, `Age 15` &lt;chr&gt;, `Age 16` &lt;chr&gt;, `Age
+## #   17` &lt;chr&gt;, `Age 18` &lt;chr&gt;, `Age 19` &lt;chr&gt;, `Age 20` &lt;chr&gt;, `Age
+## #   21` &lt;chr&gt;, `2016` &lt;dbl&gt;, Alabama &lt;chr&gt;, `Correctional
+## #   Facilities` &lt;chr&gt;, `All Disabilities` &lt;chr&gt;, `-` &lt;chr&gt;, `-_1` &lt;chr&gt;,
+## #   `-_2` &lt;chr&gt;, `-_3` &lt;chr&gt;, `-_4` &lt;chr&gt;, `-_5` &lt;chr&gt;, `-_6` &lt;chr&gt;,
+## #   `-_7` &lt;chr&gt;, `-_8` &lt;chr&gt;, `-_9` &lt;chr&gt;, `-_10` &lt;chr&gt;, `-_11` &lt;chr&gt;,
+## #   `-_12` &lt;chr&gt;, `-_13` &lt;chr&gt;, `-_14` &lt;chr&gt;, `0` &lt;chr&gt;, `0_1` &lt;chr&gt;,
+## #   `0_2` &lt;chr&gt;, `0_3` &lt;chr&gt;, `0_4` &lt;chr&gt;, `0_5` &lt;chr&gt;, `0_6` &lt;chr&gt;,
+## #   `0_7` &lt;chr&gt;, `0_8` &lt;chr&gt;, `1` &lt;chr&gt;, `2` &lt;chr&gt;, `4` &lt;chr&gt;, `14` &lt;chr&gt;,
+## #   `22` &lt;chr&gt;, `30` &lt;chr&gt;, `4_1` &lt;chr&gt;, `0_9` &lt;chr&gt;, `7` &lt;chr&gt;,
+## #   `70` &lt;chr&gt;, `77` &lt;chr&gt;, `0_10` &lt;chr&gt;, `77_1` &lt;chr&gt;, `1_1` &lt;chr&gt;,
+## #   `76` &lt;chr&gt;, `0_11` &lt;chr&gt;, `0_12` &lt;chr&gt;, `68` &lt;chr&gt;, `0_13` &lt;chr&gt;,
+## #   `0_14` &lt;chr&gt;, `0_15` &lt;chr&gt;, `9` &lt;chr&gt;</code></pre>
+<p>We’ll correct this in the next section by selecting and renaming our variables, but it’s good to notice this problem early in the process so you know to work on it later.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reading-in-one-dataset.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cleaning-the-dataset.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
