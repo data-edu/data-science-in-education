@@ -1,0 +1,370 @@
+# Walkthrough 5: Title Here
+
+## Introduction to Aggregate Data
+
+A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. [Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.](https://www.edglossary.org/aggregate-data/) Example of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or averaged survey responses.
+
+Aggregated datasets are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state's department of education website for anybody to download and use.
+
+Federal and international education datasets provide additional context for evaluating education systems. In the US, some federal datasets aim to consolidate important metrics from all states. This can be quite useful because each state has its own repository of data and to go through each state to download a particular metric is a significant effort. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less useable. The federal government also funds assessments and surveys which are disseminated to the public.
+
+For education data practicioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large, lagging, and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlyiing issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.
+
+In this chapter, we will walk through how running descriptive analysis on a national publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. Descriptive analysis describes, shows, or summarizes data in a meaningful way. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, descriptive analysis is used to find out whether there _is_ a phenomenon, _what_ it is, and _what_ we'd be trying to solve through interventions.
+
+Descriptive analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.
+
+### Disaggregating Aggregated Data
+
+Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).
+
+### Disaggregating Data and Equity
+
+Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
+
+It is important to define what equity means to your team so you know whether you are meeting your equity goals.
+
+## Data
+
+There are many education-related, publicly available aggregate datasets. On the international level, perhaps the most well known is:
+
+- [Programme for International Student Assessment (PISA)](http://www.oecd.org/pisa/), which measures 15-year-old school pupils' scholastic performance on mathematics, science, and reading.
+
+On the federal level, examples include:
+
+- [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html), which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.
+
+- [Common Core of Data (CCD)](https://nces.ed.gov/ccd/), which is the US Department of Education's primary database on public elementary and secondary education.
+
+- [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.
+
+- [Integrated Postsecondary Education Data System (IPEDS)](https://nces.ed.gov/ipeds/), which is the US Department of Education's primary database on postsecondary education.
+
+- [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), an assessment of educational progress in the United States. Often called the "nation's report card." The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.
+
+On the state and district level, examples include:
+
+- [California Department of Education](https://www.cde.ca.gov/ds/), which is the state department of education website. It includes both downloadable CSV files and "Data Quest", which lets you query the data online.
+
+- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
+
+## Data Selection and Research Questions
+
+There is an immense amount of data available in the education field. Descriptive analysis requires us to be deliberate by honing in on a research or policy question. By honing in on what we're hoping to accomplish, we can distill these datasets into something meaningful.
+
+We want to avoid exploring data without hypotheses in mind. An education data practitioner will likely observe patterns in the data if the dataset is large enough. By setting limits, we can buffer against the possibility of finding patterns that are not meaningful to our work.
+
+For the purposes of this walkthrough, we will be looking at 8th grade Math NAEP 2017 proficiency data. The data allows us to look across states and subgroups. We can develop research questions to explore, such as:
+
+* Is there a difference between the percent proficient or above for different races in 2017? Which races have the largest difference?
+* If there is a difference, does that gap vary by region/state?
+
+### Import
+
+These files are available on the [Nation's Report Card](https://www.nationsreportcard.gov/); however, they are not tidy and come with a lot of formatting and merged cells. Therefore, wrangling the dataset is necessary before any analysis can occur.
+
+- `readxl` allows us to import .xlsx files.
+- The `skip` argument allows us to not read in the first 8 lines (as they are unnecessary).
+- `str()` gives us a sneak peak at what the data looks like.
+
+
+```
+## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+```
+
+```
+## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
+## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+## ✔ readr   1.3.1     ✔ forcats 0.4.0
+```
+
+```
+## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+```
+
+```
+## Classes 'tbl_df', 'tbl' and 'data.frame':	324 obs. of  4 variables:
+##  $ Year                                                 : chr  "2017" "2017" "2017" "2017" ...
+##  $ Jurisdiction                                         : chr  "National" "National" "National" "National" ...
+##  $ Race/ethnicity used to report trends, school-reported: chr  "White" "Black" "Hispanic" "Asian/Pacific Islander" ...
+##  $ at or above Proficient                               : chr  "44*" "13.2668998032361" "20*" "62*" ...
+```
+
+### Cleaning
+
+The dataset contains a column with year, states/jurisdiction, race/ethnicity, and the proficiency rates for each one, and miscellaneous columns denoting statistic significance. There are also rows at the bottom with additional information on the dataset. For the purpose of our walkthrough, we want the dataset to be as clean and simple as possible.
+
+- `janitor` is an excellent package with many handy functions, including `clean_names()` that transforms column names to R-friendly formats (such as removing spaces, making every word lowercase).
+- `dplyr::slice()` selects rows by positions. Because we want to remove rows, the row numbers are negative. Another way of writing this line is `dplyr::slice(1:318)`. *Caution:* all rows selected (either to keep or remove) must have the same sign (either all positive or all negative).
+
+
+```r
+naep17_tidy <-
+    naep17 %>%
+    janitor::clean_names() %>% 
+    dplyr::slice(-319:-342) # remove rows containing additional information
+    
+colnames(naep17_tidy)
+```
+
+```
+## [1] "year"                                                
+## [2] "jurisdiction"                                        
+## [3] "race_ethnicity_used_to_report_trends_school_reported"
+## [4] "at_or_above_proficient"
+```
+
+The dataset denotes statistical significance in column `at_or_above_proficient` with an asterisk next to the percentage (e.g., 44*). If we change this column to numeric without cleaning up the asterisks, all those datapoints will be transformed to `NA` as it will be converting a character to a numeric. We will need to get rid of them first.
+
+Note that there are states that suppress proficiency rates for ethnicity/races whose populations are too small to report, denoted by special characters (‡). These will show up as `NA` when we change the column to numeric.
+
+- We 'mutate' the proficiency column by removing astericks in the string (`str_replace()`).
+- Now that the astericks are removed, we can transform the column to numeric using `as.numeric.` Dividing by 100 gives us a percentage.
+
+
+```r
+naep17_tidy <-
+    naep17_tidy %>%
+    dplyr::mutate(at_or_above_proficient_clean =  stringr::str_replace(at_or_above_proficient, '\\*', '')) %>% # create a new column without *
+    dplyr::mutate_at(vars(at_or_above_proficient_clean),
+              funs(as.numeric(.)/100)) # transforming proficiency rates to numeric decimals
+```
+
+```
+## Warning: funs() is soft deprecated as of dplyr 0.8.0
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once per session.
+```
+
+```
+## Warning: NAs introduced by coercion
+```
+
+Finally, let's make the dataset as tidy as possible.
+
+- We use `select()` to remove the redundant proficiency column.
+- We use `rename()` to shorten the subgroup column name.
+
+
+```r
+naep17_tidy <-
+    naep17_tidy %>%
+    dplyr::select(-at_or_above_proficient) %>% # removing original proficiency columns
+    dplyr::rename(race = race_ethnicity_used_to_report_trends_school_reported) # shortening name
+```
+
+### Looking at missing data
+
+We want to make sure our data is as complete and accurate as possible. We can use `group_by()` to see where our missing values are by jurisdiction or subgroup - or both!
+
+Running the code below, we see that Maine is the state with the most NA's, totalling five in this dataset.
+
+
+```r
+naep17_tidy %>% # see missing values by jurisdiction
+    group_by(jurisdiction) %>% 
+    summarise(sumNA = sum(is.na(at_or_above_proficient_clean))) %>%
+    arrange(desc(sumNA)) %>% 
+    knitr::kable()
+```
+
+
+
+jurisdiction            sumNA
+---------------------  ------
+Maine                       5
+Vermont                     5
+Idaho                       4
+West Virginia               4
+Alabama                     3
+Arkansas                    3
+District of Columbia        3
+Louisiana                   3
+Mississippi                 3
+New Hampshire               3
+New Mexico                  3
+Tennessee                   3
+Utah                        3
+Wyoming                     3
+Connecticut                 2
+Delaware                    2
+Hawaii                      2
+Indiana                     2
+Missouri                    2
+Montana                     2
+New Jersey                  2
+New York                    2
+North Dakota                2
+Ohio                        2
+Oregon                      2
+Rhode Island                2
+South Carolina              2
+Arizona                     1
+California                  1
+Colorado                    1
+DoDEA                       1
+Florida                     1
+Georgia                     1
+Illinois                    1
+Iowa                        1
+Kansas                      1
+Kentucky                    1
+Maryland                    1
+Massachusetts               1
+Michigan                    1
+Minnesota                   1
+Nebraska                    1
+Nevada                      1
+North Carolina              1
+Pennsylvania                1
+South Dakota                1
+Texas                       1
+Virginia                    1
+Washington                  1
+Wisconsin                   1
+Alaska                      0
+National                    0
+Oklahoma                    0
+
+Grouping by race/ethnicity, we see that American Indian/Alaska Native is the subgroup with the most missing data. This makes sense as American Indians and Alaska Natives make up a small percentage of the population and would be suppressed in many states. If your analysis wants to focus on this subgroup, you must find additional sources of information.
+
+
+```r
+naep17_tidy %>% # see missing values by jurisdiction
+    group_by(race) %>%
+    summarise(sumNA = sum(is.na(at_or_above_proficient_clean))) %>%
+    arrange(desc(sumNA))
+```
+
+```
+## # A tibble: 6 x 2
+##   race                          sumNA
+##   <chr>                         <int>
+## 1 American Indian/Alaska Native    44
+## 2 Asian/Pacific Islander           20
+## 3 Two or more races                20
+## 4 Black                            10
+## 5 Hispanic                          3
+## 6 White                             0
+```
+
+## Analysis
+
+Now that we have our clean dataset, we can start answering our research questions for our descriptive analysis. 
+
+### Discovering Distributions
+
+We can begin our analysis looking at measures of central tendancy and variation. Especially if you are not familiar with the dataset, these measures can give you a sense of the range, variation, etc. of the data you are looking at. They can help guide our research questions into areas we find compelling.
+
+Let's look at only national proficiency rates across all races.
+
+
+```r
+naep17_tidy %>% 
+    filter(jurisdiction == "National") %>% 
+    summarize(min = min(at_or_above_proficient_clean, na.rm = T),
+              q1 = quantile(at_or_above_proficient_clean, 0.25, na.rm = T),
+              mean = mean(at_or_above_proficient_clean, na.rm = T),
+              q3 = quantile(at_or_above_proficient_clean, 0.75, na.rm = T),
+              max = max(at_or_above_proficient_clean, na.rm = T),
+              sd = sd(at_or_above_proficient_clean, na.rm = T))
+```
+
+```
+## # A tibble: 1 x 6
+##     min    q1  mean    q3   max    sd
+##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 0.133 0.185 0.324 0.422  0.62 0.188
+```
+
+This gives us a general sense of what proficiency rates look like.
+
+### Making Comparisons
+
+#### Defining the comparison
+
+> An important determination is whether our data _can_ be compared. NAEP, governed by a central authority, works to make the different subgroups discrete and comparable. However, an analyst must be aware of how terms and definitions change over time and whether data is collected in the same way. It is discouraged to track percent at and above proficienct across time for the NAEP assessments. Therefore, we will only look at one year of data.
+
+Now that we understand the distribution and variance within the groups in our data, we can start to answer our first research question:
+
+* Is there a difference between the percent proficient or above for different races in NAEP 8th grade Math 2017 assessments? Which races have the largest difference?
+
+We must consider what 'difference' means in the context of our resesarch question. Do we mean that the average by state is statistically significant? Does it mean that the range of proficiency rates are not the same? For the purposes of this analysis, we'll take a look at difference of average proficiency rates because we want to see how this varies by geography, but this might not answer your research question depending on your context.
+
+
+```r
+naep17_tidy %>% 
+    filter(jurisdiction != "National") %>% 
+    group_by(race) %>% 
+    summarize(min = min(at_or_above_proficient_clean, na.rm = T),
+              q1 = quantile(at_or_above_proficient_clean, 0.25, na.rm = T),
+              mean = mean(at_or_above_proficient_clean, na.rm = T),
+              q3 = quantile(at_or_above_proficient_clean, 0.75, na.rm = T),
+              max = max(at_or_above_proficient_clean, na.rm = T),
+              sd = sd(at_or_above_proficient_clean, na.rm = T)) %>% 
+    knitr::kable()
+```
+
+
+
+race                                   min          q1        mean          q3         max          sd
+------------------------------  ----------  ----------  ----------  ----------  ----------  ----------
+American Indian/Alaska Native    0.0880695   0.1085160   0.1364463   0.1660658   0.1756954   0.0344714
+Asian/Pacific Islander           0.2500000   0.5125000   0.5645064   0.6500000   0.7800000   0.1365433
+Black                            0.0560070   0.0979182   0.1267545   0.1431932   0.2249135   0.0411197
+Hispanic                         0.1167227   0.1726504   0.1992072   0.2296521   0.3200000   0.0429432
+Two or more races                0.1893336   0.2756032   0.3353840   0.3950000   0.5100000   0.0832552
+White                            0.2500000   0.3786083   0.4250981   0.4700000   0.7700000   0.0846170
+
+#### Communicating the comparison
+
+Although a table is a convenient way of demonstrating a lot of information, it requires a lot of parsing for readers. Data visualization is another manner in which we can quickly communicate research findings. Data visualization can also display patterns or issues with the data.
+
+Generally, we want to make sure our visualizations are functional, familiar, and tell our message clearly and directly. Given our audience (you!), we decided to showcase the measures of central tendancy using boxplots.
+
+
+```r
+naep_race_plot <-
+    naep17_tidy %>%
+    filter(jurisdiction != "National") %>% 
+    ggplot(aes(x = race, y = at_or_above_proficient_clean)) + 
+    geom_boxplot()
+
+naep_race_plot
+```
+
+```
+## Warning: Removed 97 rows containing non-finite values (stat_boxplot).
+```
+
+<img src="10-walkthrough-5_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
+## Ranking
+
+
+
+## Results
+
+## Conclusion
+
+Another example of descriptive analysis is network analysis, covered in Walkthrough 4.
+
+## Appendix
+
+Loeb, S., Dynarski, S., McFarland, D., Morris, P., Reardon, S., & Reber, S. (2017). [Descriptive analysis in education: A guide for researchers.](https://ies.ed.gov/ncee/pubs/20174023/pdf/20174023.pdf) (NCEE 2017–4023). Washington, DC: U.S. Department
+of Education, Institute of Education Sciences, National Center for Education Evaluation and Regional Assistance. 
+
+National Forum on Education Statistics. (2016). [Forum Guide to Collecting and Using Disaggregated Data on Racial/Ethnic
+Subgroups.](https://nces.ed.gov/pubs2017/NFES2017017.pdf) (NFES 2017-017). U.S. Department of Education. Washington, DC: National Center for Education Statistics.
