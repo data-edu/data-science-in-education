@@ -1401,16 +1401,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              25
-##  2 b       l              50
-##  3 c       m              84
-##  4 d       n              39
-##  5 e       o              78
-##  6 f       k              63
-##  7 g       l              33
-##  8 h       m              46
-##  9 i       n               5
-## 10 j       o              66
+##  1 a       k              91
+##  2 b       l               6
+##  3 c       m              69
+##  4 d       n              28
+##  5 e       o              56
+##  6 f       k              57
+##  7 g       l              87
+##  8 h       m              29
+##  9 i       n              36
+## 10 j       o              74
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1431,11 +1431,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            41.5
-## 2 l            43  
-## 3 m            56  
-## 4 n            53  
-## 5 o            46
+## 1 k            79  
+## 2 l            53.5
+## 3 m            14  
+## 4 n            92  
+## 5 o            63.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
