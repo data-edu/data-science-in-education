@@ -131,7 +131,7 @@ s12_pre_survey  <- s12_pre_survey  %>%
            q9 = Q1MaincellgroupRow9,
            q10 = Q1MaincellgroupRow10) %>% 
     # Convert all question responses to numeric
-    mutate_at(vars(q1:q10), funs(as.numeric))
+    mutate_at(vars(q1:q10), list(~ as.numeric(.)))
 ```
 
 2. Next we'll reverse the scale of the survey responses on questions 4 and 7 so the responses for all questions can be interpreted in the same way. Rather than write a lot of code once to reverse the scales for question 4 then writing it again to reverse the scales on question 7, we'll build a function that does that job for us. Then we'll use the same function for question 4 and question 7. This will result in much less code, plus it will make it easier for us to change in the future. 
@@ -205,7 +205,7 @@ We also can process the course data in order to obtain more information.
 ```{r}
 # split course section into components
 s12_course_data <- s12_course_data %>%
-  separate(col = CourseSectionOrigId,
+  separate(col = CourseSectionOrigID,
            into = c('subject', 'semester', 'section'),
            sep = '-',
            remove = FALSE)
@@ -283,7 +283,7 @@ Now that our data are ready to go, we can start to ask some questions of the dat
 
 One thing we might be wondering is how time spent on course is related to students' final grade. Let's first calculate the percentage of points students earned as a measure of their final grade (noting that the teacher may have assigned a different grade--or weighted their grades in ways not reflected through the points).
 
-```{r}
+```{r, warning = F}
 dat <- dat %>% 
     group_by(student_id, course_id) %>% 
     mutate(Points_Earned = as.integer(Points_Earned)) %>% 
