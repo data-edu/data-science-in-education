@@ -208,7 +208,7 @@ Why use RMSE, though, over MAE? [Note: don't kow why].
 
 What if we use the test data set - data not used to train the model?
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, cache = TRUE}
 # NOT RUN AS I WAS HAVING TROUBLE GETTING THIS TO WORK BEACUSE OF A FACTOR LEVEL NOT IN D_TEST - we've had this issue before and there are workarounds
 d_test_augmented <- mutate(d_test,
                            pred = predict(rf_fit, d_test),
@@ -238,7 +238,7 @@ varImp(rf_fit_imp)
 
 We can visualize these:
 
-```{r}
+```{r, cache = TRUE}
 varImp(rf_fit_imp) %>%
     pluck(1) %>%
     rownames_to_column("var") %>%
@@ -249,7 +249,7 @@ varImp(rf_fit_imp) %>%
 
 We can see whether these change with the different importance measures.
 
-```{r}
+```{r, cache = TRUE}
 rf_fit_imp_permutation <- train(final_grade ~ .,
                 data = d_train,
                 method = "ranger",
