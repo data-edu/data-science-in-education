@@ -1,13 +1,14 @@
-# Walkthrough #1B
+# Walkthrough \#1B
 
 This walkthrough accompanies walkthrough XXX, which focused on preparing the
 data and beginning to viusualize and model the data. Here, we focus on an
 extension of the models we ran, one focused on how to address the fact that
 students in our dataset shared classes.
 
-First, let's load the tidyverse and read the data we processed in walkthrough XXX.
+First, let's load the tidyverse and read the data we processed in walkthrough
+XXX.
 
-```{r}
+``` {r}
 library(tidyverse)
 dat <- read_csv("data/online-science-motivation/processed/dat.csv")
 ```
@@ -204,26 +205,29 @@ important because linear models (i.e., the model we estimated using `lm()`) have
 an assumption that the data points are - apart from sharing levels of the
 variables that are used in the model - independent, or not correlated. This is
 what is meant by the "assumption of independence" or of "independently and
-identically distributed" (i.i.d.) residuals (CITE Field).
+identically distributed" (*i.i.d.*) residuals (Field, Miles, & Field, 2012).
 
 Multi-level models are a way to deal with the difficulty of interpreting the
 estimated effects for each of many groups, like classes, and to address the
-assumption of independence. Multi-level models do this by still estimating the
-effect of being a student in each group, but with a key difference from linear
+assumption of independence. Multi-level models do this by (still) estimating the
+effect of being a student in each group, but with a key distinctionfrom linear
 models: Instead of determining how difference the observations in a group are
-from those in the reference group, the multi-level model "regularizes" the
-difference based on how systematically different the groups are. Groups that are
-comprised of individuals who are consistently different (higher or lower) than
-individuals on average are not regularized very much - their estimated
-difference may be close to the estimate from a multi-level model - whereas
-groups with only a few individuals, or with a lot of variability within
-individuals, would be regularized a lot. In the former case, the multi-level
-model considers there to be strong evidence for a group effect, whereas in the
-latter, the model recognizes that there is less certainty about a group (class)
-effect for that particular group. Multi-level models are very common in
-educational research for cases such as this: accounting for the way in which
-students take the same classes, or even go to the same school (see Raudenbush &
-Bryk, 2002).
+from those in the reference group, the multi-level model "regularizes"
+(sometimes the term "shrinks" is used) the difference based on how systematically
+different the groups are. The reason why "shrinkage" is occasionally used is that the group-level estimates (i.e., for classes) that are obtained through multi-level modeling can never be larger than those from a linear model (regression). As described earlier, when there are groups included in the model, 
+a regression effectively estimates the effect for each group independent of all of the others.
+
+Through regularization, groups that are comprised of individuals who are
+consistently different (higher or lower) than individuals on average are not
+regularized very much - their estimated difference may be close to the estimate
+from a multi-level model - whereas groups with only a few individuals, or with a
+lot of variability within individuals, would be regularized a lot. In the former
+case, the multi-level model considers there to be strong evidence for a group
+effect, whereas in the latter, the model recognizes that there is less certainty
+about a group (class) effect for that particular group. Multi-level models are
+very common in educational research for cases such as this: accounting for the
+way in which students take the same classes, or even go to the same school (see
+Raudenbush & Bryk, 2002).
 
 The way that a multi-level model does this "regularizing" is by considering the
 groups (and not the data points, in this case) to be samples from a larger
@@ -308,6 +312,12 @@ school. You can add further still levels to the model, as the {lme4} package was
 designed for complex multi-level models (and even those with not nested, but
 crossed random effects; a topic beyond the scope of this walkthrough, but which
 is described in West, Welch, & Galecki, 2015).
+
+## Other groups
+
+In this example (and in many examples in educational research), the groups are classes. But, multi-level models can be used for other cases in which data is associated with a common group. For example, if students respond to repeated measures (such as quizzes) over time, then the multiple quiz responses for each sudent could be considered to be "grouped" within students. In such a case, instead of specifying the model with the course as the "grouping factor", students could be. 
+
+Moreover, multi-level models can include multiple groups (as noted above), even if the groups are of very different kinds (i.e., if students from multiple classes responded to multiple quizzes). 
 
 There is much more that can be done with multi-level models. For further
 reading, we recommend the sources we cited in the walkthrough:
