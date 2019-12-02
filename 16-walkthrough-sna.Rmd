@@ -1,2 +1,195 @@
 # 16-walkthrough-sna
 
+## Accessing data
+
+```{r}
+library(tidyverse)
+```
+
+You can view the data here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918
+
+There are a number of ways you can access it.
+
+### 1: Downloading the file directly via R
+
+```{r}
+url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwBh9-W3VZgHWWuM2NTsruuN1viqdS7oYXN6Q2Ztu-8-IxFjLtLEWCBoQzvzXcp2ddnwgCj_M3JEZ/pub?gid=400689247&single=true&output=csv"
+
+file_name <- "" # add a file name that ends in .csv
+
+download.file(url, destfile = file_name)
+```
+
+### 2: Manually downloading the file
+
+To manually download the file, navigate to the data (here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247) and then navigate to the **Archive** tab, and then click *File* -> *Download* -> *Comma-separated values* (or *Microsoft Excel*).
+
+### 3: Collect your own!
+
+Use [TAGS](https://tags.hawksey.info/). 
+
+This requries that you authenticate with Google and Twitter accounts.
+
+# Reading the data
+
+Next, you will need to read the data into R. Depending on how you accessed the data, there are a number of ways to do this.
+
+*If* you downloaded the file directly via R (option 1, above), then you can read the data using the same file name (saved to `file_name`) you used above.
+
+Either type the same file name, in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below (or use `file_name` directly and try to figure out what's happening!):
+
+```{r}
+d <- read_csv()
+d
+```
+
+*If* you manually downloaded the file (and saved it to the directory you are working in), then it may be helpful to rename the file. Consider naming the file something easy to understand and to type. Then, read the data by typing the file name in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below. 
+
+Note: another option is to use click the name of the file in your 'Files' window and then to click 'Import Dataset'; it is important to copy the code that that wizard generates into a script so that you can re-run your analyses.
+
+```{r}
+d <- read_csv()
+d
+```
+
+If you haven't already, be sure to type `d` into the console (or to run the chunk above) to see what the data looks like. If something doesn't look right, consider what might have gone wrong (when accessing, renaming, or reading the data).
+
+# Preparing the data for the analysis
+
+Network data, in general, and potential network data from Twitter, in particular, require some processing before they can be used in subsequent analyses.
+
+## Extracting retweets
+
+Next, let's get the retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". Be sure to replace `my_data_frame` with the name of your data frame. 
+
+there is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
+
+- `first_four_chars = str_sub(text, start = 1, end = 4),`: this line of code identifies the first four characters of the tweet
+- `is_retweet = str_detect(first_four_chars, "RT @"),`: this line of code then determines whether the first four characters - identified through the last line of code - begin with "RT @"
+- `retweeted_username = ifelse(is_retweet, str_extract(text, regex), NA))`: this line of code determine if a tweet is a retweet - identified through the very last line of code - and, then, if it is, extracts the *first* username (note that `str_extract()`, instead of `str_extract_all()`, is used for this purpose), using the same regex used earlier
+
+We'll use a regular expression, or regex, to do so.
+
+Find one of the regular expression (or regex) patterns that are in an answer on this page; all should work, but some work a bit easier than others: https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r
+
+
+```{r}
+regex <- ""
+
+my_data_frame <- my_data_frame %>% 
+  mutate(first_four_chars = str_sub(text, start = 1, end = 4),
+         is_retweet = str_detect(first_four_chars, "RT @"),
+         retweeted_username = ifelse(is_retweet, str_extract(text, regex), NA))
+```
+
+Let's put the retweets in their own data frame, called `retweets`.
+
+```{r}
+retweets <- my_data_frame %>% 
+  filter(is_retweet) %>% 
+  select(from_user, retweeted_username) %>% 
+  mutate(retweeted_username = str_trim(retweeted_username))
+```
+
+The very last line `mutate(all_mentions = str_trim(all_mentions))` - is only necessary if the regex you used left an extra space at the beginning or at the end of the screen name. If you don't have an extra space, it won't hurt, though.
+
+## Extracting mentions
+
+Next, let's get the mentions. Start by replacing `my_data_frame` with the name of your data (the one you read in in the previous step). 
+
+```{r}
+my_data_frame <- my_data_frame %>% 
+  mutate(all_mentions = str_extract_all(text, regex)) %>% 
+  mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE)) %>% 
+  unnest(all_mentions)
+```
+
+Let's put these into their own data frame, too.
+
+```{r}
+mentions <- my_data_frame %>% 
+  filter(has_mention) %>% 
+  mutate(all_mentions = str_trim(all_mentions)) %>% 
+  select(from_user, all_mentions)
+```
+
+## Putting the edgelist together
+
+Now, we are ready to put the pieces together, in order to construct an edgelist. An edgelist is a common social network analysis data structure that has columns for the "sender" and "receiver" of interactions, or relations. For example, we can consider the person retweeting someone else "sending" a retweet to the person who is retweeted, who "receives" the retweet. For mentions, someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. This will require one last processing step. Be sure to change the name of the data frame, again.
+
+Take a look at each data frame we created; type `mentions` and `retweets`, below:
+
+```{r}
+retweets
+```
+
+```{r}
+mentions
+```
+
+What needs to happen to these to make them easier to work with in an edgelist? One step is to remove the "@" symbol from the columns we created - `retweeted_username` and `all_replies`.
+
+Let's do this for retweets.
+
+```{r}
+retweets <- retweets %>% 
+  mutate(retweeted_username = str_sub(retweeted_username, start = 2)) %>%
+  mutate(interaction_type = "retweet") %>% # this is so we can distinguish between retweets and mentions
+  select(sender = retweeted_username, receiver = from_user, interaction_type) # this is so the columns have the same names for when we combine them back together
+```
+
+Almost there! Let's do the same for mentions; write code that will do this, starting with the `mentions` data frame, using the code above as an example. Consider which is the receiver and which is the sender for mentions.
+
+```{r}
+mentions <- mentions %>% 
+  
+```
+
+Finally, let's create an edgelist:
+
+```{r}
+edgelist <- bind_rows(retweets, mentions)
+edgelist
+```
+
+# Plotting the network
+
+We'll use the **tidygraph** and **ggraph** packages to visualize the data.
+
+```{r}
+# install.packages(c("tidygraph", "ggraph"))
+library(tidygraph)
+library(ggraph)
+```
+We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
+
+```{r}
+g <- as_tbl_graph(edgelist)
+g
+```
+
+Next, we'll use the `ggraph()` function. Run the code below, and then uncomment, one at a time, the next two lines (the two beginning `geom_()`, running the code after uncommenting each line).
+
+```{r}
+g %>% 
+  ggraph() +
+  geom_node_point() +
+  # geom_node_text(aes(label = name)) +
+  # geom_edge_link() +
+  theme_graph()
+```
+
+Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+
+```{r}
+g %>% 
+  mutate(centrality = centrality_authority()) %>% 
+  ggraph() +
+  geom_node_point(aes(size = centrality, color = centrality)) +
+  scale_color_continuous(guide = 'legend') + 
+  geom_node_text(aes(label = name)) +
+  geom_edge_link() +
+  theme_graph()
+```
+
+There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
