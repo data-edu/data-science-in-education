@@ -2,30 +2,65 @@
 
 # Introduction 
 
-One of the great features of doing data science with programming is the flexibility of data sources. So far we've analyzed data in CSV files, but that's not the only place data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+One of the great features of doing data science with programming is the
+flexibility of data sources. So far we've analyzed data in CSV files, but that's
+not the only place data is stored. If we can learn some basic techniques for
+analyzing text, we increase the number of places we can find information to
+learn about the student experience.
 
-When we think about data science in education, our mind tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
+When we think about data science in education, our mind tends to go data in
+spreadsheets. But what can we learn about the student experience from text data?
+Take a moment to mentally review all the moments in your work day that you
+generated or consumed text data. In education, we're surrounded by it. We do our
+lessons in word processor documents, our students submit assignments online, and
+the school community expresses themselves on public social media platforms. The
+text we generate can be an authentic reflection of reality in schools, so how
+might we learn from it?
 
-Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
+Even the most basic text analysis techniques will expand your data science
+toolkit. For example, you can use text analysis to count the number of key words
+that appear in open ended survey responses. You can analyze word patterns in
+student responses or message board posts. In this chapter, we'll learn how to
+count the frequency of words in a dataset and associate those words with common
+feelings like positivity or joy.
 
-In this chapter we'll learn by using a dataset of tweets. We encourage you to complete the walkthrough, then reflect on how the skills learned can be applied to other texts, like word processing documents or websites.  
+In this chapter we'll learn by using a dataset of tweets. We encourage you to
+complete the walkthrough, then reflect on how the skills learned can be applied
+to other texts, like word processing documents or websites.
 
-# About Our Text Dataset 
-It's useful to learn these techniques from text datasets that are widely available. We hope that when you've completed this walkthrough, you will download more tweet datasets and continue to sharpen your text analysis skills. 
+# About Our Text Dataset
 
-Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets are available. Since there's so much, it's useful to narrow the tweets to a dataset that can help you answer your analytic questions. Hashtags text within a tweet that act as way to categorize content. Here's an example: 
+It's useful to learn these techniques from text datasets that are widely
+available. We hope that when you've completed this walkthrough, you will
+download more tweet datasets and continue to sharpen your text analysis skills.
 
->RT @CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
+Take a moment to do an online search for "download tweet dataset" and note the
+abundance of tweet datasets are available. Since there's so much, it's useful to
+narrow the tweets to a dataset that can help you answer your analytic questions.
+Hashtags text within a tweet that act as way to categorize content. Here's an
+example:
 
-Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#RStats" and "#Stata" make this tweet conveniently searchable. If Twitter uses search for "#RStats", Twitter returns all the Tweets containing that hashtag.
+> RT @CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good
+> resource for what certain functions in Stata are doing? \#RStats \#Stata
 
-In this example, we'll be analyzing a dataset of tweets. These tweets have the hashtag [#tidytuesday](https://twitter.com/hashtag/tidytuesday), which returns tweets about the tidytuesday ritual, where folks learning R create and upload data visualizations they made while learning to use tidyverse R packages. 
+Twitter recognizes any words that start with a "\#" as a hashtag. The hashtags
+"\#RStats" and "\#Stata" make this tweet conveniently searchable. If Twitter
+uses search for "\#RStats", Twitter returns all the Tweets containing that
+hashtag.
 
-You can view the dataset here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918
+In this example, we'll be analyzing a dataset of tweets. These tweets have the
+hashtag [\#tidytuesday](https://twitter.com/hashtag/tidytuesday), which returns
+tweets about the tidytuesday ritual, where folks learning R create and upload
+data visualizations they made while learning to use tidyverse R packages.
 
-# Reading In the Data 
+You can view the dataset here:
+<https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918>
 
-We'll need to get the data into our computer and then into R before we can start analyzing it. For this analysis, we'll be using the `tidyverse` and `here` packages. 
+# Reading In the Data
+
+We'll need to get the data into our computer and then into R before we can start
+analyzing it. For this analysis, we'll be using the `tidyverse` and `here`
+packages.
 
 ```{r load packages}
 library(tidyverse)
@@ -40,15 +75,26 @@ url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwBh9-W3VZgHWWuM2NTsru
 download.file(url, destfile = here::here("11-walkthrough-7-data", "tweet-data.csv"))
 ```
 
-There are other ways to get data for a text analyis. You can go to Google Docs and download it directly. To manually download the file, navigate to the data (here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247) and then navigate to the **Archive** tab, and then click *File* -> *Download* -> *Comma-separated values* (or *Microsoft Excel*). If you want to collect data under a different hashtag in the future, you can explore services like [TAGS](https://tags.hawksey.info/) to automate that process.
+There are other ways to get data for a text analyis. You can go to Google Docs
+and download it directly. To manually download the file, navigate to the data
+(here:
+<https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247>)
+and then navigate to the **Archive** tab, and then click *File* -\> *Download*
+-\> *Comma-separated values* (or *Microsoft Excel*). If you want to collect data
+under a different hashtag in the future, you can explore services like
+[TAGS](https://tags.hawksey.info/) to automate that process.
 
-# Reading the data 
+# Reading the data
 
-Next, you will need to read the data into R. Depending on how you accessed the data, there are a number of ways to do this.
+Next, you will need to read the data into R. Depending on how you accessed the
+data, there are a number of ways to do this.
 
-*If* you downloaded the file directly via R (option 1, above), then you can read the data using the same file name (saved to `file_name`) you used above.
+*If* you downloaded the file directly via R (option 1, above), then you can read
+the data using the same file name (saved to `file_name`) you used above.
 
-Either type the same file name, in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below (or use `file_name` directly and try to figure out what's happening!):
+Either type the same file name, in quotation marks (e.g., "my\_file\_name.csv")
+within the parentheses of `read_csv()` below (or use `file_name` directly and
+try to figure out what's happening!):
 
 ```{r read data}
 d <- read_csv("data/tweet-data.csv")
@@ -57,19 +103,36 @@ d <- read_csv("data/tweet-data.csv")
 glimpse(d)
 ```
 
-*If* you manually downloaded the file (and saved it to the directory you are working in), then it may be helpful to rename the file. Consider naming the file something easy to understand and to type. Then, read the data by typing the file name in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below. 
+*If* you manually downloaded the file (and saved it to the directory you are
+working in), then it may be helpful to rename the file. Consider naming the file
+something easy to understand and to type. Then, read the data by typing the file
+name in quotation marks (e.g., "my\_file\_name.csv") within the parentheses of
+`read_csv()` below.
 
-Note: another option is to use click the name of the file in your 'Files' window and then to click 'Import Dataset'; it is important to copy the code that that wizard generates into a script so that you can re-run your analyses.
+Note: another option is to use click the name of the file in your 'Files' window
+and then to click 'Import Dataset'; it is important to copy the code that that
+wizard generates into a script so that you can re-run your analyses.
 
-If you haven't already, be sure to type `d` into the console (or to run the chunk above) to see what the data looks like. If something doesn't look right, consider what might have gone wrong (when accessing, renaming, or reading the data).
+If you haven't already, be sure to type `d` into the console (or to run the
+chunk above) to see what the data looks like. If something doesn't look right,
+consider what might have gone wrong (when accessing, renaming, or reading the
+data).
 
 # Preparing the data for the analysis
 
-Text data can be stored a number of ways. We will focus on a common data structure, a document-term matrix. 
+Text data can be stored a number of ways. We will focus on a common data
+structure, a document-term matrix.
 
-The idea that is essential for understanding a document-term matrix is that it is simply a data frame with every term across every document comprising the columns, and every document being represented with each row. 
+The idea that is essential for understanding a document-term matrix is that it
+is simply a data frame with every term across every document comprising the
+columns, and every document being represented with each row.
 
-We will use the **quanteda** R package to create a document term matrix. To do so, we will use the `tokens()` function, which takes as a first argument the column of a data frame with text. An easy way to do this is via the `pull()` function, which returns just one column from a data frame. Pass to `pull()` the name of your data frame and the name of the column `text`, e.g., `pull(my_data_frame, text)`, directly to the tokens function.
+We will use the **quanteda** R package to create a document term matrix. To do
+so, we will use the `tokens()` function, which takes as a first argument the
+column of a data frame with text. An easy way to do this is via the `pull()`
+function, which returns just one column from a data frame. Pass to `pull()` the
+name of your data frame and the name of the column `text`, e.g.,
+`pull(my_data_frame, text)`, directly to the tokens function.
 
 ```{r pick columns}
 tweets <- d %>% 
@@ -96,16 +159,21 @@ tokens <- tokens %>%
   anti_join(stop_words)
 ```
 
-# Counting words 
+# Counting words
 
-Though a basic step, assessing the most frequent terms can be powerful. The `topfeatures()` function can be helpful for this; simply pass `my_dfm` as the first argument to it to see the results.
+Though a basic step, assessing the most frequent terms can be powerful. The
+`topfeatures()` function can be helpful for this; simply pass `my_dfm` as the
+first argument to it to see the results.
 
 ```{r count words}
 tokens %>% 
     count(word, sort = TRUE)
 ```
 
-Can you change the number of terms that are returned (hint: check `?topfeatures`)? Are the results interpretable? If not, what changes can you make (either through what you pass to `tokens()` or `dfm()`) to improve the output?
+Can you change the number of terms that are returned (hint: check
+`?topfeatures`)? Are the results interpretable? If not, what changes can you
+make (either through what you pass to `tokens()` or `dfm()`) to improve the
+output?
 
 # Sentiment analysis
 
@@ -113,7 +181,8 @@ Can you change the number of terms that are returned (hint: check `?topfeatures`
 install.packages("textdata")
 ```
 
-NRC is a dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). 
+NRC is a dataset was published in a work called Crowdsourcing a Word-Emotion
+Association Lexicon (Saif M. Mohammad and Peter Turney, 2013).
 
 ```{r view nrc}
 get_sentiments("nrc")
@@ -165,9 +234,11 @@ neg_tweets %>%
          y = "Count")
 ```
 
-It's important to not draw conclusions on this data alone. The point of exploratory data analysis is to explore and generate hypotheses. 
+It's important to not draw conclusions on this data alone. The point of
+exploratory data analysis is to explore and generate hypotheses.
 
-You can randomly select tweets with positive and negative words to read through and establish context for the visualizations. 
+You can randomly select tweets with positive and negative words to read through
+and establish context for the visualizations. 
 
 ## Random review of tweets 
 
@@ -197,15 +268,17 @@ tweets_pos %>%
 
 # Next steps 
 
-The purpose of this walkthrough is to share code with you so you can practice some basic text analysis techniques. Now it's time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Here are some ideas: 
+The purpose of this walkthrough is to share code with you so you can practice
+some basic text analysis techniques. Now it's time to make your learning more
+meaningful by adapting this code to text-based files you regularly see at work.
+Here are some ideas:
 
- - News articles 
- - Procedure manuals  
- - Open ended responses in surveys  
- 
+  - News articles
+  - Procedure manuals
+  - Open ended responses in surveys
+  
 # References 
 
 Silge, J. & Robinson, D. (2017). Text mining with R. O'Reilly Media.  
 
-<!-- Is this for the sentiment analysis? -->
 This dataset was published in Saif M. Mohammad and Peter Turney. (2013), Crowdsourcing a Word-Emotion Association Lexicon. Computational Intelligence, 29(3): 436-465.
