@@ -7,7 +7,7 @@ source("r/palette_dataedu.R")
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
-# Vocabulary 
+## Vocabulary 
 
  - Read in
  - Aggregate data 
@@ -22,15 +22,15 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
  - Aggregate data
  - Student-level data
 
-# Introduction 
+## Introduction 
 
 We chose to use a publicly available dataset for this walkthrough. Like most public datasets, this one contains aggregates data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
 
-# Special Education Child Count and Environment Data
+## Special Education Child Count and Environment Data
 
 You can download the datasets for this walkthrough on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee]("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee").
 
-# Reading In One Dataset 
+## Reading In One Dataset 
 
 When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
 
@@ -54,7 +54,7 @@ read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4
 
 The `skip` argument told `read_csv` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
 
-# Reading In Many Datasets 
+## Reading In Many Datasets 
 
 Will the `read_csv` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
 
@@ -116,7 +116,7 @@ bind_rows(all_files)
 
 We'll correct this in the next section by selecting and renaming our variables, but it's good to notice this problem early in the process so you know to work on it later. 
 
-# Cleaning the Dataset 
+## Cleaning the Dataset 
 
 Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the `ggplot2` package, work best when datsets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
 
@@ -136,7 +136,7 @@ In real life, data scientists don't always know the cleaning steps until they di
 
 After a lot of exploring, we settled on these steps for this analysis. When you do your own, you will find different things to transform. As you do more and more data analysis, your instincts for what to transform will improve. 
 
-## Fix the variable names in the 2016 data
+### Fix the variable names in the 2016 data
 
 When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the 2016 dataset, which is the fifth element of `all_files`: 
 
@@ -164,7 +164,7 @@ all_files[[5]] <- read_csv(filenames[[5]], skip = 3)
 
 Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct. 
 
-## Pick variables 
+### Pick variables 
 
 Now that we know all our datasets have the correct variable names, we simplify our datasets by picking the variables we need. This is a good place to think carefully about which variables to pick. This usually requires a fair amount of trial and error, but here is what we found we needed: 
 
@@ -191,7 +191,7 @@ all_files <- all_files %>%
     map(pick_vars)
 ```
 
-## Combine six datasets into one
+### Combine six datasets into one
 
 Now we'll turn our attention to combining the datasets in our list `all_files` into one. We'll use `bind_rows`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use `names` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
 
@@ -212,7 +212,7 @@ Since we know that a) each of our six datasets had eight variables and b) our co
 str(child_counts)
 ```
 
-## Filter for the desired disabilities and age groups
+### Filter for the desired disabilities and age groups
 
 We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset: 
 
@@ -229,7 +229,7 @@ child_counts <- child_counts %>%
            `SEA Education Environment` %in% c("Total, Age 3-5", "Total, Age 6-21")) 
 ```
 
-## Rename the variables
+### Rename the variables
 
 In the next section we'll prepare the dataset for visualization and modeling by "tidying" it. When we write code to transform datasets, we'll be typing the column names a lot, so it's useful to change them to ones with more convenient names. 
 
@@ -245,7 +245,7 @@ child_counts <- child_counts %>%
            m_6_21 = "Male Age 6 to 21")
 ```
 
-## Clean state names
+### Clean state names
 
 You might have noticed that some state names in our dataset are in upper case letters and some are in lower case letters: 
 
@@ -262,7 +262,7 @@ child_counts <- child_counts %>%
     mutate(state = tolower(state)) 
 ```
 
-## Tidy the dataset 
+### Tidy the dataset 
 
 Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* (2014), Hadley Wickham defines tidy datasets where
 
@@ -294,7 +294,7 @@ child_counts <- child_counts %>%
     ))
 ```
 
-## Convert data types
+### Convert data types
 
 The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to change the count columns. 
 
@@ -323,7 +323,7 @@ child_counts <- child_counts %>%
     mutate(year = ymd(year, truncated = 2))
 ```
 
-## Explore and address NAs
+### Explore and address NAs
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender:
 
@@ -353,11 +353,11 @@ child_counts %>%
     arrange(year, state, gender)
 ```
 
-# How Have Child Counts Changed Over Time? 
+## How Have Child Counts Changed Over Time? 
 
 In the last section we focused on importing our dataset. In this section, we will turn to exploring it. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
 
-## Visualize the Dataset  
+### Visualize the Dataset  
 
 Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest average count of special education students: 
 
@@ -467,7 +467,7 @@ high_count %>%
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
 
-## Model the Dataset 
+### Model the Dataset 
 
 When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction*, Kieran Healy (2019) teaches us that 
 
@@ -477,7 +477,7 @@ What are some ways we can combat these errors of perception and at the same time
 
 In this example, we'll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we'll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.
 
-### Do we have enough information for our model?
+#### Do we have enough information for our model?
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere bewteen the values of 250,000 and 1,750,000: 
 
@@ -527,7 +527,7 @@ child_counts %>%
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
-### Male to Female Ratio Over Time
+#### Male to Female Ratio Over Time
 
 Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?
 
@@ -624,7 +624,7 @@ model_data %>%
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
-# Aggregate Data as Context for Student Data 
+## Aggregate Data as Context for Student Data 
 
 Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that an education data scientist would typically do. 
 
@@ -672,7 +672,7 @@ Taking a cue from Daniel Kahneman, we should also ask what this pattern looks li
 
 So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when an MOU for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 
 
-# References 
+## References 
 
 Wickham, H. (2014). Tidy data. *Journal of Statistical Software*, 59(10).  Retrieved from [https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)
 
