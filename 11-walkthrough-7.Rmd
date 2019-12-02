@@ -1,12 +1,13 @@
 # Walkthrough 7: Title Here
 
-# Introduction 
+## Introduction 
 
-One of the great features of doing data science with programming is the
-flexibility of data sources. So far we've analyzed data in CSV files, but that's
-not the only place data is stored. If we can learn some basic techniques for
-analyzing text, we increase the number of places we can find information to
-learn about the student experience.
+One of the great features of data science that involves programming is the
+flexibility in terms of what counts as a data source. So far we hae analyzed
+data in CSV files, but that's not the only place data is stored. If we can learn
+some basic techniques for analyzing text, we increase the number of places we
+can find information to learn about the student experience, teacher professional
+development, or educational systems.
 
 When we think about data science in education, our mind tends to go data in
 spreadsheets. But what can we learn about the student experience from text data?
@@ -28,7 +29,7 @@ In this chapter we'll learn by using a dataset of tweets. We encourage you to
 complete the walkthrough, then reflect on how the skills learned can be applied
 to other texts, like word processing documents or websites.
 
-# About Our Text Dataset
+## About Our Text Dataset
 
 It's useful to learn these techniques from text datasets that are widely
 available. We hope that when you've completed this walkthrough, you will
@@ -56,7 +57,7 @@ data visualizations they made while learning to use tidyverse R packages.
 You can view the dataset here:
 <https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918>
 
-# Reading In the Data
+## Reading In the Data
 
 We'll need to get the data into our computer and then into R before we can start
 analyzing it. For this analysis, we'll be using the `tidyverse` and `here`
@@ -84,7 +85,7 @@ and then navigate to the **Archive** tab, and then click *File* -\> *Download*
 under a different hashtag in the future, you can explore services like
 [TAGS](https://tags.hawksey.info/) to automate that process.
 
-# Reading the data
+## Reading the data
 
 Next, you will need to read the data into R. Depending on how you accessed the
 data, there are a number of ways to do this.
@@ -118,7 +119,7 @@ chunk above) to see what the data looks like. If something doesn't look right,
 consider what might have gone wrong (when accessing, renaming, or reading the
 data).
 
-# Preparing the data for the analysis
+## Preparing the data for the analysis
 
 Text data can be stored a number of ways. We will focus on a common data
 structure, a document-term matrix.
@@ -159,7 +160,7 @@ tokens <- tokens %>%
   anti_join(stop_words)
 ```
 
-# Counting words
+## Counting words
 
 Though a basic step, assessing the most frequent terms can be powerful. The
 `topfeatures()` function can be helpful for this; simply pass `my_dfm` as the
@@ -175,7 +176,7 @@ Can you change the number of terms that are returned (hint: check
 make (either through what you pass to `tokens()` or `dfm()`) to improve the
 output?
 
-# Sentiment analysis
+## Sentiment analysis
 
 ```{r install textdata, eval=FALSE}
 install.packages("textdata")
@@ -188,7 +189,7 @@ Association Lexicon (Saif M. Mohammad and Peter Turney, 2013).
 get_sentiments("nrc")
 ```
 
-## Tweets associated with positive 
+### Tweets associated with positive 
 
 ```{r count positive words}
 nrc_pos <- get_sentiments("nrc") %>% 
@@ -212,7 +213,7 @@ pos_tweets %>%
 
 Note the use of `reorder` when mapping the `word` variable to the x aesthetic. 
 
-## Tweets associated with negative
+### Tweets associated with negative
 
 ```{r count negative words}
 nrc_neg <- get_sentiments("nrc") %>% 
@@ -240,7 +241,7 @@ exploratory data analysis is to explore and generate hypotheses.
 You can randomly select tweets with positive and negative words to read through
 and establish context for the visualizations. 
 
-## Random review of tweets 
+### Random review of tweets 
 
 ```{r custom function}
 library(stringr)
@@ -266,7 +267,7 @@ tweets_pos %>%
   slice(., sample(1:nrow(.), 10))
 ```
 
-# Next steps 
+## Next steps 
 
 The purpose of this walkthrough is to share code with you so you can practice
 some basic text analysis techniques. Now it's time to make your learning more
@@ -277,7 +278,7 @@ Here are some ideas:
   - Procedure manuals
   - Open ended responses in surveys
   
-# References 
+## References 
 
 Silge, J. & Robinson, D. (2017). Text mining with R. O'Reilly Media.  
 
