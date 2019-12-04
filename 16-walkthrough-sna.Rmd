@@ -68,9 +68,7 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 
 ## Extracting retweets
 
-First, let's start with retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". Be sure to replace `my_data_frame` with the name of your data frame. 
-
-there is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
+First, let's start with retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `first_four_chars = str_sub(text, start = 1, end = 4),`: this line of code identifies the first four characters of the tweet
 - `is_retweet = str_detect(first_four_chars, "RT @"),`: this line of code then determines whether the first four characters - identified through the last line of code - begin with "RT @"
@@ -83,7 +81,7 @@ Find one of the regular expression (or regex) patterns that are in an answer on 
 ```{r}
 regex <- ""
 
-my_data_frame <- my_data_frame %>% 
+tt_tweets <- tt_tweets %>% 
   mutate(first_four_chars = str_sub(text, start = 1, end = 4),
          is_retweet = str_detect(first_four_chars, "RT @"),
          retweeted_username = ifelse(is_retweet, str_extract(text, regex), NA))
@@ -92,7 +90,7 @@ my_data_frame <- my_data_frame %>%
 Let's put the retweets in their own data frame, called `retweets`.
 
 ```{r}
-retweets <- my_data_frame %>% 
+retweets <- tt_tweets %>% 
   filter(is_retweet) %>% 
   select(from_user, retweeted_username) %>% 
   mutate(retweeted_username = str_trim(retweeted_username))
@@ -102,10 +100,10 @@ The very last line `mutate(all_mentions = str_trim(all_mentions))` - is only nec
 
 ## Extracting mentions
 
-Next, let's get the mentions. Start by replacing `my_data_frame` with the name of your data (the one you read in in the previous step). 
+Next, let's get the mentions. Start by replacing `tt_tweets` with the name of your data (the one you read in in the previous step). 
 
 ```{r}
-my_data_frame <- my_data_frame %>% 
+tt_tweets <- tt_tweets %>% 
   mutate(all_mentions = str_extract_all(text, regex)) %>% 
   mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE)) %>% 
   unnest(all_mentions)
@@ -114,7 +112,7 @@ my_data_frame <- my_data_frame %>%
 Let's put these into their own data frame, too.
 
 ```{r}
-mentions <- my_data_frame %>% 
+mentions <- tt_tweets %>% 
   filter(has_mention) %>% 
   mutate(all_mentions = str_trim(all_mentions)) %>% 
   select(from_user, all_mentions)
@@ -122,7 +120,7 @@ mentions <- my_data_frame %>%
 
 ## Putting the edgelist together
 
-Now, we are ready to put the pieces together, in order to construct an edgelist. An edgelist is a common social network analysis data structure that has columns for the "sender" and "receiver" of interactions, or relations. For example, we can consider the person retweeting someone else "sending" a retweet to the person who is retweeted, who "receives" the retweet. For mentions, someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. This will require one last processing step. Be sure to change the name of the data frame, again.
+Now, we are ready to put the pieces together, in order to construct an edgelist. An edgelist is a common social network analysis data structure that has columns for the "sender" and "receiver" of interactions, or relations. For example, we can consider the person retweeting someone else "sending" a retweet to the person who is retweeted, who "receives" the retweet. For mentions, someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. This will require one last processing step.
 
 Take a look at each data frame we created; type `mentions` and `retweets`, below:
 
@@ -149,8 +147,7 @@ Almost there! Let's do the same for mentions; write code that will do this, star
 
 ```{r}
 mentions <- mentions %>% 
-  
-  ```
+```
 
 Finally, let's create an edgelist:
 
@@ -201,6 +198,25 @@ g %>%
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 
+## Social network analysis models
+
+## Selection and influence
+
+Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
+
+One way to consider these models and methods is in terms of two *processes* at play in our relationships (cite). These two processes are commonly (though not exclusively) the focus of statistical analyses of networks. In addition to not being exclusive, they do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). They are:
+
+- *Selection*: the processes regarding who chooses to have a relationship with whom
+- *Infuence*: the processes regarding how who we have relationships with affects our behavior
+
+While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it).
+
+While these are beyond the focus of this walkthrough, the following may be helpful resources for learning more:
+
+- For selection models, the [amen](https://cran.r-project.org/web/packages/amen/index.html) and [ergm](https://cran.r-project.org/web/packages/ergm/index.html) package
+
+- For influence, see Ken Frank's workshop materials on influence ([here](https://msu.edu/~kenfrank/resources.htm))
+
 ## Technical Appendix
 
 ### Accessing historical data using status URLs
@@ -212,7 +228,7 @@ raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgranth
                                      trim_ws = TRUE)
 ```
 
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rtweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
 
 ```{r, eval = FALSE}
 token <- create_token(consumer_key = <add-your-key-here>,
