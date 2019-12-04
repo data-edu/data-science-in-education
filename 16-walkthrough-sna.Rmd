@@ -16,65 +16,29 @@ library(rtweet)
 ```
 
 ```{r, eval = FALSE}
-rstats_tweets <- search_tweets(
-  "#rstats", n = 1000
-)
+rstats_tweets <- search_tweets("#rstats")
 ```
 
-The search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. 
-
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
-
-```{r}
-raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv", "\t", escape_double = FALSE, 
-                                     trim_ws = TRUE)
-```
-
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+The search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. 
 
 ```{r, eval = FALSE}
-token <- create_token(consumer_key = <add-your-key-here>,
-                      consumer_secret = <add-your-secret-here>)
-
-# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
-tidytuesday_tweets <- lookup_statuses(raw_tidytuesday_tweets$status_url,
-                                      token = token)
+tidytuesday_tweets <- search_tweets("#tidytuesday")
 ```
 
-The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
-
-
-# Reading the data
-
-Next, you will need to read the data into R. Depending on how you accessed the data, there are a number of ways to do this.
-
-*If* you downloaded the file directly via R (option 1, above), then you can read the data using the same file name (saved to `file_name`) you used above.
-
-Either type the same file name, in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below (or use `file_name` directly and try to figure out what's happening!):
+A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's Technical Appendix, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
 
 ```{r}
-d <- read_csv()
-d
+library(dataedu)
+tt_tweets
 ```
-
-*If* you manually downloaded the file (and saved it to the directory you are working in), then it may be helpful to rename the file. Consider naming the file something easy to understand and to type. Then, read the data by typing the file name in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below. 
-
-Note: another option is to use click the name of the file in your 'Files' window and then to click 'Import Dataset'; it is important to copy the code that that wizard generates into a script so that you can re-run your analyses.
-
-```{r}
-d <- read_csv()
-d
-```
-
-If you haven't already, be sure to type `d` into the console (or to run the chunk above) to see what the data looks like. If something doesn't look right, consider what might have gone wrong (when accessing, renaming, or reading the data).
 
 # Preparing the data for the analysis
 
-Network data, in general, and potential network data from Twitter, in particular, require some processing before they can be used in subsequent analyses.
+Network data, in general, and network data from Twitter, particularly, requires some processing before it can be used in subsequent analyses. In particular, we are going to create an edgelist, a data structure that is especially helpful for understanding the nature of relationships. 
 
 ## Extracting retweets
 
-Next, let's get the retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". Be sure to replace `my_data_frame` with the name of your data frame. 
+First, let's start with retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". Be sure to replace `my_data_frame` with the name of your data frame. 
 
 there is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
@@ -85,7 +49,6 @@ there is a lot going on in the code below; let's break it down line-by-line, sta
 We'll use a regular expression, or regex, to do so.
 
 Find one of the regular expression (or regex) patterns that are in an answer on this page; all should work, but some work a bit easier than others: https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r
-
 
 ```{r}
 regex <- ""
@@ -208,7 +171,31 @@ g %>%
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 
-## Accessing historical data when you do not have access to status URLs
+## Technical Appendix
+
+### Accessing historical data using status URLs
+
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
+
+```{r}
+raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv", "\t", escape_double = FALSE, 
+                                     trim_ws = TRUE)
+```
+
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+
+```{r, eval = FALSE}
+token <- create_token(consumer_key = <add-your-key-here>,
+                      consumer_secret = <add-your-secret-here>)
+
+# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
+tidytuesday_tweets <- lookup_statuses(raw_tidytuesday_tweets$status_url,
+                                      token = token)
+```
+
+The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
+
+### Accessing historical data when you do not have access to status URLs
 
 In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
 
@@ -220,6 +207,6 @@ A second option is the Premium API through Twitter(see [here](https://developer.
 
 Rosenberg, J. M., Greenhalgh, S. P., Koehler, M. J., Hamilton, E., & Akcaoglu, M. (2016). An investigation of State Educational Twitter Hashtags (SETHs) as affinity spaces. E-Learning and Digital Media, 13(1-2), 24-44. http://dx.doi.org/10.1177/2042753016672351
 
-Spillane, J., Kim, Chong Min, Frank, K.A.  2012. “Instructional Advice and Information Providing and Receiving Behavior in Elementary Schools: Exploring Tie Formation as a Building Block in Social Capital Development.”  American Educational Research Journal. Vol 49 no. 6 1112-1145
+Spillane, J., Kim, Chong Min,Frank, K.A. 2012. “Instructional Advice and Information Providing and Receiving Behavior in Elementary Schools: Exploring Tie Formation as a Building Block in Social Capital Development.” American Educational Research Journal. Vol 49 no. 6 1112-1145
 
 Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.
