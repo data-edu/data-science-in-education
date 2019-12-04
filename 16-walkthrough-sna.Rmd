@@ -25,7 +25,7 @@ The search term can be easily changed to other hashtags - or other terms. To sea
 tidytuesday_tweets <- search_tweets("#tidytuesday")
 ```
 
-A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's Technical Appendix, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
+A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix A*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
 
 ```{r}
 library(dataedu)
@@ -198,9 +198,7 @@ g %>%
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 
-## Social network analysis models
-
-## Selection and influence
+## Selection and influence models
 
 Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
 
@@ -209,15 +207,9 @@ One way to consider these models and methods is in terms of two *processes* at p
 - *Selection*: the processes regarding who chooses to have a relationship with whom
 - *Infuence*: the processes regarding how who we have relationships with affects our behavior
 
-While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it).
+While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential naunces to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in *Technical Appendix B* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
 
-While these are beyond the focus of this walkthrough, the following may be helpful resources for learning more:
-
-- For selection models, the [amen](https://cran.r-project.org/web/packages/amen/index.html) and [ergm](https://cran.r-project.org/web/packages/ergm/index.html) package
-
-- For influence, see Ken Frank's workshop materials on influence ([here](https://msu.edu/~kenfrank/resources.htm))
-
-## Technical Appendix
+## Technical Appendix A
 
 ### Accessing historical data using status URLs
 
@@ -248,6 +240,80 @@ In the above case, we had access to the URLs for tweets because they were saved 
 First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
 
 A second option is the Premium API through Twitter(see [here](https://developer.twitter.com/en/premium-apis)). This is an expensive option, but is one that can be done through [rtweet](https://rtweet.info/reference/search_fullarchive.html), and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+
+## Technical Appendix B
+
+### An example of influence
+
+First, let's create three different data frames. Here is what they should contain:
+
+- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation.
+- This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*.
+- Data frames indicating the values of some behavior - an outcome - at two different time points.
+
+In this example, we create some example data that can be used to explore questions about how influence works.
+
+Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
+
+```{r}
+data <- as_tibble(data)
+data
+```
+
+#### Calculating an exposure term
+
+This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
+
+```{r}
+# Calculating exposure
+data$exposure <- data$relate * data$yvar1
+# Calculating mean exposure
+mean_exposure <- data %>%
+    group_by(nominator) %>%
+    summarize(exposure_mean = mean(exposure))
+```
+
+What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
+
+As we need a final data set with `mean_exposure`, `mean_exposure_plus`, `degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
+
+```{r}
+mean_exposure_terms <- left_join(mean_exposure, mean_exposure_plus, by = "nominator")
+names(data2) <- c("nominator", "yvar1") # rename nominee as nominator to merge these
+final_data <- left_join(mean_exposure_terms, data2, by = "nominator")
+final_data <- left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+```
+
+#### Regression (linear model)
+
+Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
+
+```{r}
+model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+summary(model1)
+```
+
+So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Sweet, 2017). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
+
+### An example of a selection model
+
+Selection models are also commonly used - and are commonly of interest not only to researchers but also to administrators and teachers (and even to youth and students). 
+
+Here, we briefly describe a few possible approaches for using a selection model.
+
+At its core, the selection model is a regression - albeit, one that is a generalization of one, namely, a logistic regression (sometimes termed a generalized linear model, because it is *basically* a regression but is one with an outcome that consists just of 0's and 1's). Thus, the most straight-away way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. But, here is the important and challenging step: all of the *possible relations* (i.e., all of the relations that are possible between all of the individuals in a network) are indicated with a 0 in an edgelist. Note that, again, an edgelist is the preferred data structure for carrying out this analysis. This step involves some data wrangling, especially the idea of widening or lengthening a data frame.
+
+Once all of the relations are indicated with a 1 or a 0, then a simple linear regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups; same could be created in the data frame based upon knowing which group both nominator and nominee are from:
+
+```{r, eval = FALSE}
+m_selection <- glm(relate ~ 1 + same, data = edgelist1)
+```
+
+While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
+
+One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
+
+A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, **ergm**, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), **statnet**. A link to the statnet packages is [here](https://statnet.org/).
 
 ## References
 
