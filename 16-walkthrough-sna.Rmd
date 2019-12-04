@@ -1,34 +1,48 @@
 # 16-walkthrough-sna
 
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district (Spillane, Kim, Chong Min, & Frank, 2012). In the present, though, they are as likely to turn to someone in the professional learning network (Trust, Krutka, & Carpenter, 2016). 
+
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., Rosenberg, Greenhalgh, Koehler, Hamilton, & Akcaoglu, 2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
+
+In this chapter, we focus on a source of data that could be used to understnad how one new community functions. That community, #tidytuesday is one sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is [this interactive Shiny application](https://github.com/nsgrantham/tidytuesdayrocks). In this walkthrough, we focus on a) accessing data on #tidytuesday from Twitter and b) trying to understand the nature of the interactions that take place through #tidytuesday. We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning that a data science toolkit allows an analyst to try to understand (through new data sources), we also chose this because it is straightforward to access data from Twitter, and we think you may find other opportunities to analyze data from Twitter in other cases.
+
 ## Accessing data
+
+In this chapter, we access data using the rtweet package (Hawksey, 2019). Through rtweet, it is easy to access data from Twitter as long as one has a Twitter account. We will load the tidyverse and rtweet packages to get started. Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
 
 ```{r}
 library(tidyverse)
+library(rtweet)
 ```
 
-You can view the data here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918
+```{r, eval = FALSE}
+rstats_tweets <- search_tweets(
+  "#rstats", n = 1000
+)
+```
 
-There are a number of ways you can access it.
+The search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. 
 
-### 1: Downloading the file directly via R
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
 
 ```{r}
-url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwBh9-W3VZgHWWuM2NTsruuN1viqdS7oYXN6Q2Ztu-8-IxFjLtLEWCBoQzvzXcp2ddnwgCj_M3JEZ/pub?gid=400689247&single=true&output=csv"
-
-file_name <- "" # add a file name that ends in .csv
-
-download.file(url, destfile = file_name)
+raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv", "\t", escape_double = FALSE, 
+                                     trim_ws = TRUE)
 ```
 
-### 2: Manually downloading the file
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
 
-To manually download the file, navigate to the data (here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247) and then navigate to the **Archive** tab, and then click *File* -> *Download* -> *Comma-separated values* (or *Microsoft Excel*).
+```{r, eval = FALSE}
+token <- create_token(consumer_key = <add-your-key-here>,
+                      consumer_secret = <add-your-secret-here>)
 
-### 3: Collect your own!
+# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
+tidytuesday_tweets <- lookup_statuses(raw_tidytuesday_tweets$status_url,
+                                      token = token)
+```
 
-Use [TAGS](https://tags.hawksey.info/). 
+The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
 
-This requries that you authenticate with Google and Twitter accounts.
 
 # Reading the data
 
@@ -143,7 +157,7 @@ Almost there! Let's do the same for mentions; write code that will do this, star
 ```{r}
 mentions <- mentions %>% 
   
-```
+  ```
 
 Finally, let's create an edgelist:
 
@@ -193,3 +207,19 @@ g %>%
 ```
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
+
+## Accessing historical data when you do not have access to status URLs
+
+In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
+
+First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
+
+A second option is the Premium API through Twitter(see [here](https://developer.twitter.com/en/premium-apis)). This is an expensive option, but is one that can be done through [rtweet](https://rtweet.info/reference/search_fullarchive.html), and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+
+## References
+
+Rosenberg, J. M., Greenhalgh, S. P., Koehler, M. J., Hamilton, E., & Akcaoglu, M. (2016). An investigation of State Educational Twitter Hashtags (SETHs) as affinity spaces. E-Learning and Digital Media, 13(1-2), 24-44. http://dx.doi.org/10.1177/2042753016672351
+
+Spillane, J., Kim, Chong Min, Frank, K.A.  2012. “Instructional Advice and Information Providing and Receiving Behavior in Elementary Schools: Exploring Tie Formation as a Building Block in Social Capital Development.”  American Educational Research Journal. Vol 49 no. 6 1112-1145
+
+Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.
