@@ -89,7 +89,7 @@ Let's put these into their own data frame, called `mentions`.
 mentions <- tt_tweets %>% 
   filter(has_mention) %>% 
   mutate(all_mentions = str_trim(all_mentions)) %>% 
-  select(from_user, all_mentions)
+  select(sender = screen_name, all_mentions)
 ```
 
 ## Putting the edgelist together
@@ -105,8 +105,7 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 ```{r}
 edgelist <- mentions %>% 
   mutate(all_mentions= str_sub(all_mentions, start = 2)) %>% 
-  mutate(interaction_type = "mentions") %>% 
-  select(sender = from_user, receiver = interaction_type, interaction_type)
+  select(sender, receiver = all_mentions)
 ```
 
 # Plotting the network
@@ -165,6 +164,8 @@ While these are complex, they can be studied with the type of data collected fro
 
 ## Technical Appendix A
 
+<!-- Note - proposing moving this to the text analysis tidytuesday walkthrough -->
+
 ### Accessing historical data using status URLs
 
 Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
@@ -212,8 +213,29 @@ In this example, we create some example data that can be used to explore questio
 Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
 
 ```{r}
-data <- as_tibble(data)
-data
+data1 <- data.frame(nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4), 
+                    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6), 
+                    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
+data2 <- data.frame(nominee = c(1, 2, 3, 4, 5, 6), 
+                    yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+data3 <- data.frame(nominator = c(1, 2, 3, 4, 5, 6),
+                    yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+```
+
+### Joining the data
+
+Next, we'll join the data into one data frame. Note that while this (and data wrangling, in general) is sometimes tedius, especially with large (and messy) sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
+
+Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
+
+```{r}
+data <- left_join(data1, data2, by = "nominee")
+data$nominee <- as.character(data$nominee) # this makes merging later easier
+# calculate indegree in tempdata and merge with data
+tempdata <- data.frame(table(data$nominee))
+names(tempdata) <- c("nominee", "indegree") # rename the column "nominee"
+tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
+data <- left_join(data, tempdata, by = "nominee")
 ```
 
 #### Calculating an exposure term
@@ -231,12 +253,11 @@ mean_exposure <- data %>%
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
 
-As we need a final data set with `mean_exposure`, `mean_exposure_plus`, `degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
+As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
 
 ```{r}
-mean_exposure_terms <- left_join(mean_exposure, mean_exposure_plus, by = "nominator")
 names(data2) <- c("nominator", "yvar1") # rename nominee as nominator to merge these
-final_data <- left_join(mean_exposure_terms, data2, by = "nominator")
+final_data <- left_join(mean_exposure, data2, by = "nominator")
 final_data <- left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
 ```
 
@@ -249,7 +270,7 @@ model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 summary(model1)
 ```
 
-So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Sweet, 2017). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
+So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Frank, 2009). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
 
 ### An example of selection
 
