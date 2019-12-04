@@ -36,6 +36,36 @@ tt_tweets
 
 Network data, in general, and network data from Twitter, particularly, requires some processing before it can be used in subsequent analyses. In particular, we are going to create an edgelist, a data structure that is especially helpful for understanding the nature of relationships. 
 
+An edgelist looks like the following, where the sender denotes who is initiating the interaction or relationship, and the receiver is who is the recipient of it:
+
+```{r, include = FALSE}
+library(randomNames)
+
+names_d1 <- randomNames(6) %>% 
+  as_tibble() %>% 
+  mutate(sender = 1:6) %>% 
+  set_names(c("sender2", "sender"))
+
+names_d2 <- randomNames(6) %>% 
+  as_tibble() %>% 
+  mutate(receiver = 1:6) %>% 
+  set_names(c("receiver2", "receiver"))
+
+example_edgelist <- tibble(sender = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4), 
+                           receiver = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6))
+
+example_edgelist <- example_edgelist %>% 
+  left_join(names_d) %>% 
+  left_join(names_d2) %>% 
+  select(sender = receiver2, receiver = value)
+```
+
+```{r, echo = FALSE}
+example_edgelist
+```
+
+In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or retweet). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
+
 ## Extracting retweets
 
 First, let's start with retweets. We'll identify retweets on the basis of the tweet beginning with the pattern "RT @". Be sure to replace `my_data_frame` with the name of your data frame. 
