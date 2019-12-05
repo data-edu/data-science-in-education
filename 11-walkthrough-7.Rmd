@@ -59,8 +59,6 @@ raw_tweets <- tt_tweets
 
 Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse` or `str` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
 
-### A sidenote on using APIs to download tweets 
-
 ## Cleaning the data for the analysis
 
 In this section we'll select the columns we need for our analysis and we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring. 
@@ -215,7 +213,7 @@ The result is a dataset that has status_ids in one column and the word "dataviz"
 
 ```{r just status_id}
 # Extract status_id
-head(dv_tokens$status_id) 
+head(dv_tokens$status_id)
 ```
 
 Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
