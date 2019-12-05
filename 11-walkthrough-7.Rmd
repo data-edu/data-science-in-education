@@ -2,22 +2,24 @@
 
 ## Vocabulary 
 
-Tokenize 
+tokenize 
+token 
 RDS files 
 anti_join 
 set.seed
 slice
 sample
+stop words
 
 ## Introduction
 
-One of the great features of doing data science with programming is the flexibility of data sources. So far we've analyzed data in CSV files, but that's not the only place data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
 
-When we think about data science in education, our mind tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
+When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
-Analyzing large bodies of text is different from analyzing large bodies of numbers because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
+Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
 
 Using text analysis can help to broadly estimate what is happening in the text. When paired with observations, interviews, and close review of the text, this approach can help education staff learn from text data. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
 
@@ -25,7 +27,7 @@ We'll show these techniques using a dataset of tweets. We encourage you to compl
 
 ## About Our Text Dataset 
 
-It's useful to learn these techniques from text datasets that are widely available. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
+It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
 >RT @CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
 
@@ -123,7 +125,9 @@ tokens %>%
 
 We pass `count` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
 
-We may want to explore further by showing the frequency of words as a percent of the whole dataset. We can do that by using `mutate` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100. 
+We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
+
+In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
 
 ```{r count words as percentage}
 tokens %>% 
@@ -263,7 +267,7 @@ dv_pos %>%
 
 About 55 percent of tweets that have "dataviz" in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 45 percent of the "dataviz" tweets. We can't know precisely why some tweets had positive words and some didn't, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words. 
 
-Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll randomly select tweets to do a close reading on.
+Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of tweets for context.
 
 ### Random review of tweets 
 
@@ -304,7 +308,9 @@ The purpose of this walkthrough is to share code with you so you can practice so
  - News articles 
  - Procedure manuals  
  - Open ended responses in surveys  
- 
+
+There are also advanced text analysis techniques to explore.  Consider trying [topic modeling](https://www.tidytextmining.com/topicmodeling.html) or [finding correlations between terms](https://www.tidytextmining.com/ngrams.html). Both of these are covered in Julia Silge's and David Robinson's book, *Text mining with R*.
+
 ## References 
 
 Silge, J. & Robinson, D. (2017). Text mining with R. O'Reilly Media.  
