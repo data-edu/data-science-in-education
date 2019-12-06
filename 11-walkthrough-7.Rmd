@@ -288,6 +288,15 @@ tweets %>%
   slice(1, 3)
 ```
 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+
+We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
+
+```{r first and third tweet}
+tweets %>% 
+  slice(1, 3)
+```
+
 Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
 
 ```{r randomly review}
