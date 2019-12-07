@@ -2,7 +2,7 @@
 
 
 
-# Vocabulary 
+## Vocabulary 
 
  - Read in
  - Aggregate data 
@@ -17,15 +17,15 @@
  - Aggregate data
  - Student-level data
 
-# Introduction 
+## Introduction 
 
 We chose to use a publicly available dataset for this walkthrough. Like most public datasets, this one contains aggregates data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
 
-# Special Education Child Count and Environment Data
+## Special Education Child Count and Environment Data
 
 You can download the datasets for this walkthrough on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee]("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee").
 
-# Reading In One Dataset 
+## Reading In One Dataset 
 
 When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
 
@@ -33,7 +33,7 @@ Before doing that, you should explore one of the datasets to see what you can le
 
 
 ```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ──────────────
 ```
 
 ```
@@ -44,18 +44,17 @@ Before doing that, you should explore one of the datasets to see what you can le
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
 
 ```
-## Warning: Missing column names filled in: 'X3' [3], 'X4' [4], 'X5' [5],
-## 'X6' [6], 'X7' [7], 'X8' [8], 'X9' [9], 'X10' [10], 'X11' [11], 'X12' [12],
-## 'X13' [13], 'X14' [14], 'X15' [15], 'X16' [16], 'X17' [17], 'X18' [18],
-## 'X19' [19], 'X20' [20], 'X21' [21], 'X22' [22], 'X23' [23], 'X24' [24],
-## 'X25' [25], 'X26' [26], 'X27' [27], 'X28' [28], 'X29' [29], 'X30' [30],
-## 'X31' [31]
+## Warning: Missing column names filled in: 'X3' [3], 'X4' [4], 'X5' [5], 'X6' [6],
+## 'X7' [7], 'X8' [8], 'X9' [9], 'X10' [10], 'X11' [11], 'X12' [12], 'X13' [13],
+## 'X14' [14], 'X15' [15], 'X16' [16], 'X17' [17], 'X18' [18], 'X19' [19],
+## 'X20' [20], 'X21' [21], 'X22' [22], 'X23' [23], 'X24' [24], 'X25' [25],
+## 'X26' [26], 'X27' [27], 'X28' [28], 'X29' [29], 'X30' [30], 'X31' [31]
 ```
 
 ```
@@ -71,23 +70,22 @@ Before doing that, you should explore one of the datasets to see what you can le
 
 ```
 ## # A tibble: 16,234 x 31
-##    `Extraction Dat… `6/12/2013` X3    X4    X5    X6    X7    X8    X9   
-##    <chr>            <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr>
-##  1 Updated:         2/12/2014   <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
-##  2 Revised:         <NA>        <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
-##  3 <NA>             <NA>        <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
-##  4 Year             State Name  SEA … SEA … Amer… Asia… Blac… Hisp… Nati…
-##  5 2012             ALABAMA     Corr… All … -     -     -     -     -    
-##  6 2012             ALABAMA     Home  All … 1     1     57    12    0    
-##  7 2012             ALABAMA     Home… All … -     -     -     -     -    
-##  8 2012             ALABAMA     Insi… All … -     -     -     -     -    
-##  9 2012             ALABAMA     Insi… All … -     -     -     -     -    
-## 10 2012             ALABAMA     Insi… All … -     -     -     -     -    
-## # … with 16,224 more rows, and 22 more variables: X10 <chr>, X11 <chr>,
-## #   X12 <chr>, X13 <chr>, X14 <chr>, X15 <chr>, X16 <chr>, X17 <chr>,
-## #   X18 <chr>, X19 <chr>, X20 <chr>, X21 <chr>, X22 <chr>, X23 <chr>,
-## #   X24 <chr>, X25 <chr>, X26 <chr>, X27 <chr>, X28 <chr>, X29 <chr>,
-## #   X30 <chr>, X31 <chr>
+##    `Extraction Dat… `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
+##    <chr>            <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
+##  1 Updated:         2/12/2014   <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
+##  2 Revised:         <NA>        <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
+##  3 <NA>             <NA>        <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
+##  4 Year             State Name  SEA … SEA … Amer… Asia… Blac… Hisp… Nati… Two …
+##  5 2012             ALABAMA     Corr… All … -     -     -     -     -     -    
+##  6 2012             ALABAMA     Home  All … 1     1     57    12    0     2    
+##  7 2012             ALABAMA     Home… All … -     -     -     -     -     -    
+##  8 2012             ALABAMA     Insi… All … -     -     -     -     -     -    
+##  9 2012             ALABAMA     Insi… All … -     -     -     -     -     -    
+## 10 2012             ALABAMA     Insi… All … -     -     -     -     -     -    
+## # … with 16,224 more rows, and 21 more variables: X11 <chr>, X12 <chr>,
+## #   X13 <chr>, X14 <chr>, X15 <chr>, X16 <chr>, X17 <chr>, X18 <chr>,
+## #   X19 <chr>, X20 <chr>, X21 <chr>, X22 <chr>, X23 <chr>, X24 <chr>,
+## #   X25 <chr>, X26 <chr>, X27 <chr>, X28 <chr>, X29 <chr>, X30 <chr>, X31 <chr>
 ```
 
 The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actually rows. They're notes the authors left at the top of the dataset to show when the dataset was changed. 
@@ -131,24 +129,23 @@ Try using `skip = 4` in your call to `read_csv`:
 ##  8  2012 ALABAMA      Other Location … All Disabilities 1               
 ##  9  2012 ALABAMA      Parentally Plac… All Disabilities -               
 ## 10  2012 ALABAMA      Residential Fac… All Disabilities 0               
-## # … with 16,220 more rows, and 26 more variables: `Asian Age 3-5` <chr>,
-## #   `Black or African American Age 3-5` <chr>, `Hispanic/Latino Age
-## #   3-5` <chr>, `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>,
-## #   `Two or More Races Age 3-5` <chr>, `White Age 3-5` <chr>, `Female Age
-## #   3 to 5` <chr>, `Male Age 3 to 5` <chr>, `LEP Yes Age 3 to 5` <chr>,
-## #   `LEP No Age 3 to 5` <chr>, `Age 3 to 5` <chr>, `Age 6-11` <chr>, `Age
-## #   12-17` <chr>, `Age 18-21` <chr>, `Ages 6-21` <chr>, `LEP Yes Age 6 to
-## #   21` <chr>, `LEP No Age 6 to 21` <chr>, `Female Age 6 to 21` <chr>,
-## #   `Male Age 6 to 21` <chr>, `American Indian or Alaska Native Age 6
-## #   to21` <chr>, `Asian Age 6 to21` <chr>, `Black or African American Age
-## #   6 to21` <chr>, `Hispanic/Latino Age 6 to21` <chr>, `Native Hawaiian or
-## #   Other Pacific Islander Age 6 to21` <chr>, `Two or more races Age 6
-## #   to21` <chr>, `White Age 6 to21` <chr>
+## # … with 16,220 more rows, and 26 more variables: `Asian Age 3-5` <chr>, `Black
+## #   or African American Age 3-5` <chr>, `Hispanic/Latino Age 3-5` <chr>,
+## #   `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>, `Two or More
+## #   Races Age 3-5` <chr>, `White Age 3-5` <chr>, `Female Age 3 to 5` <chr>,
+## #   `Male Age 3 to 5` <chr>, `LEP Yes Age 3 to 5` <chr>, `LEP No Age 3 to
+## #   5` <chr>, `Age 3 to 5` <chr>, `Age 6-11` <chr>, `Age 12-17` <chr>, `Age
+## #   18-21` <chr>, `Ages 6-21` <chr>, `LEP Yes Age 6 to 21` <chr>, `LEP No Age 6
+## #   to 21` <chr>, `Female Age 6 to 21` <chr>, `Male Age 6 to 21` <chr>,
+## #   `American Indian or Alaska Native Age 6 to21` <chr>, `Asian Age 6
+## #   to21` <chr>, `Black or African American Age 6 to21` <chr>, `Hispanic/Latino
+## #   Age 6 to21` <chr>, `Native Hawaiian or Other Pacific Islander Age 6
+## #   to21` <chr>, `Two or more races Age 6 to21` <chr>, `White Age 6 to21` <chr>
 ```
 
 The `skip` argument told `read_csv` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
 
-# Reading In Many Datasets 
+## Reading In Many Datasets 
 
 Will the `read_csv` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
 
@@ -265,16 +262,15 @@ all_files <- filenames %>% map(., ~read_csv(., skip = 4))
 ```
 
 ```
-## Warning: Duplicated column names deduplicated: '-' => '-_1' [6], '-' =>
-## '-_2' [7], '-' => '-_3' [8], '-' => '-_4' [9], '-' => '-_5' [10], '-'
-## => '-_6' [11], '-' => '-_7' [12], '-' => '-_8' [13], '-' => '-_9' [14],
-## '-' => '-_10' [15], '-' => '-_11' [16], '-' => '-_12' [17], '-' => '-
-## _13' [18], '-' => '-_14' [19], '0' => '0_1' [21], '0' => '0_2' [22], '0'
-## => '0_3' [23], '0' => '0_4' [24], '0' => '0_5' [25], '0' => '0_6' [26], '0'
-## => '0_7' [27], '0' => '0_8' [28], '4' => '4_1' [35], '0' => '0_9' [36], '0'
-## => '0_10' [40], '77' => '77_1' [41], '1' => '1_1' [42], '0' => '0_11' [44],
-## '0' => '0_12' [45], '0' => '0_13' [47], '0' => '0_14' [48], '0' =>
-## '0_15' [49]
+## Warning: Duplicated column names deduplicated: '-' => '-_1' [6], '-' => '-
+## _2' [7], '-' => '-_3' [8], '-' => '-_4' [9], '-' => '-_5' [10], '-' => '-
+## _6' [11], '-' => '-_7' [12], '-' => '-_8' [13], '-' => '-_9' [14], '-' => '-
+## _10' [15], '-' => '-_11' [16], '-' => '-_12' [17], '-' => '-_13' [18], '-' =>
+## '-_14' [19], '0' => '0_1' [21], '0' => '0_2' [22], '0' => '0_3' [23], '0' =>
+## '0_4' [24], '0' => '0_5' [25], '0' => '0_6' [26], '0' => '0_7' [27], '0' =>
+## '0_8' [28], '4' => '4_1' [35], '0' => '0_9' [36], '0' => '0_10' [40], '77' =>
+## '77_1' [41], '1' => '1_1' [42], '0' => '0_11' [44], '0' => '0_12' [45], '0' =>
+## '0_13' [47], '0' => '0_14' [48], '0' => '0_15' [49]
 ```
 
 ```
@@ -386,39 +382,38 @@ bind_rows(all_files)
 ##  8  2012 ALABAMA      Other Location … All Disabilities 1               
 ##  9  2012 ALABAMA      Parentally Plac… All Disabilities -               
 ## 10  2012 ALABAMA      Residential Fac… All Disabilities 0               
-## # … with 97,376 more rows, and 95 more variables: `Asian Age 3-5` <chr>,
-## #   `Black or African American Age 3-5` <chr>, `Hispanic/Latino Age
-## #   3-5` <chr>, `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>,
-## #   `Two or More Races Age 3-5` <chr>, `White Age 3-5` <chr>, `Female Age
-## #   3 to 5` <chr>, `Male Age 3 to 5` <chr>, `LEP Yes Age 3 to 5` <chr>,
-## #   `LEP No Age 3 to 5` <chr>, `Age 3 to 5` <chr>, `Age 6-11` <chr>, `Age
-## #   12-17` <chr>, `Age 18-21` <chr>, `Ages 6-21` <chr>, `LEP Yes Age 6 to
-## #   21` <chr>, `LEP No Age 6 to 21` <chr>, `Female Age 6 to 21` <chr>,
-## #   `Male Age 6 to 21` <chr>, `American Indian or Alaska Native Age 6
-## #   to21` <chr>, `Asian Age 6 to21` <chr>, `Black or African American Age
-## #   6 to21` <chr>, `Hispanic/Latino Age 6 to21` <chr>, `Native Hawaiian or
-## #   Other Pacific Islander Age 6 to21` <chr>, `Two or more races Age 6
-## #   to21` <chr>, `White Age 6 to21` <chr>, `Age 3` <chr>, `Age 4` <chr>,
-## #   `Age 5` <chr>, `Age 6` <chr>, `Age 7` <chr>, `Age 8` <chr>, `Age
-## #   9` <chr>, `Age 10` <chr>, `Age 11` <chr>, `Age 12` <chr>, `Age
-## #   13` <chr>, `Age 14` <chr>, `Age 15` <chr>, `Age 16` <chr>, `Age
-## #   17` <chr>, `Age 18` <chr>, `Age 19` <chr>, `Age 20` <chr>, `Age
-## #   21` <chr>, `2016` <dbl>, Alabama <chr>, `Correctional
+## # … with 97,376 more rows, and 95 more variables: `Asian Age 3-5` <chr>, `Black
+## #   or African American Age 3-5` <chr>, `Hispanic/Latino Age 3-5` <chr>,
+## #   `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>, `Two or More
+## #   Races Age 3-5` <chr>, `White Age 3-5` <chr>, `Female Age 3 to 5` <chr>,
+## #   `Male Age 3 to 5` <chr>, `LEP Yes Age 3 to 5` <chr>, `LEP No Age 3 to
+## #   5` <chr>, `Age 3 to 5` <chr>, `Age 6-11` <chr>, `Age 12-17` <chr>, `Age
+## #   18-21` <chr>, `Ages 6-21` <chr>, `LEP Yes Age 6 to 21` <chr>, `LEP No Age 6
+## #   to 21` <chr>, `Female Age 6 to 21` <chr>, `Male Age 6 to 21` <chr>,
+## #   `American Indian or Alaska Native Age 6 to21` <chr>, `Asian Age 6
+## #   to21` <chr>, `Black or African American Age 6 to21` <chr>, `Hispanic/Latino
+## #   Age 6 to21` <chr>, `Native Hawaiian or Other Pacific Islander Age 6
+## #   to21` <chr>, `Two or more races Age 6 to21` <chr>, `White Age 6
+## #   to21` <chr>, `Age 3` <chr>, `Age 4` <chr>, `Age 5` <chr>, `Age 6` <chr>,
+## #   `Age 7` <chr>, `Age 8` <chr>, `Age 9` <chr>, `Age 10` <chr>, `Age
+## #   11` <chr>, `Age 12` <chr>, `Age 13` <chr>, `Age 14` <chr>, `Age 15` <chr>,
+## #   `Age 16` <chr>, `Age 17` <chr>, `Age 18` <chr>, `Age 19` <chr>, `Age
+## #   20` <chr>, `Age 21` <chr>, `2016` <dbl>, Alabama <chr>, `Correctional
 ## #   Facilities` <chr>, `All Disabilities` <chr>, `-` <chr>, `-_1` <chr>,
 ## #   `-_2` <chr>, `-_3` <chr>, `-_4` <chr>, `-_5` <chr>, `-_6` <chr>,
 ## #   `-_7` <chr>, `-_8` <chr>, `-_9` <chr>, `-_10` <chr>, `-_11` <chr>,
 ## #   `-_12` <chr>, `-_13` <chr>, `-_14` <chr>, `0` <chr>, `0_1` <chr>,
 ## #   `0_2` <chr>, `0_3` <chr>, `0_4` <chr>, `0_5` <chr>, `0_6` <chr>,
 ## #   `0_7` <chr>, `0_8` <chr>, `1` <chr>, `2` <chr>, `4` <chr>, `14` <chr>,
-## #   `22` <chr>, `30` <chr>, `4_1` <chr>, `0_9` <chr>, `7` <chr>,
-## #   `70` <chr>, `77` <chr>, `0_10` <chr>, `77_1` <chr>, `1_1` <chr>,
-## #   `76` <chr>, `0_11` <chr>, `0_12` <chr>, `68` <chr>, `0_13` <chr>,
-## #   `0_14` <chr>, `0_15` <chr>, `9` <chr>
+## #   `22` <chr>, `30` <chr>, `4_1` <chr>, `0_9` <chr>, `7` <chr>, `70` <chr>,
+## #   `77` <chr>, `0_10` <chr>, `77_1` <chr>, `1_1` <chr>, `76` <chr>,
+## #   `0_11` <chr>, `0_12` <chr>, `68` <chr>, `0_13` <chr>, `0_14` <chr>,
+## #   `0_15` <chr>, `9` <chr>
 ```
 
 We'll correct this in the next section by selecting and renaming our variables, but it's good to notice this problem early in the process so you know to work on it later. 
 
-# Cleaning the Dataset 
+## Cleaning the Dataset 
 
 Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the `ggplot2` package, work best when datsets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
 
@@ -438,7 +433,7 @@ In real life, data scientists don't always know the cleaning steps until they di
 
 After a lot of exploring, we settled on these steps for this analysis. When you do your own, you will find different things to transform. As you do more and more data analysis, your instincts for what to transform will improve. 
 
-## Fix the variable names in the 2016 data
+### Fix the variable names in the 2016 data
 
 When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the 2016 dataset, which is the fifth element of `all_files`: 
 
@@ -512,15 +507,15 @@ all_files[[5]]
 ##  8   2016 Alabama Residential Fac… All Disabilities -     -     -     -    
 ##  9   2016 Alabama Separate Class   All Disabilities 58    58    98    0    
 ## 10   2016 Alabama Separate School… All Disabilities 11    20    19    0    
-## # … with 16,220 more rows, and 42 more variables: `-_4` <chr>,
-## #   `-_5` <chr>, `-_6` <chr>, `-_7` <chr>, `-_8` <chr>, `-_9` <chr>,
-## #   `-_10` <chr>, `-_11` <chr>, `-_12` <chr>, `-_13` <chr>, `-_14` <chr>,
-## #   `0` <chr>, `0_1` <chr>, `0_2` <chr>, `0_3` <chr>, `0_4` <chr>,
-## #   `0_5` <chr>, `0_6` <chr>, `0_7` <chr>, `0_8` <chr>, `1` <chr>,
-## #   `2` <chr>, `4` <chr>, `14` <chr>, `22` <chr>, `30` <chr>, `4_1` <chr>,
-## #   `0_9` <chr>, `7` <chr>, `70` <chr>, `77` <chr>, `0_10` <chr>,
-## #   `77_1` <chr>, `1_1` <chr>, `76` <chr>, `0_11` <chr>, `0_12` <chr>,
-## #   `68` <chr>, `0_13` <chr>, `0_14` <chr>, `0_15` <chr>, `9` <chr>
+## # … with 16,220 more rows, and 42 more variables: `-_4` <chr>, `-_5` <chr>,
+## #   `-_6` <chr>, `-_7` <chr>, `-_8` <chr>, `-_9` <chr>, `-_10` <chr>,
+## #   `-_11` <chr>, `-_12` <chr>, `-_13` <chr>, `-_14` <chr>, `0` <chr>,
+## #   `0_1` <chr>, `0_2` <chr>, `0_3` <chr>, `0_4` <chr>, `0_5` <chr>,
+## #   `0_6` <chr>, `0_7` <chr>, `0_8` <chr>, `1` <chr>, `2` <chr>, `4` <chr>,
+## #   `14` <chr>, `22` <chr>, `30` <chr>, `4_1` <chr>, `0_9` <chr>, `7` <chr>,
+## #   `70` <chr>, `77` <chr>, `0_10` <chr>, `77_1` <chr>, `1_1` <chr>,
+## #   `76` <chr>, `0_11` <chr>, `0_12` <chr>, `68` <chr>, `0_13` <chr>,
+## #   `0_14` <chr>, `0_15` <chr>, `9` <chr>
 ```
 
 We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
@@ -549,7 +544,7 @@ We used `skip = 4` when we read in those datasets. That worked for all datasets 
 
 Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct. 
 
-## Pick variables 
+### Pick variables 
 
 Now that we know all our datasets have the correct variable names, we simplify our datasets by picking the variables we need. This is a good place to think carefully about which variables to pick. This usually requires a fair amount of trial and error, but here is what we found we needed: 
 
@@ -596,7 +591,7 @@ all_files <- all_files %>%
     map(pick_vars)
 ```
 
-## Combine six datasets into one
+### Combine six datasets into one
 
 Now we'll turn our attention to combining the datasets in our list `all_files` into one. We'll use `bind_rows`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use `names` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
 
@@ -670,7 +665,7 @@ str(child_counts)
 ##  $ Male Age 6 to 21         : chr  "121" "-" "130" "3076" ...
 ```
 
-## Filter for the desired disabilities and age groups
+### Filter for the desired disabilities and age groups
 
 We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset: 
 
@@ -682,24 +677,24 @@ child_counts %>%
 
 ```
 ## # A tibble: 16 x 2
-##    `SEA Disability Category`                                              n
-##    <chr>                                                              <int>
-##  1 All Disabilities                                                    6954
-##  2 Autism                                                              6954
-##  3 Deaf-blindness                                                      6954
-##  4 Developmental delay                                                 4636
-##  5 Developmental delay (valid only for children ages 3-9 when define…  2318
-##  6 Emotional disturbance                                               6954
-##  7 Hearing impairment                                                  6954
-##  8 Intellectual disability                                             6954
-##  9 Multiple disabilities                                               6954
-## 10 Orthopedic impairment                                               6954
-## 11 Other health impairment                                             6954
-## 12 Specific learning disability                                        6954
-## 13 Speech or language impairment                                       6954
-## 14 Traumatic brain injury                                              6954
-## 15 Visual impairment                                                   6954
-## 16 <NA>                                                                  31
+##    `SEA Disability Category`                                                   n
+##    <chr>                                                                   <int>
+##  1 All Disabilities                                                         6954
+##  2 Autism                                                                   6954
+##  3 Deaf-blindness                                                           6954
+##  4 Developmental delay                                                      4636
+##  5 Developmental delay (valid only for children ages 3-9 when defined by …  2318
+##  6 Emotional disturbance                                                    6954
+##  7 Hearing impairment                                                       6954
+##  8 Intellectual disability                                                  6954
+##  9 Multiple disabilities                                                    6954
+## 10 Orthopedic impairment                                                    6954
+## 11 Other health impairment                                                  6954
+## 12 Specific learning disability                                             6954
+## 13 Speech or language impairment                                            6954
+## 14 Traumatic brain injury                                                   6954
+## 15 Visual impairment                                                        6954
+## 16 <NA>                                                                       31
 ```
 
 Since we will be visualizing and modeling gender variables for all students in the dataset, we'll filter out all subgoups except "All Disabilities" and the age totals: 
@@ -711,7 +706,7 @@ child_counts <- child_counts %>%
            `SEA Education Environment` %in% c("Total, Age 3-5", "Total, Age 6-21")) 
 ```
 
-## Rename the variables
+### Rename the variables
 
 In the next section we'll prepare the dataset for visualization and modeling by "tidying" it. When we write code to transform datasets, we'll be typing the column names a lot, so it's useful to change them to ones with more convenient names. 
 
@@ -728,7 +723,7 @@ child_counts <- child_counts %>%
            m_6_21 = "Male Age 6 to 21")
 ```
 
-## Clean state names
+### Clean state names
 
 You might have noticed that some state names in our dataset are in upper case letters and some are in lower case letters: 
 
@@ -759,7 +754,7 @@ child_counts <- child_counts %>%
     mutate(state = tolower(state)) 
 ```
 
-## Tidy the dataset 
+### Tidy the dataset 
 
 Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* (2014), Hadley Wickham defines tidy datasets where
 
@@ -793,7 +788,7 @@ child_counts <- child_counts %>%
     ))
 ```
 
-## Convert data types
+### Convert data types
 
 The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to change the count columns. 
 
@@ -872,7 +867,7 @@ child_counts <- child_counts %>%
     mutate(year = ymd(year, truncated = 2))
 ```
 
-## Explore and address NAs
+### Explore and address NAs
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender:
 
@@ -939,11 +934,11 @@ child_counts %>%
 ## # … with 1,380 more rows
 ```
 
-# How Have Child Counts Changed Over Time? 
+## How Have Child Counts Changed Over Time? 
 
 In the last section we focused on importing our dataset. In this section, we will turn to exploring it. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
 
-## Visualize the Dataset  
+### Visualize the Dataset  
 
 Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest average count of special education students: 
 
@@ -1097,7 +1092,7 @@ high_count %>%
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
 
-## Model the Dataset 
+### Model the Dataset 
 
 When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction*, Kieran Healy (2019) teaches us that 
 
@@ -1107,7 +1102,7 @@ What are some ways we can combat these errors of perception and at the same time
 
 In this example, we'll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we'll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.
 
-### Do we have enough information for our model?
+#### Do we have enough information for our model?
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere bewteen the values of 250,000 and 1,750,000: 
 
@@ -1151,14 +1146,14 @@ child_counts %>%
 
 ```
 ## # A tibble: 6 x 5
-##   year       state                              age                f      m
-##   <date>     <chr>                              <chr>          <dbl>  <dbl>
-## 1 2012-01-01 us, outlying areas, and freely as… Total, Age … 1933619 3.89e6
-## 2 2013-01-01 us, outlying areas, and freely as… Total, Age … 1937726 3.88e6
-## 3 2014-01-01 us, outlying areas, and freely as… Total, Age … 1965204 3.92e6
-## 4 2015-01-01 us, outlying areas, and freely as… Total, Age … 2007174 3.98e6
-## 5 2016-01-01 us, outlying areas, and freely as… Total, Age … 2014120 3.97e6
-## 6 2017-01-01 us, outlying areas, and freely as… Total, Age … 2051438 4.02e6
+##   year       state                                  age                 f      m
+##   <date>     <chr>                                  <chr>           <dbl>  <dbl>
+## 1 2012-01-01 us, outlying areas, and freely associ… Total, Age 6… 1933619 3.89e6
+## 2 2013-01-01 us, outlying areas, and freely associ… Total, Age 6… 1937726 3.88e6
+## 3 2014-01-01 us, outlying areas, and freely associ… Total, Age 6… 1965204 3.92e6
+## 4 2015-01-01 us, outlying areas, and freely associ… Total, Age 6… 2007174 3.98e6
+## 5 2016-01-01 us, outlying areas, and freely associ… Total, Age 6… 2014120 3.97e6
+## 6 2017-01-01 us, outlying areas, and freely associ… Total, Age 6… 2051438 4.02e6
 ```
 
 This is where we discover that each of the data points in the upper right hand corner of the plot are from the state value "us, us, outlying areas, and freely associated states". If we remove these outliers, we have a distribution of female students that looks more complete.
@@ -1183,7 +1178,7 @@ child_counts %>%
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
-### Male to Female Ratio Over Time
+#### Male to Female Ratio Over Time
 
 Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?
 
@@ -1312,20 +1307,13 @@ model_data %>%
 ```
 
 ```
-##    year       state                 f                m         
-##  2012:59   Length:59          Min.   :   208   Min.   :   443  
-##  2013: 0   Class :character   1st Qu.:  5606   1st Qu.: 11467  
-##  2014: 0   Mode  :character   Median : 22350   Median : 44110  
-##  2015: 0                      Mean   : 32773   Mean   : 65934  
-##  2016: 0                      3rd Qu.: 38552   3rd Qu.: 77950  
-##  2017: 0                      Max.   :198595   Max.   :414466  
-##      ratio      
-##  Min.   :1.710  
-##  1st Qu.:1.927  
-##  Median :1.994  
-##  Mean   :2.034  
-##  3rd Qu.:2.093  
-##  Max.   :2.692
+##    year       state                 f                m              ratio      
+##  2012:59   Length:59          Min.   :   208   Min.   :   443   Min.   :1.710  
+##  2013: 0   Class :character   1st Qu.:  5606   1st Qu.: 11467   1st Qu.:1.927  
+##  2014: 0   Mode  :character   Median : 22350   Median : 44110   Median :1.994  
+##  2015: 0                      Mean   : 32773   Mean   : 65934   Mean   :2.034  
+##  2016: 0                      3rd Qu.: 38552   3rd Qu.: 77950   3rd Qu.:2.093  
+##  2017: 0                      Max.   :198595   Max.   :414466   Max.   :2.692
 ```
 
 The mean value of the `ratio` column when the `year` column is 2012 is 2.034, just like in the model output's intercept row.
@@ -1377,7 +1365,7 @@ model_data %>%
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
-# Aggregate Data as Context for Student Data 
+## Aggregate Data as Context for Student Data 
 
 Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that an education data scientist would typically do. 
 
@@ -1401,16 +1389,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              91
-##  2 b       l               6
-##  3 c       m              69
-##  4 d       n              28
-##  5 e       o              56
-##  6 f       k              57
-##  7 g       l              87
-##  8 h       m              29
-##  9 i       n              36
-## 10 j       o              74
+##  1 a       k              87
+##  2 b       l              65
+##  3 c       m              59
+##  4 d       n              22
+##  5 e       o              72
+##  6 f       k               0
+##  7 g       l              62
+##  8 h       m              36
+##  9 i       n              54
+## 10 j       o              46
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1431,11 +1419,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            79  
-## 2 l            53.5
-## 3 m            14  
-## 4 n            92  
-## 5 o            63.5
+## 1 k            18.5
+## 2 l            38.5
+## 3 m            70.5
+## 4 n            48.5
+## 5 o            84.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
@@ -1454,7 +1442,7 @@ Taking a cue from Daniel Kahneman, we should also ask what this pattern looks li
 
 So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when an MOU for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 
 
-# References 
+## References 
 
 Wickham, H. (2014). Tidy data. *Journal of Statistical Software*, 59(10).  Retrieved from [https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)
 

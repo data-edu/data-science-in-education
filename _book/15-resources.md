@@ -1,16 +1,22 @@
-# Data science courses
+# Additional Resources 
+
+## Data science courses
 
 [Data science for social scientists](http://datascience.tntlab.org/) by Landers (2019)
 
 [University of Oregon Data Science Specialization for the College of Education](https://github.com/uo-datasci-specialization) by Anderson (2019)
 
-# Education resources 
+## R workshops 
+
+[Workshop on using R at the Association for Educational Communications and Technology](https://github.com/bretsw/aect19-workshop)
+
+## Education resources 
 
 Bryk et al (2015). *Learning to improve: How America's schools can get better at getting better*. Cambridge, MA: Harvard Education Press. 
 
 Penuel et al (2016, April). *Findings from a national study on research use among school and district leaders*. Retrieved from [http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf](http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf). A survey of 733 school principals and district leaders within US mid-sized and large school districts, focused on how educational leaders use research to inform their decision-making.
 
-# Data visualization 
+## Data visualization 
 
 Tufte, E. (2006). *Beautiful evidence*. Cheshire, CT: Graphics Press LLC. 
 
@@ -18,7 +24,7 @@ Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ:
 
 Chang, W. (2013). *R graphics cookbook*. Sebastopol, CA: O'Reilly.
 
-# Programming with R
+## Programming with R
 
 Wickham, H. & Grolemund, G. (2017). *R for data science*. Sebastopol, CA: O'Reilly.
 
@@ -28,33 +34,87 @@ Bryan, J. & Hestor, J. *Happy git and github for the useR*. Retrieved from [http
 
 Hill, A. (2017). *Big magic with R: Creating learning beyond fear*. Retrieved from [https://speakerdeck.com/apreshill/big-magic-with-r-creative-learning-beyond-fear](https://speakerdeck.com/apreshill/big-magic-with-r-creative-learning-beyond-fear)
 
-# Package vignettes
+## Package vignettes and descriptions of packages
 
 *Introduction to dplyr*. Retreived from [https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
 
 *A short introduction to the caret package*. Retrieved from [https://cran.r-project.org/web/packages/caret/vignettes/caret.html]([https://cran.r-project.org/web/packages/caret/vignettes/caret.html)
 
-# Statistics 
+*tidy data*. Retrieved from [https://tidyr.tidyverse.org/articles/tidy-data.html](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
-James et al (2015). *An introduction to statistical learning with applications in R*. New York, NY: Springer.
+Wickham et al. (2019). *Welcome to the Tidyverse*. Journal of Open Source Software, 4(43). 1686-1691. https://joss.theoj.org/papers/10.21105/joss.01686
+
+## Statistics 
+
+### Introductory
 
 Bruce, P. & Bruce, A. (2017). *Practical statistics for data scientists*. Sebastopol, CA: O'Reilly.
 
-# Places to share your work
+Navarro, D. (2019). *Learning Statistics With R*. https://learningstatisticswithr.com/
+
+Field, A., Miles, J., & Field, Z. (2012). *Discovering statistics using R*. Sage publications.
+
+Ismay, C., & Kim, A. Y. (2019). *ModernDice: Statistical inference via data science.* CRC Press. https://moderndive.com/
+
+James, G., Witten, D., Hastie, T., & Tibshirani, R. (2015). *An introduction to statistical learning with applications in R*. New York, NY: Springer. 
+
+Peng, R. D. (2019). *R programming for data science*. Leanpub. https://leanpub.com/rprogramming
+
+Peng, R. D., & Matsui, E. (2018). *The art of data science*. Leanpub. https://leanpub.com/artofdatascience
+
+### Advanced
+
+Gelman, A., & Hill, J. (2006). *Data analysis using regression and multilevel/hierarchical models*. Cambridge University Press.
+
+Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The elements of statistical learning: data mining, inference, and prediction*. Springer Science & Business Media.
+
+West, B. T., Welch, K. B., & Galecki, A. T. (2014). Linear mixed models: a practical guide using statistical software. Chapman and Hall/CRC.
+
+McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC. [see also https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/]
+
+## Software and R Packages
+
+Peng, R. D. (2019). *Mastering software development in R*. Leanpub. https://leanpub.com/msdr
+
+Wickham, H. (2015). *R packages: Organize, test, document, and share your code*. O'Reilly. http://r-pkgs.had.co.nz/
+
+## A career in data science
+
+Robinson, E., & Nolis, J. (2020). *Building a career in data science*. Manning.  https://www.manning.com/books/build-a-career-in-data-science?a_aid=buildcareer&a_bid=76784b6a
+
+## Places to share your work
 
 Twitter: [twitter.com](twitter.com)
+- Especially through the hashtags we mentioned below
 
 LinkedIn: [linkedin.com](linkedin.com)
+<-- !Say more here about how to share here? -->
 
 Medium : [medium.com](medium.com)
+<-- !Say more here about how to share here? -->
 
-# Learning communities
+## Help forums
+
+ - *RStudio community*. Retrieved from [https://community.rstudio.com](https://community.rstudio.com) 
+ 
+- *Stack Overflow*. Retrieved from http://stackoverflow.com/
+
+## Cheat Sheets
+
+R Studio Cheat Sheets. https://rstudio.com/resources/cheatsheets/
+
+- see especially the dplyr, tidyr, purrr, ggplot2, and other cheat sheets
+
+## Learning communities
 
 Here some online communities and community resources we recommend: 
 
  - #rstats
  - #tidyverse
  - #RLadies
- - *RStudio community*. Retrieved from [https://community.rstudio.com](https://community.rstudio.com) 
+ - #tidytuesday
+ 
+ Here are two resources by co-author Mostipak related to the #r4ds community (from which #tidytuesday came):
+ 
  - Mostipak, J. (2017). *R4DS: the next iteration*. Retrieved from[https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82](https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82)
- - Mostipak, J. (2019). *R4DS online learning community Improvements to self-taught data science & the critical need for diversity, equity, and inclusion*. Retrieved from [https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education](https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education) RStudio::conf 2019.
+ - Mostipak, J. (2019). *R4DS online learning community Improvements to self-taught data science & the critical need for diversity, equity, and inclusion*. Retrieved from [https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education](https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education)

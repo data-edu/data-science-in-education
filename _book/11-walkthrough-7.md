@@ -1,31 +1,50 @@
-# Walkthrough 7: Title Here
+# Text Analysis of Tweets
 
-# Introduction 
+## Vocabulary 
 
-One of the great features of doing data science with programming is the flexibility of data sources. So far we've analyzed data in CSV files, but that's not the only place data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+tokenize 
+token 
+RDS files 
+anti_join 
+set.seed
+slice
+sample
+stop words
 
-When we think about data science in education, our mind tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
+## Introduction
 
-Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
 
-In this chapter we'll learn by using a dataset of tweets. We encourage you to complete the walkthrough, then reflect on how the skills learned can be applied to other texts, like word processing documents or websites.  
+When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
-# About Our Text Dataset 
-It's useful to learn these techniques from text datasets that are widely available. We hope that when you've completed this walkthrough, you will download more tweet datasets and continue to sharpen your text analysis skills. 
+Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
-Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets are available. Since there's so much, it's useful to narrow the tweets to a dataset that can help you answer your analytic questions. Hashtags text within a tweet that act as way to categorize content. Here's an example: 
+Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
+
+Using text analysis can help to broadly estimate what is happening in the text. When paired with observations, interviews, and close review of the text, this approach can help education staff learn from text data. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
+
+We'll show these techniques using a dataset of tweets. We encourage you to complete the walkthrough, then reflect on how the skills learned can be applied to other texts, like word processing documents or websites.  
+
+## About Our Text Dataset 
+
+It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
 >RT @CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
 
 Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#RStats" and "#Stata" make this tweet conveniently searchable. If Twitter uses search for "#RStats", Twitter returns all the Tweets containing that hashtag.
 
-In this example, we'll be analyzing a dataset of tweets. These tweets have the hashtag [#tidytuesday](https://twitter.com/hashtag/tidytuesday), which returns tweets about the tidytuesday ritual, where folks learning R create and upload data visualizations they made while learning to use tidyverse R packages. 
+In this example, we'll be analyzing a dataset of tweets that have the hashtag [#tidytuesday](https://twitter.com/hashtag/tidytuesday). This hashtag returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
 
-You can view the dataset here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=8743918
+You can view the TidyTuesday tweets dataset here: [https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds](https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds)
 
-# Reading In the Data 
+## Reading the data 
 
-We'll need to get the data into our computer and then into R before we can start analyzing it. For this analysis, we'll be using the `tidyverse` and `here` packages. 
+Let's start by getting the data into our programming environment so we can start analyzing it. For this analysis, we'll be using the `tidyverse`, `here`, and `dataedu` packages. Just a reminder, if you haven't already installed the `dataedu` package, you can do so by typing this code: 
+
+
+```r
+devtools::install_github("data-edu/dataedu")
+```
 
 
 ```r
@@ -33,7 +52,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ──────────────
 ```
 
 ```
@@ -44,7 +63,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
@@ -57,166 +76,167 @@ library(here)
 ## here() starts at /Users/shortessay/data-science-in-education
 ```
 
-
 ```r
-# URL for walkthrough dataset
-url <- "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjwBh9-W3VZgHWWuM2NTsruuN1viqdS7oYXN6Q2Ztu-8-IxFjLtLEWCBoQzvzXcp2ddnwgCj_M3JEZ/pub?gid=400689247&single=true&output=csv"
-
-# Download tweet dataset
-download.file(url, destfile = here::here("11-walkthrough-7-data", "tweet-data.csv"))
+library(dataedu)
 ```
 
-There are other ways to get data for a text analyis. You can go to Google Docs and download it directly. To manually download the file, navigate to the data (here: https://docs.google.com/spreadsheets/d/1PdCTF__SIdycIHx1SV5aZjjDIqUdBjITsPLW5yyxwq4/edit#gid=400689247) and then navigate to the **Archive** tab, and then click *File* -> *Download* -> *Comma-separated values* (or *Microsoft Excel*). If you want to collect data under a different hashtag in the future, you can explore services like [TAGS](https://tags.hawksey.info/) to automate that process.
-
-# Reading the data 
-
-Next, you will need to read the data into R. Depending on how you accessed the data, there are a number of ways to do this.
-
-*If* you downloaded the file directly via R (option 1, above), then you can read the data using the same file name (saved to `file_name`) you used above.
-
-Either type the same file name, in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below (or use `file_name` directly and try to figure out what's happening!):
+We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 
 ```r
-d <- read_csv("data/tweet-data.csv")
+raw_tweets <- tt_tweets
 ```
 
-```
-## Parsed with column specification:
-## cols(
-##   id_str = col_double(),
-##   from_user = col_character(),
-##   text = col_character(),
-##   created_at = col_character(),
-##   time = col_character(),
-##   geo_coordinates = col_logical(),
-##   user_lang = col_logical(),
-##   in_reply_to_user_id_str = col_double(),
-##   in_reply_to_screen_name = col_character(),
-##   from_user_id_str = col_double(),
-##   in_reply_to_status_id_str = col_double(),
-##   source = col_character(),
-##   profile_image_url = col_character(),
-##   user_followers_count = col_double(),
-##   user_friends_count = col_double(),
-##   user_location = col_character(),
-##   status_url = col_character(),
-##   entities_str = col_character()
-## )
-```
+Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse` or `str` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
 
-```r
-# Look at structure of the dataset 
-glimpse(d)
-```
+## Cleaning the data for the analysis
 
-```
-## Observations: 233
-## Variables: 18
-## $ id_str                    <dbl> 1.186400e+18, 1.186395e+18, 1.186390e+…
-## $ from_user                 <chr> "Katelenert", "rebeccamclark87", "Zhon…
-## $ text                      <chr> "#aect19 https://t.co/1zt9YaUz4W", "Oh…
-## $ created_at                <chr> "Mon Oct 21 21:51:45 +0000 2019", "Mon…
-## $ time                      <chr> "21/10/2019 22:51:45", "21/10/2019 22:…
-## $ geo_coordinates           <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ user_lang                 <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ in_reply_to_user_id_str   <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ in_reply_to_screen_name   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ from_user_id_str          <dbl> 1243927524, 2786357411, 1664133686, 12…
-## $ in_reply_to_status_id_str <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ source                    <chr> "<a href=\"http://twitter.com/download…
-## $ profile_image_url         <chr> "http://pbs.twimg.com/profile_images/6…
-## $ user_followers_count      <dbl> 232, 54, 83, 1199, 3089, 1618, 3089, 3…
-## $ user_friends_count        <dbl> 560, 105, 426, 538, 171, 1205, 171, 17…
-## $ user_location             <chr> "Charleston, South Carolina", "Blacksb…
-## $ status_url                <chr> "http://twitter.com/Katelenert/statuse…
-## $ entities_str              <chr> "{\"hashtags\":[{\"text\":\"aect19\",\…
-```
+In this section we'll select the columns we need for our analysis and we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring. 
 
-*If* you manually downloaded the file (and saved it to the directory you are working in), then it may be helpful to rename the file. Consider naming the file something easy to understand and to type. Then, read the data by typing the file name in quotation marks (e.g., "my_file_name.csv") within the parentheses of `read_csv()` below. 
-
-Note: another option is to use click the name of the file in your 'Files' window and then to click 'Import Dataset'; it is important to copy the code that that wizard generates into a script so that you can re-run your analyses.
-
-If you haven't already, be sure to type `d` into the console (or to run the chunk above) to see what the data looks like. If something doesn't look right, consider what might have gone wrong (when accessing, renaming, or reading the data).
-
-# Preparing the data for the analysis
-
-Text data can be stored a number of ways. We will focus on a common data structure, a document-term matrix. 
-
-The idea that is essential for understanding a document-term matrix is that it is simply a data frame with every term across every document comprising the columns, and every document being represented with each row. 
-
-We will use the **quanteda** R package to create a document term matrix. To do so, we will use the `tokens()` function, which takes as a first argument the column of a data frame with text. An easy way to do this is via the `pull()` function, which returns just one column from a data frame. Pass to `pull()` the name of your data frame and the name of the column `text`, e.g., `pull(my_data_frame, text)`, directly to the tokens function.
+First, let's use `select` to pick the two columns we'll need: `status_id` and `text`. `status_id` will help us associate interesting words with a particular tweet and `text` will give us the text from that tweet. We'll also change `status_id` to the character data type since it's meant to label tweets and doesn't actually represent a numerical value. 
 
 
 ```r
-tweets <- d %>% 
-    select(id_str, text) %>% 
+tweets <- raw_tweets %>% 
+  #filter for English tweets
+  filter(lang == "en") %>%  
+  select(status_id, text) %>% 
     # Convert the ID field to the character data type
-    mutate(id_str = as.character(id_str))
+    mutate(status_id = as.character(status_id))
 ```
+
+Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing." In their book *Text Mining With R*, Julia Silge and David Robinson describe tokens this way: 
+
+>A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
+
+The `tidytext` package has a convenient function called `unnest_tokens` that tokenizes vectors of words. Let's install the `tidytext` package so we can use it: 
 
 
 ```r
 install.packages("tidytext")
 ```
 
+Let's use `unnest_tokens` to take our dataset of tweets and transform it into a dataset of words. 
+
 
 ```r
 library(tidytext)
 
 tokens <- tweets %>% 
-    unnest_tokens(word, text)
+    unnest_tokens(output = word, input = text) 
+
+tokens 
 ```
+
+```
+## # A tibble: 131,233 x 2
+##    status_id           word       
+##    <chr>               <chr>      
+##  1 1163154266065735680 first      
+##  2 1163154266065735680 tidytuesday
+##  3 1163154266065735680 submission 
+##  4 1163154266065735680 roman      
+##  5 1163154266065735680 emperors   
+##  6 1163154266065735680 and        
+##  7 1163154266065735680 their      
+##  8 1163154266065735680 rise       
+##  9 1163154266065735680 to         
+## 10 1163154266065735680 power      
+## # … with 131,223 more rows
+```
+
+We use `output = word` to tell `unnest_tokens` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens` to tokenize the tweets in the `text` column of our `tweets` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `status_id` column that tells us which tweet the word appears in. 
+
+Notice that our `tokens` dataset has many more rows than our `tweets` dataset. This tells us a lot about how `unnest_tokens` works. In the `tweets` dataset, each row has an entire tweet and its unique ID. Since that unique ID is assigned to the entire tweet, each unique ID only appears once in the dataset. When we used `unnest_tokens` put each word on its own row, we broke each tweet into many words. This created additional rows in the dataset. And since each word in a single tweet shares the same ID for that tweet, an ID now appears multiple times in our new dataset. 
+
+We're almost ready to start analyzing the dataset! There's one more step we'll take--removing common words that don't help us learn about what people are tweeting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The `tidytext` package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join` on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. 
 
 
 ```r
 data(stop_words)
 
 tokens <- tokens %>%
-  anti_join(stop_words)
+  anti_join(stop_words, by = "word")
 ```
 
-```
-## Joining, by = "word"
-```
+Why does this work? Let's look closer. `inner_join` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join` does the same thing as `inner_join` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
 
-# Counting words 
+One final note before we start counting words: Remember when we first tokenized our dataset and we passed `unnest_tokens` the argument `output = word`? We conveniently chose `word` as our column name because it matches the column name `word` in the `stop_words` dataset. This makes our call to `anti_join` simpler because `anti_join` knows to look for the column named `word` in each dataset. 
 
-Though a basic step, assessing the most frequent terms can be powerful. The `topfeatures()` function can be helpful for this; simply pass `my_dfm` as the first argument to it to see the results.
+## Counting words 
+
+Now it's time to start exploring our newly cleaned dataset of tweets. Computing the frequency of each word and seeing which words showed up the most often is a good start. We can pipe `tokens` to the `count` function to do this: 
 
 
 ```r
 tokens %>% 
-    count(word, sort = TRUE)
+    count(word, sort = TRUE) 
 ```
 
 ```
-## # A tibble: 892 x 2
-##    word               n
-##    <chr>          <int>
-##  1 https            256
-##  2 t.co             256
-##  3 aect19           234
-##  4 rt               108
-##  5 aect19inspired    85
-##  6 aect              84
-##  7 week              32
-##  8 vegas             31
-##  9 conference        29
-## 10 session           29
-## # … with 882 more rows
+## # A tibble: 15,335 x 2
+##    word            n
+##    <chr>       <int>
+##  1 t.co         5432
+##  2 https        5406
+##  3 tidytuesday  4316
+##  4 rstats       1748
+##  5 data         1105
+##  6 code          988
+##  7 week          868
+##  8 r4ds          675
+##  9 dataviz       607
+## 10 time          494
+## # … with 15,325 more rows
 ```
 
-Can you change the number of terms that are returned (hint: check `?topfeatures`)? Are the results interpretable? If not, what changes can you make (either through what you pass to `tokens()` or `dfm()`) to improve the output?
+We pass `count` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
 
-# Sentiment analysis
+We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
+
+In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
+
+
+```r
+tokens %>% 
+  count(word, sort = TRUE) %>% 
+  # n as a percent of total words
+  mutate(percent = n / sum(n) * 100)
+```
+
+```
+## # A tibble: 15,335 x 3
+##    word            n percent
+##    <chr>       <int>   <dbl>
+##  1 t.co         5432   7.39 
+##  2 https        5406   7.36 
+##  3 tidytuesday  4316   5.87 
+##  4 rstats       1748   2.38 
+##  5 data         1105   1.50 
+##  6 code          988   1.34 
+##  7 week          868   1.18 
+##  8 r4ds          675   0.919
+##  9 dataviz       607   0.826
+## 10 time          494   0.672
+## # … with 15,325 more rows
+```
+
+Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
+
+## Sentiment analysis
+
+Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
+
+We'll need to use a technique called sentiment analysis to get at the "positivity" of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
+
+The functions we'll be using for our sentiment analysis are in a package called `textdata`. Let's start by installing that. 
 
 
 ```r
 install.packages("textdata")
 ```
 
-NRC is a dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). 
+Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment: 
 
 
 ```r
@@ -240,126 +260,287 @@ get_sentiments("nrc")
 ## # … with 13,891 more rows
 ```
 
-## Tweets associated with positive 
+This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
+
+### Tweets associated with positive 
+
+Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count` to total up the appearances of each positive word. 
 
 
 ```r
+# Only positive in the NRC dataset
 nrc_pos <- get_sentiments("nrc") %>% 
   filter(sentiment == "positive")
 
-pos_tweets <- tokens %>%
-  inner_join(nrc_pos) %>%
-  count(word, sort = TRUE)
+# Match to tokens
+pos_tokens_count <- tokens %>%
+  inner_join(nrc_pos, by = "word") %>%
+  # Total appearance of positive words
+  count(word, sort = TRUE) 
+
+pos_tokens_count
 ```
 
 ```
-## Joining, by = "word"
+## # A tibble: 644 x 2
+##    word          n
+##    <chr>     <int>
+##  1 fun         173
+##  2 top         162
+##  3 learn       131
+##  4 found       128
+##  5 love        113
+##  6 community   110
+##  7 learning     97
+##  8 happy        95
+##  9 share        90
+## 10 inspired     85
+## # … with 634 more rows
 ```
+
+We can visualize this words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
 
 ```r
-pos_tweets %>% 
-    filter(n >= 10) %>%
+pos_tokens_count %>% 
+    filter(n >= 75) %>%
     ggplot(., aes(x = reorder(word, -n), y = n)) + 
     geom_bar(stat = "identity") + 
-    labs(title = "Count of words associated with positive", 
-         subtitle = "Tweets with the hashtag AECT19", 
+    labs(title = "Count of words associated with positivity", 
+         subtitle = "Tweets with the hashtag #tidytuesday", 
+         caption = "Data: Twitter and NRC", 
          x = "", 
          y = "Count")
 ```
 
 <img src="11-walkthrough-7_files/figure-html/visualize positive-1.png" width="672" />
 
-Note the use of `reorder` when mapping the `word` variable to the x aesthetic. 
+Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
-## Tweets associated with negative
+### TidyTuesday and other positive words 
 
+Earlier in the analysis we learned that "dataviz" was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
 
-```r
-nrc_neg <- get_sentiments("nrc") %>% 
-  filter(sentiment == "negative")
+There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `status_id` field in the `tweets` dataset to filter the tweets that have the word `dataviz` in them. Then we need to use the `statis_id` field in this new bunch of `dataviz` tweets to identify the tweets that include at least one positive word. 
 
-neg_tweets <- tokens %>%
-  inner_join(nrc_neg) %>%
-  count(word, sort = TRUE)
-```
+How do we know which `status_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter` and `inner_join` to make two new datasets: one of `status_id` values that have "dataviz" in the `word` column and one of `status_id` values that have a positive word in the `word` column. 
 
-```
-## Joining, by = "word"
-```
+We'll explore the combinations of "dataviz" and any positive words in our `tweets` dataset using these three ingredients: our `tweets` dataset, a vector of `status_id`s for tweets that have "dataviz" in them, and a vector of `status_id`s for tweets that have positive words in them. Now that we have our strategy, let's write some code and see how it works. 
+
+First, we'll make a vector of `status_id`s for tweets that have "dataviz" in them. This will be used later to identify tweets that contain "dataviz" in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
 
 
 ```r
-neg_tweets %>% 
-    filter(n >= 2) %>%
-    ggplot(., aes(x = reorder(word, -n), y = n)) + 
-    geom_bar(stat = "identity") + 
-    labs(title = "Count of words associated with negative", 
-         subtitle = "Tweets with the hashtag AECT19", 
-         x = "", 
-         y = "Count")
+dv_tokens <- tokens %>% 
+  filter(word == "dataviz")
+
+dv_tokens
 ```
 
-<img src="11-walkthrough-7_files/figure-html/visualize negative-1.png" width="672" />
+```
+## # A tibble: 607 x 2
+##    status_id           word   
+##    <chr>               <chr>  
+##  1 1116518351147360257 dataviz
+##  2 1098025772554612738 dataviz
+##  3 1161454327296339968 dataviz
+##  4 1110711892086001665 dataviz
+##  5 1151926405162291200 dataviz
+##  6 1095854400004853765 dataviz
+##  7 1157111441419395074 dataviz
+##  8 1154958378764046336 dataviz
+##  9 1105642831413239808 dataviz
+## 10 1108196618464047105 dataviz
+## # … with 597 more rows
+```
 
-It's important to not draw conclusions on this data alone. The point of exploratory data analysis is to explore and generate hypotheses. 
-
-You can randomly select tweets with positive and negative words to read through and establish context for the visualizations. 
-
-## Random review of tweets 
+The result is a dataset that has status_ids in one column and the word "dataviz" in the other column. We can use `$` to extract a vector of status_ids for tweets that have "dataviz" in the text. This vector has 607 values, so we'll use `head` to view just the first ten. 
 
 
 ```r
-library(stringr)
-
-# Custom function 
- detect_pos <- function(s) {
-  sum(stringr::str_detect(s, fixed(pos_tweets$word, ignore_case = TRUE))) > 0
-}
+# Extract status_id
+head(dv_tokens$status_id)
 ```
+
+```
+## [1] "1116518351147360257" "1098025772554612738" "1161454327296339968"
+## [4] "1110711892086001665" "1151926405162291200" "1095854400004853765"
+```
+
+Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
 
 
 ```r
-tweets_pos <- tweets %>% 
-  mutate(pos_words = text %>% map_lgl(detect_pos)) 
+pos_tokens <- tokens %>% 
+  filter(word %in% nrc_pos$word)
+pos_tokens
 ```
 
-We'll use `slice`.  
+```
+## # A tibble: 4,925 x 2
+##    status_id           word      
+##    <chr>               <chr>     
+##  1 1163154266065735680 throne    
+##  2 1001412196247666688 honey     
+##  3 1001412196247666688 production
+##  4 1001412196247666688 increase  
+##  5 1001412196247666688 production
+##  6 1161638973808287746 found     
+##  7 991073965899644928  community 
+##  8 991073965899644928  community 
+##  9 991073965899644928  trend     
+## 10 991073965899644928  white     
+## # … with 4,915 more rows
+```
+
+The result is a dataset that has status_ids in one column and a positive word from `tokens` in the other column. We'll again use `$` to extract a vector of status_ids for these tweets. 
+
+
+```r
+# Extract status_id
+head(pos_tokens$status_id) 
+```
+
+```
+## [1] "1163154266065735680" "1001412196247666688" "1001412196247666688"
+## [4] "1001412196247666688" "1001412196247666688" "1161638973808287746"
+```
+
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `unique`. `unique` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `unique` takes that bucket of 100 pieces and returns a vector where each element is the name of a candy brand. So we can use `unique` to get a vector of `status_id`s, where each `status_id` only appears once: 
+
+
+```r
+unique(dv_tokens$status_id)
+```
+
+Now we have a vector of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
+
+
+```r
+dv_pos <- tweets %>% 
+  # Only tweets that have the dataviz status_id
+  filter(status_id %in% unique(dv_tokens$status_id)) %>% 
+  # Is the status_id from our vector of positive word?
+  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) 
+```
+
+Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
+
+ - `status_id %in% unique(pos_tokens$status_id)`: a logical statement
+ - `1`: the value of `positive` if the logical statement is true
+ - `0`: the value of `positive` if the logical statement is false 
+
+So our new `positive` column will take the value 1 if the `status_id` was in our `pos_tokens` dataset and the value 0 if the `status_id` was not in our `pos_tokens` dataset. Practically speaking, `positive` is 1 if the tweet has a positive word and 0 if it does not have a positive word. 
+
+And finally, let's see what percent of tweets that had "dataviz" in them also had at least one positive word: 
+
+
+```r
+dv_pos %>% 
+  count(positive) %>% 
+  mutate(perc = n / sum(n)) 
+```
+
+```
+## # A tibble: 2 x 3
+##   positive     n  perc
+##      <dbl> <int> <dbl>
+## 1        0   272 0.450
+## 2        1   333 0.550
+```
+
+About 55 percent of tweets that have "dataviz" in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 45 percent of the "dataviz" tweets. We can't know precisely why some tweets had positive words and some didn't, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words. 
+
+Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of tweets for context.
+
+### Close read of randomly selected tweets 
+
+Let's review where we are so far as we work to learn more about the TidyTuesday learning community through tweets. So far we've counted frequently used words and estimated the number of tweets with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it's also useful to explore by zooming in and reading some of the tweets. Reading tweets helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn't lead to quantitative findings, it helps us to learn more about the content we're studying and analyzing. Instead of reading all 4418 tweets, let's write some code to randomly select tweets to review. 
+
+First, let's make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had "dataviz" and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let's resuse that technique, but instead of applying to a dataset of tweets containing "dataviz", let's use it on our dataset of all tweets. 
+
+
+```r
+pos_tweets <- tweets %>% 
+  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) %>% 
+  filter(positive == 1)
+```
+
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+
+We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
+
+
+```r
+tweets %>% 
+  slice(1, 3)
+```
+
+```
+## # A tibble: 2 x 2
+##   status_id         text                                                        
+##   <chr>             <chr>                                                       
+## 1 1163154266065735… First #TidyTuesday submission! Roman emperors and their ris…
+## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
+```
+
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+
+We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
+
+
+```r
+tweets %>% 
+  slice(1, 3)
+```
+
+```
+## # A tibble: 2 x 2
+##   status_id         text                                                        
+##   <chr>             <chr>                                                       
+## 1 1163154266065735… First #TidyTuesday submission! Roman emperors and their ris…
+## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
+```
+
+Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
 
 
 ```r
 set.seed(369) 
 
-tweets_pos %>% 
-  filter(pos_words == TRUE) %>% 
-  slice(., sample(1:nrow(.), 10))
+pos_tweets %>% 
+  slice(., sample(x = 1:nrow(.), size = 10))
 ```
 
 ```
 ## # A tibble: 10 x 3
-##    id_str          text                                           pos_words
-##    <chr>           <chr>                                          <lgl>    
-##  1 11855320962799… Ready and headed to #aect19 in Las Vegas toda… TRUE     
-##  2 11842743774344… Ugh. Just don’t. #aect19 #notinspired https:/… TRUE     
-##  3 11851827012943… "Just added a \"Name that Scholar!\" forum to… TRUE     
-##  4 11842726905485… RT @tadousay: Y'all! 😍 I've been prepping to … TRUE     
-##  5 11863288409827… How do you ensure that your #syllabus is a pr… TRUE     
-##  6 11863945099674… Oh look out everyone! I can make cool things … TRUE     
-##  7 11863201162894… RT @PaulineMuljana: #aect19 attendees, come a… TRUE     
-##  8 11842799251860… #aect19 starts in one week, time to get ready… TRUE     
-##  9 11863325581721… #inspiredme #aect19 https://t.co/mFujZEQvpH    TRUE     
-## 10 11853651581908… RT @pazureka: So many great #LearnerEngagemen… TRUE
+##    status_id        text                                                positive
+##    <chr>            <chr>                                                  <dbl>
+##  1 100038669024092… A few more maps, this time at the county level, fr…        1
+##  2 109913022775261… Unpivotr::behead() &amp; tidyxl can recognize inde…        1
+##  3 106138333884440… "First time working with maps in #ggplot2\nNothing…        1
+##  4 106757191930893… I explored data on bridges in Maryland for this we…        1
+##  5 106525318257251… I was trying to do some practice last night in R w…        1
+##  6 108770602257839… For my first #tidytuesday, I look at the distribut…        1
+##  7 108888393956397… In this week's #tidytuesday screencast, I analyze …        1
+##  8 105291401296128… "#TidyTuesday week 2. Took a look at the relations…        1
+##  9 989114304619302… @dylanjm_ds And let's not forget that the primary …        1
+## 10 996466149641482… Is there a way to combine specific values from a v…        1
 ```
 
-# Next steps 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used a function called `sample` that returns randomly selected numbers from a vector. We passed the argument `1:nrow(.)` to `sample`, which evaluates as any number between 1 and the number of rows in `pos_tweets`. We also specified that `size = 10`, which means we want sample to give us 10 randomly selected numbers from `1:nrow(.)`. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample` pick the same ten rows every time. Trying changing `369` to another number and notice how `sample` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
-The purpose of this walkthrough is to share code with you so you can practice some basic text analysis techniques. Now it's time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Here are some ideas: 
+## Next steps 
+
+The purpose of this walkthrough is to share code with you so you can practice some basic text analysis techniques. Now it's time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Trying reading in some of these and doing a similar analysis: 
 
  - News articles 
  - Procedure manuals  
  - Open ended responses in surveys  
- 
-# References 
+
+There are also advanced text analysis techniques to explore.  Consider trying [topic modeling](https://www.tidytextmining.com/topicmodeling.html) or [finding correlations between terms](https://www.tidytextmining.com/ngrams.html). Both of these are covered in Julia Silge's and David Robinson's book, *Text mining with R*.
+
+## References 
 
 Silge, J. & Robinson, D. (2017). Text mining with R. O'Reilly Media.  
 

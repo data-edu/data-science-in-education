@@ -69,7 +69,7 @@ These files are available on the [Nation's Report Card](https://www.nationsrepor
 
 
 ```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ──────────────
 ```
 
 ```
@@ -80,7 +80,7 @@ These files are available on the [Nation's Report Card](https://www.nationsrepor
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
