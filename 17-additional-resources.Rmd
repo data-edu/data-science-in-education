@@ -16,6 +16,8 @@ Bryk et al (2015). *Learning to improve: How America's schools can get better at
 
 Penuel et al (2016, April). *Findings from a national study on research use among school and district leaders*. Retrieved from [http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf](http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf). A survey of 733 school principals and district leaders within US mid-sized and large school districts, focused on how educational leaders use research to inform their decision-making.
 
+Geller et al (2019, October). *Education data done right: lessons from the trenches of applied data science*. Independently published. 
+
 ## Data visualization 
 
 Tufte, E. (2006). *Beautiful evidence*. Cheshire, CT: Graphics Press LLC. 
