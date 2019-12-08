@@ -114,7 +114,7 @@ tt_tweets
 ## #   profile_image_url <chr>
 ```
 
-# Preparing the data for the analysis
+## Preparing the data for the analysis
 
 Network data, in general, and network data from Twitter, particularly, requires some processing before it can be used in subsequent analyses. In particular, we are going to create an edgelist, a data structure that is especially helpful for understanding the nature of relationships. 
 
@@ -125,20 +125,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender                  receiver          
-##    <chr>                   <chr>             
-##  1 Davila Draper, Kaylisha Turner, Scott     
-##  2 Banks, Xavier           Labarrie, Crystal 
-##  3 Banks, Xavier           Collier, Huy      
-##  4 Rojas Briceno, Reno     Labarrie, Crystal 
-##  5 Rojas Briceno, Reno     Turner, Scott     
-##  6 Rojas Briceno, Reno     Gonzales, Preston 
-##  7 el-Mian, Azeema         Collier, Huy      
-##  8 el-Mian, Azeema         Castaneda, Mariana
-##  9 el-Mian, Azeema         Gonzales, Preston 
-## 10 Ratcliff, Keyaira       Owens, Justin     
-## 11 Mcfalls, Bryan          Collier, Huy      
-## 12 Mcfalls, Bryan          Owens, Justin
+##    sender             receiver        
+##    <chr>              <chr>           
+##  1 Turner, Darwyn     Tran, Surabhi   
+##  2 Smith, A Lea       Tryels, Tyamber 
+##  3 Smith, A Lea       Yazzie, Alicia  
+##  4 al-Amir, Inaaya    Tryels, Tyamber 
+##  5 al-Amir, Inaaya    Tran, Surabhi   
+##  6 al-Amir, Inaaya    Tree, Matthew   
+##  7 Tran, Jonel        Yazzie, Alicia  
+##  8 Tran, Jonel        Sechereh, Shaun 
+##  9 Tran, Jonel        Tree, Matthew   
+## 10 el-Elamin, Jumail  al-Shams, Atheer
+## 11 Miyauchi, Jonathan Yazzie, Alicia  
+## 12 Miyauchi, Jonathan al-Shams, Atheer
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -206,7 +206,7 @@ edgelist <- mentions %>%
   select(sender, receiver = all_mentions)
 ```
 
-# Plotting the network
+## Plotting the network
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the **tidygraph** and **ggraph** packages to visualize the data.
 
