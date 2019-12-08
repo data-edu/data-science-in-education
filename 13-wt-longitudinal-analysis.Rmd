@@ -38,8 +38,9 @@ Before doing that, you should explore one of the datasets to see what you can le
 
 ```{r read 2012 data, echo = FALSE}
 library(tidyverse)
+library(here)
 
-read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv")
+read_csv(here::here("data", "longitudinal_data", "bchildcountandedenvironments2012.csv"))
 ```
 
 The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actually rows. They're notes the authors left at the top of the dataset to show when the dataset was changed. 
@@ -49,7 +50,7 @@ The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actuall
 Try using `skip = 4` in your call to `read_csv`:
 
 ```{r read 2012 data with skip, echo = FALSE}
-read_csv("10a-walkthrough-6-data/bchildcountandedenvironments2012.csv", skip = 4)
+read_csv(here::here("data", "longitudinal_data", "bchildcountandedenvironments2012.csv"), skip = 4)
 ```
 
 The `skip` argument told `read_csv` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
@@ -73,7 +74,8 @@ Let's create the raw materials first. Our raw materials will be file paths to ea
 
 ```{r get filenames}
 # Get filenames from the data folder 
-filenames <- list.files(path = "10a-walkthrough-6-data", full.names = TRUE)
+filenames <- list.files(path = here::here("data", "longitudinal_data"), 
+                        full.names = TRUE)
 
 # A list of filenames and paths
 filenames
