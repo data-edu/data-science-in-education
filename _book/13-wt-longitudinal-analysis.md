@@ -33,7 +33,7 @@ Before doing that, you should explore one of the datasets to see what you can le
 
 
 ```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ──────────────
 ```
 
 ```
@@ -44,7 +44,7 @@ Before doing that, you should explore one of the datasets to see what you can le
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
@@ -1400,16 +1400,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              89
-##  2 b       l              77
-##  3 c       m              23
-##  4 d       n              10
-##  5 e       o             100
-##  6 f       k               3
-##  7 g       l              89
-##  8 h       m              40
-##  9 i       n              29
-## 10 j       o              70
+##  1 a       k              56
+##  2 b       l              54
+##  3 c       m               1
+##  4 d       n              78
+##  5 e       o              40
+##  6 f       k               5
+##  7 g       l              90
+##  8 h       m              37
+##  9 i       n              89
+## 10 j       o              75
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1430,11 +1430,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            49  
-## 2 l            46  
-## 3 m            65.5
-## 4 n            47.5
-## 5 o            21
+## 1 k            36.5
+## 2 l            42.5
+## 3 m            33  
+## 4 n            33.5
+## 5 o            43.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
