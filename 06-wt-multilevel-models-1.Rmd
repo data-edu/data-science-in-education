@@ -161,6 +161,20 @@ s12_pre_survey  <- s12_pre_survey  %>%
   mutate_at(vars(q1:q10), funs(as.numeric))
 ```
 
+Let's take a moment to discuss the `dplyr` function `mutate_at`. `mutate_at` is a version of `mutate`, which changes the values in an existing column or creates new columns. It's useful in education datasets because you'll often need to transform your data before analyzing it. Try this example, where we create a new `total_students` column by adding the number of `male` students and `female` students: 
+
+```{r}
+# Dataset of students
+df <- tibble(
+  male = 5, 
+  female = 5
+)
+
+df %>% mutate(total_students = male + female)
+```
+
+`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `s_12_pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
+
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
 the responses for all questions can be interpreted in the same way. Rather
 than write a lot of code once to reverse the scales for question 4 then
