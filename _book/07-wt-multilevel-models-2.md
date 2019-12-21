@@ -1,9 +1,6 @@
 # Walkthrough #1B
 
-This walkthrough accompanies walkthrough XXX, which focused on preparing the
-data and beginning to viusualize and model the data. Here, we focus on an
-extension of the models we ran, one focused on how to address the fact that
-students in our dataset shared classes.
+This walkthrough accompanies walkthrough XXX, which focused on preparing the data and beginning to viusualize and model the data. Here, we focus on an extension of the models we ran, one focused on how to address the fact that students in our dataset shared classes.
 
 As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
 students' performance in these online courses, focusing on the time spent in the 
@@ -36,7 +33,49 @@ library(tidyverse)
 ```
 
 ```r
-dat <- read_csv("data/online-science-motivation/processed/dat.csv")
+library(dummies)
+```
+
+```
+## dummies-1.5.6 provided by Decision Patterns
+```
+
+```r
+library(sjPlot)
+library(lme4)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## 
+## Attaching package: 'Matrix'
+```
+
+```
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+```
+
+```
+## 
+## Attaching package: 'lme4'
+```
+
+```
+## The following object is masked from 'package:dummies':
+## 
+##     dummy
+```
+
+```r
+library(performance)
+
+dat <- 
+  read_csv("data/online-science-motivation/processed/dat.csv")
 ```
 
 ```
@@ -141,15 +180,7 @@ returns *three* variables, one for each of the three levels of Species -
 
 
 ```r
-library(dummies)
-```
-
-```
-## dummies-1.5.6 provided by Decision Patterns
-```
-
-```r
-dummy(iris$Species) %>%
+dummies::dummy(iris$Species) %>%
   head()
 ```
 
@@ -263,7 +294,8 @@ and `subject` - as independent variables.
 
 
 ```r
-m_linear_dc <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+m_linear_dc <- 
+  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
 
 The output will be a bit, well, long, because each group will have its own
@@ -477,7 +509,8 @@ makes it easy to do this. This function allows us to re-order the levels within 
 
 
 ```r
-dat <- dat %>% 
+dat <-
+  dat %>%
   mutate(course_id = fct_relevel(course_id, "course_idPhysA-S116-01"))
 ```
 
@@ -492,7 +525,9 @@ or a predictor: every coefficient in this model is now in reference to it.
 ```r
 # Here we run a linear model again, predicting percentage earned in the course
 # The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
-m_linear_dc_1 <- lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+m_linear_dc_1 <- 
+  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+
 sjPlot::tab_model(m_linear_dc_1)
 ```
 
@@ -700,7 +735,9 @@ after the tilde, as follows:
 
 ```r
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
-m_linear_dc_2 <- lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
+m_linear_dc_2 <- 
+  lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
+
 sjPlot::tab_model(m_linear_dc_2)
 ```
 
@@ -968,37 +1005,8 @@ being a student in a class: the intercepts between groups vary.
 
 ```r
 # install.packages("lme4") # note that this only needs to be run one time, after which the package will be installed on your local computer
-library(lme4)
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## 
-## Attaching package: 'Matrix'
-```
-
-```
-## The following objects are masked from 'package:tidyr':
-## 
-##     expand, pack, unpack
-```
-
-```
-## 
-## Attaching package: 'lme4'
-```
-
-```
-## The following object is masked from 'package:dummies':
-## 
-##     dummy
-```
-
-```r
-m_course <- lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
+m_course <- 
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 ```
 
 ```
@@ -1088,8 +1096,7 @@ function in the **performance** package for doing this.
 
 ```r
 # install.packages("performance")
-library(performance)
-icc(m_course)
+performance::icc(m_course)
 ```
 
 ```
@@ -1117,8 +1124,8 @@ Bolker, & Walker, 2015).
 
 ```r
 # this model would specify a group effect for both the course nad school
-library(lme4)
-m_course_school <- lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
+m_course_school <- 
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
