@@ -6,37 +6,22 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 
 ## Background and Purpose
 
-In the 2015-2016 and 2016-2017 school years, researchers carried out a study on
-students' motivation to learn in online science classes. The online science
-classes were part of a statewide online course provider designed to supplement
-(and not replace) students' enrollment in their local school. For example,
-students may choose to enroll in an online physics class because one was not
-offered at their school (or they were not able to take it given their schedule).
+In the 2015-2016 and 2016-2017 school years, researchers carried out a study on students' motivation to learn in online science classes. The online science classes were part of a statewide online course provider designed to supplement(and not replace) students' enrollment in their local school. For example, students may choose to enroll in an online physics class because one was not offered at their school (or they were not able to take it given their schedule).
 
-The study involved a number of different data sources which were explored to
-understand students' motivation:
+The study involved a number of different data sources which were explored to understand students' motivation:
 
-1.  A self-report survey for three distinct but related aspects of students'
-motivation
+1.  A self-report survey for three distinct but related aspects of students' motivation
 2.  Log-trace data, such as data output from the learning management system
 3.  Discussion board data (not used in this walkthrough)
 4.  Achievement-related (i.e., final grade) data
 
-Our *purpose* for this walkthrough is to begin to understand what explains 
-students' performance in these online courses. To do so, we will focus on a 
-variable that was available through the learning management system used for the 
-courses, on he amount of time sudents' spent on the course. We will also explore 
-how different (science) subjects as well as being in a particular class may help
-to explain student performance.
+Our *purpose* for this walkthrough is to begin to understand what explains students' performance in these online courses. To do so, we will focus on a  variable that was available through the learning management system used for the courses, on he amount of time sudents' spent on the course. We will also explore how different (science) subjects as well as being in a particular class may help to explain student performance.
 
-First, these different data sources will be described in terms of how they were
-provided by the school.
+First, these different data sources will be described in terms of how they were provided by the school.
 
-### Data source #1: Self-report survey
+### Data Source #1: Self-report survey
 
-This was data collected before the start of the course via self-report survey.
-The survey included 10 items, each corresponding to one of three *measures*,
-namely, for interest, utility value, and perceived competence:
+This was data collected before the start of the course via self-report survey. The survey included 10 items, each corresponding to one of three *measures*, namely, for interest, utility value, and perceived competence:
 
 1.  I think this course is an interesting subject. (Interest)
 2.  What I am learning in this class is relevant to my life. (Utility value)
@@ -55,15 +40,8 @@ value)
 ### Data source #2: Log-trace data
 
 *Log-trace data* is data generated from our interactions with digital
-technologies, such as archived data from social media postings (see Chapter XXX
-and XXX). In education, an increasingly common source of log-trace data is that
-generated from interactions with learning management systems and other digital
-tools (Lazer et al., 2009; Salganik, 2018; Welser, Smith, Fisher, &
-Gleave, 2008). The data for this walk-through is a *summary of* log-trace data,
-namely, the number of minutes students spent on the course. Thus, while this
-data is rich, you can imagine even more complex sources of log-trace data (i.e.
-timestamps associated with when students started and stopped accessing the
-course!).
+technologies, such as archived data from social media postings (see Chapter XXX and XXX). In education, an increasingly common source of log-trace data is that generated from interactions with learning management systems and other digital tools (Lazer et al., 2009; Salganik, 2018; Welser, Smith, Fisher, & Gleave, 2008). The data for this walk-through is a *summary of* log-trace data, namely, the number of minutes students spent on the course. Thus, while this data is rich, you can imagine even more complex sources of log-trace data (i.e.
+timestamps associated with when students started and stopped accessing the course!).
 
 ### Data source #3: Achievement-related and gradebook data
 
@@ -97,24 +75,18 @@ datasets. We assign each of the datasets a name using `<-`.
 
 ``` {r}
 # Gradebook and log-trace data for F15 and S16 semesters
-s12_course_data <- read_csv(
-  here(
-    "data", 
-    "online-science-motivation", 
-    "raw", 
-    "s12-course-data.csv"
-  )
-)
+s12_course_data <- 
+  read_csv(here("data", "online-science-motivation", "raw", "s12-course-data.csv"))
 
 # Pre-survey for the F15 and S16 semesters
 
-s12_pre_survey <- read_csv(here("data", "online-science-motivation",
-                                "raw", "s12-pre-survey.csv"))
+s12_pre_survey <- 
+  read_csv(here("data", "online-science-motivation", "raw", "s12-pre-survey.csv"))
 
 # Log-trace data for F15 and S16 semesters - this is for time spent
 
-s12_time_spent <- read_csv(here("data", "online-science-motivation",
-                                "raw", "s12-course-minutes.csv"))
+s12_time_spent <- 
+  read_csv(here("data", "online-science-motivation", "raw", "s12-course-minutes.csv"))
 ```
 
 ## Viewing the data
