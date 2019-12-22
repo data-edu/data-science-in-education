@@ -15,7 +15,6 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
  - List
  - Tidy format
  - Subset
- - `select`
  - `select_at`
  - `mutate`
  - Statistical model 
@@ -181,7 +180,7 @@ all_files[[1]] %>%
     select(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male")) 
 ```
 
-That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
+That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
 
 ```{r pick vars function}
 pick_vars <- function(df) {
@@ -327,7 +326,9 @@ child_counts <- child_counts %>%
 
 ### Explore and address NAs
 
-You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender:
+You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
+
+In our foundational skills chapter, we introduced a `dplyr` function called `arrange` to sort the rows of a dataset by the values in a column. Let's use `arrange` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
 ```{r show NAs}
 child_counts %>% 
@@ -588,7 +589,7 @@ model_data %>%
 
 This verifies that our intercept, the value of `ratio` during the year 2012, is 2.033563 and the value of `ratio` for 2013 is .01205 less than that of 2012 on average. Fitting the model gives us more details about these mean ratio scores-- namely the coefficient, t value, and p value. These values help us apply judgement when deciding if differences in `ratio` values suggest an underlying difference between years or simply differences you can expect from randomness. In this case, the absence of "*" in all rows except the Intercept row suggest that any differences occuring between years are within the range you'd expect by chance.
 
-If we use `summary` again on our `model_data` dataset, we can verify the intercept again: 
+If we use `summary` on our `model_data` dataset, we can verify the intercept again: 
 
 ```{r average female to male ratio}
 model_data %>% 

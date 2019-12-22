@@ -428,17 +428,14 @@ they earned.
 
 ## Linear model (regression)
 
-We can find out exactly what the relationship is using a linear model. We also
-discuss linear models in walkthrough XXX.
+We can find out exactly what the relationship is using a linear model. A full exploration of linear models is outside the scope of this book, but we do we want to discuss it briefly since we'll be using the technique a few times in later chapters. A linear model is an equation that describes the relationship between two variables that have a linear shape when you graph them on a scatter plot. Here's an example using the `mtcars` dataset, which shows that as engine volume (`disp`) goes up, fuel efficiency (`mpg`) goes down in roughly the shape of a straight line:
 
-Here, we predict `percentage_earned`, or the percentage of the total points that
-are possible for a student to earn. Here, percentage earned is the dependent, or
-*y*-variable, and so we enter it first, after the `lm()` command, before the
-tilde (`~`) symbol. To the right of the tilde is one independent variable,
-`TimeSpent`, or the time that students spent on the course. We also pass the
-data frame, `dat`. At this point, we're ready to run the model. Let's run this
-line of code and save the results to an object - we chose `m_linear`, but any
-name will work, as well as the `summary()` function on the output.
+```{r linear model example}
+ggplot(data = mtcars, aes(x = disp, y = mpg)) + 
+  geom_point()
+```
+
+Let's use this technique to model the relationship between the time spent on the course and the percentage of points earned. Here, we predict `percentage_earned`, or the percentage of the total points that are possible for a student to earn. Here, percentage earned is the dependent, or *y*-variable, and so we enter it first, after the `lm()` command, before the tilde (`~`) symbol. To the right of the tilde is one independent variable, `TimeSpent`, or the time that students spent on the course. We also pass the data frame, `dat`. At this point, we're ready to run the model. Let's run this line of code and save the results to an object - we chose `m_linear`, but any name will work, as well as the `summary()` function on the output.
 
 ``` {r}
 m_linear <- lm(percentage_earned ~ TimeSpent, data = dat)
