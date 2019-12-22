@@ -5,7 +5,7 @@ This walkthrough accompanies walkthrough XXX, which focused on preparing the dat
 As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
 students' performance in these online courses, focusing on the time spent in the 
 course (made available throygh the learning management system) and the effects 
-of being ion a particular class.
+of being in a particular class.
 
 First, let's load the tidyverse and read the data we processed in walkthrough
 XXX.
@@ -16,7 +16,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ──────────────
+## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
 ```
 
 ```
@@ -27,7 +27,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────
+## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
