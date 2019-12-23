@@ -1,5 +1,12 @@
 # Text Analysis of Tweets
 
+```{r load custom themes, echo = FALSE, message = FALSE, eval=FALSE}
+source("r/theme_dataedu.R")
+source("r/palette_dataedu.R")
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
 ## Vocabulary 
 
 tokenize 
@@ -180,14 +187,15 @@ We can visualize this words nicely by using `ggplot` to show the positive words 
 
 ```{r visualize positive}
 pos_tokens_count %>% 
-    filter(n >= 75) %>%
-    ggplot(., aes(x = reorder(word, -n), y = n)) + 
-    geom_bar(stat = "identity") + 
-    labs(title = "Count of words associated with positivity", 
-         subtitle = "Tweets with the hashtag #tidytuesday", 
-         caption = "Data: Twitter and NRC", 
-         x = "", 
-         y = "Count")
+  filter(n >= 75) %>%
+  ggplot(., aes(x = reorder(word, -n), y = n)) + 
+  geom_bar(stat = "identity") + 
+  labs(title = "Count of words associated with positivity", 
+       subtitle = "Tweets with the hashtag #tidytuesday", 
+       caption = "Data: Twitter and NRC", 
+       x = "", 
+       y = "Count") + 
+  theme_dataedu()
 ```
 
 Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
