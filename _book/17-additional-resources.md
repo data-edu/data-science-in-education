@@ -26,6 +26,26 @@ Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ:
 
 Chang, W. (2013). *R graphics cookbook*. Sebastopol, CA: O'Reilly.
 
+## Books related to data science in education
+
+Krumm, A., Means, B., & Bienkowski, M. (2018). Learning analytics goes to school: A collaborative approach to improving education. Routledge.
+
+Powers, K., & Henderson, A. E. (Eds.). (2018). Cultivating a data culture in higher education. Routledge.
+
+Williamson, B. (2017). Big data in education: The digital future of learning, policy and practice.  Sage.
+
+Lawson, J. (2015). Data Science in Higher Education: A Step-by-Step Introduction to Machine Learning for Institutional Researchers. CreateSpace.
+
+Swing, R. L. (2018). The Analytics Revolution in Higher Education: Big Data, Organizational Learning, and Student Success. Stylus Publishing, LLC.
+
+## Articles related to data science in education
+
+Williamson, B. (2017). Who owns educational theory? Big data, algorithms and the expert power of education data science. E-Learning and Digital Media, 14(3), 105-122.
+
+Liu, M. C., & Huang, Y. M. (2017). The use of data science for education: The case of social-emotional learning. Smart Learning Environments, 4(1), 1.
+
+Rosenberg, J. M., Lawson, M. A., Anderson, D. J., Rutherford, T., & Jones, R. S. (accepted pending minor revisions). Making Data Science “Count”: Data Science and Learning, Design, and Technology Research. In E. Romero-Hall (Ed.), Research Methods in Learning Design & Technology. Routledge: New York, NY.
+
 ## Programming with R
 
 Wickham, H. & Grolemund, G. (2017). *R for data science*. Sebastopol, CA: O'Reilly.
