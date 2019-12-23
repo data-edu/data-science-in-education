@@ -8,7 +8,7 @@ RDS files
 anti_join 
 set.seed
 slice
-sample
+sample_n()
 stop words
 
 ## Introduction
@@ -147,10 +147,12 @@ We'll need to use a technique called sentiment analysis to get at the "positivit
 The functions we'll be using for our sentiment analysis are in a package called `textdata`. Let's start by installing that. 
 
 ```{r install textdata, eval=FALSE}
-install.packages("textdata")
+install.packages("tidytext")
 ```
 
-Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment: 
+Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). 
+
+To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the `tidytext` package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 ```{r view nrc}
 get_sentiments("nrc")
@@ -183,7 +185,7 @@ We can visualize this words nicely by using `ggplot` to show the positive words 
 ```{r visualize positive}
 pos_tokens_count %>%
   filter(n >= 75) %>%
-  ggplot(., aes(x = reorder(word,-n), y = n)) +
+  ggplot(., aes(x = reorder(word, -n), y = n)) +
   geom_bar(stat = "identity") +
   labs(
     title = "Count of words associated with positivity",
@@ -191,7 +193,8 @@ pos_tokens_count %>%
     caption = "Data: Twitter and NRC",
     x = "",
     y = "Count"
-  )
+  ) +
+  theme_dataedu()
 ```
 
 Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
@@ -308,16 +311,25 @@ tweets %>%
   slice(1, 3)
 ```
 
-Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
+Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. 
 
-```{r randomly review}
-set.seed(369) 
+Here's one way to do that using base R: 
 
-pos_tweets %>% 
-  slice(., sample(x = 1:nrow(.), size = 10))
+```{r}
+sample(x = 1:10, size = 5)
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used a function called `sample` that returns randomly selected numbers from a vector. We passed the argument `1:nrow(.)` to `sample`, which evaluates as any number between 1 and the number of rows in `pos_tweets`. We also specified that `size = 10`, which means we want sample to give us 10 randomly selected numbers from `1:nrow(.)`. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample` pick the same ten rows every time. Trying changing `369` to another number and notice how `sample` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
+
+`dplyr` has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
+
+```{r randomly review}
+set.seed(369)
+
+pos_tweets %>% sample_n(., size = 10)
+```
+
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Next steps 
 

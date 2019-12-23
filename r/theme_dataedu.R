@@ -14,7 +14,7 @@ if(.Platform$OS.type == "windows") {
     font_import(pattern = "ARLRDBD")
     loadfonts(device = "win", quiet = TRUE)
     } else {
-    font_import(pattern = "Arial Rounded Bold")
+    font_import(pattern = "Arial Rounded Bold", prompt = FALSE)
     loadfonts()
 }
 
