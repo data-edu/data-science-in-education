@@ -1,8 +1,8 @@
 # 16-walkthrough-sna
 
-In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district (Spillane, Kim, Chong Min, & Frank, 2012). In the present, though, they are as likely to turn to someone in the professional learning network (Trust, Krutka, & Carpenter, 2016). 
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in the professional learning network [@trust2016].
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., Rosenberg, Greenhalgh, Koehler, Hamilton, & Akcaoglu, 2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
 
 In this chapter, we focus on a source of data that could be used to understand how one new community functions. That community, #tidytuesday is one sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks). 
 
@@ -177,7 +177,7 @@ raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgranth
                                      trim_ws = TRUE)
 ```
 
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rtweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
 
 ```{r, eval = FALSE}
 token <- create_token(consumer_key = <add-your-key-here>,
@@ -196,7 +196,7 @@ In the above case, we had access to the URLs for tweets because they were saved 
 
 First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
 
-A second option is the Premium API through Twitter(see [here](https://developer.twitter.com/en/premium-apis)). This is an expensive option, but is one that can be done through [rtweet](https://rtweet.info/reference/search_fullarchive.html), and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
 
 ## Appendix B
 
@@ -293,11 +293,5 @@ While this is a straightforward way to carry out a selection model, there are so
 One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
 
 A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, **ergm**, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), **statnet**. A link to the statnet packages is [here](https://statnet.org/).
-
-## References
-
-Rosenberg, J. M., Greenhalgh, S. P., Koehler, M. J., Hamilton, E., & Akcaoglu, M. (2016). An investigation of State Educational Twitter Hashtags (SETHs) as affinity spaces. E-Learning and Digital Media, 13(1-2), 24-44. http://dx.doi.org/10.1177/2042753016672351
-
-Spillane, J., Kim, Chong Min,Frank, K.A. 2012. “Instructional Advice and Information Providing and Receiving Behavior in Elementary Schools: Exploring Tie Formation as a Building Block in Social Capital Development.” American Educational Research Journal. Vol 49 no. 6 1112-1145
 
 Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.
