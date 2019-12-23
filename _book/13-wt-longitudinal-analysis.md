@@ -32,63 +32,6 @@ Before doing that, you should explore one of the datasets to see what you can le
 
 
 ```
-## ── Attaching packages ──────────────
-```
-
-```
-## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ───────────────────────
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```
-## here() starts at /Users/shortessay/data-science-in-education
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following object is masked from 'package:here':
-## 
-##     here
-```
-
-```
-## The following object is masked from 'package:base':
-## 
-##     date
-```
-
-```
-## Warning: Missing column names filled in: 'X3' [3], 'X4' [4], 'X5' [5], 'X6' [6],
-## 'X7' [7], 'X8' [8], 'X9' [9], 'X10' [10], 'X11' [11], 'X12' [12], 'X13' [13],
-## 'X14' [14], 'X15' [15], 'X16' [16], 'X17' [17], 'X18' [18], 'X19' [19],
-## 'X20' [20], 'X21' [21], 'X22' [22], 'X23' [23], 'X24' [24], 'X25' [25],
-## 'X26' [26], 'X27' [27], 'X28' [28], 'X29' [29], 'X30' [30], 'X31' [31]
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_character()
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-```
 ## # A tibble: 16,234 x 31
 ##    `Extraction Dat… `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
 ##    <chr>            <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
@@ -1419,16 +1362,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              61
-##  2 b       l              90
-##  3 c       m              30
-##  4 d       n              24
-##  5 e       o              63
-##  6 f       k               6
-##  7 g       l              79
-##  8 h       m               8
-##  9 i       n              28
-## 10 j       o              55
+##  1 a       k              58
+##  2 b       l              44
+##  3 c       m              51
+##  4 d       n              46
+##  5 e       o              88
+##  6 f       k              50
+##  7 g       l              24
+##  8 h       m              62
+##  9 i       n              62
+## 10 j       o              73
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1449,11 +1392,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k              37
-## 2 l              43
-## 3 m              27
-## 4 n              66
-## 5 o              19
+## 1 k            39.5
+## 2 l            42.5
+## 3 m            58.5
+## 4 n            17.5
+## 5 o            62.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

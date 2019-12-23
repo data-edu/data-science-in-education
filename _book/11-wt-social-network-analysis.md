@@ -13,58 +13,10 @@ In this chapter, we access data using the rtweet package (Hawksey, 2019). Throug
 
 ```r
 library(tidyverse)
-```
-
-```
-## ── Attaching packages ──────────────
-```
-
-```
-## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ───────────────────────
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(rtweet)
-```
-
-```
-## 
-## Attaching package: 'rtweet'
-```
-
-```
-## The following object is masked from 'package:purrr':
-## 
-##     flatten
-```
-
-```r
 library(dataedu)
 library(randomNames)
 library(tidygraph)
-```
-
-```
-## 
-## Attaching package: 'tidygraph'
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-```r
 library(ggraph)
 ```
 
@@ -147,20 +99,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender              receiver          
-##    <chr>               <chr>             
-##  1 Oakley, Kristofir   Terry, Mckayla    
-##  2 Hesser, Evan        Schulte, Shannon  
-##  3 Hesser, Evan        Shelby, Samba     
-##  4 Carr, Emily         Schulte, Shannon  
-##  5 Carr, Emily         Terry, Mckayla    
-##  6 Carr, Emily         el-Aydin, Uqbah   
-##  7 Anderson, Carrianne Shelby, Samba     
-##  8 Anderson, Carrianne Zhang, Tony       
-##  9 Anderson, Carrianne el-Aydin, Uqbah   
-## 10 Reed, Qourtney      al-Nasir, Muzammil
-## 11 el-Zakaria, Aakif   Shelby, Samba     
-## 12 el-Zakaria, Aakif   al-Nasir, Muzammil
+##    sender                    receiver         
+##    <chr>                     <chr>            
+##  1 Hinojos Orozco, Aydee     Turner, Emoree   
+##  2 Nguyen, Dakota            Brown, Damien    
+##  3 Nguyen, Dakota            el-Zia, Aayaat   
+##  4 Rodriguez-Renteria, Carly Brown, Damien    
+##  5 Rodriguez-Renteria, Carly Turner, Emoree   
+##  6 Rodriguez-Renteria, Carly Gilbert, Desiree 
+##  7 Lepik, Tharyn             el-Zia, Aayaat   
+##  8 Lepik, Tharyn             Nguyen, Kawana'Ao
+##  9 Lepik, Tharyn             Gilbert, Desiree 
+## 10 el-Hallal, Zumruda        Waddell, Naomi   
+## 11 al-Ansari, Mushtaaqa      el-Zia, Aayaat   
+## 12 al-Ansari, Mushtaaqa      Waddell, Naomi
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.

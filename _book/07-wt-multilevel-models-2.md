@@ -13,108 +13,13 @@ XXX.
 
 ```r
 library(tidyverse)
-```
-
-```
-## ── Attaching packages ──────────────
-```
-
-```
-## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0
-```
-
-```
-## ── Conflicts ───────────────────────
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(dummies)
-```
-
-```
-## dummies-1.5.6 provided by Decision Patterns
-```
-
-```r
 library(sjPlot)
-```
-
-```
-## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
-```
-
-```r
 library(lme4)
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## 
-## Attaching package: 'Matrix'
-```
-
-```
-## The following objects are masked from 'package:tidyr':
-## 
-##     expand, pack, unpack
-```
-
-```
-## 
-## Attaching package: 'lme4'
-```
-
-```
-## The following object is masked from 'package:dummies':
-## 
-##     dummy
-```
-
-```r
 library(performance)
 
 dat <- 
   read_csv("data/online-science-motivation/processed/dat.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_logical(),
-##   student_id = col_double(),
-##   course_id = col_character(),
-##   total_points_possible = col_double(),
-##   total_points_earned = col_double(),
-##   percentage_earned = col_double(),
-##   subject = col_character(),
-##   semester = col_character(),
-##   section = col_character(),
-##   EnrollmentStatus = col_character(),
-##   EnrollmentReason = col_character(),
-##   Gender = col_character(),
-##   FinalGradeCEMS = col_double(),
-##   Gradebook_Item = col_character(),
-##   Item_Position = col_double(),
-##   Gradebook_Date = col_character(),
-##   Points_Earned = col_character(),
-##   Points_Attempted = col_double(),
-##   Points_Possible = col_double(),
-##   last_access_date = col_time(format = ""),
-##   CourseID = col_double()
-##   # ... with 5 more columns
-## )
-```
-
-```
-## See spec(...) for full column specifications.
 ```
 
 ## But what about different courses?
