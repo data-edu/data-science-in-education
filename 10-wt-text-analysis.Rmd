@@ -13,7 +13,7 @@ stop words
 
 ## Introduction
 
-The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
 When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
@@ -49,6 +49,7 @@ devtools::install_github("data-edu/dataedu")
 library(tidyverse)
 library(here)
 library(dataedu)
+library(tidytext)
 ```
 
 We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
@@ -88,9 +89,8 @@ install.packages("tidytext")
 Let's use `unnest_tokens` to take our dataset of tweets and transform it into a dataset of words. 
 
 ```{r tokenize data}
-library(tidytext)
-
-tokens <- tweets %>%
+tokens <- 
+  tweets %>%
   unnest_tokens(output = word, input = text)
 
 tokens 
@@ -243,10 +243,12 @@ The result is a dataset that has status_ids in one column and a positive word fr
 head(pos_tokens$status_id) 
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `unique`. `unique` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `unique` takes that bucket of 100 pieces and returns a vector where each element is the name of a candy brand. So we can use `unique` to get a vector of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `distinct`. `distinct` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a dataframe where each element is the name of a candy brand. So we can use `distinct` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
 
-```{r using unique, eval=FALSE}
-unique(dv_tokens$status_id)
+```{r using distinct, eval=FALSE}
+dataviz_distinct <-
+  dv_tokens %>% 
+  distinct(status_id)
 ```
 
 Now we have a vector of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
@@ -255,7 +257,7 @@ Now we have a vector of `status_id` for tweets containing "dataviz" and another 
 dv_pos <-
   tweets %>%
   # Only tweets that have the dataviz status_id
-  filter(status_id %in% unique(dv_tokens$status_id)) %>%
+  filter(status_id %in% dataviz_distinct$status_id) %>%
   # Is the status_id from our vector of positive word?
   mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) 
 ```
