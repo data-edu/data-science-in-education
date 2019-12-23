@@ -8,12 +8,12 @@ RDS files
 anti_join 
 set.seed
 slice
-sample
+sample_n()
 stop words
 
 ## Introduction
 
-The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
 When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
@@ -78,6 +78,7 @@ library(here)
 
 ```r
 library(dataedu)
+library(tidytext)
 ```
 
 We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
@@ -97,12 +98,13 @@ First, let's use `select` to pick the two columns we'll need: `status_id` and `t
 
 
 ```r
-tweets <- raw_tweets %>% 
+tweets <-
+  raw_tweets %>%
   #filter for English tweets
-  filter(lang == "en") %>%  
-  select(status_id, text) %>% 
-    # Convert the ID field to the character data type
-    mutate(status_id = as.character(status_id))
+  filter(lang == "en") %>%
+  select(status_id, text) %>%
+  # Convert the ID field to the character data type
+  mutate(status_id = as.character(status_id))
 ```
 
 Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing." In their book *Text Mining With R*, Julia Silge and David Robinson describe tokens this way: 
@@ -120,10 +122,9 @@ Let's use `unnest_tokens` to take our dataset of tweets and transform it into a 
 
 
 ```r
-library(tidytext)
-
-tokens <- tweets %>% 
-    unnest_tokens(output = word, input = text) 
+tokens <- 
+  tweets %>%
+  unnest_tokens(output = word, input = text)
 
 tokens 
 ```
@@ -155,7 +156,8 @@ We're almost ready to start analyzing the dataset! There's one more step we'll t
 ```r
 data(stop_words)
 
-tokens <- tokens %>%
+tokens <-
+  tokens %>%
   anti_join(stop_words, by = "word")
 ```
 
@@ -198,8 +200,8 @@ In our tweets dataset, we'll be calculating the count of words as a percentage o
 
 
 ```r
-tokens %>% 
-  count(word, sort = TRUE) %>% 
+tokens %>%
+  count(word, sort = TRUE) %>%
   # n as a percent of total words
   mutate(percent = n / sum(n) * 100)
 ```
@@ -233,10 +235,12 @@ The functions we'll be using for our sentiment analysis are in a package called 
 
 
 ```r
-install.packages("textdata")
+install.packages("tidytext")
 ```
 
-Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment: 
+Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). 
+
+To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the `tidytext` package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 
 ```r
@@ -269,11 +273,13 @@ Let's begin working on reducing our `tokens` dataset down to only words that the
 
 ```r
 # Only positive in the NRC dataset
-nrc_pos <- get_sentiments("nrc") %>% 
+nrc_pos <-
+  get_sentiments("nrc") %>%
   filter(sentiment == "positive")
 
 # Match to tokens
-pos_tokens_count <- tokens %>%
+pos_tokens_count <-
+  tokens %>%
   inner_join(nrc_pos, by = "word") %>%
   # Total appearance of positive words
   count(word, sort = TRUE) 
@@ -302,15 +308,18 @@ We can visualize this words nicely by using `ggplot` to show the positive words 
 
 
 ```r
-pos_tokens_count %>% 
-    filter(n >= 75) %>%
-    ggplot(., aes(x = reorder(word, -n), y = n)) + 
-    geom_bar(stat = "identity") + 
-    labs(title = "Count of words associated with positivity", 
-         subtitle = "Tweets with the hashtag #tidytuesday", 
-         caption = "Data: Twitter and NRC", 
-         x = "", 
-         y = "Count")
+pos_tokens_count %>%
+  filter(n >= 75) %>%
+  ggplot(., aes(x = reorder(word, -n), y = n)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Count of words associated with positivity",
+    subtitle = "Tweets with the hashtag #tidytuesday",
+    caption = "Data: Twitter and NRC",
+    x = "",
+    y = "Count"
+  ) +
+  theme_dataedu()
 ```
 
 <img src="10-wt-text-analysis_files/figure-html/visualize positive-1.png" width="672" />
@@ -331,7 +340,8 @@ First, we'll make a vector of `status_id`s for tweets that have "dataviz" in the
 
 
 ```r
-dv_tokens <- tokens %>% 
+dv_tokens <-
+  tokens %>%
   filter(word == "dataviz")
 
 dv_tokens
@@ -371,8 +381,10 @@ Now let's do this again, but this time we'll we'll make a vector of `status_id`s
 
 
 ```r
-pos_tokens <- tokens %>% 
+pos_tokens <- 
+  tokens %>%
   filter(word %in% nrc_pos$word)
+
 pos_tokens
 ```
 
@@ -406,27 +418,32 @@ head(pos_tokens$status_id)
 ## [4] "1001412196247666688" "1001412196247666688" "1161638973808287746"
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `unique`. `unique` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `unique` takes that bucket of 100 pieces and returns a vector where each element is the name of a candy brand. So we can use `unique` to get a vector of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `distinct`. `distinct` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a dataframe where each element is the name of a candy brand. So we can use `distinct` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
 
 
 ```r
-unique(dv_tokens$status_id)
+dataviz_distinct <-
+  dv_tokens %>% 
+  distinct(status_id)
+
+dataviz_distinct <- as.vector(dataviz_distinct$status_id)
 ```
 
 Now we have a vector of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
 
 
 ```r
-dv_pos <- tweets %>% 
+dv_pos <-
+  tweets %>%
   # Only tweets that have the dataviz status_id
-  filter(status_id %in% unique(dv_tokens$status_id)) %>% 
+  filter(status_id %in% dataviz_distinct) %>%
   # Is the status_id from our vector of positive word?
-  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) 
+  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0))
 ```
 
 Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
 
- - `status_id %in% unique(pos_tokens$status_id)`: a logical statement
+ - `status_id %in% dataviz_distinct$status_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
  - `0`: the value of `positive` if the logical statement is false 
 
@@ -436,17 +453,16 @@ And finally, let's see what percent of tweets that had "dataviz" in them also ha
 
 
 ```r
-dv_pos %>% 
-  count(positive) %>% 
+dv_pos %>%
+  count(positive) %>%
   mutate(perc = n / sum(n)) 
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 1 x 3
 ##   positive     n  perc
 ##      <dbl> <int> <dbl>
-## 1        0   272 0.450
-## 2        1   333 0.550
+## 1        1   605     1
 ```
 
 About 55 percent of tweets that have "dataviz" in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 45 percent of the "dataviz" tweets. We can't know precisely why some tweets had positive words and some didn't, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words. 
@@ -461,12 +477,13 @@ First, let's make a dataset of tweets that had positive words from the NRC datas
 
 
 ```r
-pos_tweets <- tweets %>% 
-  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) %>% 
+pos_tweets <-
+  tweets %>%
+  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0)) %>%
   filter(positive == 1)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
@@ -484,7 +501,7 @@ tweets %>%
 ## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
@@ -502,33 +519,47 @@ tweets %>%
 ## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
 ```
 
-Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
+Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. 
+
+Here's one way to do that using base R: 
 
 
 ```r
-set.seed(369) 
+sample(x = 1:10, size = 5)
+```
 
-pos_tweets %>% 
-  slice(., sample(x = 1:nrow(.), size = 10))
+```
+## [1] 10  3  1  2  9
+```
+
+Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
+
+`dplyr` has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
+
+
+```r
+set.seed(369)
+
+pos_tweets %>% sample_n(., size = 10)
 ```
 
 ```
 ## # A tibble: 10 x 3
 ##    status_id        text                                                positive
 ##    <chr>            <chr>                                                  <dbl>
-##  1 100038669024092… A few more maps, this time at the county level, fr…        1
-##  2 109913022775261… Unpivotr::behead() &amp; tidyxl can recognize inde…        1
-##  3 106138333884440… "First time working with maps in #ggplot2\nNothing…        1
-##  4 106757191930893… I explored data on bridges in Maryland for this we…        1
-##  5 106525318257251… I was trying to do some practice last night in R w…        1
-##  6 108770602257839… For my first #tidytuesday, I look at the distribut…        1
-##  7 108888393956397… In this week's #tidytuesday screencast, I analyze …        1
-##  8 105291401296128… "#TidyTuesday week 2. Took a look at the relations…        1
-##  9 989114304619302… @dylanjm_ds And let's not forget that the primary …        1
-## 10 996466149641482… Is there a way to combine specific values from a v…        1
+##  1 111793685957587… "my attempt to recreate the last graph in https://…        1
+##  2 107981495219247… "1/4 The @R4DScommunity welcomes you back to week …        1
+##  3 114145410803492… "A minimal bar chart of American Crow counts\nhttp…        1
+##  4 101129662572002… "Welcome to week 13 of #tidytuesday!\n\nWe're expl…        1
+##  5 103952731219738… "Are you a #catperson or a #dogperson? This week i…        1
+##  6 104421685532443… "/1 The @R4DScommunity welcomes you to week 26 of …        1
+##  7 111455350429788… "@BecomingDataSci If you're stuck on where to find…        1
+##  8 113599065953641… "For my first ever #TidyTuesday contribution, I ma…        1
+##  9 114154765805994… "#TidyTuesday #rstats #dataviz This week, about \"…        1
+## 10 106223813908584… Choropleths for #TidyTuesday: large reduction in m…        1
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used a function called `sample` that returns randomly selected numbers from a vector. We passed the argument `1:nrow(.)` to `sample`, which evaluates as any number between 1 and the number of rows in `pos_tweets`. We also specified that `size = 10`, which means we want sample to give us 10 randomly selected numbers from `1:nrow(.)`. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample` pick the same ten rows every time. Trying changing `369` to another number and notice how `sample` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Next steps 
 

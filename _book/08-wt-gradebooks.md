@@ -18,6 +18,7 @@ Make sure you have installed the packages in R on your computer before starting 
 ```r
 # Load libraries
 library(tidyverse)
+library(here)
 library(readxl)
 library(janitor)
 library(dataedu)
@@ -49,21 +50,12 @@ After locating the sample Excel file run the code below to run the function `rea
 
 ```r
 # Use readxl package to read and import file and assign it a name
-ExcelGradeBook <- 
-  read_excel("./data/gradebooks/ExcelGradeBook.xlsx", 
-             sheet = 1, 
-             skip = 10)
-```
-
-
-
-A more beginner friendly way to import the dataset is to run this code to interactively select the file from a window.
-
-
-```r
-# Opens a window to select a file using arguments
-ExcelGradeBook <- 
-  read_excel(file.choose(), sheet = 1, skip = 10)
+ExcelGradeBook <-
+  read_excel(
+    here::here("data", "gradebooks", "ExcelGradeBook.xlsx"),
+    sheet = 1,
+    skip = 10
+  )
 ```
 
 The *ExcelGradeBook* file has been imported into RStudio. Next, assign the data frame to a new name using the code below. Renaming cumbersome filenames can improve the readability of the code and make is easier for the user to call on the dataset later on in the code.
@@ -250,7 +242,7 @@ gradebook <-
 
 Now that the empty rows and columns have been removed, notice there are two columns, *absent* and *late*, where it seems someone started putting data into but then decided to stop. These two columns didn't get removed by the last chunk of code because they technically contained some data in those columns. Since the simulated data enterer of this simulated class decided to abandon using the *absent* and *late* columns in this gradebook, we can remove it from our data frame as well.
 
-We use the {dplyr} function `select()` to tell R which columns we want (or don't want) to keep. We use negative signs to say we want the dataset without *absent* and *late*.
+In the foundational skills chapter we introduced the `select()` function, which tells R which columns we want to keep. Let's do that again here. This time we'll use negative signs to say we want the dataset without *absent* and *late*.
 
 
 ```r
@@ -273,20 +265,32 @@ R users transform data to facilitate working with the data during later phases o
 
 As mentioned previously, `select()` is very powerful. In addition to explicitly writing out the columns you want to keep, you can also use functions from the package {stringr} within `select()`. The {stringr} package is within {tidyverse}. Here, we'll use the function `contains()` to tell R to select columns that contain a certain string (that is, text). Here, it searches for any column with the string *"classwork_"*. The underscore makes sure the variables from *classwork_1* all the way to *classwork_17* are included in *classwork_df*.
 
-`gather()` transforms the dataset into tidy data.
+`pivot_longer()` transforms the dataset into tidy data.
 
 Note that *scores* are in character format. We use mutate() to transform them to numerical format.
 
 
 ```r
 # Creates new data frame, selects desired variables from gradebook, and gathers all classwork scores into key/value pairs
-classwork_df <- 
+classwork_df <-
   gradebook %>%
-  select(name, running_average, letter_grade, homeworks, classworks, formative_assessments, projects, summative_assessments, contains("classwork_")) %>%
-  gather(contains("classwork_"), 
-         key = "classwork_number", 
-         value = "score") %>% 
-  mutate(score = as.numeric(score))
+  select(
+    name,
+    running_average,
+    letter_grade,
+    homeworks,
+    classworks,
+    formative_assessments,
+    projects,
+    summative_assessments,
+    contains("classwork_")
+  ) %>%
+  mutate_at(vars(contains("classwork_")), list(~ as.numeric(.))) %>%
+  pivot_longer(
+    cols = contains("classwork_"),
+    names_to = "classwork_number",
+    values_to = "score"
+  )
 ```
 
 View the new data frame and note which columns were selected for this new data frame. Also, note how all the classwork scores were gathered under new columns *classwork_number* and *score*. The `contains()` function. We will use this *classwork_df* data frame later.
@@ -311,41 +315,44 @@ But R can do more than just print numbers to a screen. Use the {ggplot} package 
 
 ```r
 # Bar graph for categorical variable
-gradebook %>% 
-  ggplot(aes(x = letter_grade, 
-               fill = running_average > 90)) +
+gradebook %>%
+  ggplot(aes(x = letter_grade,
+             fill = running_average > 90)) +
   geom_bar() +
-  labs(title ="Bar Graph of Student Grades", 
-       x = "Letter Grades", 
-       y = "Count", 
+  labs(title = "Bar Graph of Student Grades",
+       x = "Letter Grades",
+       y = "Count",
        fill = "A or Better") +
   theme_dataedu() +
   scale_fill_dataedu()
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 Using {ggplot}, we can create many types of graphs. Using our *classwork_df* from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the *classworks* and *scores* columns into tidy formats.
 
 
 ```r
 # Scatterplot of continuous variable
-classwork_df %>% 
+classwork_df %>%
   ggplot(aes(x = classwork_number,
              y = score,
-             fill = classwork_number)) + 
+             fill = classwork_number)) +
   geom_boxplot() +
-  labs(title = "Distribution of Classwork Scores", 
-       x = "Classwork", 
-       y = "Scores", 
-       color = "90% or Above") +
+  labs(
+    title = "Distribution of Classwork Scores",
+    x = "Classwork",
+    y = "Scores",
+    color = "90% or Above"
+  ) +
   theme_dataedu() +
   scale_fill_dataedu() +
-  theme(legend.position = "none", # removes legend
+  theme(legend.position = "none",
+        # removes legend
         axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 ## Model Data
 
@@ -365,17 +372,17 @@ First, we plot X and Y to determine if we can see a linear relationship between 
 ```r
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
-gradebook %>% 
-  ggplot(aes(x = formative_assessments, 
-                 y = running_average)) + 
+gradebook %>%
+  ggplot(aes(x = formative_assessments,
+             y = running_average)) +
   geom_point() +
-  labs(title = "Relationship Between Overall Grade and Formative Assessments", 
-       x = "Formative Assessment Score", 
+  labs(title = "Relationship Between Overall Grade and Formative Assessments",
+       x = "Formative Assessment Score",
        y = "Overall Grade in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
 We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, that suggests a positive linear relationship.
 
@@ -384,19 +391,19 @@ We can layer different types of plots on top of each other in {ggplot}. Here the
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
 # With line of best fit
-gradebook %>% 
+gradebook %>%
   ggplot(aes(x = formative_assessments,
-             y = running_average)) + 
+             y = running_average)) +
   geom_point() +
-  geom_smooth(method = "lm", 
+  geom_smooth(method = "lm",
               se = TRUE) +
-  labs(title = "Relationship Between Overall Grade and Formative Assessments", 
-       x = "Formative Assessment Score", 
+  labs(title = "Relationship Between Overall Grade and Formative Assessments",
+       x = "Formative Assessment Score",
        y = "Overall Grade in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
 #### Outliers
 
@@ -406,33 +413,33 @@ Now we use boxplots to determine if there are any outliers in formative assessme
 ```r
 # Boxplot of formative assessment scores
 # To determine if there are any outliers
-gradebook %>% 
+gradebook %>%
   ggplot(aes(x = "",
-             y = formative_assessments)) + 
+             y = formative_assessments)) +
   geom_boxplot() +
-  labs(title = "Distribution of Formative Assessment Scores", 
-       x = "Formative Assessment", 
+  labs(title = "Distribution of Formative Assessment Scores",
+       x = "Formative Assessment",
        y = "Score") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 
 ```r
 # Boxplot of overall grade scores in percentage
 # To determine if there are any outliers
-gradebook %>% 
+gradebook %>%
   ggplot(aes(x = "",
-             y = running_average)) + 
+             y = running_average)) +
   geom_boxplot() +
-  labs(title = "Distribution of Overall Grade Scores", 
-       x = "Overall Grade", 
+  labs(title = "Distribution of Overall Grade Scores",
+       x = "Overall Grade",
        y = "Score in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<img src="08-wt-gradebooks_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 ### Correlation Analysis
 
@@ -451,7 +458,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 
 ### Build Linear Model
 
-Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the lm() function, where the arguments are:
+In the multi-level modeling walkthrough, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the lm() function, where the arguments are:
 
 * Your predictor (formative_assessments)
 * Your response (running_average)
