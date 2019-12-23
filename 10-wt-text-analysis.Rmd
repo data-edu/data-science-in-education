@@ -259,7 +259,7 @@ dv_pos <-
   # Only tweets that have the dataviz status_id
   filter(status_id %in% dataviz_distinct$status_id) %>%
   # Is the status_id from our vector of positive word?
-  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) 
+  mutate(positive = if_else(status_id %in% dataviz_distinct$status_id, 1, 0)) 
 ```
 
 Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
