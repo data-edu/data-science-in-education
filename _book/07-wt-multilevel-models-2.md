@@ -16,7 +16,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ──────────────
 ```
 
 ```
@@ -27,7 +27,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
@@ -42,6 +42,13 @@ library(dummies)
 
 ```r
 library(sjPlot)
+```
+
+```
+## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
+```
+
+```r
 library(lme4)
 ```
 
@@ -505,7 +512,7 @@ section (`01`)).
 We can easily choose another class to serve as a reference group. Imagine, for
 example, that we want "course_idPhysA-S116-01" (the first section of the physics class offered during this semester and year) to be the reference group. The
 `fct_relevel()` function (which is a part of the {tidyverse} suite of packages)
-makes it easy to do this. This function allows us to re-order the levels within a factor, so that the "first" level will change.
+makes it easy to do this. This function allows us to re-order the levels within a factor, so that the "first" level will change. We'll also use `mutate` again here, which we introduced in the previous chapter. 
 
 
 ```r

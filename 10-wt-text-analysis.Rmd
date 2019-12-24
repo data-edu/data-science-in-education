@@ -20,7 +20,7 @@ stop words
 
 ## Introduction
 
-The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience. 
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
 When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
@@ -56,6 +56,7 @@ devtools::install_github("data-edu/dataedu")
 library(tidyverse)
 library(here)
 library(dataedu)
+library(tidytext)
 ```
 
 We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
@@ -73,12 +74,13 @@ In this section we'll select the columns we need for our analysis and we'll tran
 First, let's use `select` to pick the two columns we'll need: `status_id` and `text`. `status_id` will help us associate interesting words with a particular tweet and `text` will give us the text from that tweet. We'll also change `status_id` to the character data type since it's meant to label tweets and doesn't actually represent a numerical value. 
 
 ```{r pick columns}
-tweets <- raw_tweets %>% 
+tweets <-
+  raw_tweets %>%
   #filter for English tweets
-  filter(lang == "en") %>%  
-  select(status_id, text) %>% 
-    # Convert the ID field to the character data type
-    mutate(status_id = as.character(status_id))
+  filter(lang == "en") %>%
+  select(status_id, text) %>%
+  # Convert the ID field to the character data type
+  mutate(status_id = as.character(status_id))
 ```
 
 Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing." In their book *Text Mining With R*, Julia Silge and David Robinson describe tokens this way: 
@@ -94,10 +96,9 @@ install.packages("tidytext")
 Let's use `unnest_tokens` to take our dataset of tweets and transform it into a dataset of words. 
 
 ```{r tokenize data}
-library(tidytext)
-
-tokens <- tweets %>% 
-    unnest_tokens(output = word, input = text) 
+tokens <- 
+  tweets %>%
+  unnest_tokens(output = word, input = text)
 
 tokens 
 ```
@@ -111,7 +112,8 @@ We're almost ready to start analyzing the dataset! There's one more step we'll t
 ```{r remove stop words}
 data(stop_words)
 
-tokens <- tokens %>%
+tokens <-
+  tokens %>%
   anti_join(stop_words, by = "word")
 ```
 
@@ -135,8 +137,8 @@ We may want to explore further by showing the frequency of words as a percent of
 In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
 
 ```{r count words as percentage}
-tokens %>% 
-  count(word, sort = TRUE) %>% 
+tokens %>%
+  count(word, sort = TRUE) %>%
   # n as a percent of total words
   mutate(percent = n / sum(n) * 100)
 ```
@@ -171,11 +173,13 @@ Let's begin working on reducing our `tokens` dataset down to only words that the
 
 ```{r count positive words}
 # Only positive in the NRC dataset
-nrc_pos <- get_sentiments("nrc") %>% 
+nrc_pos <-
+  get_sentiments("nrc") %>%
   filter(sentiment == "positive")
 
 # Match to tokens
-pos_tokens_count <- tokens %>%
+pos_tokens_count <-
+  tokens %>%
   inner_join(nrc_pos, by = "word") %>%
   # Total appearance of positive words
   count(word, sort = TRUE) 
@@ -186,15 +190,17 @@ pos_tokens_count
 We can visualize this words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
 ```{r visualize positive}
-pos_tokens_count %>% 
+pos_tokens_count %>%
   filter(n >= 75) %>%
-  ggplot(., aes(x = reorder(word, -n), y = n)) + 
-  geom_bar(stat = "identity") + 
-  labs(title = "Count of words associated with positivity", 
-       subtitle = "Tweets with the hashtag #tidytuesday", 
-       caption = "Data: Twitter and NRC", 
-       x = "", 
-       y = "Count") + 
+  ggplot(., aes(x = reorder(word, -n), y = n)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Count of words associated with positivity",
+    subtitle = "Tweets with the hashtag #tidytuesday",
+    caption = "Data: Twitter and NRC",
+    x = "",
+    y = "Count"
+  ) +
   theme_dataedu()
 ```
 
@@ -213,7 +219,8 @@ We'll explore the combinations of "dataviz" and any positive words in our `tweet
 First, we'll make a vector of `status_id`s for tweets that have "dataviz" in them. This will be used later to identify tweets that contain "dataviz" in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
 
 ```{r status_id with dataviz}
-dv_tokens <- tokens %>% 
+dv_tokens <-
+  tokens %>%
   filter(word == "dataviz")
 
 dv_tokens
@@ -229,8 +236,10 @@ head(dv_tokens$status_id)
 Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
 
 ```{r status_id with positive words}
-pos_tokens <- tokens %>% 
+pos_tokens <- 
+  tokens %>%
   filter(word %in% nrc_pos$word)
+
 pos_tokens
 ```
 
@@ -241,25 +250,30 @@ The result is a dataset that has status_ids in one column and a positive word fr
 head(pos_tokens$status_id) 
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `unique`. `unique` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `unique` takes that bucket of 100 pieces and returns a vector where each element is the name of a candy brand. So we can use `unique` to get a vector of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `distinct`. `distinct` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a dataframe where each element is the name of a candy brand. So we can use `distinct` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
 
-```{r using unique, eval=FALSE}
-unique(dv_tokens$status_id)
+```{r using distinct}
+dataviz_distinct <-
+  dv_tokens %>% 
+  distinct(status_id)
+
+dataviz_distinct <- as.vector(dataviz_distinct$status_id)
 ```
 
 Now we have a vector of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
 
 ```{r dataviz tweets with positive variable}
-dv_pos <- tweets %>% 
+dv_pos <-
+  tweets %>%
   # Only tweets that have the dataviz status_id
-  filter(status_id %in% unique(dv_tokens$status_id)) %>% 
+  filter(status_id %in% dataviz_distinct) %>%
   # Is the status_id from our vector of positive word?
-  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) 
+  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0))
 ```
 
 Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
 
- - `status_id %in% unique(pos_tokens$status_id)`: a logical statement
+ - `status_id %in% dataviz_distinct$status_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
  - `0`: the value of `positive` if the logical statement is false 
 
@@ -268,8 +282,8 @@ So our new `positive` column will take the value 1 if the `status_id` was in our
 And finally, let's see what percent of tweets that had "dataviz" in them also had at least one positive word: 
 
 ```{r percent that had a positive word}
-dv_pos %>% 
-  count(positive) %>% 
+dv_pos %>%
+  count(positive) %>%
   mutate(perc = n / sum(n)) 
 ```
 
@@ -284,12 +298,13 @@ Let's review where we are so far as we work to learn more about the TidyTuesday 
 First, let's make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had "dataviz" and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let's resuse that technique, but instead of applying to a dataset of tweets containing "dataviz", let's use it on our dataset of all tweets. 
 
 ```{r positive tweets}
-pos_tweets <- tweets %>% 
-  mutate(positive = if_else(status_id %in% unique(pos_tokens$status_id), 1, 0)) %>% 
+pos_tweets <-
+  tweets %>%
+  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0)) %>%
   filter(positive == 1)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
@@ -298,7 +313,7 @@ tweets %>%
   slice(1, 3)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% unique(pos_tokens$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 

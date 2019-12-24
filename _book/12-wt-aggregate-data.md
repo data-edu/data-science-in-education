@@ -52,22 +52,27 @@ For the purposes of this walkthrough, we will be looking at a particular school 
 
 ## Importing Data
 
-```{r, message = F, warning = F}
+
+```r
 # set up libraries
 library(tidyverse)
-library(tabulizer)
 library(janitor)
-
-source("r/theme_dataedu.R")
-source("r/palette_dataedu.R")
+library(dataedu)
 ```
 
-This district publishes their school data in PDFs. Thankfully, ROpenSci created the [tabulizer package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationaly extract tables from PDF documents. 
+ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationaly extract tables from PDF documents. A required package to load {tabulizer} is called {RJava}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring RJava.
+
+
+```r
+library(tabulizer)
+```
+
 1. `tabulizer` pulls the PDF data into lists using `extract_tables()`.
 
-```{r}
+
+```r
 # race data
-race_pdf <- #1
+race_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf")
 ```
 
@@ -77,28 +82,43 @@ It is important to consistently check what we're doing with the actual PDF's to 
 3. The `slice()` in `map_df()` removes unnecessary rows from the PDF.
 4. Now we create readable column names using `set_names()`.
 
-```{r}
+
+```r
 race_df <-
   race_pdf %>%
-  map(as_tibble) %>% #2
-  map_df(~ slice(., -1:-2)) %>% #3
-  set_names(c("school_group", #4
-              "school_name", 
-              "grade", 
-              "na_num", # native american number of students
-              "na_pct", # native american percentage of students
-              "aa_num", # african american number of students
-              "aa_pct", # african american percentage
-              "as_num", # asian number of students
-              "as_pct", # asian percentage
-              "hi_num", # hispanic number of students
-              "hi_pct", # hispanic percentage
-              "wh_num", # white number of students
-              "wh_pct", # white percentage
-              "pi_pct", # pacific islander percentage
-              "blank_col", 
-              "tot" # total number of students
-              ))
+  map(as_tibble) %>%
+  map_df( ~ slice(.,-1:-2)) %>%
+  set_names(
+    c(
+      "school_group",
+      "school_name",
+      "grade",
+      "na_num",
+      # native american number of students
+      "na_pct",
+      # native american percentage of students
+      "aa_num",
+      # african american number of students
+      "aa_pct",
+      # african american percentage
+      "as_num",
+      # asian number of students
+      "as_pct",
+      # asian percentage
+      "hi_num",
+      # hispanic number of students
+      "hi_pct",
+      # hispanic percentage
+      "wh_num",
+      # white number of students
+      "wh_pct",
+      # white percentage
+      "pi_pct",
+      # pacific islander percentage
+      "blank_col",
+      "tot" # total number of students
+    )
+  )
 ```
 
 For the Race/Ethnicity table, we want the totals for each district school as we won't be looking at grade-level variation. When analyzing the PDF, we see the totals have "Total" in the School Name.
@@ -110,22 +130,24 @@ We clean up this dataset by:
 3. Then we trim white space from strings.
 4. The data in the "percentage" columns are provided with a percentage sign. This means we will have to remove all of them to be able to do math on these columns (for example, adding them together). Also, we want to divide the numbers by 100 so they are true percentages.
 
-```{r}
+
+```r
 race_clean <-
   race_df %>%
-  select(-school_group, -grade, -pi_pct, -blank_col) %>% #1
+  select(-school_group,-grade,-pi_pct,-blank_col) %>% #1
   filter(str_detect(school_name, "Total"), #2
          school_name != "Grand Total") %>%
-  mutate(school_name = str_replace(school_name, "Total", "")) %>% 
+  mutate(school_name = str_replace(school_name, "Total", "")) %>%
   mutate_if(is.character, trimws) %>%  #3
-  mutate_at(vars(contains("pct")), funs(as.numeric(str_replace(., "%", ""))/100))
+  mutate_at(vars(contains("pct")), funs(as.numeric(str_replace(., "%", "")) / 100))
 ```
 
 We will import the Free Reduced Price Lunch (FRPL) PDF's now.
 
 > FRPL stands for Free/Reduced Price Lunch, [often used as a proxy for poverty]((https://nces.ed.gov/blogs/nces/post/free-or-reduced-price-lunch-a-proxy-for-poverty). Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important in disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)
 
-```{r}
+
+```r
 # frpl data
 frpl_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf")
@@ -133,45 +155,60 @@ frpl_pdf <-
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
 
-```{r}
+
+```r
 frpl_df <-
   frpl_pdf %>%
   map(as_tibble) %>%
-  map_df(~ slice(., -1)) %>%  
-  set_names(c("school_name", 
-              "not_eligible_num", # number of non-eligible students,
-              "reduce_num", # number of students receiving reduced price lunch
-              "free_num", # number of students receiving free lunch
-              "frpl_num", # total number of students
-              "frpl_pct" # free/reduced price lunch percentage
-              ))
+  map_df( ~ slice(.,-1)) %>%
+  set_names(
+    c(
+      "school_name",
+      "not_eligible_num",
+      # number of non-eligible students,
+      "reduce_num",
+      # number of students receiving reduced price lunch
+      "free_num",
+      # number of students receiving free lunch
+      "frpl_num",
+      # total number of students
+      "frpl_pct" # free/reduced price lunch percentage
+    )
+  )
 ```
 
 To clean it up, we remove the rows that are blank. When looking at the PDF, we notice that there are aggregations inserted into the table that are not district-level. For example, they have included ELM K_08, presumably to aggregate FRPL numbers up to the K-8 level. Although this is useful data, we don't need it for this district-level analysis. There are different ways we can remove these rows but we will just filter them out.
 
-```{r}
+
+```r
 frpl_clean <-
-  frpl_df %>% 
-  filter(school_name != "", # remove blanks
-         !school_name %in% c("ELM K_08", # filter out the rows in this list
-                             "Mid Schl",
-                             "High Schl",
-                             "Alt HS",
-                             "Spec Ed Total",
-                             "Cont Alt Total",
-                             "Hospital Sites Total",
-                             "Dist Total")) %>%
-  mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", ""))/100)
+  frpl_df %>%
+  filter(
+    school_name != "",
+    # remove blanks!school_name %in% c(
+    "ELM K_08",
+    # filter out the rows in this list
+    "Mid Schl",
+    "High Schl",
+    "Alt HS",
+    "Spec Ed Total",
+    "Cont Alt Total",
+    "Hospital Sites Total",
+    "Dist Total"
+  )
+) %>%
+  mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
 Because we want to look at race/ethnicity data in conjunction with free/reduced price lunch percentage, we join the two datasets by the name of the school. 
 
 - Use `mutate_at()` to specify columns to which to apply a function (in this case, `as.numeric`.)
 
-```{r}
+
+```r
 # joined data
 joined_df <-
-  left_join(race_clean, frpl_clean, by = c("school_name")) %>% 
+  left_join(race_clean, frpl_clean, by = c("school_name")) %>%
   mutate_at(2:17, as.numeric)
 ```
 
@@ -185,45 +222,80 @@ Now we move on to the fun part of creating new columns based on the merged datas
 4. To get FRPL percentage for all schools, we have to recalculate `frpl_pct.`
 5. To calculate the percentage of students by race who are in high poverty schools, we must divide the number of students in high poverty schools by the total number of students in that race.
 
-```{r}
+
+```r
 merged_df <-
   joined_df %>%
-  mutate(hi_povnum = case_when(frpl_pct > .75 ~ hi_num), #2
-         aa_povnum = case_when(frpl_pct > .75 ~ aa_num),
-         wh_povnum = case_when(frpl_pct > .75 ~ wh_num),
-         as_povnum = case_when(frpl_pct > .75 ~ as_num),
-         na_povnum = case_when(frpl_pct > .75 ~ na_num)) %>%
-  adorn_totals() %>% #3
-  mutate(na_pct = na_num/tot, #4
-         aa_pct = aa_num/tot,
-         as_pct = as_num/tot,
-         hi_pct = hi_num/tot,
-         wh_pct = wh_num/tot,
-         frpl_pct = (free_num + reduce_num)/frpl_num,
-         hi_povsch = hi_povnum/hi_num[which(school_name == "Total")], #5
-         aa_povsch = aa_povnum/aa_num[which(school_name == "Total")],
-         as_povsch = as_povnum/as_num[which(school_name == "Total")],
-         wh_povsch = wh_povnum/wh_num[which(school_name == "Total")],
-         na_povsch = na_povnum/na_num[which(school_name == "Total")])
+  mutate(
+    hi_povnum = case_when(frpl_pct > .75 ~ hi_num),
+    #2
+    aa_povnum = case_when(frpl_pct > .75 ~ aa_num),
+    wh_povnum = case_when(frpl_pct > .75 ~ wh_num),
+    as_povnum = case_when(frpl_pct > .75 ~ as_num),
+    na_povnum = case_when(frpl_pct > .75 ~ na_num)
+  ) %>%
+  adorn_totals() %>%
+  mutate(
+    na_pct = na_num / tot,
+    #4
+    aa_pct = aa_num / tot,
+    as_pct = as_num / tot,
+    hi_pct = hi_num / tot,
+    wh_pct = wh_num / tot,
+    frpl_pct = (free_num + reduce_num) / frpl_num,
+    hi_povsch = hi_povnum / hi_num[which(school_name == "Total")],
+    #5
+    aa_povsch = aa_povnum / aa_num[which(school_name == "Total")],
+    as_povsch = as_povnum / as_num[which(school_name == "Total")],
+    wh_povsch = wh_povnum / wh_num[which(school_name == "Total")],
+    na_povsch = na_povnum / na_num[which(school_name == "Total")]
+  )
 ```
 
 To facilitate the creation of ggplots later on, we put this data in tidy format.
 
-```{r}
+
+```r
 # tidy data
 tidy_df <-
   merged_df %>%
-  gather(category, value, -school_name)
+  gather(category, value,-school_name)
 ```
 
 Running the above code, particularly the download of the PDFs, takes a lot of time. We've saved copies of the merged and tidy data in the data folder and can be accessed by running the code below.
 
-```{r}
-# write_csv(tidy_df, here::here("data", "agg_data", "tidy_df.csv"))
-tidy_df <- read_csv(here::here("data", "agg_data", "tidy_df.csv"))
 
+```r
+# write_csv(tidy_df, here::here("data", "agg_data", "tidy_df.csv"))
+tidy_df <- 
+  read_csv(here::here("data", "agg_data", "tidy_df.csv"))
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   school_name = col_character(),
+##   category = col_character(),
+##   value = col_double()
+## )
+```
+
+```r
 # write_csv(merged_df, here::here("data", "agg_data", "merged_df.csv"))
-merged_df <- read_csv(here::here("data", "agg_data", "merged_df.csv"))
+merged_df <- 
+  read_csv(here::here("data", "agg_data", "merged_df.csv"))
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   school_name = col_character()
+## )
+```
+
+```
+## See spec(...) for full column specifications.
 ```
 
 ## Reviewing the dataset
@@ -232,22 +304,28 @@ merged_df <- read_csv(here::here("data", "agg_data", "merged_df.csv"))
 
 What do the racial demographics in this district look like? For this, a barplot can quickly visualize the different proportion of subgroups.
 
-```{r}
+
+```r
 tidy_df %>%
   filter(school_name == "Total",
          str_detect(category, "pct"),
-         category != "frpl_pct") %>% 
-  mutate(category = factor(category, levels = c("aa_pct", "wh_pct", "hi_pct", "as_pct", "na_pct"))) %>%  
+         category != "frpl_pct") %>%
+  mutate(category = factor(
+    category,
+    levels = c("aa_pct", "wh_pct", "hi_pct", "as_pct", "na_pct")
+  )) %>%
   ggplot(aes(x = category, y = value)) +
   geom_bar(stat = "identity", aes(fill = category)) +
-  scale_fill_dataedu() +
-  theme_dataedu() +
   theme(legend.position = "none") +
   xlab("Subgroup") +
   ylab("Percentage of Population") +
   scale_x_discrete(labels = c("Black", "White", "Hispanic", "Asian", "Native Am.")) +
-  scale_y_continuous(labels = scales::percent)
+  scale_y_continuous(labels = scales::percent) +
+  scale_fill_dataedu() +
+  theme_dataedu()
 ```
+
+<img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 When we look at these data, the district looks very diverse. Almost *40% of students are Black* and around *36% are White.*
 
@@ -255,12 +333,19 @@ When we look at these data, the district looks very diverse. Almost *40% of stud
 
 In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 
-```{r}
-tidy_df %>% 
-    filter(category == "frpl_pct",
-           school_name == "Total") %>% 
-    knitr::kable()
+
+```r
+tidy_df %>%
+  filter(category == "frpl_pct",
+         school_name == "Total") %>%
+  knitr::kable()
 ```
+
+
+
+school_name   category        value
+------------  ---------  ----------
+Total         frpl_pct    0.5685631
 
 *56.9% of the students are eligible for FRPL*, compared to [the US average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
 
@@ -272,18 +357,23 @@ Now, we dig deeper to see if there is more to the story.
 
 Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
-```{r}
-merged_df %>% 
-  filter(school_name != "Total") %>% 
+
+```r
+merged_df %>%
+  filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct)) +
-  geom_histogram(breaks= seq(0, 1, by = .1),
+  geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_cols("darkblue"))  +
-  theme_dataedu() +
   xlab("White Percentage") +
   ylab("Count") +
   scale_x_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
+```
 
+<img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
+```r
 # hist(merged_df$wh_pct)$counts[1:9] # counting number of schools in the first bin (0-10%)
 ```
 
@@ -295,21 +385,34 @@ The school race demographics are not representative of the district populations 
 
 High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, [24% of public school students attended high-poverty schools.](https://nces.ed.gov/fastfacts/display.asp?id=898) However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
-```{r}
+
+```r
 tidy_df %>%
   filter(school_name == "Total",
-         str_detect(category, "povsch")) %>% 
-  mutate(category = factor(category, levels = c("hi_povsch", "na_povsch", "aa_povsch", "as_povsch", "wh_povsch"))) %>%  
+         str_detect(category, "povsch")) %>%
+  mutate(category = factor(
+    category,
+    levels = c(
+      "hi_povsch",
+      "na_povsch",
+      "aa_povsch",
+      "as_povsch",
+      "wh_povsch"
+    )
+  )) %>%
   ggplot(aes(x = category, y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
-  scale_fill_dataedu() +
   theme_dataedu() +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
   scale_x_discrete(labels = c("Hispanic", "Native Am.", "Black", "Asian", "White")) +
   scale_y_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu() +
+  scale_fill_dataedu()
 ```
+
+<img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
 *8% of White students* attend high poverty schools, compared to *43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.* We can conclude these students are disproportionally attending high poverty schools.
 
@@ -317,9 +420,10 @@ tidy_df %>%
 
 Let’s explore what happens when we correlate race and FRPL percentage by school.
 
-```{r}
-merged_df %>% 
-  filter(school_name != "Total") %>% 
+
+```r
+merged_df %>%
+  filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_cols("green")) +
   theme_dataedu() +
@@ -329,6 +433,12 @@ merged_df %>%
   scale_x_continuous(labels = scales::percent) +
   theme(legend.position = "none")
 ```
+
+```
+## Warning: Removed 1 rows containing missing values (geom_point).
+```
+
+<img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 
