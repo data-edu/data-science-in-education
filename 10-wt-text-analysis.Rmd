@@ -1,4 +1,4 @@
-# Text Analysis of Tweets
+# Walkthrough 4: Text Analysis With Social Media Data
 
 ```{r load custom themes, echo = FALSE, message = FALSE, eval=FALSE}
 source("r/theme_dataedu.R")
@@ -22,6 +22,8 @@ stop words
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
+### Background 
+
 When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
@@ -32,7 +34,7 @@ Using text analysis can help to broadly estimate what is happening in the text. 
 
 We'll show these techniques using a dataset of tweets. We encourage you to complete the walkthrough, then reflect on how the skills learned can be applied to other texts, like word processing documents or websites.  
 
-## About Our Text Dataset 
+### Data Source
 
 It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
@@ -44,9 +46,13 @@ In this example, we'll be analyzing a dataset of tweets that have the hashtag [#
 
 You can view the TidyTuesday tweets dataset here: [https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds](https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds)
 
-## Reading the data 
+### Methods 
 
-Let's start by getting the data into our programming environment so we can start analyzing it. For this analysis, we'll be using the `tidyverse`, `here`, and `dataedu` packages. Just a reminder, if you haven't already installed the `dataedu` package, you can do so by typing this code: 
+In this walkthrough, we'll be learning how to count words in a text dataset. We'll also use a technique called sentiment analysis to count and visualize the appearance of words that have a positive association. Lastly, we'll learn how to get more context by selecting random rows of tweets for closer reading.
+
+## Load Packages 
+
+For this analysis, we'll be using the `tidyverse`, `here`, and `dataedu` packages. Just a reminder, if you haven't already installed the `dataedu` package, you can do so by typing this code: 
 
 ```{r install dataedu, eval=FALSE}
 devtools::install_github("data-edu/dataedu")
@@ -59,15 +65,19 @@ library(dataedu)
 library(tidytext)
 ```
 
-We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
+## Import Data
+
+Let's start by getting the data into our programming environment so we can start analyzing it. We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 ```{r read data}
 raw_tweets <- tt_tweets
 ```
 
+## View Data 
+
 Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse` or `str` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
 
-## Cleaning the data for the analysis
+## Process Data
 
 In this section we'll select the columns we need for our analysis and we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring. 
 
@@ -121,7 +131,7 @@ Why does this work? Let's look closer. `inner_join` matches the observations in 
 
 One final note before we start counting words: Remember when we first tokenized our dataset and we passed `unnest_tokens` the argument `output = word`? We conveniently chose `word` as our column name because it matches the column name `word` in the `stop_words` dataset. This makes our call to `anti_join` simpler because `anti_join` knows to look for the column named `word` in each dataset. 
 
-## Counting words 
+## Analysis: Counting Words 
 
 Now it's time to start exploring our newly cleaned dataset of tweets. Computing the frequency of each word and seeing which words showed up the most often is a good start. We can pipe `tokens` to the `count` function to do this: 
 
@@ -145,7 +155,7 @@ tokens %>%
 
 Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
 
-## Sentiment analysis
+## Analysis: Sentiment analysis
 
 Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
 
@@ -206,7 +216,7 @@ pos_tokens_count %>%
 
 Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
-### TidyTuesday and other positive words 
+### Dataviz and other positive words 
 
 Earlier in the analysis we learned that "dataviz" was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
 
@@ -342,7 +352,7 @@ pos_tweets %>% sample_n(., size = 10)
 
 That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
-## Next steps 
+## Conclusion 
 
 The purpose of this walkthrough is to share code with you so you can practice some basic text analysis techniques. Now it's time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Trying reading in some of these and doing a similar analysis: 
 
