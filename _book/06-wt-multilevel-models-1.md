@@ -220,6 +220,28 @@ s12_pre_survey  <-
   mutate_at(vars(q1:q10), list( ~ as.numeric(.)))
 ```
 
+Let's take a moment to discuss the `dplyr` function `mutate_at`. `mutate_at` is a version of `mutate`, which changes the values in an existing column or creates new columns. It's useful in education datasets because you'll often need to transform your data before analyzing it. Try this example, where we create a new `total_students` column by adding the number of `male` students and `female` students: 
+
+
+```r
+# Dataset of students
+df <- tibble(
+  male = 5, 
+  female = 5
+)
+
+df %>% mutate(total_students = male + female)
+```
+
+```
+## # A tibble: 1 x 3
+##    male female total_students
+##   <dbl>  <dbl>          <dbl>
+## 1     5      5             10
+```
+
+`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `s_12_pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
+
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
 the responses for all questions can be interpreted in the same way. Rather
 than write a lot of code once to reverse the scales for question 4 then
@@ -604,7 +626,7 @@ dat %>%
   theme_dataedu()
 ```
 
-<img src="06-wt-multilevel-models-1_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="06-wt-multilevel-models-1_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
@@ -618,7 +640,7 @@ dat %>%
   theme_dataedu()
 ```
 
-<img src="06-wt-multilevel-models-1_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="06-wt-multilevel-models-1_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 So, it appeares that the more time students spent on the course, the more points they earned.
 
@@ -626,14 +648,7 @@ So, it appeares that the more time students spent on the course, the more points
 
 We can find out exactly what the relationship is using a linear model. We also discuss linear models in walkthrough XXX.
 
-Here, we predict `percentage_earned`, or the percentage of the total points that
-are possible for a student to earn. Here, percentage earned is the dependent, or
-*y*-variable, and so we enter it first, after the `lm()` command, before the
-tilde (`~`) symbol. To the right of the tilde is one independent variable,
-`TimeSpent`, or the time that students spent on the course. We also pass the
-data frame, `dat`. At this point, we're ready to run the model. Let's run this
-line of code and save the results to an object - we chose `m_linear`, but any
-name will work, as well as the `summary()` function on the output.
+Let's use this technique to model the relationship between the time spent on the course and the percentage of points earned. Here, we predict `percentage_earned`, or the percentage of the total points that are possible for a student to earn. Here, percentage earned is the dependent, or *y*-variable, and so we enter it first, after the `lm()` command, before the tilde (`~`) symbol. To the right of the tilde is one independent variable, `TimeSpent`, or the time that students spent on the course. We also pass the data frame, `dat`. At this point, we're ready to run the model. Let's run this line of code and save the results to an object - we chose `m_linear`, but any name will work, as well as the `summary()` function on the output.
 
 
 ```r
@@ -735,8 +750,15 @@ read more about the package here:
 especially helpful. One function that may be useful for writing manuscripts is
 the following function for creating correlation tables; the function takes, as
 an input, a data frame with the variables for which you wish to calculate
-correlations. We will create the same measures (based on the survey items) that
-we used earlier to understand how they relate to one another:
+correlations. 
+
+Before we proceed to the next code chunk, let's talk about some functions we'll be using a lot in this book. `filter`, `group_by`, and `summarise` are functions in the `dplyr` package that you will see a lot in upcoming chapters. 
+
+ - `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
+ - `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
+ - `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
+
+So let's use these `dplyr` functions on our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another:
 
 
 ```r

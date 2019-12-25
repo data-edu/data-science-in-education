@@ -47,23 +47,45 @@ library(rtweet)
 ##     flatten
 ```
 
+```r
+library(dataedu)
+library(randomNames)
+library(tidygraph)
+```
+
+```
+## 
+## Attaching package: 'tidygraph'
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     filter
+```
 
 ```r
-rstats_tweets <- search_tweets("#rstats")
+library(ggraph)
+```
+
+
+```r
+rstats_tweets <- 
+  search_tweets("#rstats")
 ```
 
 The search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. 
 
 
 ```r
-tidytuesday_tweets <- search_tweets("#tidytuesday")
+tidytuesday_tweets <- 
+  search_tweets("#tidytuesday")
 ```
 
 A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix A*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
 
 
 ```r
-library(dataedu)
 tt_tweets
 ```
 
@@ -125,20 +147,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender             receiver        
-##    <chr>              <chr>           
-##  1 Ellison, Nachet    Finley, Maya    
-##  2 el-Rasheed, Laaiqa Newbury, Trevor 
-##  3 el-Rasheed, Laaiqa Villa, Jaime    
-##  4 Davis, Brandon     Newbury, Trevor 
-##  5 Davis, Brandon     Finley, Maya    
-##  6 Davis, Brandon     Le, Marissa     
-##  7 Kevilus, Sapphire  Villa, Jaime    
-##  8 Kevilus, Sapphire  Li, Julie       
-##  9 Kevilus, Sapphire  Le, Marissa     
-## 10 Pettaway, Maxwell  Mahamud, Breanna
-## 11 John, Linda        Villa, Jaime    
-## 12 John, Linda        Mahamud, Breanna
+##    sender              receiver          
+##    <chr>               <chr>             
+##  1 Oakley, Kristofir   Terry, Mckayla    
+##  2 Hesser, Evan        Schulte, Shannon  
+##  3 Hesser, Evan        Shelby, Samba     
+##  4 Carr, Emily         Schulte, Shannon  
+##  5 Carr, Emily         Terry, Mckayla    
+##  6 Carr, Emily         el-Aydin, Uqbah   
+##  7 Anderson, Carrianne Shelby, Samba     
+##  8 Anderson, Carrianne Zhang, Tony       
+##  9 Anderson, Carrianne el-Aydin, Uqbah   
+## 10 Reed, Qourtney      al-Nasir, Muzammil
+## 11 el-Zakaria, Aakif   Shelby, Samba     
+## 12 el-Zakaria, Aakif   al-Nasir, Muzammil
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -155,9 +177,10 @@ Let's extract the mentions. There is a lot going on in the code below; let's bre
 ```r
 regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
-tt_tweets <- tt_tweets %>% 
-  mutate(all_mentions = str_extract_all(text, regex)) %>% 
-  mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE)) %>% 
+tt_tweets <-
+  tt_tweets %>%
+  mutate(all_mentions = str_extract_all(text, regex)) %>%
+  mutate(has_mention = if_else(!is.na(all_mentions), TRUE, FALSE)) %>%
   unnest(all_mentions)
 ```
 
@@ -165,9 +188,10 @@ Let's put these into their own data frame, called `mentions`.
 
 
 ```r
-mentions <- tt_tweets %>% 
-  filter(has_mention) %>% 
-  mutate(all_mentions = str_trim(all_mentions)) %>% 
+mentions <-
+  tt_tweets %>%
+  filter(has_mention) %>%
+  mutate(all_mentions = str_trim(all_mentions)) %>%
   select(sender = screen_name, all_mentions)
 ```
 
@@ -201,41 +225,23 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 
 
 ```r
-edgelist <- mentions %>% 
+edgelist <- 
+  mentions %>% 
   mutate(all_mentions= str_sub(all_mentions, start = 2)) %>% 
   select(sender, receiver = all_mentions)
 ```
 
 ## Plotting the network
 
-Now that we have our edgelist, it is straightforward to plot the network. We'll use the **tidygraph** and **ggraph** packages to visualize the data.
-
-
-```r
-# install.packages(c("tidygraph", "ggraph"))
-library(tidygraph)
-```
-
-```
-## 
-## Attaching package: 'tidygraph'
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-```r
-library(ggraph)
-```
+Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
 
 We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
 
 
 ```r
-g <- as_tbl_graph(edgelist)
+g <- 
+  as_tbl_graph(edgelist)
+
 g
 ```
 
@@ -268,7 +274,7 @@ Next, we'll use the `ggraph()` function. Run the code below, and then uncomment,
 
 
 ```r
-g %>% 
+g %>%
   ggraph() +
   geom_node_point() +
   # geom_node_text(aes(label = name)) +
@@ -280,7 +286,7 @@ g %>%
 ## Using `stress` as default layout
 ```
 
-<img src="11-wt-social-network-analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="11-wt-social-network-analysis_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 
 Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
@@ -300,7 +306,7 @@ g %>%
 ## Using `stress` as default layout
 ```
 
-<img src="11-wt-social-network-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<img src="11-wt-social-network-analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 
@@ -325,8 +331,13 @@ Because the creator of the interactive web application for exploring #tidytuesda
 
 
 ```r
-raw_tidytuesday_tweets <- read_delim("https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv", "\t", escape_double = FALSE, 
-                                     trim_ws = TRUE)
+raw_tidytuesday_tweets <-
+  read_delim(
+    "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
+    "\t",
+    escape_double = FALSE,
+    trim_ws = TRUE
+  )
 ```
 
 ```
@@ -345,12 +356,17 @@ Then the URL for the tweet (the `status_url` column) can be passed to a differen
 
 
 ```r
-token <- create_token(consumer_key = <add-your-key-here>,
-                      consumer_secret = <add-your-secret-here>)
+token <-
+  create_token(
+    consumer_key = < add - your - key - here > ,
+    consumer_secret = < add - your - secret - here >
+  )
 
 # here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
-tidytuesday_tweets <- lookup_statuses(raw_tidytuesday_tweets$status_url,
-                                      token = token)
+
+tidytuesday_tweets <-
+  lookup_statuses(raw_tidytuesday_tweets$status_url,
+                  token = token)
 ```
 
 The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
@@ -381,13 +397,20 @@ Let's take a look at the merged data. What this data now contains is the first d
 
 
 ```r
-data1 <- data.frame(nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4), 
-                    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6), 
-                    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1))
-data2 <- data.frame(nominee = c(1, 2, 3, 4, 5, 6), 
-                    yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
-data3 <- data.frame(nominator = c(1, 2, 3, 4, 5, 6),
-                    yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+data1 <-
+  data.frame(
+    nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
+    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6),
+    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+  )
+
+data2 <-
+  data.frame(nominee = c(1, 2, 3, 4, 5, 6),
+             yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+
+data3 <-
+  data.frame(nominator = c(1, 2, 3, 4, 5, 6),
+             yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
 ```
 
 ### Joining the data
@@ -398,13 +421,24 @@ Next, we'll join the data into one data frame. Note that while this is sometimes
 
 
 ```r
-data <- left_join(data1, data2, by = "nominee")
-data$nominee <- as.character(data$nominee) # this makes merging later easier
+data <-
+  left_join(data1, data2, by = "nominee")
+
+data <-
+  data %>% 
+  mutate(nominee = as.character(nominee)) # this makes merging later easier
+
 # calculate indegree in tempdata and merge with data
 tempdata <- data.frame(table(data$nominee))
-names(tempdata) <- c("nominee", "indegree") # rename the column "nominee"
-tempdata$nominee <- as.character(tempdata$nominee) # makes nominee a character data type, instead of a factor, which can cause problems
-data <- left_join(data, tempdata, by = "nominee")
+
+tempdata <-
+  tempdata %>%
+  rename("nominee" = "Var1", # rename the column "Var1" to "nominee"
+         "indegree" = "Freq") %>% # rename the column "Freq" to "indegree"
+  mutate(nominee = as.character(nominee)) # makes nominee a character data type, instead of a factor, which can cause problems
+
+data <- 
+  left_join(data, tempdata, by = "nominee")
 ```
 
 #### Calculating an exposure term
@@ -414,11 +448,15 @@ This is the key step that makes this model - a regression, or linear, model - on
 
 ```r
 # Calculating exposure
-data$exposure <- data$relate * data$yvar1
+data <-
+  data %>% 
+  mutate(exposure = relate * yvar1)
+
 # Calculating mean exposure
-mean_exposure <- data %>%
-    group_by(nominator) %>%
-    summarize(exposure_mean = mean(exposure))
+mean_exposure <-
+  data %>%
+  group_by(nominator) %>%
+  summarize(exposure_mean = mean(exposure))
 ```
 
 What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
@@ -427,9 +465,15 @@ As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` 
 
 
 ```r
-names(data2) <- c("nominator", "yvar1") # rename nominee as nominator to merge these
-final_data <- left_join(mean_exposure, data2, by = "nominator")
-final_data <- left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+data2 <-
+  data2 %>% 
+  rename("nominator" = "nominee") # rename nominee as nominator to merge these
+
+final_data <-
+  left_join(mean_exposure, data2, by = "nominator")
+
+final_data <- 
+  left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
 ```
 
 #### Regression (linear model)
@@ -438,7 +482,9 @@ Calculating the exposure term is the most distinctive and important step in carr
 
 
 ```r
-model1 <- lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+model1 <-
+  lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+
 summary(model1)
 ```
 
@@ -478,7 +524,8 @@ Once all of the relations are indicated with a 1 or a 0, then a simple linear re
 
 
 ```r
-m_selection <- glm(relate ~ 1 + same, data = edgelist1)
+m_selection <- 
+  glm(relate ~ 1 + same, data = edgelist1)
 ```
 
 While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
