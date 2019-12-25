@@ -42,9 +42,9 @@ It's useful to learn these techniques from text datasets that are available for 
 
 Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#RStats" and "#Stata" make this tweet conveniently searchable. If Twitter uses search for "#RStats", Twitter returns all the Tweets containing that hashtag.
 
-In this example, we'll be analyzing a dataset of tweets that have the hashtag [#tidytuesday](https://twitter.com/hashtag/tidytuesday). This hashtag returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
+In this example, we'll be analyzing a dataset of tweets that have the hashtag #tidytuesday (https://twitter.com/hashtag/tidytuesday). This hashtag returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
 
-You can view the TidyTuesday tweets dataset here: [https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds](https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds)
+You can view the TidyTuesday tweets dataset here: http://bit.ly/tidytuesday-dataset
 
 ### Methods 
 
@@ -93,7 +93,7 @@ tweets <-
   mutate(status_id = as.character(status_id))
 ```
 
-Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing." In their book *Text Mining With R*, Julia Silge and David Robinson describe tokens this way: 
+Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing." In their book *Text Mining With R*, @silge2017text describe tokens this way: 
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
@@ -167,7 +167,7 @@ The functions we'll be using for our sentiment analysis are in a package called 
 install.packages("tidytext")
 ```
 
-Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013). 
+Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
 
 To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the `tidytext` package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
@@ -360,10 +360,4 @@ The purpose of this walkthrough is to share code with you so you can practice so
  - Procedure manuals  
  - Open ended responses in surveys  
 
-There are also advanced text analysis techniques to explore.  Consider trying [topic modeling](https://www.tidytextmining.com/topicmodeling.html) or [finding correlations between terms](https://www.tidytextmining.com/ngrams.html). Both of these are covered in Julia Silge's and David Robinson's book, *Text mining with R*.
-
-## References 
-
-Silge, J. & Robinson, D. (2017). Text mining with R. O'Reilly Media.  
-
-This dataset was published in Saif M. Mohammad and Peter Turney. (2013), Crowdsourcing a Word-Emotion Association Lexicon. Computational Intelligence, 29(3): 436-465.
+There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html, both from Julia Silge's and David Robinson's book.
