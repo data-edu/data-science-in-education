@@ -3,7 +3,7 @@
 ## Chapter overview
 This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. 
 Our goal is to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of applied examples. 
-If you have not yet installed R and/or RStudio, please go through the steps outlined in Section XXX Chapter YYY before beginning this chapter.    
+If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05A before beginning this chapter.    
 
 <!-- Each walkthrough chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.   -->
 
@@ -21,6 +21,9 @@ The four basic concepts we will use to build our framework are:
 
 You're likely using this text because you have some data that you'd like to do something with, and you'd like to try doing said thing using R. 
 The framework we'll use assumes that your data exists externally from R in a `.csv` file, and needs to be brought into R so that we can work with it.  
+
+There are a multitude of file types that data can be stored in.
+We've provided additional resources for loading data from Excel, SAV, and Google Sheets at the end of this chapter.
 
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
 For those curious as to how to accomplish this, we recommend the following resources [AAA].  
@@ -556,9 +559,80 @@ library(tidyverse)
 
 **For more information on tidy data, check out [Hadley Wickhams's Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.html).**
 
-## Loading Data from Various Sources
+# Include at end of chapter!
+## Loading Data from Excel, SAV, and Google Sheets
 
-Does this belong in 05B instead?
+### Loading Excel Files
+
+We will now do the same with an Excel file. 
+You might be thinking that you can open the file in Excel and then save it as a `.csv`. 
+This is generally a good idea. 
+At the same time, sometimes you may need to directly read a file from Excel. 
+Note that, when possible, we recommend the use of `.csv` files. 
+They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
+
+The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
+
+Once we have installed readxl, we have to load it (just like tidyverse):
+
+```{r, eval = FALSE}
+install.packages("readxl")
+```
+
+```{r}
+library(readxl)
+```
+
+We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
+
+```{r, eval = FALSE}
+my_data <-
+    read_excel("path/to/file.xlsx")
+```
+
+Of course, were this run, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
+
+Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
+
+### Loading SAV Files
+
+The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). NOte that you can also read `.csv` file directly into SPSS and so because of this and the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible. First, install the package `haven`, load it, and the use the function `read_sav()`:
+
+```{r, eval = FALSE}
+install.packages("haven")
+```
+
+```{r, eval = FALSE}
+library(haven)
+my_data <-
+    read_sav("path/to/file.xlsx")
+```
+
+### Google Sheets
+
+Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
+
+```{r, eval = FALSE}
+install.packages("googlesheets")
+```
+
+```{r, eval = FALSE}
+library(googlesheets)
+```
+
+When you run the command below, a link to authenticate with your Google account will open in your browser. 
+
+```{r, eval = FALSE}
+my_sheets <- gs_ls()
+```
+
+You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
+
+```{r, eval = FALSE}
+df <- gs_title('title')
+df <- gs_read(df)
+```
+
 
 This section goes into depth on loading various types of data sources.
 The next chapter covers a very specific `.csv` import and looks more at data types and the tidy data structure.
@@ -679,76 +753,6 @@ Woah, that's a big data frame (with a lot of variables with confusing names, to 
 Great job loading a file and printing it! 
 We are now well on our way to carrying out analysis of our data.
 
-### Loading Excel Files
-
-We will now do the same with an Excel file. 
-You might be thinking that you can open the file in Excel and then save it as a `.csv`. 
-This is generally a good idea. 
-At the same time, sometimes you may need to directly read a file from Excel. 
-Note that, when possible, we recommend the use of `.csv` files. 
-They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
-
-The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
-
-Once we have installed readxl, we have to load it (just like tidyverse):
-
-```{r, eval = FALSE}
-install.packages("readxl")
-```
-
-```{r}
-library(readxl)
-```
-
-We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
-
-```{r, eval = FALSE}
-my_data <-
-    read_excel("path/to/file.xlsx")
-```
-
-Of course, were this run, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
-
-Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
-
-### Loading SAV Files
-
-The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). NOte that you can also read `.csv` file directly into SPSS and so because of this and the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible. First, install the package `haven`, load it, and the use the function `read_sav()`:
-
-```{r, eval = FALSE}
-install.packages("haven")
-```
-
-```{r, eval = FALSE}
-library(haven)
-my_data <-
-    read_sav("path/to/file.xlsx")
-```
-
-### Google Sheets
-
-Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
-
-```{r, eval = FALSE}
-install.packages("googlesheets")
-```
-
-```{r, eval = FALSE}
-library(googlesheets)
-```
-
-When you run the command below, a link to authenticate with your Google account will open in your browser. 
-
-```{r, eval = FALSE}
-my_sheets <- gs_ls()
-```
-
-You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
-
-```{r, eval = FALSE}
-df <- gs_title('title')
-df <- gs_read(df)
-```
 
 ### Saving Files
 
