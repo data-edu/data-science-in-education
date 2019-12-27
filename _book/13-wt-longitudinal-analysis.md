@@ -1,4 +1,4 @@
-# Walkthrough 6: Title Here
+# Exploring Students With Disabilities Counts Over Time
 
 
 
@@ -1362,16 +1362,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              58
+##  1 a       k              27
 ##  2 b       l              44
-##  3 c       m              51
-##  4 d       n              46
-##  5 e       o              88
-##  6 f       k              50
-##  7 g       l              24
-##  8 h       m              62
-##  9 i       n              62
-## 10 j       o              73
+##  3 c       m              58
+##  4 d       n              64
+##  5 e       o              99
+##  6 f       k              56
+##  7 g       l              68
+##  8 h       m              38
+##  9 i       n              91
+## 10 j       o              89
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1392,11 +1392,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            39.5
-## 2 l            42.5
-## 3 m            58.5
-## 4 n            17.5
-## 5 o            62.5
+## 1 k            38  
+## 2 l            77  
+## 3 m            25  
+## 4 n            63.5
+## 5 o            30.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
