@@ -6,11 +6,11 @@ There are a variety of data sources to explore in the education field. Student a
 
 ## Data Sources
 
-This walkthrough goes through a series of analyses using the data science framework (link). The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. We use an Excel gradebook template [Assessment Types - Points](https://web.mit.edu/jabbott/www/excelgradetracker.html) and simulated student data. On your first read through of this section try using our simulated dataset found in this book's `data/` folder.
+This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. We use an Excel gradebook template, *Assessment Types - Points* (https://web.mit.edu/jabbott/www/excelgradetracker.html), and simulated student data. On your first read through of this section try using our simulated dataset found in this book's `data/` folder.
 
 ## Load Packages
 
-As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will use the {tidyverse} package mentioned in Walkthrough 1. The {readxl} package is used to read and import Excel spreadsheets since these file types are very common in the education field.
+As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will use the {tidyverse} package mentioned in [Walkthrough 1](06-wt-multilevel-models-1). The {readxl} package is used to read and import Excel spreadsheets since these file types are very common in the education field.
 
 Make sure you have installed the packages in R on your computer before starting (see Foundational Skills chapter). Load the libraries, as they must be loaded each time we start a new project.
 
