@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 Text Analysis of Tweets | Data Science in Education Using R</title>
+  <title>11 Walkthrough 05: Introduction to Aggregate Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
   <meta name="generator" content="bookdown 0.16.5 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 Text Analysis of Tweets | Data Science in Education Using R" />
+  <meta property="og:title" content="11 Walkthrough 05: Introduction to Aggregate Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="data-edu/data-science-in-education" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 Text Analysis of Tweets | Data Science in Education Using R" />
+  <meta name="twitter:title" content="11 Walkthrough 05: Introduction to Aggregate Data | Data Science in Education Using R" />
   
   <meta name="twitter:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="walkthrough-02-title-here.html"/>
-<link rel="next" href="walkthrough-sna.html"/>
+<link rel="prev" href="walkthrough-sna.html"/>
+<link rel="next" href="exploring-students-with-disabilities-counts-over-time.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -399,363 +399,364 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="text-analysis-of-tweets" class="section level1">
-<h1><span class="header-section-number">9</span> Text Analysis of Tweets</h1>
-<div id="vocabulary" class="section level2">
-<h2><span class="header-section-number">9.1</span> Vocabulary</h2>
-<p>tokenize
-token
-RDS files
-anti_join
-set.seed
-slice
-sample_n()
-stop words</p>
+<div id="walkthrough-05-introduction-to-aggregate-data" class="section level1">
+<h1><span class="header-section-number">11</span> Walkthrough 05: Introduction to Aggregate Data</h1>
+<div id="introduction-2" class="section level2">
+<h2><span class="header-section-number">11.1</span> Introduction</h2>
+<div id="background" class="section level3">
+<h3><span class="header-section-number">11.1.1</span> Background</h3>
+<p>A common situation encountered when using data for analyzing the education sector, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. <a href="https://www.edglossary.org/aggregate-data/">Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis.</a> Example of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or averaged survey responses.</p>
+<p>Aggregated datasets are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state’s department of education website for anybody to download and use.</p>
+<p>Federal and international education datasets provide additional context for evaluating education systems. In the US, some federal datasets aim to consolidate important metrics from all states. This can be quite useful because each state has its own repository of data and to go through each state to download a particular metric is a significant effort. The federal government also funds assessments and surveys which are disseminated to the public. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.</p>
+<p>For education data practitioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large and often suppressed to protect privacy. Sometimes they are already a couple of years old by the time they’re released. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.</p>
+<p>Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.</p>
+<div id="disaggregating-aggregated-data" class="section level4">
+<h4><span class="header-section-number">11.1.1.1</span> Disaggregating Aggregated Data</h4>
+<p>Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data <em>disaggregated</em> by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides data on smaller components than the grand total. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).</p>
 </div>
-<div id="introduction-1" class="section level2">
-<h2><span class="header-section-number">9.2</span> Introduction</h2>
-<p>The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we’ve analyzed data in CSV files, but that’s not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.</p>
-<p>When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we’re surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?</p>
-<p>Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts.</p>
-<p>Analyzing a collection of text is different from analyzing large numerical datasets because words don’t have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word “fantastic”, on the other hand, has multiple ambiguous levels of degree depending on interpretation and context.</p>
-<p>Using text analysis can help to broadly estimate what is happening in the text. When paired with observations, interviews, and close review of the text, this approach can help education staff learn from text data. In this chapter, we’ll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy.</p>
-<p>We’ll show these techniques using a dataset of tweets. We encourage you to complete the walkthrough, then reflect on how the skills learned can be applied to other texts, like word processing documents or websites.</p>
+<div id="disaggregating-data-and-equity" class="section level4">
+<h4><span class="header-section-number">11.1.1.2</span> Disaggregating Data and Equity</h4>
+<p>Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.</p>
+<p>It is important to define what equity means to your team so you know whether you are meeting your equity goals.</p>
 </div>
-<div id="about-our-text-dataset" class="section level2">
-<h2><span class="header-section-number">9.3</span> About Our Text Dataset</h2>
-<p>It’s useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for “download tweet dataset” and note the abundance of tweet datasets available. Since there’s so much, it’s useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here’s an example:</p>
-<blockquote>
-<p>RT <span class="citation">(<span class="citeproc-not-found" data-reference-id="CKVanPay"><strong>???</strong></span>)</span>: I’m trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata</p>
-</blockquote>
-<p>Twitter recognizes any words that start with a “#” as a hashtag. The hashtags “#RStats” and “#Stata” make this tweet conveniently searchable. If Twitter uses search for “#RStats”, Twitter returns all the Tweets containing that hashtag.</p>
-<p>In this example, we’ll be analyzing a dataset of tweets that have the hashtag <a href="https://twitter.com/hashtag/tidytuesday">#tidytuesday</a>. This hashtag returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages.</p>
-<p>You can view the TidyTuesday tweets dataset here: <a href="https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds">https://github.com/data-edu/data-science-in-education/raw/master/data/tidytuesday/rtweet-processed-tidytuesday-data.rds</a></p>
 </div>
-<div id="reading-the-data" class="section level2">
-<h2><span class="header-section-number">9.4</span> Reading the data</h2>
-<p>Let’s start by getting the data into our programming environment so we can start analyzing it. For this analysis, we’ll be using the <code>tidyverse</code>, <code>here</code>, and <code>dataedu</code> packages. Just a reminder, if you haven’t already installed the <code>dataedu</code> package, you can do so by typing this code:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb135-2" title="2"><span class="kw">library</span>(here)</a>
-<a class="sourceLine" id="cb135-3" title="3"><span class="kw">library</span>(dataedu)</a>
-<a class="sourceLine" id="cb135-4" title="4"><span class="kw">library</span>(tidytext)</a></code></pre></div>
-<p>We’ve conveniently included the raw dataset of TidyTuesday tweets in the <code>dataedu</code> package. You can see the dataset by typing <code>tt_tweets</code>. Let’s start by assigning the name <code>raw_tweets</code> to this dataset:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1">raw_tweets &lt;-<span class="st"> </span>tt_tweets</a></code></pre></div>
-<p>Run <code>glimpse(raw_tweets)</code> and notice the number of variables in this dataset. It’s good practice to use functions like <code>glimpse</code> or <code>str</code> to look at the data type of each variable. For this walkthrough, we won’t need all 90 variables so let’s clean the dataset and keep only the ones we want.</p>
 </div>
-<div id="cleaning-the-data-for-the-analysis" class="section level2">
-<h2><span class="header-section-number">9.5</span> Cleaning the data for the analysis</h2>
-<p>In this section we’ll select the columns we need for our analysis and we’ll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring.</p>
-<p>First, let’s use <code>select</code> to pick the two columns we’ll need: <code>status_id</code> and <code>text</code>. <code>status_id</code> will help us associate interesting words with a particular tweet and <code>text</code> will give us the text from that tweet. We’ll also change <code>status_id</code> to the character data type since it’s meant to label tweets and doesn’t actually represent a numerical value.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1">tweets &lt;-</a>
-<a class="sourceLine" id="cb137-2" title="2"><span class="st">  </span>raw_tweets <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb137-3" title="3"><span class="st">  </span><span class="co">#filter for English tweets</span></a>
-<a class="sourceLine" id="cb137-4" title="4"><span class="st">  </span><span class="kw">filter</span>(lang <span class="op">==</span><span class="st"> &quot;en&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb137-5" title="5"><span class="st">  </span><span class="kw">select</span>(status_id, text) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb137-6" title="6"><span class="st">  </span><span class="co"># Convert the ID field to the character data type</span></a>
-<a class="sourceLine" id="cb137-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">status_id =</span> <span class="kw">as.character</span>(status_id))</a></code></pre></div>
-<p>Now the dataset has a column to identify each tweet and a column that shows the text that users tweeted. But each row has the entire tweet in the <code>text</code> variable, which makes it hard to analyze. If we kept our dataset like this, we’d need to use functions on each row to do something like count the number of times the word “good” appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called “tokenizing.” In their book <em>Text Mining With R</em>, Julia Silge and David Robinson describe tokens this way:</p>
-<blockquote>
-<p>A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.</p>
-</blockquote>
-<p>The <code>tidytext</code> package has a convenient function called <code>unnest_tokens</code> that tokenizes vectors of words. Let’s install the <code>tidytext</code> package so we can use it:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;tidytext&quot;</span>)</a></code></pre></div>
-<p>Let’s use <code>unnest_tokens</code> to take our dataset of tweets and transform it into a dataset of words.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1">tokens &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb139-2" title="2"><span class="st">  </span>tweets <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb139-3" title="3"><span class="st">  </span><span class="kw">unnest_tokens</span>(<span class="dt">output =</span> word, <span class="dt">input =</span> text)</a>
-<a class="sourceLine" id="cb139-4" title="4"></a>
-<a class="sourceLine" id="cb139-5" title="5">tokens </a></code></pre></div>
-<pre><code>## # A tibble: 131,233 x 2
-##    status_id           word       
-##    &lt;chr&gt;               &lt;chr&gt;      
-##  1 1163154266065735680 first      
-##  2 1163154266065735680 tidytuesday
-##  3 1163154266065735680 submission 
-##  4 1163154266065735680 roman      
-##  5 1163154266065735680 emperors   
-##  6 1163154266065735680 and        
-##  7 1163154266065735680 their      
-##  8 1163154266065735680 rise       
-##  9 1163154266065735680 to         
-## 10 1163154266065735680 power      
-## # … with 131,223 more rows</code></pre>
-<p>We use <code>output = word</code> to tell <code>unnest_tokens</code> that we want our column of tokens to be called <code>word</code>. We use <code>input = text</code> to tell <code>unnest_tokens</code> to tokenize the tweets in the <code>text</code> column of our <code>tweets</code> dataset. The result is a new dataset where each row has a single word in the <code>word</code> column and a unique ID in the <code>status_id</code> column that tells us which tweet the word appears in.</p>
-<p>Notice that our <code>tokens</code> dataset has many more rows than our <code>tweets</code> dataset. This tells us a lot about how <code>unnest_tokens</code> works. In the <code>tweets</code> dataset, each row has an entire tweet and its unique ID. Since that unique ID is assigned to the entire tweet, each unique ID only appears once in the dataset. When we used <code>unnest_tokens</code> put each word on its own row, we broke each tweet into many words. This created additional rows in the dataset. And since each word in a single tweet shares the same ID for that tweet, an ID now appears multiple times in our new dataset.</p>
-<p>We’re almost ready to start analyzing the dataset! There’s one more step we’ll take–removing common words that don’t help us learn about what people are tweeting about. Words like “the” or “a” are in a category of words called “stop words”. Stop words serve a function in verbal communication, but don’t tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The <code>tidytext</code> package includes a dataset called <code>stop_words</code> that we’ll use to remove rows containing stop words. We’ll use <code>anti_join</code> on our <code>tokens</code> dataset and the <code>stop_words</code> dataset to keep only rows that have words <em>not</em> appearing in the <code>stop_words</code> dataset.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">data</span>(stop_words)</a>
-<a class="sourceLine" id="cb141-2" title="2"></a>
-<a class="sourceLine" id="cb141-3" title="3">tokens &lt;-</a>
-<a class="sourceLine" id="cb141-4" title="4"><span class="st">  </span>tokens <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb141-5" title="5"><span class="st">  </span><span class="kw">anti_join</span>(stop_words, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>)</a></code></pre></div>
-<p>Why does this work? Let’s look closer. <code>inner_join</code> matches the observations in one dataset to another by a specified common variable. Any rows that don’t have a match get dropped from the resulting dataset. <code>anti_join</code> does the same thing as <code>inner_join</code> except it drops matching rows and keeps the rows that <em>don’t</em> match. This is convenient for our analysis because we want to remove rows from <code>tokens</code> that contain words in the <code>stop_words</code> dataset. When we call <code>anti_join</code>, we’re left with rows that <em>don’t</em> match words in the <code>stop_words</code> dataset. These remaining words are the ones we’ll be analyzing.</p>
-<p>One final note before we start counting words: Remember when we first tokenized our dataset and we passed <code>unnest_tokens</code> the argument <code>output = word</code>? We conveniently chose <code>word</code> as our column name because it matches the column name <code>word</code> in the <code>stop_words</code> dataset. This makes our call to <code>anti_join</code> simpler because <code>anti_join</code> knows to look for the column named <code>word</code> in each dataset.</p>
-</div>
-<div id="counting-words" class="section level2">
-<h2><span class="header-section-number">9.6</span> Counting words</h2>
-<p>Now it’s time to start exploring our newly cleaned dataset of tweets. Computing the frequency of each word and seeing which words showed up the most often is a good start. We can pipe <code>tokens</code> to the <code>count</code> function to do this:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1">tokens <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb142-2" title="2"><span class="st">    </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>) </a></code></pre></div>
-<pre><code>## # A tibble: 15,335 x 2
-##    word            n
-##    &lt;chr&gt;       &lt;int&gt;
-##  1 t.co         5432
-##  2 https        5406
-##  3 tidytuesday  4316
-##  4 rstats       1748
-##  5 data         1105
-##  6 code          988
-##  7 week          868
-##  8 r4ds          675
-##  9 dataviz       607
-## 10 time          494
-## # … with 15,325 more rows</code></pre>
-<p>We pass <code>count</code> the argument <code>sort = TRUE</code> to sort the <code>n</code> variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, “tidytuesday” was the third most frequent word in this dataset.</p>
-<p>We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services.</p>
-<p>In our tweets dataset, we’ll be calculating the count of words as a percentage of all tweets. We can do that by using <code>mutate</code> to add a column called <code>percent</code>. <code>percent</code> will divide <code>n</code> by <code>sum(n)</code>, which is the total number of words. Finally, will multiply the result by 100.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">tokens <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb144-2" title="2"><span class="st">  </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb144-3" title="3"><span class="st">  </span><span class="co"># n as a percent of total words</span></a>
-<a class="sourceLine" id="cb144-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">percent =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 15,335 x 3
-##    word            n percent
-##    &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;
-##  1 t.co         5432   7.39 
-##  2 https        5406   7.36 
-##  3 tidytuesday  4316   5.87 
-##  4 rstats       1748   2.38 
-##  5 data         1105   1.50 
-##  6 code          988   1.34 
-##  7 week          868   1.18 
-##  8 r4ds          675   0.919
-##  9 dataviz       607   0.826
-## 10 time          494   0.672
-## # … with 15,325 more rows</code></pre>
-<p>Even at 4316 appearances in our dataset, “tidytuesday” represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words.</p>
-</div>
-<div id="sentiment-analysis" class="section level2">
-<h2><span class="header-section-number">9.7</span> Sentiment analysis</h2>
-<p>Now that we have a sense of the most frequently appearing words, it’s time to explore some questions in our tweets dataset. Let’s imagine that we’re education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token “dataviz” appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words.</p>
-<p>We’ll need to use a technique called sentiment analysis to get at the “positivity” of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our <code>tokens</code> data.</p>
-<p>The functions we’ll be using for our sentiment analysis are in a package called <code>textdata</code>. Let’s start by installing that.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;tidytext&quot;</span>)</a></code></pre></div>
-<p>Earlier we used <code>anti_join</code> to remove stop words in our dataset. We’re going to do something similar here to reduce our <code>tokens</code> dataset to only words that have a positive association. We’ll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon (Saif M. Mohammad and Peter Turney, 2013).</p>
-<p>To explore this dataset more, we’ll use a <code>tidytext</code> function called <code>get_sentiments</code> to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the <code>tidytext</code> package, you’ll be prompted to download the NRC lexicon. Respond “yes” to the prompt and the NRC lexicon will download. Note that you’ll only have to do this the first time you use the NRC lexicon.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1"><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 13,901 x 2
-##    word        sentiment
-##    &lt;chr&gt;       &lt;chr&gt;    
-##  1 abacus      trust    
-##  2 abandon     fear     
-##  3 abandon     negative 
-##  4 abandon     sadness  
-##  5 abandoned   anger    
-##  6 abandoned   fear     
-##  7 abandoned   negative 
-##  8 abandoned   sadness  
-##  9 abandonment anger    
-## 10 abandonment fear     
-## # … with 13,891 more rows</code></pre>
-<p>This returns a dataset with two columns. The first is <code>word</code> and contains a list of words. The second is the <code>sentiment</code> column, which contains an emotion associated with each word. This dataset is similar to the <code>stop_words</code> dataset. Note that this dataset also uses the column name <code>word</code>, which will again make it easy for us to match this dataset to our <code>tokens</code> dataset.</p>
-<div id="tweets-associated-with-positive" class="section level3">
-<h3><span class="header-section-number">9.7.1</span> Tweets associated with positive</h3>
-<p>Let’s begin working on reducing our <code>tokens</code> dataset down to only words that the NRC dataset associates with positivity. We’ll start by creating a new dataset, <code>nrc_pos</code>, which contains the NRC words that have the positive sentiment. Then we’ll match that new dataset to <code>tokens</code> using the <code>word</code> column that is common to both datasets. Finally, we’ll use <code>count</code> to total up the appearances of each positive word.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1"><span class="co"># Only positive in the NRC dataset</span></a>
-<a class="sourceLine" id="cb149-2" title="2">nrc_pos &lt;-</a>
-<a class="sourceLine" id="cb149-3" title="3"><span class="st">  </span><span class="kw">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb149-4" title="4"><span class="st">  </span><span class="kw">filter</span>(sentiment <span class="op">==</span><span class="st"> &quot;positive&quot;</span>)</a>
-<a class="sourceLine" id="cb149-5" title="5"></a>
-<a class="sourceLine" id="cb149-6" title="6"><span class="co"># Match to tokens</span></a>
-<a class="sourceLine" id="cb149-7" title="7">pos_tokens_count &lt;-</a>
-<a class="sourceLine" id="cb149-8" title="8"><span class="st">  </span>tokens <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb149-9" title="9"><span class="st">  </span><span class="kw">inner_join</span>(nrc_pos, <span class="dt">by =</span> <span class="st">&quot;word&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb149-10" title="10"><span class="st">  </span><span class="co"># Total appearance of positive words</span></a>
-<a class="sourceLine" id="cb149-11" title="11"><span class="st">  </span><span class="kw">count</span>(word, <span class="dt">sort =</span> <span class="ot">TRUE</span>) </a>
-<a class="sourceLine" id="cb149-12" title="12"></a>
-<a class="sourceLine" id="cb149-13" title="13">pos_tokens_count</a></code></pre></div>
-<pre><code>## # A tibble: 644 x 2
-##    word          n
-##    &lt;chr&gt;     &lt;int&gt;
-##  1 fun         173
-##  2 top         162
-##  3 learn       131
-##  4 found       128
-##  5 love        113
-##  6 community   110
-##  7 learning     97
-##  8 happy        95
-##  9 share        90
-## 10 inspired     85
-## # … with 634 more rows</code></pre>
-<p>We can visualize this words nicely by using <code>ggplot</code> to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We’ll solve that problem by filtering our dataset to only words that appear 75 times or more.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1">pos_tokens_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb151-2" title="2"><span class="st">  </span><span class="kw">filter</span>(n <span class="op">&gt;=</span><span class="st"> </span><span class="dv">75</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb151-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(., <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(word, <span class="op">-</span>n), <span class="dt">y =</span> n)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-4" title="4"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-5" title="5"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb151-6" title="6">    <span class="dt">title =</span> <span class="st">&quot;Count of words associated with positivity&quot;</span>,</a>
-<a class="sourceLine" id="cb151-7" title="7">    <span class="dt">subtitle =</span> <span class="st">&quot;Tweets with the hashtag #tidytuesday&quot;</span>,</a>
-<a class="sourceLine" id="cb151-8" title="8">    <span class="dt">caption =</span> <span class="st">&quot;Data: Twitter and NRC&quot;</span>,</a>
-<a class="sourceLine" id="cb151-9" title="9">    <span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb151-10" title="10">    <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span></a>
-<a class="sourceLine" id="cb151-11" title="11">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb151-12" title="12"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-text-analysis_files/figure-html/visualize%20positive-1.png" width="672" /></p>
-<p>Note the use of <code>reorder</code> when mapping the <code>word</code> variable to the x aesthetic. Using <code>reorder</code> here sorts our x axis in descending order by the variable <code>n</code>. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization.</p>
-</div>
-<div id="tidytuesday-and-other-positive-words" class="section level3">
-<h3><span class="header-section-number">9.7.2</span> TidyTuesday and other positive words</h3>
-<p>Earlier in the analysis we learned that “dataviz” was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with “dataviz” also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool.</p>
-<p>There are a few steps to this part of the analysis, so let’s review our strategy. We’ll need to use the <code>status_id</code> field in the <code>tweets</code> dataset to filter the tweets that have the word <code>dataviz</code> in them. Then we need to use the <code>statis_id</code> field in this new bunch of <code>dataviz</code> tweets to identify the tweets that include at least one positive word.</p>
-<p>How do we know which <code>status_id</code> values contain the word “dataviz” and which ones contain a positive word? Recall that our <code>tokens</code> dataset only has one word per row, which makes it easy to use functions like <code>filter</code> and <code>inner_join</code> to make two new datasets: one of <code>status_id</code> values that have “dataviz” in the <code>word</code> column and one of <code>status_id</code> values that have a positive word in the <code>word</code> column.</p>
-<p>We’ll explore the combinations of “dataviz” and any positive words in our <code>tweets</code> dataset using these three ingredients: our <code>tweets</code> dataset, a vector of <code>status_id</code>s for tweets that have “dataviz” in them, and a vector of <code>status_id</code>s for tweets that have positive words in them. Now that we have our strategy, let’s write some code and see how it works.</p>
-<p>First, we’ll make a vector of <code>status_id</code>s for tweets that have “dataviz” in them. This will be used later to identify tweets that contain “dataviz” in the text. We’ll use <code>filter</code> on our <code>tokens</code> dataset to keep only the rows that have “dataviz” in the <code>word</code> column. Let’s name that new dataset <code>dv_tokens</code>.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1">dv_tokens &lt;-</a>
-<a class="sourceLine" id="cb152-2" title="2"><span class="st">  </span>tokens <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb152-3" title="3"><span class="st">  </span><span class="kw">filter</span>(word <span class="op">==</span><span class="st"> &quot;dataviz&quot;</span>)</a>
-<a class="sourceLine" id="cb152-4" title="4"></a>
-<a class="sourceLine" id="cb152-5" title="5">dv_tokens</a></code></pre></div>
-<pre><code>## # A tibble: 607 x 2
-##    status_id           word   
-##    &lt;chr&gt;               &lt;chr&gt;  
-##  1 1116518351147360257 dataviz
-##  2 1098025772554612738 dataviz
-##  3 1161454327296339968 dataviz
-##  4 1110711892086001665 dataviz
-##  5 1151926405162291200 dataviz
-##  6 1095854400004853765 dataviz
-##  7 1157111441419395074 dataviz
-##  8 1154958378764046336 dataviz
-##  9 1105642831413239808 dataviz
-## 10 1108196618464047105 dataviz
-## # … with 597 more rows</code></pre>
-<p>The result is a dataset that has status_ids in one column and the word “dataviz” in the other column. We can use <code>$</code> to extract a vector of status_ids for tweets that have “dataviz” in the text. This vector has 607 values, so we’ll use <code>head</code> to view just the first ten.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1"><span class="co"># Extract status_id</span></a>
-<a class="sourceLine" id="cb154-2" title="2"><span class="kw">head</span>(dv_tokens<span class="op">$</span>status_id)</a></code></pre></div>
-<pre><code>## [1] &quot;1116518351147360257&quot; &quot;1098025772554612738&quot; &quot;1161454327296339968&quot;
-## [4] &quot;1110711892086001665&quot; &quot;1151926405162291200&quot; &quot;1095854400004853765&quot;</code></pre>
-<p>Now let’s do this again, but this time we’ll we’ll make a vector of <code>status_id</code>s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We’ll use <code>filter</code> on our <code>tokens</code> dataset to keep only the rows that have any of the positive words in the in the <code>word</code> column. If you’ve been running all the code up to this point in the walkthrough, you’ll notice that you already have a dataset of positive words called <code>nrc_pos</code>, which can be turned into a vector of positive words by typing <code>nrc_pos$word</code>. We can use the <code>%in%</code> operator in our call to <code>filter</code> to find only words that are in this vector of positive words. Let’s name this new dataset <code>pos_tokens</code>.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" title="1">pos_tokens &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb156-2" title="2"><span class="st">  </span>tokens <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb156-3" title="3"><span class="st">  </span><span class="kw">filter</span>(word <span class="op">%in%</span><span class="st"> </span>nrc_pos<span class="op">$</span>word)</a>
-<a class="sourceLine" id="cb156-4" title="4"></a>
-<a class="sourceLine" id="cb156-5" title="5">pos_tokens</a></code></pre></div>
-<pre><code>## # A tibble: 4,925 x 2
-##    status_id           word      
-##    &lt;chr&gt;               &lt;chr&gt;     
-##  1 1163154266065735680 throne    
-##  2 1001412196247666688 honey     
-##  3 1001412196247666688 production
-##  4 1001412196247666688 increase  
-##  5 1001412196247666688 production
-##  6 1161638973808287746 found     
-##  7 991073965899644928  community 
-##  8 991073965899644928  community 
-##  9 991073965899644928  trend     
-## 10 991073965899644928  white     
-## # … with 4,915 more rows</code></pre>
-<p>The result is a dataset that has status_ids in one column and a positive word from <code>tokens</code> in the other column. We’ll again use <code>$</code> to extract a vector of status_ids for these tweets.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1"><span class="co"># Extract status_id</span></a>
-<a class="sourceLine" id="cb158-2" title="2"><span class="kw">head</span>(pos_tokens<span class="op">$</span>status_id) </a></code></pre></div>
-<pre><code>## [1] &quot;1163154266065735680&quot; &quot;1001412196247666688&quot; &quot;1001412196247666688&quot;
-## [4] &quot;1001412196247666688&quot; &quot;1001412196247666688&quot; &quot;1161638973808287746&quot;</code></pre>
-<p>That’s a lot of <code>status_id</code>s, many of which are duplicates. Let’s try and make the vector of <code>status_id</code>s a little shorter. We can get a vector of <code>status_id</code>s by using <code>distinct</code>. <code>distinct</code> is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. <code>distinct</code> takes that bucket of 100 pieces and returns a dataframe where each element is the name of a candy brand. So we can use <code>distinct</code> to get a dataframe of <code>status_id</code>s, where each <code>status_id</code> only appears once:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1">dataviz_distinct &lt;-</a>
-<a class="sourceLine" id="cb160-2" title="2"><span class="st">  </span>dv_tokens <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb160-3" title="3"><span class="st">  </span><span class="kw">distinct</span>(status_id)</a>
-<a class="sourceLine" id="cb160-4" title="4"></a>
-<a class="sourceLine" id="cb160-5" title="5">dataviz_distinct &lt;-<span class="st"> </span><span class="kw">as.vector</span>(dataviz_distinct<span class="op">$</span>status_id)</a></code></pre></div>
-<p>Now we have a vector of <code>status_id</code> for tweets containing “dataviz” and another for tweets containing a positive word. Let’s use these to transform our <code>tweets</code> dataset. First we’ll filter <code>tweets</code> for rows that have the “dataviz” <code>status_id</code>. Then we’ll create a new column called <code>positive</code> that will tell us if the <code>status_id</code> is from our vector of positive word <code>status_id</code>s. We’ll name this filtered dataset <code>dv_pos</code>.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1">dv_pos &lt;-</a>
-<a class="sourceLine" id="cb161-2" title="2"><span class="st">  </span>tweets <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb161-3" title="3"><span class="st">  </span><span class="co"># Only tweets that have the dataviz status_id</span></a>
-<a class="sourceLine" id="cb161-4" title="4"><span class="st">  </span><span class="kw">filter</span>(status_id <span class="op">%in%</span><span class="st"> </span>dataviz_distinct) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb161-5" title="5"><span class="st">  </span><span class="co"># Is the status_id from our vector of positive word?</span></a>
-<a class="sourceLine" id="cb161-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">positive =</span> <span class="kw">if_else</span>(status_id <span class="op">%in%</span><span class="st"> </span>dataviz_distinct, <span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
-<p>Let’s take a moment to dissect how we use <code>if_else</code> to create our <code>positive</code> column. We gave <code>if_else</code> three arguments:</p>
+<div id="data-sources-1" class="section level2">
+<h2><span class="header-section-number">11.2</span> Data Sources</h2>
+<p>There are many education-related, publicly available aggregate datasets. On the international level, perhaps the most well known is:</p>
 <ul>
-<li><code>status_id %in% dataviz_distinct$status_id</code>: a logical statement</li>
-<li><code>1</code>: the value of <code>positive</code> if the logical statement is true</li>
-<li><code>0</code>: the value of <code>positive</code> if the logical statement is false</li>
+<li><a href="http://www.oecd.org/pisa/">Programme for International Student Assessment (PISA)</a>, which measures 15-year-old school pupils’ scholastic performance on mathematics, science, and reading.</li>
 </ul>
-<p>So our new <code>positive</code> column will take the value 1 if the <code>status_id</code> was in our <code>pos_tokens</code> dataset and the value 0 if the <code>status_id</code> was not in our <code>pos_tokens</code> dataset. Practically speaking, <code>positive</code> is 1 if the tweet has a positive word and 0 if it does not have a positive word.</p>
-<p>And finally, let’s see what percent of tweets that had “dataviz” in them also had at least one positive word:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1">dv_pos <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb162-2" title="2"><span class="st">  </span><span class="kw">count</span>(positive) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb162-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">perc =</span> n <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(n)) </a></code></pre></div>
-<pre><code>## # A tibble: 1 x 3
-##   positive     n  perc
-##      &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
-## 1        1   605     1</code></pre>
-<p>About 55 percent of tweets that have “dataviz” in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It’s worth noting here that this finding doesn’t necessarily mean users didn’t have anything good to say about 45 percent of the “dataviz” tweets. We can’t know precisely why some tweets had positive words and some didn’t, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words.</p>
-<p>Since the point of exploratory data analysis is to explore and develop questions, let’s continue to do that. In this last section we’ll review a random selection of tweets for context.</p>
-</div>
-<div id="close-read-of-randomly-selected-tweets" class="section level3">
-<h3><span class="header-section-number">9.7.3</span> Close read of randomly selected tweets</h3>
-<p>Let’s review where we are so far as we work to learn more about the TidyTuesday learning community through tweets. So far we’ve counted frequently used words and estimated the number of tweets with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it’s also useful to explore by zooming in and reading some of the tweets. Reading tweets helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn’t lead to quantitative findings, it helps us to learn more about the content we’re studying and analyzing. Instead of reading all 4418 tweets, let’s write some code to randomly select tweets to review.</p>
-<p>First, let’s make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had “dataviz” and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let’s resuse that technique, but instead of applying to a dataset of tweets containing “dataviz”, let’s use it on our dataset of all tweets.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">pos_tweets &lt;-</a>
-<a class="sourceLine" id="cb164-2" title="2"><span class="st">  </span>tweets <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb164-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">positive =</span> <span class="kw">if_else</span>(status_id <span class="op">%in%</span><span class="st"> </span>dataviz_distinct, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb164-4" title="4"><span class="st">  </span><span class="kw">filter</span>(positive <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
-<p>Again, we’re using <code>if_else</code> to make a new column called <code>positive</code> that takes its value based on whether <code>status_id %in% dataviz_distinct$status_id</code> is true or not.</p>
-<p>We can use <code>slice</code> to help us pick the rows. When we pass <code>slice</code> a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">tweets <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb165-2" title="2"><span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>, <span class="dv">3</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   status_id         text                                                        
-##   &lt;chr&gt;             &lt;chr&gt;                                                       
-## 1 1163154266065735… First #TidyTuesday submission! Roman emperors and their ris…
-## 2 1001412196247666… &quot;My #tidytuesday submission for week 8. Honey production da…</code></pre>
-<p>Again, we’re using <code>if_else</code> to make a new column called <code>positive</code> that takes its value based on whether <code>status_id %in% dataviz_distinct$status_id</code> is true or not.</p>
-<p>We can use <code>slice</code> to help us pick the rows. When we pass <code>slice</code> a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1">tweets <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb167-2" title="2"><span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>, <span class="dv">3</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   status_id         text                                                        
-##   &lt;chr&gt;             &lt;chr&gt;                                                       
-## 1 1163154266065735… First #TidyTuesday submission! Roman emperors and their ris…
-## 2 1001412196247666… &quot;My #tidytuesday submission for week 8. Honey production da…</code></pre>
-<p>Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves.</p>
-<p>Here’s one way to do that using base R:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">sample</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">size =</span> <span class="dv">5</span>)</a></code></pre></div>
-<pre><code>## [1]  8  2 10  6  3</code></pre>
-<p>Passing <code>sample()</code> a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of <code>x</code> and <code>size</code> to see how this works.</p>
-<p><code>dplyr</code> has a version of this called <code>sample_n()</code> that we can use to randomly select rows in our tweets dataset. If we want to specifiy random row numbers for slice to pick for us, we can use <code>sample(1:nrow(.), 10)</code> like this:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1"><span class="kw">set.seed</span>(<span class="dv">369</span>)</a>
-<a class="sourceLine" id="cb171-2" title="2"></a>
-<a class="sourceLine" id="cb171-3" title="3">pos_tweets <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sample_n</span>(., <span class="dt">size =</span> <span class="dv">10</span>)</a></code></pre></div>
-<pre><code>## # A tibble: 10 x 3
-##    status_id        text                                                positive
-##    &lt;chr&gt;            &lt;chr&gt;                                                  &lt;dbl&gt;
-##  1 111793685957587… &quot;my attempt to recreate the last graph in https://…        1
-##  2 107981495219247… &quot;1/4 The @R4DScommunity welcomes you back to week …        1
-##  3 114145410803492… &quot;A minimal bar chart of American Crow counts\nhttp…        1
-##  4 101129662572002… &quot;Welcome to week 13 of #tidytuesday!\n\nWe&#39;re expl…        1
-##  5 103952731219738… &quot;Are you a #catperson or a #dogperson? This week i…        1
-##  6 104421685532443… &quot;/1 The @R4DScommunity welcomes you to week 26 of …        1
-##  7 111455350429788… &quot;@BecomingDataSci If you&#39;re stuck on where to find…        1
-##  8 113599065953641… &quot;For my first ever #TidyTuesday contribution, I ma…        1
-##  9 114154765805994… &quot;#TidyTuesday #rstats #dataviz This week, about \&quot;…        1
-## 10 106223813908584… Choropleths for #TidyTuesday: large reduction in m…        1</code></pre>
-<p>That returned ten randomly selected tweets that we can now read through and discuss. Let’s look a little closer at how we did that. We used <code>sample_n()</code>, which returns randomly selected rows from our tweets dataset. We also specified that <code>size = 10</code>, which means we want <code>sample_n()</code> to give us 10 randomly selected rows. A few lines before that, we used <code>set.seed(369)</code>. This helps us ensure that, while <code>sample_n()</code> theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using <code>set.seed(369)</code> at the top of your code makes <code>sample_n()</code> pick the same ten rows every time. Try changing <code>369</code> to another number and notice how <code>sample_n()</code> picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in <code>set.seed()</code>.</p>
-</div>
-</div>
-<div id="next-steps" class="section level2">
-<h2><span class="header-section-number">9.8</span> Next steps</h2>
-<p>The purpose of this walkthrough is to share code with you so you can practice some basic text analysis techniques. Now it’s time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Trying reading in some of these and doing a similar analysis:</p>
+<p>On the federal level, examples include:</p>
 <ul>
-<li>News articles</li>
-<li>Procedure manuals<br />
-</li>
-<li>Open ended responses in surveys</li>
+<li><p><a href="https://www2.ed.gov/about/offices/list/ocr/data.html">Civil Rights Data Collection (CRDC)</a>, which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.</p></li>
+<li><p><a href="https://nces.ed.gov/ccd/">Common Core of Data (CCD)</a>, which is the US Department of Education’s primary database on public elementary and secondary education.</p></li>
+<li><p><a href="https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html">EdFacts</a>, which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.</p></li>
+<li><p><a href="https://nces.ed.gov/ipeds/">Integrated Postsecondary Education Data System (IPEDS)</a>, which is the US Department of Education’s primary database on postsecondary education.</p></li>
+<li><p><a href="https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx">National Assessment for Educational Progress (NAEP) Data</a>, an assessment of educational progress in the United States. Often called the “nation’s report card.” The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.</p></li>
 </ul>
-<p>There are also advanced text analysis techniques to explore. Consider trying <a href="https://www.tidytextmining.com/topicmodeling.html">topic modeling</a> or <a href="https://www.tidytextmining.com/ngrams.html">finding correlations between terms</a>. Both of these are covered in Julia Silge’s and David Robinson’s book, <em>Text mining with R</em>.</p>
+<p>On the state and district level, examples include:</p>
+<ul>
+<li><p><a href="https://www.cde.ca.gov/ds/">California Department of Education</a>, which is the state department of education website. It includes both downloadable CSV files and “Data Quest”, which lets you query the data online.</p></li>
+<li><p><a href="https://mpls.k12.mn.us/reports_and_data">Minneapolis Public Schools</a>, which is a district-level website with datasets beyond those listed in the state website.</p></li>
+</ul>
+<div id="selecting-data" class="section level4">
+<h4><span class="header-section-number">11.2.0.1</span> Selecting Data</h4>
+<p>For the purposes of this walkthrough, we will be looking at a particular school district’s data. This district reports their student demographics in a robust, complete way. Not only do they report the percentage of students in a subgroup, but they also include the number of students in each subgroup. This allows a deep look into their individual school demographics. Their reporting of the composition of their schools provides an excellent opportunity to explore inequities in a system.</p>
 </div>
-<div id="references" class="section level2">
-<h2><span class="header-section-number">9.9</span> References</h2>
-<p>Silge, J. &amp; Robinson, D. (2017). Text mining with R. O’Reilly Media.</p>
-<p>This dataset was published in Saif M. Mohammad and Peter Turney. (2013), Crowdsourcing a Word-Emotion Association Lexicon. Computational Intelligence, 29(3): 436-465.</p>
+<div id="methods" class="section level3">
+<h3><span class="header-section-number">11.2.1</span> Methods</h3>
+<p>In this chapter, we will walk through how running analyses on a publicly available dataset can help education data practitioners understand the landscape of needs and opportunities in the field of education. As opposed to causal analysis, which aims to assess the root cause of an phenomenon or the effects of an intervention, we use analysis on an aggregate dataset to find out whether there <em>is</em> a phenomenon, <em>what</em> it is, and <em>what</em> we’d be trying to solve through interventions.</p>
+</div>
+</div>
+<div id="load-packages-1" class="section level2">
+<h2><span class="header-section-number">11.3</span> Load Packages</h2>
+<p>As usual, we begin our code by calling the libraries we will use.</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb200-2" title="2"><span class="kw">library</span>(janitor)</a>
+<a class="sourceLine" id="cb200-3" title="3"><span class="kw">library</span>(dataedu)</a></code></pre></div>
+<p>ROpenSci created the <a href="https://github.com/ropensci/tabulizer">{tabulizer} package</a> which provides R bindings to the Tabula java library, which can be used to computationaly extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring {RJava}.</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" title="1"><span class="kw">library</span>(tabulizer)</a></code></pre></div>
+</div>
+<div id="import-data-1" class="section level2">
+<h2><span class="header-section-number">11.4</span> Import Data</h2>
+<p>{tabulizer} pulls the PDF data into lists using <code>extract_tables()</code>.</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="co"># race data</span></a>
+<a class="sourceLine" id="cb202-2" title="2">race_pdf &lt;-</a>
+<a class="sourceLine" id="cb202-3" title="3"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf&quot;</span>)</a></code></pre></div>
+<p>It is important to consistently check what we’re doing with the actual PDF’s to ensure we’re getting the data that we need.</p>
+<ul>
+<li>We then transform the list to a data frame with <code>map(as_tibble)</code>.</li>
+<li>The <code>slice()</code> in <code>map_df()</code> removes unnecessary rows from the PDF.</li>
+<li>Now we create readable column names using <code>set_names()</code>.</li>
+</ul>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" title="1">race_df &lt;-</a>
+<a class="sourceLine" id="cb203-2" title="2"><span class="st">  </span>race_pdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb203-3" title="3"><span class="st">  </span><span class="co"># turn each page into a tibble</span></a>
+<a class="sourceLine" id="cb203-4" title="4"><span class="st">  </span><span class="kw">map</span>(as_tibble) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb203-5" title="5"><span class="st">  </span><span class="co"># remove unnecessary rows</span></a>
+<a class="sourceLine" id="cb203-6" title="6"><span class="st">  </span><span class="kw">map_df</span>( <span class="op">~</span><span class="st"> </span><span class="kw">slice</span>(.,<span class="op">-</span><span class="dv">1</span><span class="op">:-</span><span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb203-7" title="7"><span class="st">  </span><span class="co"># use descriptive column names</span></a>
+<a class="sourceLine" id="cb203-8" title="8"><span class="st">  </span><span class="kw">set_names</span>(</a>
+<a class="sourceLine" id="cb203-9" title="9">    <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb203-10" title="10">      <span class="st">&quot;school_group&quot;</span>,</a>
+<a class="sourceLine" id="cb203-11" title="11">      <span class="st">&quot;school_name&quot;</span>,</a>
+<a class="sourceLine" id="cb203-12" title="12">      <span class="st">&quot;grade&quot;</span>,</a>
+<a class="sourceLine" id="cb203-13" title="13">      <span class="st">&quot;na_num&quot;</span>,</a>
+<a class="sourceLine" id="cb203-14" title="14">      <span class="co"># native american number of students</span></a>
+<a class="sourceLine" id="cb203-15" title="15">      <span class="st">&quot;na_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-16" title="16">      <span class="co"># native american percentage of students</span></a>
+<a class="sourceLine" id="cb203-17" title="17">      <span class="st">&quot;aa_num&quot;</span>,</a>
+<a class="sourceLine" id="cb203-18" title="18">      <span class="co"># african american number of students</span></a>
+<a class="sourceLine" id="cb203-19" title="19">      <span class="st">&quot;aa_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-20" title="20">      <span class="co"># african american percentage</span></a>
+<a class="sourceLine" id="cb203-21" title="21">      <span class="st">&quot;as_num&quot;</span>,</a>
+<a class="sourceLine" id="cb203-22" title="22">      <span class="co"># asian number of students</span></a>
+<a class="sourceLine" id="cb203-23" title="23">      <span class="st">&quot;as_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-24" title="24">      <span class="co"># asian percentage</span></a>
+<a class="sourceLine" id="cb203-25" title="25">      <span class="st">&quot;hi_num&quot;</span>,</a>
+<a class="sourceLine" id="cb203-26" title="26">      <span class="co"># hispanic number of students</span></a>
+<a class="sourceLine" id="cb203-27" title="27">      <span class="st">&quot;hi_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-28" title="28">      <span class="co"># hispanic percentage</span></a>
+<a class="sourceLine" id="cb203-29" title="29">      <span class="st">&quot;wh_num&quot;</span>,</a>
+<a class="sourceLine" id="cb203-30" title="30">      <span class="co"># white number of students</span></a>
+<a class="sourceLine" id="cb203-31" title="31">      <span class="st">&quot;wh_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-32" title="32">      <span class="co"># white percentage</span></a>
+<a class="sourceLine" id="cb203-33" title="33">      <span class="st">&quot;pi_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb203-34" title="34">      <span class="co"># pacific islander percentage</span></a>
+<a class="sourceLine" id="cb203-35" title="35">      <span class="st">&quot;blank_col&quot;</span>,</a>
+<a class="sourceLine" id="cb203-36" title="36">      <span class="st">&quot;tot&quot;</span> <span class="co"># total number of students</span></a>
+<a class="sourceLine" id="cb203-37" title="37">    )</a>
+<a class="sourceLine" id="cb203-38" title="38">  )</a></code></pre></div>
+<p>For the Race/Ethnicity table, we want the totals for each district school as we won’t be looking at grade-level variation. When analyzing the PDF, we see the totals have “Total” in the School Name.</p>
+<p>We clean up this dataset by:</p>
+<ol style="list-style-type: decimal">
+<li>Removing unnecessary or blank columns using <code>select()</code>. Negative selections means those columns will be removed.</li>
+<li>Removing all Grand Total rows (otherwise they’ll show up in our data, when we just want district-level data) using <code>filter()</code>. We keep schools that have “Total” in the name but remove any rows that are Grand Total.</li>
+<li>Then we trim white space from strings.</li>
+<li>The data in the “percentage” columns are provided with a percentage sign. This means we will have to remove all of them to be able to do math on these columns (for example, adding them together). Also, we want to divide the numbers by 100 so they are true percentages.</li>
+</ol>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1">race_clean &lt;-</a>
+<a class="sourceLine" id="cb204-2" title="2"><span class="st">  </span>race_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-3" title="3"><span class="st">  </span><span class="co"># remove unnecessary columns</span></a>
+<a class="sourceLine" id="cb204-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>school_group,<span class="op">-</span>grade,<span class="op">-</span>pi_pct,<span class="op">-</span>blank_col) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-5" title="5"><span class="st">  </span><span class="co"># filter to get grade-level numbers</span></a>
+<a class="sourceLine" id="cb204-6" title="6"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(school_name, <span class="st">&quot;Total&quot;</span>),</a>
+<a class="sourceLine" id="cb204-7" title="7">         school_name <span class="op">!=</span><span class="st"> &quot;Grand Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-8" title="8"><span class="st">  </span><span class="co"># clean up school names</span></a>
+<a class="sourceLine" id="cb204-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">school_name =</span> <span class="kw">str_replace</span>(school_name, <span class="st">&quot;Total&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-10" title="10"><span class="st">  </span><span class="co"># remove white space</span></a>
+<a class="sourceLine" id="cb204-11" title="11"><span class="st">  </span><span class="kw">mutate_if</span>(is.character, trimws) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb204-12" title="12"><span class="st">  </span><span class="co"># turn numbers into percentages</span></a>
+<a class="sourceLine" id="cb204-13" title="13"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">contains</span>(<span class="st">&quot;pct&quot;</span>)), <span class="kw">list</span>( <span class="op">~</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">str_replace</span>(., <span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="op">/</span><span class="st"> </span><span class="dv">100</span>))</a></code></pre></div>
+<p>We will import the Free Reduced Price Lunch (FRPL) PDF’s now.</p>
+<blockquote>
+<p>FRPL stands for Free/Reduced Price Lunch, [often used as a proxy for poverty]((<a href="https://nces.ed.gov/blogs/nces/post/free-or-reduced-price-lunch-a-proxy-for-poverty" class="uri">https://nces.ed.gov/blogs/nces/post/free-or-reduced-price-lunch-a-proxy-for-poverty</a>). Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important in disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)</p>
+</blockquote>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" title="1">frpl_pdf &lt;-</a>
+<a class="sourceLine" id="cb205-2" title="2"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf&quot;</span>)</a></code></pre></div>
+<p>Similar to the Race/Ethnicity PDF, there are rows that we don’t need from each page, which we remove using <code>slice()</code>.</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" title="1">frpl_df &lt;-</a>
+<a class="sourceLine" id="cb206-2" title="2"><span class="st">  </span>frpl_pdf <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb206-3" title="3"><span class="st">  </span><span class="kw">map</span>(as_tibble) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb206-4" title="4"><span class="st">  </span><span class="kw">map_df</span>( <span class="op">~</span><span class="st"> </span><span class="kw">slice</span>(.,<span class="op">-</span><span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb206-5" title="5"><span class="st">  </span><span class="kw">set_names</span>(</a>
+<a class="sourceLine" id="cb206-6" title="6">    <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb206-7" title="7">      <span class="st">&quot;school_name&quot;</span>,</a>
+<a class="sourceLine" id="cb206-8" title="8">      <span class="st">&quot;not_eligible_num&quot;</span>,</a>
+<a class="sourceLine" id="cb206-9" title="9">      <span class="co"># number of non-eligible students,</span></a>
+<a class="sourceLine" id="cb206-10" title="10">      <span class="st">&quot;reduce_num&quot;</span>,</a>
+<a class="sourceLine" id="cb206-11" title="11">      <span class="co"># number of students receiving reduced price lunch</span></a>
+<a class="sourceLine" id="cb206-12" title="12">      <span class="st">&quot;free_num&quot;</span>,</a>
+<a class="sourceLine" id="cb206-13" title="13">      <span class="co"># number of students receiving free lunch</span></a>
+<a class="sourceLine" id="cb206-14" title="14">      <span class="st">&quot;frpl_num&quot;</span>,</a>
+<a class="sourceLine" id="cb206-15" title="15">      <span class="co"># total number of students</span></a>
+<a class="sourceLine" id="cb206-16" title="16">      <span class="st">&quot;frpl_pct&quot;</span> <span class="co"># free/reduced price lunch percentage</span></a>
+<a class="sourceLine" id="cb206-17" title="17">    )</a>
+<a class="sourceLine" id="cb206-18" title="18">  )</a></code></pre></div>
+<p>To clean it up, we remove the rows that are blank. When looking at the PDF, we notice that there are aggregations inserted into the table that are not district-level. For example, they have included ELM K_08, presumably to aggregate FRPL numbers up to the K-8 level. Although this is useful data, we don’t need it for this district-level analysis. There are different ways we can remove these rows but we will just filter them out.</p>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1">frpl_clean &lt;-</a>
+<a class="sourceLine" id="cb207-2" title="2"><span class="st">  </span>frpl_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-3" title="3"><span class="st">  </span><span class="kw">filter</span>(</a>
+<a class="sourceLine" id="cb207-4" title="4">    <span class="co"># remove blanks</span></a>
+<a class="sourceLine" id="cb207-5" title="5">    school_name <span class="op">!=</span><span class="st"> &quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb207-6" title="6">    <span class="co"># filter out the rows in this list</span></a>
+<a class="sourceLine" id="cb207-7" title="7">    school_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb207-8" title="8">      <span class="st">&quot;ELM K_08&quot;</span>,</a>
+<a class="sourceLine" id="cb207-9" title="9">      <span class="st">&quot;Mid Schl&quot;</span>,</a>
+<a class="sourceLine" id="cb207-10" title="10">      <span class="st">&quot;High Schl&quot;</span>,</a>
+<a class="sourceLine" id="cb207-11" title="11">      <span class="st">&quot;Alt HS&quot;</span>,</a>
+<a class="sourceLine" id="cb207-12" title="12">      <span class="st">&quot;Spec Ed Total&quot;</span>,</a>
+<a class="sourceLine" id="cb207-13" title="13">      <span class="st">&quot;Cont Alt Total&quot;</span>,</a>
+<a class="sourceLine" id="cb207-14" title="14">      <span class="st">&quot;Hospital Sites Total&quot;</span>,</a>
+<a class="sourceLine" id="cb207-15" title="15">      <span class="st">&quot;Dist Total&quot;</span></a>
+<a class="sourceLine" id="cb207-16" title="16">    )</a>
+<a class="sourceLine" id="cb207-17" title="17">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb207-18" title="18"><span class="st">  </span><span class="co"># turn numbers into percentages</span></a>
+<a class="sourceLine" id="cb207-19" title="19"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">frpl_pct =</span> <span class="kw">as.numeric</span>(<span class="kw">str_replace</span>(frpl_pct, <span class="st">&quot;%&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)</a></code></pre></div>
+<p>Because we want to look at race/ethnicity data in conjunction with free/reduced price lunch percentage, we join the two datasets by the name of the school.</p>
+<ul>
+<li>Use <code>mutate_at()</code> to specify columns to which to apply a function (in this case, <code>as.numeric</code>.)</li>
+</ul>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1"><span class="co"># create full dataset, joined by school name</span></a>
+<a class="sourceLine" id="cb208-2" title="2">joined_df &lt;-</a>
+<a class="sourceLine" id="cb208-3" title="3"><span class="st">  </span><span class="kw">left_join</span>(race_clean, frpl_clean, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;school_name&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb208-4" title="4"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">17</span>, as.numeric)</a></code></pre></div>
+<blockquote>
+<p><strong>Did you notice?</strong> The total number of students from the Race/Ethnicity table does <strong>not</strong> match the total number of students from the FRPL table, even though they’re referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people, who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, when students may have moved around in the meantime. We don’t know but it does require us to make strategic decisions about which data we consider the ‘truth’ for our analysis.</p>
+</blockquote>
+<p>Now we move on to the fun part of creating new columns based on the merged dataset.</p>
+<ol style="list-style-type: decimal">
+<li>We want to calculate, for each race, the number of students in ‘high poverty’ schools. This is defined by NCES as schools that are over 75% FRPL. When a school has over 75% FRPL, we count the number of students for that particular race under the variable <code>[racename]_povnum</code>.</li>
+<li>The {janitor} package has a handy <code>adorn_totals()</code> function that sums the columns for you. This is important because we want a weighted average of students in each category, so we need the total number of students in each group.</li>
+<li>We create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.</li>
+<li>To get FRPL percentage for all schools, we have to recalculate <code>frpl_pct.</code></li>
+<li>To calculate the percentage of students by race who are in high poverty schools, we must divide the number of students in high poverty schools by the total number of students in that race.</li>
+</ol>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1">merged_df &lt;-</a>
+<a class="sourceLine" id="cb209-2" title="2"><span class="st">  </span>joined_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb209-3" title="3"><span class="st">  </span><span class="co"># calculate high poverty numbers</span></a>
+<a class="sourceLine" id="cb209-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb209-5" title="5">    <span class="dt">hi_povnum =</span> <span class="kw">case_when</span>(frpl_pct <span class="op">&gt;</span><span class="st"> </span><span class="fl">.75</span> <span class="op">~</span><span class="st"> </span>hi_num),</a>
+<a class="sourceLine" id="cb209-6" title="6">    <span class="dt">aa_povnum =</span> <span class="kw">case_when</span>(frpl_pct <span class="op">&gt;</span><span class="st"> </span><span class="fl">.75</span> <span class="op">~</span><span class="st"> </span>aa_num),</a>
+<a class="sourceLine" id="cb209-7" title="7">    <span class="dt">wh_povnum =</span> <span class="kw">case_when</span>(frpl_pct <span class="op">&gt;</span><span class="st"> </span><span class="fl">.75</span> <span class="op">~</span><span class="st"> </span>wh_num),</a>
+<a class="sourceLine" id="cb209-8" title="8">    <span class="dt">as_povnum =</span> <span class="kw">case_when</span>(frpl_pct <span class="op">&gt;</span><span class="st"> </span><span class="fl">.75</span> <span class="op">~</span><span class="st"> </span>as_num),</a>
+<a class="sourceLine" id="cb209-9" title="9">    <span class="dt">na_povnum =</span> <span class="kw">case_when</span>(frpl_pct <span class="op">&gt;</span><span class="st"> </span><span class="fl">.75</span> <span class="op">~</span><span class="st"> </span>na_num)</a>
+<a class="sourceLine" id="cb209-10" title="10">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb209-11" title="11"><span class="st">  </span><span class="kw">adorn_totals</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb209-12" title="12"><span class="st">  </span><span class="co"># create percentage by demographic</span></a>
+<a class="sourceLine" id="cb209-13" title="13"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb209-14" title="14">    <span class="dt">na_pct =</span> na_num <span class="op">/</span><span class="st"> </span>tot,</a>
+<a class="sourceLine" id="cb209-15" title="15">    <span class="dt">aa_pct =</span> aa_num <span class="op">/</span><span class="st"> </span>tot,</a>
+<a class="sourceLine" id="cb209-16" title="16">    <span class="dt">as_pct =</span> as_num <span class="op">/</span><span class="st"> </span>tot,</a>
+<a class="sourceLine" id="cb209-17" title="17">    <span class="dt">hi_pct =</span> hi_num <span class="op">/</span><span class="st"> </span>tot,</a>
+<a class="sourceLine" id="cb209-18" title="18">    <span class="dt">wh_pct =</span> wh_num <span class="op">/</span><span class="st"> </span>tot,</a>
+<a class="sourceLine" id="cb209-19" title="19">    <span class="dt">frpl_pct =</span> (free_num <span class="op">+</span><span class="st"> </span>reduce_num) <span class="op">/</span><span class="st"> </span>frpl_num,</a>
+<a class="sourceLine" id="cb209-20" title="20">    <span class="co"># create percentage by demographic and poverty</span></a>
+<a class="sourceLine" id="cb209-21" title="21">    <span class="dt">hi_povsch =</span> hi_povnum <span class="op">/</span><span class="st"> </span>hi_num[<span class="kw">which</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>)],</a>
+<a class="sourceLine" id="cb209-22" title="22">    <span class="dt">aa_povsch =</span> aa_povnum <span class="op">/</span><span class="st"> </span>aa_num[<span class="kw">which</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>)],</a>
+<a class="sourceLine" id="cb209-23" title="23">    <span class="dt">as_povsch =</span> as_povnum <span class="op">/</span><span class="st"> </span>as_num[<span class="kw">which</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>)],</a>
+<a class="sourceLine" id="cb209-24" title="24">    <span class="dt">wh_povsch =</span> wh_povnum <span class="op">/</span><span class="st"> </span>wh_num[<span class="kw">which</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>)],</a>
+<a class="sourceLine" id="cb209-25" title="25">    <span class="dt">na_povsch =</span> na_povnum <span class="op">/</span><span class="st"> </span>na_num[<span class="kw">which</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>)]</a>
+<a class="sourceLine" id="cb209-26" title="26">  )</a></code></pre></div>
+<p>To facilitate the creation of ggplots later on, we put this data in tidy format.</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" title="1">tidy_df &lt;-</a>
+<a class="sourceLine" id="cb210-2" title="2"><span class="st">  </span>merged_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb210-3" title="3"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="op">-</span><span class="kw">matches</span>(<span class="st">&quot;school_name&quot;</span>),</a>
+<a class="sourceLine" id="cb210-4" title="4">               <span class="dt">names_to =</span> <span class="st">&quot;category&quot;</span>,</a>
+<a class="sourceLine" id="cb210-5" title="5">               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>)</a></code></pre></div>
+<p>Running the above code, particularly the download of the PDFs, takes a lot of time. We’ve saved copies of the merged and tidy data in the data folder and can be accessed by running the code below.</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" title="1">tidy_df &lt;-</a>
+<a class="sourceLine" id="cb211-2" title="2"><span class="st">  </span><span class="kw">read_csv</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;wt05_agg_data&quot;</span>, <span class="st">&quot;wt05_aggdat_tidy_dat.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb211-3" title="3"></a>
+<a class="sourceLine" id="cb211-4" title="4">merged_df &lt;-</a>
+<a class="sourceLine" id="cb211-5" title="5"><span class="st">  </span><span class="kw">read_csv</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;wt05_agg_data&quot;</span>, <span class="st">&quot;wt05_aggdat_merged_dat.csv&quot;</span>))</a></code></pre></div>
+</div>
+<div id="view-data" class="section level2">
+<h2><span class="header-section-number">11.5</span> View Data</h2>
+<div id="discovering-distributions" class="section level3">
+<h3><span class="header-section-number">11.5.1</span> Discovering Distributions</h3>
+<p>What do the racial demographics in this district look like? For this, a barplot can quickly visualize the different proportion of subgroups.</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" title="1">tidy_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb212-2" title="2"><span class="st">  </span><span class="co"># filter out Total rows, since we want district-level information</span></a>
+<a class="sourceLine" id="cb212-3" title="3"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>,</a>
+<a class="sourceLine" id="cb212-4" title="4">         <span class="kw">str_detect</span>(category, <span class="st">&quot;pct&quot;</span>),</a>
+<a class="sourceLine" id="cb212-5" title="5">         category <span class="op">!=</span><span class="st"> &quot;frpl_pct&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb212-6" title="6"><span class="st">  </span><span class="co"># reordering x axis so bars appear by descending value</span></a>
+<a class="sourceLine" id="cb212-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(category, <span class="op">-</span>value), <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-8" title="8"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> category)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage of Population&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-11" title="11"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Whifite&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>, <span class="st">&quot;Asian&quot;</span>, <span class="st">&quot;Native Am.&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-12" title="12"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-13" title="13"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-14" title="14"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb212-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When we look at these data, the district looks very diverse. Almost <strong>40% of students are Black</strong> and around <strong>36% are White.</strong></p>
+<blockquote>
+<p>Note: this matches the percentages provided in the original PDF’s. This shows our calculations above were accurate. Hooray!</p>
+</blockquote>
+<p>In terms of free/reduced price lunch, we have that calculated under <code>frpl_pct</code>:</p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" title="1">tidy_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-2" title="2"><span class="st">  </span><span class="kw">filter</span>(category <span class="op">==</span><span class="st"> &quot;frpl_pct&quot;</span>,</a>
+<a class="sourceLine" id="cb213-3" title="3">         school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb213-4" title="4"><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">school_name</th>
+<th align="left">category</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Total</td>
+<td align="left">frpl_pct</td>
+<td align="right">0.5685631</td>
+</tr>
+</tbody>
+</table>
+<p><strong>56.9% of the students are eligible for FRPL</strong>, compared to <a href="https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes">the US average of 52.1%.</a></p>
+<blockquote>
+<p>This also matches the PDF’s. Great!</p>
+</blockquote>
+<p>Now, we dig deeper to see if there is more to the story.</p>
+</div>
+<div id="anayzing-spread" class="section level3">
+<h3><span class="header-section-number">11.5.2</span> Anayzing Spread</h3>
+<p>Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" title="1">merged_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb214-2" title="2"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">!=</span><span class="st"> &quot;Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb214-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> wh_pct)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-4" title="4"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">.1</span>),</a>
+<a class="sourceLine" id="cb214-5" title="5">                 <span class="dt">fill =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;darkblue&quot;</span>))  <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-6" title="6"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-7" title="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-8" title="8"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-9" title="9"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb214-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<p><img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" title="1"><span class="co"># hist(merged_df$wh_pct)$counts[1:9] # counting number of schools in the first bin (0-10%)</span></a></code></pre></div>
+<p><strong>26 of the 74 (35%) of schools have between 0-10% White students.</strong> This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.</p>
+<p>The school race demographics are not representative of the district populations but does that hold for socioeconomic status as well?</p>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2><span class="header-section-number">11.6</span> Analysis</h2>
+<div id="creating-categories" class="section level3">
+<h3><span class="header-section-number">11.6.1</span> Creating Categories</h3>
+<p>High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, <a href="https://nces.ed.gov/fastfacts/display.asp?id=898">24% of public school students attended high-poverty schools.</a> However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" title="1">tidy_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb216-2" title="2"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>,</a>
+<a class="sourceLine" id="cb216-3" title="3">         <span class="kw">str_detect</span>(category, <span class="st">&quot;povsch&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb216-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(category,<span class="op">-</span>value), <span class="dt">y =</span> value)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">factor</span>(category))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-6" title="6"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-8" title="8"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage in High Poverty Schools&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-9" title="9"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Native Am.&quot;</span>, <span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>, <span class="st">&quot;Asian&quot;</span>, <span class="st">&quot;White&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-10" title="10"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-11" title="11"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-12" title="12"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb216-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>8% of White students</strong> attend high poverty schools, compared to <strong>43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.</strong> We can conclude these students are disproportionally attending high poverty schools.</p>
+</div>
+<div id="reveal-relationships" class="section level3">
+<h3><span class="header-section-number">11.6.2</span> Reveal Relationships</h3>
+<p>Let’s explore what happens when we correlate race and FRPL percentage by school.</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">merged_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb217-2" title="2"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">!=</span><span class="st"> &quot;Total&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb217-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> wh_pct, <span class="dt">y =</span> frpl_pct)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-5" title="5"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-6" title="6"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-7" title="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;FRPL Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-8" title="8"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-9" title="9"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-10" title="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<p><img src="12-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.</p>
+</div>
+</div>
+<div id="results" class="section level2">
+<h2><span class="header-section-number">11.7</span> Results</h2>
+<p>Because of the disaggregated data this district provides, we can go deeper than the average of demographics across the district and see what it looks like on the school level. These views display that (1) there exists a distribution of race/ethnicity within schools that are not representative of the district, (2) that students of color are overrepresented in high poverty schools, and (3) there is a negative relationship between the percentage of White students in a school and the percentage of students eligible for FRPL.</p>
+</div>
+<div id="conclusion-1" class="section level2">
+<h2><span class="header-section-number">11.8</span> Conclusion</h2>
+<p>According to the Urban Institute, the disproportionate percentage of students of color attending high poverty schools “is a defining feature of almost all Midwestern and northeastern metropolitan school systems.” Among other issues, <a href="https://www.urban.org/urban-wire/high-poverty-schools-undermine-education-children-color">high poverty schools tend to lack the educational resources—like highly qualified and experienced teachers, low student-teacher ratios, college prerequisite and advanced placement courses, and extracurricular activities—available in low-poverty schools.</a> This has a huge impact on these students and their futures.</p>
+<p>In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, this deep segregation that exists in the district can have adverse effects on students.</p>
+<p>As an education data practicioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.</p>
+</div>
+<div id="references-2" class="section level2">
+<h2><span class="header-section-number">11.9</span> References</h2>
+<p>Loeb, S., Dynarski, S., McFarland, D., Morris, P., Reardon, S., &amp; Reber, S. (2017). <a href="https://ies.ed.gov/ncee/pubs/20174023/pdf/20174023.pdf">Descriptive analysis in education: A guide for researchers.</a> (NCEE 2017–4023). Washington, DC: U.S. Department
+of Education, Institute of Education Sciences, National Center for Education Evaluation and Regional Assistance.</p>
+<p>National Forum on Education Statistics. (2016). <a href="https://nces.ed.gov/pubs2017/NFES2017017.pdf">Forum Guide to Collecting and Using Disaggregated Data on Racial/Ethnic
+Subgroups.</a> (NFES 2017-017). U.S. Department of Education. Washington, DC: National Center for Education Statistics.</p>
 
 </div>
 </div>
@@ -764,8 +765,8 @@ stop words</p>
           </div>
         </div>
       </div>
-<a href="walkthrough-02-title-here.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="walkthrough-sna.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="walkthrough-sna.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exploring-students-with-disabilities-counts-over-time.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
