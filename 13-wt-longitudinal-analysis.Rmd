@@ -139,7 +139,7 @@ filenames
 
 That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
 
-```{r read list of CSVs}
+```{r read list of CSVs, , message=FALSE, warning=FALSE}
 # Pass filenames to map and read_csv
 all_files <-
   filenames %>%
@@ -220,7 +220,7 @@ all_files[[5]]
 
 We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
 
-```{r fix 2016 colnames, echo = FALSE}
+```{r fix 2016 colnames, echo = FALSE, , message=FALSE, warning=FALSE}
 all_files[[5]] <-
   read_csv(filenames[[5]], skip = 3)
 ```
