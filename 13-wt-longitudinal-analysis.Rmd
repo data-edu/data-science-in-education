@@ -43,11 +43,43 @@ library(lubridate)
 
 ## Import Data 
 
-We'll be learning how to read in more than one dataset using the `map()` function. Let's try it first with one dataset, then we'll scale our solution up to multiple datasets. 
+In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the CSVs we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
+
+*What to download* 
+
+In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
+
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
+ 
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
+ 
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
+ 
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
+ 
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
+ 
+ - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
+
+You can also find these files on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+
+*A note on file paths*  
+
+When you download these files, be sure to store them in a folder in your working directory. To get to the data in this walkthrough, we'll be using this file path in our working directory: "data/longitudinal_data". We'll be using the `here` package, which convenieniently fills in all the folders in the file path of your working directory all the way up to the folders you specify in the arguments. So when referencing the file path "data/longitudinal_data", we'll use code like this: 
+
+```{r demo here}
+here::here(
+  "data",
+  "longitudinal_data",
+  "bchildcountandedenvironments2012.csv"
+)
+```
+
+You can use a different file path if you like, just take note of where your downloaded files are so you can use the correct file path when writing your code to import the data. 
 
 ### Reading In One Dataset 
 
-When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
+We'll be learning how to read in more than one dataset using the `map()` function. Let's try it first with one dataset, then we'll scale our solution up to multiple datasets. When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
 
 Before doing that, you should explore one of the datasets to see what you can learn about its structure. Clues from this exploration inform how you read in all the datasets at once later on. For example, we can see that the first dataset has some lines at the top that contain no data: 
 
@@ -107,7 +139,7 @@ filenames
 
 That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called `filenames`, to our widget-making machine called `map` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
 
-```{r read list of CSVs}
+```{r read list of CSVs, , message=FALSE, warning=FALSE}
 # Pass filenames to map and read_csv
 all_files <-
   filenames %>%
@@ -188,7 +220,7 @@ all_files[[5]]
 
 We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
 
-```{r fix 2016 colnames, echo = FALSE}
+```{r fix 2016 colnames, echo = FALSE, , message=FALSE, warning=FALSE}
 all_files[[5]] <-
   read_csv(filenames[[5]], skip = 3)
 ```
