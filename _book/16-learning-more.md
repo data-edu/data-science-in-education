@@ -18,7 +18,7 @@ First, developing technical skills is an continuous process. The learning mindse
 
 Second, education and data science are like most industries--they are constantly evolving. That means today's tools and best practices might be tomorrow's outdated techniques. To keep up with changes, it is important to develop a learning routine that exposes you to the pulse of these two fields. Sometimes this means learning a new technique, sometimes it means deepening expertise in a technique you haven't mastered, and other times it means revisiting a skill you've mastered long ago. 
 
-And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In his book *Creative Calling* (2019), Chase Jarvis touches on this very point: 
+And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In his book *Creative Calling* @jarvis2019 touches on this very point: 
 
 >Whether online or in person, connecting with a community will support your learning efforts. It will also expose you to a diverse set of ideas that will dramatically enrich your perspective on what you're learning. If you weren't in love with your new skill before, this step can tip the balance. Passion is infectious.
 
@@ -48,18 +48,13 @@ So far, we've discussed learning activities you can do on your own. Data science
 
 Visiting discussion forums is a common way to learn and participate in the R community. Websites like [R Studio Community](https://community.rstudio.com/) and [Stack Overflow](https://stackoverflow.com/) are very popular ways to do this. On these forums you'll find many years worth of discussion about R and statistics. It's quite unusual to search these and not find a way to get unstuck. Many discussions include a reproducible example of code that you can copy and paste into your own R console. This is a fantastic way to learn!
 
-Consider learning best practices for asking forum questions. Including a reproducible example, or "reprex", to communiate problems is a widely-accepted norm. (This r-blogger)[https://www.r-bloggers.com/three-tips-for-posting-good-questions-to-r-help-and-stack-overflow/] post about asking Stack Overflow questions and [Jenny Bryan's video](https://community.rstudio.com/t/video-reproducible-examples-and-the-reprex-package/14732) about making reproducible examples are great places to learn more.
-
-
-```r
-#left off here December 11, 2019
-```
+Consider learning best practices for asking forum questions. Including a reproducible example, or "reprex", to communiate problems is a widely-accepted norm. @bryan2019's video about making reproducible examples is a great place to learn more.
 
 ### GitHub repositories
 
-When you want to learn more about how a package works or engage a package's online community, consider visiting the its GitHub repository. dplyr's repository [https://github.com/tidyverse/dplyr](https://github.com/tidyverse/dplyr) is a great example. You can start with the README then dive deeper in the vignettes, which contain demonstrations of the package's functions. You can even browse the code on GitHub to learn more about how the packages work. Don't worry, you won't break anything! 
+When you want to learn more about how a package works or engage a package's online community, consider visiting the its GitHub repository. dplyr's repository (https://github.com/tidyverse/dplyr) is a great example. You can start with the README then dive deeper in the vignettes, which contain demonstrations of the package's functions. You can even browse the code on GitHub to learn more about how the packages work. Don't worry, you won't break anything! 
 
-When you're ready to see how the community engages a package's authors, you can read through the [Issues](https://github.com/tidyverse/dplyr/issues) page. Each respository's Issues page contains questions, feature requests, and bugs submitted by the programming community. Visit this page when you want to see if someone's already submitted the coding challenge you're working through. If you find you're working on something that's *not* a known problem, you can contribute by adding an issue. And finally, you can contribute to the development of packages by submitting code to the respository--this process is called a pull request. To learn more about contributing to packages, check out Kara Woo's talk [Anyone can play git/R: Tips for first-time contributions to R packages](https://speakerdeck.com/karawoo/r-tips-for-first-time-contributions-to-r-packages)
+When you're ready to see how the community engages a package's authors, you can read through the Issues page. Each respository's Issues page contains questions, feature requests, and bugs submitted by the programming community. Visit this page when you want to see if someone's already submitted the coding challenge you're working through. If you find you're working on something that's *not* a known problem, you can contribute by adding an issue. And finally, you can contribute to the development of packages by submitting code to the respository--this process is called a pull request. To learn more about contributing to packages, check out @woo talk.
 
 ## Share what you've learned
 
@@ -77,14 +72,14 @@ Laslty, you can select your best work from all your sharing and use it as an onl
 
 ### Where to share 
 
-There are many ways to share your work online. For rapid fire conversational sharing,  Twitter. Be sure to use the hashtag #rstats to reach more data scientists. For long form sharing, consider posting to a data science blog. David Robinson's blog post [Advice to aspiring data scientists: start a blog](http://varianceexplained.org/r/start-blog/) is wonderful inspiration for getting started. 
+There are many ways to share your work online. For rapid fire conversational sharing,  Twitter. Be sure to use the hashtag #rstats to reach more data scientists. For long form sharing, consider posting to a data science blog. @robinson18's blog post *Advice to aspiring data scientists: start a blog* is wonderful inspiration for getting started. 
 
-If you decide to post to a blog, there are tools to help you post data science content regularly. The R package *[blogdown]*(https://bookdown.org/yihui/blogdown/) is designed to help you create websites using R Markdown and a static website creator called Hugo. Blogdown makes it easy to create, run, and publish code directly from R Studio. Alison Hill at Oregon Health & Science University (OHSU) has a [great introduction on getting started with with Blogdown](https://alison.rbind.io/post/up-and-running-with-blogdown/).
+If you decide to post to a blog, there are tools to help you post data science content regularly. As noted earlier, @xie2019blogdown's *blogdown* is designed to help you create websites using R Markdown and a static website creator called Hugo. Blogdown makes it easy to create, run, and publish code directly from R Studio. @hill2018 has a great introduction on getting started with with Blogdown.
 
 When you do share a blog post or a tweet, broadcast what you have to say! On Twitter, use hashtags or "at" other community members to include them in the Tweet. On your blog, use blog aggregators that help share your posts to a wider audience. Here are two aggregators to get you started: 
 
-* R Weekly newsletter [https://rweekly.org/](https://rweekly.org/)
-* R Bloggers [https://www.r-bloggers.com](https://www.r-bloggers.com)
+* R Weekly newsletter (https://rweekly.org/)
+* R Bloggers (https://www.r-bloggers.com)
 
 Finally, share the love by engaging your fellow data scientists! Retweet others, leave comments, and interact with the vibrant data science and R communities online.
 
@@ -93,21 +88,3 @@ Finally, share the love by engaging your fellow data scientists! Retweet others,
 If you find yourself becoming an envangelist for R and data science in education--that's what happened to us!--welcome folks who are curious and ready to learn. The strength of any community comes from its inclusiveness, safe learning environment, and capacity to welcome new members. The data science community is no exception--many members work hard to create an environment with active participants, engaging conversations, and celebrations for little and big data science wins. Our call to action is this: continue growing this inclusive and positive environment by being the community member you'd want in your own network.
 
 Data science in education is a wonderful Venn diagram of communities, with new members joining every day. Welcoming, helping, and teaching new members is a great way to contribute to a positive community and to continue your own learning. What better way to inspire new members than to share your work and how it has impacted the lives of students!
-
-## References 
-
-Jarvis, C. (2019). *Creative calling*. New York, NY: HarperCollins Publishers. 
-
-*RStudio community* Retrieved from [https://community.rstudio.com](https://community.rstudio.com)
-
-*Stack Overflow questions tagged [r]*. Retrieved from [https://stackoverflow.com/questions/tagged/r](https://stackoverflow.com/questions/tagged/r)
-
-*dplyr on github*. Retrieved from [https://github.com/tidyverse/dplyr](https://github.com/tidyverse/dplyr)
-
-Bryan, J. (2018). *[Video] reproducible examples and the `reprex` package*. Retrieved from [https://community.rstudio.com/t/video-reproducible-examples-and-the-reprex-package/14732](https://community.rstudio.com/t/video-reproducible-examples-and-the-reprex-package/14732)
-
-Woo, K. (2018). *Anyone can play git/R: tips for first-time contributions to R packages*. Retrieved from [https://speakerdeck.com/karawoo/r-tips-for-first-time-contributions-to-r-packages](https://speakerdeck.com/karawoo/r-tips-for-first-time-contributions-to-r-packages)
-
-Robinson, D. (2017). *Advice to aspiring data scientists: start a blog*. Retrieved from [http://varianceexplained.org/r/start-blog/](http://varianceexplained.org/r/start-blog/)
-
-Hill, A. (2017). *Up & Running with blogdown.* Retrieved from [https://alison.rbind.io/post/up-and-running-with-blogdown/](https://alison.rbind.io/post/up-and-running-with-blogdown/)
