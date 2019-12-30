@@ -78,7 +78,7 @@ datasets. We assign each of the datasets a name using `<-`.
 ``` {r}
 # Gradebook and log-trace data for F15 and S16 semesters
 s12_course_data <-
-  read_csv(here(
+  read_csv(here::here(
     "data",
     "online-science-motivation",
     "raw",
@@ -88,7 +88,7 @@ s12_course_data <-
 # Pre-survey for the F15 and S16 semesters
 
 s12_pre_survey <-
-  read_csv(here(
+  read_csv(here::here(
     "data",
     "online-science-motivation",
     "raw",
@@ -98,7 +98,7 @@ s12_pre_survey <-
 # Log-trace data for F15 and S16 semesters - this is for time spent
 
 s12_time_spent <-
-  read_csv(here(
+  read_csv(here::here(
     "data",
     "online-science-motivation",
     "raw",
@@ -466,13 +466,13 @@ with `sjPlot::tab_model()`, as well as a file name that ends in `.doc` to the
 `filename` argument, i.e.:
 
 ```{r}
-apaTables::apa.reg.table(m_linear)
+(m_summary = apaTables::apa.reg.table(m_linear))
 ```
 
 Helpfully, you can save the output to a Word document, by adding a `filename` argument:
 
 ```{r, eval = FALSE}
-apaTables::apa.reg.table(m_summary, filename = "regression-table-output.doc")
+apaTables::apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
 You might be wondering what else the apaTables package does; we encourage you to
