@@ -81,13 +81,12 @@ library(tidylog)
 library(dataedu)
 ```
 
-First, we will load the data, *filter* the data to include only the data from one year, and *select* variables of interest.
+First, we will load the data, *filter* the data to include only the data from one year, and *select* variables of interest. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
 
 ```{r}
-#loading the data as a .csv file
-f <- here::here("online-science-motivation-w-disc.csv")
+#loading the data from the .rda file and storing it as an object named 'd'
 
-d <- read_csv(f)
+d <- dataedu::sci_mo_data
 
 #filtering the data to only include spring 2017 data
 d <-d %>% filter(!str_detect(course_ID, "S217"))
@@ -182,8 +181,13 @@ d_test <- select(d_test, -temp_id)
 
 Finally, we will estimate the models.
 
-Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predictors. Note that you can read more about the specific random forest implementation chosen [here](http://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation (outcome ~ .,). R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the `~`, and the `.` that we see after the `~` means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the `~` and precedes the comma is treated as predictors of the outcome.
+Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predictors.
 
+The predictor variables include three indicators of motivation: interest in the course (pre_int), perceived utility value of the course (pre_uv), and perceived competence for the subject matter (pre_percomp). There are a few predictor variables that help differentiate between the different courses in the dataset: specific section of the course (course_ID), subject matter of the course (subject), reason the student enrolled in the course (enrollment_reason), and semester in which the course took place (semester). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (time_spent).
+
+We also have a number of variables associated with the discussion board posts from the course. Specifically, the variables include the average level of cognitive processing in the discussion board posts (cogproc), the average level of social (rather than academic) content in the discussion board posts (social), the positive and negative emotions evident in the discussion board posts (posemo and negemo), and finally, the number of discussion board posts in total (n). We are using all those variables discussed in this paragraph to predict the outcome of the final grade in the course (final_grade).
+
+Note that you can read more about the specific random forest implementation chosen [here](http://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation (outcome ~ .,). R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the `~`, and the `.` that we see after the `~` means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the `~` and precedes the comma is treated as predictors of the outcome.
 
 Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set.
 
@@ -205,7 +209,11 @@ We have some results! First, we see that we have 400 samples, or 400 observation
 
 As we interpret these findings, we are looking to minimize the error (RMSE) and maximize the variance explained (rsquared).
 
-It appears that the model with the value of the **mtry** tuning parameter equal to 43 seemed to explain the data best, the **splitrule** being "extratrees", and **min.node.size** held constant at a value of 5. We know this model fits best because
+It appears that the model with the value of the **mtry** tuning parameter equal to 43 seemed to explain the data best, the **splitrule** being "extratrees", and **min.node.size** held constant at a value of 5. We know this model fits best because _____________<<<<<<<<<EMILY WILL WRITE MORE HERE >>>>>>>>>>>>>>>>>>>>>>>
+
+The value of resampling here is that it allows for higher accuracy of the model (James, Witten, Hastie, & Tibshirani, 2013). Without resampling (bootstrapping or cross-validation), it is possible that the initial samples drawn may be biased, but resampling mitigates that risk.
+
+<<<<EMILY FIX CITATION>>>>>>>>
 
 Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.
 
@@ -227,6 +235,17 @@ rf_fit1
 The same tuning parameter value seems to be found with this method: mtry 43. Let's check just one last thing - what if we do not fix **min.node.size** to five?
 
 Let's create our own grid of values to test. We'll stick with the default bootstrap resampling method to choose the best model.
+
+**where should this paragraph go?? it's a ref to other book**
+For a detailed statistical explanation of random forest modeling, please see Chapter 8 in the book "An Introduction to Statistical Learning with Applications in R" (James, Witten, Hastie, & Tibshirani, 2013).
+
+**Jesse's questions**
+>>> How to choose methods
+
+>>> Node size
+
+>>> How many should you try?
+
 
 ```{r}
 #create a grid of different values of mtry, different splitrules, and different minimum node sizes to test
