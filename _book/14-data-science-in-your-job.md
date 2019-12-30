@@ -24,7 +24,7 @@ Users of data science techniques in education have wonderful opportunities to co
 
 The trick here is to use statistics, programming, and knowledge about education to raise and answer the right questions quickly so the process feels like a conversation. When there's too much time between analytic questions and their answers, educators lose the momentum required to follow the logical and exploratory path towards understanding the needs of their students. 
 
-*Example: Preparing quiz data to compute average scores* 
+#### Example: Preparing quiz data to compute average scores
 
 
 ```r
@@ -43,16 +43,16 @@ library(tidyverse)
 ```
 
 ```
-## ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-## ✔ readr   1.3.1     ✔ forcats 0.4.0
+## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0
 ```
 
 ```
 ## ── Conflicts ───────────────────────
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
 ```
 
 ```r
@@ -243,7 +243,7 @@ For example, imagine a teacher whose students have an average quiz score of 75 p
 
 This is where using R for data analysis enters the conversation. Working with data past a certain size, say 10,000 rows, is difficult because you have to interact with each row through the graphical user interface. Instead, you can work with larger datasets like using programming languages like R to issue complex instructions for acting on the data rather than using a mouse and keyboard to act on what you can see on the screen. 
 
-*Example: Replacing Many Student Names With Numerical IDs*
+#### Example: Replacing Many Student Names With Numerical IDs
 
 Say, for example, an elementary school administrator wants to replace each student name in a classroom dataset with a unique numerical ID. Doing this in a spreadsheet using good old fashioned data entry is fairly straightforward. Doing this for a whole school's worth of classrooms though, demands a different approach. Rather than hand enter a unique id into a spreadsheet, the administrator can write an R script that executes the following steps: 
 
@@ -260,9 +260,11 @@ With some initial investment into thoughtful coding on the front end of this pro
 # TODO: More examples of differences in scale 
 ```
 
-*Other Ways to Reimagine the Scale of Your Work* 
+##  Other Ways to Reimagine the Scale of Your Work
 
-**REFLECT ON YOUR CURRENT SCALE. THEN PUSH TO THE NEXT LEVEL**: When you've been using the same data analysis tools and routines for a long time, it's easy to forget to reflect on how you work. The analytic questions we ask, the datasets we use, and the scale of the analytic questions become automatic because for the most part they've delivered results. When you introduce data science techniques and R into your education analysis workflow, you also introduce an opportunity to ask yourself: How can I put this analytic question in context by analyzing on a larger scale? 
+### Reflect on your current scale, then push to the next level
+
+When you've been using the same data analysis tools and routines for a long time, it's easy to forget to reflect on how you work. The analytic questions we ask, the datasets we use, and the scale of the analytic questions become automatic because for the most part they've delivered results. When you introduce data science techniques and R into your education analysis workflow, you also introduce an opportunity to ask yourself: How can I put this analytic question in context by analyzing on a larger scale? 
 
 When an education client or coworker asks for help answering an analytic question, consider the following: 
 
@@ -271,17 +273,23 @@ When an education client or coworker asks for help answering an analytic questio
 
 If a teacher asks you to analyze the attendance pattern of one student, see what you learn by comparing to the the attendance pattern of the whole classroom or the whole school. If a superintendent of a school district asks you to analyze the behavior referrals of a school, analyze the behavior referrals of every school in the district. One of the many benefits of using programming languages like R to analyze data is that once you write code for one dataset, it can be used with many datasets with a relatively small amount of additional work. 
 
-**LOOK FOR LOTS OF SIMILARLY STRUCTURED DATA**: Train your eyes to be alert to repositories that contain many datasets that have the exact same structure, then design ways to act on all those datasets at once. Data systems in education generate standardized data tables all the time. It's one of the side effects of automation. Software developers design data systems to automatically generate many datasets for many people. The result is many datasets that contain different data, but all have the same number of columns and the same column names. This uniformity creates the perfect condition for R scripts to automatically act on these datasets in a way that is predictable and repeatable. Imagine a student information system that exports a list of students, their teacher, their grade level, and the number of school days attended to date. School administrator's that have a weekly routine of exporting this data and storing it in a folder on their laptop will generate many uniformly structured datasets. When you train your eyes to see this as an opportunity to act on a lot of data at once, you will find an abundance of chances to transform data on a large scale so school staff can freely explore and ask questions aimed at improving the student experience. 
+### Look for lots of similarly structured data 
 
-**CLEANING DATA**: Folks who work in education want to look at data about their students with tools like Excel, but the data is frequently not ready for analysis. You can empower these folks to explore data and ask more questions by being alert to opportunities to prepare lots of data for analysis. Offer to clean a dataset! Then do it again and do it fast. When you get into this habit, you not only train your data cleaning skills but you also train your education client's expectations for how quickly you can prepare data for them. 
+Train your eyes to be alert to repositories that contain many datasets that have the exact same structure, then design ways to act on all those datasets at once. Data systems in education generate standardized data tables all the time. It's one of the side effects of automation. Software developers design data systems to automatically generate many datasets for many people. The result is many datasets that contain different data, but all have the same number of columns and the same column names. This uniformity creates the perfect condition for R scripts to automatically act on these datasets in a way that is predictable and repeatable. Imagine a student information system that exports a list of students, their teacher, their grade level, and the number of school days attended to date. School administrator's that have a weekly routine of exporting this data and storing it in a folder on their laptop will generate many uniformly structured datasets. When you train your eyes to see this as an opportunity to act on a lot of data at once, you will find an abundance of chances to transform data on a large scale so school staff can freely explore and ask questions aimed at improving the student experience. 
+
+### Cleaning data
+
+Folks who work in education want to look at data about their students with tools like Excel, but the data is frequently not ready for analysis. You can empower these folks to explore data and ask more questions by being alert to opportunities to prepare lots of data for analysis. Offer to clean a dataset! Then do it again and do it fast. When you get into this habit, you not only train your data cleaning skills but you also train your education client's expectations for how quickly you can prepare data for them. 
 
 ## Solving Problems Together 
 
-Steven Spielberg said, "When I was a kid, there was no collaboration; it's you with a camera bossing your friend around. But as an adult, filmmaking is all about appreciating the talents of the people you surround yourself with and knowing you could never have made any of these films by yourself." Data science techniques are a powerful addition to an educational organization's problem-solving capacity. But  when you're the only person who codes or fits statistical models, it's easy to forget that the best solutions magically arrive when many perspectives come crashing together. Here are some things to think about as you challenge yourself to introduce data science to your education workplace in a lasting and meaningful way. 
+Steven Spielberg said, "When I was a kid, there was no collaboration; it's you with a camera bossing your friend around. But as an adult, filmmaking is all about appreciating the talents of the people you surround yourself with and knowing you could never have made any of these films by yourself" [@nytimes2011].
+
+Data science techniques are a powerful addition to an educational organization's problem-solving capacity. But  when you're the only person who codes or fits statistical models, it's easy to forget that the best solutions magically arrive when many perspectives come crashing together. Here are some things to think about as you challenge yourself to introduce data science to your education workplace in a lasting and meaningful way. 
 
 ### Data Science in Education and Empathy 
 
-One definition of empathy is seeing things as others do, which points to a barrier to our mission of discovering ways to use our data science skills to improve the experience of learners--it is all too easy to assume that our coworkers will be inspired by possibilities of data science as you are. In 1990 Elizabeth Newton, then a Stanford University graduate, asked research subjects to "tap" out well-known songs with their fingers and estimate how many people would recognize the songs. She found that they overestimated every time! When we know a subject well, we tend to forget the experience of not knowing that subject. So how do we make use of this knowledge? 
+One definition of empathy is seeing things as others do, which points to a barrier to our mission of discovering ways to use our data science skills to improve the experience of learners--it is all too easy to assume that our coworkers will be inspired by possibilities of data science as you are. In 1990 Elizabeth Newton, then a Stanford University graduate, asked research subjects to "tap" out well-known songs with their fingers and estimate how many people would recognize the songs [@newton1991, @hbr2006]. She found that they overestimated every time! When we know a subject well, we tend to forget the experience of not knowing that subject. So how do we make use of this knowledge? 
 
 First, listen carefully to your coworkers as they work with data. As you listen, aim to understand the thinking process they use when making sense of reports, tables, and graphs. This will help you understand the problems and solutions they gravitate towards. 
 
@@ -302,7 +310,7 @@ Here are some reflection questions and exercise to use to inspire connection in 
 
 ### Create a Daily Practice Commitment That Answers Someone Else's Question
 
-In his book Feck Perfuction, designer James Victore writes "Success goes to those who keep moving, to those who can practice, make mistakes, fail, and still progress. It all adds up. Like exercise for muscles, the more you learn, the more you develop, and the stronger your skills become." Doing data science is a skill and like all skills, repetition and mistakes are their fuel for learning. But what happens if you are the first person to do data science in your education workplace? When you have no data science mentors, analytics routines, or examples of past practice, it can feel aimless to say the least. The antidote to that aimlessness is daily practice. 
+In his book Feck Perfuction, designer @victore2019 writes "Success goes to those who keep moving, to those who can practice, make mistakes, fail, and still progress. It all adds up. Like exercise for muscles, the more you learn, the more you develop, and the stronger your skills become" (p. 31). Doing data science is a skill and like all skills, repetition and mistakes are their fuel for learning. But what happens if you are the first person to do data science in your education workplace? When you have no data science mentors, analytics routines, or examples of past practice, it can feel aimless to say the least. The antidote to that aimlessness is daily practice. 
 
 Commit to writing code everyday. Even the the simplest three line scripts have a way of adding to your growing programming instincts. Train your ears to be radars for data projects that are usually done in a spreadsheet, then take them on and do them i R. Need the average amount of time a student with disabilities spends in speech and language sessions? Try it in R. Need to rename the columns in a student quiz dataset? Try it in R. The principal is hand assembling twelve classroom attendance sheets into one dataset? You get the picture. 
 
@@ -323,16 +331,16 @@ Networks for growing data science in education are not limited to the workplace.
 
 ## For K-12 Teachers 
 
-We've used almost all of this chapter to explore what to think about and what to do to help you bring your data science skills to your education workplace. So far the discussion has been from the data scientist's point of view, but what if you are one of the many who have an interest in analytics but very little interest in programming and statistics? Teachers in elementary and high schools are faced with a mind boggling amount of student data. A study by the Data Quality Campaign estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57 percent of the teachers in the study said a lack of time was a barrier to using the data they have. 
+We've used almost all of this chapter to explore what to think about and what to do to help you bring your data science skills to your education workplace. So far the discussion has been from the data scientist's point of view, but what if you are one of the many who have an interest in analytics but very little interest in programming and statistics? Teachers in elementary and high schools are faced with a mind boggling amount of student data. A study by the @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57 percent of the teachers in the study said a lack of time was a barrier to using the data they have. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
 
-Yet the majority of teachers aren't interested in learning a programming language and statistical methods as a way to get better at analytics. Afterall, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and evaluating statistical model output. But to leave them out feels like a glaring ommission in a field where perhaps the most important shared value is the effective teaching of students. 
+Yet the majority of teachers aren't interested in learning a programming language and statistical methods as a way to get better at analytics, and both time and professional development with respect to working with data are necessary [@datnow2015]. After all, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and evaluating statistical model output. But to leave them out feels like a glaring ommission in a field where perhaps the most important shared value is the effective teaching of students. 
 
 If you do happen to be an elementary or high school teacher who wants use programming and statistics to improve how you use data, you will find the approaches in this book useful. But if you are not that person, there is still much to explore that will lead to a rewarding experience as you grow your analytic skill. This book lacks the scope to explore this topic thoroughly, but there are many ways to improve how you use data without requiring a programming language or deep knowledge of statistics. 
 
-For example, you can explore what is perhaps the most important element of starting a data analysis: asking the correct question. Chapter three of Roger Peng and Elizabeth Matsui's book, The Art of Data Science provides a useful process for getting better at asking data questions. 
+For example, you can explore what is perhaps the most important element of starting a data analysis: asking the correct question. Chapter three of @peng2015's book, *The Art of Data Science* provides a useful process for getting better at asking data questions. 
 
-Given how often data is served to us through data visualizations, it is important to learn the best ways to create and consume these visualizations. Chapter one of Kieran Healy's book Data Visualization: A Practical Introduction, explores this topic using excellent examples and writing. 
+Given how often data is served to us through data visualizations, it is important to learn the best ways to create and consume these visualizations. Chapter one of @healy2019's book *Data Visualization: A Practical Introduction*, explores this topic using excellent examples and writing. 
 
-For pratical applications of a data-informed approach, Learning to Improve: How America's Schools Can Get Better at Getting Better by Anthony Bryk, Louis Gomez, Alicia Grunow, and Paul LaMahieu offers a thorough explanation of the improvement science process. The book is filled with examples of how data is used to understand problems and trial solutions. 
+For practical applications of a data-informed approach, *Learning to Improve: How America's Schools Can Get Better at Getting Better* by @bryk2015 offers a thorough explanation of the improvement science process. The book is filled with examples of how data is used to understand problems and trial solutions. 
 
 The final recommendation for elementary and secondary teachers wanting to get better at analysis is this: find, and partner with, someone who can help you answer the questions you have about how to serve your students better. You have the professional experience to come up with the right ideas and the curiosity to see what these ideas look like in the classroom. Inviting someone who can collaborate with you and help you measure the success of your ideas can be a rewarding partnership for you and your students. 

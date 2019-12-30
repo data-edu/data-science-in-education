@@ -1,14 +1,16 @@
 # 16-walkthrough-sna
 
-In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district (Spillane, Kim, Chong Min, & Frank, 2012). In the present, though, they are as likely to turn to someone in the professional learning network (Trust, Krutka, & Carpenter, 2016). 
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in the professional learning network [@trust2016].
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., Rosenberg, Greenhalgh, Koehler, Hamilton, & Akcaoglu, 2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
 
-In this chapter, we focus on a source of data that could be used to understand how one new community functions. That community, #tidytuesday is one sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is [this interactive Shiny application](https://github.com/nsgrantham/tidytuesdayrocks). In this walkthrough, we focus on a) accessing data on #tidytuesday from Twitter and b) trying to understand the nature of the interactions that take place through #tidytuesday. We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning that a data science toolkit allows an analyst to try to understand (through new data sources), we also chose this because it is straightforward to access data from Twitter, and we think you may find other opportunities to analyze data from Twitter in other cases.
+In this chapter, we focus on a source of data that could be used to understand how one new community functions. That community, #tidytuesday is one sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks). 
+
+In this walkthrough, we focus on a) accessing data on #tidytuesday from Twitter and b) trying to understand the nature of the interactions that take place through #tidytuesday. We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning that a data science toolkit allows an analyst to try to understand (through new data sources), we also chose this because it is straightforward to access data from Twitter, and we think you may find other opportunities to analyze data from Twitter in other cases.
 
 ## Accessing data
 
-In this chapter, we access data using the rtweet package (Hawksey, 2019). Through rtweet, it is easy to access data from Twitter as long as one has a Twitter account. We will load the tidyverse and rtweet packages to get started. Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
+In this chapter, we access data using the rtweet package [@kearney2016]. Through rtweet, it is easy to access data from Twitter as long as one has a Twitter account. We will load the tidyverse and rtweet packages to get started. Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
 
 
 ```r
@@ -34,7 +36,7 @@ tidytuesday_tweets <-
   search_tweets("#tidytuesday")
 ```
 
-A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix A*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
+A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Appendix A*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset.
 
 
 ```r
@@ -45,16 +47,16 @@ tt_tweets
 ## # A tibble: 4,418 x 90
 ##    user_id status_id created_at          screen_name text  source
 ##    <chr>   <chr>     <dttm>              <chr>       <chr> <chr> 
-##  1 115921… 11631542… 2019-08-18 18:22:42 MKumarYYC   Firs… Twitt…
+##  1 115921… 11631542… 2019-08-18 18:22:42 MKumarYYC   "Fir… Twitt…
 ##  2 107332… 11632475… 2019-08-19 00:33:11 cizzart     "El … Twitt…
 ##  3 107332… 11450435… 2019-06-29 18:57:17 cizzart     "Pro… Twitt…
-##  4 107332… 11168648… 2019-04-13 00:45:15 cizzart     #Arg… Twitt…
+##  4 107332… 11168648… 2019-04-13 00:45:15 cizzart     "#Ar… Twitt…
 ##  5 107332… 11228824… 2019-04-29 15:17:02 cizzart     "Pes… Twitt…
 ##  6 107332… 11176387… 2019-04-15 04:00:17 cizzart     "Dat… Twitt…
 ##  7 107332… 11245531… 2019-05-04 05:55:32 cizzart     "El … Twitt…
 ##  8 107332… 11407021… 2019-06-17 19:25:50 cizzart     "#da… Twitt…
 ##  9 107332… 11325299… 2019-05-26 06:12:46 cizzart     "El … Twitt…
-## 10 107332… 11233585… 2019-04-30 22:48:43 cizzart     Visu… Twitt…
+## 10 107332… 11233585… 2019-04-30 22:48:43 cizzart     "Vis… Twitt…
 ## # … with 4,408 more rows, and 84 more variables: display_text_width <dbl>,
 ## #   reply_to_status_id <chr>, reply_to_user_id <chr>,
 ## #   reply_to_screen_name <chr>, is_quote <lgl>, is_retweet <lgl>,
@@ -99,20 +101,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender            receiver             
-##    <chr>             <chr>                
-##  1 Luong, Asmita     al-Fawaz, Abdus Salam
-##  2 el-Hanif, Madeeha al-Basha, Ibtisaama  
-##  3 el-Hanif, Madeeha Stapleton, Leon      
-##  4 Liu, Timmy        al-Basha, Ibtisaama  
-##  5 Liu, Timmy        al-Fawaz, Abdus Salam
-##  6 Liu, Timmy        Miller, Katelenn     
-##  7 el-Kalil, Najwa   Stapleton, Leon      
-##  8 el-Kalil, Najwa   el-Hamidi, Shakeela  
-##  9 el-Kalil, Najwa   Miller, Katelenn     
-## 10 al-Saab, Asad     Campos, Sergio       
-## 11 Scott, Carrie     Stapleton, Leon      
-## 12 Scott, Carrie     Campos, Sergio
+##    sender               receiver                
+##    <chr>                <chr>                   
+##  1 Turner, Katie        Young, Lavelle          
+##  2 el-Noori, Aaida      Sasiratna, Elizabeth    
+##  3 el-Noori, Aaida      Carrillo Romero, Thunder
+##  4 Nam, Anna            Sasiratna, Elizabeth    
+##  5 Nam, Anna            Young, Lavelle          
+##  6 Nam, Anna            Edmund, Rina-Beth       
+##  7 Duran, Larry-Matthew Carrillo Romero, Thunder
+##  8 Duran, Larry-Matthew Nichols, Andrew         
+##  9 Duran, Larry-Matthew Edmund, Rina-Beth       
+## 10 Davis, Michael       Staite, Jared           
+## 11 Pasang, Emmett       Carrillo Romero, Thunder
+## 12 Pasang, Emmett       Staite, Jared
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -271,9 +273,9 @@ One way to consider these models and methods is in terms of two *processes* at p
 - *Selection*: the processes regarding who chooses to have a relationship with whom
 - *Infuence*: the processes regarding how who we have relationships with affects our behavior
 
-While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential nuances to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in *Technical Appendix B* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
+While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential nuances to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in *Appendix B* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
 
-## Technical Appendix A
+## Appendix A
 
 <!-- Note - proposing moving this to the text analysis tidytuesday walkthrough -->
 
@@ -304,7 +306,7 @@ raw_tidytuesday_tweets <-
 ## )
 ```
 
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. This [rtweet vignette on accessing keys and tokens](https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
 
 
 ```r
@@ -329,9 +331,9 @@ In the above case, we had access to the URLs for tweets because they were saved 
 
 First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
 
-A second option is the Premium API through Twitter(see [here](https://developer.twitter.com/en/premium-apis)). This is an expensive option, but is one that can be done through [rtweet](https://rtweet.info/reference/search_fullarchive.html), and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
 
-## Technical Appendix B
+## Appendix B
 
 As noted above, there is much more to understanding interactions, and network analysis, beyond creating edgelists and visualizing network data (through the use of an edgelist). Two processes that are particularly important (and able to be studied with network data using R) are for influence and selection. 
 
@@ -485,11 +487,5 @@ While this is a straightforward way to carry out a selection model, there are so
 One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
 
 A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, **ergm**, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), **statnet**. A link to the statnet packages is [here](https://statnet.org/).
-
-## References
-
-Rosenberg, J. M., Greenhalgh, S. P., Koehler, M. J., Hamilton, E., & Akcaoglu, M. (2016). An investigation of State Educational Twitter Hashtags (SETHs) as affinity spaces. E-Learning and Digital Media, 13(1-2), 24-44. http://dx.doi.org/10.1177/2042753016672351
-
-Spillane, J., Kim, Chong Min,Frank, K.A. 2012. “Instructional Advice and Information Providing and Receiving Behavior in Elementary Schools: Exploring Tie Formation as a Building Block in Social Capital Development.” American Educational Research Journal. Vol 49 no. 6 1112-1145
 
 Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.

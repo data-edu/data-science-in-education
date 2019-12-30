@@ -273,11 +273,11 @@ tidy_df <-
 Running the above code, particularly the download of the PDFs, takes a lot of time. We've saved copies of the merged and tidy data in the data folder and can be accessed by running the code below.
 
 ```{r, message = FALSE}
-tidy_dat <-
-  read_csv(here::here("data", "agg_data", "wt05_aggdat_tidy_dat.csv"))
+tidy_df <-
+  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
 
-merged_dat <- 
-  read_csv(here::here("data", "agg_data", "wt05_aggdat_merged_dat.csv"))
+merged_df <-
+  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
 ```
 
 ## View Data
@@ -286,7 +286,7 @@ merged_dat <-
 
 What do the racial demographics in this district look like? For this, a barplot can quickly visualize the different proportion of subgroups.
 
-```{r}
+```{r, fig.align = "center"}
 tidy_df %>%
   # filter out Total rows, since we want district-level information
   filter(school_name == "Total",
@@ -297,7 +297,7 @@ tidy_df %>%
   geom_bar(stat = "identity", aes(fill = category)) +
   xlab("Subgroup") +
   ylab("Percentage of Population") +
-  scale_x_discrete(labels = c("Black", "White", "Hispanic", "Asian", "Native Am.")) +
+  scale_x_discrete(labels = c("Black", "Whifite", "Hispanic", "Asian", "Native Am.")) +
   scale_y_continuous(labels = scales::percent) +
   scale_fill_dataedu() +
   theme_dataedu() +
@@ -327,7 +327,7 @@ Now, we dig deeper to see if there is more to the story.
 
 Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
-```{r}
+```{r, fig.align = "center"}
 merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct)) +
@@ -352,7 +352,7 @@ The school race demographics are not representative of the district populations 
 
 High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, [24% of public school students attended high-poverty schools.](https://nces.ed.gov/fastfacts/display.asp?id=898) However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
-```{r}
+```{r, fig.align = "center"}
 tidy_df %>%
   filter(school_name == "Total",
          str_detect(category, "povsch")) %>%
@@ -374,7 +374,7 @@ tidy_df %>%
 
 Let’s explore what happens when we correlate race and FRPL percentage by school.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, fig.align = "center"}
 merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +

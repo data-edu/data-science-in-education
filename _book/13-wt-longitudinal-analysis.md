@@ -1,4 +1,4 @@
-# Exploring Students With Disabilities Counts Over Time
+# Walkthrough 13: Longitudinal Analysis With Federal Students With Disabilities Data
 
 
 
@@ -18,13 +18,77 @@
 
 ## Introduction 
 
-We chose to use a publicly available dataset for this walkthrough. Like most public datasets, this one contains aggregates data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
+### Background 
 
-## Special Education Child Count and Environment Data
+Data scientists working in education don't always have access to student level data, so knowing how to work with publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
 
-You can download the datasets for this walkthrough on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee]("https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html#bccee").
+You can download the datasets for this walkthrough on the United States Department of Education website (see @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. This walkthrough uses datasets of student with disabilities counts in each state.
 
-## Reading In One Dataset 
+### Methods 
+
+In this walkthrough, we'll learn how to read multiple datasets in using the `map()` function. Next, we'll prepare our data for analysis by cleaning the variable names. Finally, we'll explore this dataset by visualizing student counts and comparing male to female ratios over time. 
+
+## Load Packages 
+
+For this walkthrough, we'll be using four packages: `tidyverse`, `here`, `dataedu`, and `lubridate`. You can load those packages by running this code: 
+
+
+```r
+library(tidyverse)
+```
+
+```
+## ── Attaching packages ──────────────
+```
+
+```
+## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0
+```
+
+```
+## ── Conflicts ───────────────────────
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
+library(here)
+```
+
+```
+## here() starts at /Users/shortessay/data-science-in-education
+```
+
+```r
+library(dataedu)
+library(lubridate)
+```
+
+```
+## 
+## Attaching package: 'lubridate'
+```
+
+```
+## The following object is masked from 'package:here':
+## 
+##     here
+```
+
+```
+## The following object is masked from 'package:base':
+## 
+##     date
+```
+
+## Import Data 
+
+We'll be learning how to read in more than one dataset using the `map()` function. Let's try it first with one dataset, then we'll scale our solution up to multiple datasets. 
+
+### Reading In One Dataset 
 
 When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
 
@@ -108,7 +172,7 @@ Try using `skip = 4` in your call to `read_csv`:
 
 The `skip` argument told `read_csv` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
 
-## Reading In Many Datasets 
+### Reading In Many Datasets 
 
 Will the `read_csv` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
 
@@ -381,7 +445,7 @@ bind_rows(all_files)
 
 We'll correct this in the next section by selecting and renaming our variables, but it's good to notice this problem early in the process so you know to work on it later. 
 
-## Cleaning the Dataset 
+## Process Data 
 
 Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the `ggplot2` package, work best when datsets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
 
@@ -753,7 +817,7 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 
 *A note on the gender variable in this dataset*
 
-*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by Andrew Park (2016) of The Williams Institute at UCLA.*
+*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.*
 
 The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `gather` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
@@ -916,7 +980,7 @@ child_counts %>%
 ## # … with 1,380 more rows
 ```
 
-## How Have Child Counts Changed Over Time? 
+## Analysis: How Have Child Counts Changed Over Time? 
 
 In the last section we focused on importing our dataset. In this section, we will turn to exploring it. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
 
@@ -964,7 +1028,7 @@ Start by copying and running this code in your console to see what it does:
 high_count %>%
   filter(gender == "f", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
-  geom_freqpoly(stat = "identity") +
+  geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Count of female students in special education over time",
        subtitle = "Ages 6-21") +
   theme_dataedu() +
@@ -1004,6 +1068,8 @@ high_count %>%
   summarise(n = sum(total)) %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
+  labs(title = "Total count of students in special education over time",
+       subtitle = "Ages 6-21") +
   theme_dataedu() +
   scale_color_dataedu()
 ```
@@ -1066,7 +1132,7 @@ By visually inspecting, we can hypothesize that there was no significant change 
 
 ### Model the Dataset 
 
-When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction*, Kieran Healy (2019) teaches us that 
+When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction*, @healy2019 teaches us that 
 
 >Visualizations encode numbers in lines, shapes, and colors. That means that our interpretation of these encodings is partly conditional on how we perceive geometric shapes and relationships generally.
 
@@ -1074,7 +1140,7 @@ What are some ways we can combat these errors of perception and at the same time
 
 In this example, we'll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we'll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.
 
-#### Do we have enough information for our model?
+*Do we have enough information for our model?*
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere bewteen the values of 250,000 and 1,750,000: 
 
@@ -1152,7 +1218,7 @@ child_counts %>%
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
-#### Male to Female Ratio Over Time
+*Male to Female Ratio Over Time*
 
 Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?
 
@@ -1338,7 +1404,15 @@ model_data %>%
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
-## Aggregate Data as Context for Student Data 
+## Results 
+
+We learned that each state has a different count of students with disabilities–so different that we need to use statistics like ratios or visualizations to compare across states. Even when we narrow our focus to the five states with the highest counts of students with disabilities, we see that there are differences in these counts. 
+
+When we look at these five states over time, we see that despite the differences in total count each year, all five states have increased their student counts. We also learned that though the male to female ratios for students with disabilities appears to have gone down slightly over time, our model suggests that these decreases do not represent a big difference. 
+
+The comparison of student counts across each state is tricky because there is a lot of variation in total enrollment across all fifty states. While we explored student counts across each state and verified that there is variation in the counts, a good next step would be to combine these data with total enrollment data. This would allow us to compare counts of students with disabilities as a percentage of total enrollment. Comparing proportions like this is a common way to compare subgroups of a population across states when each state's population varies in size. 
+
+## Conclusion: Aggregate Data as Context for Student Data 
 
 Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that an education data scientist would typically do. 
 
@@ -1362,16 +1436,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              27
-##  2 b       l              44
-##  3 c       m              58
-##  4 d       n              64
-##  5 e       o              99
-##  6 f       k              56
-##  7 g       l              68
-##  8 h       m              38
-##  9 i       n              91
-## 10 j       o              89
+##  1 a       k              87
+##  2 b       l              35
+##  3 c       m              78
+##  4 d       n              18
+##  5 e       o              98
+##  6 f       k               0
+##  7 g       l              91
+##  8 h       m              76
+##  9 i       n              75
+## 10 j       o              92
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1392,11 +1466,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            38  
-## 2 l            77  
-## 3 m            25  
-## 4 n            63.5
-## 5 o            30.5
+## 1 k            45.5
+## 2 l            38.5
+## 3 m            44.5
+## 4 n            51  
+## 5 o            17
 ```
 
 Notice here that this dataset no longer identifies individual students. 
@@ -1407,20 +1481,10 @@ Longitudinal analysis is typically done with student-level data because educator
 
 Aggregate data is valuable because it allows us to learn from populations that are larger or different from the local student-level population. Think of it as an opportunity to learn from totaled up student data from other states or the whole country.
 
-In his book *Thinking Fast and Slow*, Daniel Kahneman (2011) discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to only focus on conclusions we can draw from immediately available information. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
+In the book *Thinking Fast and Slow*, @kahneman2011 discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to only focus on conclusions we can draw from immediately available information. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
 
 For example, consider an analysis of student-level data in a school district over time. Student-level data allows us to ask questions about our local population: One such question is: Are the rates of special education identification for male students different from other gender identitites *in our district*? This style of question looks *inward* at your own educational system. 
 
 Taking a cue from Daniel Kahneman, we should also ask what this pattern looks like in other states or in the country. Aggregate data allows us to ask questions about a larger population: One such question is Are the rates of special education identification for male students different from other gender identities *in the United States*? This style of question looks for answers *outside* your own educational system. The combination of the two lines of inquiry are powerful way to generate new knowledge about the student experience. 
 
 So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when an MOU for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 
-
-## References 
-
-Wickham, H. (2014). Tidy data. *Journal of Statistical Software*, 59(10).  Retrieved from [https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)
-
-Park, A. (2016). Reachable: data collection methods for sexual orientation and gender identity. Retrieved from [https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf](https://williamsinstitute.law.ucla.edu/wp-content/uploads/Reachable-Data-collection-methods-for-sexual-orientation-gender-identity-March-2016.pdf)
-
-Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ: Princeton University Press.
-
-Kahneman, D. (2011). Thinking, fast and slow. New York :Farrar, Straus and Giroux. 

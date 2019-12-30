@@ -1,14 +1,27 @@
-# Foundational Skills
+# Getting Started with R and RStudio
 
-This chapter is organized into two tracks (though, of course, you are welcome to read both). If you have experience using R - or have used it a few times, attended a workshop, or been involved with a collaborator who used it - consider starting with **Track Two**, focused on 'data loading and manipulation using the tidyverse', which covers reading/saving files, pipes, selecting, filtering, etc.  chapters. Otherwise, start at **Track One**, which covers installation, projects, and packages--and then proceed to the second track.
+## Chapter overview
 
-## Track One: Getting Started
+This chapter is designed to take you from installing R and RStudio all the way through the very basics of data loading and manipulation using the `tidyverse`. 
+We will be covering the following topics in this chapter: 
 
-First, you will need to download the latest versions of R and R Studio. R is a free environment for statistical computing and graphics using the programming language R. R Studio is a set of integrated tools that allows for a more user-friendly experience for using R.
+- Installing R and RStudio
+- RStudio environment and pane layout
+- Basics of customizing your RStudio environment
+- Introduction to help documentation
+- Steps for working through new and unamiliar content
+- Downloading and accessing the data sets used in this book
 
-Although you will likely use R Studio as your main console and editor, you must first install R as R Studio uses R behind-the-scenes. Both are freely-available, cross-platform, and open-source.
+## Getting Started
 
-## Downloading R and R Studio
+First, you will need to download the latest versions of R and RStudio. 
+R is a free environment for statistical computing and graphics using the programming language R. 
+RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
+
+Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes. 
+Both R and RStudio are freely-available, cross-platform, and open-source.
+
+## Downloading R and RStudio
 
 ### To download R:
 
@@ -16,438 +29,144 @@ Although you will likely use R Studio as your main console and editor, you must 
 - Find your operating system (Mac, Windows, or Linux)
 - Download the 'latest release' on the page for your operating system and download and install the application
 
-Don't worry; you will not mess anything up if you download (or even install!) the wrong file. Once you've installed both, you can get started.
+Don't worry; you will not mess anything up if you download (or even install!) the wrong file. 
+Once you've installed R, you can get started.
 
-### To download R Studio:
+### To download RStudio:
 
-- Visit this page to download R studio: [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
-- Under the column called "R Studio Desktop FREE", click Download
+- Visit this page to download RStudio: [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
+- Under the column called "RStudio Desktop FREE", click Download
 - Find your operating system (Mac, Windows, or Linux)
 - Download the 'latest release' on the page for your operating system and download and install the application
 
-If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. One good place to start is the [R Studio Community](https://community.rstudio.com/).
+If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
+Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
-## Check that it worked
+## Getting to know R through RStudio
+Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
+One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-Open R Studio. Find the console window and type in `2 + 2`. If what you can guess is returned (hint: it's what you expect!), then R Studio *and* R both work.
+[IMG]
 
-## Help, I'm completely new to using R / R Studio!
+RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
+If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) textbook.
 
-If you're completely new, Swirl is a great place to start, as it helps you to learn R *from within R Studio*. Visit this page to see some directions: [http://swirlstats.com](http://swirlstats.com).
 
-And if you're ready to go, please proceed to the next sections on processing and preparing, plotting, loading, and modeling data and sharing results.
+You do not _have_ to use RStudio to access R, and many people don't! 
+Other IDEs that work with R include:
+- [Jupyter notebook](https://jupyter.org/)
+- [VisualStudio](https://visualstudio.microsoft.com/services/visual-studio-online/)
+- [VIM](https://github.com/jalvesaq/Nvim-R)
+- [IntelliJ IDEA](https://plugins.jetbrains.com/plugin/6632-r-language-for-intellij)
+- [EMACS Speaks Statistics (ESS)](https://ess.r-project.org/)
 
-## Creating Projects
+This is a non-exhaustive list, and most of these options require a good deal of familiarity with a given IDE.
+However we bring up alternative IDEs -- particularly ESS -- because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers.
+We have chosen to use RStudio in this text in order to standardize the experience, but encourage you to choose the IDE that best suits your needs!
 
-Before proceeding, we're going to take a few steps to set ourselves to make the analysis easier; namely, through the use of Projects, an R Studio-specific organizational tool. 
+When we open RStudio for the first time, we're likely to see this:
 
-To create a project, in R Studio, navigate to "File" and then "New Directory". 
+<center>
+![](https://i.imgur.com/2rhZmMg.png?1)
+</center>  
+  
+These three "panes" are referred to as the **console** pane, the **environment** 
+pane, and the **files** pane. The large square on the left is the **console**, 
+the pane in the top right is the **environment** pane, and the square in the 
+bottom right is the **files** pane.  
 
-Then, click "New Project". Choose a directory name for the project that helps you to remember that this is a project that involves data science in education; it can be convenient if the name is typed in `lower-case-letters-separated-by-dashes`, like that. You can also choose the sub-directory. If you are just using this to learn and to test out creating a project, you may consider placing it in your downloads or another temporary directory so that you remember to remove it later.
+When we create a new file, such as an `R script`, an `R Markdown` file, or a 
+`Shiny app`, RStudio will open a fourth pane, known as the **source** pane. You 
+can try this out by going to `File -> New File -> R Script`.
 
-Even if you do not create a Project, you can always check where your working directory (i.e., where your R is pointing) is by running `getwd()`. To change it manually, run `setwd(desired/file/path/here)`.
+When we type out code, we do so in either the **console** or **source** pane. It 
+is generally better to type code in an `R script`, which saves as an `.R` file, 
+than to type your code in the console. This is because anything you type in the 
+console will be lost as soon as you close R, whereas you can save everything in 
+an `.R` script and see/use it again later.  
 
-## Packages
+**Running code in an R Script**  
+There are several ways to run code in an R script:  
 
-"Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data and documentation,. Packages increase the functionality of R by improving and expanding on base R (basic R functions). 
+* Highlight the line(s) of code you'd like to run and press **Ctrl+Enter**  
+* Highlight the line(s) of code you'd like to run and click the **Run** button 
+in the `R script` pane  
+* To run _every_ line of code in your file you can press **Ctrl+Shift+Enter**  
 
-### Installing and Loading Packages
+### Getting to Know R: Challenge Questions 
+**Script vs. Console**  
 
-To download a package, you must call `install.packages()`:
+* Use the _console_ as a calculator
+* Create an **`.R` script** _(File -> New File -> R script)_ and use it as a 
+calculator  
+* What are the similarities and differences between coding in the **console** 
+versus coding in an **.R script**?
 
+**Assignment operator**  
 
-```r
-install.packages("dplyr", repos = "http://cran.us.r-project.org")
-```
+* What is the assignment operator, and how does it work?
 
-You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. This is a way to install a package using code or part of the R Studio interface. Usually, writing code is a bit quicker, but using the interface can be very useful and complimentary to use of code. 
+**Commenting code**  
 
-*After* the package is installed, it must be loaded into your R Studio session using `library()`:
+* When might we want to comment out code?
+* _How_ do we comment out code in an **`.R script`**?
+* What are two ways to comment code?
 
+**Exploring the workspace**  
 
-```r
-library(dplyr)
-```
+_For each of the challenges below, you'll need to go to Tools -> Global Options_  
 
-```
-## 
-## Attaching package: 'dplyr'
-```
+* Explore the various themes available to you in RStudio by going to 
+_Tools -> Global Options -> Appearance_
+    + Choose a theme that works best for you and apply it
+* Change some of the default options in RStudio by going to _Tools -> Global 
+Options -> General_ and ensure that the following options are selected/deselected:  
 
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
+<center>
+![](https://i.imgur.com/fQ3kitV.png?1)
+</center>  
 
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
+* Lastly we'll add in our margin indicator by going to _Tools -> Global Options 
+-> Code_ and then selecting/deselecting the following:  
 
-We only have to install a package once, but to use it, we have to load it each time we start a new R session.
+<center>
+![](https://i.imgur.com/YQqTP6i.png?1)
+</center>  
 
-> A package is a like a book, a library is like a library; you use library() to check a package out of the library.
-> - Hadley Wickham, Chief Scientist, R Studio
+## Diving a little deeper into R with `swirl`
 
-### Running Functions from Packages
+If you're eager to get started exploring everything that R can do, we recommend installing and learning through [`swirl`](https://swirlstats.com/students.html). 
+`swirl` is set of packages (more on those shortly!) that you can download, providing an interactive method for learning R by using R.
 
-Once you have loaded the package in your session, you can run the functions that are contained within that package. To find a list of all those functions, you can run this in the R Studio console:
+We are not affiliated with `swirl` in any way, nor is it required to progress through this text.   
 
+## Introduction to Help Documentation
+Very few - if any - people in the world know everything there is to know about R.
+This means that we all need to look things up, sometimes every few minutes!
+Thankfully there are some excellent built-in resources that we can leverage as we use R. 
 
-```r
-help(package = dplyr)
-```
+From within RStudio we can access the `Help` documentation by using `?` or `??` in the console.
+For example, if I wanted to look up information on the `data()` function, I can type `?data` or `data()` next to the carat `>` in the Console and hit `Enter`. 
+You should see the `Help` panel on the bottom right side of your RStudio environment populate with documentation on the `data()` function. 
 
-The documentation should tell you what the function does, what arguments (i.e., details) needed for it to successfully run, examples, and what the output should look like.
+This works because the `data()` function is part of something called **base R** - that is, all of the functions included with R when you first install it. 
+As you use R throughout this book, we'll be asking you to install additional packages.
+These packages extend the functionality of base R by providing us with access to new functions. 
+This means that instead of writing a function to do a common data analysis task, such as creating a new variable out of existing variables, someone has written that function and made it available for you to use at no charge. 
 
-We'll be using `filter` a lot in this book, so let's take that as an example. `filter` is a function in the `dplyr` package that removes rows from datasets based on logical criteria, like whether a column takes a specific value. To learn more about using `filter`, run this in the R Studio console: 
+<!-- ON HOLD - not working as anticipated
+One of the functions that can accomplish this task is called `mutate()`. 
+What happens when you type `?mutate` (or `mutate()`) into the Console and hit `Enter`?  
 
+We've gotten one of our first error messages!  
 
-```r
-??dplyr::filter
-```
+[IMG] 
 
-Once you know what you want to do with the function, you can run it in your code:
+This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
+Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
+What happens?-->
 
+## Downloading and accessing the data sets used in this book
 
-```r
-dat <- # example data frame
-    data.frame(stringsAsFactors=FALSE,
-               letter = c("A", "A", "A", "B", "B"),
-               number = c(1L, 2L, 3L, 4L, 5L))
-
-dat
-```
-
-```
-##   letter number
-## 1      A      1
-## 2      A      2
-## 3      A      3
-## 4      B      4
-## 5      B      5
-```
-
-```r
-filter(dat, letter == "A") # using dplyr::filter
-```
-
-```
-##   letter number
-## 1      A      1
-## 2      A      2
-## 3      A      3
-```
-
-### Track Two: Welcome to the Tidyverse
-
-The Tidyverse is a set of packages for data manipulation, exploration, and visualization using the design philosophy of 'tidy' data. Tidy data has a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table.
-
-The packages contained in the Tidyverse provide useful functions that augment base R functionality.
-
-You can installing and load the complete Tidyverse with:
-
-
-```r
-install.packages("tidyverse")
-```
-
-
-```r
-library(tidyverse)
-```
-
-**For more information on tidy data, check out [Hadley Wickhams's Tidy Data paper](http://vita.had.co.nz/papers/tidy-data.html).**
-
-## Loading Data from Various Sources
-
-In this section, we'll load data.
-
-You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is CSV, or a comma-separated-values file. 
-
-The CSV file is useful because you can open it with Excel and save Excel files as CSV files. Additionally, and as its name indicates, a CSV file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. Not surprisingly, Google Sheets easily converts CSV files into a Sheet, and also easily saves Sheets as CSV files. 
-
-For these reasons, we start with - and emphasize - reading CSV files. 
-
-### Saving a File from the Web
-
-You'll need to copy this URL:
-
-`https://goo.gl/bUeMhV`
-
-Here's what it resolves to (it's a CSV file):
-
-`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/stu-quest.csv`
-
-This next chunk of code downloads the file to your working directory. Run this to download it so in the next step you can read it into R. As a note: There are ways to read the file directory (from the web) into R. Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a CSV extension).
-
-
-```r
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-It may take a few seconds to download as it's around 20 MB.
-
-The process above involves many core data science ideas and ideas from programming/coding. We will walk through them step-by-step.
-
-1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
-
-
-```r
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-```
-
-2. We concatenate your working directory file path to the desired file name for the CSV using a *function* called `paste0`. This is stored in another *object* called `student_reponses_file_name`. This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
-
-
-```r
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-```
-
-3. The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()` along with `student_responses_file_name`, which is passed to the `destfile` argument.
-
-In short, the `download.file()` function needs to know
-- where the file is coming from (which you tell it through the `url`) argument and
-- where the file will be saved (which you tell it through the `destfile` argument).
-
-
-```r
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help. It also helps you to use functions that you have never used before because you are familiar with how some functions work.
-
-Now, in R Studio, you should see the downloaded file in the Files tab. This should be the case if you created a project with R Studio; if not, it should be whatever your working directory is set to. If the file is there, great. If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it. 
-
-### Loading a CSV File
-
-Okay, we're ready to go. The easiest way to read a CSV file is with the function `read_csv()` from the package `readr`, which is contained within the Tidyverse.
-
-Let's load the tidyverse library:
-
-
-```r
-library(tidyverse) # so tidyverse packages can be used for analysis
-```
-
-You may have noticed the hash symbol after the code that says `library(tidyverse`)`. It reads `# so tidyverse packages can be used for analysis`. That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). Comments are useful for showing *why* a line of code does what it does. 
-
-After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
-
-
-```r
-# readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
-student_responses <-
-    read_csv("./data/student-responses-data.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   CNT = col_character(),
-##   CYC = col_character(),
-##   NatCen = col_character(),
-##   STRATUM = col_character(),
-##   Option_Read = col_character(),
-##   Option_Math = col_character(),
-##   ST011D17TA = col_character(),
-##   ST011D18TA = col_character(),
-##   ST011D19TA = col_character(),
-##   ST124Q01TA = col_logical(),
-##   IC001Q01TA = col_logical(),
-##   IC001Q02TA = col_logical(),
-##   IC001Q03TA = col_logical(),
-##   IC001Q04TA = col_logical(),
-##   IC001Q05TA = col_logical(),
-##   IC001Q06TA = col_logical(),
-##   IC001Q07TA = col_logical(),
-##   IC001Q08TA = col_logical(),
-##   IC001Q09TA = col_logical(),
-##   IC001Q10TA = col_logical()
-##   # ... with 420 more columns
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
-
-
-```r
-glimpse(student_responses)
-```
-
-Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
-
-Great job loading a file and printing it! We are now well on our way to carrying out analysis of our data.
-
-### Loading Excel Files
-
-We will now do the same with an Excel file. You might be thinking that you can open the file in Excel and then save it as a CSV. This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel. Note that, when possible, we recommend the use of CSV files. They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
-
-The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
-
-Once we have installed readxl, we have to load it (just like tidyverse):
-
-
-```r
-install.packages("readxl")
-```
-
-
-```r
-library(readxl)
-```
-
-We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
-
-
-```r
-my_data <-
-    read_excel("path/to/file.xlsx")
-```
-
-Of course, were this run, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
-
-Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of R Studio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, R Studio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
-
-### Loading SAV Files
-
-The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). NOte that you can also read CSV file directly into SPSS and so because of this and the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible. First, install the package `haven`, load it, and the use the function `read_sav()`:
-
-
-```r
-install.packages("haven")
-```
-
-
-```r
-library(haven)
-my_data <-
-    read_sav("path/to/file.xlsx")
-```
-
-### Google Sheets
-
-Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
-
-
-```r
-install.packages("googlesheets")
-```
-
-
-```r
-library(googlesheets)
-```
-
-When you run the command below, a link to authenticate with your Google account will open in your browser. 
-
-
-```r
-my_sheets <- gs_ls()
-```
-
-You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
-
-
-```r
-df <- gs_title('title')
-df <- gs_read(df)
-```
-
-### Saving Files
-
-Using our data frame `student_responses`, we can save it as a CSV (for example) with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
-
-
-```r
-write_csv(student_responses, "student-responses.csv")
-```
-
-That will save a CSV file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a CSV and directly load it in Excel.
-
-### Conclusion
-
-We will detail the functions used to read every file in a folder (or, to write files to a folder).
-
-## Processing Data
-
-Now that we have loaded `student_responses` into an object, we can process it. This section highlights some common data processing functions. 
-
-We're also going to introduce a powerful, unusual *operator* in R, the pipe. The pipe is this symbol: `%>%`. It lets you *compose* functions. It does this by passing the output of one function to the next. A handy shortcut for writing out `%>%` is Command + Shift + M.
-
-Here's an example. Let's say that we want to select a few variables from the `student_responses` dataset and save those variables into a new object, `student_mot_vars`. Here's how we would do that using `dplyr::select()`.
-
-
-```r
-student_mot_vars <- # save object student_mot_vars by...
-    student_responses %>% # using dataframe student_responses
-    select(SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
-```
-
-Note that we saved the output from the `select()` function to `student_mot_vars` but we could also save it back to `student_responses`, which would simply overwrite the original data frame (the following code is not run here):
-
-
-```r
-student_responses <- # save object student_responses by...
-    student_responses %>% # using dataframe student_responses
-    select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
-```
-
-We can also rename the variables at the same time we select them. I put these on separate lines so I could add the comment, but you could do this all in the same line, too. It does not make a difference in terms of how `select()` will work.
-
-
-```r
-student_mot_vars <- # save object student_mot_vars by...
-    student_responses %>% # using dataframe student_responses
-    select(student_efficacy = SCIEEFF, # selecting variable SCIEEFF and renaming to student_efficiency
-           student_joy = JOYSCIE, # selecting variable JOYSCIE and renaming to student_joy
-           student_broad_interest = INTBRSCI, # selecting variable INTBRSCI and renaming to student_broad_interest
-           student_epistemic_beliefs = EPIST, # selecting variable EPIST and renaming to student_epistemic_beliefs
-           student_instrumental_motivation = INSTSCIE # selecting variable INSTSCIE and renaming to student_instrumental_motivation
-    )
-```
-
-[will add more on creating new variables, filtering grouping and summarizing, and joining data sets]
-
-## Communicating / Sharing Results
-
-R Markdown is a highly convenient way to communicate and share results. Navigate to "New File" and then "R Markdown". [add]
-
-Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
-
-## Other Foundational Notes
-
-### Configuring R Studio
-
-There are a number of changes you *can* (but do not need to) make to configure R Studio. If you navigate to the Preferences menu in R Studio, you'll see a number of options you can change, from the appearance of the application to which windows appear where.
-
-One important consideration is whether to save your workspace when you close R Studio. By default, R Studio saves all of the objects in your environment. This means that any data that you have loaded--or new data or objects that you have created, such as by merging two data sets together or creating a plot--will, by default, still exist when you open R Studio next. In general, this is not ideal, because it means that you may have taken steps interactively that are not documented your code. This means that when you share your code, or re-run it from the start, it may not work. An easy way to change this is to tell R Studio to start from scratch (in terms of your workspace) each time you open it. You can do that by changing the dropdown menu pointed out in the image below to "Never".
-
-![optional caption text](images/save-workspace-reminder.jpg)
-
-While this may seem like a dramatic step - never saving your workspace - it is the foundation for doing reproducible work and research using R Studio (and R). It also represents one of the biggest shifts from using software like Excel or SPSS, where most steps are not documented in code. This involves a shift from thinking that your most permanent and important part of an analysis is your data to thinking of the most important part as being the code: with the code, you can keep your data in its original form, process it, and then save a processed file, through running code. This also means that when you have to make a change to this code, you can re-run the entire analysis easily. 
-
-### Getting Data In and Out
-
-`clipr` is a package to easily copy data into and out of R using the clipboard. [add more]
-
-`datapasta` is another option. [add more]
+<!-- On hold - have we solidified this with the package? 
+If yes, link is [here](https://github.com/data-edu/dataedu) -->

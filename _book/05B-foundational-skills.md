@@ -83,7 +83,8 @@ If you are looking for more resources, including information on using a git repo
 
 To download a package, you must call `install.packages()`:
 
-```{r, eval = FALSE}
+
+```r
 install.packages("dplyr", repos = "http://cran.us.r-project.org")
 ```
 
@@ -92,8 +93,26 @@ This is a way to install a package using code or part of the RStudio interface. 
 
 *After* the package is installed, it must be loaded into your RStudio session using `library()`:
 
-```{r}
+
+```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
 ```
 
 We only have to install a package once, but to use it, we have to load it each time we start a new R session.
@@ -106,7 +125,8 @@ We only have to install a package once, but to use it, we have to load it each t
 Once you have loaded the package in your session, you can run the functions that are contained within that package. 
 To find a list of all those functions, you can run this in the RStudio console:
 
-```{r}
+
+```r
 help(package = dplyr)
 ```
 
@@ -114,21 +134,41 @@ The documentation should tell you what the function does, what arguments (i.e., 
 
 If you know the specific function that you want to look up, you can run this in the RStudio console:
 
-```{r}
+
+```r
 ??dplyr::filter
 ```
 
 Once you know what you want to do with the function, you can run it in your code:
 
-```{r}
+
+```r
 dat <- # example data frame
     data.frame(stringsAsFactors=FALSE,
                letter = c("A", "A", "A", "B", "B"),
                number = c(1L, 2L, 3L, 4L, 5L))
 
 dat
+```
 
+```
+##   letter number
+## 1      A      1
+## 2      A      2
+## 3      A      3
+## 4      B      4
+## 5      B      5
+```
+
+```r
 filter(dat, letter == "A") # using dplyr::filter
+```
+
+```
+##   letter number
+## 1      A      1
+## 2      A      2
+## 3      A      3
 ```
 
 -- end import
@@ -171,7 +211,8 @@ Instead we recommend creating a new `.R` script and adding chunks of code as we 
 
 ### See Ryan's work on prefacing functions - need to preface dplyr::arrange()!
 
-```{r, eval = FALSE}
+
+```r
 # Installing packages
 
 # install.packages("tidyverse")
@@ -262,7 +303,6 @@ $_ma_data <- ma_data_init %>%  #' intentional error
 
 ma_data_01 <- ma_data_init %>% 
     clean_names()
-
 ```
 
 ## Packages and Functions
@@ -329,7 +369,8 @@ You can also run your code by highlighting it and clicking the `Run` button.
 ### Run this code
 Take a few minutes to type out and run each of the following code chunks:  
 
-```{r, eval = FALSE}
+
+```r
 # Installing packages
 
 install.packages("tidyverse")
@@ -365,7 +406,8 @@ Using `::` (provide example)
 ## Using functions to import data
 
 ### Run this code
-```{r, eval = FALSE}
+
+```r
 read_csv(here("zz_jesse_practice_scripts/data/for_use", 
               "MA_Public_Schools_2017.csv"))  # change path once finalized in book
 
@@ -392,7 +434,8 @@ See [Hands on Programming With R]() and [Advanced R]() for more in-depth informa
 ## Datasets and variables
 
 ### Run the following code
-```{r, eval = FALSE}
+
+```r
 # Exploring and manipulating your data
 names(ma_data_init)
 
@@ -422,7 +465,8 @@ Many ways to isolate a single variable
 
 ## The pipe operator
 
-```{r, eval = FALSE}
+
+```r
 ma_data_init %>% 
     group_by(District Name) %>%  
     count()
@@ -454,7 +498,8 @@ Fixing it by pressing `Esc`
 
 ## Finicky functions (rename this section)
 
-```{r, eval = FALSE}
+
+```r
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
@@ -495,14 +540,13 @@ Quosures - out of scope of this chapter
 
 ## SECTION ON c() and %in%
 
-```{r}
 
-```
 
 
 ## Creating objects
 In R, everything is an object 
-```{r, eval = FALSE}
+
+```r
 ma_data %>% 
     clean_names()
 
@@ -549,11 +593,13 @@ The packages contained in the `tidyverse` provide useful functions that augment 
 
 You can installing and load the complete `tidyverse` with:
 
-```{r, eval = FALSE}
+
+```r
 install.packages("tidyverse")
 ```
 
-```{r, message = FALSE}
+
+```r
 library(tidyverse)
 ```
 
@@ -575,17 +621,20 @@ The package for loading Excel files, `readxl`, is not a part of the tidyverse, s
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 
-```{r, eval = FALSE}
+
+```r
 install.packages("readxl")
 ```
 
-```{r}
+
+```r
 library(readxl)
 ```
 
 We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
 
-```{r, eval = FALSE}
+
+```r
 my_data <-
     read_excel("path/to/file.xlsx")
 ```
@@ -598,11 +647,13 @@ Note that one easy way to find the path to a file is to use the "Import Dataset"
 
 The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). NOte that you can also read `.csv` file directly into SPSS and so because of this and the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible. First, install the package `haven`, load it, and the use the function `read_sav()`:
 
-```{r, eval = FALSE}
+
+```r
 install.packages("haven")
 ```
 
-```{r, eval = FALSE}
+
+```r
 library(haven)
 my_data <-
     read_sav("path/to/file.xlsx")
@@ -612,23 +663,27 @@ my_data <-
 
 Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
 
-```{r, eval = FALSE}
+
+```r
 install.packages("googlesheets")
 ```
 
-```{r, eval = FALSE}
+
+```r
 library(googlesheets)
 ```
 
 When you run the command below, a link to authenticate with your Google account will open in your browser. 
 
-```{r, eval = FALSE}
+
+```r
 my_sheets <- gs_ls()
 ```
 
 You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
 
-```{r, eval = FALSE}
+
+```r
 df <- gs_title('title')
 df <- gs_read(df)
 ```
@@ -663,7 +718,8 @@ Run this to download it so in the next step you can read it into R.
 As a note: There are ways to read the file directory (from the web) into R. 
 Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
 
-```{r, eval = FALSE}
+
+```r
 student_responses_url <-
     "https://goo.gl/bUeMhV"
 
@@ -682,7 +738,8 @@ We will walk through them step-by-step.
 
 1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
 
-```{r}
+
+```r
 student_responses_url <-
     "https://goo.gl/bUeMhV"
 ```
@@ -691,7 +748,8 @@ student_responses_url <-
 This is stored in another *object* called `student_reponses_file_name`. 
 This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
 
-```{r}
+
+```r
 student_responses_file_name <-
     paste0(getwd(), "/data/student-responses-data.csv")
 ```
@@ -702,7 +760,8 @@ In short, the `download.file()` function needs to know
 - where the file is coming from (which you tell it through the `url`) argument and
 - where the file will be saved (which you tell it through the `destfile` argument).
 
-```{r}
+
+```r
 download.file(
     url = student_responses_url,
     destfile = student_responses_file_name)
@@ -723,7 +782,8 @@ The easiest way to read a `.csv` file is with the function `read_csv()` from the
 
 Let's load the tidyverse library:
 
-```{r, message = FALSE}
+
+```r
 library(tidyverse) # so tidyverse packages can be used for analysis
 ```
 
@@ -735,16 +795,50 @@ Comments are useful for showing *why* a line of code does what it does.
 After loading the tidyverse packages, we can now load a file. 
 We are going to call the data `student_responses`:
 
-```{r, eval = TRUE}
+
+```r
 # readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
 student_responses <-
     read_csv("./data/student-responses-data.csv")
 ```
 
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   CNT = col_character(),
+##   CYC = col_character(),
+##   NatCen = col_character(),
+##   STRATUM = col_character(),
+##   Option_Read = col_character(),
+##   Option_Math = col_character(),
+##   ST011D17TA = col_character(),
+##   ST011D18TA = col_character(),
+##   ST011D19TA = col_character(),
+##   ST124Q01TA = col_logical(),
+##   IC001Q01TA = col_logical(),
+##   IC001Q02TA = col_logical(),
+##   IC001Q03TA = col_logical(),
+##   IC001Q04TA = col_logical(),
+##   IC001Q05TA = col_logical(),
+##   IC001Q06TA = col_logical(),
+##   IC001Q07TA = col_logical(),
+##   IC001Q08TA = col_logical(),
+##   IC001Q09TA = col_logical(),
+##   IC001Q10TA = col_logical()
+##   # ... with 420 more columns
+## )
+```
+
+```
+## See spec(...) for full column specifications.
+```
+
 Since we loaded the data, we now want to look at it. 
 We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
 
-```{r, eval = FALSE}
+
+```r
 glimpse(student_responses)
 ```
 
@@ -758,7 +852,8 @@ We are now well on our way to carrying out analysis of our data.
 
 Using our data frame `student_responses`, we can save it as a `.csv` (for example) with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
 
-```{r, eval = FALSE}
+
+```r
 write_csv(student_responses, "student-responses.csv")
 ```
 
@@ -776,7 +871,8 @@ We're also going to introduce a powerful, unusual *operator* in R, the pipe. The
 
 Here's an example. Let's say that we want to select a few variables from the `student_responses` dataset and save those variables into a new object, `student_mot_vars`. Here's how we would do that using `dplyr::select()`.
 
-```{r}
+
+```r
 student_mot_vars <- # save object student_mot_vars by...
     student_responses %>% # using dataframe student_responses
     select(SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
@@ -784,7 +880,8 @@ student_mot_vars <- # save object student_mot_vars by...
 
 Note that we saved the output from the `select()` function to `student_mot_vars` but we could also save it back to `student_responses`, which would simply overwrite the original data frame (the following code is not run here):
 
-```{r, eval = FALSE}
+
+```r
 student_responses <- # save object student_responses by...
     student_responses %>% # using dataframe student_responses
     select(student_responses, SCIEEFF, JOYSCIE, INTBRSCI, EPIST, INSTSCIE) # and selecting only these five variables
@@ -792,7 +889,8 @@ student_responses <- # save object student_responses by...
 
 We can also rename the variables at the same time we select them. I put these on separate lines so I could add the comment, but you could do this all in the same line, too. It does not make a difference in terms of how `select()` will work.
 
-```{r, eval = FALSE}
+
+```r
 student_mot_vars <- # save object student_mot_vars by...
     student_responses %>% # using dataframe student_responses
     select(student_efficacy = SCIEEFF, # selecting variable SCIEEFF and renaming to student_efficiency
