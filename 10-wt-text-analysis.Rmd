@@ -291,7 +291,7 @@ dv_pos <-
 
 Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
 
- - `status_id %in% dataviz_distinct$status_id`: a logical statement
+ - `status_id %in% pos_tokens$status_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
  - `0`: the value of `positive` if the logical statement is false 
 
@@ -318,11 +318,11 @@ First, let's make a dataset of tweets that had positive words from the NRC datas
 ```{r positive tweets}
 pos_tweets <-
   tweets %>%
-  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0)) %>%
+  mutate(positive = if_else(status_id %in% pos_tokens$status_id, 1, 0)) %>%
   filter(positive == 1)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% pos_tokens$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
@@ -331,14 +331,6 @@ tweets %>%
   slice(1, 3)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
-
-We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
-
-```{r first and third tweet 2}
-tweets %>% 
-  slice(1, 3)
-```
 
 Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. 
 
