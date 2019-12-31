@@ -290,6 +290,20 @@ dat <-
 dat
 ```
 
+`left_join()` is named on the basis of the order of the two data frames that are being joined - and which data frame is joined to the other. In the above case, note the order of the data frames passed to our "left" join. Let's focus just on the first two arguments. Left joins retain all of the rows in the "left" data frame, and joins every matching row in the right data frame to it. 
+
+Note that in the above, after `left_join(`, we see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the *first* argument), while `pre_survey` is the "right" data frame, passed as the *second* argument. So, in the above, knowing how `left_join()` works, what happened? You can run the code yourself to check.
+
+What our aim was - and what should happen - is that all of the rows of `course_data` are retained in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. We note that in this case, one key is that there are not multiple matching rows of pre-survey: in this case, you would end up with more rows in `dat` than expected. There is a lot packed into one simple function that we just unpacked. Joins are, however, extremely powerful - and common - in many data analysis processing pipelines, in education and in any field. Think of all of the times you have data in more than one data frame, and want them to be in a single data frame! As a result, we think that joins are well worth investing the time to be able to use.
+
+With education (and other) data, `left_joins()` are helpful for carrying out most tasks related to joining datasets. There are, though, functions for other types of joins, those less important than `left_join()` but still worth mentioning. 
+
+They are the following (note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second):
+
+- `semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined
+- `anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame
+- `right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`)
+
 Just one more data frame to merge:
 
 ```{r}
