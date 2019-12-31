@@ -93,9 +93,9 @@ time_spent <- dataedu::time_spent
 Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
 ``` {r}
-s12_pre_survey
-s12_course_data
-s12_time_spent
+pre_survey
+course_data
+time_spent
 ```
 
 ## Processing the pre-survey data
@@ -114,8 +114,8 @@ Let's take these steps in order:
 1.  Rename the question columns to something much simpler:
 
 ``` {r}
-s12_pre_survey  <-
-  s12_pre_survey  %>%
+pre_survey  <-
+  pre_survey  %>%
   # Rename the qustions something easier to work with because R is case sensitive
   # and working with variable names in mix case is prone to error
   rename(
@@ -180,8 +180,8 @@ reverse_scale <- function(question) {
 
 # And here's where we use that function to reverse the scales
 # Reverse scale for questions 4 and 7
-s12_pre_survey <-
-  s12_pre_survey %>%
+pre_survey <-
+  pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
 ```
@@ -196,8 +196,8 @@ After that we'll find the mean response of each category using `mean` function.
 
 ``` {r}
 # Add measure variable 
-s12_measure_mean <-
-  s12_pre_survey %>%
+measure_mean <-
+  pre_survey %>%
   # Gather questions and responses
   pivot_longer(cols = q1:q10,
                names_to = "question",
@@ -218,7 +218,7 @@ s12_measure_mean <-
     # Percent of each measure that had NAs in the response field
     percent_NA = mean(is.na(response)))
 
-s12_measure_mean
+measure_mean
 ```
 
 We will use a similar process later to calculate these variables' correlations.
@@ -231,8 +231,8 @@ from the course ID; variables that we can use later on.
 
 ``` {r}
 # split course section into components
-s12_course_data <- 
-  s12_course_data %>%
+course_data <- 
+  course_data %>%
   separate(
     col = CourseSectionOrigID,
     into = c("subject", "semester", "section"),
@@ -257,12 +257,12 @@ so that we can look at the data all in one place.
 Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
 
 ```{r}
-s12_pre_survey <-
-  s12_pre_survey %>%
+pre_survey <-
+  pre_survey %>%
   rename(student_id = RespondentId,
          course_id = opdata_CourseID)
 
-s12_pre_survey
+pre_survey
 ```
 
 Looks better now!
@@ -272,8 +272,8 @@ correspond to the course and the student so that we can match with the other
 variables we just created for the pre-survey data.
 
 ``` {r}
-s12_course_data <-
-  s12_course_data %>%
+course_data <-
+  course_data %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 ```
@@ -284,8 +284,8 @@ Let's save our joined data as a new object called "dat."
 
 ```{r}
 dat <-
-  left_join(s12_course_data,
-            s12_pre_survey,
+  left_join(course_data,
+            pre_survey,
             by = c("student_id", "course_id"))
 dat
 ```
@@ -293,18 +293,18 @@ dat
 Just one more data frame to merge:
 
 ```{r}
-s12_time_spent <-
-  s12_time_spent %>%
+time_spent <-
+  time_spent %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 
-s12_time_spent <-
-  s12_time_spent %>%
+time_spent <-
+  time_spent %>%
   mutate(student_id = as.integer(student_id))
 
 dat <- 
   dat %>% 
-  left_join(s12_time_spent, 
+  left_join(time_spent, 
             by = c("student_id", "course_id"))
 ```
 
@@ -475,7 +475,7 @@ So let's use these `dplyr` functions on our survey analysis. We will create the 
 
 ``` {r}
 survey_responses <-
-  s12_pre_survey %>%
+  pre_survey %>%
   # Gather questions and responses
   pivot_longer(cols = q1:q10,
                names_to = "question",
