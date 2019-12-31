@@ -300,9 +300,57 @@ With education (and other) data, `left_joins()` are helpful for carrying out mos
 
 They are the following (note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second):
 
-- `semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined
-- `anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame
-- `right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`)
+### `semi_join()`
+
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
+
+For example, the following returns only the rows that are present in both `course_data` and `pre_survey`:
+
+```{r}
+dat_semi <-
+  semi_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_semi
+```
+
+### `anti_join()`
+
+`anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
+
+```{r}
+dat_anti <-
+  anti_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_anti
+```
+
+### `right_join()`
+
+`right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
+
+```{r}
+dat_right <-
+  semi_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_right
+```
+
+If we wanted this to return exacty the same output as `left_join()` (and so to create a data frame that is identical to the `dat` data frame above), we could simply switch the order of the two data frames to be the opposite of those used for the `left_join()` abov:
+
+```{r}
+dat_right <-
+  semi_join(pre_survey,
+            course_data,
+            by = c("student_id", "course_id"))
+
+dat_right
+```
 
 Just one more data frame to merge:
 
@@ -481,9 +529,9 @@ correlations.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll be using a lot in this book. `filter`, `group_by`, and `summarise` are functions in the `dplyr` package that you will see a lot in upcoming chapters. 
 
- - `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
- - `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
- - `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
+- `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
+- `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
+- `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
 
 So let's use these `dplyr` functions on our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another:
 
