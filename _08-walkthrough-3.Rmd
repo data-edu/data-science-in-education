@@ -1,8 +1,13 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Walkthrough 03: Education Dataset Analysis Pipeline (Random Forest)
 
 ## Background
 
-One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses [@allen2008. With the dawn of online learning comes an abundance of new educational tools to facilitate that learning. Indeed, online learning interfaces are used to facilitate the submission of assignments and quizzes in courses in which students and instructor meet face-to-face, but these interfaces are also used in fully online courses to deliver all instruction and assessment. 
+One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses [@allen2008]. With the dawn of online learning comes an abundance of new educational tools to facilitate that learning. Indeed, online learning interfaces are used to facilitate the submission of assignments and quizzes in courses in which students and instructor meet face-to-face, but these interfaces are also used in fully online courses to deliver all instruction and assessment. 
 
 In a face-to-face classroom, an educator might count on behavioral cues to help them effectively deliver instruction. However, one constraint of online education is that educators do not have access as readily to the behavioral cues that can be essential to effective face-to-face instruction. For example, in a face-to-face classroom, cues such as a student missing class repeatedly or many students seeming distracted during a lecture can trigger a shift in the delivery of instruction. While technology is rapidly developing, many educators find themselves looking for ways to understand and support students online in the same way that face-to-face instructors would. Educational technology affords unique opportunities to support student success online because it provides new methods of collecting and storing data. 
 
@@ -53,7 +58,7 @@ Data collection is an essential first step in any type of machine learning or pr
 When people talk about "machine learning," you might get the image in your head of a desktop computer learning how to spell. You might picture your favorite social media site showing you advertisements that are just a little too accurate. At its core, what machine learning really is is the process of "showing" your statistical model only some of the data at once, and training the model to predict accurately on that training dataset (this is the "learning" part of machine learning). Then, the model as developed on the training data is shown new data - data you had all along, but hid from your computer initially - and you see how well the model that you developed on the training data performs on this new testing data. Eventually, you might use the model on entirely new data.  
 
 ## Information on random forests
-For our analyses, we used Random Forest modeling (Breiman, 2001). Random forest is an extension of decision tree modeling, whereby a collection of decision trees are simultaneously "grown" and are evaluated based on out-of-sample predictive accuracy (Breiman, 2001).  Random forest is random in two main ways: first, each tree is only allowed to "see" and split on a limited number of predictors instead of all the predictors in the parameter space; second, a random subsample of the data is used to grow each individual tree, such that no individual case is weighted too heavily in the final prediction. 
+For our analyses, we used Random Forest modeling [@breiman2001]. Random forest is an extension of decision tree modeling, whereby a collection of decision trees are simultaneously "grown" and are evaluated based on out-of-sample predictive accuracy [@breiman2001].  Random forest is random in two main ways: first, each tree is only allowed to "see" and split on a limited number of predictors instead of all the predictors in the parameter space; second, a random subsample of the data is used to grow each individual tree, such that no individual case is weighted too heavily in the final prediction. 
 
 One thing about random forest that makes it quite different from other types of analysis we might do is that here, we are giving the computer a large amount of information and asking it to find connections that might not be immediately visible to the naked human eye. This is great for a couple of reasons. First, while humans are immensely creative and clever, we are not immune to biases. If we are exploring a dataset, we usually come in with some predetermined notions about what we think is true, and we might (consciously or unconsciously) seek evidence that supports the hypothesis we privately hold. By setting the computer loose on some data, we can learn that there are connections between areas that we did not expect. We must also be ready for our hypotheses to not be supported! Random forest is particularly well-suited to the research questions explored here because we do not have specific directional hypotheses. Machine learning researchers talk about this as "exploring the parameter space" - we want to see what connections exist, and we acknowledge that we might not be able to accurately predict all the possible connections. Indeed, we expect - and hope - that we will find surprising connections. 
 
@@ -65,36 +70,57 @@ Note that the random forest algorithm does not accept cases with missing data, a
 
 A random forest is well suited to the research questions that we had here because it allows for nonlinear modeling. We hypothesized complex relationships between students' motivation, their engagement with the online courses, and their achievement. For this reason, a traditional regressive or structural equation model would have been insufficient to model the parameter space we were interesting in modeling. Our random forest model had one outcome and eleven predictors. 
 
-One term you will hear used in machine learning is "tuning parameter." People often think of tuning parameters as knobs or dials on a radio: they are features of the model that can be adjusted to get the clearest signal. A common tuning parameter for machine learning models is the number of variables considered at each split (Kuhn, 2008); we considered three variables at each split for this analysis.  
+One term you will hear used in machine learning is "tuning parameter." People often think of tuning parameters as knobs or dials on a radio: they are features of the model that can be adjusted to get the clearest signal. A common tuning parameter for machine learning models is the number of variables considered at each split [@kuhn2008]; we considered three variables at each split for this analysis.  
 
 The outcome was the final course grade that the student earned. The predictor variables included motivation variables (interest value, utility value, and science perceived competence) and trace variables (the amount of time spent in the course, the course name, the number of discussion board posts over the course of the semester, the mean level of cognitive processing evident in discussion board posts, the positive emotions evident in discussion board posts, the negative emotions evident in discussion board posts, and the social-related discourse evident in their discussion board posts). We used this random forest model to address all three of our research questions.
 
-To interpret our findings, we examined three main factors: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model.
+To interpret our findings, we will  three main factors: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model. In this walkthrough, we will the R package **caret** to carry out the analyses.
 
 ## Analysis
 
-```{r}
+```{r, echo=FALSE}
+
+#install the new packages that will be used in this walkthrogh
+    #Skip this if you have already installed these on your computer
+    #install.packages(c("caret", "tidylog"))
+
+#load the packages
 library(tidyverse)
 library(caret)
-library(here)
 library(tidylog)
 library(dataedu)
 ```
 
-First, we will load the data, *filter* the data to include only the data from one year, and *select* variables of interest. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
+First, we will load the data. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
 
 ```{r}
-#loading the data from the .rda file and storing it as an object named 'd'
+#loading the data from the .rda file and storing it as an object named 'data'
 
-d <- dataedu::sci_mo_data
+data <- dataedu::sci_mo_data
+```
 
-#filtering the data to only include spring 2017 data
-d <-d %>% filter(!str_detect(course_ID, "S217"))
 
-#selecting only the variables we are interested in: motivation, time spent in the course, grade in the course, subject, 
-    #enrollment information, positive and negative emotions, and cognitive processing
-d <- d %>% 
-    select(pre_int, pre_uv,  pre_percomp, time_spent,course_ID, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse` function from the `dplyr` package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the `dplyr` package loads automatically when we load the `tidyverse` library, so there is no need to call the `dplyr` package separately. Now, we'll glimpse the data.
+
+```{r}
+glimpse(sci_mo_data)
+```
+Scanning the data we glimpsed, we see that we have 662 observations and 111 variables. Many of these variables - everything below "WC" except the variable "n" -  are related to the text content of the discussion board posts. Our analysis here is not focused on the specifics of the discusion board posts, so we will select just a few variables from the LIWC analysis. If you're interested in learning more about analyzing text, the text analysis walkthrough in this volume will be a good place to start. 
+
+As is the case with many datasets you'll work with in education contexts, there is lots of great information in this dataset - but we won't need all of it. Even if your dataset has many variables, for most analyses you will find that you are only interested in some of them. There are statistical reasons not to include twenty or more variables in a data analysis, and the quick explanation of the reason why is that at a certain point, adding more variables will *appear* to make your analysis more accurate, but will in fact obscure the truth from you. It's generally a good practice to select a few variables you are interested in and go from there. As we discussed above, the way to do this is to start with the research questions you are trying to answer. Since we are interested in data from one specific semester, we'll need to narrow down the data to make sure that we only include datapoints relevant to that semester.
+
+Thus, we will *filter* the data to include only the data from one that semester, and then *select* variables of interest. For each step, we will save over the previous version of the "data" object so that our working environment doesn't get cluttered with each new version of the dataset. Keep in mind that the original data will stay intact, and that any changes we make to it within R will not overwrite that original data (unless we tell R to specifically save out a new file with exactly the same name as the original file). Changes we make within our working environment are all totally reversible. 
+
+Below, we will *filter* to remove all the datapoints from the spring 2017 semester (indicated with a value of "S217" for the "semester" variable). We use the "!" to indicate that we want to keep all datapoints EXCEPT the datapoints that have a value of "S217" for the semester variable. Then, we will *select* only the variables we are interested in: motivation, time spent in the course, grade in the course, subject, enrollment information, positive and negative emotions, cognitive processing, and the number of discussion board posts.
+
+```{r}
+#filtering the data to only include 2016 data. 
+
+data <- data %>% filter(semester != "S217")
+
+#selecting only the variables we are interested in: 
+data <- data %>% 
+    select(pre_int, pre_uv,  pre_percomp, time_spent, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)
 ```
 
 ### Use of caret
@@ -103,14 +129,14 @@ Here, we remove observations with missing data (per our note above about random 
 
 ```{r}
 #checking how many rows are in our dataset
-nrow(d)
-    #we see that we have 550
+nrow(data)
+    #we see that we have 550 rows from spring 2017
 
 #calling the na.omit function to eliminate ANY rows that have ANY missing data
-d <- na.omit(d)
+data <- na.omit(data)
 
 #checking whether our na.omit call worked as expected
-nrow(d)
+nrow(data)
     #after running the code above, we see that we now have 499 rows - this is as we expected
 ```
 
@@ -118,21 +144,22 @@ First, machine learning methods often involve using a large number of variables.
 
 ```{r}
 #we run the nearZeroVar function to determine if there are variables with NO variability
-nearZeroVar(d, saveMetrics = TRUE)
+nearZeroVar(data, saveMetrics = TRUE)
 ```
+After conducting our zero variance check, we want to scan the "zeroVar" column to see if any of our variables failed this check. If we see any "TRUE" values for "zeroVar," that means we should look more closely at that variable.
 
-If we look at `enrollment_status`, we will see that it is "Approved/Enrolled" for *all* of the students. In the nearZeroVar function we just ran, we see a result in the ZeroVar column of "TRUE" for the `enrollment_status` variable. When we use variables with no variability in certian models, it may cause some problems, and so we remove it first.
+In the nearZeroVar function we just ran, we see a result in the ZeroVar column of "TRUE" for the `enrollment_status` variable.  If we look at `enrollment_status`, we will see that it is "Approved/Enrolled" for *all* of the students.  When we use variables with no variability in certian models, it may cause some problems, and so we remove it first.
 
 ```{r}
 #Taking the dataset and re-saving it as the same dataset, but without the enrollment status variable
-d <- select(d, -enrollment_status)
+data <- select(data, -enrollment_status)
 ```
 
-Note that many times you may wish to pre-process the variables, such as by centering or scaling them. Often the data will come to you in a format that is not ready for immediate analysis, as we have discussed elsewhere in the book. For our current dataset, we could work on pre-processing with code like you will see below. We set this next code chunk up to not run here (if you are viewing the book online), as we will first try this out with the variables' original values.
+Note that many times you may wish to pre-process the variables, such as by centering or scaling them. Often the data will come to you in a format that is not ready for immediate analysis, as we have discussed elsewhere in the book. For our current dataset, we could work on pre-processing with code like you will see below. We set this next code chunk up to not run here (if you are viewing the book online), as we will do this analysis with the variables' original values.
 
 ```{r, eval = FALSE}
-#example pre-processing step: manipulating the dataset 'd' so that if a variable is numeric, its format will now be scale
-d <- mutate_if(d, 
+#example pre-processing step: manipulating the dataset 'data' so that if a variable is numeric, its format will now be scale
+data <- mutate_if(data, 
                is.numeric, scale)
 ```
 
@@ -140,7 +167,7 @@ As another pre-processing step, we want to make sure our text data is in a forma
 
 ```{r}
 #converting the text (character) variables in our dataset into factors
-d <- mutate_if(d, is.character, as.factor)
+data <- mutate_if(data, is.character, as.factor)
 ```
 
 Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don't have either a training or testing dataset that has too many good grades - or too many bad grades. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to initiate a process called "setting the seed." This means that we are ensuring that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that wehn you open the same code file again to run in the future, you do not change the number you selected for your seed. This ensures your code is reproducible. In fact, it ensures that anyone who runs the same code file on any computer, anywhere, will get the same result. With that background information, try running the code chunk below.
@@ -150,46 +177,45 @@ Now, we will prepare the **train** and **test** datasets, using the caret functi
 set.seed(62020)
 
 #we create a new object called trainIndex that will take 80 percent of the data
-trainIndex <- createDataPartition(d$final_grade,
+trainIndex <- createDataPartition(data$final_grade,
                                   p = .8, 
                                   list = FALSE,
                                   times = 1)
-
 
 #We add a new variable to our dataset, temporarily:
     #this will let us select our rows according to their row number
     #we populate the rows with the numbers 1:499, in order
 
-d <- d %>% 
+data <- data %>% 
     mutate(temp_id = 1:499)
 
 #we filter our dataset so that we get only the 
     #rows indicated by our "trainIndex" vector
-d_train <- filter(d, temp_id %in% trainIndex)
+data_train <- filter(data, temp_id %in% trainIndex)
 
 #we filter our dataset in a different way so that we get only  the rows NOT in our "trainIndex" vector
     #adding the ! before the temp_id variable achieves the opposite of what we did in the line of code above
 
-d_test <- filter(d, !temp_id %in% trainIndex)
+data_test <- filter(data, !temp_id %in% trainIndex)
 
 #We delete the temp_id variable from (1) the original data, (2) the portion of the original data we marked as training, and (3) the portion of the original data we marked as testing, as we no longer need that variable
 
-d <- select(d, -temp_id)
-d_train <- select(d_train, - temp_id)
-d_test <- select(d_test, -temp_id)
+data <- select(data, -temp_id)
+data_train <- select(data_train, - temp_id)
+data_test <- select(data_test, -temp_id)
 ```
 
 Finally, we will estimate the models.
 
 Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predictors.
 
-The predictor variables include three indicators of motivation: interest in the course (pre_int), perceived utility value of the course (pre_uv), and perceived competence for the subject matter (pre_percomp). There are a few predictor variables that help differentiate between the different courses in the dataset: specific section of the course (course_ID), subject matter of the course (subject), reason the student enrolled in the course (enrollment_reason), and semester in which the course took place (semester). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (time_spent).
+The predictor variables include three indicators of motivation: interest in the course (pre_int), perceived utility value of the course (pre_uv), and perceived competence for the subject matter (pre_percomp). There are a few predictor variables that help differentiate between the different courses in the dataset: subject matter of the course (subject), reason the student enrolled in the course (enrollment_reason), and semester in which the course took place (semester). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (time_spent).
 
 We also have a number of variables associated with the discussion board posts from the course. Specifically, the variables include the average level of cognitive processing in the discussion board posts (cogproc), the average level of social (rather than academic) content in the discussion board posts (social), the positive and negative emotions evident in the discussion board posts (posemo and negemo), and finally, the number of discussion board posts in total (n). We are using all those variables discussed in this paragraph to predict the outcome of the final grade in the course (final_grade).
 
 Note that you can read more about the specific random forest implementation chosen [here](http://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation (outcome ~ .,). R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the `~`, and the `.` that we see after the `~` means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the `~` and precedes the comma is treated as predictors of the outcome.
 
-Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set.
+Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are "growing!"
 
 ```{r}
 #setting a seed for reproducibility
@@ -197,23 +223,20 @@ set.seed(62020)
 
 #we run the model here
 rf_fit <- train(final_grade ~ .,
-                data = d_train,
+                data = data_train,
                 method = "ranger")
 
 #here, we get a summary of the model we just built
 rf_fit
 ```
 
-
 We have some results! First, we see that we have 400 samples, or 400 observations, the number in the train data set. No pre-processing steps were specified in the model fitting, but note that the output of `preProcess` can be passed to `train()` to center, scale, and transform the data in many other ways. Next, in our example, a resampling technique has been used. This resampling is not for validating the model (per se), but is rather for selecting the tuning parameters - the options that need to be specified as a part of the modeling. These parameters can be manually provided, or can be estimated via strategies such as the bootstrap resample (or *k*-folds cross validation).
 
 As we interpret these findings, we are looking to minimize the error (RMSE) and maximize the variance explained (rsquared).
 
-It appears that the model with the value of the **mtry** tuning parameter equal to 43 seemed to explain the data best, the **splitrule** being "extratrees", and **min.node.size** held constant at a value of 5. We know this model fits best because _____________<<<<<<<<<EMILY WILL WRITE MORE HERE >>>>>>>>>>>>>>>>>>>>>>>
+It appears that the model with the value of the **mtry** tuning parameter equal to 19 seemed to explain the data best, the **splitrule** being "extratrees", and **min.node.size** held constant at a value of 5. We know this model fits best because the RMSE is the lowest of the options (13.13) and the Rsquared is the highest of the options (.582).
 
-The value of resampling here is that it allows for higher accuracy of the model (James, Witten, Hastie, & Tibshirani, 2013). Without resampling (bootstrapping or cross-validation), it is possible that the initial samples drawn may be biased, but resampling mitigates that risk.
-
-<<<<EMILY FIX CITATION>>>>>>>>
+The value of resampling here is that it allows for higher accuracy of the model [@james2013]. Without resampling (bootstrapping or cross-validation), the variance would be higher and the predictive accuracy of the model would be lower.
 
 Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.
 
@@ -225,31 +248,25 @@ train_control <- trainControl(method = "repeatedcv",
                               repeats = 10)
 
 rf_fit1 <- train(final_grade ~ .,
-                data = d_train,
+                data = data_train,
                 method = "ranger",
                 trControl = train_control)
 
 rf_fit1
 ```
 
-The same tuning parameter value seems to be found with this method: mtry 43. Let's check just one last thing - what if we do not fix **min.node.size** to five?
+When we look at this output, we are looking to see which values of the various tuning parameters were selected. We see at the bottom of the output above that the value of **mtry** was 19, the split rule was "extratrees," and the minimum node size is 5. We let this model explore which value of **mtry** was best and to explore whether extra trees or variance was a better split rule, but we forced all iterations of the model to a minimum node size of five (so that minimum node size value in the output shouldn't be a surprise to us). When we look at the bottom row of the output, it shows the final values selected for the model. We see also that this row has the lowest RMSE and highest Rsquared value, which means it has the lowest error and highest predictive power. 
 
-Let's create our own grid of values to test. We'll stick with the default bootstrap resampling method to choose the best model.
+We won't dive into the specifics of the statistics behind these decisions right now, but next we will try adjusting a few different parts of the model to see whether our performance improves. For a detailed statistical explanation of random forest modeling, including more about **mtry** and tuning a model, please see Chapter 8 in the book "An Introduction to Statistical Learning with Applications in R" [@james2013]. 
 
-**where should this paragraph go?? it's a ref to other book**
-For a detailed statistical explanation of random forest modeling, please see Chapter 8 in the book "An Introduction to Statistical Learning with Applications in R" (James, Witten, Hastie, & Tibshirani, 2013).
+What would happen if we do not fix **min.node.size** to five? We're going to let **min.node.size** change and let **mtry** change as well.
 
-**Jesse's questions**
->>> How to choose methods
-
->>> Node size
-
->>> How many should you try?
+Let's create our own grid of values to test for **mtry** and **min.node.size**. We'll stick with the default bootstrap resampling method to choose the best model. We will randomly choose some values to use for **mtry**, including the three that were used previously (2, 10, and 19). Let's try 2, 3, 7, 10, and 19.
 
 
 ```{r}
 #create a grid of different values of mtry, different splitrules, and different minimum node sizes to test
-tune_grid <- expand.grid(mtry = c(2, 22, 43),
+tune_grid <- expand.grid(mtry = c(2, 3, 7, 10, 19),
                          splitrule = c("variance", "extratrees"),
                          min.node.size = c(1, 5, 10, 15, 20))
 
@@ -258,42 +275,46 @@ set.seed(62020)
 
 #fit a new model, using the tuning grid we created above
 rf_fit2 <- train(final_grade ~ .,
-                data = d_train,
+                data = data_train,
                 method = "ranger",
                 tuneGrid = tune_grid)
 
 rf_fit2
 ```
 
-The model with the same values as identified before for **mtry** and **splitrule**, but with **min.node.size** equal to 1 seems to fit best, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make. 
+The model with the same values as identified before for **mtry** (19) and **splitrule** (extratrees), but with **min.node.size** equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.08) and the variance explained is highest (.58) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make. 
 
-Let's take a look at this model. The independent variables are identified as "predictor" variables in the model summary, right below the line indicating the number of samples. We will first note the large number of independent variables, 13 in this case: this is due to the factors being treated as dummy codes.We can see values for the RMSE (13.20),R-squared (0.58), and MAE (9.77). While the output above gives us a good summary of the model, we might want to look more closely at what we found with our rf_fit2 model. The code below is a way for us to zoom in and look specifically at the *final* random forest model generated by our rf_fit2.
+While the output above gives us a good summary of the model, we might want to look more closely at what we found with our rf_fit2 model. The code below is a way for us to zoom in and look specifically at the *final* random forest model generated by our rf_fit2.
 
-
-In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - it's not a normal dataframe. Thus, we extract with a `$`.
+In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - we have stored a random forest model as a model, so it's not a normal dataframe. Thus, we extract with a `$`. We want to select only the final model used, and not worry about the prior iterations of the model.
 
 ```{r}
 #Here, we select the "finalModel" output from the rf_fit2 model
 rf_fit2$finalModel
 ```
-When we run the above code, we can also note the *OOB prediction error (MSE)*, of 167.79, and the proportion of the variance explained, or R squared, of 0.597.
+In looking at this output, we see the same parameters we noted above: **mtry** is 19, the node size is 1, and the split rule is extra trees. We can also note the *OOB prediction error (MSE)*, of 168.92, and the proportion of the variance explained, or R squared, of 0.59. As before, we want the error to be low and the variance explained to be high.
 
-Now that we understand how to develop a machine learning model, and how to use different tuning parameters (such as node size and the splitting rule), we can explore some other related themes. We might wonder about how we could examine the predictive accuracy of the random forest model we just developed.
+Now that we understand how to develop a basic machine learning model, and how to use different tuning parameters (such as node size and the splitting rule), we can explore some other related themes. We might wonder about how we could examine the predictive accuracy of the random forest model we just developed.
 
 ## Examining predictive accuracy on the test data set
 
-What if we use the test data set - data not used to train the model?
+What if we use the test data set - data not used to train the model? Below, we'll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called "pred." At the same, time, we'll make a row called "obs" that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
 
 ```{r}
 set.seed(62020)
-d_test_augmented <- mutate(d_test,
-                           pred = predict(rf_fit2, d_test),
+
+##Create a new object for the testing data including predicted values 
+data_test_augmented <- mutate(data_test,
+                           pred = predict(rf_fit2, data_test),
                            obs = final_grade)
 
-defaultSummary(as.data.frame(d_test_augmented))
+###Transform this new object into a dataframe
+defaultSummary(as.data.frame(data_test_augmented))
 ```
 
-We can compare this to the values above to see how much poorer - if at all - performance is on data not used to train the model. Comparing the RMSE values, we see that the RMSE is a bit lower, but not much different, when we use the test set to train the model. We see the RMSE is 11.58 here, whereas it was 13.20 above. The Rsquared value is 0.74 here, as compared to 0.58 for the original model for rf_fit2. Last, the MAE is 8.68  when trained on the test data, as compared to 0.977 on the train data.
+We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 12.36 on the test data here, and it was 13.08 on the training data. The Rsquared value is 0.71 here, as compared to the 0.58 we got when we passed the training data through rf_fit2 earlier. 
+
+While we might have expected that the model performance would be worse for the testing data as compared to the training data, we actually are seeing marginal improvements here: the model does better with the test data than with the training data. These results suggest to us that the model is fairly robust, as we get comparable - in fact, improved - results when running the model on data it has never "seen" before (the testing data). This is good news!
 
 ### Variable importance measures
 
@@ -303,19 +324,26 @@ We can examine two different variable importance measures using the **ranger** m
 
 Note that importance values are not calculated automatically, but that "impurity" or "permutation" can be passed to the `importance` argument in `train()`. See more [here](https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).
 
-We'll re-run the model, but will add an argument to call the variable importance metric.
+We'll re-run the rf_fit2 model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
 
 ```{r}
+#set a seed
+set.seed(62020)
+
+#specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric
 rf_fit2_imp <- train(final_grade ~ .,
-                data = d_train,
+                data = data_train,
                 method = "ranger",
                 tuneGrid = tune_grid,
-                importance = "impurity")
+                importance = "permutation")
 
+#extract the variable importance from this new model
 varImp(rf_fit2_imp)
 ```
 
-We can visualize these:
+Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
+
+We can visualize this variable importance list with `ggplot`. 
 
 ```{r}
 varImp(rf_fit2_imp) %>%
@@ -326,55 +354,43 @@ varImp(rf_fit2_imp) %>%
     coord_flip()
 ```
 
-We can see whether these change with the different importance measures.
+Cool! We can now visualize which variables are most important in predicting final grade. 
 
-```{r}
-rf_fit2_imp_permutation <- train(final_grade ~ .,
-                data = d_train,
-                method = "ranger",
-                importance = "permutation")
+The first thing we notice is that the variable "n" is the most important. This variable indicates how much students write in their discussion posts. The second most important variable is the amount of time students spend in their course. The third most important variable is `subjectFrScA.` This is one of the course subjects: forensic science. Being enrolled in the forensic science course has a large impact on final grade. That would indicate to us that the forensic science course - more than the other science subjects in this dataset - is strongly correlated with students' final course grades. We can keep scanning down the list to see the other variables that were indicated as less and less important for the model's predictions. Variable importance can thus help us to better understand the inner workings of a random forest model.
 
-varImp(rf_fit2_imp_permutation) %>%
-    pluck(1) %>%
-    rownames_to_column("var") %>%
-    ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col() +
-    coord_flip()
-```
+Overall, there are some subject level differences in terms of how predictive subject is. Biology (`subjectBioA`) shows up pretty far down the list, whereas Physiology is in the middle (`subjPhysA`) and forensic science is towards the top (`subjectFrScA`). What this tells us is that the course students are in seems to have a different effect on final grade, depending on the course. Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
 
-They are similar but somewhat different. One variable that shows up as important in both of the variable importance visualizations is `subjectFrScA`, a variable which means ___________________________.
-One takeaway from this analysis is that what course students are in seems to have a different effect depending on the course. Also, how much students write in their discussion posts (`n`) seems to be very important - as does the time students spend in their course. Finally, there are some subject level differences (in terms of how predictive subject is). Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
+As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the `caret` package if you would like to explore those in your analyses.
 
 ### Comparing a random forest to a regression
 
-You may be curious about comparing the predictive accuracy of the model to a linear model (a regression).
+You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (rf_fit2). Note that we are not actually  re-running our random forest model here, but instead we are just making a dataset that includes the values that the rf_fit2 model predicted as well as the actual rf_fit2 values.
 
-```{r, warning = FALSE}
+```{r}
 #Make sure all variables stored as characters are converted to factors
-d_train_lm <- mutate_if(d_train, is.character, as.factor) 
+data_train_lm <- mutate_if(data_train, is.character, as.factor) 
 
 #Create a linear regression model, using the same formula approach as in the random forest: ~ .
 lm_fit <- train(final_grade ~ .,
-                data = d_train_lm, 
+                data = data_train_lm, 
                 method = "lm")
 
 #Append the predicted values to the training dataset for the linear model, so we can see both the predicted and the actual values
-d_train_lm <- mutate(d_train, 
+data_train_lm <- mutate(data_train, 
                      obs = final_grade,
-                     pred = predict(lm_fit, d_train_lm))
+                     pred = predict(lm_fit, data_train_lm))
 
 #Append the predicted values to the training dataset for the random forest
-d_train_randomfor <- mutate(d_train, 
-                  pred = predict(rf_fit2, d_train),
+data_train_randomfor <- mutate(data_train, 
+                  pred = predict(rf_fit2, data_train),
                   obs = final_grade)
 
 #Summarize, as data frames, the training data with the predicted and the actual values
     #for both the linear model
-defaultSummary(as.data.frame(d_train_lm))
+defaultSummary(as.data.frame(data_train_lm))
     #and the random forest
-defaultSummary(as.data.frame(d_train_randomfor))
+defaultSummary(as.data.frame(data_train_randomfor))
 ```
+Our output will come in the order we wrote the code, so the linear model output shows up above the random forest output.
 
-We can see that the random forest technique seems to perform better than regression. Specifically, the RMSE is lower for the random forest (4.81 as compared to 13.13 for the linear model). Second, the Variance explained is much higher in the random forest (0.96 as compared to 0.59 for the linear model). It may be interesting to compare the results from the random forest not to a more straightforward model, such as a regression, but to a more sophisticated model, like one for deep learning. For now, we'll leave that to you.
-
-In this walkthrough, we used the R package **caret** to carry out the analyses.
+We can see that the random forest technique seems to perform better than regression. Specifically, the RMSE is lower for the random forest (4.80 as compared to 13.50 for the linear model). Second, the variance explained (`Rsquared`) is much higher in the random forest (0.96 as compared to 0.59 for the linear model). It may be interesting to compare the results from the random forest not to a more straightforward model, such as a regression, but to a more sophisticated model, like one for deep learning. As you expand your skills, you might be curious to do something like that!
