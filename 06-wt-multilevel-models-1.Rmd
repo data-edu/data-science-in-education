@@ -85,7 +85,7 @@ pre_survey <- dataedu::pre_survey
 
 # Log-trace data for F15 and S16 semesters - this is for time spent
 
-time_spent <- dataedu::time_spent
+course_minutes <- dataedu::course_minutes
 ```
 
 ## Viewing the data
@@ -95,7 +95,7 @@ Now that we've successfully loaded all three logtrace datasets, we can visually 
 ``` {r}
 pre_survey
 course_data
-time_spent
+course_minutes
 ```
 
 ## Processing the pre-survey data
@@ -355,18 +355,18 @@ dat_right
 Just one more data frame to merge:
 
 ```{r}
-time_spent <-
-  time_spent %>%
+course_minutes <-
+  course_minutes %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 
-time_spent <-
-  time_spent %>%
+course_minutes <-
+  course_minutes %>%
   mutate(student_id = as.integer(student_id))
 
 dat <- 
   dat %>% 
-  left_join(time_spent, 
+  left_join(course_minutes, 
             by = c("student_id", "course_id"))
 ```
 
@@ -631,10 +631,9 @@ overall. This indicates that students in those two classes earned higher grades 
 
 In the follow-up to this walkthrough (see Chapter XXX), we will focus on
 visualizing and then modeling the data using an advanced methodological
-technique, multi-level models. Before we go, let's save the data we processed.
-
-<!-- Not sure how to deal with these paths in the book?!? also the name of the file -->
+technique, multi-level models, using the data - `dat` - we prepared and then 
+used in this chapter.
 
 ``` {r, eval = FALSE}
-write_csv(dat, "data/online-science-motivation/processed/dat.csv")
+write_csv(dat, "data/online-science-motivation/processed/sci_mo_processed.csv")
 ```
