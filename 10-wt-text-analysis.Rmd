@@ -228,7 +228,7 @@ Note the use of `reorder` when mapping the `word` variable to the x aesthetic. U
 
 Earlier in the analysis we learned that "dataviz" was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
 
-There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `status_id` field in the `tweets` dataset to filter the tweets that have the word `dataviz` in them. Then we need to use the `statis_id` field in this new bunch of `dataviz` tweets to identify the tweets that include at least one positive word. 
+There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `status_id` field in the `tweets` dataset to filter the tweets that have the word `dataviz` in them. Then we need to use the `status_id` field in this new bunch of `dataviz` tweets to identify the tweets that include at least one positive word. 
 
 How do we know which `status_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter` and `inner_join` to make two new datasets: one of `status_id` values that have "dataviz" in the `word` column and one of `status_id` values that have a positive word in the `word` column. 
 
@@ -286,12 +286,12 @@ dv_pos <-
   # Only tweets that have the dataviz status_id
   filter(status_id %in% dataviz_distinct) %>%
   # Is the status_id from our vector of positive word?
-  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0))
+  mutate(positive = if_else(status_id %in% pos_tokens$status_id, 1, 0))
 ```
 
 Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
 
- - `status_id %in% dataviz_distinct$status_id`: a logical statement
+ - `status_id %in% pos_tokens$status_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
  - `0`: the value of `positive` if the logical statement is false 
 
@@ -318,24 +318,15 @@ First, let's make a dataset of tweets that had positive words from the NRC datas
 ```{r positive tweets}
 pos_tweets <-
   tweets %>%
-  mutate(positive = if_else(status_id %in% dataviz_distinct, 1, 0)) %>%
+  mutate(positive = if_else(status_id %in% pos_tokens$status_id, 1, 0)) %>%
   filter(positive == 1)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
+Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% pos_tokens$status_id` is true or not. 
 
 We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
 ```{r first and third tweet}
-tweets %>% 
-  slice(1, 3)
-```
-
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% dataviz_distinct$status_id` is true or not. 
-
-We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
-
-```{r first and third tweet 2}
 tweets %>% 
   slice(1, 3)
 ```
