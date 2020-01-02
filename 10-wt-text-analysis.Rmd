@@ -271,20 +271,26 @@ head(pos_tokens$status_id)
 That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can get a vector of `status_id`s by using `distinct`. `distinct` is a function that extracts an element from a vector only once. Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a dataframe where each element is the name of a candy brand. So we can use `distinct` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
 
 ```{r using distinct}
-dataviz_distinct <-
-  dv_tokens %>% 
+pos_tokens <-
+  pos_tokens %>% 
   distinct(status_id)
-
-dataviz_distinct <- as.vector(dataviz_distinct$status_id)
 ```
 
-Now we have a vector of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
+Note that `distinct` drops all variables except for `status_id`. For good measure, let's use `distinct` on our `dv_tokens` dataframe too: 
+
+```{r using distinct}
+dv_tokens <-
+  dv_tokens %>% 
+  distinct(status_id)
+```
+
+Now we have a dataframe of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
 
 ```{r dataviz tweets with positive variable}
 dv_pos <-
   tweets %>%
   # Only tweets that have the dataviz status_id
-  filter(status_id %in% dataviz_distinct) %>%
+  filter(status_id %in% dv_tokens$status_id) %>%
   # Is the status_id from our vector of positive word?
   mutate(positive = if_else(status_id %in% pos_tokens$status_id, 1, 0))
 ```
