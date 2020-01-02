@@ -77,33 +77,15 @@ datasets. We assign each of the datasets a name using `<-`.
 
 ``` {r}
 # Gradebook and log-trace data for F15 and S16 semesters
-s12_course_data <-
-  read_csv(here(
-    "data",
-    "online-science-motivation",
-    "raw",
-    "s12-course-data.csv"
-  ))
+course_data <- dataedu::course_data
 
 # Pre-survey for the F15 and S16 semesters
 
-s12_pre_survey <-
-  read_csv(here(
-    "data",
-    "online-science-motivation",
-    "raw",
-    "s12-pre-survey.csv"
-  ))
+pre_survey <- dataedu::pre_survey
 
 # Log-trace data for F15 and S16 semesters - this is for time spent
 
-s12_time_spent <-
-  read_csv(here(
-    "data",
-    "online-science-motivation",
-    "raw",
-    "s12-course-minutes.csv"
-  ))
+time_spent <- dataedu::time_spent
 ```
 
 ## Viewing the data
@@ -111,9 +93,9 @@ s12_time_spent <-
 Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
 ``` {r}
-s12_pre_survey
-s12_course_data
-s12_time_spent
+pre_survey
+course_data
+time_spent
 ```
 
 ## Processing the pre-survey data
@@ -132,8 +114,8 @@ Let's take these steps in order:
 1.  Rename the question columns to something much simpler:
 
 ``` {r}
-s12_pre_survey  <-
-  s12_pre_survey  %>%
+pre_survey  <-
+  pre_survey  %>%
   # Rename the qustions something easier to work with because R is case sensitive
   # and working with variable names in mix case is prone to error
   rename(
@@ -198,8 +180,8 @@ reverse_scale <- function(question) {
 
 # And here's where we use that function to reverse the scales
 # Reverse scale for questions 4 and 7
-s12_pre_survey <-
-  s12_pre_survey %>%
+pre_survey <-
+  pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
 ```
@@ -214,8 +196,8 @@ After that we'll find the mean response of each category using `mean` function.
 
 ``` {r}
 # Add measure variable 
-s12_measure_mean <-
-  s12_pre_survey %>%
+measure_mean <-
+  pre_survey %>%
   # Gather questions and responses
   pivot_longer(cols = q1:q10,
                names_to = "question",
@@ -236,7 +218,7 @@ s12_measure_mean <-
     # Percent of each measure that had NAs in the response field
     percent_NA = mean(is.na(response)))
 
-s12_measure_mean
+measure_mean
 ```
 
 We will use a similar process later to calculate these variables' correlations.
@@ -249,8 +231,8 @@ from the course ID; variables that we can use later on.
 
 ``` {r}
 # split course section into components
-s12_course_data <- 
-  s12_course_data %>%
+course_data <- 
+  course_data %>%
   separate(
     col = CourseSectionOrigID,
     into = c("subject", "semester", "section"),
@@ -275,12 +257,12 @@ so that we can look at the data all in one place.
 Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
 
 ```{r}
-s12_pre_survey <-
-  s12_pre_survey %>%
+pre_survey <-
+  pre_survey %>%
   rename(student_id = RespondentId,
          course_id = opdata_CourseID)
 
-s12_pre_survey
+pre_survey
 ```
 
 Looks better now!
@@ -290,8 +272,8 @@ correspond to the course and the student so that we can match with the other
 variables we just created for the pre-survey data.
 
 ``` {r}
-s12_course_data <-
-  s12_course_data %>%
+course_data <-
+  course_data %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 ```
@@ -302,27 +284,89 @@ Let's save our joined data as a new object called "dat."
 
 ```{r}
 dat <-
-  left_join(s12_course_data,
-            s12_pre_survey,
+  left_join(course_data,
+            pre_survey,
             by = c("student_id", "course_id"))
 dat
+```
+
+`left_join()` is named on the basis of the order of the two data frames that are being joined - and which data frame is joined to the other. In the above case, note the order of the data frames passed to our "left" join. Let's focus just on the first two arguments. Left joins retain all of the rows in the "left" data frame, and joins every matching row in the right data frame to it. 
+
+Note that in the above, after `left_join(`, we see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the *first* argument), while `pre_survey` is the "right" data frame, passed as the *second* argument. So, in the above, knowing how `left_join()` works, what happened? You can run the code yourself to check.
+
+What our aim was - and what should happen - is that all of the rows of `course_data` are retained in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. We note that in this case, one key is that there are not multiple matching rows of pre-survey: in this case, you would end up with more rows in `dat` than expected. There is a lot packed into one simple function that we just unpacked. Joins are, however, extremely powerful - and common - in many data analysis processing pipelines, in education and in any field. Think of all of the times you have data in more than one data frame, and want them to be in a single data frame! As a result, we think that joins are well worth investing the time to be able to use.
+
+With education (and other) data, `left_joins()` are helpful for carrying out most tasks related to joining datasets. There are, though, functions for other types of joins, those less important than `left_join()` but still worth mentioning. 
+
+They are the following (note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second):
+
+### `semi_join()`
+
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
+
+For example, the following returns only the rows that are present in both `course_data` and `pre_survey`:
+
+```{r}
+dat_semi <-
+  semi_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_semi
+```
+
+### `anti_join()`
+
+`anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
+
+```{r}
+dat_anti <-
+  anti_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_anti
+```
+
+### `right_join()`
+
+`right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
+
+```{r}
+dat_right <-
+  semi_join(course_data,
+            pre_survey,
+            by = c("student_id", "course_id"))
+
+dat_right
+```
+
+If we wanted this to return exacty the same output as `left_join()` (and so to create a data frame that is identical to the `dat` data frame above), we could simply switch the order of the two data frames to be the opposite of those used for the `left_join()` abov:
+
+```{r}
+dat_right <-
+  semi_join(pre_survey,
+            course_data,
+            by = c("student_id", "course_id"))
+
+dat_right
 ```
 
 Just one more data frame to merge:
 
 ```{r}
-s12_time_spent <-
-  s12_time_spent %>%
+time_spent <-
+  time_spent %>%
   rename(student_id = Bb_UserPK,
          course_id = CourseSectionOrigID)
 
-s12_time_spent <-
-  s12_time_spent %>%
+time_spent <-
+  time_spent %>%
   mutate(student_id = as.integer(student_id))
 
 dat <- 
   dat %>% 
-  left_join(s12_time_spent, 
+  left_join(time_spent, 
             by = c("student_id", "course_id"))
 ```
 
@@ -485,15 +529,15 @@ correlations.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll be using a lot in this book. `filter`, `group_by`, and `summarise` are functions in the `dplyr` package that you will see a lot in upcoming chapters. 
 
- - `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
- - `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
- - `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
+- `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
+- `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
+- `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
 
 So let's use these `dplyr` functions on our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another:
 
 ``` {r}
 survey_responses <-
-  s12_pre_survey %>%
+  pre_survey %>%
   # Gather questions and responses
   pivot_longer(cols = q1:q10,
                names_to = "question",
