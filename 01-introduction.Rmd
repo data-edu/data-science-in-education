@@ -1,4 +1,4 @@
-## Learning Data Science in Education 
+## Learning Data Science in Education {#c01}
 
 Over the coming chapters we'll be learning together about what data science in education can look like. But to understand why we were compelled to write about the topic, we need to talk about why data science in education is not such a straightforward thing. 
 
@@ -16,17 +16,18 @@ As data science in education grows, the way we talk about and conceptualize it [
 
 Next, you'll take what you've learned and apply it in our data analysis in education walkthroughs. The walkthroughs in this book are our contribution towards a more example-driven approach to learning. They're meant to make the ambiguous path of learning data science in education a little clearer by way of recognizable and actionable demonstrations. These examples fall into three different education data themes, with walkthroughs for each theme:
 
-Student perception of learning  
- - [Walkthrough 1: multi-level models of survey data](06-wt-multilevel-models-1)
- - [Walkthrough 7: text analysis of tweets](10-wt-text-analysis)
+Student perceptions of learning  
+ - [Walkthrough 1: The Education Dataset Science Pipeline](#c07)
+ - [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](#c13)
+ - [Walkthrough 5: Text Analysis With Social Media Data](#c16)
 
 Analyze student performance data  
- - [Walkthrough 2: analyzing gradebooks](08-wt-gradebooks.Rmd)
- - [Walkthrough 3: using machine learning to predict final course grades](08-walkthrough-3)
+ - [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective ](#c08)
+ - [Walkthrough 8: Predicting Students' Final Grades Using Machine Learning Methods](#c14)
 
 Get value from publicly available data  
- - [Walkthrough 5: analyzing aggregate data](12-wt-aggregate-data)
- - [Walkthrough 6: doing longitudinal analysis on special education enrollment data](13-wt-longitudinal-analysis)
+ - [Walkthrough 3: Introduction to Aggregate Data](#c09)
+ - [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](#c10)
 
 We'll end the book by discussing how to bring data science skills into your education job.
 
