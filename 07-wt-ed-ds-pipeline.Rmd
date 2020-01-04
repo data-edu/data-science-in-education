@@ -227,14 +227,15 @@ We will use a similar process later to calculate these variables' correlations.
 
 ## Processing the course data
 
-We also can process the course data in order to create new variables which we
-can use in analyses. This led to pulling out the subject, semester, and section
-from the course ID; variables that we can use later on.
+We also can process the course data in order to create new variables which we can use in analyses. 
+Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. If we give each of these their own columns, we'll have more opportunities to analyze them as their own variables. We'll use a function called `separate` to do this. 
+This pulls out the subject, semester, and section from the course ID so we can use them later on. 
 
 ``` {r}
 # split course section into components
 course_data <- 
   course_data %>%
+  # Give course subject, semester, and section their own columns
   separate(
     col = CourseSectionOrigID,
     into = c("subject", "semester", "section"),
