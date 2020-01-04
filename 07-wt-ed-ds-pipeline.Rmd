@@ -84,8 +84,6 @@ library(sjPlot)
 
 ## Import Data
 
-<!-- ## Processing the data -->
-
 This code chunk loads the log trace data using the `read_csv` function. Note that we call `read_csv` three times, once for each of the three logtrace
 datasets. We assign each of the datasets a name using `<-`.
 
@@ -112,7 +110,7 @@ course_data
 course_minutes
 ```
 
-## Processing data
+## Process data
 
 Often, survey data needs to be processed in order to be (most) useful. Here, we
 process the self-report items into three scales, for: interest, self-efficacy,
@@ -237,7 +235,7 @@ measure_mean
 
 We will use a similar process later to calculate these variables' correlations.
 
-## Processing the course data
+### Processing the course data
 
 We also can process the course data in order to create new variables which we
 can use in analyses. This led to pulling out the subject, semester, and section
@@ -255,7 +253,7 @@ course_data <-
   )
 ```
 
-## Joining the data
+### Joining the data
 
 To join the course data and pre-survey data, we need to create similar *keys*.
 In other words, our goal here is to have one variable that matches across both
@@ -314,7 +312,7 @@ With education (and other) data, `left_joins()` are helpful for carrying out mos
 
 They are the following (note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second):
 
-### `semi_join()`
+#### `semi_join()`
 
 `semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
 
@@ -329,7 +327,7 @@ dat_semi <-
 dat_semi
 ```
 
-### `anti_join()`
+#### `anti_join()`
 
 `anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
 
@@ -342,7 +340,7 @@ dat_anti <-
 dat_anti
 ```
 
-### `right_join()`
+#### `right_join()`
 
 `right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
 
@@ -416,7 +414,7 @@ dat <-
   left_join(dat) # note that we join this back to the original data frame to retain all of the variables
 ```
 
-## Finding distinct cases at the student-level
+### Finding distinct cases at the student-level
 
 This last step calculated a new column, for the percentage of points each
 student earned. That value is the same for the same student (an easy way we
@@ -468,7 +466,9 @@ this data at the level of specific students' grades for specific gradebook
 items). Now that our data are ready to go, we can start to ask some questions of
 the data,
 
-## Visualizations and Models
+## Analysis
+
+In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in a [later chapter'(#c13).
 
 ### The relationship between time spent on course and percentage of points earned
 
@@ -498,7 +498,7 @@ dat %>%
 
 So, it appeares that the more time students spent on the course, the more points they earned.
 
-## Linear model (regression)
+### Linear model (regression)
 
 We can find out exactly what the relationship is using a linear model. We also discuss linear models in walkthrough XXX.
 
@@ -629,6 +629,8 @@ We can use `sjPlot::tab_model()` once again to view the results:
 ``` {r}
 sjPlot::tab_model(m_linear_3)
 ```
+
+## Results and Conclusion
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
 oceanography - are associated with a higher percentage of points earned,
