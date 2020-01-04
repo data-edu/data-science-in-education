@@ -212,11 +212,13 @@ measure_mean <-
     )
   ) %>%
   group_by(measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
     mean_response = mean(response, na.rm = TRUE),
     # Percent of each measure that had NAs in the response field
-    percent_NA = mean(is.na(response)))
+    percent_NA = mean(is.na(response))
+    )
 
 measure_mean
 ```
