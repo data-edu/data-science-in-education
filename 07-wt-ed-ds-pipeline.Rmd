@@ -305,12 +305,13 @@ They are the following (note that for all of these, the "left" data frame is alw
 
 ### `semi_join()`
 
-`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
+`semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
 
 For example, the following returns only the rows that are present in both `course_data` and `pre_survey`:
 
 ```{r}
-dat_semi <-
+dat_semi <- 
   semi_join(course_data,
             pre_survey,
             by = c("student_id", "course_id"))
