@@ -563,7 +563,8 @@ survey_responses <-
     mean_response = mean(response, na.rm = TRUE)
     ) %>%
   filter(!is.na(mean_response)) %>%
-  spread(measure, mean_response)
+  pivot_wider(names_from = measure, 
+              values_from = mean_response)
 
 survey_responses
 ```
