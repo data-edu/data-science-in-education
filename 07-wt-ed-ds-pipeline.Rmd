@@ -181,7 +181,7 @@ df <- tibble(
 df %>% mutate(total_students = male + female)
 ```
 
-`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `s_12_pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
+`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
 
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
 the responses for all questions can be interpreted in the same way. Rather
@@ -247,11 +247,13 @@ measure_mean <-
     )
   ) %>%
   group_by(measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
     mean_response = mean(response, na.rm = TRUE),
     # Percent of each measure that had NAs in the response field
-    percent_NA = mean(is.na(response)))
+    percent_NA = mean(is.na(response))
+    )
 
 measure_mean
 ```
@@ -260,14 +262,15 @@ We will use a similar process later to calculate these variables' correlations.
 
 ### Processing the course data
 
-We also can process the course data in order to create new variables which we
-can use in analyses. This led to pulling out the subject, semester, and section
-from the course ID; variables that we can use later on.
+We also can process the course data in order to create new variables which we can use in analyses. 
+Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. If we give each of these their own columns, we'll have more opportunities to analyze them as their own variables. We'll use a function called `separate` to do this. 
+This pulls out the subject, semester, and section from the course ID so we can use them later on. 
 
 ``` {r}
 # split course section into components
 course_data <- 
   course_data %>%
+  # Give course subject, semester, and section their own columns
   separate(
     col = CourseSectionOrigID,
     into = c("subject", "semester", "section"),
@@ -360,15 +363,14 @@ always the first argument, and the "right" data frame is always the second):
 
 #### `semi_join()`
 
-`semi_join()`: joins and retains all of the *matching* rows in the "left" and
-"right" data frame; useful when you are only interested in keeping the rows (or
-cases/observations) that are able to be joined.
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
+`semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
 
 For example, the following returns only the rows that are present in both
 `course_data` and `pre_survey`:
 
 ```{r}
-dat_semi <-
+dat_semi <- 
   semi_join(course_data,
             pre_survey,
             by = c("student_id", "course_id"))
@@ -399,9 +401,9 @@ frame, and joining matching rows in the "left" data frame (so, the opposite of
 
 ```{r}
 dat_right <-
-  semi_join(course_data,
-            pre_survey,
-            by = c("student_id", "course_id"))
+  right_join(course_data,
+             pre_survey,
+             by = c("student_id", "course_id"))
 
 dat_right
 ```
@@ -430,6 +432,8 @@ course_minutes <-
 
 course_minutes <-
   course_minutes %>%
+  # Change the data type for student_id in course_minutes so we can match to 
+  # student_id in dat
   mutate(student_id = as.integer(student_id))
 
 dat <- 
@@ -447,11 +451,11 @@ We have a pretty large data frame! Let's take a quick look.
 dat
 ```
 
-It looks like we have nearly 30,000 observations from 30 variables.
+It looks like we have `r nrow(dat)` observations from 30 variables.
 
 There is one last step to take. Were we interested in a fine-grained analysis of
 how students performed (according to the teacher) on different assignments (see
-the `Gradebook_Item` column), we would keep all (29,711 rows of) the data. But,
+the `Gradebook_Item` column), we would keep all rows of the data. But,
 our goal (for now) is more modest: to calculate the percentage of points
 students earned as a measure of their final grade (noting that the teacher may
 have assigned a different grade--or weighted their grades in ways not reflected
@@ -468,7 +472,8 @@ dat <-
   ) %>%
   mutate(percentage_earned = total_points_earned / total_points_possible) %>%
   ungroup() %>%
-  left_join(dat) # note that we join this back to the original data frame to retain all of the variables
+  # note that we join this back to the original data frame to retain all of the variables
+  left_join(dat)
 ```
 
 ### Finding distinct cases at the student-level
@@ -481,7 +486,9 @@ But--because we are not carrying out a finer-grained analysis using the
 at the student-level (and not at the level of different gradebook items). We can
 do this using the `distinct()` function. This function takes the name of the
 data frame and the name of the variables used to determine what counts as a
-unique case. Another thing to note about `distinct()` is that it will only
+unique case. 
+Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
+Another thing to note about `distinct()` is that it will only
 return the variable(s) (we note that you can pass more than one variable to
 `distinct()`) you used to determine uniqueness, *unless* you include the
 argument `.keep_all = TRUE`. For the sake of making it very easy to view the
@@ -537,9 +544,11 @@ We note that ggplot2, which we use to create these plots, is discussed further i
 
 ``` {r}
 dat %>%
-  ggplot(aes(x = TimeSpent, y = percentage_earned)) + # this tells ggplot2 what variables to map to what feature of a plot, here, x- anx y-axis locations
+  # aes() tells ggplot2 what variables to map to what feature of a plot
+  # Here we map variables to the x- and y-axis
+  ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
+  # Creates a point with x- and y-axis coordinates specified above
   geom_point() + 
-  # creates a point with x- and y-axis coordinates specified above
   theme_dataedu()
 ```
 
@@ -549,8 +558,9 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
   geom_point() + # same as above
+  # this adds a line of best fit
+  # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
-  # this adds a line of best fit; method = "lm" tells ggplot2 to make the line linear, whereas the default is a smooth like
   theme_dataedu()
 ```
 
@@ -638,11 +648,14 @@ survey_responses <-
     )
   ) %>%
   group_by(student_id, measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
-    mean_response = mean(response, na.rm = TRUE)) %>%
+    mean_response = mean(response, na.rm = TRUE)
+    ) %>%
   filter(!is.na(mean_response)) %>%
-  spread(measure, mean_response)
+  pivot_wider(names_from = measure, 
+              values_from = mean_response)
 
 survey_responses
 ```
