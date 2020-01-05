@@ -557,9 +557,11 @@ survey_responses <-
     )
   ) %>%
   group_by(student_id, measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
-    mean_response = mean(response, na.rm = TRUE)) %>%
+    mean_response = mean(response, na.rm = TRUE)
+    ) %>%
   filter(!is.na(mean_response)) %>%
   spread(measure, mean_response)
 
