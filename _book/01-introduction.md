@@ -16,18 +16,21 @@ As data science in education grows, the way we talk about and conceptualize it [
 
 Next, you'll take what you've learned and apply it in our data analysis in education walkthroughs. The walkthroughs in this book are our contribution towards a more example-driven approach to learning. They're meant to make the ambiguous path of learning data science in education a little clearer by way of recognizable and actionable demonstrations. These examples fall into three different education data themes, with walkthroughs for each theme:
 
-Student perceptions of learning  
- - [Walkthrough 1: The Education Dataset Science Pipeline](#c07)
- - [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](#c13)
- - [Walkthrough 5: Text Analysis With Social Media Data](#c16)
+Student perceptions of learning
+
+* [Walkthrough 1: The Education Dataset Science Pipeline](#c07)
+* [Walkthrough 5: Text Analysis With Social Media Data](#c16)
+* [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](#c13)
 
 Analyze student performance data  
- - [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective ](#c08)
- - [Walkthrough 8: Predicting Students' Final Grades Using Machine Learning Methods](#c14)
+
+* [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective ](#c08)
+* [Walkthrough 8: Predicting Students' Final Grades Using Machine Learning Methods](#c14)
 
 Get value from publicly available data  
- - [Walkthrough 3: Introduction to Aggregate Data](#c09)
- - [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](#c10)
+
+* [Walkthrough 3: Introduction to Aggregate Data](#c09)
+* [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](#c10)
 
 We'll end the book by discussing how to bring data science skills into your education job.
 

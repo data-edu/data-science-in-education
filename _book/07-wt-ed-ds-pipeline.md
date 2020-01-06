@@ -85,7 +85,7 @@ this as a potentially very rich data source.
 
 <!-- ### Methods: quick summary of the methods that we’ll use in the analysis -->
 
-# Load Packages
+## Load Packages
 
 This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you wil recall from [Chapter 1](#c1). We load
