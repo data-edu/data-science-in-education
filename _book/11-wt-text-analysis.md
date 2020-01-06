@@ -512,7 +512,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  6 10  2  5  1
+## [1] 7 4 2 3 5
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
