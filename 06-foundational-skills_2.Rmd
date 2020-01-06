@@ -111,6 +111,8 @@ We do not recommend running the following block of code all at once!
 It intentionally contains errors that will prevent it from running in its entirety. 
 Instead we recommend creating a new `.R` script and adding chunks of code as we discuss them in the book, running each chunk of code as we go along in order to better see what is happening in a given line of code.   
 
+_Note: when we talk about a script, we're referring to an `.R` file that is created using File --> New File --> R script, and **not** to code that you're running in the Console._
+
 ```{r, eval = FALSE}
 # Installing the packages used in this walkthrough
 
@@ -305,11 +307,10 @@ You can also run your code by highlighting it and clicking the `Run` button.
 [image]
 
 ### Run this code
-Take a few minutes to type out and run each of the following lines of code:  
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.  
 
 ```{r, eval = FALSE}
 # Installing packages
-
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("skimr")
@@ -322,28 +323,86 @@ library(skimr)
 library(here)
 ```
 
-What did you notice happening in the Console?  
+Based on what we've covered so far in this chapter, what did running the above lines of code accomplish?
+How do you know?
+
+### Function conflicts between packages
+In your Console you may have noticed the following message: 
+
+[IMG on tidyverse conflicts] 
+
+This isn't error, but rather some important information that we need to consider!
+When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R before we add any packages to the mix. 
+This includes packages and functions that exist in R that we have access to without needing to first load the package using `library()`. 
+However because of the broad array of packages that have been created for use in R, it's not uncommon for two (or more!) packages to have functions with the same name.
+What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the `dplyr` package (a package within the `tidyverse`) rather than the `filter()` function from within the `stats()` package (part of base R). 
+
+How can we use the Help documentation to explore how the two functions might differ?
+
+R will give precedence the most recently loaded package.
+What happens if we want to use the `filter()` function from the `stats` package _and_ the `filter()` function from the `dplyr` package in the same R session? 
+One solution would be to reload the library you want to use each time you want to change the package you're using the `filter()` function from.
+But this can be tricky for several reasons: 
+- It's best practice to keep your `library()` calls at the very top of your R script, so re-loading a package using `library()` throughout your script can clutter things and cause you headaches down the road
+- If you scroll to the top of your script and reload the packages as you need them, it can be difficult to keep track of which one you recently loaded.
+
+Instead there's an easier way to handle this kind of problem.
+When we have conflicting function names from different packages we can tell R which package we'd like to pull a function from by using `::`.
+Using the example of the `filter()` function above, coupled with the examples in the Help documentation, we can specify which package to pull the `filter()` function using `::`, as outlined below: 
+
+_Note: we haven't covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation!_
+
+```{r eval = FALSE}
+# using the filter() function from the stats package
+x <- 1:100
+stats::filter(x, rep(1, 3))
+
+# using the filter() function from the dplyr package
+starwars %>% 
+    dplyr::filter(mass > 85)
+```
 
 ### How to find a package
-CRAN TaskViews
-Twitter
-Google searches
+As you begin your R learning journey, the bulk of the packages that you will need to use are either already included in base R, or available on CRAN. 
+[CRAN TaskViews](link) is one of the best resources for seeing what packages are available and might be relevant to your work.
+Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
+As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
 ### How to learn more about a package
-Vignettes
-Blog posts
+Sometimes when you look up a package, you're able to pull the function that you need and continue on your way.
+Other times you may need (or want!) to learn more about a specific package. 
+Packages on CRAN all come with something called a "vignette," which is a worked example using various functions from within the package. 
+You can access a package's vignette(s) on CRAN TaskViews:
 
-### Function conflicts: between packages, between base R and loaded packages
-Changing the load order
-Using `::` (provide example)
+[IMG]
+
+Package authors may also publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package.
+You may also find yourself on GitHub looking at information for a package - more often than not the README file will have good information for getting started with a package.
 
 ### Commenting in R
-`#` and `#'`
+It is considered good practice to comment your code when working in an `.R` script. 
+Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. Comments in R are how we accomplish that!
+Comments are ignored by R when running a script, so they will not affect your code or analysis. 
+To comment out a line of code, you can place a pound sign (`#`) in front of the line of code.
+If you think you'll be writing more than one line of code, you can do a pound sign followed by a single quotation mark (`#'`). 
+This will continue to comment out lines of text or code each time you hit "Enter."
+You can delete the `#'` on a new line where you want to write code for R to run.
+
+You can also use `#` to comment out lines of code.
+Be careful when doing this, especially in longer files, as it can be easy to forget where you've commented out code. 
+It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out lines of code.
+
+_Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign in front of a line of code so that R ignores it._
+_We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` sign in an example._
 
 ## Using functions to import data
 
 ### Run this code
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+
+_Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
 ```{r, eval = FALSE}
+
 read_csv(here("zz_jesse_practice_scripts/data/for_use", 
               "MA_Public_Schools_2017.csv"))  # change path once finalized in book
 
@@ -354,7 +413,6 @@ ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use",
                               "MA_Public_Schools_2017.csv"))
 ```
 
-What do you notice happening in the Console? 
 
 ### The assignment operator
 `<-` and `->`
@@ -369,7 +427,9 @@ See [Hands on Programming With R]() and [Advanced R]() for more in-depth informa
 
 ## Datasets and variables
 
-### Run the following code
+### Run this code
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+
 ```{r, eval = FALSE}
 # Exploring and manipulating your data
 names(ma_data_init)
@@ -400,6 +460,8 @@ Many ways to isolate a single variable
 
 ## The pipe operator
 
+### Run this code
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 ```{r, eval = FALSE}
 ma_data_init %>% 
     group_by(District Name) %>%  
@@ -430,9 +492,9 @@ The `magrittr` package
 Seeing the `+` sign in the Console
 Fixing it by pressing `Esc`
 
-## Finicky functions (rename this section)
+### Run this code 
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 Talk about `arrange()` and additional functions
-add in metacognition around functions
 ```{r, eval = FALSE}
 ma_data_init %>%
     group_by(`District Name`) %>%
@@ -473,13 +535,14 @@ Basic function structure
 Quosures - out of scope of this chapter
 
 ## SECTION ON c() and %in%
-
+need to update main code chunk
 ```{r}
 
 ```
 
 
-## Creating objects
+### Run this code
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 In R, everything is an object 
 ```{r, eval = FALSE}
 ma_data %>% 
@@ -495,10 +558,12 @@ ma_data_01 <- ma_data_init %>%
     clean_names()
 ```
 
+
+## Conclusion
+It would be impossible for us to cover _everything_ you can do in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. 
+In this chapter we've covered the concepts of data, Projects, packages, and functions, and also walked through foundational ideas, concepts, and skills related to doing data science in R. 
+
 -- import from 05A: plug in as needed
-
-
-
 
 ### Track Two: Welcome to the Tidyverse
 
