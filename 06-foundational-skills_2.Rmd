@@ -3,9 +3,7 @@
 ## Chapter overview
 This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. 
 Our goal is to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of applied examples. 
-If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05A before beginning this chapter.    
-
-<!-- Each walkthrough chapter also has its own supplemental *Foundational Skills* section, which is intended to bridge the gap between material covered in this chapter and the material covered within a specific walk through.   -->
+If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05 before beginning this chapter.    
 
 Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. 
 There are many excellent resources available which provide this kind of instruction, and we've listed them for you on page [AAA] in the **Resources** section [link for bookdown version].  
@@ -28,16 +26,13 @@ We've provided additional resources for loading data from Excel, SAV, and Google
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
 For those curious as to how to accomplish this, we recommend the following resources [AAA].  
 
-[We'll say more about each component later in this chapter, but for now let's break down this image: [INSERT ILLUSTRATION].  
-
-[Illustration of framework]
-
+### Data
 We have **data** that we bring into a Project within RStudio. 
 RStudio is the interface that we use to access and manipulate R. 
 Sometimes you'll hear RStudio referred to as an IDE, or "Interactive Development Environment." 
 We use an IDE - in this case RStudio, although you could use others - because it adds features that make our analytical lives a little (and sometimes a lot!) easier. 
-You can read more about everything that RStudio offers here (I couldn't find a great resource on this - does anyone have one? Might be worth creating a blog post on it!)  
 
+## Projects
 Within RStudio we set up a **Project**. 
 This is the home for all of the files, images, reports, and code that we'll create for a single project.
 While there are a myriad of ways to set up the files in your Project, the method we'll use in this text is:  
@@ -47,17 +42,16 @@ While there are a myriad of ways to set up the files in your Project, the method
 It's OK (and totally normal) for your initial projects to consist of only one or two files. 
 As your skill set grows and develops you'll need more and more files, and laying the groundwork for a file structure now will make future you very happy.  
 
-We use Projects because they create a self-contained file for a given analysis in R. 
+We use Projects because they create a self-contained folder for a given analysis in R. 
 This means that if you want to share your Project with a colleague they will not have to reset file paths (or even know anything about file paths!) in order to re-run your analysis.  
 
 And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future, at least in terms of file path structures. 
 You may run into issues with packages being out of date and functions being deprecated - in which case you may be interested in learning more about how to set up a Project within Docker [AAA].  
 
-## Setting up your Project
-note: how in-depth into file structures do we want to go?
+### Setting up your Project
 
 **How do I create a Project?**  
-Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first!) 
+Creating a Project is one of the first steps in working on an R-based data science project in RStudio (if we were using GitHub for this we'd absolutely recommend setting up your repository first! While we do not use Git or GitHub in this text, you can read more about it at [happygitwithr.com](http://www.happygitwithr.com).) 
 To create a Project you will need to be in RStudio.  
 
 From within RStudio, follow these steps:  
@@ -66,89 +60,37 @@ From within RStudio, follow these steps:
 2. Select New Project
 3. Choose New Directory
 4. Click on New Project
-5. Enter your Project's name in the box that says "Directory name"
+5. Enter your Project's name in the box that says "Directory name." 
+We recommend choosing a Project name that helps you to remember that this is a project that involves data science in education.
+Avoid using spaces in your Project name, and instead separate words with hyphens or underscore characters.
 6. Choose where to save your Project by clicking on "Browse" next to the box labeled "Create project as a subdirectory of: "
+If you are just using this to learn and to test out creating a Project, consider placing it in your downloads or another temporary directory so that you remember to remove it later.
 7. Click "Create Project"  
 
 If you are looking for more resources, including information on using a git repository, whether or not you should open in a new session, etc., please see AAA and BBB resources.  
 
-### Coding in RStudio 
+We should point out that it is not _necessary_ to create a Project for your work, although we strongly recommend it. 
+If you do not create a Project, you can always check where your working directory (i.e., where your R is pointing) is by running `getwd()`. 
+You can then change your working directory manually, by running `setwd()` and providing your file path name as an argument. 
 
--- import from 05A
+More on manually setting your working directory can be found [here]().
+
 ## Packages
 
 "Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data and documentation,. Packages increase the functionality of R by improving and expanding on base R (basic R functions). 
 
-### Installing and Loading Packages
+**Importing your data**  
 
-To download a package, you must call `install.packages()`:
-
-```{r, eval = FALSE}
-install.packages("dplyr", repos = "http://cran.us.r-project.org")
-```
-
-You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. 
-This is a way to install a package using code or part of the RStudio interface. Usually, writing code is a bit quicker, but using the interface can be very useful and complimentary to use of code. 
-
-*After* the package is installed, it must be loaded into your RStudio session using `library()`:
-
-```{r}
-library(dplyr)
-```
-
-We only have to install a package once, but to use it, we have to load it each time we start a new R session.
-
-> A package is a like a book, a library is like a library; you use library() to check a package out of the library.
-> - Hadley Wickham, Chief Scientist, RStudio
-
-### Running Functions from Packages
-
-Once you have loaded the package in your session, you can run the functions that are contained within that package. 
-To find a list of all those functions, you can run this in the RStudio console:
-
-```{r}
-help(package = dplyr)
-```
-
-The documentation should tell you what the function does, what arguments (i.e., details) needed for it to successfully run, examples, and what the output should look like.
-
-If you know the specific function that you want to look up, you can run this in the RStudio console:
-
-```{r}
-??dplyr::filter
-```
-
-Once you know what you want to do with the function, you can run it in your code:
-
-```{r}
-dat <- # example data frame
-    data.frame(stringsAsFactors=FALSE,
-               letter = c("A", "A", "A", "B", "B"),
-               number = c(1L, 2L, 3L, 4L, 5L))
-
-dat
-
-filter(dat, letter == "A") # using dplyr::filter
-```
-
--- end import
-
-**Import your data**  
-
-Talk about previous chapter - which goes into different data sources.
-Why are we skimming over it here? 
-Should we instead focus on data types and structures?
-
-
-R comes with built in data sets, the list of which you can see by running `data()` in the Console (go ahead, try it! 
+R comes with built in data sets, the list of which you can see by running `data()` in the Console (go ahead, try it!
 You can do this by typing `data()` in the Console window and hitting Enter.) 
-You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes (link out//define) and other various examples. 
+You may be familiar with some of the data sets, such as `mtcars` or `iris`, which often get used in vignettes and other various examples. 
 Using built-in data sets are a great way to work with R code using a data set that "just works."   
 
 Think of any data science project as consisting of data and code. 
 We use code to manipulate data, which means that when we are troubleshooting we need to think about whether or not our code is the source of the error, if our data is the source of the error, or if the error comes from the interaction of the code with the data.  
 
-For this chapter we'll be using data from the Massachusetts Public School System that was originally downloaded from Kaggle on October 23, 2019. Access the data by ???. 
+For this chapter we'll be using data from the Massachusetts Public School System that was originally downloaded from Kaggle on October 23, 2019. 
+You can access the data from within the `dataedu` package, or [download the data from Kaggle]().
 
 Save your data to the `data --> raw` folder, make a copy of your data, and put the new copy into the `data --> for_use` folder. 
 
@@ -167,12 +109,10 @@ We recommend the text [R for Data Science]("https://r4ds.had.co.nz/") for those 
 
 We do not recommend running the following block of code all at once! 
 It intentionally contains errors that will prevent it from running in its entirety. 
-Instead we recommend creating a new `.R` script and adding chunks of code as we discuss them in the book, running each chunk of code as we go along in order to better see what is happening in a given line of code. (define a code chunk)    
-
-### See Ryan's work on prefacing functions - need to preface dplyr::arrange()!
+Instead we recommend creating a new `.R` script and adding chunks of code as we discuss them in the book, running each chunk of code as we go along in order to better see what is happening in a given line of code.   
 
 ```{r, eval = FALSE}
-# Installing packages
+# Installing the packages used in this walkthrough
 
 # install.packages("tidyverse")
 # install.packages("janitor")
@@ -268,7 +208,7 @@ ma_data_01 <- ma_data_init %>%
 ## Packages and Functions
 
 **From the outside in**  
-Packages are a collection of functions, and most packages are designed for: a specific data set, a specific field, a specific set of tasks. 
+Packages are a collection of functions, and most packages are designed for: a specific data set, a specific field, and/or a specific set of tasks. 
 Functions are individual components within a package, and functions are what we use to interact with our data.  
 
 **From the inside out**  
@@ -276,32 +216,67 @@ To put it another way, an R user might write a series of functions that they fin
 Instead of re-writing (or copying and pasting) the functions each time they need to use them, an R user can collect all of these individual functions inside a package. 
 The R user can then load the package any time that they want to use the functions, using a single line of code instead of tens to tens of thousands of lines of code for each function.  
 
-Most of the packages we'll be working with in this book are available on the **C**omprehensive **R** **A**rchive **N**etwork, or [CRAN]9https://cran.r-project.org/), which means that we can install them using the same set of commands from within R.  
+If an R user feels that their package would be of benefit to a broad audience, they may choose to submit their package to [CRAN](https://cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork.
+Most of the packages we'll be working with in this book are available on CRAN, which means that we can install them using the `install.packages()` function, as we did above.  
 
-The process of submitting a package and having it published through CRAN is beyond the scope of this book, and it's important to point out that you - yes, you! - can create a package for yourself and never submit it for publication. (why?)  
-
-Lastly, some packages are available directly from developers via GitHub.  
+The process of submitting a package and having it published through CRAN is beyond the scope of this book, and it's important to point out that you - yes, you! - can create a package that you use all for yourself, share with colleagues, or submit to CRAN. 
+Packages do not need to be submit to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub.  
 
 [image]
 
 **The Tidyverse, a package of packages**
-The `tidyverse` is a single package that contains additional packages, and within each of those individual packages are a set of functions. The `tidyverse` is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. As of this writing, the `tidyverse` is the only known package of packages.  
+The `tidyverse` is a single package that contains additional packages, and within each of those individual packages are a set of functions. 
+The `tidyverse` is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. 
+As of this writing, the `tidyverse` is the only known package of packages.  
 
 [image]
 
 ## Installing and loading a package
 
-It is entirely possible to do all of your work in R without ever using a package, however we do not recommend that approach due to the wealth of packages available that help reduce both the learning curve associated with R as well as the amount of time spent on any given analytical project.  
+*Installing a package*
+If you read Chapter 05, you might have noticed at the very end that we both installed and loaded packages, but didn't talk too much about what we were doing. 
+We'll get into more detail on installing and loading packages now!
+
+While it is entirely possible to do all of your work in R without ever using a package, we do not recommend that approach due to the wealth of packages available that help reduce both the learning curve associated with R, as well as the amount of time spent on any given analytical project.  
 
 In order to access the functions within a package, you must first install the package on your computer. 
 If the package is on CRAN we can install it by running the following code:  
-`install.packages("package_name")`  
 
-Once a package is installed on your computer you do not have to re-install it in order to use the functions in the package (until you update R - is this still the case, or am I thinking of something else?).  
+```{r eval = FALSE}
+# template for installing a package
+install.packages("package_name")
 
-It is common to load a package into your R environment if you know that you'll be using the functions from within the package. We load a package using the following code:  
+# example of installing a package
+install.packages("dplyr")
+```
 
-`library(package_name)`  
+You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. 
+
+[IMG of packages pane]
+
+This is a way to install a package using code or part of the RStudio interface. 
+Usually writing code is a bit quicker, but using the interface can be very useful and complimentary to use of code. 
+
+*Loading a package*
+Once a package is installed on your computer you do not have to re-install it in order to use the functions in the package, however you need to give R instructions telling it where to look for the functions in order to access the functions in the package.
+
+If you know that you'll be using a package's functions multiple times in an R script (a file ending in `.R`), you can load the package into your R environment using `library()`.
+Loading a package into our R enviroment signals to R that we would like to use any of the functions available to us in that package.
+
+We load a package using the following code:  
+
+```{r eval = FALSE}
+# template for loading a package
+library(package_name)  
+
+# example of loading a package
+library(dplyr)
+```
+
+We only have to install a package once, but to use it, we have to load it each time we start a new R session.
+
+> A package is a like a book, a library is like a library; you use library() to check a package out of the library.
+> - Hadley Wickham, Chief Scientist, RStudio
 
 Sometimes you'll see `require()` instead of `library()`. 
 We strongly advocate for the use of `library()`, as it forces R to load the package, and if the package is not installed or there are issues with the package, will give you an error message. 
@@ -309,10 +284,13 @@ We strongly advocate for the use of `library()`, as it forces R to load the pack
 Using `library()` will help to eliminate sources of confusion later on.  
 
 ### Recognizing a function
-Functions in R can be spotted by the use of a word adjacent to a set of parentheses, like so: `word()`
+Functions in R can be spotted by a word followed by a set of parentheses, like so: `word()`
 
-The word (or set of words) represent the name of the function, and the parenthesis are where we can provide arguments to a function, if arguments are needed for the function to run. 
+The word (or set of words) represent the name of the function, and the parentheses are where we can provide arguments to a function, if arguments are needed for the function to run. 
 Many functions in R packages do not _require_ arguments, and will use a set of default arguments unless you provide something different from the default.
+You can see what the available arguments are for a given function by using the help documentation.
+
+What are the arguments for `library()`?
 
 ### Running code in R  
 In order to run code in R you need to type your code either in the Console or within an `.R` (or `.Rmd`) script. 
@@ -320,14 +298,14 @@ For the purposes of this chapter we recommend creating an `.R` script to type al
 
 To run code in the Console, you type your code and hit 'Enter'.  
 
-To run code in an R script, you can run a single line by highlighting it (or placing your cursor at the end of the line) and hitting `Ctrl` + `Enter` (get Mac codes).  
+To run code in an R script, you can run a single line by highlighting it (or placing your cursor at the end of the line) and hitting `Ctrl` + `Enter`.  
 
 You can also run your code by highlighting it and clicking the `Run` button.
 
 [image]
 
 ### Run this code
-Take a few minutes to type out and run each of the following code chunks:  
+Take a few minutes to type out and run each of the following lines of code:  
 
 ```{r, eval = FALSE}
 # Installing packages
@@ -453,7 +431,8 @@ Seeing the `+` sign in the Console
 Fixing it by pressing `Esc`
 
 ## Finicky functions (rename this section)
-
+Talk about `arrange()` and additional functions
+add in metacognition around functions
 ```{r, eval = FALSE}
 ma_data_init %>%
     group_by(`District Name`) %>%
@@ -516,28 +495,9 @@ ma_data_01 <- ma_data_init %>%
     clean_names()
 ```
 
-### Object-oriented programming (OOP)  
-How in-depth should we go? May not be relevant
-
-### Analysis vs. development  
-Using pre-made functions vs. writing our own functions and packages, exploring pre-made functions 
-
-
 -- import from 05A: plug in as needed
 
-## Creating Projects
 
-Before proceeding, we're going to take a few steps to set ourselves to make the analysis easier; namely, through the use of Projects, an RStudio-specific organizational tool. 
-
-To create a project, in RStudio, navigate to "File" and then "New Directory". 
-
-Then, click "New Project". 
-Choose a directory name for the project that helps you to remember that this is a project that involves data science in education; it can be convenient if the name is typed in `lower-case-letters-separated-by-dashes`, like that. 
-You can also choose the sub-directory. 
-If you are just using this to learn and to test out creating a Project, you may consider placing it in your downloads or another temporary directory so that you remember to remove it later.
-
-Even if you do not create a Project, you can always check where your working directory (i.e., where your R is pointing) is by running `getwd()`. 
-To change it manually, run `setwd(desired/file/path/here)`.
 
 
 ### Track Two: Welcome to the Tidyverse
@@ -635,7 +595,6 @@ df <- gs_read(df)
 
 
 This section goes into depth on loading various types of data sources.
-The next chapter covers a very specific `.csv` import and looks more at data types and the tidy data structure.
 
 In this section, we'll load data.
 
@@ -811,45 +770,9 @@ R Markdown is a highly convenient way to communicate and share results. Navigate
 
 Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
 
-### miscellaneous from import
-`clipr` is a package to easily copy data into and out of R using the clipboard. [add more]
-
-`datapasta` is another option. [add more]
 -- end of import
 
 
-
-## Old text - keep until reincorporated//readdressed
-To break that down another way, it's helpful to know that R reads everything on the left of the assignment operator, `<-`, first, and while it reads from left to right, it starts with the innermost set of parentheses per object.  
-
-We can recognize functions in R by the use of parentheses. For example, `data()` is a function that pulls up all of the existing data sets within R.  
-The parentheses within a function can be empty, but sometimes a function requires arguments in order to work. Arguments are the components that go inside the parentheses of a function, like when we coerced our `UCBAdmissions` data into a tibble.  
-
-We can see which arguments a function uses by calling up the help documentation. We do this by going to the Console and typing a `?` followed by the function's name, then hitting enter. For example, run `?data` in the Console (notice that there is not a space between the question mark and the function's name).  
-
-Now try `?mutate` - what's different?   
-
-`mutate` is a function from the `dplyr` package - a package we'll use extensively throughout this book. But because we haven't brought the `dplyr` package into R yet (how does this fit into the mental model? Is this the right place to talk about this? - might be too far out of scope and belong at the end, in the explanations section.) R doesn't "see" the `mutate` function as existing.  
-
-If we want to search all of R's packages (on our computer? look into this - may require package installation section) we can use `??function_name`, in this case `??mutate`.  
-
-This brings up the entire list of packages that mention a `mutate` function. It's important to note that there is no requirement that function names be specific within the entire world of R (OK this definitely goes at the end). There's not a lot stopping every package on CRAN (all 10,000+ of them!) from having their own `mutate` function. That's not necessarily a problem, as you likely won't be running every package on CRAN simultaneously over the course of this book.  
-
-However we can address two quick ways of dealing with this:  
-
-The order in which you load your packages matters! If there are conflicting functions between packages, the package loaded most recently will take priority.   
-
-But what if you need a function from a package that was loaded earlier?  
-
-It might be tempting to re-load the earlier package, but we don't recommend this - it's going to cause you headaches further down the line when you try to re-run your script. Instead, keep in mind option two:  
-
-Explicitly tell R which package to load a function from - independent of the order in which you loaded the packages - by using a double colon (is this what it's called?) `::`.   
-
-This brings us full circle back to translating everything we did with the `UCBAdmissions` data, where we saw the code `tibble::as_tibble(UCBAdmissions)`. The use of the `::` is how we tell R to go to the `tibble` package and pull out the `as_tibble` function.   
-
-"But wait!" you say, "we've never loaded a package!" Exactly! We can call functions from packages without loading the package into our environment by using the `::`. The only requirement is that the package be installed on the machine that we're using (confirm that this is true).  
-
- 
 
 ## May not need
 **Grab your data**  
