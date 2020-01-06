@@ -1,27 +1,50 @@
-# Walkthrough 1: The Education Dataset Science Pipeline {#c07}
+# Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data {#c07}
 
 ``` {r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 ```
 
-## Background and Purpose
+## Vocabulary
 
-In the 2015-2016 and 2016-2017 school years, researchers carried out a study on students' motivation to learn in online science classes. The online science classes were part of a statewide online course provider designed to supplement(and not replace) students' enrollment in their local school. For example, students may choose to enroll in an online physics class because one was not offered at their school (or they were not able to take it given their schedule).
+## Introduction
 
-The study involved a number of different data sources which were explored to understand students' motivation:
+### Background
 
-1.  A self-report survey for three distinct but related aspects of students' motivation
+In the 2015-2016 and 2016-2017 school years, researchers carried out a study on
+students' motivation to learn in online science classes. The online science
+classes were part of a statewide online course provider designed to
+supplement(and not replace) students' enrollment in their local school. For
+example, students may choose to enroll in an online physics class because one
+was not offered at their school (or they were not able to take it given their
+schedule).
+
+The study involved a number of different data sources which were explored to
+understand students' motivation:
+
+1.  A self-report survey for three distinct but related aspects of students'
+    motivation
 2.  Log-trace data, such as data output from the learning management system
 3.  Discussion board data (not used in this walkthrough)
 4.  Achievement-related (i.e., final grade) data
 
-Our *purpose* for this walkthrough is to begin to understand what explains students' performance in these online courses. To do so, we will focus on a  variable that was available through the learning management system used for the courses, on he amount of time sudents' spent on the course. We will also explore how different (science) subjects as well as being in a particular class may help to explain student performance.
+Our *purpose* for this walkthrough is to begin to understand what explains
+students' performance in these online courses. To do so, we will focus on a
+variable that was available through the learning management system used for the
+courses, on he amount of time sudents' spent on the course. We will also explore
+how different (science) subjects as well as being in a particular class may help
+to explain student performance.
 
-First, these different data sources will be described in terms of how they were provided by the school.
+First, these different data sources will be described in terms of how they were
+provided by the school.
 
-### Data Source #1: Self-report survey
+### Data Sources
 
-This was data collected before the start of the course via self-report survey. The survey included 10 items, each corresponding to one of three *measures*, namely, for interest, utility value, and perceived competence:
+#### Data source \#1: Self-report survey about students' motivation
+
+The first data source is a self-report survey. This was data collected before
+the start of the course via self-report survey. The survey included 10 items,
+each corresponding to one of three *measures*, namely, for interest, utility
+value, and perceived competence:
 
 1.  I think this course is an interesting subject. (Interest)
 2.  What I am learning in this class is relevant to my life. (Utility value)
@@ -29,35 +52,45 @@ This was data collected before the start of the course via self-report survey. T
 4.  I am not interested in this course. (Interest - reverse coded)
 5.  I think I will like learning about this topic. (Interest)
 6.  I think what we are studying in this course is useful for me to know.
-(Utility value)
+    (Utility value)
 7.  I don’t feel comfortable when it comes to answering questions in this area.
-(Perceived competence)
+    (Perceived competence)
 8.  I think this subject is interesting. (Interest)
 9.  I find the content of this course to be personally meaningful. (Utility
-value)
+    value)
 10. I’ve always wanted to learn more about this subject. (Interest)
 
-### Data source #2: Log-trace data
+### Data source \#2: Log-trace data
 
 *Log-trace data* is data generated from our interactions with digital
-technologies, such as archived data from social media postings (see Chapter XXX and XXX). In education, an increasingly common source of log-trace data is that generated from interactions with learning management systems and other digital tools [@siemens2012]. The data for this walk-through is a *summary of* log-trace data, namely, the number of minutes students spent on the course. Thus, while this data is rich, you can imagine even more complex sources of log-trace data (i.e.
-timestamps associated with when students started and stopped accessing the course!).
+technologies, such as archived data from social media postings (see
+[chapter 11](#c11) and [chapter 12](#c12)). In education, an increasingly common
+source of log-trace data is that generated from interactions with learning
+management systems and other digital tools [@siemens2012]. The data for this
+walk-through is a *summary of* log-trace data, namely, the number of minutes
+students spent on the course. Thus, while this data is rich, you can imagine
+even more complex sources of log-trace data (i.e. timestamps associated with
+when students started and stopped accessing the course!).
 
-### Data source #3: Achievement-related and gradebook data
+### Data source \#3: Achievement-related and gradebook data
 
 This is a common source of data, namely, one associated with graded assignments
 students completed. In this walkthrough, we just examine students' final grade.
 
-### Data source #4: Discussion board data
+### Data source \#4: Discussion board data
 
 Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight
 this as a potentially very rich data source.
 
-## Processing the data
+### Methods
+
+<!-- ### Methods: quick summary of the methods that we’ll use in the analysis -->
+
+# Load Packages
 
 This analysis uses R packages, which are collections of R code that help users
-code more efficiently, as you wil recall from Chapter INTRODUCTORY. We load
+code more efficiently, as you wil recall from [Chapter 1](#c1). We load
 these packages with the function `library`. In particular, the packages we'll
 use will help us load Excel files, organize the structure of the data, work with
 dates in the data, and navigate file directories.
@@ -71,6 +104,8 @@ library(dataedu)
 library(apaTables)
 library(sjPlot)
 ```
+
+## Import Data
 
 This code chunk loads the log trace data using the `read_csv` function. Note that we call `read_csv` three times, once for each of the three logtrace
 datasets. We assign each of the datasets a name using `<-`.
@@ -88,7 +123,7 @@ pre_survey <- dataedu::pre_survey
 course_minutes <- dataedu::course_minutes
 ```
 
-## Viewing the data
+## View data
 
 Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
@@ -98,7 +133,7 @@ course_data
 course_minutes
 ```
 
-## Processing the pre-survey data
+## Process data
 
 Often, survey data needs to be processed in order to be (most) useful. Here, we
 process the self-report items into three scales, for: interest, self-efficacy,
@@ -146,7 +181,7 @@ df <- tibble(
 df %>% mutate(total_students = male + female)
 ```
 
-`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `s_12_pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
+`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
 
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
 the responses for all questions can be interpreted in the same way. Rather
@@ -212,27 +247,30 @@ measure_mean <-
     )
   ) %>%
   group_by(measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
     mean_response = mean(response, na.rm = TRUE),
     # Percent of each measure that had NAs in the response field
-    percent_NA = mean(is.na(response)))
+    percent_NA = mean(is.na(response))
+    )
 
 measure_mean
 ```
 
 We will use a similar process later to calculate these variables' correlations.
 
-## Processing the course data
+### Processing the course data
 
-We also can process the course data in order to create new variables which we
-can use in analyses. This led to pulling out the subject, semester, and section
-from the course ID; variables that we can use later on.
+We also can process the course data in order to create new variables which we can use in analyses. 
+Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. If we give each of these their own columns, we'll have more opportunities to analyze them as their own variables. We'll use a function called `separate` to do this. 
+This pulls out the subject, semester, and section from the course ID so we can use them later on. 
 
 ``` {r}
 # split course section into components
 course_data <- 
   course_data %>%
+  # Give course subject, semester, and section their own columns
   separate(
     col = CourseSectionOrigID,
     into = c("subject", "semester", "section"),
@@ -241,7 +279,7 @@ course_data <-
   )
 ```
 
-## Joining the data
+### Joining the data
 
 To join the course data and pre-survey data, we need to create similar *keys*.
 In other words, our goal here is to have one variable that matches across both
@@ -278,7 +316,9 @@ course_data <-
          course_id = CourseSectionOrigID)
 ```
 
-Now that we have two variables that are consistent across both datasets - we have called them "course_id" and "student_id" -  we can join these using the **dplyr** function, `left_join()`.
+Now that we have two variables that are consistent across both datasets - we
+have called them "course\_id" and "student\_id" - we can join these using the
+**dplyr** function, `left_join()`.
 
 Let's save our joined data as a new object called "dat."
 
@@ -290,24 +330,47 @@ dat <-
 dat
 ```
 
-`left_join()` is named on the basis of the order of the two data frames that are being joined - and which data frame is joined to the other. In the above case, note the order of the data frames passed to our "left" join. Let's focus just on the first two arguments. Left joins retain all of the rows in the "left" data frame, and joins every matching row in the right data frame to it. 
+`left_join()` is named on the basis of the order of the two data frames that are
+being joined - and which data frame is joined to the other. In the above case,
+note the order of the data frames passed to our "left" join. Let's focus just on
+the first two arguments. Left joins retain all of the rows in the "left" data
+frame, and joins every matching row in the right data frame to it.
 
-Note that in the above, after `left_join(`, we see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the *first* argument), while `pre_survey` is the "right" data frame, passed as the *second* argument. So, in the above, knowing how `left_join()` works, what happened? You can run the code yourself to check.
+Note that in the above, after `left_join(`, we see `course_data` and then
+`pre_survey`. In this case, `course_data` is the "left" data frame (passed as
+the *first* argument), while `pre_survey` is the "right" data frame, passed as
+the *second* argument. So, in the above, knowing how `left_join()` works, what
+happened? You can run the code yourself to check.
 
-What our aim was - and what should happen - is that all of the rows of `course_data` are retained in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. We note that in this case, one key is that there are not multiple matching rows of pre-survey: in this case, you would end up with more rows in `dat` than expected. There is a lot packed into one simple function that we just unpacked. Joins are, however, extremely powerful - and common - in many data analysis processing pipelines, in education and in any field. Think of all of the times you have data in more than one data frame, and want them to be in a single data frame! As a result, we think that joins are well worth investing the time to be able to use.
+What our aim was - and what should happen - is that all of the rows of
+`course_data` are retained in our new data frame, `dat`, with matching rows of
+`pre_survey` joined to it. We note that in this case, one key is that there are
+not multiple matching rows of pre-survey: in this case, you would end up with
+more rows in `dat` than expected. There is a lot packed into one simple function
+that we just unpacked. Joins are, however, extremely powerful - and common - in
+many data analysis processing pipelines, in education and in any field. Think of
+all of the times you have data in more than one data frame, and want them to be
+in a single data frame! As a result, we think that joins are well worth
+investing the time to be able to use.
 
-With education (and other) data, `left_joins()` are helpful for carrying out most tasks related to joining datasets. There are, though, functions for other types of joins, those less important than `left_join()` but still worth mentioning. 
+With education (and other) data, `left_joins()` are helpful for carrying out
+most tasks related to joining datasets. There are, though, functions for other
+types of joins, those less important than `left_join()` but still worth
+mentioning.
 
-They are the following (note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second):
+They are the following (note that for all of these, the "left" data frame is
+always the first argument, and the "right" data frame is always the second):
 
-### `semi_join()`
+#### `semi_join()`
 
-`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
+`semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
 
-For example, the following returns only the rows that are present in both `course_data` and `pre_survey`:
+For example, the following returns only the rows that are present in both
+`course_data` and `pre_survey`:
 
 ```{r}
-dat_semi <-
+dat_semi <- 
   semi_join(course_data,
             pre_survey,
             by = c("student_id", "course_id"))
@@ -315,9 +378,10 @@ dat_semi <-
 dat_semi
 ```
 
-### `anti_join()`
+#### `anti_join()`
 
-`anti_join()`: *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
+`anti_join()`: *removes* all of the rows in the "left" data frame that can be
+joined with those in the "right" data frame.
 
 ```{r}
 dat_anti <-
@@ -328,20 +392,26 @@ dat_anti <-
 dat_anti
 ```
 
-### `right_join()`
+#### `right_join()`
 
-`right_join()`: perhaps the least helpful of the three, `right_join()` works the same as `left_join()`, but by retaining all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
+`right_join()`: perhaps the least helpful of the three, `right_join()` works the
+same as `left_join()`, but by retaining all of the rows in the "right" data
+frame, and joining matching rows in the "left" data frame (so, the opposite of
+`left_join()`).
 
 ```{r}
 dat_right <-
-  semi_join(course_data,
-            pre_survey,
-            by = c("student_id", "course_id"))
+  right_join(course_data,
+             pre_survey,
+             by = c("student_id", "course_id"))
 
 dat_right
 ```
 
-If we wanted this to return exacty the same output as `left_join()` (and so to create a data frame that is identical to the `dat` data frame above), we could simply switch the order of the two data frames to be the opposite of those used for the `left_join()` abov:
+If we wanted this to return exacty the same output as `left_join()` (and so to
+create a data frame that is identical to the `dat` data frame above), we could
+simply switch the order of the two data frames to be the opposite of those used
+for the `left_join()` above:
 
 ```{r}
 dat_right <-
@@ -362,6 +432,8 @@ course_minutes <-
 
 course_minutes <-
   course_minutes %>%
+  # Change the data type for student_id in course_minutes so we can match to 
+  # student_id in dat
   mutate(student_id = as.integer(student_id))
 
 dat <- 
@@ -370,7 +442,8 @@ dat <-
             by = c("student_id", "course_id"))
 ```
 
-Note that they're now combined, even though the course data has many more rows: The pre_survey data has been joined for each student by course combination.
+Note that they're now combined, even though the course data has many more rows:
+The pre\_survey data has been joined for each student by course combination.
 
 We have a pretty large data frame! Let's take a quick look.
 
@@ -378,11 +451,11 @@ We have a pretty large data frame! Let's take a quick look.
 dat
 ```
 
-It looks like we have nearly 30,000 observations from 30 variables.
+It looks like we have `r nrow(dat)` observations from 30 variables.
 
 There is one last step to take. Were we interested in a fine-grained analysis of
 how students performed (according to the teacher) on different assignments (see
-the `Gradebook_Item` column), we would keep all (29,711 rows of) the data. But,
+the `Gradebook_Item` column), we would keep all rows of the data. But,
 our goal (for now) is more modest: to calculate the percentage of points
 students earned as a measure of their final grade (noting that the teacher may
 have assigned a different grade--or weighted their grades in ways not reflected
@@ -399,10 +472,11 @@ dat <-
   ) %>%
   mutate(percentage_earned = total_points_earned / total_points_possible) %>%
   ungroup() %>%
-  left_join(dat) # note that we join this back to the original data frame to retain all of the variables
+  # note that we join this back to the original data frame to retain all of the variables
+  left_join(dat)
 ```
 
-## Finding distinct cases at the student-level
+### Finding distinct cases at the student-level
 
 This last step calculated a new column, for the percentage of points each
 student earned. That value is the same for the same student (an easy way we
@@ -412,7 +486,9 @@ But--because we are not carrying out a finer-grained analysis using the
 at the student-level (and not at the level of different gradebook items). We can
 do this using the `distinct()` function. This function takes the name of the
 data frame and the name of the variables used to determine what counts as a
-unique case. Another thing to note about `distinct()` is that it will only
+unique case. 
+Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
+Another thing to note about `distinct()` is that it will only
 return the variable(s) (we note that you can pass more than one variable to
 `distinct()`) you used to determine uniqueness, *unless* you include the
 argument `.keep_all = TRUE`. For the sake of making it very easy to view the
@@ -454,7 +530,10 @@ this data at the level of specific students' grades for specific gradebook
 items). Now that our data are ready to go, we can start to ask some questions of
 the data,
 
-## Visualizations and Models
+## Analysis
+
+In this section, we focus on some initial analyses in the form of visualizations
+and some models. We note that we expand on these in a [later chapter'(\#c13).
 
 ### The relationship between time spent on course and percentage of points earned
 
@@ -465,9 +544,11 @@ We note that ggplot2, which we use to create these plots, is discussed further i
 
 ``` {r}
 dat %>%
-  ggplot(aes(x = TimeSpent, y = percentage_earned)) + # this tells ggplot2 what variables to map to what feature of a plot, here, x- anx y-axis locations
+  # aes() tells ggplot2 what variables to map to what feature of a plot
+  # Here we map variables to the x- and y-axis
+  ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
+  # Creates a point with x- and y-axis coordinates specified above
   geom_point() + 
-  # creates a point with x- and y-axis coordinates specified above
   theme_dataedu()
 ```
 
@@ -477,18 +558,30 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
   geom_point() + # same as above
+  # this adds a line of best fit
+  # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
-  # this adds a line of best fit; method = "lm" tells ggplot2 to make the line linear, whereas the default is a smooth like
   theme_dataedu()
 ```
 
-So, it appeares that the more time students spent on the course, the more points they earned.
+So, it appeares that the more time students spent on the course, the more points
+they earned.
 
-## Linear model (regression)
+### Linear model (regression)
 
-We can find out exactly what the relationship is using a linear model. We also discuss linear models in walkthrough XXX.
+We can find out exactly what the relationship is using a linear model. We also
+discuss linear models in walkthrough XXX.
 
-Let's use this technique to model the relationship between the time spent on the course and the percentage of points earned. Here, we predict `percentage_earned`, or the percentage of the total points that are possible for a student to earn. Here, percentage earned is the dependent, or *y*-variable, and so we enter it first, after the `lm()` command, before the tilde (`~`) symbol. To the right of the tilde is one independent variable, `TimeSpent`, or the time that students spent on the course. We also pass the data frame, `dat`. At this point, we're ready to run the model. Let's run this line of code and save the results to an object - we chose `m_linear`, but any name will work, as well as the `summary()` function on the output.
+Let's use this technique to model the relationship between the time spent on the
+course and the percentage of points earned. Here, we predict
+`percentage_earned`, or the percentage of the total points that are possible for
+a student to earn. Here, percentage earned is the dependent, or *y*-variable,
+and so we enter it first, after the `lm()` command, before the tilde (`~`)
+symbol. To the right of the tilde is one independent variable, `TimeSpent`, or
+the time that students spent on the course. We also pass the data frame, `dat`.
+At this point, we're ready to run the model. Let's run this line of code and
+save the results to an object - we chose `m_linear`, but any name will work, as
+well as the `summary()` function on the output.
 
 ``` {r}
 m_linear <-
@@ -505,18 +598,12 @@ sjPlot::tab_model(m_linear)
 This will work well for R Markdown documents (or simply to interpet the model in
 R). If you want to save the model for use in a Word document, the
 [apaTables](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
-package may be helpful; just pass the name of the regression model, like we did
-with `sjPlot::tab_model()`, as well as a file name that ends in `.doc` to the
-`filename` argument, i.e.:
-
-```{r}
-apaTables::apa.reg.table(m_linear)
-```
-
-Helpfully, you can save the output to a Word document, by adding a `filename` argument:
+package may be helpful. To do so, just pass the name of the regression model,
+like we did with `sjPlot::tab_model()`. Then, you can save the output to a Word
+document, simply by adding a `filename` argument:
 
 ```{r, eval = FALSE}
-apaTables::apa.reg.table(m_summary, filename = "regression-table-output.doc")
+apaTables::apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
 You might be wondering what else the apaTables package does; we encourage you to
@@ -527,13 +614,22 @@ the following function for creating correlation tables; the function takes, as
 an input, a data frame with the variables for which you wish to calculate
 correlations. 
 
-Before we proceed to the next code chunk, let's talk about some functions we'll be using a lot in this book. `filter`, `group_by`, and `summarise` are functions in the `dplyr` package that you will see a lot in upcoming chapters. 
+Before we proceed to the next code chunk, let's talk about some functions we'll
+be using a lot in this book. `filter`, `group_by`, and `summarise` are functions
+in the `dplyr` package that you will see a lot in upcoming chapters.
 
-- `filter` removes rows from the dataset that don't match a criteria. Use it for tasks like only keeping records for students in the fifth grade 
-- `group_by` groups records together so you can perform operations on those groups instead of on the entire dataset. Use it for tasks like getting the mean test score of each school instead of a whole school district 
-- `summarize` and `summarise` reduce your dataset down to a summary statistic. Use it for tasks like turning a datset of student test scores into a datset of grade levels and their mean test score
+  - `filter` removes rows from the dataset that don't match a criteria. Use it
+    for tasks like only keeping records for students in the fifth grade
+  - `group_by` groups records together so you can perform operations on those
+    groups instead of on the entire dataset. Use it for tasks like getting the
+    mean test score of each school instead of a whole school district
+  - `summarize` and `summarise` reduce your dataset down to a summary statistic.
+    Use it for tasks like turning a datset of student test scores into a datset
+    of grade levels and their mean test score
 
-So let's use these `dplyr` functions on our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another:
+So let's use these `dplyr` functions on our survey analysis. We will create the
+same measures (based on the survey items) that we used earlier to understand how
+they relate to one another:
 
 ``` {r}
 survey_responses <-
@@ -552,11 +648,14 @@ survey_responses <-
     )
   ) %>%
   group_by(student_id, measure) %>%
-  summarise(# Here's where we compute the mean of the responses
+  # Here's where we compute the mean of the responses
+  summarise(
     # Mean response for each measure
-    mean_response = mean(response, na.rm = TRUE)) %>%
+    mean_response = mean(response, na.rm = TRUE)
+    ) %>%
   filter(!is.na(mean_response)) %>%
-  spread(measure, mean_response)
+  pivot_wider(names_from = measure, 
+              values_from = mean_response)
 
 survey_responses
 ```
@@ -569,8 +668,9 @@ survey_responses %>%
 ```
 
 The time spent variable is on a very large scale (minutes); what if we transform
-it to represent the number of hours that students spent on the course? Let's use the `mutate()` function we used earlier. We'll end the variable
-name in `_hours`, to represent what this variable means.
+it to represent the number of hours that students spent on the course? Let's use
+the `mutate()` function we used earlier. We'll end the variable name in
+`_hours`, to represent what this variable means.
 
 ``` {r}
 # creating a new variable for the amount of time spent in hours
@@ -606,9 +706,12 @@ now for the time spent variable: for every one standard deviation increase in
 the amount of time spent on the course, the percentage of points a student earns
 increases by .11, or 11 percentage points.
 
-Let's extend our regression model: what other variables may matter? Perhaps
-there are differences based on the subject of the course. We can add subject as
-a variable easily:it l
+## Results
+
+Let's extend our regression model and consider the following to be the final
+model in this sequence of models: What other variables may matter? Perhaps there
+are differences based on the subject of the course. We can add subject as a
+variable easily, as follows:
 
 ``` {r}
 # a linear model with the subject added 
@@ -625,14 +728,27 @@ sjPlot::tab_model(m_linear_3)
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
 oceanography - are associated with a higher percentage of points earned,
-overall. This indicates that students in those two classes earned higher grades than students in other science classes in this dataset.
+overall. This indicates that students in those two classes earned higher grades
+than students in other science classes in this dataset.
 
-## What is next?
+## Conclusion
 
-In the follow-up to this walkthrough (see Chapter XXX), we will focus on
-visualizing and then modeling the data using an advanced methodological
-technique, multi-level models, using the data - `dat` - we prepared and then 
-used in this chapter.
+In this walkthrough, we focused on taking unprocessed, or raw data, and loading,
+viewing, and then processing it through a series of steps. The result was a data
+set which we could use to create visualizations and a simple (but powerful!)
+model, a linear model, also known as a regression model. We found that the time
+that students spent on the course was positively (and statistically
+significantly) related to students' final grades, and that there appeared to be
+differences by subject. While we focused on using this model in a traditional,
+explanatory sense, it could also (potentially) be used predictively, in that
+knowing how long students spent on the course and what subject their course is
+could be used to estimate what that students' final grade might be. We focus on
+predictive uses of models further in [chapter 14](#c14)).
+
+Also, In the follow-up to this walkthrough (see [chapter 13](#c13)), we will
+focus on visualizing and then modeling the data using an advanced methodological
+technique, multi-level models, using the data we prepared as a part of this data
+processeing pipeline used in this chapter.
 
 ``` {r, eval = FALSE}
 write_csv(dat, "data/online-science-motivation/processed/sci_mo_processed.csv")
