@@ -403,27 +403,56 @@ Take a few minutes to type out and run each of the following lines of code, one 
 _Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
 ```{r, eval = FALSE}
 
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+read_csv(here("data/foundational_skills/for_use", 
               "MA_Public_Schools_2017.csv"))  # change path once finalized in book
 
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+read_csv(here("data/foundational_skills/for_use", 
               "MA_Public_Schools_2017.csv")) -> my_data
 
-ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use", 
+ma_data_init <- read_csv(here("data/foundational_skills/for_use", 
                               "MA_Public_Schools_2017.csv"))
 ```
 
+Each of the three code examples above look slightly different, but two of them do almost the exact same thing.
+The first example provided loads the data into our R environment, but not in a format that's immediately useful to us.
+The second and third examples read in the data and assign it to a variable,`my_data` and `ma_data_init` respectively.
+In our Environment pane we can see how each of the data types has been brought into R, and even click on the table icon to get an interactive table
+(The data set is rather large, so RStudio may lag as you open the table and manipulate it.)
+
+[IMG of Environment pane]
 
 ### The assignment operator
-`<-` and `->`
+The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable.
+When we save something to a variable, we do so using what's called an "assignment operator," which in R is either a left- or right-facing arrow (`<-` or `->`).
+Writing the name of your variable followed by a left-facing arrow is currently the most common convention used in R, but it is also perfectly acceptable to use the right-facing arrow.
+
+Intuitively the right-facing arrow may make more sense for those of us who work predemoninantly in languages that read left to right, as what we're essentially saying is "take this entire chunk of code and save it to this variable name." 
+Regardless of which option you choose, both are different means to the same end.
 
 ### The `here` package 
-Works in concert with Projects in RStudio
+We've talked about what Projects are and why you should use them, but what really makes Projects in RStudio shine is the use of the `here()` function from the `here` package.
+What `here()` does is eliminate the need for you to do what's called "hard-coding" your file path. 
+For example, if we had loaded the data using the file path on one of our individual computers, it would be difficult for someone to open our folders on _their_ computer and re-run the analysis because they do not have the same file structure.
+What `here()` does is tell R that the file structure starts at the Project-level, and so every subsequent call starts at the Project-level, and allows you to navigate throughout each of the folders and files within a given Project.
 
 ### Data types
-There are different types
-We can change data types through coercion
-See [Hands on Programming With R]() and [Advanced R]() for more in-depth information
+There are different types of data within R. 
+When you loaded the Massachusetts Public Schools data from 2017, you likely saw a series of messages like this:
+
+[IMG of import message]
+
+This message is telling you how R decided to "code" each column, as you can only have one data type per column in R.
+We can see that the default is to code everything as a double (a number) where it says `.default = col_double().
+Where columns were coded as something _other_ than double, we see `col_character()` (text that has at least one non-numeric character), `col_number()` (for our purposes a number, and analogous to `col_double()`), and `col_logical()` (TRUE or FALSE). 
+
+When `read_csv()` reads through the first 1,000 rows of data, it uses what it encounters to make a best guess as to what type of data is in the column.
+If R sees 990 rows of numbers, but 10 rows of numbers mixed with letters, R will _coerce_ the data in the column into character data. 
+This means that `193` and `192A` are both seen as _text_.
+One of the (many) implications of this is that you can no longer do mathematical operations on `193` when it's been coerced into a character string. 
+
+Not all is lost! 
+There are methods for safely coercing your data into the correct format, and we'll cover a handful throughout this text. 
+If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands on Programming With R](https://rstudio-education.github.io/hopr/) and [Advanced R](https://adv-r.hadley.nz/).
 
 ## Datasets and variables
 
