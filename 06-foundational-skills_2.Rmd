@@ -454,8 +454,7 @@ Not all is lost!
 There are methods for safely coercing your data into the correct format, and we'll cover a handful throughout this text. 
 If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands on Programming With R](https://rstudio-education.github.io/hopr/) and [Advanced R](https://adv-r.hadley.nz/).
 
-## Datasets and variables
-
+## Reading code and writing functions
 ### Run this code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
 If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
@@ -509,6 +508,19 @@ The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
 It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your data set, otherwise R will tell you that it can't find anything! 
 
 ## The pipe operator
+The pipe operator `%>%` tends to throw R learners for a loop, until all of a sudden something clicks for them and they decide that they either love it or hate it.
+We use the pipe operator throughout this text because we also heavily rely on use of the Tidyverse. 
+
+_Note: As you progress in your R learning journey you will likely find that you need to move well beyond the Tidyverse for accomplishing your analytical goals - and that's OK!_
+_We like the Tidyverse for teaching and learning because it relies on the same syntax across packages, so as you learn how to use functions within one package, you're learning the syntax for functions in other Tidyverse packages._  
+
+It's worth taking a few moments to talk about the pipe operator and its package.
+The pipe operator first appeared in the `magrittr` package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images.
+In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
+
+[IMG of Magritte painting] 
+
+At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package (`dplyr`, `tidyr`, `stringr`, and even `purrr`).
 
 ### Run this code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
@@ -542,9 +554,11 @@ The `magrittr` package
 Seeing the `+` sign in the Console
 Fixing it by pressing `Esc`
 
+## Functions and equality
 ### Run this code 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
-Talk about `arrange()` and additional functions
+Take a few minutes to read through the code before typing or running anything in R.
+Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code.
+Once you've done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 ```{r, eval = FALSE}
 ma_data_init %>%
     group_by(`District Name`) %>%
@@ -555,14 +569,12 @@ ma_data_init %>%
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
-    filter(n = 10) %>%
-    arrange(desc(n))
+    filter(n = 10) 
 
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
-    filter(n == 10) %>%
-    arrange(desc(n))
+    filter(n == 10) 
 
 ma_data_init %>% 
     rename(district_name = `District Name`,
@@ -570,27 +582,90 @@ ma_data_init %>%
     select(district_name, grade)
 ```
 
+### "Reading" code
+When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis as to what the code is trying to accomplish.
+Doing this will help you not only understand code a bit better, but also help you spot errors more quickly when the code doesn't do what you thought it was going to do. 
+
+The way that we would read the first chunk of code is:
+
+> Take the `ma_data_init` data set _and then_ **group** it **by** `District Name` _and then_ **count** (the number of schools in a district) _and then_ **filter** for Districts with more than 10 schools _and then_ **arrange** the list of Districts and the number of schools in each District in descending order, based on the number of schools.
+
+That's a mouthful! 
+But there are a couple of consistent points to make regarding this paragraph.
+Every time we see the pipe, we say "and then." 
+This is because we're starting with our data set, `ma_data_init`, _and then_ doing one thing after another to it.
+Because we're using the pipe operator between each function, R knows that all of our functions are being applied to the `ma_data_init` data set.
+We do not need to call or refer to the `ma_data_init` data set each time.
+
+When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions."
+
+### Verb-based functions
+Another pattern you may have picked up on is that every function is a verb.
+That is, the name of the function is telling us what the function is going to do!
+This is common both within the Tidyverse as well as in other packages, and even base R.
+
 ### When functions need arguments and when they don't
-(Is there any way to know for sure?) 
-Help documentation 
+You also may have noticed that some of our functions needed arguments, that is, some kind of additional information provided inside the parentheses.
+There are not any hard and fast rules about when a function needs an argument (or series of arguments), however if you are having trouble running your code, first check for typos, then check the help documentation to see if you can provide arguments to more clearly direct R as to what to do.
 
 ### Functions within functions
-Saw in import as well
+One of the (many!) cool things about R is that we can nest our functions.
+When we nest our functions, R will read the functions from the innermost function to the outermost.
+We saw this both in the section of code above that used `arrange(desc(n))`, as well as when we imported data using `read_csv(here())`. 
 
 ### The difference between `=` and `==` 
-Assignment vs. equality
+We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing.
+When R encounters an equal sign (`=`) it is almost always looking to create an object by assigning a value to a variable.
+So when we saw `filter(n = 10)`, R didn't understand why we were trying to filter something we were naming, and told us so with an error message.
+
+When we are looking to determine whether or not values are equal, we use a double equals sign (`==`), as we did in `filter(n == 10)`. 
+When R sees a double equals sign (`==`) it is evaluating whether or not the value on the left is equivalent to the value on the right. 
 
 ### Writing your own functions
-Basic function structure
-Quosures - out of scope of this chapter
+As you work in R more and more, you may find yourself copying and pasting the same lines of code, and then making small modifications. 
+This is perfectly fine while you're learning, but eventually you're going to come across a large enough dataset that's going to take you a couple hours to type out by hand (and increase the opportunity to introduce errors!).
+This is when you _know_ you need to write a function.
+_(We could argue that you need functions **much** sooner! For example, a general premise in programming is DRY, or **D**on't **R**epeat **Y**ourself._
+_What this translates to is the idea that once you find yourself copying and pasting code for the third time, it's time to write a function!)_
 
-## SECTION ON c() and %in%
-need to update main code chunk
-```{r}
+Functions are reusable pieces of code that you can write and use over and over again. 
+You might write a function for a specific script, or you might find yourself using a function across multiple scripts (at which point you might want to consider creating a package!) 
 
+We'll cover the very basics of writing a function, but would strongly suggest you check out [RESOURCE ONE](link) and [RESOURCE TWO](link) for more information and practice. 
+
+The template for writing a function is: 
+
+```{r eval = FALSE}
+name_of_function <- function(argument_1, argument_2, argument_n){
+    code_that_does_something
+    code_that_does_something_else
+}
 ```
 
+Functions can be as simple or as complex as you would like.
+For example, if we wanted to create a function that adds two numbers together, we would write: 
 
+```{r}
+# writing our function
+# we've named the function "addition"
+# and asked for two arguments, "number_1" and "number_2"
+addition <- function(number_1, number_2) {
+    number_1 + number_2
+}
+
+# using our function
+# note that we provide each argument separated by commas
+addition(number_1 = 3, number_2 = 1)
+addition(0.921, 12.01)
+addition(62, 34)
+```
+
+What happens if we only provide one argument?
+What happens if we provide more than two arguments?
+
+You'll encounter several (more advanced) functions that we'll write together in various walkthroughs in this book!
+
+## Basics of names
 ### Run this code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 In R, everything is an object 
@@ -608,11 +683,14 @@ ma_data_01 <- ma_data_init %>%
     clean_names()
 ```
 
+Link to a Jenny resource
 
 ## Conclusion
 It would be impossible for us to cover _everything_ you can do in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. 
 In this chapter we've covered the concepts of data, Projects, packages, and functions, and also walked through foundational ideas, concepts, and skills related to doing data science in R. 
 
+
+### STILL NEED TO INCORPORATE THE FOLLOWING ###
 -- import from 05A: plug in as needed
 
 ### Track Two: Welcome to the Tidyverse
