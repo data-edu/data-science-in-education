@@ -329,7 +329,9 @@ Another view of the data can be visualizing the distribution of students with di
 
 ```{r, fig.align = "center"}
 merged_df %>%
+  # remove district totals
   filter(school_name != "Total") %>%
+  # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_cols("darkblue"))  +
