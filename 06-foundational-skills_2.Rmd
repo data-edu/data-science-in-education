@@ -457,13 +457,16 @@ If you're looking for more in-depth information on data types and coercion rules
 ## Datasets and variables
 
 ### Run this code
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
+If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
+
+_Note: we have intentionally included errors in this chapter to help highlight concepts as well as introduce you to error messages early on!_
 
 ```{r, eval = FALSE}
 # Exploring and manipulating your data
 names(ma_data_init)
 
-glimpse(ma_dat_init)  
+glimpse(ma_dat_init) 
 glimpse(ma_data_init)
 summary(ma_data_init)
 
@@ -478,14 +481,32 @@ summary(ma_data_init$`AP_Test Takers`)
 What differences do you see between each line of code?
 What changes in the output to the Console with each line of code that you run?
 
-### Tibbles and dataframes, oh my!
-Difference between the two
-Other data structures you may encounter (resource: Hands on Programming with R) 
+### Common errors
+There were two lines of code that resulted in errors, and both were due to one of the most common sources of error in programming - typos!
+The first was `glimpse(ma_dat_init)`. 
+This might be a tricky error to spot, because at first glance it might seem like nothing is wrong!
+However we've left off the "a" in "data," which has caused problems with R.
+
+R will do exactly as you tell it to do.
+This means if you want to run a function on a data set, R will only run the function on the data sets that are available in its environment.
+Looking at our Environment pane we can see that there is no data set called `ma_dat_init`, which is what R is trying to tell us with its error message of `Error in glimpse(ma_dat_init) : object 'ma_dat_init' not found`. 
+
+The second error was with `glimpse(ma_data_init$AP_Test Takers)`.
+What do you think the error is here? 
+
+R is unhappy with the space in the file name, and doesn't know how to read the code. 
+To get around this there are a couple of things we can do.
+First, we could make sure that data column names never have spaces in them.
+This is unlikely to be within our control, so a second option would be to use R to convert the column names upon import, before we start doing any exploration. 
+Another method for dealing with it is to leave the column names as they are, but to use single backticks `` `` to surround the column header with spaces in it.
+
+_Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `' '` instead of the actual backticks `` ``!_
 
 ### The `$` operator
-Many ways to isolate a single variable 
-
-### Spaces in variable names
+There are many ways to isolate and explore a single variable within your data set.
+In this set of examples we used the `$` symbol.
+The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
+It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your data set, otherwise R will tell you that it can't find anything! 
 
 ## The pipe operator
 
