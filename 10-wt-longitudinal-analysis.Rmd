@@ -209,13 +209,14 @@ When we print the 2016 dataset, we notice that the variable names are incorrect.
 
 ```{r 2016 dataset}
 # Look at the first 10 column names of 2016
-names(all_files[[5]])[]
+names(all_files[[5]])[1:10]
 ```
 
-We want the variable names to be `Year` and `State Name`. But first, let's go back and review how to get at the 2016 dataset from `all_files`. The order of the list elements was set all the way back when we fed `map` our list of filenames. If we look at `filenames` again, we see that the 2016 dataset was stored in the fifth element: 
+We want the variable names to be `Year` and `State Name`, not `2016` and `Alabama`. But first, let's go back and review how to get at the 2016 dataset from `all_files`. We need to identify which element the 2016 dataset was in the list. The order of the list elements was set all the way back when we fed `map` our list of filenames. If we look at `filenames` again, we see that its fifth element is the 2016 dataset. To demonstrate trial and error, here are the first and fifth elements of `filenames`: 
 
 ```{r show filenamess}
-filenames
+filenames[[1]]
+filenames[[5]]
 ```
 
 Once we know the 2016 dataset is the fifth element of our list, we can pluck it out by using double brackets: 
@@ -224,10 +225,11 @@ Once we know the 2016 dataset is the fifth element of our list, we can pluck it 
 all_files[[5]]
 ```
 
-We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
+We used `skip = 4` when we read in the datasets in the list. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames` but this time will use the argument `skip = 3`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
 
 ```{r fix 2016 colnames, echo = FALSE, , message=FALSE, warning=FALSE}
 all_files[[5]] <-
+  # Skip the first 3 lines instead of the first 4
   read_csv(filenames[[5]], skip = 3)
 ```
 
