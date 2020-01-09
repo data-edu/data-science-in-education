@@ -143,6 +143,7 @@ That made a vector of six filenames, one for each year of child count data store
 # Pass filenames to map and read_csv
 all_files <-
   filenames %>%
+  # Apply the function read_csv to each element of filenames
   map(., ~ read_csv(., skip = 4))
 ```
 
@@ -150,6 +151,7 @@ It is important to think ahead here. The goal is to combine the datasets in `all
 
 ```{r check column names, include=FALSE}
 all_files %>% 
+  # Apply the function names to each element of all_files
   map(names)
 ```
 
@@ -167,12 +169,15 @@ And we can check the number of columns by using `map` and `ncol`:
 
 ```{r check cols}
 all_files %>% 
+  # apply the function ncol to each element of all_files
   map(ncol)
 ```
 
 Congratulations on finding an extremely common problem in education data! You've discovered that niehter the number of columns nor the column names match. This is a problem because we won't be able to combine the datasets into one. When we try, `bind_rows` returns a dataet with 100 columns instead of the expected 50. 
 
 ```{r combine datasets 1}
+# Combining the datasets at this stage results in the incorrect 
+# number of columns
 bind_rows(all_files)
 ```
 
