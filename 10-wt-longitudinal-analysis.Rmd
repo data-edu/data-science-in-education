@@ -255,9 +255,10 @@ all_files[[1]] %>%
   ) 
 ```
 
-That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
+That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to apply `pick_vars` to each dataset of our list, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
 
 ```{r pick vars function}
+# build the function
 pick_vars <-
   function(df) {
     df %>%
@@ -269,6 +270,7 @@ pick_vars <-
       ))
   }
 
+# use the function with `all_files`
 all_files <-
   all_files %>%
   map(pick_vars)
@@ -279,6 +281,7 @@ all_files <-
 Now we'll turn our attention to combining the datasets in our list `all_files` into one. We'll use `bind_rows`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use `names` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
 
 ```{r verify var names}
+# check variable names
 all_files %>% 
   map(names)
 ```
@@ -288,6 +291,7 @@ That means that we can combine all six datasets into one using `bind_rows`. We'l
 ```{r combine datasets 2}
 child_counts <-
   all_files %>%
+  # combine all datasets in `all_files`
   bind_rows()
 ```
 
