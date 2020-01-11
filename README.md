@@ -16,7 +16,7 @@ Data science represents the intersection of domain-level expertise, statistics, 
 By the end of this book the reader will understand:
 
 * The diversity of data analysis skills and applications in the education field 
-* The unique challenges that come with analyzing education data
+* Special considerations that come with analyzing education data
 * That good data analysis has a basic workflow and how they might implement such a workflow
 * The wonderful opportunity we have to shape the usefulness of data science in our education jobs
 
