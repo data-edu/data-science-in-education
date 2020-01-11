@@ -303,10 +303,11 @@ str(child_counts)
 
 ### Filter for the desired disabilities and age groups
 
-We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset: 
+We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset. Here's the number of times an `SEA Disability Category` appears in the dataset: 
 
 ```{r count disabilities}
 child_counts %>%
+  # count number of times the category appears in the dataset
   count(`SEA Disability Category`)
 ```
 
@@ -316,7 +317,9 @@ Since we will be visualizing and modeling gender variables for all students in t
 child_counts <-
   child_counts %>%
   filter(
+    # filter all but the All Disabilities category
     `SEA Disability Category` == "All Disabilities",
+    # filter all but the age totals
     `SEA Education Environment` %in% c("Total, Age 3-5", "Total, Age 6-21")
   ) 
 ```
@@ -329,6 +332,7 @@ In the next section we'll prepare the dataset for visualization and modeling by 
 child_counts <-
   child_counts %>%
   rename(
+    # change these columns to more convenient names
     year = Year,
     state = "State Name",
     age = "SEA Education Environment",
@@ -381,7 +385,8 @@ child_counts <-
 To make the values of the `gender` column more intuitive, we'll use `case_when` to transform the values to either "f" or "m":
 
 ```{r replace gender values}
-child_counts <- child_counts %>%
+child_counts <- 
+  child_counts %>%
   mutate(
     gender = case_when(
       gender == "f_3_5" ~ "f",
