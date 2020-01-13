@@ -562,7 +562,7 @@ But how can we start comparing the male student count to the female student coun
 
 We can use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and year. Our coding strategy will be to 
 
- - Use `spread` to create separate columns for male and female students. 
+ - Use `pivot_wider` to create separate columns for male and female students. 
  - Use `mutate` to create a new variable called `ratio`. The values in this column will be the result of dividing the count of male students by the count of female students 
  
 Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students. 
@@ -572,7 +572,8 @@ high_count %>%
   group_by(year, state, gender) %>%
   summarise(total = sum(total)) %>%
   # Create new columns for male and female student counts
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   # Create a new ratio column
   mutate(ratio = m / f) %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
@@ -603,7 +604,8 @@ At the start of this section, we chose to exclude outlying areas and freely asso
 ```{r plot female students to male students}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5) +
   geom_smooth() +
@@ -624,7 +626,8 @@ To learn more about what's happening in our dataset, we can filter it for only s
 ```{r where does the gap start}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   filter(f > 500000) %>%
   select(year, state, age, f, m)
 ```
@@ -634,13 +637,14 @@ This is where we discover that each of the data points in the upper right hand c
 ```{r plot without outliers}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>%
   # Filter for female student counts less than 500,000
   filter(f <= 500000) %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5) +
   labs(
-    title = "Comparison of female students to male students in special education",
+    title = "Comparison of female students to male students with disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
     x = "Female students",
     y = "Male students",
@@ -661,7 +665,8 @@ To answer that question, let's start by making a new dataset that excludes any r
 model_data <- child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   mutate(year = as.factor(year(year))) %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   # Exclude outliers
   filter(f <= 500000) %>%
   # Compute male student to female student ratio
