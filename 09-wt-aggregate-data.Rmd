@@ -297,7 +297,7 @@ What do the racial demographics in this district look like? For this, a barplot 
 
 ```{r, fig.align = "center"}
 tidy_df %>%
-  # filter out Total rows, since we want district-level information
+  # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
          str_detect(category, "pct"),
          category != "frpl_pct") %>%
@@ -346,7 +346,9 @@ Another view of the data can be visualizing the distribution of students with di
 
 ```{r, fig.align = "center"}
 merged_df %>%
+  # remove district totals
   filter(school_name != "Total") %>%
+  # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_cols("darkblue"))  +
@@ -355,8 +357,6 @@ merged_df %>%
   scale_x_continuous(labels = scales::percent) +
   theme(legend.position = "none") +
   theme_dataedu()
-
-# hist(merged_df$wh_pct)$counts[1:9] # counting number of schools in the first bin (0-10%)
 ```
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
