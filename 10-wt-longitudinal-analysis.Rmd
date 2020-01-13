@@ -440,7 +440,7 @@ child_counts %>%
   arrange(year, state, gender)
 ```
 
-We can simplify our dataset by removing these rows, leaving us with one row for each category:
+We can simplify our dataset by removing the rows with NAs, leaving us with one row for each category:
 
  - females age 3-5
  - females age 6-21
@@ -468,12 +468,13 @@ In the last section we focused on importing our dataset. In this section, we wil
 
 ### Visualize the Dataset  
 
-Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest average count of special education students: 
+Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest mean count of students with disabilities: 
 
 ```{r filter dataset with top_n}
 child_counts %>%
   group_by(state) %>%
   summarise(mean_count = mean(total)) %>%
+  # which six states have the highest mean count of students with disabilities
   top_n(6, mean_count)
 ```
 
@@ -530,7 +531,7 @@ high_count %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Total count of students in special education over time",
-       subtitle = "Ages 6-21") +
+       subtitle = "Ages 3-21") +
   theme_dataedu() +
   scale_color_dataedu()
 ```
@@ -543,8 +544,8 @@ high_count %>%
   summarise(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
   geom_boxplot() +
-  labs(title = "Median student count",
-       subtitle = "All ages and genders") +
+  labs(title = "Median students with disabilities count",
+       subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
 ```
 
