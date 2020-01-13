@@ -16,7 +16,7 @@ Data science represents the intersection of domain-level expertise, statistics, 
 By the end of this book the reader will understand:
 
 * The diversity of data analysis skills and applications in the education field 
-* The unique challenges that come with analyzing education data
+* Special considerations that come with analyzing education data
 * That good data analysis has a basic workflow and how they might implement such a workflow
 * The wonderful opportunity we have to shape the usefulness of data science in our education jobs
 
@@ -29,89 +29,41 @@ And, the reader will be able to:
 
 ## Outline
 
-1. Introduction: Who Are Data Scientists in Education? 
-
-    - The Challenge of Data Science in Education 
-    - Meeting the Challenge
+1. Introduction: Data Science in Education
 
 2. How to Use This Book 
 
-    - Read the Book Cover to Cover
-    - Pick a Chapter That is Useful for Your Level of Experience and Start There*
-    - Read Through the Walkthroughs and Run the Code
+3. What is a Data Scientist in Education?
 
-3. What is Data Science in Education?
+4. Special Considerations
 
-    - Example #1: Leading Office Culture Toward a Data-Driven Approach
-    - Example #2: Helping School Districts Plan to Meet Their Goals
-    - Example #3: Doing and Empowering Research On Data Scientists in Education
+5. Getting Started with R and R Studio
 
-4. Unique Challenges
+6. Foundational Skills
 
-    - Challenges common to doing data science in any domain 
-    - Lack of Processes and Procedures 
-    - Few Guidelines From Research and Evaluation
-    - Limited Training and Educational Opportunities 
-    - The Complex and Messy Nature of Educational Data
-    - Ethical and Legal Concerns
-    - Analytic Challenges
+7. Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data
 
-5. Foundational Skills: Track One (Getting Started)
+8. Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective
 
-    - Downloading R and RStudio
-    - Check That It Worked
-    - Help, I'm Completely New to Using R / RStudio!
-    - Creating Projects
-    - Packages
-    - Installing and Loading Packages
-    - Running Functions from Packages
+9. Walkthrough 3: Introduction to Aggregate Data
 
-6. Foundational Skills: Track Two (Welcome to the Tidyverse)
+10. Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data
 
-    - Loading Data from Various Sources
-    - Saving Files
-    - Processing Data
-    - Communicating / Sharing Results With R Markdown
-    - Configuring R Studio
-    - Getting Data Into and Out of R
+11. Walkthrough 5: Text Analysis With Social Media Data
 
-7. Walkthrough #1: Analyzing Gradebook Data Using the Data Science Framework
+12. Walkthrough 6: Exploring Relationships Using Social Network Analysis Models and Methods
 
-8. Walkthrough #2: Understanding Student Motivation to Learn Using Multi-Level Modeling
+13. Walkthrough 7: The Role (and Usefulness) of Multi-Level Models
 
-9. Walkthrough #3: Understanding Online Course Motivation with Machine Learning
+14. Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods
 
-10. Walkthrough #4: Creating Network Graphs of Simulated Data
+15. Introducing Data Science Tools To Your Education Job
 
-11. Walkthrough #5: Exploring Nationally- and Internationally-Representative Data
+16. Teaching Data Science
 
-12. Walkthrough #6: Looking at Longitudinal Data
+17. Learning More
 
-13. Solutions for Adapting Data Science Techniques in Education
-
-    - Matching your analytic strengths to the data needs of your organization 
-    - The change process
-    - Understanding the culture of your organization
-    - Building a network
-    - To code or not to code
-    - A practical guide to introducing new analytic techniques
-
-14. Teaching Data Science
-
-    - A Pedagogical Framework for Data Science Education
-
-15. Resources
-
-    - Books
-    - Websites and Web-based Resources
-    - Courses and Communities
-
-16. Learning More
-
-    - Work in the Open
-    - Welcoming Others
-    - Asking For and Receiving Help
-    - Adopting a Growth Mindset
+18. Additional Resources
 
 # Contributing
 

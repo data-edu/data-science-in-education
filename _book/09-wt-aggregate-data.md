@@ -80,9 +80,13 @@ library(tabulizer)
 
 
 ```r
-# race data
+# if using tabulizer
 race_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf")
+
+# if reading in the tabulizer output
+race_pdf <-
+  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 It is important to consistently check what we're doing with the actual PDF's to ensure we're getting the data that we need. 
@@ -165,8 +169,13 @@ We will import the Free Reduced Price Lunch (FRPL) PDF's now.
 
 
 ```r
+# if using tabulizer
 frpl_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf")
+
+# if reading in the tabulizer output
+race_pdf <-
+  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
@@ -310,7 +319,15 @@ tidy_df %>%
   geom_bar(stat = "identity", aes(fill = category)) +
   xlab("Subgroup") +
   ylab("Percentage of Population") +
-  scale_x_discrete(labels = c("Black", "Whifite", "Hispanic", "Asian", "Native Am.")) +
+  scale_x_discrete(
+    labels = c(
+      "aa_pct" = "Black",
+      "wh_pct" = "White",
+      "hi_pct" = "Hispanic",
+      "as_pct" = "Asian",
+      "na_pct" = "Native Am."
+    )
+  ) +
   scale_y_continuous(labels = scales::percent) +
   scale_fill_dataedu() +
   theme_dataedu() +
@@ -389,7 +406,15 @@ tidy_df %>%
   theme_dataedu() +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
-  scale_x_discrete(labels = c("Native Am.", "Black", "Hispanic", "Asian", "White")) +
+  scale_x_discrete(
+    labels = c(
+      "aa_povsch" = "Black",
+      "wh_povsch" = "White",
+      "hi_povsch" = "Hispanic",
+      "as_povsch" = "Asian",
+      "na_povsch" = "Native Am."
+    )
+  ) +
   scale_y_continuous(labels = scales::percent) +
   theme_dataedu() +
   scale_fill_dataedu() +

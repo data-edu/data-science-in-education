@@ -562,9 +562,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="import-data-2" class="section level2">
 <h2><span class="header-section-number">9.4</span> Import Data</h2>
 <p>{tabulizer} pulls the PDF data into lists using <code>extract_tables()</code>.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="co"># race data</span></a>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" title="1"><span class="co"># if using tabulizer</span></a>
 <a class="sourceLine" id="cb123-2" title="2">race_pdf &lt;-</a>
-<a class="sourceLine" id="cb123-3" title="3"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb123-3" title="3"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf&quot;</span>)</a>
+<a class="sourceLine" id="cb123-4" title="4"></a>
+<a class="sourceLine" id="cb123-5" title="5"><span class="co"># if reading in the tabulizer output</span></a>
+<a class="sourceLine" id="cb123-6" title="6">race_pdf &lt;-</a>
+<a class="sourceLine" id="cb123-7" title="7"><span class="st">  </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;wt05_agg_data&quot;</span>, <span class="st">&quot;race_pdf.Rds&quot;</span>))</a></code></pre></div>
 <p>It is important to consistently check what we’re doing with the actual PDF’s to ensure we’re getting the data that we need.</p>
 <ul>
 <li>We then transform the list to a data frame with <code>map(as_tibble)</code>.</li>
@@ -634,8 +638,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote>
 <p>FRPL stands for Free/Reduced Price Lunch, [often used as a proxy for poverty]((<a href="https://nces.ed.gov/blogs/nces/post/free-or-reduced-price-lunch-a-proxy-for-poverty" class="uri">https://nces.ed.gov/blogs/nces/post/free-or-reduced-price-lunch-a-proxy-for-poverty</a>). Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important in disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)</p>
 </blockquote>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1">frpl_pdf &lt;-</a>
-<a class="sourceLine" id="cb126-2" title="2"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" title="1"><span class="co"># if using tabulizer</span></a>
+<a class="sourceLine" id="cb126-2" title="2">frpl_pdf &lt;-</a>
+<a class="sourceLine" id="cb126-3" title="3"><span class="st">  </span><span class="kw">extract_tables</span>(<span class="st">&quot;https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf&quot;</span>)</a>
+<a class="sourceLine" id="cb126-4" title="4"></a>
+<a class="sourceLine" id="cb126-5" title="5"><span class="co"># if reading in the tabulizer output</span></a>
+<a class="sourceLine" id="cb126-6" title="6">race_pdf &lt;-</a>
+<a class="sourceLine" id="cb126-7" title="7"><span class="st">  </span><span class="kw">readRDS</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;wt05_agg_data&quot;</span>, <span class="st">&quot;race_pdf.Rds&quot;</span>))</a></code></pre></div>
 <p>Similar to the Race/Ethnicity PDF, there are rows that we don’t need from each page, which we remove using <code>slice()</code>.</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" title="1">frpl_df &lt;-</a>
 <a class="sourceLine" id="cb127-2" title="2"><span class="st">  </span>frpl_pdf <span class="op">%&gt;%</span></a>
@@ -748,11 +757,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb133-8" title="8"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> category)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb133-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb133-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage of Population&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb133-11" title="11"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Whifite&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>, <span class="st">&quot;Asian&quot;</span>, <span class="st">&quot;Native Am.&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb133-12" title="12"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
-<a class="sourceLine" id="cb133-13" title="13"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb133-14" title="14"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb133-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb133-11" title="11"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
+<a class="sourceLine" id="cb133-12" title="12">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb133-13" title="13">      <span class="st">&quot;aa_pct&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
+<a class="sourceLine" id="cb133-14" title="14">      <span class="st">&quot;wh_pct&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
+<a class="sourceLine" id="cb133-15" title="15">      <span class="st">&quot;hi_pct&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
+<a class="sourceLine" id="cb133-16" title="16">      <span class="st">&quot;as_pct&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
+<a class="sourceLine" id="cb133-17" title="17">      <span class="st">&quot;na_pct&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
+<a class="sourceLine" id="cb133-18" title="18">    )</a>
+<a class="sourceLine" id="cb133-19" title="19">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb133-20" title="20"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb133-21" title="21"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb133-22" title="22"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb133-23" title="23"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>When we look at these data, the district looks very diverse. Almost <strong>40% of students are Black</strong> and around <strong>36% are White.</strong></p>
 <blockquote>
@@ -817,11 +834,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb137-6" title="6"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb137-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb137-8" title="8"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage in High Poverty Schools&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-9" title="9"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Native Am.&quot;</span>, <span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>, <span class="st">&quot;Asian&quot;</span>, <span class="st">&quot;White&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-10" title="10"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-11" title="11"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-12" title="12"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb137-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb137-9" title="9"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
+<a class="sourceLine" id="cb137-10" title="10">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb137-11" title="11">      <span class="st">&quot;aa_povsch&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
+<a class="sourceLine" id="cb137-12" title="12">      <span class="st">&quot;wh_povsch&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
+<a class="sourceLine" id="cb137-13" title="13">      <span class="st">&quot;hi_povsch&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
+<a class="sourceLine" id="cb137-14" title="14">      <span class="st">&quot;as_povsch&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
+<a class="sourceLine" id="cb137-15" title="15">      <span class="st">&quot;na_povsch&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
+<a class="sourceLine" id="cb137-16" title="16">    )</a>
+<a class="sourceLine" id="cb137-17" title="17">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-18" title="18"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-19" title="19"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-20" title="20"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb137-21" title="21"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a></code></pre></div>
 <p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><strong>8% of White students</strong> attend high poverty schools, compared to <strong>43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.</strong> We can conclude these students are disproportionally attending high poverty schools.</p>
 </div>
