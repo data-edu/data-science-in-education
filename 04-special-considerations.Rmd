@@ -49,11 +49,9 @@ Educational data science is new. At the present time, there are limited opportun
 
 ### Advancing Equity
 
-We can use data science to inform decisions that reduce inequities that exist in the education system. However, data science can also be a tool that exacerbates marginalization of students we want to serve. For a data scientist in education, it is crucial that before beginning an analysis, we fully understand how we/our organization defines equity and our equity goals and how we will continuously check against our biases. After defining equity and our equity goals, we can then work to ensure our data science lifecycle reflects what we are trying to learn so we can meet our outcomes. 
+We can use data science to inform decisions that reduce inequities that exist in the education system. However, data science can also be a tool that exacerbates marginalization of students we want to serve. For a data scientist in education, it is crucial that before beginning an analysis, we fully understand how we/our organization defines equity and our equity goals and that we create a plan for how we will continuously check against our biases. After defining equity and our equity goals, we can then work to ensure our data science lifecycle reflects what we are trying to learn so we can meet our outcomes. 
 
 If our organization hopes to decrease the opportunity gap between students affected by poverty and students not affected by poverty, then it is important that (1) we define what 'affected by poverty' means, (2) what project design will help us understand if we're moving towards our goals, and (3) whether our data collection allows us to disaggregate these demographics (see [Walkthrough 03](#c09)). We must then make sure our analyses take these disaggregations into account. By getting in front of our project design and data collection, we increase our data's utility to actually move us toward our equity goals.
-
-The report should clearly detail whether we are moving toward our equity goal(s). Our analysis can highlight any potential blind spots that we are missing, as all data is biased and can only ever tell a partial story. When reporting on equity measures, it is prevalent in education to use deficit-based framing. We suggest using asset-based framing to empower the students, people, and communities we are hoping to serve in our work.
 
 ### The Complex and Messy Nature of Education Data
 
