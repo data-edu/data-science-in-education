@@ -195,7 +195,7 @@ Let's preview the steps we'll be taking:
 4. Filter for the desired categories
 5. Rename the variables 
 6. Standardize the state names
-7. Transform the column formats from wide to narrow using `gather`
+7. Transform the column formats from wide to long using `pivot_longer`
 8. Change the data types of variables 
 9. Explore NAs
 
@@ -374,12 +374,14 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 
 *This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.*
 
-The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `gather` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
+The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `pivot_longer` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
-```{r gather gender col}
+```{r pivot_longer gender col}
 child_counts <-
   child_counts %>%
-  gather(gender, total, f_3_5:m_6_21)
+    pivot_longer(cols = f_3_5:m_6_21, 
+                 names_to = "gender", 
+                 values_to = "total")
 ```
 
 To make the values of the `gender` column more intuitive, we'll use `case_when` to transform the values to either "f" or "m":
@@ -431,7 +433,7 @@ child_counts <-
 
 ### Explore and address NAs
 
-You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
+You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 
 In our foundational skills chapter, we introduced a `dplyr` function called `arrange` to sort the rows of a dataset by the values in a column. Let's use `arrange` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
@@ -734,7 +736,9 @@ Now let's visualize this using our boxplots:
 
 ```{r visualize female to male ratio}
 model_data %>%
-  gather(gender, students, c(f, m)) %>%
+  pivot_longer(cols = c(f, m), 
+               names_to = "gender", 
+               values_to = "students") %>% 
   ggplot(aes(x = year, y = students, color = gender)) +
   geom_boxplot() +
   scale_y_continuous(labels = scales::comma) +
