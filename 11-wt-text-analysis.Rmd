@@ -185,7 +185,7 @@ get_sentiments("nrc")
 
 This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
 
-### Tweets associated with positive 
+### Count positive words
 
 Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count` to total up the appearances of each positive word. 
 
@@ -209,6 +209,7 @@ We can visualize these words nicely by using `ggplot` to show the positive words
 
 ```{r visualize positive}
 pos_tokens_count %>%
+  # only words that appear 75 times or more
   filter(n >= 75) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
   geom_bar(stat = "identity") +
