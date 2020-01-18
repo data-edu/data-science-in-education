@@ -77,7 +77,7 @@ More on manually setting your working directory can be found [here]().
 
 ## Packages
 
-"Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data and documentation,. Packages increase the functionality of R by improving and expanding on base R (basic R functions). 
+"Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data, and documentation. Packages increase the functionality of R by providing access to additional functions to suit a variety of needs, thereby expanding on base R. 
 
 **Importing your data**  
 
@@ -335,10 +335,17 @@ In your Console you may have noticed the following message:
 [IMG on tidyverse conflicts] 
 
 This isn't error, but rather some important information that we need to consider!
-When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R before we add any packages to the mix. 
-This includes packages and functions that exist in R that we have access to without needing to first load the package using `library()`. 
+When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R along with a (relative) handful of pre-installed packages. 
+These are packages and functions that exist in R that we have access to without needing to first load the package using `library()`. 
+
+If you would like to see what functions are available to you in base R, you can run `library(help = "base")` in the Console.
+
+If you would like to see the packages that came pre-installed with R, you can run `installed.packages()[ installed.packages()[,"Priority"] %in% "base", c("Package", "Priority")]` in the Console.
+
+Additionally, if you would like to see a list of _all_ of the packages that have been installed (both pre-installed with base R as well as those that you have installed), you can run `rownames(installed.packages())` in the Console.
+
 However because of the broad array of packages that have been created for use in R, it's not uncommon for two (or more!) packages to have functions with the same name.
-What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the `dplyr` package (a package within the `tidyverse`) rather than the `filter()` function from within the `stats()` package (part of base R). 
+What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the `dplyr` package (a package within the `tidyverse`) rather than the `filter()` function from within the `stats()` package (one of the packages that accompanies base R). 
 
 How can we use the Help documentation to explore how the two functions might differ?
 
@@ -367,7 +374,7 @@ starwars %>%
 ```
 
 ### How to find a package
-As you begin your R learning journey, the bulk of the packages that you will need to use are either already included in base R, or available on CRAN. 
+As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN. 
 [CRAN TaskViews](link) is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
@@ -609,7 +616,7 @@ When we link together functions using the pipe operator in this manner, we often
 ### Verb-based functions
 Another pattern you may have picked up on is that every function is a verb.
 That is, the name of the function is telling us what the function is going to do!
-This is common both within the Tidyverse as well as in other packages, and even base R.
+This is common both within the Tidyverse as well as in other packages.
 
 ### When functions need arguments and when they don't
 You also may have noticed that some of our functions needed arguments, that is, some kind of additional information provided inside the parentheses.

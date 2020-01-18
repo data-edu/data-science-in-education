@@ -355,7 +355,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.6" data-path="c11.html"><a href="c11.html#process-data-3"><i class="fa fa-check"></i><b>11.6</b> Process Data</a></li>
 <li class="chapter" data-level="11.7" data-path="c11.html"><a href="c11.html#analysis-counting-words"><i class="fa fa-check"></i><b>11.7</b> Analysis: Counting Words</a></li>
 <li class="chapter" data-level="11.8" data-path="c11.html"><a href="c11.html#analysis-sentiment-analysis"><i class="fa fa-check"></i><b>11.8</b> Analysis: Sentiment analysis</a><ul>
-<li class="chapter" data-level="11.8.1" data-path="c11.html"><a href="c11.html#tweets-associated-with-positive"><i class="fa fa-check"></i><b>11.8.1</b> Tweets associated with positive</a></li>
+<li class="chapter" data-level="11.8.1" data-path="c11.html"><a href="c11.html#count-positive-words"><i class="fa fa-check"></i><b>11.8.1</b> Count positive words</a></li>
 <li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> Dataviz and other positive words</a></li>
 <li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Close read of randomly selected tweets</a></li>
 </ul></li>
@@ -573,7 +573,7 @@ You can then change your working directory manually, by running <code>setwd()</c
 </div>
 <div id="packages" class="section level2">
 <h2><span class="header-section-number">6.4</span> Packages</h2>
-<p>“Packages” are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data and documentation,. Packages increase the functionality of R by improving and expanding on base R (basic R functions).</p>
+<p>“Packages” are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data, and documentation. Packages increase the functionality of R by providing access to additional functions to suit a variety of needs, thereby expanding on base R.</p>
 <p><strong>Importing your data</strong></p>
 <p>R comes with built in data sets, the list of which you can see by running <code>data()</code> in the Console (go ahead, try it!
 You can do this by typing <code>data()</code> in the Console window and hitting Enter.)
@@ -785,10 +785,13 @@ How do you know?</p>
 <p>In your Console you may have noticed the following message:</p>
 <p>[IMG on tidyverse conflicts]</p>
 <p>This isn’t error, but rather some important information that we need to consider!
-When we first open R (via RStudio) we are working with base R – that is, everything that comes with R before we add any packages to the mix.
-This includes packages and functions that exist in R that we have access to without needing to first load the package using <code>library()</code>.
-However because of the broad array of packages that have been created for use in R, it’s not uncommon for two (or more!) packages to have functions with the same name.
-What this message is telling us then is that if we use the <code>filter()</code> function, R will use the <code>filter()</code> function from the <code>dplyr</code> package (a package within the <code>tidyverse</code>) rather than the <code>filter()</code> function from within the <code>stats()</code> package (part of base R).</p>
+When we first open R (via RStudio) we are working with base R – that is, everything that comes with R along with a (relative) handful of pre-installed packages.
+These are packages and functions that exist in R that we have access to without needing to first load the package using <code>library()</code>.</p>
+<p>If you would like to see what functions are available to you in base R, you can run <code>library(help = "base")</code> in the Console.</p>
+<p>If you would like to see the packages that came pre-installed with R, you can run <code>installed.packages()[ installed.packages()[,"Priority"] %in% "base", c("Package", "Priority")]</code> in the Console.</p>
+<p>Additionally, if you would like to see a list of <em>all</em> of the packages that have been installed (both pre-installed with base R as well as those that you have installed), you can run <code>rownames(installed.packages())</code> in the Console.</p>
+<p>However because of the broad array of packages that have been created for use in R, it’s not uncommon for two (or more!) packages to have functions with the same name.
+What this message is telling us then is that if we use the <code>filter()</code> function, R will use the <code>filter()</code> function from the <code>dplyr</code> package (a package within the <code>tidyverse</code>) rather than the <code>filter()</code> function from within the <code>stats()</code> package (one of the packages that accompanies base R).</p>
 <p>How can we use the Help documentation to explore how the two functions might differ?</p>
 <p>R will give precedence the most recently loaded package.
 What happens if we want to use the <code>filter()</code> function from the <code>stats</code> package <em>and</em> the <code>filter()</code> function from the <code>dplyr</code> package in the same R session?
@@ -810,7 +813,7 @@ Using the example of the <code>filter()</code> function above, coupled with the 
 </div>
 <div id="how-to-find-a-package" class="section level3">
 <h3><span class="header-section-number">6.7.5</span> How to find a package</h3>
-<p>As you begin your R learning journey, the bulk of the packages that you will need to use are either already included in base R, or available on CRAN.
+<p>As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN.
 <a href="link">CRAN TaskViews</a> is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.</p>
@@ -1035,7 +1038,7 @@ We do not need to call or refer to the <code>ma_data_init</code> data set each t
 <h3><span class="header-section-number">6.11.3</span> Verb-based functions</h3>
 <p>Another pattern you may have picked up on is that every function is a verb.
 That is, the name of the function is telling us what the function is going to do!
-This is common both within the Tidyverse as well as in other packages, and even base R.</p>
+This is common both within the Tidyverse as well as in other packages.</p>
 </div>
 <div id="when-functions-need-arguments-and-when-they-dont" class="section level3">
 <h3><span class="header-section-number">6.11.4</span> When functions need arguments and when they don’t</h3>

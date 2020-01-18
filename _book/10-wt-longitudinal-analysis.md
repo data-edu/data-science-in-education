@@ -35,53 +35,9 @@ For this walkthrough, we'll be using four packages: `tidyverse`, `here`, `dataed
 
 ```r
 library(tidyverse)
-```
-
-```
-## ── Attaching packages ──────────────
-```
-
-```
-## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
-## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
-## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.4.0
-```
-
-```
-## ── Conflicts ───────────────────────
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(here)
-```
-
-```
-## here() starts at /Users/shortessay/data-science-in-education
-```
-
-```r
 library(dataedu)
 library(lubridate)
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following object is masked from 'package:here':
-## 
-##     here
-```
-
-```
-## The following object is masked from 'package:base':
-## 
-##     date
 ```
 
 ## Import Data 
@@ -117,10 +73,6 @@ here::here(
   "longitudinal_data",
   "bchildcountandedenvironments2012.csv"
 )
-```
-
-```
-## [1] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv"
 ```
 
 You can use a different file path if you like, just take note of where your downloaded files are so you can use the correct file path when writing your code to import the data. 
@@ -159,24 +111,15 @@ The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actuall
 Try using `skip = 4` in your call to `read_csv`:
 
 
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_character(),
-##   Year = col_double()
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-```
-## Warning: 3 parsing failures.
-##   row  col expected                                    actual                                                                                                      file
-## 16228 Year a double -------------------                       '/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'
-## 16229 Year a double -   Data not available                    '/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'
-## 16230 Year a double x   Data supressed due to small cell size '/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'
+```r
+read_csv(
+  here::here(
+    "data",
+    "longitudinal_data",
+    "bchildcountandedenvironments2012.csv"
+  ),
+  skip = 4
+)
 ```
 
 ```
@@ -253,6 +196,7 @@ That made a vector of six filenames, one for each year of child count data store
 # Pass filenames to map and read_csv
 all_files <-
   filenames %>%
+  # Apply the function read_csv to each element of filenames
   map(., ~ read_csv(., skip = 4))
 ```
 
@@ -286,6 +230,7 @@ And we can check the number of columns by using `map` and `ncol`:
 
 ```r
 all_files %>% 
+  # apply the function ncol to each element of all_files
   map(ncol)
 ```
 
@@ -313,50 +258,15 @@ Congratulations on finding an extremely common problem in education data! You've
 
 
 ```r
-bind_rows(all_files)
+# combining the datasets at this stage results in the incorrect 
+# number of columns
+bind_rows(all_files) %>% 
+  # check the number of columns
+  ncol()
 ```
 
 ```
-## # A tibble: 97,386 x 100
-##     Year `State Name` `SEA Education … `SEA Disability… `American India…
-##    <dbl> <chr>        <chr>            <chr>            <chr>           
-##  1  2012 ALABAMA      Correctional Fa… All Disabilities -               
-##  2  2012 ALABAMA      Home             All Disabilities 1               
-##  3  2012 ALABAMA      Homebound/Hospi… All Disabilities -               
-##  4  2012 ALABAMA      Inside regular … All Disabilities -               
-##  5  2012 ALABAMA      Inside regular … All Disabilities -               
-##  6  2012 ALABAMA      Inside regular … All Disabilities -               
-##  7  2012 ALABAMA      Other Location … All Disabilities 7               
-##  8  2012 ALABAMA      Other Location … All Disabilities 1               
-##  9  2012 ALABAMA      Parentally Plac… All Disabilities -               
-## 10  2012 ALABAMA      Residential Fac… All Disabilities 0               
-## # … with 97,376 more rows, and 95 more variables: `Asian Age 3-5` <chr>, `Black
-## #   or African American Age 3-5` <chr>, `Hispanic/Latino Age 3-5` <chr>,
-## #   `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>, `Two or More
-## #   Races Age 3-5` <chr>, `White Age 3-5` <chr>, `Female Age 3 to 5` <chr>,
-## #   `Male Age 3 to 5` <chr>, `LEP Yes Age 3 to 5` <chr>, `LEP No Age 3 to
-## #   5` <chr>, `Age 3 to 5` <chr>, `Age 6-11` <chr>, `Age 12-17` <chr>, `Age
-## #   18-21` <chr>, `Ages 6-21` <chr>, `LEP Yes Age 6 to 21` <chr>, `LEP No Age 6
-## #   to 21` <chr>, `Female Age 6 to 21` <chr>, `Male Age 6 to 21` <chr>,
-## #   `American Indian or Alaska Native Age 6 to21` <chr>, `Asian Age 6
-## #   to21` <chr>, `Black or African American Age 6 to21` <chr>, `Hispanic/Latino
-## #   Age 6 to21` <chr>, `Native Hawaiian or Other Pacific Islander Age 6
-## #   to21` <chr>, `Two or more races Age 6 to21` <chr>, `White Age 6
-## #   to21` <chr>, `Age 3` <chr>, `Age 4` <chr>, `Age 5` <chr>, `Age 6` <chr>,
-## #   `Age 7` <chr>, `Age 8` <chr>, `Age 9` <chr>, `Age 10` <chr>, `Age
-## #   11` <chr>, `Age 12` <chr>, `Age 13` <chr>, `Age 14` <chr>, `Age 15` <chr>,
-## #   `Age 16` <chr>, `Age 17` <chr>, `Age 18` <chr>, `Age 19` <chr>, `Age
-## #   20` <chr>, `Age 21` <chr>, `2016` <dbl>, Alabama <chr>, `Correctional
-## #   Facilities` <chr>, `All Disabilities` <chr>, `-` <chr>, `-_1` <chr>,
-## #   `-_2` <chr>, `-_3` <chr>, `-_4` <chr>, `-_5` <chr>, `-_6` <chr>,
-## #   `-_7` <chr>, `-_8` <chr>, `-_9` <chr>, `-_10` <chr>, `-_11` <chr>,
-## #   `-_12` <chr>, `-_13` <chr>, `-_14` <chr>, `0` <chr>, `0_1` <chr>,
-## #   `0_2` <chr>, `0_3` <chr>, `0_4` <chr>, `0_5` <chr>, `0_6` <chr>,
-## #   `0_7` <chr>, `0_8` <chr>, `1` <chr>, `2` <chr>, `4` <chr>, `14` <chr>,
-## #   `22` <chr>, `30` <chr>, `4_1` <chr>, `0_9` <chr>, `7` <chr>, `70` <chr>,
-## #   `77` <chr>, `0_10` <chr>, `77_1` <chr>, `1_1` <chr>, `76` <chr>,
-## #   `0_11` <chr>, `0_12` <chr>, `68` <chr>, `0_13` <chr>, `0_14` <chr>,
-## #   `0_15` <chr>, `9` <chr>
+## [1] 100
 ```
 
 We'll correct this in the next section by selecting and renaming our variables, but it's good to notice this problem early in the process so you know to work on it later. 
@@ -373,7 +283,7 @@ Let's preview the steps we'll be taking:
 4. Filter for the desired categories
 5. Rename the variables 
 6. Standardize the state names
-7. Transform the column formats from wide to narrow using `gather`
+7. Transform the column formats from wide to long using `pivot_longer`
 8. Change the data types of variables 
 9. Explore NAs
 
@@ -383,11 +293,12 @@ After a lot of exploring, we settled on these steps for this analysis. When you 
 
 ### Fix the variable names in the 2016 data
 
-When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the 2016 dataset, which is the fifth element of `all_files`: 
+When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the first ten variable names of the 2016 dataset, which is the fifth element of `all_files`: 
 
 
 ```r
-names(all_files[[5]])
+# Look at the first 10 column names of 2016
+names(all_files[[5]])[1:10]
 ```
 
 ```
@@ -395,43 +306,15 @@ names(all_files[[5]])
 ##  [3] "Correctional Facilities" "All Disabilities"       
 ##  [5] "-"                       "-_1"                    
 ##  [7] "-_2"                     "-_3"                    
-##  [9] "-_4"                     "-_5"                    
-## [11] "-_6"                     "-_7"                    
-## [13] "-_8"                     "-_9"                    
-## [15] "-_10"                    "-_11"                   
-## [17] "-_12"                    "-_13"                   
-## [19] "-_14"                    "0"                      
-## [21] "0_1"                     "0_2"                    
-## [23] "0_3"                     "0_4"                    
-## [25] "0_5"                     "0_6"                    
-## [27] "0_7"                     "0_8"                    
-## [29] "1"                       "2"                      
-## [31] "4"                       "14"                     
-## [33] "22"                      "30"                     
-## [35] "4_1"                     "0_9"                    
-## [37] "7"                       "70"                     
-## [39] "77"                      "0_10"                   
-## [41] "77_1"                    "1_1"                    
-## [43] "76"                      "0_11"                   
-## [45] "0_12"                    "68"                     
-## [47] "0_13"                    "0_14"                   
-## [49] "0_15"                    "9"
+##  [9] "-_4"                     "-_5"
 ```
 
-We want the variable names to be `Year` and `State Name`. But first, let's go back and review how to get at the 2016 dataset from `all_files`. The order of the list elements was set all the way back when we fed `map` our list of filenames. If we look at `filenames` again, we see that the 2016 dataset was stored in the fifth element: 
+We want the variable names to be `Year` and `State Name`, not `2016` and `Alabama`. But first, let's go back and review how to get at the 2016 dataset from `all_files`. We need to identify which element the 2016 dataset was in the list. The order of the list elements was set all the way back when we fed `map` our list of filenames. If we look at `filenames` again, we see that its fifth element is the 2016 dataset. Try looking at the first and fifth elements of `filenames`: 
 
 
 ```r
-filenames
-```
-
-```
-## [1] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv"   
-## [2] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2013.csv"   
-## [3] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2014.csv"   
-## [4] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2015.csv"   
-## [5] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2016.csv"   
-## [6] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2017-18.csv"
+filenames[[1]]
+filenames[[5]]
 ```
 
 Once we know the 2016 dataset is the fifth element of our list, we can pluck it out by using double brackets: 
@@ -466,7 +349,7 @@ all_files[[5]]
 ## #   `0_14` <chr>, `0_15` <chr>, `9` <chr>
 ```
 
-We used `skip = 4` when we read in those datasets. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
+We used `skip = 4` when we read in the datasets in the list. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv` and the fifth element of `filenames` but this time will use the argument `skip = 3`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
 
 
 
@@ -511,10 +394,11 @@ all_files[[1]] %>%
 ## #   `Female Age 6 to 21` <chr>, `Male Age 6 to 21` <chr>
 ```
 
-That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to feed our list of datasets, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
+That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars`. We will then use `map` to apply `pick_vars` to each dataset of our list, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
 
 
 ```r
+# build the function
 pick_vars <-
   function(df) {
     df %>%
@@ -526,6 +410,7 @@ pick_vars <-
       ))
   }
 
+# use the function with `all_files`
 all_files <-
   all_files %>%
   map(pick_vars)
@@ -537,6 +422,7 @@ Now we'll turn our attention to combining the datasets in our list `all_files` i
 
 
 ```r
+# check variable names
 all_files %>% 
   map(names)
 ```
@@ -585,6 +471,7 @@ That means that we can combine all six datasets into one using `bind_rows`. We'l
 ```r
 child_counts <-
   all_files %>%
+  # combine all datasets in `all_files`
   bind_rows()
 ```
 
@@ -609,11 +496,12 @@ str(child_counts)
 
 ### Filter for the desired disabilities and age groups
 
-We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset: 
+We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count` to explore all the different disability groups in the dataset. Here's the number of times an `SEA Disability Category` appears in the dataset: 
 
 
 ```r
 child_counts %>%
+  # count number of times the category appears in the dataset
   count(`SEA Disability Category`)
 ```
 
@@ -646,7 +534,9 @@ Since we will be visualizing and modeling gender variables for all students in t
 child_counts <-
   child_counts %>%
   filter(
+    # filter all but the All Disabilities category
     `SEA Disability Category` == "All Disabilities",
+    # filter all but the age totals
     `SEA Education Environment` %in% c("Total, Age 3-5", "Total, Age 6-21")
   ) 
 ```
@@ -660,6 +550,7 @@ In the next section we'll prepare the dataset for visualization and modeling by 
 child_counts <-
   child_counts %>%
   rename(
+    # change these columns to more convenient names
     year = Year,
     state = "State Name",
     age = "SEA Education Environment",
@@ -715,20 +606,23 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 
 *This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.*
 
-The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `gather` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
+The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `pivot_longer` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
 
 ```r
 child_counts <-
   child_counts %>%
-  gather(gender, total, f_3_5:m_6_21)
+    pivot_longer(cols = f_3_5:m_6_21, 
+                 names_to = "gender", 
+                 values_to = "total")
 ```
 
 To make the values of the `gender` column more intuitive, we'll use `case_when` to transform the values to either "f" or "m":
 
 
 ```r
-child_counts <- child_counts %>%
+child_counts <- 
+  child_counts %>%
   mutate(
     gender = case_when(
       gender == "f_3_5" ~ "f",
@@ -742,7 +636,7 @@ child_counts <- child_counts %>%
 
 ### Convert data types
 
-The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to number columns. We'll use `dplyr::mutate_at` to change the count columns. 
+The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to numeric columns. We'll use `dplyr::mutate` to change the count columns. 
 
 
 ```r
@@ -761,22 +655,22 @@ child_counts
 
 ```
 ## # A tibble: 2,928 x 6
-##     year state          age             disability       gender total
-##    <dbl> <chr>          <chr>           <chr>            <chr>  <dbl>
-##  1  2012 alabama        Total, Age 3-5  All Disabilities f       2228
-##  2  2012 alabama        Total, Age 6-21 All Disabilities f         NA
-##  3  2012 alaska         Total, Age 3-5  All Disabilities f        676
-##  4  2012 alaska         Total, Age 6-21 All Disabilities f         NA
-##  5  2012 american samoa Total, Age 3-5  All Disabilities f         45
-##  6  2012 american samoa Total, Age 6-21 All Disabilities f         NA
-##  7  2012 arizona        Total, Age 3-5  All Disabilities f       4743
-##  8  2012 arizona        Total, Age 6-21 All Disabilities f         NA
-##  9  2012 arkansas       Total, Age 3-5  All Disabilities f       4605
-## 10  2012 arkansas       Total, Age 6-21 All Disabilities f         NA
+##     year state   age             disability       gender total
+##    <dbl> <chr>   <chr>           <chr>            <chr>  <dbl>
+##  1  2012 alabama Total, Age 3-5  All Disabilities f       2228
+##  2  2012 alabama Total, Age 3-5  All Disabilities m       5116
+##  3  2012 alabama Total, Age 3-5  All Disabilities f         NA
+##  4  2012 alabama Total, Age 3-5  All Disabilities m         NA
+##  5  2012 alabama Total, Age 6-21 All Disabilities f         NA
+##  6  2012 alabama Total, Age 6-21 All Disabilities m         NA
+##  7  2012 alabama Total, Age 6-21 All Disabilities f      23649
+##  8  2012 alabama Total, Age 6-21 All Disabilities m      48712
+##  9  2012 alaska  Total, Age 3-5  All Disabilities f        676
+## 10  2012 alaska  Total, Age 3-5  All Disabilities m       1440
 ## # … with 2,918 more rows
 ```
 
-Converting these count columns from character classes to number classes resulted in two changes. First, the `chr` under these variable names has now changed to `dbl`, short for "double-precision". This lets us know that R recognizes these values as numbers with decimal points. Second, the blank values changed to `NA`. When R sees a character class value like `"4"`, it knows to change it to numeric class `4`. But there is no obvious number represented by a character class like `""`, so it changes it to `NA`: 
+Converting these count columns from character classes to number classes resulted in two changes. First, the `chr` under these variable names has now changed to `dbl`, short for "double-precision". This lets us know that R recognizes these values as numbers with decimal points. Second, the blank values changed to `NA`. When R sees a character class value like `"4"`, it knows to change it to numeric class `4`. But there is no obvious number represented by a value like `""` or `-`, so it changes it to `NA`: 
 
 
 ```r
@@ -789,8 +683,20 @@ as.numeric("4")
 ```
 
 ```r
-# Convert a blank character to number
+# Convert a blank character or a symbol to a number
 as.numeric("")
+```
+
+```
+## [1] NA
+```
+
+```r
+as.numeric("-")
+```
+
+```
+## Warning: NAs introduced by coercion
 ```
 
 ```
@@ -808,7 +714,7 @@ child_counts <-
 
 ### Explore and address NAs
 
-You'll notice that some rows in the `total` column contain an `NA`. When we used `gather` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
+You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 
 In our foundational skills chapter, we introduced a `dplyr` function called `arrange` to sort the rows of a dataset by the values in a column. Let's use `arrange` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
@@ -823,19 +729,19 @@ child_counts %>%
 ##    year       state   age             disability       gender total
 ##    <date>     <chr>   <chr>           <chr>            <chr>  <dbl>
 ##  1 2012-01-01 alabama Total, Age 3-5  All Disabilities f       2228
-##  2 2012-01-01 alabama Total, Age 6-21 All Disabilities f         NA
-##  3 2012-01-01 alabama Total, Age 3-5  All Disabilities f         NA
+##  2 2012-01-01 alabama Total, Age 3-5  All Disabilities f         NA
+##  3 2012-01-01 alabama Total, Age 6-21 All Disabilities f         NA
 ##  4 2012-01-01 alabama Total, Age 6-21 All Disabilities f      23649
 ##  5 2012-01-01 alabama Total, Age 3-5  All Disabilities m       5116
-##  6 2012-01-01 alabama Total, Age 6-21 All Disabilities m         NA
-##  7 2012-01-01 alabama Total, Age 3-5  All Disabilities m         NA
+##  6 2012-01-01 alabama Total, Age 3-5  All Disabilities m         NA
+##  7 2012-01-01 alabama Total, Age 6-21 All Disabilities m         NA
 ##  8 2012-01-01 alabama Total, Age 6-21 All Disabilities m      48712
 ##  9 2012-01-01 alaska  Total, Age 3-5  All Disabilities f        676
-## 10 2012-01-01 alaska  Total, Age 6-21 All Disabilities f         NA
+## 10 2012-01-01 alaska  Total, Age 3-5  All Disabilities f         NA
 ## # … with 2,918 more rows
 ```
 
-We can simplify our dataset by removing these rows, leaving us with one row for each category:
+We can simplify our dataset by removing the rows with NAs, leaving us with one row for each category:
 
  - females age 3-5
  - females age 6-21
@@ -882,13 +788,14 @@ In the last section we focused on importing our dataset. In this section, we wil
 
 ### Visualize the Dataset  
 
-Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest average count of special education students: 
+Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the `dplyr` package called `top_n()` to help us learn which states have the highest mean count of students with disabilities: 
 
 
 ```r
 child_counts %>%
   group_by(state) %>%
   summarise(mean_count = mean(total)) %>%
+  # which six states have the highest mean count of students with disabilities
   top_n(6, mean_count)
 ```
 
@@ -983,7 +890,7 @@ high_count %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Total count of students in special education over time",
-       subtitle = "Ages 6-21") +
+       subtitle = "Ages 3-21") +
   theme_dataedu() +
   scale_color_dataedu()
 ```
@@ -1008,8 +915,8 @@ high_count %>%
   summarise(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
   geom_boxplot() +
-  labs(title = "Median student count",
-       subtitle = "All ages and genders") +
+  labs(title = "Median students with disabilities count",
+       subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
 ```
 
@@ -1035,7 +942,7 @@ But how can we start comparing the male student count to the female student coun
 
 We can use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and year. Our coding strategy will be to 
 
- - Use `spread` to create separate columns for male and female students. 
+ - Use `pivot_wider` to create separate columns for male and female students. 
  - Use `mutate` to create a new variable called `ratio`. The values in this column will be the result of dividing the count of male students by the count of female students 
  
 Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students. 
@@ -1046,7 +953,8 @@ high_count %>%
   group_by(year, state, gender) %>%
   summarise(total = sum(total)) %>%
   # Create new columns for male and female student counts
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   # Create a new ratio column
   mutate(ratio = m / f) %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
@@ -1089,7 +997,8 @@ At the start of this section, we chose to exclude outlying areas and freely asso
 ```r
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5) +
   geom_smooth() +
@@ -1126,7 +1035,8 @@ To learn more about what's happening in our dataset, we can filter it for only s
 ```r
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   filter(f > 500000) %>%
   select(year, state, age, f, m)
 ```
@@ -1149,13 +1059,14 @@ This is where we discover that each of the data points in the upper right hand c
 ```r
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>%
   # Filter for female student counts less than 500,000
   filter(f <= 500000) %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5) +
   labs(
-    title = "Comparison of female students to male students in special education",
+    title = "Comparison of female students to male students with disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
     x = "Female students",
     y = "Male students",
@@ -1188,7 +1099,8 @@ To answer that question, let's start by making a new dataset that excludes any r
 model_data <- child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   mutate(year = as.factor(year(year))) %>%
-  spread(gender, total) %>%
+  pivot_wider(names_from = gender, 
+              values_from = total) %>% 
   # Exclude outliers
   filter(f <= 500000) %>%
   # Compute male student to female student ratio
@@ -1353,7 +1265,9 @@ Now let's visualize this using our boxplots:
 
 ```r
 model_data %>%
-  gather(gender, students, c(f, m)) %>%
+  pivot_longer(cols = c(f, m), 
+               names_to = "gender", 
+               values_to = "students") %>% 
   ggplot(aes(x = year, y = students, color = gender)) +
   geom_boxplot() +
   scale_y_continuous(labels = scales::comma) +
@@ -1413,16 +1327,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k               5
-##  2 b       l              30
-##  3 c       m              88
-##  4 d       n              33
-##  5 e       o              37
-##  6 f       k              98
-##  7 g       l              25
-##  8 h       m              16
-##  9 i       n              64
-## 10 j       o              83
+##  1 a       k              34
+##  2 b       l              26
+##  3 c       m              61
+##  4 d       n              86
+##  5 e       o              81
+##  6 f       k              75
+##  7 g       l              12
+##  8 h       m              64
+##  9 i       n              98
+## 10 j       o              90
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1443,11 +1357,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            47.5
-## 2 l            47  
-## 3 m            54  
-## 4 n            77  
-## 5 o            36.5
+## 1 k            45.5
+## 2 l            65.5
+## 3 m            58  
+## 4 n            67  
+## 5 o            33.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
