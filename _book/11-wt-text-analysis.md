@@ -315,6 +315,15 @@ pos_tokens_count %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="11-wt-text-analysis_files/figure-html/visualize positive-1.png" width="672" />
 
 Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
@@ -512,7 +521,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 3 7 5 8 1
+## [1]  4 10  5  6  7
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

@@ -791,6 +791,11 @@ dat %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-21-1.png" width="672" />
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
@@ -804,6 +809,11 @@ dat %>%
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
   theme_dataedu()
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-22-1.png" width="672" />

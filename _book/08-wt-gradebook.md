@@ -6,11 +6,11 @@ There are a variety of data sources to explore in the education field. Student a
 
 ## Data Sources
 
-This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. We use an Excel gradebook template, *Assessment Types - Points* (https://web.mit.edu/jabbott/www/excelgradetracker.html), and simulated student data. On your first read through of this section try using our simulated dataset found in this book's `data/` folder.
+This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
 
 ## Load Packages
 
-As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will use the {tidyverse} package mentioned in [Walkthrough 1](06-wt-multilevel-models-1). The {readxl} package is used to read and import Excel spreadsheets since these file types are very common in the education field.
+As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will use the `tidyverse` package mentioned in [Walkthrough 1](06-wt-multilevel-models-1). The `readxl` package is used to read and import Excel spreadsheets since these file types are very common in the education field.
 
 Make sure you have installed the packages in R on your computer before starting (see Foundational Skills chapter). Load the libraries, as they must be loaded each time we start a new project.
 
@@ -26,7 +26,7 @@ library(dataedu)
 
 ## Import Data
 
-Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R. This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world.
+Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world.
 
 This code uses the `read_excel()` function of the {readxl} package to find and read the data of the desired file. Note the file path that `read_excel()` takes to find the simulated dataset file named *ExcelGradeBook.xlsx* which sits in a folder on your computer if you have downloaded it. The function `getwd()` will help locate your current working directory. This tells where on the computer R is currently working with files.
 
@@ -66,15 +66,15 @@ The *ExcelGradeBook* file has been imported into RStudio. Next, assign the data 
 gradebook <- ExcelGradeBook
 ```
 
-Your environment will now have two versions of the dataset. There is *ExcelGradeBook* which was the original dataset imported. There is also *gradebook* which is currently a copy of *ExcelGradeBook*. As you progress through this section, we will work primarily with the *gradebook* dataset. Additionally, while working onward in this section of the book, if you make a mistake and mess up the *gradebook* data frame and are not able to fix it, you can reset the data frame to return to the same state as the original *ExcelGradeBook* data frame by running `gradebook <- ExcelGradeBook` again. This will overwrite your messed up *gradebook* data frame with the originally imported *ExcelGradeBook* data frame. Afterwards, just continue running code from this point in the text.
+Your environment will now have two versions of the dataset. There is *ExcelGradeBook* which was the original dataset imported. There is also *gradebook* which is currently a copy of *ExcelGradeBook*. As you progress through this section, we will work primarily with the *gradebook* dataset. Additionally, while working onward in this section of the book, if you make a mistake and mess up the *gradebook* data frame and are not able to fix it, you can reset the data frame to return to the same state as the original *ExcelGradeBook* data frame by running `gradebook <- ExcelGradeBook` again. This will overwrite any errors in the *gradebook* data frame with the originally imported *ExcelGradeBook* data frame. Afterwards, just continue running code from this point in the text.
 
 ## Tidy Data
 
-This walkthrough uses an Excel data file because it is one that we are likely to encounter. Moreover, the messy state of this file mirrors what might be encountered in real life. The Excel file contains more than one sheet, has rows we don't need, and uses column names that have spaces between words. All these things make the data tough to work with. The data is **not** tidy. We can begin to overcome these challenges before importing the file into RStudio by deleting the unnecessary parts of the Excel file then saving it as a .csv file. However, if you clean the file outside of R, this means if you ever have to clean it up (say, if the dataset is accidentally deleted and you need to redownload it from the original source) you would have to do everything from the beginning. We recommend cleaning the original data in R so that you can recreate all the steps necessary for your analysis. Also, the untidy Excel file provides realistic practice for tidying up the data programmatically using R itself.
+This walkthrough uses an Excel data file because it is one that we are likely to encounter. Moreover, the messy state of this file mirrors what might be encountered in real life. The Excel file contains more than one sheet, has rows we don't need, and uses column names that have spaces between words. All these things make the data tough to work with. The data is **not** tidy. We can begin to overcome these challenges before importing the file into RStudio by deleting the unnecessary parts of the Excel file then saving it as a .csv file. However, if you clean the file outside of R, this means if you ever have to clean it up (say, if the dataset is accidentally deleted and you need to redownload it from the original source) you would have to do everything from the beginning, and may not recall exactly what you did in Excel prior to importing the data to R. We recommend cleaning the original data in R so that you can recreate all the steps necessary for your analysis. Also, the untidy Excel file provides realistic practice for tidying up the data programmatically using R itself.
 
 First, modify the column names of the *gradebook* data frame to remove any spaces and replace them with an underscore. Using spaces as column names in R can present difficulties later on when working with the data.
 
-Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the janitor package to quickly change them to a more useable format.
+Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the `janitor` package to quickly change them to a more useable format.
 
 
 ```r
@@ -263,11 +263,11 @@ view(gradebook)
 
 R users transform data to facilitate working with the data during later phases of visualization and analysis. A few examples of data transformation include creating new variables, grouping data, and more. This code chunk first creates a new data frame named *classwork_df*, then selects particular variables from our gradebook dataset using `select()`, and finally gathers all the homework data under new variables into new columns.
 
-As mentioned previously, `select()` is very powerful. In addition to explicitly writing out the columns you want to keep, you can also use functions from the package {stringr} within `select()`. The {stringr} package is within {tidyverse}. Here, we'll use the function `contains()` to tell R to select columns that contain a certain string (that is, text). Here, it searches for any column with the string *"classwork_"*. The underscore makes sure the variables from *classwork_1* all the way to *classwork_17* are included in *classwork_df*.
+As mentioned previously, `select()` is very powerful. In addition to explicitly writing out the columns you want to keep, you can also use functions from the package `stringr` within `select()`. The `stringr` package is contained within the `tidyverse` meta-package. Here, we'll use the function `contains()` to tell R to select columns that contain a certain string (that is, text). Here, it searches for any column with the string *"classwork_"*. The underscore makes sure the variables from *classwork_1* all the way to *classwork_17* are included in *classwork_df*.
 
 `pivot_longer()` transforms the dataset into tidy data.
 
-Note that *scores* are in character format. We use mutate() to transform them to numerical format.
+Note that *scores* are in character format. We use `mutate()` to transform them to numerical format.
 
 
 ```r
@@ -283,8 +283,7 @@ classwork_df <-
     formative_assessments,
     projects,
     summative_assessments,
-    contains("classwork_")
-  ) %>%
+    contains("classwork_")) %>%
   mutate_at(vars(contains("classwork_")), list(~ as.numeric(.))) %>%
   pivot_longer(
     cols = contains("classwork_"),
@@ -310,7 +309,7 @@ Visual representations of data are more human friendly than just looking at numb
 summary(gradebook)
 ```
 
-But R can do more than just print numbers to a screen. Use the {ggplot} package within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot} to graph categorical variables into a bar graph. Here we can see the variable *Letter_grade* is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
+But R can do more than just print numbers to a screen. We'll use the `ggplot` package from within `tidyverse` to graph some of the data to help get a better grasp of what the data looks like. This code uses `ggplot` to graph categorical variables into a bar graph. Here we can see the variable *Letter_grade* is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
 
 ```r
@@ -327,9 +326,14 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
-Using {ggplot}, we can create many types of graphs. Using our *classwork_df* from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the *classworks* and *scores* columns into tidy formats.
+Using `ggplot` we can create many types of graphs. Using our *classwork_df* from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the *classworks* and *scores* columns into tidy formats.
 
 
 ```r
@@ -352,6 +356,11 @@ classwork_df %>%
         axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 ## Model Data
@@ -362,7 +371,7 @@ Using this spreadsheet, we can start to form hypotheses about the data. For exam
 
 ### Visualize Data to Check Assumptions
 
-It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot} to understand these variables graphically. 
+It's important to visualize data to see any distributions, trends, or patterns before building a model. We use `ggplot` to understand these variables graphically. 
 
 #### Linearity
 
@@ -382,9 +391,14 @@ gradebook %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
-We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, that suggests a positive linear relationship.
+We can layer different types of plots on top of each other in `ggplot`. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
 
 ```r
@@ -403,11 +417,16 @@ gradebook %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
 #### Outliers
 
-Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. For linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
+Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
 
 
 ```r
@@ -421,6 +440,11 @@ gradebook %>%
        x = "Formative Assessment",
        y = "Score") +
   theme_dataedu()
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
 ```
 
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="672" />
@@ -439,11 +463,16 @@ gradebook %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 ### Correlation Analysis
 
-We want to know the strength of the relationship between the two variables formative assessment scores and overall grade percentage. The strength is denoted by the "correlation coefficient." The correlation coefficient goes from -1 to 1. If one variable consistently increases with the increasing value of the other, then they have a positive correlation (towards 1). If one variable consistently decreases with the increasing value of the other, then they have a negative correlation (towards -1). If the correlation coefficient is 0, then there is no relationship between the two variables.
+We want to know the strength of the relationship between the two variables, formative assessment scores and overall grade percentage. The strength is denoted by the "correlation coefficient." The correlation coefficient goes from -1 to 1. If one variable consistently increases with the increasing value of the other, then they have a positive correlation (towards 1). If one variable consistently decreases with the increasing value of the other, then they have a negative correlation (towards -1). If the correlation coefficient is 0, then there is no relationship between the two variables.
 
 Correlation is good for finding relationships but it does *not* imply that one variable causes the other (correlation does not mean causation).
 
@@ -456,9 +485,9 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 ## [1] 0.6632553
 ```
 
-### Build Linear Model
+### Building a Linear Model
 
-In the multi-level modeling walkthrough, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the lm() function, where the arguments are:
+In the multi-level modeling walkthrough, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
 
 * Your predictor (formative_assessments)
 * Your response (running_average)
@@ -498,4 +527,11 @@ The formula reads as follows:
 ```{}
 running_average = 50.11511 + 0.42136*formative_assessments
 ```
+
+## Conclusion
+
+This walkthrough chapter followed the basic steps of a data analysis project. 
+We first *imported* our data, then *cleaned and transformed* it.
+Once we had the data in a tidy format, we were able to *explore* the data using data visualization before *modeling* the data using linear regression.
+The only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/).
 

@@ -931,6 +931,15 @@ high_count %>%
   scale_color_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/total female students over time-1.png" width="672" />
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
@@ -953,6 +962,15 @@ high_count %>%
   scale_color_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/total male students over time-1.png" width="672" />
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by` and `summarise`. 
@@ -970,6 +988,15 @@ high_count %>%
   scale_color_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/total students over time-1.png" width="672" />
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
@@ -984,6 +1011,15 @@ high_count %>%
   labs(title = "Median student count",
        subtitle = "All ages and genders") +
   theme_dataedu() 
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/median total per state-1.png" width="672" />
@@ -1022,6 +1058,15 @@ high_count %>%
   scale_color_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/male to female ratio over time-1.png" width="672" />
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
@@ -1056,6 +1101,15 @@ child_counts %>%
     caption = "Data: US Dept of Education"
   ) +
   theme_dataedu()
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
 ```
 
 ```
@@ -1110,6 +1164,15 @@ child_counts %>%
   theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/plot without outliers-1.png" width="672" />
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
@@ -1161,6 +1224,15 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
   geom_jitter(alpha = .5) +
   labs(title = "Male to female ratio across years (jittered)") +
   theme_dataedu()
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/ratios across years-1.png" width="672" />
@@ -1296,6 +1368,15 @@ model_data %>%
   scale_color_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="10-wt-longitudinal-analysis_files/figure-html/visualize female to male ratio-1.png" width="672" />
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
@@ -1332,16 +1413,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              82
-##  2 b       l              92
-##  3 c       m              61
-##  4 d       n              85
-##  5 e       o              80
-##  6 f       k               6
-##  7 g       l              57
-##  8 h       m              55
-##  9 i       n              62
-## 10 j       o               9
+##  1 a       k               5
+##  2 b       l              30
+##  3 c       m              88
+##  4 d       n              33
+##  5 e       o              37
+##  6 f       k              98
+##  7 g       l              25
+##  8 h       m              16
+##  9 i       n              64
+## 10 j       o              83
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1362,11 +1443,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            73.5
-## 2 l            78  
-## 3 m            16.5
-## 4 n            83  
-## 5 o            18
+## 1 k            47.5
+## 2 l            47  
+## 3 m            54  
+## 4 n            77  
+## 5 o            36.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

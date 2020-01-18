@@ -310,7 +310,7 @@ What do the racial demographics in this district look like? For this, a barplot 
 
 ```r
 tidy_df %>%
-  # filter out Total rows, since we want district-level information
+  # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
          str_detect(category, "pct"),
          category != "frpl_pct") %>%
@@ -332,6 +332,15 @@ tidy_df %>%
   scale_fill_dataedu() +
   theme_dataedu() +
   theme(legend.position = "none")
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
@@ -369,7 +378,9 @@ Another view of the data can be visualizing the distribution of students with di
 
 ```r
 merged_df %>%
+  # remove district totals
   filter(school_name != "Total") %>%
+  # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_cols("darkblue"))  +
@@ -380,11 +391,16 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
-
-```r
-# hist(merged_df$wh_pct)$counts[1:9] # counting number of schools in the first bin (0-10%)
 ```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -421,6 +437,24 @@ tidy_df %>%
   theme(legend.position = "none")
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
@@ -441,6 +475,15 @@ merged_df %>%
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(labels = scales::percent) +
   theme(legend.position = "none")
+```
+
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" />

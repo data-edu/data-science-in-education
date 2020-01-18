@@ -10,7 +10,7 @@ We will be covering the following topics in this chapter:
 - RStudio environment and pane layout
 - Basics of customizing your RStudio environment
 - Introduction to help documentation
-- Steps for working through new and unamiliar content
+- Steps for working through new and unfamiliar content
 - Downloading and accessing the data sets used in this book
 
 ## Getting Started
@@ -71,68 +71,27 @@ When we open RStudio for the first time, we're likely to see this:
 ![](https://i.imgur.com/2rhZmMg.png?1)
 </center>  
   
-These three "panes" are referred to as the **console** pane, the **environment** 
-pane, and the **files** pane. The large square on the left is the **console**, 
-the pane in the top right is the **environment** pane, and the square in the 
-bottom right is the **files** pane.  
+These three "panes" are referred to as the **console** pane, the **environment** pane, and the **files** pane. 
+The large square on the left is the **console**, the pane in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
 
-When we create a new file, such as an `R script`, an `R Markdown` file, or a 
-`Shiny app`, RStudio will open a fourth pane, known as the **source** pane. You 
-can try this out by going to `File -> New File -> R Script`.
+When we create a new file, such as an `R script`, an `R Markdown` file, or a `Shiny app`, RStudio will open a fourth pane, known as the **source** pane. 
+You can try this out by going to `File -> New File -> R Script`.
 
-When we type out code, we do so in either the **console** or **source** pane. It 
-is generally better to type code in an `R script`, which saves as an `.R` file, 
-than to type your code in the console. This is because anything you type in the 
-console will be lost as soon as you close R, whereas you can save everything in 
-an `.R` script and see/use it again later.  
+When we type out code, we do so in either the **console** or **source** pane. 
+It is generally better to type code in an `R script`, which saves as an `.R` file, than to type your code in the console. 
+This is because anything you type in the console will be lost as soon as you close R, whereas you can save everything in an `.R` script and see/use it again later.  
 
 **Running code in an R Script**  
 There are several ways to run code in an R script:  
 
-* Highlight the line(s) of code you'd like to run and press **Ctrl+Enter**  
-* Highlight the line(s) of code you'd like to run and click the **Run** button 
-in the `R script` pane  
-* To run _every_ line of code in your file you can press **Ctrl+Shift+Enter**  
+- Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
+- Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
+- To run _every_ line of code in your file you can press **Ctrl + Shift + Enter**  
 
-### Getting to Know R: Challenge Questions 
-**Script vs. Console**  
+**Changing your RStudio theme**  
 
-* Use the _console_ as a calculator
-* Create an **`.R` script** _(File -> New File -> R script)_ and use it as a 
-calculator  
-* What are the similarities and differences between coding in the **console** 
-versus coding in an **.R script**?
-
-**Assignment operator**  
-
-* What is the assignment operator, and how does it work?
-
-**Commenting code**  
-
-* When might we want to comment out code?
-* _How_ do we comment out code in an **`.R script`**?
-* What are two ways to comment code?
-
-**Exploring the workspace**  
-
-_For each of the challenges below, you'll need to go to Tools -> Global Options_  
-
-* Explore the various themes available to you in RStudio by going to 
-_Tools -> Global Options -> Appearance_
+- Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
     + Choose a theme that works best for you and apply it
-* Change some of the default options in RStudio by going to _Tools -> Global 
-Options -> General_ and ensure that the following options are selected/deselected:  
-
-<center>
-![](https://i.imgur.com/fQ3kitV.png?1)
-</center>  
-
-* Lastly we'll add in our margin indicator by going to _Tools -> Global Options 
--> Code_ and then selecting/deselecting the following:  
-
-<center>
-![](https://i.imgur.com/YQqTP6i.png?1)
-</center>  
 
 ## Diving a little deeper into R with `swirl`
 
@@ -155,19 +114,71 @@ As you use R throughout this book, we'll be asking you to install additional pac
 These packages extend the functionality of base R by providing us with access to new functions. 
 This means that instead of writing a function to do a common data analysis task, such as creating a new variable out of existing variables, someone has written that function and made it available for you to use at no charge. 
 
-<!-- ON HOLD - not working as anticipated
 One of the functions that can accomplish this task is called `mutate()`. 
 What happens when you type `?mutate` (or `mutate()`) into the Console and hit `Enter`?  
 
 We've gotten one of our first error messages!  
 
-[IMG] 
+[IMG of error message - pending RStudio bug fix]
 
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
 Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
-What happens?-->
+What happens?
 
 ## Downloading and accessing the data sets used in this book
 
-<!-- On hold - have we solidified this with the package? 
-If yes, link is [here](https://github.com/data-edu/dataedu) -->
+Throughout this book you'll see data accessed in a multitude of ways.
+Sometimes we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
+We've also provided each of the datasets used in this book as `.rda` files that are accessible via the `dataedu` package.
+More details about the `dataedu` package on be found [on GitHub](https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
+
+As of this writing, the `dataedu` package is not available on CRAN. 
+This means we'll have to install the package using `devtools`. 
+To do this you first have to install the `devtools` package, and then the `dataedu` package by running the following code either in your RStudio console or in a script (an .R file): 
+
+
+```r
+# install devtools
+install.packages("devtools", repos = "http://cran.us.r-project.org")
+```
+
+```
+## 
+## The downloaded binary packages are in
+## 	/var/folders/pj/nmg9b8_93dq4kwt8nt2d4cj40000gn/T//RtmpxNaJxj/downloaded_packages
+```
+
+```r
+# install the dataedu package
+devtools::install_github("data-edu/dataedu")
+```
+
+```
+## Skipping install of 'dataedu' from a github remote, the SHA1 (f9615466) has not changed since last install.
+##   Use `force = TRUE` to force installation
+```
+
+From here we can load the `dataedu` package using the `library()` call, as follows:
+
+
+```r
+# load the dataedu package into our R environment
+library(dataedu)
+```
+
+Once you've installed the `dataedu` package, you can use the `mass_install()` function to download all of the packages we'll be using in this text. 
+This step is optional, and you're welcome to install packages as you use them. 
+
+To install all of the packages used in this text, run the following code in your RStudio console:
+
+
+```r
+# see which packages are used in the Data Science in Education Using R text
+dataedu::all_packages
+
+# install all of the packages used in the Data Science in Education Using R text
+dataedu::mass_install()
+```
+
+One last thing before we close out the chapter! 
+In the above chunks of code we've use

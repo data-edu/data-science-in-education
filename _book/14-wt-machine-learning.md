@@ -693,6 +693,15 @@ varImp(rf_fit2_imp) %>%
     theme_dataedu()
 ```
 
+```
+## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
+## Continue? [y/n]
+```
+
+```
+## Exiting.
+```
+
 <img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 Cool! We can now visualize which variables are most important in predicting final grade. 
