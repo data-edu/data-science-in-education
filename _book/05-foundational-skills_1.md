@@ -141,22 +141,9 @@ To do this you first have to install the `devtools` package, and then the `datae
 ```r
 # install devtools
 install.packages("devtools", repos = "http://cran.us.r-project.org")
-```
 
-```
-## 
-## The downloaded binary packages are in
-## 	/var/folders/pj/nmg9b8_93dq4kwt8nt2d4cj40000gn/T//RtmpfWClUv/downloaded_packages
-```
-
-```r
 # install the dataedu package
 devtools::install_github("data-edu/dataedu")
-```
-
-```
-## Skipping install of 'dataedu' from a github remote, the SHA1 (f9615466) has not changed since last install.
-##   Use `force = TRUE` to force installation
 ```
 
 From here we can load the `dataedu` package using the `library()` call, as follows:
