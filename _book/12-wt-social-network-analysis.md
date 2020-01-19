@@ -101,20 +101,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender             receiver        
-##    <chr>              <chr>           
-##  1 Stephens, Vivian   Thompson, Kale  
-##  2 Gallardo, Kathleen Skrzypek, Olivia
-##  3 Gallardo, Kathleen Tran, Niraj     
-##  4 Hammer, Emmari     Skrzypek, Olivia
-##  5 Hammer, Emmari     Thompson, Kale  
-##  6 Hammer, Emmari     Johnson, Kenneth
-##  7 Gee, Ibsa          Tran, Niraj     
-##  8 Gee, Ibsa          Nguyen, Cindy   
-##  9 Gee, Ibsa          Johnson, Kenneth
-## 10 Choi, Bhoomi       Skiff, Kelsey   
-## 11 Torres, Amanda     Tran, Niraj     
-## 12 Torres, Amanda     Skiff, Kelsey
+##    sender            receiver        
+##    <chr>             <chr>           
+##  1 Morua, Manuel     Jeon, Mazhar    
+##  2 el-Baig, Mahbooba Kiser, Colby    
+##  3 el-Baig, Mahbooba Pereyra, Nicole 
+##  4 Juarez, Alyssa    Kiser, Colby    
+##  5 Juarez, Alyssa    Jeon, Mazhar    
+##  6 Juarez, Alyssa    Mure, Imani     
+##  7 Paskemin, Adail   Pereyra, Nicole 
+##  8 Paskemin, Adail   Sok, Gerald     
+##  9 Paskemin, Adail   Mure, Imani     
+## 10 el-Kaba, Ghaaliya Wollman, Brandon
+## 11 Hasan, Amanda     Pereyra, Nicole 
+## 12 Hasan, Amanda     Wollman, Brandon
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.

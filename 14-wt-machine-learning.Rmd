@@ -385,12 +385,12 @@ Our results here give us a ranked order list of the variables in the order of th
 
 We can visualize this variable importance list with `ggplot`. 
 
-```{r}
+```{r, results='hide', message = FALSE}
 varImp(rf_fit2_imp) %>%
     pluck(1) %>%
     rownames_to_column("var") %>%
     ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col() +
+    geom_col(fill = dataedu_cols("darkblue")) +
     coord_flip() +
     theme_dataedu()
 ```

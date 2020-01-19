@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="c09.html"><a href="c09.html#import-data-2"><i class="fa fa-check"></i><b>9.4</b> Import Data</a></li>
 <li class="chapter" data-level="9.5" data-path="c09.html"><a href="c09.html#view-data-1"><i class="fa fa-check"></i><b>9.5</b> View Data</a><ul>
 <li class="chapter" data-level="9.5.1" data-path="c09.html"><a href="c09.html#discovering-distributions"><i class="fa fa-check"></i><b>9.5.1</b> Discovering Distributions</a></li>
-<li class="chapter" data-level="9.5.2" data-path="c09.html"><a href="c09.html#anayzing-spread"><i class="fa fa-check"></i><b>9.5.2</b> Anayzing Spread</a></li>
+<li class="chapter" data-level="9.5.2" data-path="c09.html"><a href="c09.html#analyzing-spread"><i class="fa fa-check"></i><b>9.5.2</b> Analyzing Spread</a></li>
 </ul></li>
 <li class="chapter" data-level="9.6" data-path="c09.html"><a href="c09.html#analysis-1"><i class="fa fa-check"></i><b>9.6</b> Analysis</a><ul>
 <li class="chapter" data-level="9.6.1" data-path="c09.html"><a href="c09.html#creating-categories"><i class="fa fa-check"></i><b>9.6.1</b> Creating Categories</a></li>
@@ -623,7 +623,7 @@ dates in the data, and navigate file directories.</p>
 </div>
 <div id="import-data" class="section level2">
 <h2><span class="header-section-number">7.5</span> Import Data</h2>
-<p>This code chunk loads the log trace data using the <code>read_csv</code> function. Note that we call <code>read_csv</code> three times, once for each of the three logtrace
+<p>This code chunk loads the log trace data using the <code>read_csv()</code> function. Note that we call <code>read_csv()</code> three times, once for each of the three logtrace
 datasets. We assign each of the datasets a name using <code>&lt;-</code>.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="co"># Gradebook and log-trace data for F15 and S16 semesters</span></a>
 <a class="sourceLine" id="cb46-2" title="2">course_data &lt;-<span class="st"> </span>dataedu<span class="op">::</span>course_data</a>
@@ -1152,21 +1152,17 @@ students’ final grade.</p>
 <a class="sourceLine" id="cb82-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb82-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb82-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Earned&quot;</span>)</a></code></pre></div>
-<pre><code>## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]</code></pre>
 <p><img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>There appears to be <em>some</em> relationship. What if we added a line of best fit - a linear model?</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1">dat <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb84-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> TimeSpent, <span class="dt">y =</span> percentage_earned)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb84-3" title="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># same as above</span></a>
-<a class="sourceLine" id="cb84-4" title="4"><span class="st">  </span><span class="co"># this adds a line of best fit</span></a>
-<a class="sourceLine" id="cb84-5" title="5"><span class="st">  </span><span class="co"># method = &quot;lm&quot; tells ggplot2 to fit the line using linear regression</span></a>
-<a class="sourceLine" id="cb84-6" title="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb84-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb84-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb84-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Earned&quot;</span>)</a></code></pre></div>
-<pre><code>## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1">dat <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb83-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> TimeSpent, <span class="dt">y =</span> percentage_earned)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-3" title="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># same as above</span></a>
+<a class="sourceLine" id="cb83-4" title="4"><span class="st">  </span><span class="co"># this adds a line of best fit</span></a>
+<a class="sourceLine" id="cb83-5" title="5"><span class="st">  </span><span class="co"># method = &quot;lm&quot; tells ggplot2 to fit the line using linear regression</span></a>
+<a class="sourceLine" id="cb83-6" title="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb83-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Earned&quot;</span>)</a></code></pre></div>
 <p><img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>So, it appeares that the more time students spent on the course, the more points
 they earned.</p>
@@ -1185,11 +1181,11 @@ the time that students spent on the course. We also pass the data frame, <code>d
 At this point, we’re ready to run the model. Let’s run this line of code and
 save the results to an object - we chose <code>m_linear</code>, but any name will work, as
 well as the <code>summary()</code> function on the output.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">m_linear &lt;-</a>
-<a class="sourceLine" id="cb86-2" title="2"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent, <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1">m_linear &lt;-</a>
+<a class="sourceLine" id="cb84-2" title="2"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>Another way that we can generate table output is with a function from the
 <code>sjPlot</code> package, <code>tab_model</code>.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear)</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1264,7 +1260,7 @@ R). If you want to save the model for use in a Word document, the
 package may be helpful. To do so, just pass the name of the regression model,
 like we did with <code>sjPlot::tab_model()</code>. Then, you can save the output to a Word
 document, simply by adding a <code>filename</code> argument:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1">apaTables<span class="op">::</span><span class="kw">apa.reg.table</span>(m_linear, <span class="dt">filename =</span> <span class="st">&quot;regression-table-output.doc&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">apaTables<span class="op">::</span><span class="kw">apa.reg.table</span>(m_linear, <span class="dt">filename =</span> <span class="st">&quot;regression-table-output.doc&quot;</span>)</a></code></pre></div>
 <p>You might be wondering what else the apaTables package does; we encourage you to
 read more about the package here:
 <a href="https://cran.r-project.org/web/packages/apaTables/index.html" class="uri">https://cran.r-project.org/web/packages/apaTables/index.html</a>. The vignette is
@@ -1273,47 +1269,47 @@ the following function for creating correlation tables; the function takes, as
 an input, a data frame with the variables for which you wish to calculate
 correlations.</p>
 <p>Before we proceed to the next code chunk, let’s talk about some functions we’ll
-be using a lot in this book. <code>filter</code>, <code>group_by</code>, and <code>summarise</code> are functions
+be using a lot in this book. <code>filter()</code>, <code>group_by()</code>, and <code>summarise()</code> are functions
 in the <code>dplyr</code> package that you will see a lot in upcoming chapters.</p>
 <ul>
-<li><code>filter</code> removes rows from the dataset that don’t match a criteria. Use it
+<li><code>filter()</code> removes rows from the dataset that don’t match a criteria. Use it
 for tasks like only keeping records for students in the fifth grade</li>
-<li><code>group_by</code> groups records together so you can perform operations on those
+<li><code>group_by()</code> groups records together so you can perform operations on those
 groups instead of on the entire dataset. Use it for tasks like getting the
 mean test score of each school instead of a whole school district</li>
-<li><code>summarize</code> and <code>summarise</code> reduce your dataset down to a summary statistic.
+<li><code>summarize()</code> and <code>summarise()</code> reduce your dataset down to a summary statistic.
 Use it for tasks like turning a datset of student test scores into a datset
 of grade levels and their mean test score</li>
 </ul>
 <p>So let’s use these <code>dplyr</code> functions on our survey analysis. We will create the
 same measures (based on the survey items) that we used earlier to understand how
 they relate to one another:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">survey_responses &lt;-</a>
-<a class="sourceLine" id="cb89-2" title="2"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-3" title="3"><span class="st">  </span><span class="co"># Gather questions and responses</span></a>
-<a class="sourceLine" id="cb89-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> q1<span class="op">:</span>q10,</a>
-<a class="sourceLine" id="cb89-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;question&quot;</span>,</a>
-<a class="sourceLine" id="cb89-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;response&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb89-8" title="8">    <span class="co"># Here&#39;s where we make the column of question categories</span></a>
-<a class="sourceLine" id="cb89-9" title="9">    <span class="dt">measure =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb89-10" title="10">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q1&quot;</span>, <span class="st">&quot;q4&quot;</span>, <span class="st">&quot;q5&quot;</span>, <span class="st">&quot;q8&quot;</span>, <span class="st">&quot;q10&quot;</span>) <span class="op">~</span><span class="st"> &quot;int&quot;</span>,</a>
-<a class="sourceLine" id="cb89-11" title="11">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q2&quot;</span>, <span class="st">&quot;q6&quot;</span>, <span class="st">&quot;q9&quot;</span>) <span class="op">~</span><span class="st"> &quot;uv&quot;</span>,</a>
-<a class="sourceLine" id="cb89-12" title="12">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q3&quot;</span>, <span class="st">&quot;q7&quot;</span>) <span class="op">~</span><span class="st"> &quot;pc&quot;</span>,</a>
-<a class="sourceLine" id="cb89-13" title="13">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span></a>
-<a class="sourceLine" id="cb89-14" title="14">    )</a>
-<a class="sourceLine" id="cb89-15" title="15">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(student_id, measure) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-17" title="17"><span class="st">  </span><span class="co"># Here&#39;s where we compute the mean of the responses</span></a>
-<a class="sourceLine" id="cb89-18" title="18"><span class="st">  </span><span class="kw">summarise</span>(</a>
-<a class="sourceLine" id="cb89-19" title="19">    <span class="co"># Mean response for each measure</span></a>
-<a class="sourceLine" id="cb89-20" title="20">    <span class="dt">mean_response =</span> <span class="kw">mean</span>(response, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb89-21" title="21">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-22" title="22"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(mean_response)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb89-23" title="23"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> measure, </a>
-<a class="sourceLine" id="cb89-24" title="24">              <span class="dt">values_from =</span> mean_response)</a>
-<a class="sourceLine" id="cb89-25" title="25"></a>
-<a class="sourceLine" id="cb89-26" title="26">survey_responses</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1">survey_responses &lt;-</a>
+<a class="sourceLine" id="cb87-2" title="2"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-3" title="3"><span class="st">  </span><span class="co"># Gather questions and responses</span></a>
+<a class="sourceLine" id="cb87-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> q1<span class="op">:</span>q10,</a>
+<a class="sourceLine" id="cb87-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;question&quot;</span>,</a>
+<a class="sourceLine" id="cb87-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;response&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb87-8" title="8">    <span class="co"># Here&#39;s where we make the column of question categories</span></a>
+<a class="sourceLine" id="cb87-9" title="9">    <span class="dt">measure =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb87-10" title="10">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q1&quot;</span>, <span class="st">&quot;q4&quot;</span>, <span class="st">&quot;q5&quot;</span>, <span class="st">&quot;q8&quot;</span>, <span class="st">&quot;q10&quot;</span>) <span class="op">~</span><span class="st"> &quot;int&quot;</span>,</a>
+<a class="sourceLine" id="cb87-11" title="11">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q2&quot;</span>, <span class="st">&quot;q6&quot;</span>, <span class="st">&quot;q9&quot;</span>) <span class="op">~</span><span class="st"> &quot;uv&quot;</span>,</a>
+<a class="sourceLine" id="cb87-12" title="12">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q3&quot;</span>, <span class="st">&quot;q7&quot;</span>) <span class="op">~</span><span class="st"> &quot;pc&quot;</span>,</a>
+<a class="sourceLine" id="cb87-13" title="13">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span></a>
+<a class="sourceLine" id="cb87-14" title="14">    )</a>
+<a class="sourceLine" id="cb87-15" title="15">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(student_id, measure) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-17" title="17"><span class="st">  </span><span class="co"># Here&#39;s where we compute the mean of the responses</span></a>
+<a class="sourceLine" id="cb87-18" title="18"><span class="st">  </span><span class="kw">summarise</span>(</a>
+<a class="sourceLine" id="cb87-19" title="19">    <span class="co"># Mean response for each measure</span></a>
+<a class="sourceLine" id="cb87-20" title="20">    <span class="dt">mean_response =</span> <span class="kw">mean</span>(response, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb87-21" title="21">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-22" title="22"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(mean_response)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb87-23" title="23"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> measure, </a>
+<a class="sourceLine" id="cb87-24" title="24">              <span class="dt">values_from =</span> mean_response)</a>
+<a class="sourceLine" id="cb87-25" title="25"></a>
+<a class="sourceLine" id="cb87-26" title="26">survey_responses</a></code></pre></div>
 <pre><code>## # A tibble: 615 x 4
 ## # Groups:   student_id [615]
 ##    student_id   int    pc    uv
@@ -1330,8 +1326,8 @@ they relate to one another:</p>
 ## 10     432215  4     4     3   
 ## # … with 605 more rows</code></pre>
 <p>Now that we’ve prepared the survey responses, we can use the <code>apa.cor.table()</code> function:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">survey_responses <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb91-2" title="2"><span class="st">  </span><span class="kw">apa.cor.table</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1">survey_responses <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb89-2" title="2"><span class="st">  </span><span class="kw">apa.cor.table</span>()</a></code></pre></div>
 <pre><code>## 
 ## 
 ## Means, standard deviations, and correlations with confidence intervals
@@ -1360,17 +1356,17 @@ they relate to one another:</p>
 it to represent the number of hours that students spent on the course? Let’s use
 the <code>mutate()</code> function we used earlier. We’ll end the variable name in
 <code>_hours</code>, to represent what this variable means.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1"><span class="co"># creating a new variable for the amount of time spent in hours</span></a>
-<a class="sourceLine" id="cb93-2" title="2">dat &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb93-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb93-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_hours =</span> TimeSpent <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
-<a class="sourceLine" id="cb93-5" title="5"></a>
-<a class="sourceLine" id="cb93-6" title="6"><span class="co"># the same linear model as above, but with the TimeSpent variable in hours</span></a>
-<a class="sourceLine" id="cb93-7" title="7">m_linear_<span class="dv">1</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb93-8" title="8"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_hours, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb93-9" title="9"></a>
-<a class="sourceLine" id="cb93-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
-<a class="sourceLine" id="cb93-11" title="11">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1"><span class="co"># creating a new variable for the amount of time spent in hours</span></a>
+<a class="sourceLine" id="cb91-2" title="2">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb91-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb91-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_hours =</span> TimeSpent <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
+<a class="sourceLine" id="cb91-5" title="5"></a>
+<a class="sourceLine" id="cb91-6" title="6"><span class="co"># the same linear model as above, but with the TimeSpent variable in hours</span></a>
+<a class="sourceLine" id="cb91-7" title="7">m_linear_<span class="dv">1</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb91-8" title="8"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_hours, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb91-9" title="9"></a>
+<a class="sourceLine" id="cb91-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
+<a class="sourceLine" id="cb91-11" title="11">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">1</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1441,15 +1437,15 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 <p>The scale still does not seem quite right. What if we standardized the variable
 to have a mean of zero and a standard deviation of one?</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1"><span class="co"># this is to standardize the TimeSpent variable to have a mean of zero and a standard deviation of 1</span></a>
-<a class="sourceLine" id="cb94-2" title="2">dat &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb94-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb94-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_std =</span> <span class="kw">scale</span>(TimeSpent))</a>
-<a class="sourceLine" id="cb94-5" title="5"><span class="co"># the same linear model as above, but with the TimeSpent variable standardized</span></a>
-<a class="sourceLine" id="cb94-6" title="6">m_linear_<span class="dv">2</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb94-7" title="7"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std, <span class="dt">data =</span> dat) </a>
-<a class="sourceLine" id="cb94-8" title="8"><span class="co"># viewing the output of the linear model</span></a>
-<a class="sourceLine" id="cb94-9" title="9">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1"><span class="co"># this is to standardize the TimeSpent variable to have a mean of zero and a standard deviation of 1</span></a>
+<a class="sourceLine" id="cb92-2" title="2">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb92-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_std =</span> <span class="kw">scale</span>(TimeSpent))</a>
+<a class="sourceLine" id="cb92-5" title="5"><span class="co"># the same linear model as above, but with the TimeSpent variable standardized</span></a>
+<a class="sourceLine" id="cb92-6" title="6">m_linear_<span class="dv">2</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb92-7" title="7"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std, <span class="dt">data =</span> dat) </a>
+<a class="sourceLine" id="cb92-8" title="8"><span class="co"># viewing the output of the linear model</span></a>
+<a class="sourceLine" id="cb92-9" title="9">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">2</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1530,12 +1526,12 @@ increases by .11, or 11 percentage points.</p>
 model in this sequence of models: What other variables may matter? Perhaps there
 are differences based on the subject of the course. We can add subject as a
 variable easily, as follows:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1"><span class="co"># a linear model with the subject added </span></a>
-<a class="sourceLine" id="cb95-2" title="2"><span class="co"># independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:</span></a>
-<a class="sourceLine" id="cb95-3" title="3">m_linear_<span class="dv">3</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb95-4" title="4"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>subject, <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1"><span class="co"># a linear model with the subject added </span></a>
+<a class="sourceLine" id="cb93-2" title="2"><span class="co"># independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:</span></a>
+<a class="sourceLine" id="cb93-3" title="3">m_linear_<span class="dv">3</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb93-4" title="4"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>subject, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>We can use <code>sjPlot::tab_model()</code> once again to view the results:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">sjPlot<span class="op">::</span><span class="kw">tab_model</span>(m_linear_<span class="dv">3</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1682,7 +1678,7 @@ predictive uses of models further in <a href="c14.html#c14">chapter 14</a>).</p>
 focus on visualizing and then modeling the data using an advanced methodological
 technique, multi-level models, using the data we prepared as a part of this data
 processeing pipeline used in this chapter.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="kw">write_csv</span>(dat, <span class="st">&quot;data/online-science-motivation/processed/sci_mo_processed.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1"><span class="kw">write_csv</span>(dat, <span class="st">&quot;data/online-science-motivation/processed/sci_mo_processed.csv&quot;</span>)</a></code></pre></div>
 
 </div>
 </div>

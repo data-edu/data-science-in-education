@@ -207,12 +207,12 @@ pos_tokens_count
 
 We can visualize these words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
-```{r visualize positive}
+```{r visualize positive, results='hide', message = FALSE}
 pos_tokens_count %>%
   # only words that appear 75 times or more
   filter(n >= 75) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill = dataedu_cols("darkblue")) +
   labs(
     title = "Count of words associated with positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
