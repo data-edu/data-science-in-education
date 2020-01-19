@@ -688,18 +688,9 @@ varImp(rf_fit2_imp) %>%
     pluck(1) %>%
     rownames_to_column("var") %>%
     ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col() +
+    geom_col(fill = dataedu_cols("darkblue")) +
     coord_flip() +
     theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
 ```
 
 <img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-17-1.png" width="672" />

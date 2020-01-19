@@ -305,7 +305,7 @@ pos_tokens_count %>%
   # only words that appear 75 times or more
   filter(n >= 75) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill = dataedu_cols("darkblue")) +
   labs(
     title = "Count of words associated with positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
@@ -314,15 +314,6 @@ pos_tokens_count %>%
     y = "Count"
   ) +
   theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
 ```
 
 <img src="11-wt-text-analysis_files/figure-html/visualize positive-1.png" width="672" />
@@ -522,7 +513,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  1  8  4 10  3
+## [1] 1 7 3 8 6
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

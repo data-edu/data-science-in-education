@@ -810,11 +810,6 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 So, it appeares that the more time students spent on the course, the more points

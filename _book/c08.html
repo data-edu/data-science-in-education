@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="c09.html"><a href="c09.html#import-data-2"><i class="fa fa-check"></i><b>9.4</b> Import Data</a></li>
 <li class="chapter" data-level="9.5" data-path="c09.html"><a href="c09.html#view-data-1"><i class="fa fa-check"></i><b>9.5</b> View Data</a><ul>
 <li class="chapter" data-level="9.5.1" data-path="c09.html"><a href="c09.html#discovering-distributions"><i class="fa fa-check"></i><b>9.5.1</b> Discovering Distributions</a></li>
-<li class="chapter" data-level="9.5.2" data-path="c09.html"><a href="c09.html#anayzing-spread"><i class="fa fa-check"></i><b>9.5.2</b> Anayzing Spread</a></li>
+<li class="chapter" data-level="9.5.2" data-path="c09.html"><a href="c09.html#analyzing-spread"><i class="fa fa-check"></i><b>9.5.2</b> Analyzing Spread</a></li>
 </ul></li>
 <li class="chapter" data-level="9.6" data-path="c09.html"><a href="c09.html#analysis-1"><i class="fa fa-check"></i><b>9.6</b> Analysis</a><ul>
 <li class="chapter" data-level="9.6.1" data-path="c09.html"><a href="c09.html#creating-categories"><i class="fa fa-check"></i><b>9.6.1</b> Creating Categories</a></li>
@@ -533,19 +533,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">8.3</span> Load Packages</h2>
 <p>As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will load the {tidyverse} package used in <a href="06-wt-multilevel-models-1">Walkthrough 1</a>. This chapter has an example of using the {readxl} package to read and import Excel spreadsheets, file types are very common in the education field.</p>
 <p>Make sure you have installed the packages in R on your computer before starting (see Foundational Skills chapter). Load the libraries, as they must be loaded each time we start a new project.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Load libraries</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(here)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(readxl)</a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(janitor)</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(dataedu)</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1"><span class="co"># Load libraries</span></a>
+<a class="sourceLine" id="cb96-2" title="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb96-3" title="3"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb96-4" title="4"><span class="kw">library</span>(readxl)</a>
+<a class="sourceLine" id="cb96-5" title="5"><span class="kw">library</span>(janitor)</a>
+<a class="sourceLine" id="cb96-6" title="6"><span class="kw">library</span>(dataedu)</a></code></pre></div>
 </div>
 <div id="import-data-1" class="section level2">
 <h2><span class="header-section-number">8.4</span> Import Data</h2>
 <p>Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won’t always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world.</p>
 <p>This code uses the <code>read_excel()</code> function of the {readxl} package to find and read the data of the desired file. Note the file path that <code>read_excel()</code> takes to find the simulated dataset file named <em>ExcelGradeBook.xlsx</em> which sits in a folder on your computer if you have downloaded it. The function <code>getwd()</code> will help locate your current working directory. This tells where on the computer R is currently working with files.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># See the current working directory</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">getwd</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="co"># See the current working directory</span></a>
+<a class="sourceLine" id="cb97-2" title="2"><span class="kw">getwd</span>()</a></code></pre></div>
 <p>For example, an R user on Linux or Mac might see their working directory as: <code>/home/username/Desktop</code>. A Windows user might see their working directory as: <code>C:\Users\Username\Desktop</code>.</p>
 <p>From this location go deeper into files to find the desired file. For example, if you downloaded the <a href="https://github.com/data-edu/data-science-in-education">book repository</a> from Github to your Desktop the path to the Excel file might look like one of these below:</p>
 <ul>
@@ -554,16 +554,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>In the code below <code>ExcelGradeBook &lt;- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)</code> the part written <code>path/to/file.xlsx</code> is just pseudo code to remind you to swap in your own path to the file you want to import. Recall from the Foundational Skills section of this book that directories and file paths are important for finding files on your computer.</p>
 <p>After locating the sample Excel file run the code below to run the function <code>read_excel()</code> which reads and saves the data from <em>ExcelGradeBook.xlsx</em> to an object also called <em>ExcelGradeBook</em>. Note the two arguments specified in this code <code>sheet = 1</code> and <code>skip = 10</code>. This Excel file is similar to one you might encounter in real life with superfluous features that we are not interested in. This file has 3 different sheets and the first 10 rows contain things we won’t need. Thus, <code>sheet = 1</code> tells <code>read_excel()</code> to just read the first sheet in the file and disregard the rest. While <code>skip = 10</code> tells <code>read_excel()</code> to skip reading the first 10 rows of the sheet and start reading from row 11 which is where the column headers and data actually start inside the Excel file. Remember to replace <code>path/to/file.xlsx</code> your own path to the file you want to import.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Use readxl package to read and import file and assign it a name</span></a>
-<a class="sourceLine" id="cb3-2" title="2">ExcelGradeBook &lt;-</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">read_excel</span>(</a>
-<a class="sourceLine" id="cb3-4" title="4">    here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;gradebooks&quot;</span>, <span class="st">&quot;ExcelGradeBook.xlsx&quot;</span>),</a>
-<a class="sourceLine" id="cb3-5" title="5">    <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb3-6" title="6">    <span class="dt">skip =</span> <span class="dv">10</span></a>
-<a class="sourceLine" id="cb3-7" title="7">  )</a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1"><span class="co"># Use readxl package to read and import file and assign it a name</span></a>
+<a class="sourceLine" id="cb98-2" title="2">ExcelGradeBook &lt;-</a>
+<a class="sourceLine" id="cb98-3" title="3"><span class="st">  </span><span class="kw">read_excel</span>(</a>
+<a class="sourceLine" id="cb98-4" title="4">    here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;gradebooks&quot;</span>, <span class="st">&quot;ExcelGradeBook.xlsx&quot;</span>),</a>
+<a class="sourceLine" id="cb98-5" title="5">    <span class="dt">sheet =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb98-6" title="6">    <span class="dt">skip =</span> <span class="dv">10</span></a>
+<a class="sourceLine" id="cb98-7" title="7">  )</a></code></pre></div>
 <p>The <em>ExcelGradeBook</em> file has been imported into RStudio. Next, assign the data frame to a new name using the code below. Renaming cumbersome filenames can improve the readability of the code and make is easier for the user to call on the dataset later on in the code.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Rename data frame</span></a>
-<a class="sourceLine" id="cb4-2" title="2">gradebook &lt;-<span class="st"> </span>ExcelGradeBook</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1"><span class="co"># Rename data frame</span></a>
+<a class="sourceLine" id="cb99-2" title="2">gradebook &lt;-<span class="st"> </span>ExcelGradeBook</a></code></pre></div>
 <p>Your environment will now have two versions of the dataset. There is <em>ExcelGradeBook</em> which was the original dataset imported. There is also <em>gradebook</em> which is currently a copy of <em>ExcelGradeBook</em>. As you progress through this section, we will work primarily with the <em>gradebook</em> dataset. Additionally, while working onward in this section of the book, if you make a mistake and mess up the <em>gradebook</em> data frame and are not able to fix it, you can reset the data frame to return to the same state as the original <em>ExcelGradeBook</em> data frame by running <code>gradebook &lt;- ExcelGradeBook</code> again. This will overwrite any errors in the <em>gradebook</em> data frame with the originally imported <em>ExcelGradeBook</em> data frame. Afterwards, just continue running code from this point in the text.</p>
 </div>
 <div id="tidy-data" class="section level2">
@@ -571,7 +571,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This walkthrough uses an Excel data file because it is one that we are likely to encounter. Moreover, the messy state of this file mirrors what might be encountered in real life. The Excel file contains more than one sheet, has rows we don’t need, and uses column names that have spaces between words. All these things make the data tough to work with. The data is <strong>not</strong> tidy. We can begin to overcome these challenges before importing the file into RStudio by deleting the unnecessary parts of the Excel file then saving it as a .csv file. However, if you clean the file outside of R, this means if you ever have to clean it up (say, if the dataset is accidentally deleted and you need to redownload it from the original source) you would have to do everything from the beginning, and may not recall exactly what you did in Excel prior to importing the data to R. We recommend cleaning the original data in R so that you can recreate all the steps necessary for your analysis. Also, the untidy Excel file provides realistic practice for tidying up the data programmatically using R itself.</p>
 <p>First, modify the column names of the <em>gradebook</em> data frame to remove any spaces and replace them with an underscore. Using spaces as column names in R can present difficulties later on when working with the data.</p>
 <p>Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the <code>janitor</code> package to quickly change them to a more useable format.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">colnames</span>(gradebook) <span class="co"># look at original column names</span></a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" title="1"><span class="kw">colnames</span>(gradebook) <span class="co"># look at original column names</span></a></code></pre></div>
 <pre><code>##  [1] &quot;Class&quot;                                      
 ##  [2] &quot;Name&quot;                                       
 ##  [3] &quot;Race&quot;                                       
@@ -635,11 +635,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [61] &quot;Project 10&quot;                                 
 ## [62] &quot;Summative Assessment 2&quot;                     
 ## [63] &quot;Assessment | Insert new columns before here&quot;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">gradebook &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb7-4" title="4"></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="kw">colnames</span>(gradebook) <span class="co"># look at cleaned column names</span></a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1">gradebook &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb102-2" title="2"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb102-3" title="3"><span class="st">  </span><span class="kw">clean_names</span>()</a>
+<a class="sourceLine" id="cb102-4" title="4"></a>
+<a class="sourceLine" id="cb102-5" title="5"><span class="kw">colnames</span>(gradebook) <span class="co"># look at cleaned column names</span></a></code></pre></div>
 <pre><code>##  [1] &quot;class&quot;                                    
 ##  [2] &quot;name&quot;                                     
 ##  [3] &quot;race&quot;                                     
@@ -704,21 +704,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [62] &quot;summative_assessment_2&quot;                   
 ## [63] &quot;assessment_insert_new_columns_before_here&quot;</code></pre>
 <p>Review what the <em>gradebook</em> data frame looks like now. It shows 25 students and their individual values in various columns like <em>projects</em> or <em>formative_assessments</em>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">view</span>(gradebook)</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="kw">view</span>(gradebook)</a></code></pre></div>
 <p>The data frame looks cleaner now but there still are some things we can remove. For example, there are rows without any names in them. Also, there are entire columns that are unused and contain no data (such as gender). These are called missing values and are denoted by <em>NA</em>. Since our simulated classroom only has 25 learners and doesn’t use all the columns for demographic information, we can safely remove these to tidy our dataset up even more.</p>
 <p>We can remove the extra columns rows that have no data using the janitor package. The handy <code>remove_empty()</code> removes columns, rows, or both that have no information in them.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># Removing rows with nothing but missing data</span></a>
-<a class="sourceLine" id="cb10-2" title="2">gradebook &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">remove_empty</span>(<span class="kw">c</span>(<span class="st">&quot;rows&quot;</span>, <span class="st">&quot;cols&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="co"># Removing rows with nothing but missing data</span></a>
+<a class="sourceLine" id="cb105-2" title="2">gradebook &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb105-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb105-4" title="4"><span class="st">  </span><span class="kw">remove_empty</span>(<span class="kw">c</span>(<span class="st">&quot;rows&quot;</span>, <span class="st">&quot;cols&quot;</span>))</a></code></pre></div>
 <p>Now that the empty rows and columns have been removed, notice there are two columns, <em>absent</em> and <em>late</em>, where it seems someone started putting data into but then decided to stop. These two columns didn’t get removed by the last chunk of code because they technically contained some data in those columns. Since the simulated data enterer of this simulated class decided to abandon using the <em>absent</em> and <em>late</em> columns in this gradebook, we can remove it from our data frame as well.</p>
 <p>In the foundational skills chapter we introduced the <code>select()</code> function, which tells R which columns we want to keep. Let’s do that again here. This time we’ll use negative signs to say we want the dataset without <em>absent</em> and <em>late</em>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># Remove a targeted column because we don&#39;t use absent and late at this school.</span></a>
-<a class="sourceLine" id="cb11-2" title="2">gradebook &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>absent, <span class="op">-</span>late)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="co"># Remove a targeted column because we don&#39;t use absent and late at this school.</span></a>
+<a class="sourceLine" id="cb106-2" title="2">gradebook &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb106-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb106-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>absent, <span class="op">-</span>late)</a></code></pre></div>
 <p>At last, the formerly untidy Excel sheet has been turned into a useful data frame. Inspect it once more to see the difference.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">view</span>(gradebook)</a></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1"><span class="kw">view</span>(gradebook)</a></code></pre></div>
 </div>
 <div id="process-data-1" class="section level2">
 <h2><span class="header-section-number">8.6</span> Process Data</h2>
@@ -726,64 +726,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As mentioned previously, <code>select()</code> is very powerful. In addition to explicitly writing out the columns you want to keep, you can also use functions from the package <code>stringr</code> within <code>select()</code>. The <code>stringr</code> package is contained within the <code>tidyverse</code> meta-package. Here, we’ll use the function <code>contains()</code> to tell R to select columns that contain a certain string (that is, text). Here, it searches for any column with the string <em>“classwork_”</em>. The underscore makes sure the variables from <em>classwork_1</em> all the way to <em>classwork_17</em> are included in <em>classwork_df</em>.</p>
 <p><code>pivot_longer()</code> transforms the dataset into tidy data.</p>
 <p>Note that <em>scores</em> are in character format. We use <code>mutate()</code> to transform them to numerical format.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># Creates new data frame, selects desired variables from gradebook, and gathers all classwork scores into key/value pairs</span></a>
-<a class="sourceLine" id="cb13-2" title="2">classwork_df &lt;-</a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="st">  </span><span class="kw">select</span>(</a>
-<a class="sourceLine" id="cb13-5" title="5">    name,</a>
-<a class="sourceLine" id="cb13-6" title="6">    running_average,</a>
-<a class="sourceLine" id="cb13-7" title="7">    letter_grade,</a>
-<a class="sourceLine" id="cb13-8" title="8">    homeworks,</a>
-<a class="sourceLine" id="cb13-9" title="9">    classworks,</a>
-<a class="sourceLine" id="cb13-10" title="10">    formative_assessments,</a>
-<a class="sourceLine" id="cb13-11" title="11">    projects,</a>
-<a class="sourceLine" id="cb13-12" title="12">    summative_assessments,</a>
-<a class="sourceLine" id="cb13-13" title="13">    <span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>)), <span class="kw">list</span>(<span class="op">~</span><span class="st"> </span><span class="kw">as.numeric</span>(.))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="st">  </span><span class="kw">pivot_longer</span>(</a>
-<a class="sourceLine" id="cb13-16" title="16">    <span class="dt">cols =</span> <span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>),</a>
-<a class="sourceLine" id="cb13-17" title="17">    <span class="dt">names_to =</span> <span class="st">&quot;classwork_number&quot;</span>,</a>
-<a class="sourceLine" id="cb13-18" title="18">    <span class="dt">values_to =</span> <span class="st">&quot;score&quot;</span></a>
-<a class="sourceLine" id="cb13-19" title="19">  )</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" title="1"><span class="co"># Creates new data frame, selects desired variables from gradebook, and gathers all classwork scores into key/value pairs</span></a>
+<a class="sourceLine" id="cb108-2" title="2">classwork_df &lt;-</a>
+<a class="sourceLine" id="cb108-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb108-4" title="4"><span class="st">  </span><span class="kw">select</span>(</a>
+<a class="sourceLine" id="cb108-5" title="5">    name,</a>
+<a class="sourceLine" id="cb108-6" title="6">    running_average,</a>
+<a class="sourceLine" id="cb108-7" title="7">    letter_grade,</a>
+<a class="sourceLine" id="cb108-8" title="8">    homeworks,</a>
+<a class="sourceLine" id="cb108-9" title="9">    classworks,</a>
+<a class="sourceLine" id="cb108-10" title="10">    formative_assessments,</a>
+<a class="sourceLine" id="cb108-11" title="11">    projects,</a>
+<a class="sourceLine" id="cb108-12" title="12">    summative_assessments,</a>
+<a class="sourceLine" id="cb108-13" title="13">    <span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb108-14" title="14"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>)), <span class="kw">list</span>(<span class="op">~</span><span class="st"> </span><span class="kw">as.numeric</span>(.))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb108-15" title="15"><span class="st">  </span><span class="kw">pivot_longer</span>(</a>
+<a class="sourceLine" id="cb108-16" title="16">    <span class="dt">cols =</span> <span class="kw">contains</span>(<span class="st">&quot;classwork_&quot;</span>),</a>
+<a class="sourceLine" id="cb108-17" title="17">    <span class="dt">names_to =</span> <span class="st">&quot;classwork_number&quot;</span>,</a>
+<a class="sourceLine" id="cb108-18" title="18">    <span class="dt">values_to =</span> <span class="st">&quot;score&quot;</span></a>
+<a class="sourceLine" id="cb108-19" title="19">  )</a></code></pre></div>
 <p>View the new data frame and note which columns were selected for this new data frame. Also, note how all the classwork scores were gathered under new columns <em>classwork_number</em> and <em>score</em>. The <code>contains()</code> function. We will use this <em>classwork_df</em> data frame later.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">view</span>(classwork_df)</a></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="kw">view</span>(classwork_df)</a></code></pre></div>
 </div>
 <div id="visualize-data" class="section level2">
 <h2><span class="header-section-number">8.7</span> Visualize Data</h2>
 <p>Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a simple summary of the data by each column similar to what we did in Walkthrough 1.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># Summary of the data by columns</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">summary</span>(gradebook)</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" title="1"><span class="co"># Summary of the data by columns</span></a>
+<a class="sourceLine" id="cb110-2" title="2"><span class="kw">summary</span>(gradebook)</a></code></pre></div>
 <p>But R can do more than just print numbers to a screen. We’ll use the {ggplot} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot} to graph categorical variables into a bar graph. Here we can see the variable <em>Letter_grade</em> is plotted on the x-axis showing the counts of each letter grade on the y-axis.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># Bar graph for categorical variable</span></a>
-<a class="sourceLine" id="cb16-2" title="2">gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> letter_grade,</a>
-<a class="sourceLine" id="cb16-4" title="4">             <span class="dt">fill =</span> running_average <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Bar Graph of Student Grades&quot;</span>,</a>
-<a class="sourceLine" id="cb16-7" title="7">       <span class="dt">x =</span> <span class="st">&quot;Letter Grades&quot;</span>,</a>
-<a class="sourceLine" id="cb16-8" title="8">       <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>,</a>
-<a class="sourceLine" id="cb16-9" title="9">       <span class="dt">fill =</span> <span class="st">&quot;A or Better&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb16-11" title="11"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="co"># Bar graph for categorical variable</span></a>
+<a class="sourceLine" id="cb111-2" title="2">gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb111-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> letter_grade,</a>
+<a class="sourceLine" id="cb111-4" title="4">             <span class="dt">fill =</span> running_average <span class="op">&gt;</span><span class="st"> </span><span class="dv">90</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Bar Graph of Student Grades&quot;</span>,</a>
+<a class="sourceLine" id="cb111-7" title="7">       <span class="dt">x =</span> <span class="st">&quot;Letter Grades&quot;</span>,</a>
+<a class="sourceLine" id="cb111-8" title="8">       <span class="dt">y =</span> <span class="st">&quot;Count&quot;</span>,</a>
+<a class="sourceLine" id="cb111-9" title="9">       <span class="dt">fill =</span> <span class="st">&quot;A or Better&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb111-11" title="11"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>()</a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Using {ggplot} we can create many types of graphs. Using our <em>classwork_df</em> from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the <em>classworks</em> and <em>scores</em> columns into tidy formats.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># Scatterplot of continuous variable</span></a>
-<a class="sourceLine" id="cb17-2" title="2">classwork_df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> classwork_number,</a>
-<a class="sourceLine" id="cb17-4" title="4">             <span class="dt">y =</span> score,</a>
-<a class="sourceLine" id="cb17-5" title="5">             <span class="dt">fill =</span> classwork_number)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-7" title="7"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb17-8" title="8">    <span class="dt">title =</span> <span class="st">&quot;Distribution of Classwork Scores&quot;</span>,</a>
-<a class="sourceLine" id="cb17-9" title="9">    <span class="dt">x =</span> <span class="st">&quot;Classwork&quot;</span>,</a>
-<a class="sourceLine" id="cb17-10" title="10">    <span class="dt">y =</span> <span class="st">&quot;Scores&quot;</span>,</a>
-<a class="sourceLine" id="cb17-11" title="11">    <span class="dt">color =</span> <span class="st">&quot;90% or Above&quot;</span></a>
-<a class="sourceLine" id="cb17-12" title="12">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-14" title="14"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>,</a>
-<a class="sourceLine" id="cb17-16" title="16">        <span class="co"># removes legend</span></a>
-<a class="sourceLine" id="cb17-17" title="17">        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="co"># angles the x axis labels</span></a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" title="1"><span class="co"># Scatterplot of continuous variable</span></a>
+<a class="sourceLine" id="cb112-2" title="2">classwork_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb112-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> classwork_number,</a>
+<a class="sourceLine" id="cb112-4" title="4">             <span class="dt">y =</span> score,</a>
+<a class="sourceLine" id="cb112-5" title="5">             <span class="dt">fill =</span> classwork_number)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb112-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb112-7" title="7"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb112-8" title="8">    <span class="dt">title =</span> <span class="st">&quot;Distribution of Classwork Scores&quot;</span>,</a>
+<a class="sourceLine" id="cb112-9" title="9">    <span class="dt">x =</span> <span class="st">&quot;Classwork&quot;</span>,</a>
+<a class="sourceLine" id="cb112-10" title="10">    <span class="dt">y =</span> <span class="st">&quot;Scores&quot;</span>,</a>
+<a class="sourceLine" id="cb112-11" title="11">    <span class="dt">color =</span> <span class="st">&quot;90% or Above&quot;</span></a>
+<a class="sourceLine" id="cb112-12" title="12">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb112-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb112-14" title="14"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb112-15" title="15"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>,</a>
+<a class="sourceLine" id="cb112-16" title="16">        <span class="co"># removes legend</span></a>
+<a class="sourceLine" id="cb112-17" title="17">        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="co"># angles the x axis labels</span></a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="model-data" class="section level2">
@@ -798,57 +798,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="linearity" class="section level4">
 <h4><span class="header-section-number">8.8.2.1</span> Linearity</h4>
 <p>First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, the overall grade goes up too.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="co"># Scatterplot between formative assessment and grades by percent</span></a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co"># To determine linear relationship</span></a>
-<a class="sourceLine" id="cb18-3" title="3">gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> formative_assessments,</a>
-<a class="sourceLine" id="cb18-5" title="5">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Relationship Between Overall Grade and Formative Assessments&quot;</span>,</a>
-<a class="sourceLine" id="cb18-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment Score&quot;</span>,</a>
-<a class="sourceLine" id="cb18-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Overall Grade in Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1"><span class="co"># Scatterplot between formative assessment and grades by percent</span></a>
+<a class="sourceLine" id="cb113-2" title="2"><span class="co"># To determine linear relationship</span></a>
+<a class="sourceLine" id="cb113-3" title="3">gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb113-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> formative_assessments,</a>
+<a class="sourceLine" id="cb113-5" title="5">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb113-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb113-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Relationship Between Overall Grade and Formative Assessments&quot;</span>,</a>
+<a class="sourceLine" id="cb113-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment Score&quot;</span>,</a>
+<a class="sourceLine" id="cb113-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Overall Grade in Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb113-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co"># Scatterplot between formative assessment and grades by percent</span></a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="co"># To determine linear relationship</span></a>
-<a class="sourceLine" id="cb19-3" title="3"><span class="co"># With line of best fit</span></a>
-<a class="sourceLine" id="cb19-4" title="4">gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> formative_assessments,</a>
-<a class="sourceLine" id="cb19-6" title="6">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-8" title="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
-<a class="sourceLine" id="cb19-9" title="9">              <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Relationship Between Overall Grade and Formative Assessments&quot;</span>,</a>
-<a class="sourceLine" id="cb19-11" title="11">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment Score&quot;</span>,</a>
-<a class="sourceLine" id="cb19-12" title="12">       <span class="dt">y =</span> <span class="st">&quot;Overall Grade in Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb19-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" title="1"><span class="co"># Scatterplot between formative assessment and grades by percent</span></a>
+<a class="sourceLine" id="cb114-2" title="2"><span class="co"># To determine linear relationship</span></a>
+<a class="sourceLine" id="cb114-3" title="3"><span class="co"># With line of best fit</span></a>
+<a class="sourceLine" id="cb114-4" title="4">gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb114-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> formative_assessments,</a>
+<a class="sourceLine" id="cb114-6" title="6">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-7" title="7"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-8" title="8"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,</a>
+<a class="sourceLine" id="cb114-9" title="9">              <span class="dt">se =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Relationship Between Overall Grade and Formative Assessments&quot;</span>,</a>
+<a class="sourceLine" id="cb114-11" title="11">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment Score&quot;</span>,</a>
+<a class="sourceLine" id="cb114-12" title="12">       <span class="dt">y =</span> <span class="st">&quot;Overall Grade in Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb114-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="outliers" class="section level4">
 <h4><span class="header-section-number">8.8.2.2</span> Outliers</h4>
 <p>Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we’re hoping to see no outliers in the data. We don’t see any for these two variables, so we can proceed with the model.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># Boxplot of formative assessment scores</span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="co"># To determine if there are any outliers</span></a>
-<a class="sourceLine" id="cb20-3" title="3">gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb20-5" title="5">             <span class="dt">y =</span> formative_assessments)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Formative Assessment Scores&quot;</span>,</a>
-<a class="sourceLine" id="cb20-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment&quot;</span>,</a>
-<a class="sourceLine" id="cb20-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Score&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1"><span class="co"># Boxplot of formative assessment scores</span></a>
+<a class="sourceLine" id="cb115-2" title="2"><span class="co"># To determine if there are any outliers</span></a>
+<a class="sourceLine" id="cb115-3" title="3">gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb115-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb115-5" title="5">             <span class="dt">y =</span> formative_assessments)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;yellow&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Formative Assessment Scores&quot;</span>,</a>
+<a class="sourceLine" id="cb115-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Formative Assessment&quot;</span>,</a>
+<a class="sourceLine" id="cb115-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Score&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="co"># Boxplot of overall grade scores in percentage</span></a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="co"># To determine if there are any outliers</span></a>
-<a class="sourceLine" id="cb21-3" title="3">gradebook <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb21-5" title="5">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Overall Grade Scores&quot;</span>,</a>
-<a class="sourceLine" id="cb21-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Overall Grade&quot;</span>,</a>
-<a class="sourceLine" id="cb21-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Score in Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" title="1"><span class="co"># Boxplot of overall grade scores in percentage</span></a>
+<a class="sourceLine" id="cb116-2" title="2"><span class="co"># To determine if there are any outliers</span></a>
+<a class="sourceLine" id="cb116-3" title="3">gradebook <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb116-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb116-5" title="5">             <span class="dt">y =</span> running_average)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb116-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb116-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Distribution of Overall Grade Scores&quot;</span>,</a>
+<a class="sourceLine" id="cb116-8" title="8">       <span class="dt">x =</span> <span class="st">&quot;Overall Grade&quot;</span>,</a>
+<a class="sourceLine" id="cb116-9" title="9">       <span class="dt">y =</span> <span class="st">&quot;Score in Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb116-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
@@ -856,7 +856,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">8.8.3</span> Correlation Analysis</h3>
 <p>We want to know the strength of the relationship between the two variables, formative assessment scores and overall grade percentage. The strength is denoted by the “correlation coefficient.” The correlation coefficient goes from -1 to 1. If one variable consistently increases with the increasing value of the other, then they have a positive correlation (towards 1). If one variable consistently decreases with the increasing value of the other, then they have a negative correlation (towards -1). If the correlation coefficient is 0, then there is no relationship between the two variables.</p>
 <p>Correlation is good for finding relationships but it does <em>not</em> imply that one variable causes the other (correlation does not mean causation).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">cor</span>(gradebook<span class="op">$</span>formative_assessments, gradebook<span class="op">$</span>running_average)</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">cor</span>(gradebook<span class="op">$</span>formative_assessments, gradebook<span class="op">$</span>running_average)</a></code></pre></div>
 <pre><code>## [1] 0.6632553</code></pre>
 </div>
 <div id="building-a-linear-model" class="section level3">
@@ -867,10 +867,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Your response (running_average)</li>
 <li>The data (gradebook)</li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">linear_mod &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">lm</span>(running_average <span class="op">~</span><span class="st"> </span>formative_assessments, <span class="dt">data =</span> gradebook)</a>
-<a class="sourceLine" id="cb24-3" title="3"></a>
-<a class="sourceLine" id="cb24-4" title="4"><span class="kw">summary</span>(linear_mod)</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1">linear_mod &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb119-2" title="2"><span class="st">  </span><span class="kw">lm</span>(running_average <span class="op">~</span><span class="st"> </span>formative_assessments, <span class="dt">data =</span> gradebook)</a>
+<a class="sourceLine" id="cb119-3" title="3"></a>
+<a class="sourceLine" id="cb119-4" title="4"><span class="kw">summary</span>(linear_mod)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = running_average ~ formative_assessments, data = gradebook)

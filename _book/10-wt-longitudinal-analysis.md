@@ -887,7 +887,7 @@ high_count %>%
   group_by(year, state) %>%
   summarise(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
-  geom_boxplot(fill = dataedu_cols("darkblue")) +
+  geom_boxplot(fill = dataedu_cols("yellow")) +
   labs(title = "Median students with disabilities count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
@@ -1242,16 +1242,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              13
-##  2 b       l              83
-##  3 c       m              95
-##  4 d       n              19
-##  5 e       o              42
-##  6 f       k              97
-##  7 g       l              44
-##  8 h       m              51
-##  9 i       n              66
-## 10 j       o               1
+##  1 a       k              91
+##  2 b       l              47
+##  3 c       m              74
+##  4 d       n              83
+##  5 e       o              66
+##  6 f       k              17
+##  7 g       l              77
+##  8 h       m              44
+##  9 i       n              60
+## 10 j       o              63
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1272,11 +1272,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            14.5
-## 2 l            80.5
-## 3 m            88  
-## 4 n            12  
-## 5 o            65.5
+## 1 k            30.5
+## 2 l            46.5
+## 3 m            60.5
+## 4 n            83  
+## 5 o            55.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

@@ -415,7 +415,7 @@ Now we use boxplots to determine if there are any outliers in formative assessme
 gradebook %>%
   ggplot(aes(x = "",
              y = formative_assessments)) +
-  geom_boxplot(fill = dataedu_cols("darkblue")) +
+  geom_boxplot(fill = dataedu_cols("yellow")) +
   labs(title = "Distribution of Formative Assessment Scores",
        x = "Formative Assessment",
        y = "Score") +
@@ -431,7 +431,7 @@ gradebook %>%
 gradebook %>%
   ggplot(aes(x = "",
              y = running_average)) +
-  geom_boxplot() +
+  geom_boxplot(fill = dataedu_cols("darkblue")) +
   labs(title = "Distribution of Overall Grade Scores",
        x = "Overall Grade",
        y = "Score in Percentage") +
