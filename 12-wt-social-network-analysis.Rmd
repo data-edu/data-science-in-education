@@ -82,7 +82,6 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE))`: this line simply determines if there are any mentions at all (or not); it is true if there is one or more mention
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)
  
 ```{r}
@@ -92,7 +91,6 @@ tt_tweets <-
   tt_tweets %>%
   # Use regular expression to identify all the usernames in a tweet
   mutate(all_mentions = str_extract_all(text, regex)) %>%
-  mutate(has_mention = if_else(!is.na(all_mentions), TRUE, FALSE)) %>%
   unnest(all_mentions)
 ```
 
@@ -101,7 +99,6 @@ Let's put these into their own data frame, called `mentions`.
 ```{r}
 mentions <-
   tt_tweets %>%
-  filter(has_mention) %>%
   mutate(all_mentions = str_trim(all_mentions)) %>%
   select(sender = screen_name, all_mentions)
 ```
