@@ -67,7 +67,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationaly extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring {RJava}.
+ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring {RJava}.
 
 
 ```r
@@ -334,15 +334,6 @@ tidy_df %>%
   theme(legend.position = "none")
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
-```
-
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
@@ -371,7 +362,7 @@ Total         frpl_pct    0.5685631
 
 Now, we dig deeper to see if there is more to the story.
 
-### Anayzing Spread
+### Analyzing Spread
 
 Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
@@ -389,15 +380,6 @@ merged_df %>%
   scale_x_continuous(labels = scales::percent) +
   theme(legend.position = "none") +
   theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
@@ -437,24 +419,6 @@ tidy_df %>%
   theme(legend.position = "none")
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
-```
-
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
@@ -477,15 +441,6 @@ merged_df %>%
   theme(legend.position = "none")
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
-```
-## Exiting.
-```
-
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" />
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
@@ -500,7 +455,7 @@ According to the Urban Institute, the disproportionate percentage of students of
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, this deep segregation that exists in the district can have adverse effects on students.
 
-As an education data practicioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
+As an education data practitioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
 
 ## References
 

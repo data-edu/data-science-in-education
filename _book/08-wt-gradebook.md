@@ -10,7 +10,7 @@ This walkthrough goes through a series of analyses using the data science framew
 
 ## Load Packages
 
-As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will use the `tidyverse` package mentioned in [Walkthrough 1](06-wt-multilevel-models-1). The `readxl` package is used to read and import Excel spreadsheets since these file types are very common in the education field.
+As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will load the {tidyverse} package used in [Walkthrough 1](06-wt-multilevel-models-1). This chapter has an example of using the {readxl} package to read and import Excel spreadsheets, file types are very common in the education field.
 
 Make sure you have installed the packages in R on your computer before starting (see Foundational Skills chapter). Load the libraries, as they must be loaded each time we start a new project.
 
@@ -309,7 +309,7 @@ Visual representations of data are more human friendly than just looking at numb
 summary(gradebook)
 ```
 
-But R can do more than just print numbers to a screen. We'll use the `ggplot` package from within `tidyverse` to graph some of the data to help get a better grasp of what the data looks like. This code uses `ggplot` to graph categorical variables into a bar graph. Here we can see the variable *Letter_grade* is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
+But R can do more than just print numbers to a screen. We'll use the {ggplot} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot} to graph categorical variables into a bar graph. Here we can see the variable *Letter_grade* is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
 
 ```r
@@ -326,14 +326,9 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
-Using `ggplot` we can create many types of graphs. Using our *classwork_df* from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the *classworks* and *scores* columns into tidy formats.
+Using {ggplot} we can create many types of graphs. Using our *classwork_df* from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the *classworks* and *scores* columns into tidy formats.
 
 
 ```r
@@ -356,11 +351,6 @@ classwork_df %>%
         axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 ## Model Data
@@ -371,7 +361,7 @@ Using this spreadsheet, we can start to form hypotheses about the data. For exam
 
 ### Visualize Data to Check Assumptions
 
-It's important to visualize data to see any distributions, trends, or patterns before building a model. We use `ggplot` to understand these variables graphically. 
+It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot} to understand these variables graphically. 
 
 #### Linearity
 
@@ -384,21 +374,16 @@ First, we plot X and Y to determine if we can see a linear relationship between 
 gradebook %>%
   ggplot(aes(x = formative_assessments,
              y = running_average)) +
-  geom_point() +
+  geom_point(color = dataedu_cols("green")) +
   labs(title = "Relationship Between Overall Grade and Formative Assessments",
        x = "Formative Assessment Score",
        y = "Overall Grade in Percentage") +
   theme_dataedu()
 ```
 
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
-```
-
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
-We can layer different types of plots on top of each other in `ggplot`. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
+We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
 
 ```r
@@ -408,18 +393,13 @@ We can layer different types of plots on top of each other in `ggplot`. Here the
 gradebook %>%
   ggplot(aes(x = formative_assessments,
              y = running_average)) +
-  geom_point() +
+  geom_point(color = dataedu_cols("green")) +
   geom_smooth(method = "lm",
               se = TRUE) +
   labs(title = "Relationship Between Overall Grade and Formative Assessments",
        x = "Formative Assessment Score",
        y = "Overall Grade in Percentage") +
   theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
 ```
 
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="672" />
@@ -435,16 +415,11 @@ Now we use boxplots to determine if there are any outliers in formative assessme
 gradebook %>%
   ggplot(aes(x = "",
              y = formative_assessments)) +
-  geom_boxplot() +
+  geom_boxplot(fill = dataedu_cols("darkblue")) +
   labs(title = "Distribution of Formative Assessment Scores",
        x = "Formative Assessment",
        y = "Score") +
   theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
 ```
 
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="672" />
@@ -461,11 +436,6 @@ gradebook %>%
        x = "Overall Grade",
        y = "Score in Percentage") +
   theme_dataedu()
-```
-
-```
-## Importing fonts may take a few minutes, depending on the number of fonts and the speed of the system.
-## Continue? [y/n]
 ```
 
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="672" />
