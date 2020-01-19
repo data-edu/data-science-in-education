@@ -101,20 +101,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender              receiver        
-##    <chr>               <chr>           
-##  1 al-Qasim, Kabeer    Rife, Justin    
-##  2 Schenally, Quaton   Decker, Vivian  
-##  3 Schenally, Quaton   Barry, Yonatan  
-##  4 Johnson, Sarah      Decker, Vivian  
-##  5 Johnson, Sarah      Rife, Justin    
-##  6 Johnson, Sarah      el-Hamidi, Hilmi
-##  7 al-Momin, Naqiyya   Barry, Yonatan  
-##  8 al-Momin, Naqiyya   Cope, Lilly     
-##  9 al-Momin, Naqiyya   el-Hamidi, Hilmi
-## 10 al-Shaheed, Rashaad Hasse, Zachariah
-## 11 Kanchanlal, Joel    Barry, Yonatan  
-## 12 Kanchanlal, Joel    Hasse, Zachariah
+##    sender             receiver        
+##    <chr>              <chr>           
+##  1 Stephens, Vivian   Thompson, Kale  
+##  2 Gallardo, Kathleen Skrzypek, Olivia
+##  3 Gallardo, Kathleen Tran, Niraj     
+##  4 Hammer, Emmari     Skrzypek, Olivia
+##  5 Hammer, Emmari     Thompson, Kale  
+##  6 Hammer, Emmari     Johnson, Kenneth
+##  7 Gee, Ibsa          Tran, Niraj     
+##  8 Gee, Ibsa          Nguyen, Cindy   
+##  9 Gee, Ibsa          Johnson, Kenneth
+## 10 Choi, Bhoomi       Skiff, Kelsey   
+## 11 Torres, Amanda     Tran, Niraj     
+## 12 Torres, Amanda     Skiff, Kelsey
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -245,6 +245,8 @@ g %>%
 Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 
+
+
 ```r
 g %>% 
   mutate(centrality = centrality_authority()) %>% 
@@ -260,7 +262,7 @@ g %>%
 ## Using `stress` as default layout
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 

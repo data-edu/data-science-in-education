@@ -296,7 +296,7 @@ What would happen if we do not fix **min.node.size** to five? We're going to let
 
 Let's create our own grid of values to test for **mtry** and **min.node.size**. We'll stick with the default bootstrap resampling method to choose the best model. We will randomly choose some values to use for **mtry**, including the three that were used previously (2, 10, and 19). Let's try 2, 3, 7, 10, and 19.
 
-```{r}
+```{r, cache = TRUE}
 #create a grid of different values of mtry, different splitrules, and different minimum node sizes to test
 tune_grid <-
     expand.grid(
@@ -324,7 +324,7 @@ While the output above gives us a good summary of the model, we might want to lo
 
 In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - we have stored a random forest model as a model, so it's not a normal dataframe. Thus, we extract with a `$`. We want to select only the final model used, and not worry about the prior iterations of the model.
 
-```{r}
+```{r, cache = TRUE}
 #Here, we select the "finalModel" output from the rf_fit2 model
 rf_fit2$finalModel
 ```
@@ -336,7 +336,7 @@ Now that we understand how to develop a basic machine learning model, and how to
 
 What if we use the test data set - data not used to train the model? Below, we'll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called "pred." At the same, time, we'll make a row called "obs" that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
 
-```{r}
+```{r, cache = TRUE}
 set.seed(62020)
 
 ##Create a new object for the testing data including predicted values 
@@ -363,7 +363,7 @@ Note that importance values are not calculated automatically, but that "impurity
 
 We'll re-run the rf_fit2 model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
 
-```{r}
+```{r, cache = TRUE}
 #set a seed
 set.seed(62020)
 
@@ -407,7 +407,7 @@ As a quick statistical note: above, we selected our variable importance method t
 
 You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (rf_fit2). Note that we are not actually  re-running our random forest model here, but instead we are just making a dataset that includes the values that the rf_fit2 model predicted as well as the actual rf_fit2 values.
 
-```{r}
+```{r, cache = TRUE}
 #Make sure all variables stored as characters are converted to factors
 data_train_lm <- 
     data_train %>% 

@@ -110,7 +110,7 @@ basic analytic routines using datasets that look familiar to educators.
 In this approach, we suggest readers be intentional about what they want to
 learn from the walkthroughs. For example, readers may seek out examples of
 aggregated datasets, exploratory data analysis, the {ggplot2} package, or the
-`gather()` function. Read the walkthrough and run the code in your R console as
+`pivot_longer()` function. Read the walkthrough and run the code in your R console as
 you go. After you successfully run the code, experiment with the functions and
 techniques you learned by changing the code and seeing new results (or new error
 messages!). After running the code in the walkthroughs, reflect on how what you
@@ -198,13 +198,13 @@ built ways for you to share with us.
 
 If you have some experience with git and want to contribute that way, here's how you can can contribute:
 
-  - Submit a pull request to our GitHub repository that describes
+  - Submit a pull request to our [GitHub repository](https://github.com/data-edu/data-science-in-education) that describes
     a data science problem that is unique to the education setting
   - Submit a pull request to share a solution for the problems discussed in the
     book to the education setting
   - Share an anonymized dataset
 
-If you are new to data science in education, welcome!! We would love to have your feedback by email. 
+If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com). 
 
 We hope that as the book evolves, it grows to reflect the
 changing needs of data scientists in education.

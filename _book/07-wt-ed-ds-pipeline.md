@@ -81,7 +81,7 @@ Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight
 this as a potentially very rich data source.
 
-### Methods
+## Methods
 
 <!-- ### Methods: quick summary of the methods that we’ll use in the analysis -->
 
@@ -787,8 +787,10 @@ dat %>%
   # Here we map variables to the x- and y-axis
   ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
   # Creates a point with x- and y-axis coordinates specified above
-  geom_point() + 
-  theme_dataedu()
+  geom_point(color = dataedu_cols("green")) + 
+  theme_dataedu() +
+  xlab("Time Spent") +
+  ylab("Percentage Earned")
 ```
 
 ```
@@ -804,11 +806,13 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 ```r
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() + # same as above
+    geom_point(color = dataedu_cols("green")) + # same as above
   # this adds a line of best fit
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
-  theme_dataedu()
+  theme_dataedu() +
+  xlab("Time Spent") +
+  ylab("Percentage Earned")
 ```
 
 ```
