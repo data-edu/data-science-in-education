@@ -67,7 +67,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationaly extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring {RJava}.
+ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is also saved so we can skip the steps requiring {RJava}.
 
 
 ```r
@@ -80,9 +80,13 @@ library(tabulizer)
 
 
 ```r
-# race data
+# if using tabulizer
 race_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf")
+
+# if reading in the tabulizer output
+race_pdf <-
+  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 It is important to consistently check what we're doing with the actual PDF's to ensure we're getting the data that we need. 
@@ -165,8 +169,13 @@ We will import the Free Reduced Price Lunch (FRPL) PDF's now.
 
 
 ```r
+# if using tabulizer
 frpl_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf")
+
+# if reading in the tabulizer output
+race_pdf <-
+  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
@@ -301,7 +310,7 @@ What do the racial demographics in this district look like? For this, a barplot 
 
 ```r
 tidy_df %>%
-  # filter out Total rows, since we want district-level information
+  # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
          str_detect(category, "pct"),
          category != "frpl_pct") %>%
@@ -310,7 +319,15 @@ tidy_df %>%
   geom_bar(stat = "identity", aes(fill = category)) +
   xlab("Subgroup") +
   ylab("Percentage of Population") +
-  scale_x_discrete(labels = c("Black", "Whifite", "Hispanic", "Asian", "Native Am.")) +
+  scale_x_discrete(
+    labels = c(
+      "aa_pct" = "Black",
+      "wh_pct" = "White",
+      "hi_pct" = "Hispanic",
+      "as_pct" = "Asian",
+      "na_pct" = "Native Am."
+    )
+  ) +
   scale_y_continuous(labels = scales::percent) +
   scale_fill_dataedu() +
   theme_dataedu() +
@@ -345,14 +362,16 @@ Total         frpl_pct    0.5685631
 
 Now, we dig deeper to see if there is more to the story.
 
-### Anayzing Spread
+### Analyzing Spread
 
 Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
 
 ```r
 merged_df %>%
+  # remove district totals
   filter(school_name != "Total") %>%
+  # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_cols("darkblue"))  +
@@ -364,10 +383,6 @@ merged_df %>%
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
-
-```r
-# hist(merged_df$wh_pct)$counts[1:9] # counting number of schools in the first bin (0-10%)
-```
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -389,7 +404,15 @@ tidy_df %>%
   theme_dataedu() +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
-  scale_x_discrete(labels = c("Native Am.", "Black", "Hispanic", "Asian", "White")) +
+  scale_x_discrete(
+    labels = c(
+      "aa_povsch" = "Black",
+      "wh_povsch" = "White",
+      "hi_povsch" = "Hispanic",
+      "as_povsch" = "Asian",
+      "na_povsch" = "Native Am."
+    )
+  ) +
   scale_y_continuous(labels = scales::percent) +
   theme_dataedu() +
   scale_fill_dataedu() +
@@ -432,7 +455,7 @@ According to the Urban Institute, the disproportionate percentage of students of
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, this deep segregation that exists in the district can have adverse effects on students.
 
-As an education data practicioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
+As an education data practitioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
 
 ## References
 

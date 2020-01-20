@@ -101,20 +101,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender                 receiver        
-##    <chr>                  <chr>           
-##  1 Carpinteyro, Cassandra Hughes, Colton  
-##  2 Hutter, Elizaveta      Rodriguez, Louis
-##  3 Hutter, Elizaveta      Bennett, Kayla  
-##  4 Johnson, Hannah        Rodriguez, Louis
-##  5 Johnson, Hannah        Hughes, Colton  
-##  6 Johnson, Hannah        Binns, Tre      
-##  7 Martin, Derek          Bennett, Kayla  
-##  8 Martin, Derek          Toberman, Thomas
-##  9 Martin, Derek          Binns, Tre      
-## 10 Ranchhod, Stephen      Salaz, Jalisa   
-## 11 Loftis, Rachel         Bennett, Kayla  
-## 12 Loftis, Rachel         Salaz, Jalisa
+##    sender            receiver        
+##    <chr>             <chr>           
+##  1 Morua, Manuel     Jeon, Mazhar    
+##  2 el-Baig, Mahbooba Kiser, Colby    
+##  3 el-Baig, Mahbooba Pereyra, Nicole 
+##  4 Juarez, Alyssa    Kiser, Colby    
+##  5 Juarez, Alyssa    Jeon, Mazhar    
+##  6 Juarez, Alyssa    Mure, Imani     
+##  7 Paskemin, Adail   Pereyra, Nicole 
+##  8 Paskemin, Adail   Sok, Gerald     
+##  9 Paskemin, Adail   Mure, Imani     
+## 10 el-Kaba, Ghaaliya Wollman, Brandon
+## 11 Hasan, Amanda     Pereyra, Nicole 
+## 12 Hasan, Amanda     Wollman, Brandon
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -245,6 +245,8 @@ g %>%
 Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 
+
+
 ```r
 g %>% 
   mutate(centrality = centrality_authority()) %>% 
@@ -260,7 +262,7 @@ g %>%
 ## Using `stress` as default layout
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
 

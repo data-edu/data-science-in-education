@@ -81,7 +81,7 @@ Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight
 this as a potentially very rich data source.
 
-### Methods
+## Methods
 
 <!-- ### Methods: quick summary of the methods that we’ll use in the analysis -->
 
@@ -106,7 +106,7 @@ library(sjPlot)
 
 ## Import Data
 
-This code chunk loads the log trace data using the `read_csv` function. Note that we call `read_csv` three times, once for each of the three logtrace
+This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three logtrace
 datasets. We assign each of the datasets a name using `<-`.
 
 
@@ -787,8 +787,10 @@ dat %>%
   # Here we map variables to the x- and y-axis
   ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
   # Creates a point with x- and y-axis coordinates specified above
-  geom_point() + 
-  theme_dataedu()
+  geom_point(color = dataedu_cols("green")) + 
+  theme_dataedu() +
+  xlab("Time Spent") +
+  ylab("Percentage Earned")
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-21-1.png" width="672" />
@@ -799,11 +801,13 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 ```r
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
-  geom_point() + # same as above
+    geom_point(color = dataedu_cols("green")) + # same as above
   # this adds a line of best fit
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
-  theme_dataedu()
+  theme_dataedu() +
+  xlab("Time Spent") +
+  ylab("Percentage Earned")
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-22-1.png" width="672" />
@@ -896,15 +900,15 @@ an input, a data frame with the variables for which you wish to calculate
 correlations. 
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
-be using a lot in this book. `filter`, `group_by`, and `summarise` are functions
+be using a lot in this book. `filter()`, `group_by()`, and `summarise()` are functions
 in the `dplyr` package that you will see a lot in upcoming chapters.
 
-  - `filter` removes rows from the dataset that don't match a criteria. Use it
+  - `filter()` removes rows from the dataset that don't match a criteria. Use it
     for tasks like only keeping records for students in the fifth grade
-  - `group_by` groups records together so you can perform operations on those
+  - `group_by()` groups records together so you can perform operations on those
     groups instead of on the entire dataset. Use it for tasks like getting the
     mean test score of each school instead of a whole school district
-  - `summarize` and `summarise` reduce your dataset down to a summary statistic.
+  - `summarize()` and `summarise()` reduce your dataset down to a summary statistic.
     Use it for tasks like turning a datset of student test scores into a datset
     of grade levels and their mean test score
 

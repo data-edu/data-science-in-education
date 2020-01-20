@@ -688,7 +688,7 @@ varImp(rf_fit2_imp) %>%
     pluck(1) %>%
     rownames_to_column("var") %>%
     ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col() +
+    geom_col(fill = dataedu_cols("darkblue")) +
     coord_flip() +
     theme_dataedu()
 ```

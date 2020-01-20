@@ -228,7 +228,7 @@ The functions we'll be using for our sentiment analysis are in a package called 
 
 
 ```r
-install.packages("tidytext")
+install.packages("textdata")
 ```
 
 Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
@@ -259,7 +259,7 @@ get_sentiments("nrc")
 
 This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
 
-### Tweets associated with positive 
+### Count positive words
 
 Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count` to total up the appearances of each positive word. 
 
@@ -297,14 +297,15 @@ pos_tokens_count
 ## # … with 634 more rows
 ```
 
-We can visualize this words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
+We can visualize these words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
 
 ```r
 pos_tokens_count %>%
+  # only words that appear 75 times or more
   filter(n >= 75) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
-  geom_bar(stat = "identity") +
+  geom_bar(stat = "identity", fill = dataedu_cols("darkblue")) +
   labs(
     title = "Count of words associated with positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
@@ -357,7 +358,7 @@ dv_tokens
 ## # … with 597 more rows
 ```
 
-The result is a dataset that has status_ids in one column and the word "dataviz" in the other column. We can use `$` to extract a vector of status_ids for tweets that have "dataviz" in the text. This vector has 607 values, so we'll use `head` to view just the first ten. 
+The result is a dataset that has status_ids in one column and the word "dataviz" in the other column. We can use `$` to extract a vector of status_ids for tweets that have "dataviz" in the text. This vector has hundreds of values, so we'll use `head` to view just the first ten. 
 
 
 ```r
@@ -512,12 +513,12 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 7 4 2 3 5
+## [1] 1 7 3 8 6
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
 
-`dplyr` has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. If we want to specifiy random row numbers for slice to pick for us, we can use `sample(1:nrow(.), 10)` like this: 
+`dplyr` has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. Using `sample_n()` looks like this:
 
 
 ```r
@@ -542,7 +543,7 @@ pos_tweets %>% sample_n(., size = 10)
 ## 10 996466149641482… "Is there a way to combine specific values from a …        1
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, we want our readers to run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion 
 
