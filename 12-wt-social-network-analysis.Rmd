@@ -263,16 +263,22 @@ data <-
 
 data <-
   data %>% 
-  mutate(nominee = as.character(nominee)) # this makes merging later easier
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
 
 # calculate indegree in tempdata and merge with data
 tempdata <- data.frame(table(data$nominee))
 
 tempdata <-
   tempdata %>%
-  rename("nominee" = "Var1", # rename the column "Var1" to "nominee"
-         "indegree" = "Freq") %>% # rename the column "Freq" to "indegree"
-  mutate(nominee = as.character(nominee)) # makes nominee a character data type, instead of a factor, which can cause problems
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
 
 data <- 
   left_join(data, tempdata, by = "nominee")
@@ -302,13 +308,15 @@ As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` 
 ```{r}
 data2 <-
   data2 %>% 
-  rename("nominator" = "nominee") # rename nominee as nominator to merge these
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
 
 final_data <-
   left_join(mean_exposure, data2, by = "nominator")
 
 final_data <- 
-  left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
 ```
 
 #### Regression (linear model)
