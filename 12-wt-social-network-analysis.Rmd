@@ -116,7 +116,9 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 ```{r}
 edgelist <- 
   mentions %>% 
+  # remove "@" from all_mentions column
   mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+  # rename all_mentions to receiver
   select(sender, receiver = all_mentions)
 ```
 
@@ -144,7 +146,7 @@ g %>%
   theme_graph()
 ```
 
-Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 ```{r, echo = FALSE, message=F, warning=F}
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
@@ -156,7 +158,7 @@ g %>%
   ggraph() +
   geom_node_point(aes(size = centrality, color = centrality)) +
   scale_color_continuous(guide = 'legend') + 
-  geom_node_text(aes(label = name)) +
+  #geom_node_text(aes(label = name)) +
   geom_edge_link() +
   theme_graph()
 ```
