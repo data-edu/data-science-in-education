@@ -126,23 +126,24 @@ edgelist <-
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
 
+Because large networks (like this one) can present challenges
 We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
 
 ```{r}
+
 g <- 
   as_tbl_graph(edgelist)
 
 g
 ```
 
-Next, we'll use the `ggraph()` function. Run the code below, and then uncomment, one at a time, the next two lines (the two beginning `geom_()`, running the code after uncommenting each line).
+Next, we'll use the `ggraph()` function:
 
 ```{r}
 g %>%
-  ggraph() +
+  ggraph(layout = "kk") +
   geom_node_point() +
-  # geom_node_text(aes(label = name)) +
-  # geom_edge_link() +
+  geom_edge_link() +
   theme_graph()
 ```
 
@@ -158,7 +159,6 @@ g %>%
   ggraph() +
   geom_node_point(aes(size = centrality, color = centrality)) +
   scale_color_continuous(guide = 'legend') + 
-  geom_node_text(aes(label = name)) +
   geom_edge_link() +
   theme_graph()
 ```
