@@ -82,7 +82,6 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE))`: this line simply determines there are any mentions at all (or not); it is true if there is one or more mention
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)
  
 ```{r}
@@ -90,8 +89,8 @@ regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
 tt_tweets <-
   tt_tweets %>%
+  # Use regular expression to identify all the usernames in a tweet
   mutate(all_mentions = str_extract_all(text, regex)) %>%
-  mutate(has_mention = if_else(!is.na(all_mentions), TRUE, FALSE)) %>%
   unnest(all_mentions)
 ```
 
@@ -100,7 +99,6 @@ Let's put these into their own data frame, called `mentions`.
 ```{r}
 mentions <-
   tt_tweets %>%
-  filter(has_mention) %>%
   mutate(all_mentions = str_trim(all_mentions)) %>%
   select(sender = screen_name, all_mentions)
 ```
@@ -118,7 +116,9 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 ```{r}
 edgelist <- 
   mentions %>% 
-  mutate(all_mentions= str_sub(all_mentions, start = 2)) %>% 
+  # remove "@" from all_mentions column
+  mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+  # rename all_mentions to receiver
   select(sender, receiver = all_mentions)
 ```
 
@@ -146,7 +146,7 @@ g %>%
   theme_graph()
 ```
 
-Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 ```{r, echo = FALSE, message=F, warning=F}
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
@@ -255,8 +255,6 @@ data3 <-
 
 ### Joining the data
 
-Next, we'll join the data into one data frame. Note that while this (and data wrangling, in general) is sometimes tedius, especially with large (and messy) sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
-
 Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
 
 ```{r}
@@ -265,16 +263,22 @@ data <-
 
 data <-
   data %>% 
-  mutate(nominee = as.character(nominee)) # this makes merging later easier
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
 
 # calculate indegree in tempdata and merge with data
 tempdata <- data.frame(table(data$nominee))
 
 tempdata <-
   tempdata %>%
-  rename("nominee" = "Var1", # rename the column "Var1" to "nominee"
-         "indegree" = "Freq") %>% # rename the column "Freq" to "indegree"
-  mutate(nominee = as.character(nominee)) # makes nominee a character data type, instead of a factor, which can cause problems
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
 
 data <- 
   left_join(data, tempdata, by = "nominee")
@@ -304,13 +308,15 @@ As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` 
 ```{r}
 data2 <-
   data2 %>% 
-  rename("nominator" = "nominee") # rename nominee as nominator to merge these
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
 
 final_data <-
   left_join(mean_exposure, data2, by = "nominator")
 
 final_data <- 
-  left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
 ```
 
 #### Regression (linear model)
