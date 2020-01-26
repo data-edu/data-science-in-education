@@ -126,6 +126,37 @@ edgelist <-
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
 
+Because large networks (like this one) can present challenges, it is common to filter them to only include some individuals. Let's explore how many interactions each individual in the network sent.
+
+```{r}
+interactions_sent <- edgelist %>% 
+  # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
+  count(sender) %>% 
+  # arranges the data frame in descending order of the number of interactions sent
+  arrange(desc(n))
+
+interactions_sent
+```
+
+618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
+
+```{r}
+interactions_sent <- interactions_sent %>% 
+  filter(n > 1)
+```
+
+That leaves us with only 349, perhaps a more reasonable number.
+
+We now need to filter the edgelist to only include these 349 individuals. The following code simply uses the `filter()` function combined with the `%in%` operator to do this:
+
+```{r}
+edgelist <- edgelist %>% 
+  # the first of the two lines below filters to include only senders in the interactions_sent data frame
+  # the second line does the same, for receivers
+  filter(sender %in% interactions_sent$sender,
+         receiver %in% interactions_sent$sender)
+```
+
 We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
 
 ```{r}
@@ -135,14 +166,19 @@ g <-
 g
 ```
 
-Next, we'll use the `ggraph()` function. Run the code below, and then uncomment, one at a time, the next two lines (the two beginning `geom_()`, running the code after uncommenting each line).
+We can see that the network now consists of 267 individuals - the 267 who sent more than one interaction.
+
+Next, we'll use the `ggraph()` function:
 
 ```{r}
 g %>%
-  ggraph() +
+  # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
+  ggraph(layout = "kk") +
+  # this adds the points to the graph
   geom_node_point() +
-  # geom_node_text(aes(label = name)) +
-  # geom_edge_link() +
+  # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
+  geom_edge_link(alpha = .2) +
+  # this last line of code adds a ggplot2 theme suitable for network graphs
   theme_graph()
 ```
 
@@ -154,12 +190,13 @@ extrafont::loadfonts() # needed to add this because of the css sheet, otherwise 
 
 ```{r}
 g %>% 
+  # this calculates the centrality of each individual using the built-in centrality_authority() function
   mutate(centrality = centrality_authority()) %>% 
-  ggraph() +
+  ggraph(layout = "kk") + 
   geom_node_point(aes(size = centrality, color = centrality)) +
+  # this line colors the points based upon their centrality
   scale_color_continuous(guide = 'legend') + 
-  geom_node_text(aes(label = name)) +
-  geom_edge_link() +
+  geom_edge_link(alpha = .2) +
   theme_graph()
 ```
 
