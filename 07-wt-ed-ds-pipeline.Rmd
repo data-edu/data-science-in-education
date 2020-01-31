@@ -191,6 +191,12 @@ that does that job for us. Then we'll use the same function for question 4
 and question 7. This will result in much less code, plus it will make it
 easier for us to change in the future.
 
+We'll use `case_when()` in our function to reverse the scale of the item responses. `case_when()` is useful when you need to replace the values of a variable with a new variable based on some criteria. Education datasets use a lot of codes to describe demographics, like numerical codes for disability categories, race groups, or proficiency in a test. For a example, a consultant analyzing how students did on state testing might use `case_when()` to replace proficiency codes like 1, 2, or 3 to more descriptive words like "below proficiency", "proficient", or "advanced". 
+	
+`case_when()` lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your `case_when()` sequence. `case_when()` is helpful because it does this without complicated for loops and by using code that is compact and readable once you understand how all the arguments work. 
+
+Let's make this all concrete and use it here in our function that reverses the scale of the survey responses:
+
 ```{r}
 # This part of the code is where we write the function:
 # Function for reversing scales 
