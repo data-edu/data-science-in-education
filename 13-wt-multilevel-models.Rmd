@@ -4,7 +4,7 @@ This walkthrough accompanies the [previous chapter](06-wt-multilevel-models-1), 
 
 As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
 students' performance in these online courses, focusing on the time spent in the 
-course (made available throygh the learning management system) and the effects 
+course (made available through the learning management system) and the effects 
 of being in a particular class.
 
 First, let's load the tidyverse and read the data we processed in [walkthrough 1](06-wt-multilevel-models-1).
@@ -80,8 +80,13 @@ variables). `bind_cols()` is a useful tidyverse function for binding together
 data frames by column.
 
 ```{r}
+# create matrix of dummy-coded variables
 species_dummy_coded <- dummies::dummy(iris$Species)
+
+# convert matrix to tibble so we can use tidyverse functions
 species_dummy_coded <- as_tibble(species_dummy_coded)
+
+# add dummy coded variables to iris
 iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
 ```
 
