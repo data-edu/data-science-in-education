@@ -1,12 +1,30 @@
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
+## Vocabulary
+
+- directory  
+- environment    
+- pivot  
+- linearity  
+- correlation  
+- outliers  
+- linear model  
+
 ## Introduction
 
 There are a variety of data sources to explore in the education field. Student assessment scores can be examined for progress towards goals. The text from a teacher’s written classroom observation notes about a particular learner’s in-class behavior or emotional status can be analyzed for trends. We can tap into the exportable data available from common learning software or platforms popular in the K-12 education space.
 
-## Data Sources
+### Background
 
-This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
+This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. While gradebook data is nearly ubiquitious in education, it is sometimes ignored in favor of data collected by evaluators and researchers or data from state-wide tests. Nevertheless, it represents an important, occasionally untapped data source, and one for which a data science approach can reveal the potential of the data science framework for analyzing a range of educational data sources.
+
+### Data Sources
+
+We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
+
+### Method
+
+This analysis uses a linear model, which relates one or more X, or independent variables, to a Y, or dependent variable, and a correlation analysis.
 
 ## Load Packages
 
@@ -64,7 +82,9 @@ gradebook <- ExcelGradeBook
 
 Your environment will now have two versions of the dataset. There is `ExcelGradeBook` which was the original dataset imported. There is also `gradebook` which is currently a copy of `ExcelGradeBook`. As you progress through this section, we will work primarily with the `gradebook` dataset. Additionally, while working onward in this section of the book, if you make a mistake and mess up the `gradebook` data frame and are not able to fix it, you can reset the data frame to return to the same state as the original `ExcelGradeBook` data frame by running `gradebook <- ExcelGradeBook` again. This will overwrite any errors in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame. Afterwards, just continue running code from this point in the text.
 
-## Tidy Data
+## Process data
+
+###  Tidy Data
 
 This walkthrough uses an Excel data file because it is one that we are likely to encounter. Moreover, the messy state of this file mirrors what might be encountered in real life. The Excel file contains more than one sheet, has rows we don't need, and uses column names that have spaces between words. All these things make the data tough to work with. The data is **not** tidy. We can begin to overcome these challenges before importing the file into RStudio by deleting the unnecessary parts of the Excel file then saving it as a .csv file. However, if you clean the file outside of R, this means if you ever have to clean it up (say, if the dataset is accidentally deleted and you need to redownload it from the original source) you would have to do everything from the beginning, and may not recall exactly what you did in Excel prior to importing the data to R. We recommend cleaning the original data in R so that you can recreate all the steps necessary for your analysis. Also, the untidy Excel file provides realistic practice for tidying up the data programmatically using R itself.
 
@@ -116,7 +136,7 @@ At last, the formerly untidy Excel sheet has been turned into a useful data fram
 view(gradebook)
 ```
 
-## Process Data
+### Create new variables and further process the data
 
 R users transform data to facilitate working with the data during later phases of visualization and analysis. A few examples of data transformation include creating new variables, grouping data, and more. This code chunk first creates a new data frame named `classwork_df`, then selects particular variables from our gradebook dataset using `select()`, and finally gathers all the homework data under new variables into new columns.
 
@@ -154,7 +174,9 @@ View the new data frame and note which columns were selected for this new data f
 view(classwork_df)
 ```
 
-## Visualize Data
+## Analysis and results
+
+### Visualize Data
 
 Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a simple summary of the data by each column similar to what we did in Walkthrough 1.
 
@@ -201,17 +223,17 @@ classwork_df %>%
         axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
 ```
 
-## Model Data
+### Model Data
 
-### Deciding an Analysis
+#### Deciding an an Analysis
 
 Using this spreadsheet, we can start to form hypotheses about the data. For example, we can ask ourselves, "Can we predict overall grade using formative assessment scores?" For this, we will try to predict a response variable Y (overall grade) as a function of a predictor variable Y (formative assessment scores). The goal is to create a mathematical equation for overall grade as a function of formative assessment scores when only formative assessment scores are known.
 
-### Visualize Data to Check Assumptions
+#### Visualize Data to Check Assumptions
 
 It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot} to understand these variables graphically. 
 
-#### Linearity
+##### Linearity
 
 First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, the overall grade goes up too.
 
@@ -246,7 +268,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-#### Outliers
+##### Outliers
 
 Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
 
