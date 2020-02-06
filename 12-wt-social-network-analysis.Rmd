@@ -82,7 +82,6 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE))`: this line simply determines there are any mentions at all (or not); it is true if there is one or more mention
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)
  
 ```{r}
@@ -90,8 +89,8 @@ regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
 tt_tweets <-
   tt_tweets %>%
+  # Use regular expression to identify all the usernames in a tweet
   mutate(all_mentions = str_extract_all(text, regex)) %>%
-  mutate(has_mention = if_else(!is.na(all_mentions), TRUE, FALSE)) %>%
   unnest(all_mentions)
 ```
 
@@ -100,7 +99,6 @@ Let's put these into their own data frame, called `mentions`.
 ```{r}
 mentions <-
   tt_tweets %>%
-  filter(has_mention) %>%
   mutate(all_mentions = str_trim(all_mentions)) %>%
   select(sender = screen_name, all_mentions)
 ```
@@ -118,13 +116,46 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 ```{r}
 edgelist <- 
   mentions %>% 
-  mutate(all_mentions= str_sub(all_mentions, start = 2)) %>% 
+  # remove "@" from all_mentions column
+  mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+  # rename all_mentions to receiver
   select(sender, receiver = all_mentions)
 ```
 
 ## Plotting the network
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
+
+Because large networks (like this one) can present challenges, it is common to filter them to only include some individuals. Let's explore how many interactions each individual in the network sent.
+
+```{r}
+interactions_sent <- edgelist %>% 
+  # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
+  count(sender) %>% 
+  # arranges the data frame in descending order of the number of interactions sent
+  arrange(desc(n))
+
+interactions_sent
+```
+
+618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
+
+```{r}
+interactions_sent <- interactions_sent %>% 
+  filter(n > 1)
+```
+
+That leaves us with only 349, perhaps a more reasonable number.
+
+We now need to filter the edgelist to only include these 349 individuals. The following code simply uses the `filter()` function combined with the `%in%` operator to do this:
+
+```{r}
+edgelist <- edgelist %>% 
+  # the first of the two lines below filters to include only senders in the interactions_sent data frame
+  # the second line does the same, for receivers
+  filter(sender %in% interactions_sent$sender,
+         receiver %in% interactions_sent$sender)
+```
 
 We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
 
@@ -135,18 +166,23 @@ g <-
 g
 ```
 
-Next, we'll use the `ggraph()` function. Run the code below, and then uncomment, one at a time, the next two lines (the two beginning `geom_()`, running the code after uncommenting each line).
+We can see that the network now consists of 267 individuals - the 267 who sent more than one interaction.
+
+Next, we'll use the `ggraph()` function:
 
 ```{r}
 g %>%
-  ggraph() +
+  # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
+  ggraph(layout = "kk") +
+  # this adds the points to the graph
   geom_node_point() +
-  # geom_node_text(aes(label = name)) +
-  # geom_edge_link() +
+  # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
+  geom_edge_link(alpha = .2) +
+  # this last line of code adds a ggplot2 theme suitable for network graphs
   theme_graph()
 ```
 
-Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 ```{r, echo = FALSE, message=F, warning=F}
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
@@ -154,12 +190,13 @@ extrafont::loadfonts() # needed to add this because of the css sheet, otherwise 
 
 ```{r}
 g %>% 
+  # this calculates the centrality of each individual using the built-in centrality_authority() function
   mutate(centrality = centrality_authority()) %>% 
-  ggraph() +
+  ggraph(layout = "kk") + 
   geom_node_point(aes(size = centrality, color = centrality)) +
+  # this line colors the points based upon their centrality
   scale_color_continuous(guide = 'legend') + 
-  geom_node_text(aes(label = name)) +
-  geom_edge_link() +
+  geom_edge_link(alpha = .2) +
   theme_graph()
 ```
 
@@ -255,8 +292,6 @@ data3 <-
 
 ### Joining the data
 
-Next, we'll join the data into one data frame. Note that while this (and data wrangling, in general) is sometimes tedius, especially with large (and messy) sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
-
 Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
 
 ```{r}
@@ -265,16 +300,22 @@ data <-
 
 data <-
   data %>% 
-  mutate(nominee = as.character(nominee)) # this makes merging later easier
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
 
 # calculate indegree in tempdata and merge with data
 tempdata <- data.frame(table(data$nominee))
 
 tempdata <-
   tempdata %>%
-  rename("nominee" = "Var1", # rename the column "Var1" to "nominee"
-         "indegree" = "Freq") %>% # rename the column "Freq" to "indegree"
-  mutate(nominee = as.character(nominee)) # makes nominee a character data type, instead of a factor, which can cause problems
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
 
 data <- 
   left_join(data, tempdata, by = "nominee")
@@ -304,13 +345,15 @@ As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` 
 ```{r}
 data2 <-
   data2 %>% 
-  rename("nominator" = "nominee") # rename nominee as nominator to merge these
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
 
 final_data <-
   left_join(mean_exposure, data2, by = "nominator")
 
 final_data <- 
-  left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
 ```
 
 #### Regression (linear model)
