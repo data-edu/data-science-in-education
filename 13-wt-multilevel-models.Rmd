@@ -60,7 +60,7 @@ We can see how dummy coding works through using the {dummies} package, though,
 as we will see, you often do not need to manually dummy code variables like
 this.
 
-Let's consider the **iris** data that comes built into R, but, since we are fans
+Let's consider the `iris` data that comes built into R, but, since we are fans
 of the {tidyverse}, we will first change it into a tibble.
 
 ``` {r}
@@ -88,7 +88,7 @@ levels(iris$Species)
 
 When we run the `dummy()` function on the `Species` variable, we can see that it
 returns *three* variables, one for each of the three levels of Species -
-"setosa", "versicolor", and "virginica".
+`setosa`, `versicolor`, and `virginica`.
 
 ``` {r}
 dummies::dummy(iris$Species) %>%
@@ -97,7 +97,7 @@ dummies::dummy(iris$Species) %>%
 
 We can confirm that every row associated with a specific species has a 1 in the
 column it corresponds to. We can do this by binding together the dummy codes and
-the **iris** data and then counting, for each of the three species, how many of
+the `iris` data and then counting, for each of the three species, how many of
 the rows for each dummy code were coded with a "1".
 
 For example, when the `Species` is "setosa", the variable `Speciessetosa` always
@@ -113,7 +113,7 @@ iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
 
 Let's look at the results.
 
-```{r}
+```{r, eval=F}
 iris_with_dummy_codes %>% 
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -324,7 +324,7 @@ science analyses, reports, and articles.
 
 Fortunately, for all of the complicated details, multi-level models are very
 easy to use in R. Their requires a new package; one of the most common for
-estimating these types of models is **lme4**. We use it very similarly to the
+estimating these types of models is `lme4()`. We use it very similarly to the
 `lm()` function, but we pass it an additional argument about what the *groups*,
 in the data are. Such a model is often referred to as a "varying intercepts"
 multi-level model, because what is different between the groups is the effect of
@@ -366,10 +366,10 @@ all of the classes can be interpreted as a *prior* for the group estimates.]
 Let's view the results using the `tab_model()` function from sjPlot.
 
 ```{r}
-sjPlot::tab_model(m_course)
+tab_model(m_course)
 ```
 
-There is another part of the above code to mention. The `sjPlot::tab_model()`
+There is another part of the above code to mention. The `tab_model()`
 function comparably as it does for `lm()` models, providing output for the
 model, including some fit statistics as well as coefficients and their standard
 errors and estimates. There are two things to note about `lmer()` output:

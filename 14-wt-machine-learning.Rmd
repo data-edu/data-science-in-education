@@ -36,7 +36,7 @@ For discussion board responses, we were interested in calculating the number of 
 
 At the beginning of the semester, students were asked to complete the pre-course survey about their perceived competence, utility value, and interest. At the end of the semester, the time students spent on the course, their final course grades, and the contents of the discussion forums were collected.
 
-In this walkthrough, we used the R package **caret** to carry out the analyses.
+In this walkthrough, we used the R package {caret} to carry out the analyses.
 
 ## Selecting an analysis
 
@@ -86,7 +86,7 @@ library(tidylog)
 library(dataedu)
 ```
 
-First, we will load the data. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
+First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an .rda file. 
 
 ```{r}
 #loading the data from the .rda file and storing it as an object named 'data'
@@ -95,7 +95,7 @@ data <- dataedu::sci_mo_data
 ```
 
 
-It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse` function from the `dplyr` package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the `dplyr` package loads automatically when we load the `tidyverse` library, so there is no need to call the `dplyr` package separately. Now, we'll glimpse the data.
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 ```{r}
 glimpse(sci_mo_data)
@@ -383,7 +383,7 @@ varImp(rf_fit2_imp)
 
 Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
 
-We can visualize this variable importance list with `ggplot`. 
+We can visualize this variable importance list with {ggplot2}. 
 
 ```{r, results='hide', message = FALSE}
 varImp(rf_fit2_imp) %>%
@@ -401,7 +401,7 @@ The first thing we notice is that the variable "n" is the most important. This v
 
 Overall, there are some subject level differences in terms of how predictive subject is. Biology (`subjectBioA`) shows up pretty far down the list, whereas Physiology is in the middle (`subjPhysA`) and forensic science is towards the top (`subjectFrScA`). What this tells us is that the course students are in seems to have a different effect on final grade, depending on the course. Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
 
-As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the `caret` package if you would like to explore those in your analyses.
+As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the {caret} package if you would like to explore those in your analyses.
 
 ### Comparing a random forest to a regression
 

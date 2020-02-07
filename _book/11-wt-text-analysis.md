@@ -47,7 +47,7 @@ In this walkthrough, we'll be learning how to count words in a text dataset. We'
 
 ## Load Packages 
 
-For this analysis, we'll be using the `tidyverse`, `here`, and `dataedu` packages. Just a reminder, if you haven't already installed the `dataedu` package, you can do so by typing this code: 
+For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
 
 
 ```r
@@ -64,7 +64,7 @@ library(tidytext)
 
 ## Import Data
 
-Let's start by getting the data into our programming environment so we can start analyzing it. We've conveniently included the raw dataset of TidyTuesday tweets in the `dataedu` package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
+Let's start by getting the data into our programming environment so we can start analyzing it. We've conveniently included the raw dataset of TidyTuesday tweets in the {dataedu} package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 
 ```r
@@ -81,13 +81,13 @@ There are some advantages to using an API to import data at the start of your ed
 
 ## View Data 
 
-Let's return to our `raw_tweets` dataset. Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse` or `str` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
+Let's return to our `raw_tweets` dataset. Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse()` or `str()` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
 
 ## Process Data
 
 In this section we'll select the columns we need for our analysis and we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring. 
 
-First, let's use `select` to pick the two columns we'll need: `status_id` and `text`. `status_id` will help us associate interesting words with a particular tweet and `text` will give us the text from that tweet. We'll also change `status_id` to the character data type since it's meant to label tweets and doesn't actually represent a numerical value. 
+First, let's use `select()` to pick the two columns we'll need: `status_id` and `text`. `status_id` will help us associate interesting words with a particular tweet and `text` will give us the text from that tweet. We'll also change `status_id` to the character data type since it's meant to label tweets and doesn't actually represent a numerical value. 
 
 
 ```r
@@ -104,14 +104,14 @@ Now the dataset has a column to identify each tweet and a column that shows the 
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
-The `tidytext` package has a convenient function called `unnest_tokens` that tokenizes vectors of words. Let's install the `tidytext` package so we can use it: 
+The {tidytext} package has a convenient function called `unnest_tokens()` that tokenizes vectors of words. Let's install the {tidytext} package so we can use it: 
 
 
 ```r
 install.packages("tidytext")
 ```
 
-Let's use `unnest_tokens` to take our dataset of tweets and transform it into a dataset of words. 
+Let's use `unnest_tokens()` to take our dataset of tweets and transform it into a dataset of words. 
 
 
 ```r
@@ -139,11 +139,11 @@ tokens
 ## # … with 131,223 more rows
 ```
 
-We use `output = word` to tell `unnest_tokens` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens` to tokenize the tweets in the `text` column of our `tweets` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `status_id` column that tells us which tweet the word appears in. 
+We use `output = word` to tell `unnest_tokens()` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens()` to tokenize the tweets in the `text` column of our `tweets` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `status_id` column that tells us which tweet the word appears in. 
 
-Notice that our `tokens` dataset has many more rows than our `tweets` dataset. This tells us a lot about how `unnest_tokens` works. In the `tweets` dataset, each row has an entire tweet and its unique ID. Since that unique ID is assigned to the entire tweet, each unique ID only appears once in the dataset. When we used `unnest_tokens` put each word on its own row, we broke each tweet into many words. This created additional rows in the dataset. And since each word in a single tweet shares the same ID for that tweet, an ID now appears multiple times in our new dataset. 
+Notice that our `tokens` dataset has many more rows than our `tweets` dataset. This tells us a lot about how `unnest_tokens()` works. In the `tweets` dataset, each row has an entire tweet and its unique ID. Since that unique ID is assigned to the entire tweet, each unique ID only appears once in the dataset. When we used `unnest_tokens()` put each word on its own row, we broke each tweet into many words. This created additional rows in the dataset. And since each word in a single tweet shares the same ID for that tweet, an ID now appears multiple times in our new dataset. 
 
-We're almost ready to start analyzing the dataset! There's one more step we'll take--removing common words that don't help us learn about what people are tweeting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The `tidytext` package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join` on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. 
+We're almost ready to start analyzing the dataset! There's one more step we'll take--removing common words that don't help us learn about what people are tweeting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The {tidytext} package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join`() on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. 
 
 
 ```r
@@ -154,9 +154,9 @@ tokens <-
   anti_join(stop_words, by = "word")
 ```
 
-Why does this work? Let's look closer. `inner_join` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join` does the same thing as `inner_join` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
+Why does this work? Let's look closer. `inner_join()` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join()` does the same thing as `inner_join()` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join()`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
 
-One final note before we start counting words: Remember when we first tokenized our dataset and we passed `unnest_tokens` the argument `output = word`? We conveniently chose `word` as our column name because it matches the column name `word` in the `stop_words` dataset. This makes our call to `anti_join` simpler because `anti_join` knows to look for the column named `word` in each dataset. 
+One final note before we start counting words: Remember when we first tokenized our dataset and we passed `unnest_tokens()` the argument `output = word`? We conveniently chose `word` as our column name because it matches the column name `word` in the `stop_words` dataset. This makes our call to `anti_join()` simpler because `anti_join()` knows to look for the column named `word` in each dataset. 
 
 ## Analysis: Counting Words 
 
@@ -185,11 +185,11 @@ tokens %>%
 ## # … with 15,325 more rows
 ```
 
-We pass `count` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
+We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
 
 We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
 
-In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
+In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
 
 
 ```r
@@ -224,16 +224,16 @@ Now that we have a sense of the most frequently appearing words, it's time to ex
 
 We'll need to use a technique called sentiment analysis to get at the "positivity" of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
 
-The functions we'll be using for our sentiment analysis are in a package called `textdata`. Let's start by installing that. 
+The functions we'll be using for our sentiment analysis are in a package called {textdata}. Let's start by installing that. 
 
 
 ```r
 install.packages("textdata")
 ```
 
-Earlier we used `anti_join` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
+Earlier we used `anti_join()` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
 
-To explore this dataset more, we'll use a `tidytext` function called `get_sentiments` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the `tidytext` package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
+To explore this dataset more, we'll use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the {tidytext} package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 
 ```r
@@ -261,7 +261,7 @@ This returns a dataset with two columns. The first is `word` and contains a list
 
 ### Count positive words
 
-Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count` to total up the appearances of each positive word. 
+Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count()` to total up the appearances of each positive word. 
 
 
 ```r
@@ -297,7 +297,7 @@ pos_tokens_count
 ## # … with 634 more rows
 ```
 
-We can visualize these words nicely by using `ggplot` to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
+We can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
 
 ```r
@@ -318,7 +318,7 @@ pos_tokens_count %>%
 
 <img src="11-wt-text-analysis_files/figure-html/visualize positive-1.png" width="672" />
 
-Note the use of `reorder` when mapping the `word` variable to the x aesthetic. Using `reorder` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
+Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
 ### Dataviz and other positive words 
 
@@ -326,11 +326,11 @@ Earlier in the analysis we learned that "dataviz" was among the most frequently 
 
 There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `status_id` field in the `tweets` dataset to filter the tweets that have the word `dataviz` in them. Then we need to use the `status_id` field in this new bunch of `dataviz` tweets to identify the tweets that include at least one positive word. 
 
-How do we know which `status_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter` and `inner_join` to make two new datasets: one of `status_id` values that have "dataviz" in the `word` column and one of `status_id` values that have a positive word in the `word` column. 
+How do we know which `status_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter()` and `inner_join()` to make two new datasets: one of `status_id` values that have "dataviz" in the `word` column and one of `status_id` values that have a positive word in the `word` column. 
 
 We'll explore the combinations of "dataviz" and any positive words in our `tweets` dataset using these three ingredients: our `tweets` dataset, a vector of `status_id`s for tweets that have "dataviz" in them, and a vector of `status_id`s for tweets that have positive words in them. Now that we have our strategy, let's write some code and see how it works. 
 
-First, we'll make a vector of `status_id`s for tweets that have "dataviz" in them. This will be used later to identify tweets that contain "dataviz" in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
+First, we'll make a vector of `status_id`s for tweets that have "dataviz" in them. This will be used later to identify tweets that contain "dataviz" in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
 
 
 ```r
@@ -371,7 +371,7 @@ head(dv_tokens$status_id)
 ## [4] "1110711892086001665" "1151926405162291200" "1095854400004853765"
 ```
 
-Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
+Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter()` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
 
 
 ```r
@@ -412,7 +412,7 @@ head(pos_tokens$status_id)
 ## [4] "1001412196247666688" "1001412196247666688" "1161638973808287746"
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct()` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
 
 
 ```r
@@ -421,7 +421,7 @@ pos_tokens <-
   distinct(status_id)
 ```
 
-Note that `distinct` drops all variables except for `status_id`. For good measure, let's use `distinct` on our `dv_tokens` dataframe too: 
+Note that `distinct()` drops all variables except for `status_id`. For good measure, let's use `distinct()` on our `dv_tokens` dataframe too: 
 
 
 ```r
@@ -442,7 +442,7 @@ dv_pos <-
   mutate(positive = if_else(status_id %in% pos_tokens$status_id, 1, 0))
 ```
 
-Let's take a moment to dissect how we use `if_else` to create our `positive` column. We gave `if_else` three arguments: 
+Let's take a moment to dissect how we use `if_else()` to create our `positive` column. We gave `if_else()` three arguments: 
 
  - `status_id %in% pos_tokens$status_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
@@ -487,7 +487,7 @@ pos_tweets <-
 
 Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% pos_tokens$status_id` is true or not. 
 
-We can use `slice` to help us pick the rows. When we pass `slice` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
+We can use `slice()` to help us pick the rows. When we pass `slice()` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
 
 
 ```r
@@ -513,12 +513,12 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 1 7 3 8 6
+## [1] 10  4  3  2  8
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
 
-`dplyr` has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. Using `sample_n()` looks like this:
+{dplyr} has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. Using `sample_n()` looks like this:
 
 
 ```r
