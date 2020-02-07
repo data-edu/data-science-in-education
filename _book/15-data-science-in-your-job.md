@@ -45,7 +45,7 @@ library(tidyverse)
 ```
 ## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
 ## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
-## ✓ tidyr   1.0.0     ✓ stringr 1.4.0
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.4.0
 ```
 
@@ -151,7 +151,7 @@ quizzes_3 <- tibble(
 
 The method we'll use to compute the mean quiz score for each student is to: 
 
-1. Combine all the datasets into one big dataset: Use `bind_rows` to combine all three quiz exports into one dataset. Remember, this can be done because each teacher's export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names 
+1. Combine all the datasets into one big dataset: Use `bind_rows()` to combine all three quiz exports into one dataset. Remember, this can be done because each teacher's export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names 
 
 1. Reuse the code from the first dataset on the new bigger dataset: Paste the code we used in the first example into the script so it cleans and computes the mean on the combined dataset 
 
@@ -231,7 +231,7 @@ Here are more ways to get faster at answering analytic questions:
 
  - Recognize when you are using similar chunks of code to do repetitive operations. Store that code in an accessible place and reuse it 
  - Keep a notebook of the questions teachers and administrators ask to help you develop an instinct for common patterns of questions. Write your code to anticipate these questions 
- - Learn to use functions and packages like `purrr` to work on many datasets at once 
+ - Learn to use functions and packages like {purrr} to work on many datasets at once 
  - Install a prototyping habit by getting comfortable with quickly producing rough first drafts of your analysis. Your audience can give valuable feedback early and feel like you are quickly on the path to developing useful answers to their questions
 
 ### Working With More Data
@@ -247,11 +247,11 @@ This is where using R for data analysis enters the conversation. Working with da
 
 Say, for example, an elementary school administrator wants to replace each student name in a classroom dataset with a unique numerical ID. Doing this in a spreadsheet using good old fashioned data entry is fairly straightforward. Doing this for a whole school's worth of classrooms though, demands a different approach. Rather than hand enter a unique id into a spreadsheet, the administrator can write an R script that executes the following steps: 
 
- 1. Use `read_csv` to store every classroom's student list into the computer's memory
- 1. Use `bind_rows` to combine the separate lists into one long list 
- 1. Use `mutate` to replace student names with a randomized and unique numerical ID 
- 1. Use `split` to separate the data into classrooms again 
- 1. Use `purrr` and `write_csv` to create and rename individual spreadsheets to send back to teachers 
+ 1. Use `read_csv()` to store every classroom's student list into the computer's memory
+ 1. Use `bind_rows()` to combine the separate lists into one long list 
+ 1. Use `mutate()` to replace student names with a randomized and unique numerical ID 
+ 1. Use `split()` to separate the data into classrooms again 
+ 1. Use {purrr} and `write_csv()` to create and rename individual spreadsheets to send back to teachers 
 
 With some initial investment into thoughtful coding on the front end of this problem, the admininistrator now has a script she can use repeatedly in the future when she needs to do this task again.
 

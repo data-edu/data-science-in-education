@@ -101,20 +101,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 ## # A tibble: 12 x 2
-##    sender            receiver        
-##    <chr>             <chr>           
-##  1 Morua, Manuel     Jeon, Mazhar    
-##  2 el-Baig, Mahbooba Kiser, Colby    
-##  3 el-Baig, Mahbooba Pereyra, Nicole 
-##  4 Juarez, Alyssa    Kiser, Colby    
-##  5 Juarez, Alyssa    Jeon, Mazhar    
-##  6 Juarez, Alyssa    Mure, Imani     
-##  7 Paskemin, Adail   Pereyra, Nicole 
-##  8 Paskemin, Adail   Sok, Gerald     
-##  9 Paskemin, Adail   Mure, Imani     
-## 10 el-Kaba, Ghaaliya Wollman, Brandon
-## 11 Hasan, Amanda     Pereyra, Nicole 
-## 12 Hasan, Amanda     Wollman, Brandon
+##    sender            receiver                  
+##    <chr>             <chr>                     
+##  1 Winters, Jasmine  al-Galla, Manaara         
+##  2 Sanchez, David    Onexayvieng, Bradley      
+##  3 Sanchez, David    Ward, Victoria            
+##  4 Hartmann, Maranda Onexayvieng, Bradley      
+##  5 Hartmann, Maranda al-Galla, Manaara         
+##  6 Hartmann, Maranda Alarid, Chad              
+##  7 Howell, Shelby    Ward, Victoria            
+##  8 Howell, Shelby    Montoya-Yzaguirre, Leticia
+##  9 Howell, Shelby    Alarid, Chad              
+## 10 Martinez, Sylis   Ho, Alyssa                
+## 11 Nettles, Isaiah   Ward, Victoria            
+## 12 Nettles, Isaiah   Ho, Alyssa
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -124,7 +124,6 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `mutate(has_mention = ifelse(!is.na(all_mentions), TRUE, FALSE))`: this line simply determines there are any mentions at all (or not); it is true if there is one or more mention
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)
  
 
@@ -133,8 +132,8 @@ regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
 tt_tweets <-
   tt_tweets %>%
+  # Use regular expression to identify all the usernames in a tweet
   mutate(all_mentions = str_extract_all(text, regex)) %>%
-  mutate(has_mention = if_else(!is.na(all_mentions), TRUE, FALSE)) %>%
   unnest(all_mentions)
 ```
 
@@ -144,7 +143,6 @@ Let's put these into their own data frame, called `mentions`.
 ```r
 mentions <-
   tt_tweets %>%
-  filter(has_mention) %>%
   mutate(all_mentions = str_trim(all_mentions)) %>%
   select(sender = screen_name, all_mentions)
 ```
@@ -181,13 +179,66 @@ What needs to happen to these to make them easier to work with in an edgelist? O
 ```r
 edgelist <- 
   mentions %>% 
-  mutate(all_mentions= str_sub(all_mentions, start = 2)) %>% 
+  # remove "@" from all_mentions column
+  mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+  # rename all_mentions to receiver
   select(sender, receiver = all_mentions)
 ```
 
 ## Plotting the network
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
+
+Because large networks (like this one) can present challenges, it is common to filter them to only include some individuals. Let's explore how many interactions each individual in the network sent.
+
+
+```r
+interactions_sent <- edgelist %>% 
+  # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
+  count(sender) %>% 
+  # arranges the data frame in descending order of the number of interactions sent
+  arrange(desc(n))
+
+interactions_sent
+```
+
+```
+## # A tibble: 618 x 2
+##    sender            n
+##    <chr>         <int>
+##  1 thomas_mock     347
+##  2 R4DScommunity    78
+##  3 WireMonkey       52
+##  4 CedScherer       41
+##  5 allison_horst    37
+##  6 mjhendrickson    34
+##  7 kigtembu         27
+##  8 WeAreRLadies     25
+##  9 PBecciu          23
+## 10 sil_aarts        23
+## # … with 608 more rows
+```
+
+618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
+
+
+```r
+interactions_sent <- interactions_sent %>% 
+  filter(n > 1)
+```
+
+That leaves us with only 349, perhaps a more reasonable number.
+
+We now need to filter the edgelist to only include these 349 individuals. The following code simply uses the `filter()` function combined with the `%in%` operator to do this:
+
+
+```r
+edgelist <- edgelist %>% 
+  # the first of the two lines below filters to include only senders in the interactions_sent data frame
+  # the second line does the same, for receivers
+  filter(sender %in% interactions_sent$sender,
+         receiver %in% interactions_sent$sender)
+```
 
 We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
 
@@ -200,71 +251,69 @@ g
 ```
 
 ```
-## # A tbl_graph: 1340 nodes and 2447 edges
+## # A tbl_graph: 267 nodes and 975 edges
 ## #
-## # A directed multigraph with 130 components
+## # A directed multigraph with 7 components
 ## #
-## # Node Data: 1,340 x 1 (active)
+## # Node Data: 267 x 1 (active)
 ##   name           
 ##   <chr>          
-## 1 cizzart        
-## 2 dgwinfred      
-## 3 davidmasp      
-## 4 datawookie     
-## 5 jvaghela4      
-## 6 FournierJohanie
-## # … with 1,334 more rows
+## 1 dgwinfred      
+## 2 datawookie     
+## 3 jvaghela4      
+## 4 FournierJohanie
+## 5 JonTheGeek     
+## 6 jakekaupp      
+## # … with 261 more rows
 ## #
-## # Edge Data: 2,447 x 2
+## # Edge Data: 975 x 2
 ##    from    to
 ##   <int> <int>
-## 1     1   619
-## 2     1   620
-## 3     1   621
-## # … with 2,444 more rows
+## 1     1    32
+## 2     1    36
+## 3     2   120
+## # … with 972 more rows
 ```
 
-Next, we'll use the `ggraph()` function. Run the code below, and then uncomment, one at a time, the next two lines (the two beginning `geom_()`, running the code after uncommenting each line).
+We can see that the network now consists of 267 individuals - the 267 who sent more than one interaction.
+
+Next, we'll use the `ggraph()` function:
 
 
 ```r
 g %>%
-  ggraph() +
+  # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
+  ggraph(layout = "kk") +
+  # this adds the points to the graph
   geom_node_point() +
-  # geom_node_text(aes(label = name)) +
-  # geom_edge_link() +
+  # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
+  geom_edge_link(alpha = .2) +
+  # this last line of code adds a ggplot2 theme suitable for network graphs
   theme_graph()
 ```
 
-```
-## Using `stress` as default layout
-```
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-12-1.png" width="672" />
-
-Finally, lets size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
 
 
 
 ```r
 g %>% 
+  # this calculates the centrality of each individual using the built-in centrality_authority() function
   mutate(centrality = centrality_authority()) %>% 
-  ggraph() +
+  ggraph(layout = "kk") + 
   geom_node_point(aes(size = centrality, color = centrality)) +
+  # this line colors the points based upon their centrality
   scale_color_continuous(guide = 'legend') + 
-  geom_node_text(aes(label = name)) +
-  geom_edge_link() +
+  geom_edge_link(alpha = .2) +
   theme_graph()
 ```
 
-```
-## Using `stress` as default layout
-```
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-
-There is much more you can do with **ggraph** (and **tidygraph**); check out the **ggraph** tutorial here: https://ggraph.data-imaginist.com/
+There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
 ## Selection and influence models
 
@@ -371,8 +420,6 @@ data3 <-
 
 ### Joining the data
 
-Next, we'll join the data into one data frame. Note that while this (and data wrangling, in general) is sometimes tedius, especially with large (and messy) sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
-
 Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
 
 
@@ -382,16 +429,22 @@ data <-
 
 data <-
   data %>% 
-  mutate(nominee = as.character(nominee)) # this makes merging later easier
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
 
 # calculate indegree in tempdata and merge with data
 tempdata <- data.frame(table(data$nominee))
 
 tempdata <-
   tempdata %>%
-  rename("nominee" = "Var1", # rename the column "Var1" to "nominee"
-         "indegree" = "Freq") %>% # rename the column "Freq" to "indegree"
-  mutate(nominee = as.character(nominee)) # makes nominee a character data type, instead of a factor, which can cause problems
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
 
 data <- 
   left_join(data, tempdata, by = "nominee")
@@ -423,13 +476,15 @@ As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` 
 ```r
 data2 <-
   data2 %>% 
-  rename("nominator" = "nominee") # rename nominee as nominator to merge these
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
 
 final_data <-
   left_join(mean_exposure, data2, by = "nominator")
 
 final_data <- 
-  left_join(final_data, data3, by = "nominator") # data3 already has nominator, so no need to change
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
 ```
 
 #### Regression (linear model)
@@ -488,6 +543,6 @@ While this is a straightforward way to carry out a selection model, there are so
 
 One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
 
-A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, **ergm**, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), **statnet**. A link to the statnet packages is [here](https://statnet.org/).
+A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, {ergm}, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), {statnet}. A link to the statnet packages is [here](https://statnet.org/).
 
 Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.

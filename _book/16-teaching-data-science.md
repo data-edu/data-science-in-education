@@ -1,6 +1,6 @@
 # Teaching Data Science {#c16}
 
-This book is focused on the application of data science to education. In other words, this book focuses on how to apply data science to questions of teaching, learning, and educational systems. The previous chapters have addresses these topics narratively and in the form of walk-throughs for common questions (or problems) and the types of data encountered in education. 
+This book is focused on the application of data science to education. In other words, this book focuses on how to apply data science to questions of teaching, learning, and educational systems. The previous chapters have addresses these topics through narrative and in the form of walkthroughs for common questions (or problems) and the types of data encountered in education. 
 
 While this book is focused on applying data science to education, an important consideration for data science is how to teach others about it. This is particularly the case for a book that is by a team of authors who are involved in education. Also, we expect readers of this book - many who will also be involved in education - will be interested in teaching others about data science.
 
@@ -56,7 +56,7 @@ You may be interested in teaching others' data science. You may be doing this in
 
 ### Provide a home base for learners to access resources (and to learn more)
 
-As we discuss in the next section, along with other important factors (such as learners' motivation and having a supportive atmospher), learning strategies can make a difference for learners. Especially when it comes to learning to do data science, there are many tools and resources to keep track of, such as:
+As we discuss in the next section, along with other important factors (such as learners' motivation and having a supportive atmosphere), learning strategies can make a difference for learners. Especially when it comes to learning to do data science, there are many tools and resources to keep track of, such as:
 
 - How to download and install R
 - How to download and install R Studio
@@ -85,9 +85,9 @@ This strategy relates to a broader issue, as well: issues that have to do with w
 
 ### Anticipate issues (and sacrifice accuracy for clarity)
 
-Don't worry about being perfectly accurate early on, especially if doing so would lead to learners who are less interested in the topic you are teaching. For example, there are complicated issues at the heart of why data that is built-in to packages or to R (such as the iris dataset) appear in the environment after they are first used in an R session (see the section on "promises" in @wickham2019advr). Similarly, there are complicated issues that pertain to how functions are evaluated that can explain why it is important to provide the name of packages installed via `install.packages()` (whereas the names of arguments to othe functions, such as `dplyr::select()` do not need to be quoted).
+Don't worry about being perfectly accurate early on, especially if doing so would lead to learners who are less interested in the topic you are teaching. For example, there are complicated issues at the heart of why data that is built-in to packages or to R (such as the iris dataset) appear in the environment after they are first used in an R session (see the section on "promises" in @wickham2019advr). Similarly, there are complicated issues that pertain to how functions are evaluated that can explain why it is important to provide the name of packages installed via `install.packages()` (whereas the names of arguments to other functions, such as `dplyr::select()` do not need to be quoted).
 
-In these cases, wherein additional details may not be helpful to beginners, it can be valuable to important these questions (and the issues that are assocaited with them), but to have responses or answers that provide more clarity, rather than confusion. 
+In these cases, wherein additional details may not be helpful to beginners, it can be valuable to important these questions (and the issues that are associated with them), but to have responses or answers that provide more clarity, rather than confusion. 
 
 For example, 
 
@@ -95,7 +95,7 @@ For example,
 
 ### Start lessons or activities with visualizing data
 
-There are examples from data science books @grolemund2018 and past research (e.g. @lehrer2015) that suggests that starting with visualizing data can be benefician in terms of learners' ability to work with data. @golemund2018 write that they begin their book, *Data Science Using R*, with a chapter on visualization, because doing so allows learners to create something that they can share immediately, whereas tasks such as loading data can be rife with issues - and does not immediately lead learners to have a product they can share. @lehrer2007 show how providing students with an opportunity to invent statistics by displaying the data in new ways. This led to (productive) critique among fifth- and sixth-grade students and their teacher.
+There are examples from data science books @grolemund2018 and past research (e.g. @lehrer2015) that suggests that starting with visualizing data can be beneficial in terms of learners' ability to work with data. @golemund2018 write that they begin their book, *Data Science Using R*, with a chapter on visualization, because doing so allows learners to create something that they can share immediately, whereas tasks such as loading data can be rife with issues - and does not immediately lead learners to have a product they can share. @lehrer2007 show how providing students with an opportunity to invent statistics by displaying the data in new ways. This led to (productive) critique among fifth- and sixth-grade students and their teacher.
 
 ### Consider representation in the data and examples you use
 
@@ -134,7 +134,7 @@ One principle that *HPL2* begins with is that learning is complex. in short, lea
 
 ### Learners learn many different things (consciously and unconsciously)
 
-We often think of learning in terms of objectives for specific lessons, but learners learn many different things at different times. The authors of *HPL2* point out that individuals learn in response to different challenges and circumstances, including those in formal learning environements, such as workshops or classes. This principle implies a strategy that involves supporting learners to do data science, however and whenever they learn it. This means that it is both okay - and even to be expected - that learners may take away more from a problem they try to solve on their own, than what they do from a workshop or class (or even a degree!). This also suggests that learners may learn things that we do not anticipate, such as how intructors try to solve problems that arise in class.
+We often think of learning in terms of objectives for specific lessons, but learners learn many different things at different times. The authors of *HPL2* point out that individuals learn in response to different challenges and circumstances, including those in formal learning environments, such as workshops or classes. This principle implies a strategy that involves supporting learners to do data science, however and whenever they learn it. This means that it is both okay - and even to be expected - that learners may take away more from a problem they try to solve on their own, than what they do from a workshop or class (or even a degree!). This also suggests that learners may learn things that we do not anticipate, such as how instructors try to solve problems that arise in class.
 
 ### Metacognition is important (even though it sounds more sophisticated than it is!)
 
@@ -142,7 +142,7 @@ Educators and educational researchers often talk about metacognition, or thinkin
 
 ### Learning strategies matter
 
-While teachers are responsible for designing learning opportunities, learners also play an important role - in their own learning! Learning strategies, according to the authors of *HPL2*, matter, including those that help students to retrieve information and summarize and explain what they have learned (for themseleves and othres). There are many specific strategies documented in [chapter four](https://www.nap.edu/read/24783/chapter/6#72) of *HPL2*. What is important for teachers of data science to know is less the specific strategies, and more the commitment to teaching learners how to learn. 
+While teachers are responsible for designing learning opportunities, learners also play an important role - in their own learning! Learning strategies, according to the authors of *HPL2*, matter, including those that help students to retrieve information and summarize and explain what they have learned (for themselves and others). There are many specific strategies documented in [chapter four](https://www.nap.edu/read/24783/chapter/6#72) of *HPL2*. What is important for teachers of data science to know is less the specific strategies, and more the commitment to teaching learners how to learn. 
 
 In addition to strategies for learners, teaching strategies, such as how content is spaced and sequenced, can also help learners. @dierksen2015's *Design for How People Learn* presents these strategies, based largely about instructional design research, that may be helpful to those teaching data science.
 
@@ -156,4 +156,4 @@ Educators know that how motivated learners are matters. According to the authors
 
 ## Summary
 
-In this section, we described the pedagogical principles for this book and strategies for teaching data science. We also directed attention to more general strategies for teaching and learning. Teaching data science is a relatively new area, but data science educators are not alone, given resources that are beign developed and those that can be adapted from other disciplines and the wider body of educational research.
+In this section, we described the pedagogical principles for this book and strategies for teaching data science. We also directed attention to more general strategies for teaching and learning. Teaching data science is a relatively new area, but data science educators are not alone, given resources that are begin developed and those that can be adapted from other disciplines and the wider body of educational research.

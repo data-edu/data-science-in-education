@@ -36,7 +36,7 @@ For discussion board responses, we were interested in calculating the number of 
 
 At the beginning of the semester, students were asked to complete the pre-course survey about their perceived competence, utility value, and interest. At the end of the semester, the time students spent on the course, their final course grades, and the contents of the discussion forums were collected.
 
-In this walkthrough, we used the R package **caret** to carry out the analyses.
+In this walkthrough, we used the R package {caret} to carry out the analyses.
 
 ## Selecting an analysis
 
@@ -75,7 +75,7 @@ To interpret our findings, we will  three main factors: (1) predictive accuracy 
 
 
 
-First, we will load the data. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
+First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an .rda file. 
 
 
 ```r
@@ -85,7 +85,7 @@ data <- dataedu::sci_mo_data
 ```
 
 
-It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse` function from the `dplyr` package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the `dplyr` package loads automatically when we load the `tidyverse` library, so there is no need to call the `dplyr` package separately. Now, we'll glimpse the data.
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 
 ```r
@@ -498,7 +498,7 @@ rf_fit2
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  splitrule   min.node.size  RMSE      Rsquared   MAE      
-##    2    variance     1             15.32302  0.6110390  11.256089
+##    2    variance     1             15.32274  0.6111107  11.255171
 ##    2    variance     5             15.41644  0.6033990  11.358638
 ##    2    variance    10             15.58342  0.5963452  11.524727
 ##    2    variance    15             15.76218  0.5868123  11.680710
@@ -508,7 +508,7 @@ rf_fit2
 ##    2    extratrees  10             17.68886  0.5307434  12.730148
 ##    2    extratrees  15             17.94445  0.5172112  12.937712
 ##    2    extratrees  20             18.09510  0.5111653  13.051717
-##    3    variance     1             14.52728  0.6280811  10.653547
+##    3    variance     1             14.52715  0.6281204  10.653324
 ##    3    variance     5             14.57908  0.6260363  10.738165
 ##    3    variance    10             14.71290  0.6190406  10.886307
 ##    3    variance    15             14.87838  0.6115016  11.045861
@@ -518,7 +518,7 @@ rf_fit2
 ##    3    extratrees  10             16.40912  0.5831345  11.826247
 ##    3    extratrees  15             16.68300  0.5716373  12.062076
 ##    3    extratrees  20             16.85874  0.5650996  12.213533
-##    7    variance     1             13.61613  0.6524226   9.985055
+##    7    variance     1             13.61532  0.6525042   9.984084
 ##    7    variance     5             13.70025  0.6472675  10.044141
 ##    7    variance    10             13.78366  0.6435253  10.142727
 ##    7    variance    15             13.92684  0.6361402  10.290956
@@ -528,7 +528,7 @@ rf_fit2
 ##    7    extratrees  10             14.35877  0.6554805  10.526819
 ##    7    extratrees  15             14.58194  0.6469771  10.718176
 ##    7    extratrees  20             14.78158  0.6406403  10.884044
-##   10    variance     1             13.44769  0.6554058   9.767580
+##   10    variance     1             13.44309  0.6556889   9.765360
 ##   10    variance     5             13.46283  0.6546588   9.811348
 ##   10    variance    10             13.55409  0.6498397   9.900068
 ##   10    variance    15             13.69744  0.6428284  10.012504
@@ -538,7 +538,7 @@ rf_fit2
 ##   10    extratrees  10             13.72827  0.6714187  10.097534
 ##   10    extratrees  15             13.93028  0.6641939  10.283625
 ##   10    extratrees  20             14.10505  0.6573098  10.438428
-##   19    variance     1             13.49065  0.6473468   9.563349
+##   19    variance     1             13.48989  0.6473846   9.564549
 ##   19    variance     5             13.54851  0.6444930   9.608090
 ##   19    variance    10             13.62576  0.6401074   9.679835
 ##   19    variance    15             13.73846  0.6343041   9.773467
@@ -580,6 +580,7 @@ rf_fit2$finalModel
 ## Target node size:                 1 
 ## Variable importance mode:         none 
 ## Splitrule:                        extratrees 
+## Number of random splits:          1 
 ## OOB prediction error (MSE):       154.3324 
 ## R squared (OOB):                  0.6921864
 ```
@@ -680,7 +681,7 @@ varImp(rf_fit2_imp)
 
 Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
 
-We can visualize this variable importance list with `ggplot`. 
+We can visualize this variable importance list with {ggplot2}. 
 
 
 ```r
@@ -701,7 +702,7 @@ The first thing we notice is that the variable "n" is the most important. This v
 
 Overall, there are some subject level differences in terms of how predictive subject is. Biology (`subjectBioA`) shows up pretty far down the list, whereas Physiology is in the middle (`subjPhysA`) and forensic science is towards the top (`subjectFrScA`). What this tells us is that the course students are in seems to have a different effect on final grade, depending on the course. Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
 
-As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the `caret` package if you would like to explore those in your analyses.
+As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the {caret} package if you would like to explore those in your analyses.
 
 ### Comparing a random forest to a regression
 

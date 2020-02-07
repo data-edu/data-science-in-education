@@ -41,7 +41,7 @@ important. But, by doing so, you can live to code another day. We need as many
 data scientists working in different corners of education as possible, and we
 don't want to lose you to burn-out!
 
-Similarly, when working on any project - even (mand aybe particularly those you
+Similarly, when working on any project - even those you
 are passionate about - it can be important to switch to something else (data
 science-related or otherwise) to retain the curiosity, passion, and interest
 that brought you to the work in the first place. Consider working on a different

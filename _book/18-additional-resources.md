@@ -76,15 +76,17 @@ Liu, M. C., & Huang, Y. M. (2017). The use of data science for education: The ca
 
 Rosenberg, J. M., Lawson, M. A., Anderson, D. J., Rutherford, T., & Jones, R. S. (accepted pending minor revisions). Making Data Science “Count”: Data Science and Learning, Design, and Technology Research. In E. Romero-Hall (Ed.), Research Methods in Learning Design & Technology. Routledge: New York, NY.
 
+Dutt, A., Ismail, M. A., & Herawan, T. (2017). A systematic review on educational data mining. IEEE Access, 5, 15991-16005.
+
 ## Programming with R
 
 Wickham, H. & Grolemund, G. (2017). *R for data science*. Sebastopol, CA: O'Reilly.
 
-> A new classic, with a focus on accessible tools.
+> "You have data but have no idea on how to make sense off it?". If this statement resonates to you, then look no further. Introducing `R` for data analysis. At it's core, R is a statistical programming language. It helps to derive useful information from the data deluge. This book assumes your a novice at data analytics and will subtly introduce you to the nuances of R, RStudio, and the tidyverse (which is a collection of R packages designed to ensure your learning curve is minimal).
 
 Teetor, P. (2011). *R cookbook*. Sebastopol, CA: O'Reilly.
 
-> 
+> This book provides over 200 practical solutions for analysing data using R. 
 
 Bryan, J. & Hestor, J. *Happy git and github for the useR*. Retrieved from [https://happygitwithr.com](https://happygitwithr.com) 
 
@@ -94,11 +96,17 @@ Bryan, J. & Hestor, J. *Happy git and github for the useR*. Retrieved from [http
 
 *Introduction to dplyr*. Retreived from [https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
 
+> `dplyr` is a R package that helps to manipulate and understand data. It provides simple “verbs”, functions that correspond to the most common data manipulation tasks, to help you translate your thoughts into code. Anyone with no programming experience can easily understand the verbs and use them for data analytics with ease.
+
 *A short introduction to the caret package*. Retrieved from [https://cran.r-project.org/web/packages/caret/vignettes/caret.html]([https://cran.r-project.org/web/packages/caret/vignettes/caret.html)
+
+> The `caret` package is an abbreviated form of `Classification And REgression Trees`. It consist of methods that solve regression and classification problems. It also consist of methods related to the initial data preprocessing activities like data cleaning, feature selection and model tuning for predictive analytics.
 
 *tidy data*. Retrieved from [https://tidyr.tidyverse.org/articles/tidy-data.html](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 Wickham et al. (2019). Welcome to the Tidyverse. *Journal of Open Source Software, 4*(43). 1686-1691. https://joss.theoj.org/papers/10.21105/joss.01686
+
+> The philosophy of ensuring data is clean such that each column contains data of just one type (or atomicity) and each row is an observation (made up of several atomic columns) is made possible in this paper. An atomic data type simply means that the data type cannot be broken down further. For example, consider a person address to be like, "127, Napier Street, Kuala Lumpur 50603". Suppose we save this address to a variable called `house-address`. If you look at this variable, it contains mixed-type data with both numeric and text values. So its important to break down the `house-address` variable such that it will contain data of just one type only. So it can be broken down into sub-variables like, `street-number`, `street-name`, `city-name`, `post-code`. This is known as data atomicity. Such atomicity leads to ensuring data is tidy and clean. For more details on this subject, please read this wonderful paper by Hadley Wickham (Wickham, H. (2014). Tidy data. Journal of Statistical Software, 59(10), 1-23.).
 
 ## Statistics 
 
