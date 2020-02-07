@@ -52,7 +52,7 @@ Consider learning best practices for asking forum questions. Including a reprodu
 
 ### GitHub repositories
 
-When you want to learn more about how a package works or engage a package's online community, consider visiting the its GitHub repository. dplyr's repository (https://github.com/tidyverse/dplyr) is a great example. You can start with the README then dive deeper in the vignettes, which contain demonstrations of the package's functions. You can even browse the code on GitHub to learn more about how the packages work. Don't worry, you won't break anything! 
+When you want to learn more about how a package works or engage a package's online community, consider visiting the its GitHub repository. {dplyr}'s repository (https://github.com/tidyverse/dplyr) is a great example. You can start with the README then dive deeper in the vignettes, which contain demonstrations of the package's functions. You can even browse the code on GitHub to learn more about how the packages work. Don't worry, you won't break anything! 
 
 When you're ready to see how the community engages a package's authors, you can read through the Issues page. Each respository's Issues page contains questions, feature requests, and bugs submitted by the programming community. Visit this page when you want to see if someone's already submitted the coding challenge you're working through. If you find you're working on something that's *not* a known problem, you can contribute by adding an issue. And finally, you can contribute to the development of packages by submitting code to the respository--this process is called a pull request. To learn more about contributing to packages, check out @woo talk.
 
