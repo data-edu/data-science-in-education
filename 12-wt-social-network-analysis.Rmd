@@ -1,4 +1,4 @@
-# Walkthrough 6: Exploring Relationships Using Social Network Analysis Using Social Media Data {#c12}
+# Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data {#c12}
 
 ## Vocabulary
 
@@ -12,6 +12,8 @@
 - influence model
 
 ## Introduction
+
+This chapter builds upon the previous chapter on [text analysis](#c11) of #tidytuesday data.
 
 ### Background
 
@@ -41,14 +43,12 @@ rstats_tweets <-
   search_tweets("#rstats")
 ```
 
-The search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. 
+As described in [the previous chapter](#c11), the search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. 
 
 ```{r, eval = FALSE}
 tidytuesday_tweets <- 
   search_tweets("#tidytuesday")
 ```
-
-A key point--and limitation--for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Appendix A*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an indivdual knows or believes).
 
 ## View Data
 
@@ -223,7 +223,7 @@ g %>%
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
-## Analysis: Selection and influence models
+## Extension: Selection and influence models
 
 Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
 
@@ -232,29 +232,14 @@ One way to consider these models and methods is in terms of two *processes* at p
 - *Selection*: the processes regarding who chooses to have a relationship with whom
 - *Infuence*: the processes regarding how who we have relationships with affects our behavior
 
-While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential nuances to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in *Appendix B* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
+While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential nuances to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in the *Technical Appendix* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
 
 ## Results
 
 ## Conclusion
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Appendix B
+## Technical Appendix: Influence and selection models
 
 As noted above, there is much more to understanding interactions, and network analysis, beyond creating edgelists and visualizing network data (through the use of an edgelist). Two processes that are particularly important (and able to be studied with network data using R) are for influence and selection. 
 
