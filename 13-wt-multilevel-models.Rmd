@@ -9,7 +9,7 @@ of being in a particular class.
 
 First, let's load the tidyverse and read the data we processed in [walkthrough 1](06-wt-multilevel-models-1).
 
-``` {r, message = F, warning = F}
+``` {r load packages, message = F, warning = F}
 library(tidyverse)
 library(dummies)
 library(sjPlot)
@@ -37,7 +37,7 @@ this.
 Let's consider the **iris** data that comes built into R, but, since we are fans
 of the {tidyverse}, we will first change it into a tibble.
 
-``` {r}
+``` {r iris as tibble}
 iris <- as_tibble(iris)
 iris
 ```
@@ -56,7 +56,7 @@ Let's return to {dummies}.
 How many possible values are there for `Species`? We can check with the `levels`
 function.
 
-``` {r}
+``` {r iris levels}
 levels(iris$Species)
 ```
 
@@ -64,7 +64,7 @@ When we run the `dummy()` function on the `Species` variable, we can see that it
 returns *three* variables, one for each of the three levels of Species -
 "setosa", "versicolor", and "virginica".
 
-``` {r}
+``` {r run dummy on species}
 dummies::dummy(iris$Species) %>%
   head()
 ```
@@ -79,7 +79,7 @@ equals 1 - as is the case for the other species (for their respective
 variables). `bind_cols()` is a useful tidyverse function for binding together 
 data frames by column.
 
-```{r}
+```{r add dummy coded variables to iris}
 # create matrix of dummy-coded variables
 species_dummy_coded <- dummies::dummy(iris$Species)
 
@@ -94,7 +94,7 @@ Let's look at the results.
 
 <!-- I can't figure out why the following won't run - it runs when I run it code chunk-by-chunk, but not when I render! -->
 
-```{r, eval = FALSE}
+```{r count species, eval = FALSE}
 iris_with_dummy_codes %>% 
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -126,7 +126,7 @@ data and consider the effect (for a student) of being in a specific class in the
 First, let's determine how many classes there are. We can use the `count()`
 function.
 
-```{r}
+```{r count classes}
 dat %>% 
   count(course_id) %>% 
   nrow()
@@ -138,7 +138,7 @@ We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
 and `course_id` - as independent variables.
 
-```{r}
+```{r fit model for course on time spent}
 m_linear_dc <- 
   lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
@@ -146,7 +146,7 @@ m_linear_dc <-
 The output will be a bit, well, long, because each group will have its own
 intercept. Here it is:
 
-```{r}
+```{r show results of m_linear_dc}
 sjPlot::tab_model(m_linear_dc)
 ```
 
@@ -167,7 +167,7 @@ example, that we want "course_idPhysA-S116-01" (the first section of the physics
 `fct_relevel()` function (which is a part of the {tidyverse} suite of packages)
 makes it easy to do this. This function allows us to re-order the levels within a factor, so that the "first" level will change. We'll also use `mutate` again here, which we introduced in the previous chapter. 
 
-``` {r}
+``` {r relevel course_id}
 dat <-
   dat %>%
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
@@ -176,7 +176,7 @@ dat <-
 We can now see that *that* group is no longer listed as an independent variable,
 or a predictor: every coefficient in this model is now in reference to it. 
 
-``` {r}
+``` {r fit model with new course level}
 # Here we run a linear model again, predicting percentage earned in the course
 # The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
 m_linear_dc_1 <- 
@@ -202,7 +202,7 @@ other, dummy-coded groups are compared to is desired. In such cases, no
 intercept is estimated. This can be done by passing a -1 as the first value
 after the tilde, as follows:
 
-``` {r}
+``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
 m_linear_dc_2 <- 
   lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
@@ -286,13 +286,13 @@ being a student in a class: the intercepts between groups vary.
 
 You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
 
-```{r eval=FALSE}
+```{r install lme4, eval=FALSE}
 install.packages("lme4") 
 ```
 
 Now we can fit our multi-level model:
 
-``` {r}
+``` {r fit multi-level model}
 m_course <- 
   lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 
@@ -322,13 +322,13 @@ function in the {performance} package for doing this.
 
 You can install the {performance} package by typing this code in your console: 
 
-```{r eval=FALSE}
+```{r install performance, eval=FALSE}
 install.packages("performance")
 ```
 
 After that, try this function: 
 
-``` {r }
+``` {r ICC}
 performance::icc(m_course)
 ```
 
@@ -349,7 +349,7 @@ Bolker, & Walker, 2015).
 
 We don't have a variable containing the name of different schools. If we did we could fit the model like this, where `school_id` is the variable containing different schools: 
 
-``` {r, eval = FALSE}
+``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
   lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
@@ -358,7 +358,7 @@ m_course_school <-
 Were we to estimate this model (and then use the `icc()` function), we would see
 two ICC values representing the proportion of the variation in the dependent
 variable explained by each of the two groups we added - the course *and* the
-school. A common question those using lme4 have is whether it is necessary to 
+school. A common question those using {lme4} have is whether it is necessary to 
 explicitly nest the courses within schools; as long as the courses are unique labelled, this is not necessary to do.
 
 You can add further still levels to the model, as the {lme4} package was
