@@ -236,20 +236,17 @@ effect of being a student in each group, but with a key distinction from linear
 models: Instead of determining how different the observations in a group are
 from those in the reference group, the multi-level model "regularizes"
 (sometimes the term "shrinks" is used) the difference based on how systematically
-different the groups are. The reason why "shrinkage" is occasionally used is that the group-level estimates (i.e., for classes) that are obtained through multi-level modeling can never be larger than those from a linear model (regression). As described earlier, when there are groups included in the model, 
-a regression effectively estimates the effect for each group independent of all of the others.
+different the groups are. The reason why "shrinkage" is occasionally used is that the group-level estimates (i.e., for classes) that are obtained through multi-level modeling can never be larger than those from a linear model (regression). As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of all of the others.
 
-Through regularization, groups that are comprised of individuals who are
+Through regularization, groups that comprise individuals who are
 consistently different (higher or lower) than individuals on average are not
 regularized very much - their estimated difference may be close to the estimate
 from a multi-level model - whereas groups with only a few individuals, or with a
 lot of variability within individuals, would be regularized a lot. In the former
 case, the multi-level model considers there to be strong evidence for a group
 effect, whereas in the latter, the model recognizes that there is less certainty
-about a group (class) effect for that particular group, in part because that group is small. Multi-level models are
-very common in educational research for cases such as this: accounting for the
-way in which students take the same classes, or even go to the same school (see
-Raudenbush & Bryk, 2002).
+about a group (class) effect for that particular group, in part because that group is small. Multi-level models are very common in educational research for cases such as this: accounting for the
+way in which students take the same classes, or even go to the same school (see Raudenbush & Bryk, 2002).
 
 The way that a multi-level model does this "regularizing" is by considering the
 groups (and not the data points, in this case) to be samples from a larger
@@ -280,7 +277,7 @@ not surprising that multi-level models may be encountered in educational data
 science analyses, reports, and articles.
 
 Fortunately, for all of the complicated details, multi-level models are very
-easy to use in R. Their requires a new package; one of the most common for
+easy to use in R. This requires a new package; one of the most common for
 estimating these types of models is **lme4**. We use it very similarly to the
 `lm()` function, but we pass it an additional argument about what the *groups*,
 in the data are. Such a model is often referred to as a "varying intercepts"
@@ -288,7 +285,8 @@ multi-level model, because what is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
 ``` {r}
-# install.packages("lme4") # note that this only needs to be run one time, after which the package will be installed on your local computer
+# note that this only needs to be run one time, after which the package will be installed on your local computer
+# install.packages("lme4") 
 m_course <- 
   lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 
