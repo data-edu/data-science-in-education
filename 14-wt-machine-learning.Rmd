@@ -36,7 +36,7 @@ For discussion board responses, we were interested in calculating the number of 
 
 At the beginning of the semester, students were asked to complete the pre-course survey about their perceived competence, utility value, and interest. At the end of the semester, the time students spent on the course, their final course grades, and the contents of the discussion forums were collected.
 
-In this walkthrough, we used the R package **caret** to carry out the analyses.
+In this walkthrough, we used the R package {caret} to carry out the analyses.
 
 ## Selecting an analysis
 
@@ -73,7 +73,7 @@ To interpret our findings, we will  three main factors: (1) predictive accuracy 
 
 ## Analysis
 
-```{r, echo=FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 #install the new packages that will be used in this walkthrogh
     #Skip this if you have already installed these on your computer
@@ -86,7 +86,7 @@ library(tidylog)
 library(dataedu)
 ```
 
-First, we will load the data. Our data is stored in the `dataedu` package that is part of this book. Within that package, the data is stored as an .rda file. 
+First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an .rda file. 
 
 ```{r}
 #loading the data from the .rda file and storing it as an object named 'data'
@@ -95,7 +95,7 @@ data <- dataedu::sci_mo_data
 ```
 
 
-It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse` function from the `dplyr` package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the `dplyr` package loads automatically when we load the `tidyverse` library, so there is no need to call the `dplyr` package separately. Now, we'll glimpse the data.
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 ```{r}
 glimpse(sci_mo_data)
@@ -111,11 +111,29 @@ Below, we will *filter* to remove all the datapoints from the spring 2017 semest
 ```{r}
 #filtering the data to only include 2016 data. 
 
-data <- data %>% filter(semester != "S217")
+data <- 
+    data %>% 
+    filter(semester != "S217")
 
 #selecting only the variables we are interested in: 
-data <- data %>% 
-    select(pre_int, pre_uv,  pre_percomp, time_spent, final_grade, subject, enrollment_reason, semester, enrollment_status, cogproc, social, posemo, negemo, n)
+data <- 
+    data %>%
+    select(
+        pre_int,
+        pre_uv,
+        pre_percomp,
+        time_spent,
+        final_grade,
+        subject,
+        enrollment_reason,
+        semester,
+        enrollment_status,
+        cogproc,
+        social,
+        posemo,
+        negemo,
+        n
+    )
 ```
 
 ### Use of caret
@@ -147,27 +165,32 @@ In the nearZeroVar function we just ran, we see a result in the ZeroVar column o
 
 ```{r}
 #Taking the dataset and re-saving it as the same dataset, but without the enrollment status variable
-data <- select(data, -enrollment_status)
+data <- 
+    data %>% 
+    select(-enrollment_status)
 ```
 
 Note that many times you may wish to pre-process the variables, such as by centering or scaling them. Often the data will come to you in a format that is not ready for immediate analysis, as we have discussed elsewhere in the book. For our current dataset, we could work on pre-processing with code like you will see below. We set this next code chunk up to not run here (if you are viewing the book online), as we will do this analysis with the variables' original values.
 
 ```{r, eval = FALSE}
 #example pre-processing step: manipulating the dataset 'data' so that if a variable is numeric, its format will now be scale
-data <- mutate_if(data, 
-               is.numeric, scale)
+data <- 
+    data %>% 
+    mutate_if(is.numeric, scale)
 ```
 
 As another pre-processing step, we want to make sure our text data is in a format that we can easily evaluate. To facilitate that, we want to make character string variables into factors.
 
 ```{r}
 #converting the text (character) variables in our dataset into factors
-data <- mutate_if(data, is.character, as.factor)
+data <- 
+    data %>% 
+    mutate_if(is.character, as.factor)
 ```
 
 Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don't have either a training or testing dataset that has too many good grades - or too many bad grades. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to initiate a process called "setting the seed." This means that we are ensuring that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that wehn you open the same code file again to run in the future, you do not change the number you selected for your seed. This ensures your code is reproducible. In fact, it ensures that anyone who runs the same code file on any computer, anywhere, will get the same result. With that background information, try running the code chunk below.
 
-```{r}
+```{r, cache = TRUE}
 #First, we set a seed to ensure the reproducibility of our data partition.
 set.seed(62020)
 
@@ -181,23 +204,36 @@ trainIndex <- createDataPartition(data$final_grade,
     #this will let us select our rows according to their row number
     #we populate the rows with the numbers 1:499, in order
 
-data <- data %>% 
-    mutate(temp_id = 1:499)
+data <- 
+    data %>% 
+    mutate(temp_id = 1:494)
 
 #we filter our dataset so that we get only the 
     #rows indicated by our "trainIndex" vector
-data_train <- filter(data, temp_id %in% trainIndex)
+data_train <- 
+    data %>% 
+    filter(temp_id %in% trainIndex)
 
 #we filter our dataset in a different way so that we get only  the rows NOT in our "trainIndex" vector
     #adding the ! before the temp_id variable achieves the opposite of what we did in the line of code above
 
-data_test <- filter(data, !temp_id %in% trainIndex)
+data_test <- 
+    data %>% 
+    filter(!temp_id %in% trainIndex)
 
 #We delete the temp_id variable from (1) the original data, (2) the portion of the original data we marked as training, and (3) the portion of the original data we marked as testing, as we no longer need that variable
 
-data <- select(data, -temp_id)
-data_train <- select(data_train, - temp_id)
-data_test <- select(data_test, -temp_id)
+data <- 
+    data %>% 
+    select(-temp_id)
+
+data_train <- 
+    data_train %>% 
+    select(-temp_id)
+
+data_test <- 
+    data_test %>% 
+    select(-temp_id)
 ```
 
 Finally, we will estimate the models.
@@ -212,7 +248,7 @@ Note that you can read more about the specific random forest implementation chos
 
 Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are "growing!"
 
-```{r}
+```{r, cache = TRUE}
 #setting a seed for reproducibility
 set.seed(62020)
 
@@ -235,17 +271,19 @@ The value of resampling here is that it allows for higher accuracy of the model 
 
 Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.
 
-```{r}
+```{r, cache = TRUE}
 set.seed(62020)
 
-train_control <- trainControl(method = "repeatedcv",
-                              number = 10,
-                              repeats = 10)
+train_control <-
+    trainControl(method = "repeatedcv",
+                 number = 10,
+                 repeats = 10)
 
-rf_fit1 <- train(final_grade ~ .,
-                data = data_train,
-                method = "ranger",
-                trControl = train_control)
+rf_fit1 <-
+    train(final_grade ~ .,
+          data = data_train,
+          method = "ranger",
+          trControl = train_control)
 
 rf_fit1
 ```
@@ -258,21 +296,24 @@ What would happen if we do not fix **min.node.size** to five? We're going to let
 
 Let's create our own grid of values to test for **mtry** and **min.node.size**. We'll stick with the default bootstrap resampling method to choose the best model. We will randomly choose some values to use for **mtry**, including the three that were used previously (2, 10, and 19). Let's try 2, 3, 7, 10, and 19.
 
-
-```{r}
+```{r, cache = TRUE}
 #create a grid of different values of mtry, different splitrules, and different minimum node sizes to test
-tune_grid <- expand.grid(mtry = c(2, 3, 7, 10, 19),
-                         splitrule = c("variance", "extratrees"),
-                         min.node.size = c(1, 5, 10, 15, 20))
+tune_grid <-
+    expand.grid(
+        mtry = c(2, 3, 7, 10, 19),
+        splitrule = c("variance", "extratrees"),
+        min.node.size = c(1, 5, 10, 15, 20)
+    )
 
 #set a seed
 set.seed(62020)
 
 #fit a new model, using the tuning grid we created above
-rf_fit2 <- train(final_grade ~ .,
-                data = data_train,
-                method = "ranger",
-                tuneGrid = tune_grid)
+rf_fit2 <-
+    train(final_grade ~ .,
+          data = data_train,
+          method = "ranger",
+          tuneGrid = tune_grid)
 
 rf_fit2
 ```
@@ -283,7 +324,7 @@ While the output above gives us a good summary of the model, we might want to lo
 
 In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - we have stored a random forest model as a model, so it's not a normal dataframe. Thus, we extract with a `$`. We want to select only the final model used, and not worry about the prior iterations of the model.
 
-```{r}
+```{r, cache = TRUE}
 #Here, we select the "finalModel" output from the rf_fit2 model
 rf_fit2$finalModel
 ```
@@ -295,13 +336,14 @@ Now that we understand how to develop a basic machine learning model, and how to
 
 What if we use the test data set - data not used to train the model? Below, we'll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called "pred." At the same, time, we'll make a row called "obs" that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
 
-```{r}
+```{r, cache = TRUE}
 set.seed(62020)
 
 ##Create a new object for the testing data including predicted values 
-data_test_augmented <- mutate(data_test,
-                           pred = predict(rf_fit2, data_test),
-                           obs = final_grade)
+data_test_augmented <-
+    data_test %>%
+    mutate(pred = predict(rf_fit2, data_test),
+           obs = final_grade)
 
 ###Transform this new object into a dataframe
 defaultSummary(as.data.frame(data_test_augmented))
@@ -321,16 +363,19 @@ Note that importance values are not calculated automatically, but that "impurity
 
 We'll re-run the rf_fit2 model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
 
-```{r}
+```{r, cache = TRUE}
 #set a seed
 set.seed(62020)
 
 #specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric
-rf_fit2_imp <- train(final_grade ~ .,
-                data = data_train,
-                method = "ranger",
-                tuneGrid = tune_grid,
-                importance = "permutation")
+rf_fit2_imp <-
+    train(
+        final_grade ~ .,
+        data = data_train,
+        method = "ranger",
+        tuneGrid = tune_grid,
+        importance = "permutation"
+    )
 
 #extract the variable importance from this new model
 varImp(rf_fit2_imp)
@@ -338,15 +383,16 @@ varImp(rf_fit2_imp)
 
 Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
 
-We can visualize this variable importance list with `ggplot`. 
+We can visualize this variable importance list with {ggplot2}. 
 
-```{r}
+```{r, results='hide', message = FALSE}
 varImp(rf_fit2_imp) %>%
     pluck(1) %>%
     rownames_to_column("var") %>%
     ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col() +
-    coord_flip()
+    geom_col(fill = dataedu_cols("darkblue")) +
+    coord_flip() +
+    theme_dataedu()
 ```
 
 Cool! We can now visualize which variables are most important in predicting final grade. 
@@ -355,34 +401,40 @@ The first thing we notice is that the variable "n" is the most important. This v
 
 Overall, there are some subject level differences in terms of how predictive subject is. Biology (`subjectBioA`) shows up pretty far down the list, whereas Physiology is in the middle (`subjPhysA`) and forensic science is towards the top (`subjectFrScA`). What this tells us is that the course students are in seems to have a different effect on final grade, depending on the course. Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
 
-As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the `caret` package if you would like to explore those in your analyses.
+As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the {caret} package if you would like to explore those in your analyses.
 
 ### Comparing a random forest to a regression
 
 You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (rf_fit2). Note that we are not actually  re-running our random forest model here, but instead we are just making a dataset that includes the values that the rf_fit2 model predicted as well as the actual rf_fit2 values.
 
-```{r}
+```{r, cache = TRUE}
 #Make sure all variables stored as characters are converted to factors
-data_train_lm <- mutate_if(data_train, is.character, as.factor) 
+data_train_lm <- 
+    data_train %>% 
+    mutate_if(is.character, as.factor) 
 
 #Create a linear regression model, using the same formula approach as in the random forest: ~ .
-lm_fit <- train(final_grade ~ .,
-                data = data_train_lm, 
-                method = "lm")
+lm_fit <-
+    train(final_grade ~ .,
+          data = data_train_lm,
+          method = "lm")
 
 #Append the predicted values to the training dataset for the linear model, so we can see both the predicted and the actual values
-data_train_lm <- mutate(data_train, 
-                     obs = final_grade,
-                     pred = predict(lm_fit, data_train_lm))
+data_train_lm <-
+    data_train %>%
+    mutate(obs = final_grade,
+           pred = predict(lm_fit, data_train_lm))
 
 #Append the predicted values to the training dataset for the random forest
-data_train_randomfor <- mutate(data_train, 
-                  pred = predict(rf_fit2, data_train),
-                  obs = final_grade)
+data_train_randomfor <-
+    data_train %>%
+    mutate(pred = predict(rf_fit2, data_train),
+           obs = final_grade)
 
 #Summarize, as data frames, the training data with the predicted and the actual values
     #for both the linear model
 defaultSummary(as.data.frame(data_train_lm))
+
     #and the random forest
 defaultSummary(as.data.frame(data_train_randomfor))
 ```
