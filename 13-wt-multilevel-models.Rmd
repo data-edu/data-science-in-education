@@ -290,6 +290,8 @@ You'll only need to install {lme4} once to do the rest of this walkthrough. To i
 install.packages("lme4") 
 ```
 
+Now we can fit our multi-level model:
+
 ``` {r}
 m_course <- 
   lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
@@ -299,13 +301,12 @@ sjPlot::tab_model(m_course)
 
 In a way, what is going on above is straightforward (and similar to what we have seen with `lm()`), but, it is also different and potentially confusing. Parentheses are not commonly used with `lm()`; there is a term (`(1|course_id)`) in parentheses. Also, the bar symbol - `|` - is not commonly used with `lm()`. 
 
-As different as these (the parentheses and bar) are, they are used for a relatively straightforward purpose: to model the group (in this case, courses) in the data. With `lmer()`, these group terms are specified in parentheses - specifically, to the right of the bar. That is what the `|course_id` part means - it is telling lmer that courses are groups in the data. The left side of the bar tells lmer that what we want to be specified are varying intercepts for each group (1 is used to denote the intercept). That is basically it!
+As different as these (the parentheses and bar) are, they are used for a relatively straightforward purpose: to model the group (in this case, courses) in the data. With `lmer()`, these group terms are specified in parentheses - specifically, to the right of the bar. That is what the `|course_id` part means - it is telling lmer that courses are groups in the data. The left side of the bar tells lmer that what we want to be specified are varying intercepts for each group (1 is used to denote the intercept). 
 
 That is basically it, but there is potentially more to the story: in addition to the 1, variables which can be specified to have a different effect for each group can also be specified. These variables are referred to not as varying intercepts, but as varying slopes. We will not cover these in this walkthrough, but want you to be aware of them (we recommend the book  by West, Welch, and Galecki [2014] provide an excellent walkthrough on how to specify varying slopes using lmer).
 
 <!-- Preferable to add this as a footnote -->
-To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made 
-taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
+To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
 
 There is another part of the above code to mention. The `sjPlot::tab_model()` function comparably as it does for `lm()` models, providing output for the model, including some fit statistics as well as coefficients and their standard errors and estimates. There are two things to note about `lmer()` output:
 
@@ -317,10 +318,17 @@ As we mentioned earlier, a common way to understand how much variability is at
 the group level is to calculate the *intra-class* correlation. This value is the
 proportion of the variability in the outcome (the *y*-variable) that is
 accounted for solely by the groups identified in the model. There is a useful
-function in the **performance** package for doing this.
+function in the {performance} package for doing this.
 
-``` {r}
-# install.packages("performance")
+You can install the {performance} package by typing this code in your console: 
+
+```{r eval=FALSE}
+install.packages("performance")
+```
+
+After that, try this function: 
+
+``` {r }
 performance::icc(m_course)
 ```
 
