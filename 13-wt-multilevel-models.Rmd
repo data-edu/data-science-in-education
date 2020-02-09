@@ -347,10 +347,12 @@ with another group added for the school. The model will account for the way in
 which the classes are nested within the schools automatically (Bates, Maechler,
 Bolker, & Walker, 2015).
 
+We don't have a variable containing the name of different schools. If we did we could fit the model like this, where `school_id` is the variable containing different schools: 
+
 ``` {r, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
