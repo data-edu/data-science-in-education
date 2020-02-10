@@ -102,12 +102,12 @@ To help contributors participate, we're using labels so community members can id
 
 If you have questions, comments, or ideas you can reach the authors by email at [authors@datascienceineducation.com](mailto:authors@datascienceineducation.com) or on Twitter: 
 
- - Emily [ebovee09](https://twitter.com/ebovee09)  
+ - Emily [@ebovee09](https://twitter.com/ebovee09)  
 
- - Isabella [ivelasq3](https://twitter.com/ivelasq3) 
+ - Isabella [@ivelasq3](https://twitter.com/ivelasq3) 
 
- - Jesse [kierisi](https://twitter.com/kierisi) 
+ - Jesse [@kierisi](https://twitter.com/kierisi) 
 
- - Joshua [jrosenberg6432](https://twitter.com/jrosenberg6432) 
+ - Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
 
- - Ryan [RyanEs](https://twitter.com/RyanEs) 
+ - Ryan [@RyanEs](https://twitter.com/RyanEs) 
