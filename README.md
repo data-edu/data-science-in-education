@@ -6,6 +6,8 @@
  
 * [How to Contribute](#Contributing)
 
+## Reading the Book
+
 ## The Aims of This Book
 
 School districts, government agencies, and education businesses are generating data at a dizzying pace and serving it to teachers, administrators, and education consultants in a mind-boggling variety of formats. Educators and educational data practitioners who want to use data to improve the educational outcomes of students often have a clear idea of the questions they want to ask of their data, but they are left to analyze data as it is presented to them, often times using high-cost proprietary systems. Educational data rarely comes in a “ready-to-analyze” format, so educators and educational data practitioners who are eager to leverage data to promote student success often feel very little connection between the analytic questions they have and the numbers on their laptop. But some educational data practitioners are adopting the tools of data science, including open source projects like R, to make better use of the data deluge. When data science meets education, the numbers previously confined to websites and PDF reports are set free. Teachers, administrators, and consultants apply programming and statistics to prepare data, transform it, visualize it, and analyze it to answer questions that are as unique as are their roles in education.
@@ -26,7 +28,7 @@ And, the reader will be able to:
 * Apply a basic analytic workflow through practice with education datasets
 * Be thoughtful, empathetic, and effective when introducing data science techniques in their education jobs
 
-## Outline
+## Chapters 
 
 1. Introduction: Data Science in Education
 
@@ -66,7 +68,7 @@ And, the reader will be able to:
 
 19. Conclusion 
 
-# Contributing
+## Contributing
 
 This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
 
@@ -92,3 +94,6 @@ To help contributors participate, we're using labels so community members can id
 `writing`: New content needed. At least one author will be assigned to `writing` issues, but we welcome collaboration! Feel free to message the author on Slack or in the issue comments to coordinate. 
 
 `review draft`: These are requests to read through a draft chapter and provide feedback on the experience, including reability. 
+
+## Contact Us 
+
