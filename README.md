@@ -8,6 +8,8 @@
 
 ## Reading the Book
 
+We wrote this book for you and are excited to share it! You can read the work in progress at [datascienceineducation.com](https://datascienceineducation.com) right now. The print version will be released in 2020 through [Routledge](https://www.routledge.com). 
+
 ## The Aims of This Book
 
 School districts, government agencies, and education businesses are generating data at a dizzying pace and serving it to teachers, administrators, and education consultants in a mind-boggling variety of formats. Educators and educational data practitioners who want to use data to improve the educational outcomes of students often have a clear idea of the questions they want to ask of their data, but they are left to analyze data as it is presented to them, often times using high-cost proprietary systems. Educational data rarely comes in a “ready-to-analyze” format, so educators and educational data practitioners who are eager to leverage data to promote student success often feel very little connection between the analytic questions they have and the numbers on their laptop. But some educational data practitioners are adopting the tools of data science, including open source projects like R, to make better use of the data deluge. When data science meets education, the numbers previously confined to websites and PDF reports are set free. Teachers, administrators, and consultants apply programming and statistics to prepare data, transform it, visualize it, and analyze it to answer questions that are as unique as are their roles in education.
