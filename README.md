@@ -4,7 +4,6 @@
 [![Travis build status](https://travis-ci.org/dataedu/data-science-in-education.svg?branch=master)](https://travis-ci.org/dataedu/data-science-in-education)
 <!-- badges: end -->
  
- 
 * [How to Contribute](#Contributing)
 
 ## The Aims of This Book
@@ -63,7 +62,9 @@ And, the reader will be able to:
 
 17. Learning More
 
-18. Additional Resources
+18. Additional Resources 
+
+19. Conclusion 
 
 # Contributing
 
@@ -71,17 +72,18 @@ This project started in the #dataedu [Slack channel](https://dataedu.slack.com/)
 
 Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. We're actively editing as we get closer to our manuscript's due date and this helps us keep all the changes synced up. 
 
-[How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) [How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
+[How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) 
+[How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 **Git Issue Labels** 
 
 To help contributors participate, we're using labels so community members can identify tasks they want to help with. When working on an issue, [assign yourself to the issue](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users). This helps us keep track of the work and lets us know who to contact for more collaboration. The labels are: 
 
-`good first issue`: These are requests for changes that we think would be fun and achievable if you're new to git and GitHub 
+`good first issue`: These are requests for changes that we think would be fun and achievable if you're new to git and GitHub. 
 
 `discussion`: Sometimes we need help talking through a topic to help us make a good design choice for our readers. These issues won't always result in a change, but they help us clarify what's best for the final product. 
 
-`test code`: These issues are for running code and giving feedback about how it went. If there were problems, you can help us by letting us know what happened  . 
+`test code`: These issues are for running code and giving feedback about how it went. If there were problems, you can help us by letting us know what happened. 
 
 `bug`: The code isn't running as expected and needs fixing. 
 
@@ -89,4 +91,4 @@ To help contributors participate, we're using labels so community members can id
 
 `writing`: New content needed. At least one author will be assigned to `writing` issues, but we welcome collaboration! Feel free to message the author on Slack or in the issue comments to coordinate. 
 
-`review draft`: These are requests to read through a draft chapter and provide feedback on the experience, including reability 
+`review draft`: These are requests to read through a draft chapter and provide feedback on the experience, including reability. 
