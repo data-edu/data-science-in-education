@@ -67,7 +67,11 @@ And, the reader will be able to:
 
 # Contributing
 
-- This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
+This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
+
+Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. We're actively editing as we get closer to our manuscript's due date and this helps us keep all the changes synced up. 
+
+[How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) [How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 **Git Issue Labels** 
 
