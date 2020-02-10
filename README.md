@@ -67,8 +67,6 @@ And, the reader will be able to:
 
 # Contributing
 
-- Check the [planning](/planning/) folder for process- and outline-related information.
-
 - This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
 
 **Git Issue Labels** 
