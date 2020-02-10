@@ -4,8 +4,11 @@
 [![Travis build status](https://travis-ci.org/dataedu/data-science-in-education.svg?branch=master)](https://travis-ci.org/dataedu/data-science-in-education)
 <!-- badges: end -->
  
- 
 * [How to Contribute](#Contributing)
+
+## Reading the Book
+
+We wrote this book for you and are excited to share it! You can read the work in progress at [datascienceineducation.com](https://datascienceineducation.com) right now. The print version will be released in 2020 through [Routledge](https://www.routledge.com). 
 
 ## The Aims of This Book
 
@@ -27,7 +30,7 @@ And, the reader will be able to:
 * Apply a basic analytic workflow through practice with education datasets
 * Be thoughtful, empathetic, and effective when introducing data science techniques in their education jobs
 
-## Outline
+## Chapters 
 
 1. Introduction: Data Science in Education
 
@@ -63,22 +66,47 @@ And, the reader will be able to:
 
 17. Learning More
 
-18. Additional Resources
+18. Additional Resources 
 
-# Contributing
+19. Conclusion 
 
-- Check the [planning](/planning/) folder for process- and outline-related information.
+## Contributing
 
-- This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
+This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
+
+Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. We're actively editing as we get closer to our manuscript's due date and this helps us keep all the changes synced up. 
+
+[How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) 
+[How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 **Git Issue Labels** 
 
-To help contributors participate, we're using labels so folks who are new to the repo can identify tasks to participate in. If you're working on an issue, it helps us if you assign the issue to yourself so we know who to reach if we want to collaborate. The labels are: 
+To help contributors participate, we're using labels so community members can identify tasks they want to help with. When working on an issue, [assign yourself to the issue](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users). This helps us keep track of the work and lets us know who to contact for more collaboration. The labels are: 
 
-`test code`: Need help running the file locally and reporting back if everything worked. If it didn't, it helps us if we have a description of what went wrong. 
+`good first issue`: These are requests for changes that we think would be fun and achievable if you're new to git and GitHub. 
 
-`discussion`: Sometimes we need help talking through a topic to help us make a good design choice for our readers.
+`discussion`: Sometimes we need help talking through a topic to help us make a good design choice for our readers. These issues won't always result in a change, but they help us clarify what's best for the final product. 
 
-`help wanted`: Need help getting code to run or writing a section. We'll make sure the problem we're trying to work out is clearly stated in the issue comments. 
+`test code`: These issues are for running code and giving feedback about how it went. If there were problems, you can help us by letting us know what happened. 
 
-`writing`: New content needed. At least one author will be assigned to `writing` issues, but we welcome collaboration! Feel free to message the author on Slack or in the issue comments to coordinate.
+`bug`: The code isn't running as expected and needs fixing. 
+
+`help wanted`: Need help getting code to run or writing a section. We'll make sure the problem we're working on is clearly described in the issue. 
+
+`writing`: New content needed. At least one author will be assigned to `writing` issues, but we welcome collaboration! Feel free to message the author on Slack or in the issue comments to coordinate. 
+
+`review draft`: These are requests to read through a draft chapter and provide feedback on the experience, including reability. 
+
+## Contact Us 
+
+If you have questions, comments, or ideas you can reach the authors by email at [authors@datascienceineducation.com](mailto:authors@datascienceineducation.com) or on Twitter: 
+
+Emily [ebovee09](https://twitter.com/ebovee09) 
+
+Isabella [ivelasq3](https://twitter.com/ivelasq3) 
+
+Jesse [kierisi](https://twitter.com/kierisi) 
+
+Joshua [jrosenberg6432](https://twitter.com/jrosenberg6432) 
+
+Ryan [RyanEs](https://twitter.com/RyanEs) 
