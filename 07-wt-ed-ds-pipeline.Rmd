@@ -6,6 +6,13 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
 
 ## Vocabulary
 
+- log-trace data
+- survey
+- item
+- reverse scale
+- joins
+- regression
+
 ## Introduction
 
 ### Background
@@ -297,13 +304,46 @@ Let's start with the pre-survey data. We will rename RespondentID and opdata_Cou
 ```{r}
 pre_survey <-
   pre_survey %>%
-  rename(student_id = RespondentId,
+  rename(student_id = opdata_username,
          course_id = opdata_CourseID)
 
 pre_survey
 ```
 
 Looks better now!
+
+In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data wiht the other data sources we have. Why does this varaible have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
+
+```{r}
+head(pre_survey$student_id)
+```
+
+What we need is the five characters in between the underscore symbols - these: `_`.
+
+An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skippign the first underscore in the process.
+
+```{r}
+str_sub("_80624_1", start = 2)
+```
+
+We can do the same with the last few characters:
+
+```{r}
+str_sub("_80624_1", end = -3)
+```
+
+Putting the pieces together, the following should return what we want
+
+```{r}
+str_sub("_80624_1", start = 2, end = -3)
+```
+
+We can apply this to our data using `mutate()`; we coerce the string into a number using `as.numeric()` at the same time, so the data can be joined to the other, numeric student_id variables (in the other data sets):
+
+```{r}
+pre_survey <- pre_survey %>% 
+  mutate(student_id = as.numeric(str_sub(student_id, start = 2, end = -3)))
+```
 
 Let's proceed to the course data. Our goal is to rename two variables that
 correspond to the course and the student so that we can match with the other
@@ -533,7 +573,7 @@ the data,
 ## Analysis
 
 In this section, we focus on some initial analyses in the form of visualizations
-and some models. We note that we expand on these in a [later chapter'(\#c13).
+and some models. We note that we expand on these in a [later chapter](\#c13).
 
 ### The relationship between time spent on course and percentage of points earned
 
