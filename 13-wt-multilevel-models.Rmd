@@ -1,5 +1,10 @@
 # Walkthrough 7: The Role (and Usefulness) of Multi-Level Models {#c13}
 
+As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
+students' performance in these online courses, focusing on the time spent in the 
+course (made available through the learning management system) and the effects 
+of being in a particular class.
+
 ## Vocabulary
 
 - hierarchical linear model  
@@ -36,7 +41,7 @@ dat <- dataedu::sci_mo_data
 
 We will load the tidyverse and a few other packages specific to multi-level models.
 
-```{r,message = F, warning = F}
+```{r load packages, message = F, warning = F}
 library(tidyverse)
 library(dummies)
 library(sjPlot)
@@ -63,7 +68,7 @@ this.
 Let's consider the `iris` data that comes built into R, but, since we are fans
 of the {tidyverse}, we will first change it into a tibble.
 
-``` {r}
+``` {r iris as tibble}
 iris <- as_tibble(iris)
 iris
 ```
@@ -82,7 +87,7 @@ Let's return to {dummies}.
 How many possible values are there for `Species`? We can check with the `levels`
 function.
 
-``` {r}
+``` {r iris levels}
 levels(iris$Species)
 ```
 
@@ -90,7 +95,7 @@ When we run the `dummy()` function on the `Species` variable, we can see that it
 returns *three* variables, one for each of the three levels of Species -
 `setosa`, `versicolor`, and `virginica`.
 
-``` {r}
+``` {r run dummy on species}
 dummies::dummy(iris$Species) %>%
   head()
 ```
@@ -105,15 +110,22 @@ equals 1 - as is the case for the other species (for their respective
 variables). `bind_cols()` is a useful tidyverse function for binding together 
 data frames by column.
 
-```{r}
+```{r add dummy coded variables to iris}
+# create matrix of dummy-coded variables
 species_dummy_coded <- dummies::dummy(iris$Species)
+
+# convert matrix to tibble so we can use tidyverse functions
 species_dummy_coded <- as_tibble(species_dummy_coded)
+
+# add dummy coded variables to iris
 iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
 ```
 
 Let's look at the results.
 
-```{r, eval=F}
+<!-- I can't figure out why the following won't run - it runs when I run it code chunk-by-chunk, but not when I render! -->
+
+```{r count species, eval = FALSE}
 iris_with_dummy_codes %>% 
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -154,7 +166,7 @@ student) of being in a specific class in the data set.
 First, let's determine how many classes there are. We can use the `count()`
 function to see how many courses there are.
 
-```{r}
+```{r count classes}
 dat %>% 
   count(course_id)
 ```
@@ -163,11 +175,11 @@ dat %>%
 
 ### Regression (linear model) analysis with dummy codes
 
-We will save this output to `m_linear_courses`, where the `dc` stands for dummy
+We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
-and `subject` - as independent variables.
+and `course_id` - as independent variables.
 
-```{r}
+```{r fit model for course on time spent}
 m_linear_dc <- 
   lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
@@ -175,7 +187,7 @@ m_linear_dc <-
 The output will be a bit, well, long, because each group will have its own
 intercept. Here it is:
 
-```{r}
+```{r show results of m_linear_dc}
 sjPlot::tab_model(m_linear_dc)
 ```
 
@@ -199,7 +211,7 @@ packages) makes it easy to do this. This function allows us to re-order the
 levels within a factor, so that the "first" level will change. We'll also use
 `mutate` again here, which we introduced in the previous chapter. 
 
-``` {r}
+``` {r relevel course_id}
 dat <-
   dat %>%
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
@@ -208,7 +220,7 @@ dat <-
 We can now see that *that* group is no longer listed as an independent variable,
 or a predictor: every coefficient in this model is now in reference to it. 
 
-``` {r}
+``` {r fit model with new course level}
 # Here we run a linear model again, predicting percentage earned in the course
 # The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
 m_linear_dc_1 <- 
@@ -234,7 +246,7 @@ other, dummy-coded groups are compared to is desired. In such cases, no
 intercept is estimated. This can be done by passing a -1 as the first value
 after the tilde, as follows:
 
-``` {r}
+``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
 m_linear_dc_2 <- 
   lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
@@ -271,8 +283,7 @@ estimated effects for each of many groups, like classes, and to address the
 assumption of independence. Multi-level models do this by (still) estimating the
 effect of being a student in each group, but with a key distinction from linear
 models: Instead of determining how different the observations in a group are
-from those in the reference group, the multi-level model "regularizes"
-(sometimes the term "shrinks" is used) the difference based on how
+from those in the reference group, the multi-level model "regularizes" (sometimes the term "shrinks" is used) the difference based on how
 systematically different the groups are. The reason why "shrinkage" is
 occasionally used is that the group-level estimates (i.e., for classes) that are
 obtained through multi-level modeling can never be larger than those from a
@@ -280,7 +291,7 @@ linear model (regression). As described earlier, when there are groups included
 in the model, a regression effectively estimates the effect for each group
 independent of all of the others.
 
-Through regularization, groups that are comprised of individuals who are
+Through regularization, groups that comprise individuals who are
 consistently different (higher or lower) than individuals on average are not
 regularized very much - their estimated difference may be close to the estimate
 from a multi-level model - whereas groups with only a few individuals, or with a
@@ -323,18 +334,27 @@ science analyses, reports, and articles.
 ### Multi-level model analysis
 
 Fortunately, for all of the complicated details, multi-level models are very
-easy to use in R. Their requires a new package; one of the most common for
-estimating these types of models is `lme4()`. We use it very similarly to the
-`lm()` function, but we pass it an additional argument about what the *groups*,
+easy to use in R. This requires a new package; one of the most common for
+estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*,
 in the data are. Such a model is often referred to as a "varying intercepts"
 multi-level model, because what is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
-``` {r}
-# install.packages("lme4") # note that this only needs to be run one time, after which the package will be installed on your local computer
+You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
+
+```{r install lme4, eval=FALSE}
+install.packages("lme4") 
+```
+
+Now we can fit our multi-level model:
+
+``` {r fit multi-level model}
 m_course <- 
   lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
 ```
+
+<!-- Preferable to add this as a footnote -->
+To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
 
 In a way, what is going on above is straightforward (and similar to what we have
 seen with `lm()`), but, it is also different and potentially confusing.
@@ -388,10 +408,17 @@ As we mentioned earlier, a common way to understand how much variability is at
 the group level is to calculate the *intra-class* correlation. This value is the
 proportion of the variability in the outcome (the *y*-variable) that is
 accounted for solely by the groups identified in the model. There is a useful
-function in the **performance** package for doing this.
+function in the {performance} package for doing this.
 
-``` {r}
-# install.packages("performance")
+You can install the {performance} package by typing this code in your console: 
+
+```{r install performance, eval=FALSE}
+install.packages("performance")
+```
+
+After that, try this function: 
+
+``` {r ICC}
 performance::icc(m_course)
 ```
 
@@ -410,18 +437,19 @@ with another group added for the school. The model will account for the way in
 which the classes are nested within the schools automatically (Bates, Maechler,
 Bolker, & Walker, 2015).
 
-``` {r, eval = FALSE}
+We don't have a variable containing the name of different schools. If we did we could fit the model like this, where `school_id` is the variable containing different schools: 
+
+``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
 two ICC values representing the proportion of the variation in the dependent
 variable explained by each of the two groups we added - the course *and* the
-school. A common question those using lme4 have is whether it is necessary to
-explicitly nest the courses within schools; as long as the courses are unique
-labelled, this is not necessary to do.
+school. A common question those using {lme4} have is whether it is necessary to 
+explicitly nest the courses within schools; as long as the courses are unique labelled, this is not necessary to do.
 
 You can add further still levels to the model, as the {lme4} package was
 designed for complex multi-level models (and even those with not nested, but
