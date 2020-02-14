@@ -5,7 +5,7 @@
 <!-- badges: end -->
  
 * [How to Contribute](#Contributing)
-* [Contact Us](#Contact Us)
+* [Contact Us](#Contact-Us)
 
 ## Reading the Book
 
