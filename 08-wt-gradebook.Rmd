@@ -92,21 +92,34 @@ First, modify the column names of the `gradebook` data frame to remove any space
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more useable format.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE}
-# look at original column names
-colnames(gradebook) 
+First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`
 
+```{r}
+# look at original column names
+head(colnames(gradebook)) 
+```
+
+You can look at the full output by removing the call to `head()` 
+
+```{r eval=FALSE}
+# look at original column names
+colnames(gradebook)
+```
+
+Now let's look at the cleaned names 
+
+```{r echo = TRUE, message = FALSE, warning = FALSE}
 gradebook <- 
   gradebook %>% 
   clean_names()
 
 # look at cleaned column names
-colnames(gradebook) 
+head(colnames(gradebook) )
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
 
-```{r eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 view(gradebook)
 ```
 
