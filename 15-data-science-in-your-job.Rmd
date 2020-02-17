@@ -51,14 +51,14 @@ Tools like Excel and Google Sheets can help you compute statistics like mean sco
 
 ```{r}
 quizzes_1 %>% 
-    gather(quiz_number, score, -c(teacher_id, student_id))
+    pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score")
 ```
 
-Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `gather`, each row is now a unique combination of teacher, student, and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
+Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `gather`, each row is now a unique combination of teacher, student, intervention status, and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
 
 ```{r}
 quizzes_1 %>% 
-    gather(quiz_number, score, -c(teacher_id, student_id)) %>% 
+    pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score") %>%
     group_by(student_id) %>% 
     summarise(quiz_mean = mean(score))
 ```
