@@ -43,14 +43,14 @@ quizzes_1 <- tibble(
 quizzes_1
 ```
 
-Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `gather` to separate the quiz number and its score for each student will get us a long way: 
+Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `pivot_longer()` to separate the quiz number and its score for each student will get us a long way: 
 
 ```{r tidy quiz scores}
 quizzes_1 %>% 
     pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score")
 ```
 
-Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `gather`, each row is now a unique combination of teacher, student and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
+Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `pivot_longer()`, each row is now a unique combination of teacher, student and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
 
 ```{r mean quiz scores}
 quizzes_1 %>% 
@@ -157,10 +157,6 @@ Say, for example, an elementary school administrator wants to replace each stude
  1. Use {purrr} and `write_csv()` to create and rename individual spreadsheets to send back to teachers 
 
 With some initial investment into thoughtful coding on the front end of this problem, the admininistrator now has a script she can use repeatedly in the future when she needs to do this task again.
-
-```{r}
-# TODO: More examples of differences in scale 
-```
 
 ##  Other Ways to Reimagine the Scale of Your Work
 
