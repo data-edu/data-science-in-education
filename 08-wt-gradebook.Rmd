@@ -43,9 +43,11 @@ library(dataedu)
 
 ## Import Data
 
-Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world.
+Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
 
-This code uses the `read_excel()` function of the {readxl} package to find and read the data of the desired file. Note the file path that `read_excel()` takes to find the simulated dataset file named `ExcelGradeBook.xlsx` which sits in a folder on your computer if you have downloaded it. The function `getwd()` will help locate your current working directory. This tells where on the computer R is currently working with files.
+### Import Using a File Path 
+
+First let's look at importing the dataset using a file path. This code uses the `read_excel()` function of the {readxl} package to find and read the data of the desired file. Note the file path that `read_excel()` takes to find the simulated dataset file named `ExcelGradeBook.xlsx` which sits in a folder on your computer if you have downloaded it. The function `getwd()` will help locate your current working directory. This tells where on the computer R is currently working with files.
 
 ```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 # See the current working directory
@@ -59,11 +61,17 @@ From this location go deeper into files to find the desired file. For example, i
 * `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
 * `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
 
-In the code below `ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)` the part written `path/to/file.xlsx` is just pseudo code to remind you to swap in your own path to the file you want to import. Recall from the Foundational Skills section of this book that directories and file paths are important for finding files on your computer. 
+After locating the sample Excel file, use the code below to run the function `read_excel()` which reads and saves the data from `ExcelGradeBook.xlsx` to an object also called `ExcelGradeBook`. Note the two arguments specified in this code `sheet = 1` and `skip = 10`. This Excel file is similar to one you might encounter in real life with superfluous features that we are not interested in. This file has 3 different sheets and the first 10 rows contain things we won't need. Thus, `sheet = 1` tells `read_excel()` to just read the first sheet in the file and disregard the rest. While `skip = 10` tells `read_excel()` to skip reading the first 10 rows of the sheet and start reading from row 11 which is where the column headers and data actually start inside the Excel file. Remember to replace `path/to/file.xlsx` your own path to the file you want to import.
 
-After locating the sample Excel file run the code below to run the function `read_excel()` which reads and saves the data from `ExcelGradeBook.xlsx` to an object also called `ExcelGradeBook`. Note the two arguments specified in this code `sheet = 1` and `skip = 10`. This Excel file is similar to one you might encounter in real life with superfluous features that we are not interested in. This file has 3 different sheets and the first 10 rows contain things we won't need. Thus, `sheet = 1` tells `read_excel()` to just read the first sheet in the file and disregard the rest. While `skip = 10` tells `read_excel()` to skip reading the first 10 rows of the sheet and start reading from row 11 which is where the column headers and data actually start inside the Excel file. Remember to replace `path/to/file.xlsx` your own path to the file you want to import.
+```{r import using file path, eval=FALSE}
+ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
+```
 
-```{r eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+### Import Using `here()` 
+
+Whenever possible, we prefer to use `here()` from the {here} package because it conveniently guesses at the correct file path based on the working directory. In you working directory, place the `ExcelGradeBook.xlsx` file in a folder called `gradebooks`. Then place the `gradebooks` folder in a folder called `data`. The last step is to make sure your new `data` folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
+
+```{r read in data, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 # Use readxl package to read and import file and assign it a name
 ExcelGradeBook <-
   read_excel(
@@ -75,7 +83,7 @@ ExcelGradeBook <-
 
 The `ExcelGradeBook` file has been imported into RStudio. Next, assign the data frame to a new name using the code below. Renaming cumbersome filenames can improve the readability of the code and make is easier for the user to call on the dataset later on in the code.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE}
+```{r assign to new name, echo = TRUE, message = FALSE, warning = FALSE}
 # Rename data frame
 gradebook <- ExcelGradeBook
 ```
@@ -92,19 +100,34 @@ First, modify the column names of the `gradebook` data frame to remove any space
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more useable format.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE}
-colnames(gradebook) # look at original column names
+First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`
 
+```{r}
+# look at original column names
+head(colnames(gradebook)) 
+```
+
+You can look at the full output by removing the call to `head()` 
+
+```{r eval=FALSE}
+# look at original column names
+colnames(gradebook)
+```
+
+Now let's look at the cleaned names 
+
+```{r echo = TRUE, message = FALSE, warning = FALSE}
 gradebook <- 
   gradebook %>% 
   clean_names()
 
-colnames(gradebook) # look at cleaned column names
+# look at cleaned column names
+head(colnames(gradebook) )
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
 
-```{r eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 view(gradebook)
 ```
 
@@ -213,14 +236,16 @@ classwork_df %>%
   labs(
     title = "Distribution of Classwork Scores",
     x = "Classwork",
-    y = "Scores",
-    color = "90% or Above"
+    y = "Scores"
   ) +
   theme_dataedu() +
   scale_fill_dataedu() +
-  theme(legend.position = "none",
-        # removes legend
-        axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
+  theme(
+    # removes legend
+    legend.position = "none",
+    # angles the x axis labels
+    axis.text.x = element_text(angle = 45, hjust = 1)
+    ) 
 ```
 
 ### Model Data
@@ -310,7 +335,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 
 ### Building a Linear Model
 
-In the multi-level modeling walkthrough, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
+In chapter 7, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
 
 * Your predictor (formative_assessments)
 * Your response (running_average)
@@ -323,11 +348,25 @@ linear_mod <-
 summary(linear_mod)
 ```
 
-The formula reads as follows: 
+When you fit a model to two variables, you create an equation that describes the relationship between those two variables on average. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is .42136. The equation reads like this: 
 
 ```{}
 running_average = 50.11511 + 0.42136*formative_assessments
 ```
+
+We interpret these results by saying "For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
+
+*More on interpreting models* 
+
+Challenge yourself to apply your education knowledge to the way you communicate a model's output to your audience. Consider the difference between describing the relationship between formative assessment scores and running averages for a large group of students and for an individual student. 
+
+If you were describing the formatives assessment system to stakeholders, you might say something like, "We can generally expect our students to show a .421 increase in their running average score for every one point increase in their formative assessment scores." That makes sense, because your goal is to explain what happens **in general**.
+
+But we can rarely expect every prediction about individual students to be correct, even with a reliable model. So when using this equation to inform how you support an individual student, it's important to consider all the real-life factors, visible and invisible, that influence an individual student outcome. 
+
+To illustrate this concept, consider predicting how long it takes for you to run around the block right outside your office. Imagine you ran around the block five times and after each lap you jotted your time down on a post-it. After the fifth lap you do a calculation on your cell phone and see that your average lap time is five minutes. If you were to guess how long your sixth lap would take, you'd be smart to guess five minutes. But intuitively you know there's no guarantee the sixth lap time will land right on your average. Maybe you'll trip on a crack in the sidewalk and lose a few seconds, or maybe your favorite song pops into your head and gives you a thirty second advantage. Statisticians would call the difference between your predicted lap time and your actual lap time a "residual" value. Residuals are the differences between predicted values and actual values that aren't explained by your linear model equation. 
+
+It takes practice to interpret and communicate these concepts well. A good start is exploring model outputs in two contexts: first as a general description of a population and second as a practical tool for helping invidivual student performance.
 
 ## Conclusion
 

@@ -81,6 +81,8 @@ Think of an API as a special door a home builder made for a house that has a lot
 
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
 
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an indivdual knows or believes).
+
 ## View Data 
 
 Let's return to our `raw_tweets` dataset. Run `glimpse(raw_tweets)` and notice the number of variables in this dataset. It's good practice to use functions like `glimpse()` or `str()` to look at the data type of each variable. For this walkthrough, we won't need all 90 variables so let's clean the dataset and keep only the ones we want. 
@@ -367,3 +369,47 @@ The purpose of this walkthrough is to share code with you so you can practice so
  - Open ended responses in surveys  
 
 There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html, both from Julia Silge's and David Robinson's book.
+
+We use this data set further in the next chapter [on social network analysis](#c12).
+
+## Technical Appendix on Accessing Twitter data
+
+### Accessing historical Twitter data using already-collected status URLs
+
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
+
+```{r}
+raw_tidytuesday_tweets <-
+  read_delim(
+    "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
+    "\t",
+    escape_double = FALSE,
+    trim_ws = TRUE
+  )
+```
+
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+
+```{r, eval = FALSE}
+token <-
+  create_token(
+    consumer_key = < add - your - key - here > ,
+    consumer_secret = < add - your - secret - here >
+  )
+
+# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
+
+tidytuesday_tweets <-
+  lookup_statuses(raw_tidytuesday_tweets$status_url,
+                  token = token)
+```
+
+The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
+
+### Accessing historical data when you do not have access to status URLs
+
+In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
+
+First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
+
+A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.

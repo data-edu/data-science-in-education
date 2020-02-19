@@ -46,6 +46,8 @@ We use Projects because they create a self-contained folder for a given analysis
 This means that if you want to share your Project with a colleague they will not have to reset file paths (or even know anything about file paths!) in order to re-run your analysis.  
 
 And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future, at least in terms of file path structures. 
+
+*Perhaps move this sentence as we have not yet introduced functions/packages yet*
 You may run into issues with packages being out of date and functions being deprecated - in which case you may be interested in learning more about how to set up a Project within Docker [AAA].  
 
 ### Setting up your Project
@@ -97,6 +99,41 @@ Save your data to the `data --> raw` folder, make a copy of your data, and put t
 When working with downloaded data (in other words, data files, as opposed to pulling your data directly into R through an API, database connection, or webscraping) it's good practice to keep the initial copy of your data in a folder and to never open that data, _especially if that data is in an `.xls* or .csv` format!_ 
 Excel has an overly aggressive way of trying to be helpful with your data, and when you open a file you may find that [your numeric values have been converted to dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7). 
 At best you need to re-download the file, and at worst you've made a significant amount of work for yourself.    
+
+## Exploring R quickly with `swirl`
+
+If you're eager to get started exploring everything that R can do, we recommend installing and learning through [`swirl`](https://swirlstats.com/students.html). 
+`swirl` is set of packages (more on those shortly!) that you can download, providing an interactive method for learning R by using R.
+
+We are not affiliated with `swirl` in any way, nor is it required to progress through this text. Below, we'll discuss packages, functions, and other skills that will get you up and running in R in no time.
+
+
+## Introduction to Help Documentation
+Very few - if any - people in the world know everything there is to know about R.
+This means that we all need to look things up, sometimes every few minutes!
+Thankfully there are some excellent built-in resources that we can leverage as we use R. 
+
+From within RStudio we can access the `Help` documentation by using `?` or `??` in the console.
+For example, if I wanted to look up information on the `data()` function, I can type `?data` or `data()` next to the carat `>` in the Console and hit `Enter`. 
+You should see the `Help` panel on the bottom right side of your RStudio environment populate with documentation on the `data()` function. 
+
+This works because the `data()` function is part of something called **base R** - that is, all of the functions included with R when you first install it. 
+R also comes with packages pre-installed, however as you use R throughout this book, we'll be asking you to install additional packages.
+These additional packages extend the functionality of base R and its pre-installed packages by providing us with access to new functions. 
+This means that instead of writing a function to do a common data analysis task, such as creating a new variable out of existing variables, someone has written that function and made it available for you to use (almost always at no charge! 
+Don't worry - all of the packages we'll be using in this text are considered **O**pen **S**ource **S**oftware, and you will not have to purchase anything to complete any of the exercises or walkthroughs in this text.) 
+
+One of the functions that can accomplish this task is called `mutate()`. 
+What happens when you type `?mutate` (or `mutate()`) into the Console and hit `Enter`?  
+
+We've gotten one of our first error messages!  
+
+[IMG of error message - pending RStudio bug fix]
+
+This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
+Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
+What happens?
+
 
 ## Code for Foundational Skills
 
@@ -405,6 +442,47 @@ _Note: when we refer to "commenting" we're referring to adding in actual text co
 _We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` sign in an example._
 
 ## Using functions to import data
+
+
+### Downloading and accessing the data sets used in this book
+
+Throughout this book you'll see data accessed in a multitude of ways.
+Sometimes we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
+We've also provided each of the datasets used in this book as `.rda` files that are accessible via the `dataedu` package.
+More details about the `dataedu` package on be found [on GitHub](https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
+
+As of this writing, the `dataedu` package is not available on CRAN. 
+This means we'll have to install the package using `devtools`. 
+To do this you first have to install the `devtools` package, and then the `dataedu` package by running the following code either in your RStudio console or in a script (an .R file): 
+
+```{r, eval = F}
+# install devtools
+install.packages("devtools", repos = "http://cran.us.r-project.org")
+
+# install the dataedu package
+devtools::install_github("data-edu/dataedu")
+```
+
+From here we can load the `dataedu` package using the `library()` call, as follows:
+
+```{r}
+# load the dataedu package into our R environment
+library(dataedu)
+```
+
+Once you've installed the `dataedu` package, you can use the `mass_install()` function to download all of the packages we'll be using in this text. 
+This step is optional, and you're welcome to install packages as you use them. 
+
+To install all of the packages used in this text, run the following code in your RStudio console:
+
+```{r, eval=F}
+# see which packages are used in the Data Science in Education Using R text
+dataedu::all_packages
+
+# install all of the packages used in the Data Science in Education Using R text
+dataedu::mass_install()
+```
+
 
 ### Run this code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
