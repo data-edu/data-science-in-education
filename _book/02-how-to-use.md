@@ -180,7 +180,7 @@ detail some of what we had to not include in the book here.
 - Advanced statistical methodologies: As noted above, there are other excellent books for learning 
 statistics. While we do discuss basic and advanced statistical methods, this is not a statistical methods book. One advanced statistical book that we think is excellent from a machine learning perspective is @james2013 *An Introduction to Statistical Learning with Applications in R*.
 
-- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the `bookdown` package) and create websites (which some of the authors have done using the `blogdown` package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *Blogdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown' *Bookdown* (https://bookdown.org/yihui/bookdown/)).
+- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *Blogdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown' *Bookdown* (https://bookdown.org/yihui/bookdown/)).
 
 ## Contributing to the Book
 

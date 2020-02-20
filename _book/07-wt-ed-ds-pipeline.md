@@ -89,7 +89,7 @@ this as a potentially very rich data source.
 
 This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you wil recall from [Chapter 1](#c1). We load
-these packages with the function `library`. In particular, the packages we'll
+these packages with the function `library()`. In particular, the packages we'll
 use will help us load Excel files, organize the structure of the data, work with
 dates in the data, and navigate file directories.
 
@@ -232,7 +232,7 @@ pre_survey  <-
   mutate_at(vars(q1:q10), list( ~ as.numeric(.)))
 ```
 
-Let's take a moment to discuss the `dplyr` function `mutate_at`. `mutate_at` is a version of `mutate`, which changes the values in an existing column or creates new columns. It's useful in education datasets because you'll often need to transform your data before analyzing it. Try this example, where we create a new `total_students` column by adding the number of `male` students and `female` students: 
+Let's take a moment to discuss the {dplyr} function `mutate_at()`. `mutate_at()` is a version of `mutate()`, which changes the values in an existing column or creates new columns. It's useful in education datasets because you'll often need to transform your data before analyzing it. Try this example, where we create a new `total_students` column by adding the number of `male` students and `female` students: 
 
 
 ```r
@@ -252,7 +252,7 @@ df %>% mutate(total_students = male + female)
 ## 1     5      5             10
 ```
 
-`mutate_at` is a special version of `mutate`, which conveniently changes the values of multiple columns. In our dataset `pre_survey`, we let `mutate` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
+`mutate_at()` is a special version of `mutate()`, which conveniently changes the values of multiple columns. In our dataset `pre_survey`, we let `mutate()` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
 
 2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
 the responses for all questions can be interpreted in the same way. Rather
@@ -345,7 +345,7 @@ We will use a similar process later to calculate these variables' correlations.
 ### Processing the course data
 
 We also can process the course data in order to create new variables which we can use in analyses. 
-Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. If we give each of these their own columns, we'll have more opportunities to analyze them as their own variables. We'll use a function called `separate` to do this. 
+Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. If we give each of these their own columns, we'll have more opportunities to analyze them as their own variables. We'll use a function called `separate()` to do this. 
 This pulls out the subject, semester, and section from the course ID so we can use them later on. 
 
 
@@ -458,7 +458,7 @@ note the order of the data frames passed to our "left" join. Let's focus just on
 the first two arguments. Left joins retain all of the rows in the "left" data
 frame, and joins every matching row in the right data frame to it.
 
-Note that in the above, after `left_join(`, we see `course_data` and then
+Note that in the above, after `left_join()`, we see `course_data` and then
 `pre_survey`. In this case, `course_data` is the "left" data frame (passed as
 the *first* argument), while `pre_survey` is the "right" data frame, passed as
 the *second* argument. So, in the above, knowing how `left_join()` works, what
@@ -475,7 +475,7 @@ all of the times you have data in more than one data frame, and want them to be
 in a single data frame! As a result, we think that joins are well worth
 investing the time to be able to use.
 
-With education (and other) data, `left_joins()` are helpful for carrying out
+With education (and other) data, `left_join()` is helpful for carrying out
 most tasks related to joining datasets. There are, though, functions for other
 types of joins, those less important than `left_join()` but still worth
 mentioning.
@@ -685,7 +685,7 @@ at the student-level (and not at the level of different gradebook items). We can
 do this using the `distinct()` function. This function takes the name of the
 data frame and the name of the variables used to determine what counts as a
 unique case. 
-Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct` takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
+Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct()` takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
 Another thing to note about `distinct()` is that it will only
 return the variable(s) (we note that you can pass more than one variable to
 `distinct()`) you used to determine uniqueness, *unless* you include the
@@ -838,11 +838,11 @@ m_linear <-
 ```
 
 Another way that we can generate table output is with a function from the
-`sjPlot` package, `tab_model`.
+{sjPlot} package, `tab_model()`.
 
 
 ```r
-sjPlot::tab_model(m_linear)
+tab_model(m_linear)
 ```
 
 <table style="border-collapse:collapse; border:none;">
@@ -883,12 +883,12 @@ This will work well for R Markdown documents (or simply to interpet the model in
 R). If you want to save the model for use in a Word document, the
 [apaTables](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
-like we did with `sjPlot::tab_model()`. Then, you can save the output to a Word
+like we did with `tab_model()`. Then, you can save the output to a Word
 document, simply by adding a `filename` argument:
 
 
 ```r
-apaTables::apa.reg.table(m_linear, filename = "regression-table-output.doc")
+apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
 You might be wondering what else the apaTables package does; we encourage you to
@@ -901,7 +901,7 @@ correlations.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
 be using a lot in this book. `filter()`, `group_by()`, and `summarise()` are functions
-in the `dplyr` package that you will see a lot in upcoming chapters.
+in the {dplyr} package that you will see a lot in upcoming chapters.
 
   - `filter()` removes rows from the dataset that don't match a criteria. Use it
     for tasks like only keeping records for students in the fifth grade
@@ -912,7 +912,7 @@ in the `dplyr` package that you will see a lot in upcoming chapters.
     Use it for tasks like turning a datset of student test scores into a datset
     of grade levels and their mean test score
 
-So let's use these `dplyr` functions on our survey analysis. We will create the
+So let's use these {dplyr} functions on our survey analysis. We will create the
 same measures (based on the survey items) that we used earlier to understand how
 they relate to one another:
 
@@ -935,7 +935,7 @@ survey_responses <-
   ) %>%
   group_by(student_id, measure) %>%
   # Here's where we compute the mean of the responses
-  summarise(
+  summarize(
     # Mean response for each measure
     mean_response = mean(response, na.rm = TRUE)
     ) %>%
@@ -1016,7 +1016,7 @@ m_linear_1 <-
   lm(percentage_earned ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
-sjPlot::tab_model(m_linear_1)
+tab_model(m_linear_1)
 ```
 
 <table style="border-collapse:collapse; border:none;">
@@ -1123,11 +1123,11 @@ m_linear_3 <-
   lm(percentage_earned ~ TimeSpent_std + subject, data = dat)
 ```
 
-We can use `sjPlot::tab_model()` once again to view the results:
+We can use `tab_model()` once again to view the results:
 
 
 ```r
-sjPlot::tab_model(m_linear_3)
+tab_model(m_linear_3)
 ```
 
 <table style="border-collapse:collapse; border:none;">
