@@ -198,6 +198,24 @@ that does that job for us. Then we'll use the same function for question 4
 and question 7. This will result in much less code, plus it will make it
 easier for us to change in the future.
 
+We'll use `case_when()` in our function to reverse the scale of the item responses. `case_when()` is useful when you need to replace the values in a column with other values based on some criteria. Education datasets use a lot of codes to describe demographics, like numerical codes for disability categories, race groups, or proficiency in a test. When you work with codes like this, you'll often want to change the codes to values that are easier to understand. For a example, a consultant analyzing how students did on state testing might use `case_when()` to replace proficiency codes like 1, 2, or 3 to more descriptive words like "below proficiency", "proficient", or "advanced". 
+	
+`case_when()` lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your `case_when()` sequence. `case_when()` is helpful because it does this without complicated for loops and by using code that is compact and readable once you understand how all the arguments work. 
+
+The left hand side of each `case_when()` argument will be a formula that returns either a `TRUE` or a `FALSE`. In the function below we'll use logical operators in the left hand side of the formula like this: `question == 1 ~ 5`. Here are some other logical operators you can use in the future: 
+
+ - `>`: greater than 
+ - `<`: lesser than 
+ - `>=`: greater than or equal to 
+ - `<=`: lesser than or equal to 
+ - `==`: equal to 
+ - `!=`: not equal to 
+ - `!`: not 
+ - `&`: and 
+ - `|`: or 
+
+Let's make this all concrete and use it here in our function that reverses the scale of the survey responses:
+
 ```{r}
 # This part of the code is where we write the function:
 # Function for reversing scales 
@@ -572,8 +590,29 @@ the data,
 
 ## Analysis
 
-In this section, we focus on some initial analyses in the form of visualizations
-and some models. We note that we expand on these in a [later chapter](\#c13).
+In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in a [later chapter'(\#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce a ggplot2, a visualization package we'll be using in our walkthroughs. 
+
+### About ggplot2 
+
+ggplot2 is a package we’ll be using a lot for graphing our education datasets. ggplot2 is designed to build graphs layer by layer, where each layer is a building block for your graph. Making graphs in layers is useful because we can think of building up our graphs in separate parts–the data comes first, then the x- and y-axis, then other components like text labels and graph shapes. When something goes wrong and your ggplot2 code returns an error, you can learn about what’s happening by removing one layer at a time and running it again until the code works properly. Once you know which line is causing the problem, you can focus on fixing it. 
+
+The first two lines of most ggplot2 code look similar in most graphs. The first line tells R which dataset to graph and which columns the x-axis and y-axis will represent. The second line tells R which shape to use when drawing the graph. You can tell R which shape to use in your graphs with a family of ggplot2 functions that start with `geom_`. ggplot2 has many graph shapes you can use, including points, bars, lines, and boxplots.  Here’s a ggplot2 example using a dataset of school mean test scores to graph a bar chart:
+
+```{r ggplot example}
+# make dataset
+students <- 
+  tibble(
+    school_id = c("a", "b", "c"), 
+    mean_score = c(10, 20, 30)
+  )
+
+# tell R which dataset to plot and which columns the x-axis and y-axis will represent
+ggplot(data = students, aes(x = school_id, y = mean_score)) + 
+  # draw the plot
+  geom_bar(stat = "identity")
+```
+
+The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
 
 ### The relationship between time spent on course and percentage of points earned
 
