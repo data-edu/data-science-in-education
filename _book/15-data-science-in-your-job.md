@@ -26,11 +26,6 @@ The trick here is to use statistics, programming, and knowledge about education 
 
 #### Example: Preparing quiz data to compute average scores
 
-
-```r
-# TODO: Add an intervention column to make this example feel more connected to the anecdote 
-```
-
 Let's take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
 
@@ -39,7 +34,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ──────────────
+## ── Attaching packages ──────────── tidyverse 1.3.0 ──
 ```
 
 ```
@@ -50,7 +45,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────
+## ── Conflicts ─────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -78,12 +73,12 @@ quizzes_1
 ## 3          1          3     45     57     63
 ```
 
-Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `gather` to separate the quiz number and its score for each student will get us a long way: 
+Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `pivot_longer()` to separate the quiz number and its score for each student will get us a long way: 
 
 
 ```r
 quizzes_1 %>% 
-    gather(quiz_number, score, -c(teacher_id, student_id))
+    pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score")
 ```
 
 ```
@@ -91,22 +86,22 @@ quizzes_1 %>%
 ##   teacher_id student_id quiz_number score
 ##        <dbl>      <int> <chr>       <int>
 ## 1          1          1 quiz_1         36
-## 2          1          2 quiz_1         74
-## 3          1          3 quiz_1         45
-## 4          1          1 quiz_2         95
+## 2          1          1 quiz_2         95
+## 3          1          1 quiz_3         82
+## 4          1          2 quiz_1         74
 ## 5          1          2 quiz_2         38
-## 6          1          3 quiz_2         57
-## 7          1          1 quiz_3         82
-## 8          1          2 quiz_3         10
+## 6          1          2 quiz_3         10
+## 7          1          3 quiz_1         45
+## 8          1          3 quiz_2         57
 ## 9          1          3 quiz_3         63
 ```
 
-Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `gather`, each row is now a unique combination of teacher, student, and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
+Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `pivot_longer()`, each row is now a unique combination of teacher, student and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
 
 
 ```r
 quizzes_1 %>% 
-    gather(quiz_number, score, -c(teacher_id, student_id)) %>% 
+    pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score") %>%
     group_by(student_id) %>% 
     summarise(quiz_mean = mean(score))
 ```
@@ -153,9 +148,7 @@ The method we'll use to compute the mean quiz score for each student is to:
 
 1. Combine all the datasets into one big dataset: Use `bind_rows()` to combine all three quiz exports into one dataset. Remember, this can be done because each teacher's export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names 
 
-1. Reuse the code from the first dataset on the new bigger dataset: Paste the code we used in the first example into the script so it cleans and computes the mean on the combined dataset 
-
-1. Compute the mean of each student: Now that the data is arranged so that each row is a unique combination of teacher, student, quiz number, and intervention status, we can compute the mean quiz score for each student. 
+1. Reuse the code from the first dataset on the new bigger dataset: Paste the code we used in the first example into the script so it cleans and computes the mean quiz score for each student 
 
 
 ```r
@@ -191,7 +184,8 @@ We'll combine the cleaning and computation of the mean steps neatly into one thi
 ```r
 # Reuse the code from the first dataset on the new bigger dataset
 all_quizzes %>% 
-    gather(quiz_number, score, -c(teacher_id, student_id, intervention)) %>% 
+    # Clean with pivot_longer
+    pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score") %>%
     # Compute the mean of each student
     group_by(student_id, intervention ) %>% 
     summarise(quiz_mean = mean(score))
@@ -254,11 +248,6 @@ Say, for example, an elementary school administrator wants to replace each stude
  1. Use {purrr} and `write_csv()` to create and rename individual spreadsheets to send back to teachers 
 
 With some initial investment into thoughtful coding on the front end of this problem, the admininistrator now has a script she can use repeatedly in the future when she needs to do this task again.
-
-
-```r
-# TODO: More examples of differences in scale 
-```
 
 ##  Other Ways to Reimagine the Scale of Your Work
 
