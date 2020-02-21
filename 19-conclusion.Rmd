@@ -2,7 +2,7 @@
 
 At the conclusion of this book, we hope that you feel ready to take on the data-
 related question or problem you have wanted to address. We think that the work
-that you will do is important. In education, particularly, there is a lot of
+that you will do is important. Particularly in education, there is a lot of
 promise for how data can be used - by teachers, administrators, parents, and
 even by students. There is also some peril, though, especially if data is used
 that does not align with the goals and values of educators - and individually
@@ -29,7 +29,7 @@ using R for the first time constantly runs into difficulties when trying
 something new - you are not alone! So, take on challenges: a joy of doing data
 science is that it is a field at this time, especially in education, is that the
 promise and peril of using data are both very real, and those taking on
-challenges have the chance to shape the direction of how data is used
+challenges have the chance to shape the direction of how data is used.
 
 ## Know when to turn to something else
 

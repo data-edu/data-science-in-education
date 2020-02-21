@@ -10,10 +10,9 @@ If you're reading this book cover to cover, you've been through quite a journey!
  - Reflected on introducing data science to your education organization over time 
  - Learned about teaching data science to others 
  
-We hope this book sparked an interest in data science that you want to nurture. We've talked to many people in your shoes--folks who care about educating students and want to help by using their data skills. Indeed we've found the common thread in our audience is wanting to use data to improve the experience of learners. It's important to nurture this passion by keeping the learning going. 
+We hope this book sparked an interest in data science that you want to nurture. We've talked to many people in your shoes - folks who care about educating students and want to help by using their data skills. Indeed we've found the common thread in our audience is wanting to use data to improve the experience of learners. It's important to nurture this passion by keeping the learning going. 
 
 Surrounding yourself with continuous learning experiences can turn this spark into a specialization that makes a real contribution to the lives of students. There are three reasons we feel these ongoing learning experiences are essential to realizing your vision for data in education. 
-
 First, developing technical skills is an continuous process. The learning mindset is the same whether you're taking your first steps toward using data science techniques or you're a seasoned data scientist trying to make a bigger impact in education: there is always something new to learn about programming and statistics. Setting regular time aside to evolve your craft is a commitment to this mindset.
 
 Second, education and data science are like most industries--they are constantly evolving. That means today's tools and best practices might be tomorrow's outdated techniques. To keep up with changes, it is important to develop a learning routine that exposes you to the pulse of these two fields. Sometimes this means learning a new technique, sometimes it means deepening expertise in a technique you haven't mastered, and other times it means revisiting a skill you've mastered long ago. 
@@ -74,7 +73,7 @@ Laslty, you can select your best work from all your sharing and use it as an onl
 
 There are many ways to share your work online. For rapid fire conversational sharing,  Twitter. Be sure to use the hashtag #rstats to reach more data scientists. For long form sharing, consider posting to a data science blog. @robinson18's blog post *Advice to aspiring data scientists: start a blog* is wonderful inspiration for getting started. 
 
-If you decide to post to a blog, there are tools to help you post data science content regularly. As noted earlier, @xie2019blogdown's *blogdown* is designed to help you create websites using R Markdown and a static website creator called Hugo. Blogdown makes it easy to create, run, and publish code directly from R Studio. @hill2018 has a great introduction on getting started with with Blogdown.
+If you decide to post to a blog, there are tools to help you post data science content regularly. As noted earlier, @xie2019blogdown's {blogdown} is designed to help you create websites using R Markdown and a static website creator called Hugo. Blogdown makes it easy to create, run, and publish code directly from R Studio. @hill2018 has a great introduction on getting started with with Blogdown.
 
 When you do share a blog post or a tweet, broadcast what you have to say! On Twitter, use hashtags or "at" other community members to include them in the Tweet. On your blog, use blog aggregators that help share your posts to a wider audience. Here are two aggregators to get you started: 
 

@@ -44,9 +44,11 @@ library(dataedu)
 
 ## Import Data
 
-Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world.
+Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
 
-This code uses the `read_excel()` function of the {readxl} package to find and read the data of the desired file. Note the file path that `read_excel()` takes to find the simulated dataset file named `ExcelGradeBook.xlsx` which sits in a folder on your computer if you have downloaded it. The function `getwd()` will help locate your current working directory. This tells where on the computer R is currently working with files.
+### Import Using a File Path 
+
+First let's look at importing the dataset using a file path. This code uses the `read_excel()` function of the {readxl} package to find and read the data of the desired file. Note the file path that `read_excel()` takes to find the simulated dataset file named `ExcelGradeBook.xlsx` which sits in a folder on your computer if you have downloaded it. The function `getwd()` will help locate your current working directory. This tells where on the computer R is currently working with files.
 
 
 ```r
@@ -61,9 +63,16 @@ From this location go deeper into files to find the desired file. For example, i
 * `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
 * `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
 
-In the code below `ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)` the part written `path/to/file.xlsx` is just pseudo code to remind you to swap in your own path to the file you want to import. Recall from the Foundational Skills section of this book that directories and file paths are important for finding files on your computer. 
+After locating the sample Excel file, use the code below to run the function `read_excel()` which reads and saves the data from `ExcelGradeBook.xlsx` to an object also called `ExcelGradeBook`. Note the two arguments specified in this code `sheet = 1` and `skip = 10`. This Excel file is similar to one you might encounter in real life with superfluous features that we are not interested in. This file has 3 different sheets and the first 10 rows contain things we won't need. Thus, `sheet = 1` tells `read_excel()` to just read the first sheet in the file and disregard the rest. While `skip = 10` tells `read_excel()` to skip reading the first 10 rows of the sheet and start reading from row 11 which is where the column headers and data actually start inside the Excel file. Remember to replace `path/to/file.xlsx` your own path to the file you want to import.
 
-After locating the sample Excel file run the code below to run the function `read_excel()` which reads and saves the data from `ExcelGradeBook.xlsx` to an object also called `ExcelGradeBook`. Note the two arguments specified in this code `sheet = 1` and `skip = 10`. This Excel file is similar to one you might encounter in real life with superfluous features that we are not interested in. This file has 3 different sheets and the first 10 rows contain things we won't need. Thus, `sheet = 1` tells `read_excel()` to just read the first sheet in the file and disregard the rest. While `skip = 10` tells `read_excel()` to skip reading the first 10 rows of the sheet and start reading from row 11 which is where the column headers and data actually start inside the Excel file. Remember to replace `path/to/file.xlsx` your own path to the file you want to import.
+
+```r
+ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
+```
+
+### Import Using `here()` 
+
+Whenever possible, we prefer to use `here()` from the {here} package because it conveniently guesses at the correct file path based on the working directory. In you working directory, place the `ExcelGradeBook.xlsx` file in a folder called `gradebooks`. Then place the `gradebooks` folder in a folder called `data`. The last step is to make sure your new `data` folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
 
 
 ```r
@@ -96,149 +105,42 @@ First, modify the column names of the `gradebook` data frame to remove any space
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more useable format.
 
+First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`
+
 
 ```r
-colnames(gradebook) # look at original column names
+# look at original column names
+head(colnames(gradebook)) 
 ```
 
 ```
-##  [1] "Class"                                      
-##  [2] "Name"                                       
-##  [3] "Race"                                       
-##  [4] "Gender"                                     
-##  [5] "Age"                                        
-##  [6] "Repeated Grades"                            
-##  [7] "Financial Status"                           
-##  [8] "Absent"                                     
-##  [9] "Late"                                       
-## [10] "Make your own categories"                   
-## [11] "Running Average"                            
-## [12] "Letter Grade"                               
-## [13] "Homeworks"                                  
-## [14] "Classworks"                                 
-## [15] "Formative Assessments"                      
-## [16] "Projects"                                   
-## [17] "Summative Assessments"                      
-## [18] "Another Type 2"                             
-## [19] "Classwork 1"                                
-## [20] "Homework 1"                                 
-## [21] "Classwork 2"                                
-## [22] "Homework 2"                                 
-## [23] "Classwork 3"                                
-## [24] "Classwork 4"                                
-## [25] "Classwork 5"                                
-## [26] "Classwork 6"                                
-## [27] "Homework 3"                                 
-## [28] "Formative Assessment 1"                     
-## [29] "Project 1"                                  
-## [30] "Classwork 7"                                
-## [31] "Homework 4"                                 
-## [32] "Project 2"                                  
-## [33] "Classwork 8"                                
-## [34] "Homework 5"                                 
-## [35] "Project 3"                                  
-## [36] "Homework 6"                                 
-## [37] "Classwork 9"                                
-## [38] "Homework 7"                                 
-## [39] "Homework 8"                                 
-## [40] "Project 4"                                  
-## [41] "Project 5"                                  
-## [42] "Formative Assessment 2"                     
-## [43] "Project 6"                                  
-## [44] "Classwork 10"                               
-## [45] "Homework 9"                                 
-## [46] "Classwork 11"                               
-## [47] "Homework 10"                                
-## [48] "Classwork 12"                               
-## [49] "Classwork 13"                               
-## [50] "Project 7"                                  
-## [51] "Classwork 14"                               
-## [52] "Classwork 15"                               
-## [53] "Homework 11"                                
-## [54] "Summative Assessment 1"                     
-## [55] "Classwork 16"                               
-## [56] "Homework 12"                                
-## [57] "Classwork 17"                               
-## [58] "Homework 13"                                
-## [59] "Project 8"                                  
-## [60] "Project 9"                                  
-## [61] "Project 10"                                 
-## [62] "Summative Assessment 2"                     
-## [63] "Assessment | Insert new columns before here"
+## [1] "Class"           "Name"            "Race"            "Gender"         
+## [5] "Age"             "Repeated Grades"
 ```
+
+You can look at the full output by removing the call to `head()` 
+
+
+```r
+# look at original column names
+colnames(gradebook)
+```
+
+Now let's look at the cleaned names 
+
 
 ```r
 gradebook <- 
   gradebook %>% 
   clean_names()
 
-colnames(gradebook) # look at cleaned column names
+# look at cleaned column names
+head(colnames(gradebook) )
 ```
 
 ```
-##  [1] "class"                                    
-##  [2] "name"                                     
-##  [3] "race"                                     
-##  [4] "gender"                                   
-##  [5] "age"                                      
-##  [6] "repeated_grades"                          
-##  [7] "financial_status"                         
-##  [8] "absent"                                   
-##  [9] "late"                                     
-## [10] "make_your_own_categories"                 
-## [11] "running_average"                          
-## [12] "letter_grade"                             
-## [13] "homeworks"                                
-## [14] "classworks"                               
-## [15] "formative_assessments"                    
-## [16] "projects"                                 
-## [17] "summative_assessments"                    
-## [18] "another_type_2"                           
-## [19] "classwork_1"                              
-## [20] "homework_1"                               
-## [21] "classwork_2"                              
-## [22] "homework_2"                               
-## [23] "classwork_3"                              
-## [24] "classwork_4"                              
-## [25] "classwork_5"                              
-## [26] "classwork_6"                              
-## [27] "homework_3"                               
-## [28] "formative_assessment_1"                   
-## [29] "project_1"                                
-## [30] "classwork_7"                              
-## [31] "homework_4"                               
-## [32] "project_2"                                
-## [33] "classwork_8"                              
-## [34] "homework_5"                               
-## [35] "project_3"                                
-## [36] "homework_6"                               
-## [37] "classwork_9"                              
-## [38] "homework_7"                               
-## [39] "homework_8"                               
-## [40] "project_4"                                
-## [41] "project_5"                                
-## [42] "formative_assessment_2"                   
-## [43] "project_6"                                
-## [44] "classwork_10"                             
-## [45] "homework_9"                               
-## [46] "classwork_11"                             
-## [47] "homework_10"                              
-## [48] "classwork_12"                             
-## [49] "classwork_13"                             
-## [50] "project_7"                                
-## [51] "classwork_14"                             
-## [52] "classwork_15"                             
-## [53] "homework_11"                              
-## [54] "summative_assessment_1"                   
-## [55] "classwork_16"                             
-## [56] "homework_12"                              
-## [57] "classwork_17"                             
-## [58] "homework_13"                              
-## [59] "project_8"                                
-## [60] "project_9"                                
-## [61] "project_10"                               
-## [62] "summative_assessment_2"                   
-## [63] "assessment_insert_new_columns_before_here"
+## [1] "class"           "name"            "race"            "gender"         
+## [5] "age"             "repeated_grades"
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
@@ -363,14 +265,16 @@ classwork_df %>%
   labs(
     title = "Distribution of Classwork Scores",
     x = "Classwork",
-    y = "Scores",
-    color = "90% or Above"
+    y = "Scores"
   ) +
   theme_dataedu() +
   scale_fill_dataedu() +
-  theme(legend.position = "none",
-        # removes legend
-        axis.text.x = element_text(angle = 45, hjust = 1)) # angles the x axis labels
+  theme(
+    # removes legend
+    legend.position = "none",
+    # angles the x axis labels
+    axis.text.x = element_text(angle = 45, hjust = 1)
+    ) 
 ```
 
 <img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="672" />
@@ -479,7 +383,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 
 ### Building a Linear Model
 
-In the multi-level modeling walkthrough, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
+In chapter 7, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
 
 * Your predictor (formative_assessments)
 * Your response (running_average)
@@ -514,11 +418,25 @@ summary(linear_mod)
 ## F-statistic: 18.06 on 1 and 23 DF,  p-value: 0.0003018
 ```
 
-The formula reads as follows: 
+When you fit a model to two variables, you create an equation that describes the relationship between those two variables on average. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is .42136. The equation reads like this: 
 
 ```{}
 running_average = 50.11511 + 0.42136*formative_assessments
 ```
+
+We interpret these results by saying "For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
+
+*More on interpreting models* 
+
+Challenge yourself to apply your education knowledge to the way you communicate a model's output to your audience. Consider the difference between describing the relationship between formative assessment scores and running averages for a large group of students and for an individual student. 
+
+If you were describing the formatives assessment system to stakeholders, you might say something like, "We can generally expect our students to show a .421 increase in their running average score for every one point increase in their formative assessment scores." That makes sense, because your goal is to explain what happens **in general**.
+
+But we can rarely expect every prediction about individual students to be correct, even with a reliable model. So when using this equation to inform how you support an individual student, it's important to consider all the real-life factors, visible and invisible, that influence an individual student outcome. 
+
+To illustrate this concept, consider predicting how long it takes for you to run around the block right outside your office. Imagine you ran around the block five times and after each lap you jotted your time down on a post-it. After the fifth lap you do a calculation on your cell phone and see that your average lap time is five minutes. If you were to guess how long your sixth lap would take, you'd be smart to guess five minutes. But intuitively you know there's no guarantee the sixth lap time will land right on your average. Maybe you'll trip on a crack in the sidewalk and lose a few seconds, or maybe your favorite song pops into your head and gives you a thirty second advantage. Statisticians would call the difference between your predicted lap time and your actual lap time a "residual" value. Residuals are the differences between predicted values and actual values that aren't explained by your linear model equation. 
+
+It takes practice to interpret and communicate these concepts well. A good start is exploring model outputs in two contexts: first as a general description of a population and second as a practical tool for helping invidivual student performance.
 
 ## Conclusion
 
