@@ -158,23 +158,29 @@ data <-
 
 Here, we remove observations with missing data (per our note above about random forests requiring complete cases).
 
-```{r}
-#checking how many rows are in our dataset
+```{r check rows}
+# checking how many rows are in our dataset
+# we see that we have 550 rows from spring 2017
 nrow(data)
-    #we see that we have 550 rows from spring 2017
+    
+```
 
-#calling the na.omit function to eliminate ANY rows that have ANY missing data
+```{r remove rows with NAs}
+# calling the na.omit function to eliminate ANY rows that have ANY missing data
 data <- na.omit(data)
+```
 
-#checking whether our na.omit call worked as expected
+```{r check rows again}
+# checking whether our na.omit call worked as expected
+# after running the code above, we see that we now have 499 rows - this is as we expected
 nrow(data)
-    #after running the code above, we see that we now have 499 rows - this is as we expected
 ```
 
 First, machine learning methods often involve using a large number of variables. Oftentimes, some of these variables will not be suitable to use: they may be highly correlated with other variables, for instance, or may have very little - or no - variability. Indeed, for the data set used in this study, one variable has the same (character string) value for all of the observations. We can detect this variable and any others using the following function:
 
 ```{r}
-#we run the nearZeroVar function to determine if there are variables with NO variability
+# swe run the nearZeroVar function to determine 
+# if there are variables with NO variability
 nearZeroVar(data, saveMetrics = TRUE)
 ```
 After conducting our zero variance check, we want to scan the "zeroVar" column to see if any of our variables failed this check. If we see any "TRUE" values for "zeroVar," that means we should look more closely at that variable.
@@ -182,7 +188,8 @@ After conducting our zero variance check, we want to scan the "zeroVar" column t
 In the nearZeroVar function we just ran, we see a result in the ZeroVar column of "TRUE" for the `enrollment_status` variable.  If we look at `enrollment_status`, we will see that it is "Approved/Enrolled" for *all* of the students.  When we use variables with no variability in certian models, it may cause some problems, and so we remove it first.
 
 ```{r}
-#Taking the dataset and re-saving it as the same dataset, but without the enrollment status variable
+# Taking the dataset and re-saving it as the same dataset, 
+# but without the enrollment status variable
 data <- 
     data %>% 
     select(-enrollment_status)
@@ -191,7 +198,8 @@ data <-
 Note that many times you may wish to pre-process the variables, such as by centering or scaling them. Often the data will come to you in a format that is not ready for immediate analysis, as we have discussed elsewhere in the book. For our current dataset, we could work on pre-processing with code like you will see below. We set this next code chunk up to not run here (if you are viewing the book online), as we will do this analysis with the variables' original values.
 
 ```{r, eval = FALSE}
-#example pre-processing step: manipulating the dataset 'data' so that if a variable is numeric, its format will now be scale
+# example pre-processing step: manipulating the dataset 'data' 
+# so that if a variable is numeric, its format will now be scale
 data <- 
     data %>% 
     mutate_if(is.numeric, scale)
@@ -200,7 +208,7 @@ data <-
 As another pre-processing step, we want to make sure our text data is in a format that we can easily evaluate. To facilitate that, we want to make character string variables into factors.
 
 ```{r}
-#converting the text (character) variables in our dataset into factors
+# converting the text (character) variables in our dataset into factors
 data <- 
     data %>% 
     mutate_if(is.character, as.factor)
@@ -209,37 +217,42 @@ data <-
 Now, we will prepare the **train** and **test** datasets, using the caret function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don't have either a training or testing dataset that has too many good grades - or too many bad grades. Note the `times = 1` argument; this function can be used to create *multiple* train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to initiate a process called "setting the seed." This means that we are ensuring that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that wehn you open the same code file again to run in the future, you do not change the number you selected for your seed. This ensures your code is reproducible. In fact, it ensures that anyone who runs the same code file on any computer, anywhere, will get the same result. With that background information, try running the code chunk below.
 
 ```{r, cache = TRUE}
-#First, we set a seed to ensure the reproducibility of our data partition.
+# First, we set a seed to ensure the reproducibility of our data partition.
 set.seed(62020)
 
-#we create a new object called trainIndex that will take 80 percent of the data
+# we create a new object called trainIndex that will take 80 percent of the data
 trainIndex <- createDataPartition(data$final_grade,
                                   p = .8, 
                                   list = FALSE,
                                   times = 1)
 
-#We add a new variable to our dataset, temporarily:
-    #this will let us select our rows according to their row number
-    #we populate the rows with the numbers 1:499, in order
+# We add a new variable to our dataset, temporarily:
+# this will let us select our rows according to their row number
+# we populate the rows with the numbers 1:499, in order
 
 data <- 
     data %>% 
     mutate(temp_id = 1:494)
 
-#we filter our dataset so that we get only the 
-    #rows indicated by our "trainIndex" vector
+# we filter our dataset so that we get only the 
+# rows indicated by our "trainIndex" vector
 data_train <- 
     data %>% 
     filter(temp_id %in% trainIndex)
 
-#we filter our dataset in a different way so that we get only  the rows NOT in our "trainIndex" vector
-    #adding the ! before the temp_id variable achieves the opposite of what we did in the line of code above
+# we filter our dataset in a different way so that we get only the rows 
+# NOT in our "trainIndex" vector 
+# adding the ! before the temp_id variable achieves the opposite of 
+# what we did in the line of code above
 
 data_test <- 
     data %>% 
     filter(!temp_id %in% trainIndex)
 
-#We delete the temp_id variable from (1) the original data, (2) the portion of the original data we marked as training, and (3) the portion of the original data we marked as testing, as we no longer need that variable
+# We delete the temp_id variable from (1) the original data, 
+# (2) the portion of the original data we marked as training, and 
+# (3) the portion of the original data we marked as testing, 
+# as we no longer need that variable
 
 data <- 
     data %>% 
@@ -267,15 +280,15 @@ Note that you can read more about the specific random forest implementation chos
 Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are "growing!"
 
 ```{r, cache = TRUE}
-#setting a seed for reproducibility
+# setting a seed for reproducibility
 set.seed(62020)
 
-#we run the model here
+# we run the model here
 rf_fit <- train(final_grade ~ .,
                 data = data_train,
                 method = "ranger")
 
-#here, we get a summary of the model we just built
+# here, we get a summary of the model we just built
 rf_fit
 ```
 
