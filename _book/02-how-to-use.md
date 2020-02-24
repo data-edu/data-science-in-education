@@ -1,3 +1,4 @@
+
 # How to Use this Book {#c02}
 
 We've heard it from fellow data scientists and experienced it ourselves -
@@ -162,7 +163,7 @@ model building and how to run these operations in R. However, the explanations i
 
 We wrote within these boundaries because we believe that the technical and
 ethical use of statistics techniques deserves its own space. If you already have a foundation in statistics, you will learn how to implement some familiar processes in R. If you have no foundation in statistics, you will be able to take a satisfying leap forward in your learning by successfully using R to run the models and experiencing the model interpretations in our
-walkthroughs. We provide enough background for you to understand the purpose of the analysis and its results. We encourage you to explore other excellent books like Navarro's *Learning Statistics With R* (https://learningstatisticswithr.com/) as you learn the required nuances of applying statistical techniques to scenarios outside our walkthroughs.
+walkthroughs. We provide enough background for you to understand the purpose of the analysis and its results. We encourage you to explore other excellent books like [Learning Statistics With R](https://learningstatisticswithr.com/) [@learningstatswithr] as you learn the required nuances of applying statistical techniques to scenarios outside our walkthroughs.
 
 ## What This Book Is Not About
 
@@ -175,12 +176,12 @@ detail some of what we had to not include in the book here.
 
 - git/GitHub: Git and GitHub are version control software programs, which means that they help keep track of different versions of coding files and which specific changes were made for each version. Git and GitHub are parts of many educational data scientists' workflows for solo or collaborative work. However, there is a steep learning curve and these tools are not necessary to get started with coding in R. Moreover, an outstanding introduction to their use exists in @bryan2020 's freely-available book *Happy git with R* (https://happygitwithr.com/).
 
-- Building R packages: If you are carrying out the same analyses many times, it may be helpful to create your own package. Packages are collections of code and sometimes data, such as the roomba (for tidying complex, nested lists) and tidyLPA (for carrying out Latent Profile Analysis) packages that authors of this book created. However, building an R package is not the focus of this book, and Wickham wrote a very helpful - and freely-available - book on the topic called *R packages* (http://r-pkgs.had.co.nz/) .
+- Building R packages: If you are carrying out the same analyses many times, it may be helpful to create your own package. Packages are collections of code and sometimes data, such as the {roomba} (for tidying complex, nested lists) and {tidyLPA} (for carrying out Latent Profile Analysis) packages that authors of this book created. However, building an R package is not the focus of this book, and Hadley Wickham wrote a very helpful - and freely-available - book on the topic called [R Packages](http://r-pkgs.had.co.nz/) [@rpackages].
 
 - Advanced statistical methodologies: As noted above, there are other excellent books for learning 
 statistics. While we do discuss basic and advanced statistical methods, this is not a statistical methods book. One advanced statistical book that we think is excellent from a machine learning perspective is @james2013 *An Introduction to Statistical Learning with Applications in R*.
 
-- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's {blogdown} (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown' {bookdown} (https://bookdown.org/yihui/bookdown/)).
+- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *blogdown: Creating Websites with R Markdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown's *bookdown: Authoring Books and Technical Documents with R Markdown* (https://bookdown.org/yihui/bookdown/)).
 
 ## Supporting the Book
 

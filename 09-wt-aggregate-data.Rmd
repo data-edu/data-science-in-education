@@ -62,6 +62,7 @@ As usual, we begin our code by calling the libraries we will use.
 
 ```{r, message = F, warning = F}
 library(tidyverse)
+library(here)
 library(janitor)
 library(dataedu)
 ```
@@ -83,7 +84,7 @@ race_pdf <-
 
 # if reading in the tabulizer output
 race_pdf <-
-  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
+  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 It is important to consistently check what we're doing with the actual PDF's to ensure we're getting the data that we need. 
@@ -169,7 +170,7 @@ frpl_pdf <-
 
 # if reading in the tabulizer output
 race_pdf <-
-  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
+  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
@@ -283,10 +284,10 @@ Running the above code, particularly the download of the PDFs, takes a lot of ti
 
 ```{r, message = FALSE}
 tidy_df <-
-  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
+  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
 
 merged_df <-
-  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
+  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
 ```
 
 ## View Data
@@ -295,7 +296,7 @@ merged_df <-
 
 What do the racial demographics in this district look like? For this, a barplot can quickly visualize the different proportion of subgroups.
 
-```{r, fig.align = "center", results = 'hide', message = FALSE}
+```{r, fig.align = "center", results = "hide", message = FALSE}
 tidy_df %>%
   # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
@@ -315,7 +316,7 @@ tidy_df %>%
       "na_pct" = "Native Am."
     )
   ) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent) + # makes labels present as percentages
   scale_fill_dataedu() +
   theme_dataedu() +
   theme(legend.position = "none")
@@ -331,7 +332,7 @@ In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 tidy_df %>%
   filter(category == "frpl_pct",
          school_name == "Total") %>%
-  knitr::kable()
+  knitr::kable() # creates a nice looking table
 ```
 
 **56.9% of the students are eligible for FRPL**, compared to [the US average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
@@ -354,7 +355,7 @@ merged_df %>%
                  fill = dataedu_cols("darkblue"))  +
   xlab("White Percentage") +
   ylab("Count") +
-  scale_x_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent) + 
   theme(legend.position = "none") +
   theme_dataedu()
 ```

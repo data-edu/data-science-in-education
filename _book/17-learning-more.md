@@ -1,3 +1,4 @@
+
 # Learning More {#c17}
 
 ## Introduction 
@@ -13,17 +14,17 @@ If you're reading this book cover to cover, you've been through quite a journey!
 We hope this book sparked an interest in data science that you want to nurture. We've talked to many people in your shoes - folks who care about educating students and want to help by using their data skills. Indeed we've found the common thread in our audience is wanting to use data to improve the experience of learners. It's important to nurture this passion by keeping the learning going. 
 
 Surrounding yourself with continuous learning experiences can turn this spark into a specialization that makes a real contribution to the lives of students. There are three reasons we feel these ongoing learning experiences are essential to realizing your vision for data in education. 
-First, developing technical skills is an continuous process. The learning mindset is the same whether you're taking your first steps toward using data science techniques or you're a seasoned data scientist trying to make a bigger impact in education: there is always something new to learn about programming and statistics. Setting regular time aside to evolve your craft is a commitment to this mindset.
+First, developing technical skills is a continuous process. The learning mindset is the same whether you're taking your first steps toward using data science techniques or you're a seasoned data scientist trying to make a bigger impact in education: there is always something new to learn about programming and statistics. Setting regular time aside to evolve your craft is a commitment to this mindset.
 
 Second, education and data science are like most industries--they are constantly evolving. That means today's tools and best practices might be tomorrow's outdated techniques. To keep up with changes, it is important to develop a learning routine that exposes you to the pulse of these two fields. Sometimes this means learning a new technique, sometimes it means deepening expertise in a technique you haven't mastered, and other times it means revisiting a skill you've mastered long ago. 
 
-And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In his book *Creative Calling* @jarvis2019 touches on this very point: 
+And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In Chase Javis' book [Creative Calling](@jarvis2019) touches on this very point: 
 
 >Whether online or in person, connecting with a community will support your learning efforts. It will also expose you to a diverse set of ideas that will dramatically enrich your perspective on what you're learning. If you weren't in love with your new skill before, this step can tip the balance. Passion is infectious.
 
-You'll need to use your intuition to find the areas where you want to deepend your knowledge. When you feel it, go there and dive in. Remember that the learning experience includes all kinds of activities. It's a combination of reading, doing, discussing, walking away, and coming back. Here are some activities to include in your practice. We hope you take these and construct your own system of rewarding learning experiences. s
+You'll need to use your intuition to find the areas where you want to deepend your knowledge. When you feel it, go there and dive in. Remember that the learning experience includes all kinds of activities. It's a combination of reading, doing, discussing, walking away, and coming back. Here are some activities to include in your practice. We hope you take these and construct your own system of rewarding learning experiences.
 
-## Adopt a growth mindset
+## Adopt a Growth Mindset
 
 It's normal to feel overwhelmed while learning skills like R and data science. This is particularly true when these fields themsleves are learning and growing. The R, data science, and education communities are constantly developing new techniques to move the field forward. It's part of the beauty of this work!
 
@@ -31,7 +32,7 @@ When you're feeling overwhemed by everything you're trying to learn, consider ad
 
 The (nuances of the growth mindset)(https://www.edweek.org/ew/articles/2015/09/23/carol-dweck-revisits-the-growth-mindset.html)) are beyond the scope of this book, but we do encourage the general belief that we can learn how to apply these techniques. We encourage you to adopt a growth mindset as a way to inspire learning and belief that you can introduce data science in your education job. In doing so, you'll be joining other data scientists who created a way to contribute to their fields. 
 
-## Discover new information 
+## Discover New Information 
 
 The content you surround yourself with matters. You can learn a lot and stay inspired by high quality books, blog posts, journals, journalism, and talks. In his book *Steal Like An Artist*, author Austin Kleon encourages people to surround themselves with great content: 
 
@@ -39,7 +40,7 @@ The content you surround yourself with matters. You can learn a lot and stay ins
 
 In our Resources chapter, we share books and online resources that inspire us and help us learn. Use these as a starting point and build on them by seeking out authors, data scientists, and educators that inspire you to learn and master your craft. There are lots of ways to do this. Some folks follow data scientists on social media and take note of articles or talks that are getting attention. Others read data informed publications like [Fivethirtyeight](https://fivethirtyeight.com/), [The Economist](https://www.economist.com/), or [The Upshot](https://www.nytimes.com/section/upshot) in the New York Times. Whichever you choose, make sure to stick with something that you're drawn to and you just might find yourself with a new learning habit that is rewarding and fun. 
 
-## Ask for help
+## Ask for Help
 
 So far, we've discussed learning activities you can do on your own. Data science is a team sport, so at eventually your learning will lead you to others in the data science community. You can do this in many ways, both virtual and in real life. Here are a few examples you can try online. Try these and learn about what you're comfortable with. Then build on that to surround yourself with many ways to ask and answer questions. 
 

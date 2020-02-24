@@ -1,3 +1,4 @@
+
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
 ## Vocabulary
@@ -79,7 +80,7 @@ Whenever possible, we prefer to use `here()` from the {here} package because it 
 # Use readxl package to read and import file and assign it a name
 ExcelGradeBook <-
   read_excel(
-    here::here("data", "gradebooks", "ExcelGradeBook.xlsx"),
+    here("data", "gradebooks", "ExcelGradeBook.xlsx"),
     sheet = 1,
     skip = 10
   )
@@ -105,7 +106,7 @@ First, modify the column names of the `gradebook` data frame to remove any space
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more useable format.
 
-First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`
+First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`.
 
 
 ```r
@@ -114,11 +115,11 @@ head(colnames(gradebook))
 ```
 
 ```
-## [1] "Class"           "Name"            "Race"            "Gender"         
-## [5] "Age"             "Repeated Grades"
+#> [1] "Class"           "Name"            "Race"            "Gender"         
+#> [5] "Age"             "Repeated Grades"
 ```
 
-You can look at the full output by removing the call to `head()` 
+You can look at the full output by removing the call to `head()`.
 
 
 ```r
@@ -126,7 +127,7 @@ You can look at the full output by removing the call to `head()`
 colnames(gradebook)
 ```
 
-Now let's look at the cleaned names 
+Now let's look at the cleaned names:
 
 
 ```r
@@ -135,12 +136,12 @@ gradebook <-
   clean_names()
 
 # look at cleaned column names
-head(colnames(gradebook) )
+head(colnames(gradebook))
 ```
 
 ```
-## [1] "class"           "name"            "race"            "gender"         
-## [5] "age"             "repeated_grades"
+#> [1] "class"           "name"            "race"            "gender"         
+#> [5] "age"             "repeated_grades"
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
@@ -164,7 +165,7 @@ gradebook <-
 
 Now that the empty rows and columns have been removed, notice there are two columns, `absent` and `late`, where it seems someone started putting data into but then decided to stop. These two columns didn't get removed by the last chunk of code because they technically contained some data in those columns. Since the simulated data enterer of this simulated class decided to abandon using the `absent` and `late` columns in this gradebook, we can remove it from our data frame as well.
 
-In the foundational skills chapter we introduced the `select()` function, which tells R which columns we want to keep. Let's do that again here. This time we'll use negative signs to say we want the dataset without `absent` and `late`.
+In the Foundational Skills chapter, we introduced the `select()` function, which tells R which columns we want to keep. Let's do that again here. This time we'll use negative signs to say we want the dataset without `absent` and `late`.
 
 
 ```r
@@ -221,7 +222,7 @@ View the new data frame and note which columns were selected for this new data f
 view(classwork_df)
 ```
 
-## Analysis and results
+## Analysis
 
 ### Visualize Data
 
@@ -233,7 +234,7 @@ Visual representations of data are more human friendly than just looking at numb
 summary(gradebook)
 ```
 
-But R can do more than just print numbers to a screen. We'll use the {ggplot} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
+But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
 
 ```r
@@ -250,9 +251,9 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
 
-Using {ggplot} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
+Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
 
 ```r
@@ -277,7 +278,7 @@ classwork_df %>%
     ) 
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Model Data
 
@@ -287,7 +288,7 @@ Using this spreadsheet, we can start to form hypotheses about the data. For exam
 
 #### Visualize Data to Check Assumptions
 
-It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot} to understand these variables graphically. 
+It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot2} to understand these variables graphically. 
 
 ##### Linearity
 
@@ -307,9 +308,9 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
-We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
+We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
 
 ```r
@@ -328,7 +329,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
 
 ##### Outliers
 
@@ -348,7 +349,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -357,14 +358,14 @@ gradebook %>%
 gradebook %>%
   ggplot(aes(x = "",
              y = running_average)) +
-  geom_boxplot(fill = dataedu_cols("darkblue")) +
+  geom_boxplot(fill = dataedu_cols("yellow")) +
   labs(title = "Distribution of Overall Grade Scores",
        x = "Overall Grade",
        y = "Score in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Correlation Analysis
 
@@ -378,7 +379,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 ```
 
 ```
-## [1] 0.6632553
+#> [1] 0.663
 ```
 
 ### Building a Linear Model
@@ -398,24 +399,24 @@ summary(linear_mod)
 ```
 
 ```
-## 
-## Call:
-## lm(formula = running_average ~ formative_assessments, data = gradebook)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -7.2814 -2.7925 -0.0129  3.3179  8.5353 
-## 
-## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)           50.11511    8.54774   5.863 5.64e-06 ***
-## formative_assessments  0.42136    0.09914   4.250 0.000302 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 4.657 on 23 degrees of freedom
-## Multiple R-squared:  0.4399,	Adjusted R-squared:  0.4156 
-## F-statistic: 18.06 on 1 and 23 DF,  p-value: 0.0003018
+#> 
+#> Call:
+#> lm(formula = running_average ~ formative_assessments, data = gradebook)
+#> 
+#> Residuals:
+#>    Min     1Q Median     3Q    Max 
+#> -7.281 -2.793 -0.013  3.318  8.535 
+#> 
+#> Coefficients:
+#>                       Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)            50.1151     8.5477    5.86  5.6e-06 ***
+#> formative_assessments   0.4214     0.0991    4.25    3e-04 ***
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 4.66 on 23 degrees of freedom
+#> Multiple R-squared:  0.44,	Adjusted R-squared:  0.416 
+#> F-statistic: 18.1 on 1 and 23 DF,  p-value: 0.000302
 ```
 
 When you fit a model to two variables, you create an equation that describes the relationship between those two variables on average. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is .42136. The equation reads like this: 
