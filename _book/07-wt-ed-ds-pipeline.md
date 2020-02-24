@@ -780,6 +780,10 @@ dat <-
   left_join(dat)
 ```
 
+```
+#> Joining, by = c("student_id", "course_id")
+```
+
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column, for the percentage of points each
@@ -896,6 +900,10 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
   geom_bar(stat = "identity",
            fill = dataedu_cols("darkblue")) +
   theme_dataedu()
+```
+
+```
+#> Exiting.
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" width="100%" style="display: block; margin: auto;" />
