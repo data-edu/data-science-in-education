@@ -45,7 +45,7 @@ library(lubridate)
 
 In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the CSVs we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
 
-*What to download* 
+### What to Download
 
 In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
 
@@ -63,21 +63,19 @@ In this walkthrough, we'll be using six separate datasets of child counts, one f
 
 You can also find these files on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
-*A note on file paths*  
+### A Note on File Paths
 
 When you download these files, be sure to store them in a folder in your working directory. To get to the data in this walkthrough, we'll be using this file path in our working directory: "data/longitudinal_data". We'll be using the {here} package, which convenieniently fills in all the folders in the file path of your working directory all the way up to the folders you specify in the arguments. So when referencing the file path "data/longitudinal_data", we'll use code like this: 
 
-```{r demo here, eval=FALSE}
-here::here(
-  "data",
-  "longitudinal_data",
-  "bchildcountandedenvironments2012.csv"
-)
+```{r demo here, eval = FALSE}
+here::here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2012.csv")
 ```
 
 You can use a different file path if you like, just take note of where your downloaded files are so you can use the correct file path when writing your code to import the data. 
 
-### Reading In One Dataset 
+### Reading in One Dataset 
 
 We'll be learning how to read in more than one dataset using the `map()` function. Let's try it first with one dataset, then we'll scale our solution up to multiple datasets. When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
 
@@ -97,20 +95,18 @@ The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actuall
 
 Try using `skip = 4` in your call to `read_csv()`:
 
-```{r read 2012 data with skip, warning=FALSE, message=FALSE}
-read_csv(
-  here::here(
-    "data",
-    "longitudinal_data",
-    "bchildcountandedenvironments2012.csv"
-  ),
-  skip = 4
-)
+```{r read 2012 data with skip, warning = FALSE, message = FALSE}
+read_csv(here::here(
+  "data",
+  "longitudinal_data",
+  "bchildcountandedenvironments2012.csv"
+),
+skip = 4)
 ```
 
 The `skip` argument told `read_csv()` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
 
-### Reading In Many Datasets 
+### Reading in Many Datasets 
 
 Will the `read_csv()` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
 
@@ -205,7 +201,7 @@ In real life, data scientists don't always know the cleaning steps until they di
 
 After a lot of exploring, we settled on these steps for this analysis. When you do your own, you will find different things to transform. As you do more and more data analysis, your instincts for what to transform will improve. 
 
-### Fix the variable names in the 2016 data
+### Fix the Variable Names in the 2016 Data
 
 When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the first ten variable names of the 2016 dataset, which is the fifth element of `all_files`: 
 
@@ -237,7 +233,7 @@ all_files[[5]] <-
 
 Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct. 
 
-### Pick variables 
+### Pick Variables 
 
 Now that we know all our datasets have the correct variable names, we simplify our datasets by picking the variables we need. This is a good place to think carefully about which variables to pick. This usually requires a fair amount of trial and error, but here is what we found we needed: 
 
@@ -278,7 +274,7 @@ all_files <-
   map(pick_vars)
 ```
 
-### Combine six datasets into one
+### Combine Six Datasets into One
 
 Now we'll turn our attention to combining the datasets in our list `all_files` into one. We'll use `bind_rows()`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use `names()` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
 
@@ -303,7 +299,7 @@ Since we know that a) each of our six datasets had eight variables and b) our co
 str(child_counts)
 ```
 
-### Filter for the desired disabilities and age groups
+### Filter for the Desired Disabilities and Age Groups
 
 We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count()` to explore all the different disability groups in the dataset. Here's the number of times an `SEA Disability Category` appears in the dataset: 
 
@@ -326,7 +322,7 @@ child_counts <-
   ) 
 ```
 
-### Rename the variables
+### Rename the Variables
 
 In the next section we'll prepare the dataset for visualization and modeling by "tidying" it. When we write code to transform datasets, we'll be typing the column names a lot, so it's useful to change them to ones with more convenient names. 
 
@@ -346,7 +342,7 @@ child_counts <-
   )
 ```
 
-### Clean state names
+### Clean State Names
 
 You might have noticed that some state names in our dataset are in upper case letters and some are in lower case letters: 
 
@@ -364,9 +360,9 @@ child_counts <-
   mutate(state = tolower(state)) 
 ```
 
-### Tidy the dataset 
+### Tidy the Dataset 
 
-Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* (2014), Hadley Wickham defines tidy datasets where
+Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* [@wickham2014], Hadley Wickham defines tidy datasets where:
 
 >1. Each variable forms a column.
 >2. Each observation forms a row.
@@ -402,7 +398,7 @@ child_counts <-
   )
 ```
 
-### Convert data types
+### Convert Data Types
 
 The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to numeric columns. We'll use `mutate()` to change the count columns. 
 
@@ -433,7 +429,7 @@ child_counts <-
   mutate(year = ymd(year, truncated = 2))
 ```
 
-### Explore and address NAs
+### Explore and Address NAs
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 

@@ -75,7 +75,7 @@ Whenever possible, we prefer to use `here()` from the {here} package because it 
 # Use readxl package to read and import file and assign it a name
 ExcelGradeBook <-
   read_excel(
-    here::here("data", "gradebooks", "ExcelGradeBook.xlsx"),
+    here("data", "gradebooks", "ExcelGradeBook.xlsx"),
     sheet = 1,
     skip = 10
   )
@@ -100,21 +100,21 @@ First, modify the column names of the `gradebook` data frame to remove any space
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more useable format.
 
-First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`
+First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`.
 
 ```{r}
 # look at original column names
 head(colnames(gradebook)) 
 ```
 
-You can look at the full output by removing the call to `head()` 
+You can look at the full output by removing the call to `head()`.
 
 ```{r eval=FALSE}
 # look at original column names
 colnames(gradebook)
 ```
 
-Now let's look at the cleaned names 
+Now let's look at the cleaned names:
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 gradebook <- 
@@ -122,7 +122,7 @@ gradebook <-
   clean_names()
 
 # look at cleaned column names
-head(colnames(gradebook) )
+head(colnames(gradebook))
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
@@ -144,7 +144,7 @@ gradebook <-
 
 Now that the empty rows and columns have been removed, notice there are two columns, `absent` and `late`, where it seems someone started putting data into but then decided to stop. These two columns didn't get removed by the last chunk of code because they technically contained some data in those columns. Since the simulated data enterer of this simulated class decided to abandon using the `absent` and `late` columns in this gradebook, we can remove it from our data frame as well.
 
-In the foundational skills chapter we introduced the `select()` function, which tells R which columns we want to keep. Let's do that again here. This time we'll use negative signs to say we want the dataset without `absent` and `late`.
+In the Foundational Skills chapter, we introduced the `select()` function, which tells R which columns we want to keep. Let's do that again here. This time we'll use negative signs to say we want the dataset without `absent` and `late`.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Remove a targeted column because we don't use absent and late at this school.
@@ -197,7 +197,7 @@ View the new data frame and note which columns were selected for this new data f
 view(classwork_df)
 ```
 
-## Analysis and results
+## Analysis
 
 ### Visualize Data
 
@@ -208,7 +208,7 @@ Visual representations of data are more human friendly than just looking at numb
 summary(gradebook)
 ```
 
-But R can do more than just print numbers to a screen. We'll use the {ggplot} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
+But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 # Bar graph for categorical variable
@@ -224,7 +224,7 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-Using {ggplot} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
+Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 # Scatterplot of continuous variable
@@ -256,7 +256,7 @@ Using this spreadsheet, we can start to form hypotheses about the data. For exam
 
 #### Visualize Data to Check Assumptions
 
-It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot} to understand these variables graphically. 
+It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot2} to understand these variables graphically. 
 
 ##### Linearity
 
@@ -275,7 +275,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-We can layer different types of plots on top of each other in {ggplot}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
+We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
 # Scatterplot between formative assessment and grades by percent
@@ -316,7 +316,7 @@ gradebook %>%
 gradebook %>%
   ggplot(aes(x = "",
              y = running_average)) +
-  geom_boxplot(fill = dataedu_cols("darkblue")) +
+  geom_boxplot(fill = dataedu_cols("yellow")) +
   labs(title = "Distribution of Overall Grade Scores",
        x = "Overall Grade",
        y = "Score in Percentage") +

@@ -1,3 +1,4 @@
+
 # Walkthrough 3: Introduction to Aggregate Data {#c09}
 
 ## Introduction
@@ -63,6 +64,7 @@ As usual, we begin our code by calling the libraries we will use.
 
 ```r
 library(tidyverse)
+library(here)
 library(janitor)
 library(dataedu)
 ```
@@ -86,7 +88,7 @@ race_pdf <-
 
 # if reading in the tabulizer output
 race_pdf <-
-  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
+  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 It is important to consistently check what we're doing with the actual PDF's to ensure we're getting the data that we need. 
@@ -175,7 +177,7 @@ frpl_pdf <-
 
 # if reading in the tabulizer output
 race_pdf <-
-  readRDS(here::here("data", "wt05_agg_data", "race_pdf.Rds"))
+  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
 ```
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
@@ -295,10 +297,10 @@ Running the above code, particularly the download of the PDFs, takes a lot of ti
 
 ```r
 tidy_df <-
-  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
+  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
 
 merged_df <-
-  read_csv(here::here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
+  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
 ```
 
 ## View Data
@@ -328,13 +330,13 @@ tidy_df %>%
       "na_pct" = "Native Am."
     )
   ) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent) + # makes labels present as percentages
   scale_fill_dataedu() +
   theme_dataedu() +
   theme(legend.position = "none")
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
 
@@ -347,14 +349,14 @@ In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 tidy_df %>%
   filter(category == "frpl_pct",
          school_name == "Total") %>%
-  knitr::kable()
+  knitr::kable() # creates a nice looking table
 ```
 
 
 
-school_name   category        value
-------------  ---------  ----------
-Total         frpl_pct    0.5685631
+school_name   category    value
+------------  ---------  ------
+Total         frpl_pct    0.569
 
 **56.9% of the students are eligible for FRPL**, compared to [the US average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
 
@@ -377,12 +379,12 @@ merged_df %>%
                  fill = dataedu_cols("darkblue"))  +
   xlab("White Percentage") +
   ylab("Count") +
-  scale_x_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent) + 
   theme(legend.position = "none") +
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -419,7 +421,7 @@ tidy_df %>%
   theme(legend.position = "none")
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
 
@@ -441,7 +443,7 @@ merged_df %>%
   theme(legend.position = "none")
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" />
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 

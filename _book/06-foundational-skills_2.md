@@ -1,6 +1,7 @@
+
 # Foundational Skills {#c06}
 
-## Chapter overview
+## Chapter Overview
 This chapter is designed to give you the skills and knowledge necessary to _get started_ in any of the walk through chapters. 
 Our goal is to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of applied examples. 
 If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05 before beginning this chapter.    
@@ -756,7 +757,7 @@ addition(number_1 = 3, number_2 = 1)
 ```
 
 ```
-## [1] 4
+#> [1] 4
 ```
 
 ```r
@@ -764,7 +765,7 @@ addition(0.921, 12.01)
 ```
 
 ```
-## [1] 12.931
+#> [1] 12.9
 ```
 
 ```r
@@ -772,7 +773,7 @@ addition(62, 34)
 ```
 
 ```
-## [1] 96
+#> [1] 96
 ```
 
 What happens if we only provide one argument?
@@ -1031,35 +1032,35 @@ student_responses <-
 ```
 
 ```
-## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   CNT = col_character(),
-##   CYC = col_character(),
-##   NatCen = col_character(),
-##   STRATUM = col_character(),
-##   Option_Read = col_character(),
-##   Option_Math = col_character(),
-##   ST011D17TA = col_character(),
-##   ST011D18TA = col_character(),
-##   ST011D19TA = col_character(),
-##   ST124Q01TA = col_logical(),
-##   IC001Q01TA = col_logical(),
-##   IC001Q02TA = col_logical(),
-##   IC001Q03TA = col_logical(),
-##   IC001Q04TA = col_logical(),
-##   IC001Q05TA = col_logical(),
-##   IC001Q06TA = col_logical(),
-##   IC001Q07TA = col_logical(),
-##   IC001Q08TA = col_logical(),
-##   IC001Q09TA = col_logical(),
-##   IC001Q10TA = col_logical()
-##   # ... with 420 more columns
-## )
+#> Parsed with column specification:
+#> cols(
+#>   .default = col_double(),
+#>   CNT = col_character(),
+#>   CYC = col_character(),
+#>   NatCen = col_character(),
+#>   STRATUM = col_character(),
+#>   Option_Read = col_character(),
+#>   Option_Math = col_character(),
+#>   ST011D17TA = col_character(),
+#>   ST011D18TA = col_character(),
+#>   ST011D19TA = col_character(),
+#>   ST124Q01TA = col_logical(),
+#>   IC001Q01TA = col_logical(),
+#>   IC001Q02TA = col_logical(),
+#>   IC001Q03TA = col_logical(),
+#>   IC001Q04TA = col_logical(),
+#>   IC001Q05TA = col_logical(),
+#>   IC001Q06TA = col_logical(),
+#>   IC001Q07TA = col_logical(),
+#>   IC001Q08TA = col_logical(),
+#>   IC001Q09TA = col_logical(),
+#>   IC001Q10TA = col_logical()
+#>   # ... with 420 more columns
+#> )
 ```
 
 ```
-## See spec(...) for full column specifications.
+#> See spec(...) for full column specifications.
 ```
 
 Since we loaded the data, we now want to look at it. 

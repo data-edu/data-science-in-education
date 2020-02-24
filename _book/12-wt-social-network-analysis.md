@@ -1,3 +1,4 @@
+
 # Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data {#c12}
 
 ## Vocabulary
@@ -63,50 +64,50 @@ tt_tweets
 ```
 
 ```
-## # A tibble: 4,418 x 90
-##    user_id status_id created_at          screen_name text  source
-##    <chr>   <chr>     <dttm>              <chr>       <chr> <chr> 
-##  1 115921… 11631542… 2019-08-18 18:22:42 MKumarYYC   "Fir… Twitt…
-##  2 107332… 11632475… 2019-08-19 00:33:11 cizzart     "El … Twitt…
-##  3 107332… 11450435… 2019-06-29 18:57:17 cizzart     "Pro… Twitt…
-##  4 107332… 11168648… 2019-04-13 00:45:15 cizzart     "#Ar… Twitt…
-##  5 107332… 11228824… 2019-04-29 15:17:02 cizzart     "Pes… Twitt…
-##  6 107332… 11176387… 2019-04-15 04:00:17 cizzart     "Dat… Twitt…
-##  7 107332… 11245531… 2019-05-04 05:55:32 cizzart     "El … Twitt…
-##  8 107332… 11407021… 2019-06-17 19:25:50 cizzart     "#da… Twitt…
-##  9 107332… 11325299… 2019-05-26 06:12:46 cizzart     "El … Twitt…
-## 10 107332… 11233585… 2019-04-30 22:48:43 cizzart     "Vis… Twitt…
-## # … with 4,408 more rows, and 84 more variables: display_text_width <dbl>,
-## #   reply_to_status_id <chr>, reply_to_user_id <chr>,
-## #   reply_to_screen_name <chr>, is_quote <lgl>, is_retweet <lgl>,
-## #   favorite_count <int>, retweet_count <int>, quote_count <int>,
-## #   reply_count <int>, hashtags <list>, symbols <list>, urls_url <list>,
-## #   urls_t.co <list>, urls_expanded_url <list>, media_url <list>,
-## #   media_t.co <list>, media_expanded_url <list>, media_type <list>,
-## #   ext_media_url <list>, ext_media_t.co <list>, ext_media_expanded_url <list>,
-## #   ext_media_type <chr>, mentions_user_id <list>, mentions_screen_name <list>,
-## #   lang <chr>, quoted_status_id <chr>, quoted_text <chr>,
-## #   quoted_created_at <dttm>, quoted_source <chr>, quoted_favorite_count <int>,
-## #   quoted_retweet_count <int>, quoted_user_id <chr>, quoted_screen_name <chr>,
-## #   quoted_name <chr>, quoted_followers_count <int>,
-## #   quoted_friends_count <int>, quoted_statuses_count <int>,
-## #   quoted_location <chr>, quoted_description <chr>, quoted_verified <lgl>,
-## #   retweet_status_id <chr>, retweet_text <chr>, retweet_created_at <dttm>,
-## #   retweet_source <chr>, retweet_favorite_count <int>,
-## #   retweet_retweet_count <int>, retweet_user_id <chr>,
-## #   retweet_screen_name <chr>, retweet_name <chr>,
-## #   retweet_followers_count <int>, retweet_friends_count <int>,
-## #   retweet_statuses_count <int>, retweet_location <chr>,
-## #   retweet_description <chr>, retweet_verified <lgl>, place_url <chr>,
-## #   place_name <chr>, place_full_name <chr>, place_type <chr>, country <chr>,
-## #   country_code <chr>, geo_coords <list>, coords_coords <list>,
-## #   bbox_coords <list>, status_url <chr>, name <chr>, location <chr>,
-## #   description <chr>, url <chr>, protected <lgl>, followers_count <int>,
-## #   friends_count <int>, listed_count <int>, statuses_count <int>,
-## #   favourites_count <int>, account_created_at <dttm>, verified <lgl>,
-## #   profile_url <chr>, profile_expanded_url <chr>, account_lang <lgl>,
-## #   profile_banner_url <chr>, profile_background_url <chr>,
-## #   profile_image_url <chr>
+#> # A tibble: 4,418 x 90
+#>    user_id status_id created_at          screen_name text  source
+#>    <chr>   <chr>     <dttm>              <chr>       <chr> <chr> 
+#>  1 115921… 11631542… 2019-08-18 18:22:42 MKumarYYC   "Fir… Twitt…
+#>  2 107332… 11632475… 2019-08-19 00:33:11 cizzart     "El … Twitt…
+#>  3 107332… 11450435… 2019-06-29 18:57:17 cizzart     "Pro… Twitt…
+#>  4 107332… 11168648… 2019-04-13 00:45:15 cizzart     "#Ar… Twitt…
+#>  5 107332… 11228824… 2019-04-29 15:17:02 cizzart     "Pes… Twitt…
+#>  6 107332… 11176387… 2019-04-15 04:00:17 cizzart     "Dat… Twitt…
+#>  7 107332… 11245531… 2019-05-04 05:55:32 cizzart     "El … Twitt…
+#>  8 107332… 11407021… 2019-06-17 19:25:50 cizzart     "#da… Twitt…
+#>  9 107332… 11325299… 2019-05-26 06:12:46 cizzart     "El … Twitt…
+#> 10 107332… 11233585… 2019-04-30 22:48:43 cizzart     "Vis… Twitt…
+#> # … with 4,408 more rows, and 84 more variables: display_text_width <dbl>,
+#> #   reply_to_status_id <chr>, reply_to_user_id <chr>,
+#> #   reply_to_screen_name <chr>, is_quote <lgl>, is_retweet <lgl>,
+#> #   favorite_count <int>, retweet_count <int>, quote_count <int>,
+#> #   reply_count <int>, hashtags <list>, symbols <list>, urls_url <list>,
+#> #   urls_t.co <list>, urls_expanded_url <list>, media_url <list>,
+#> #   media_t.co <list>, media_expanded_url <list>, media_type <list>,
+#> #   ext_media_url <list>, ext_media_t.co <list>, ext_media_expanded_url <list>,
+#> #   ext_media_type <chr>, mentions_user_id <list>, mentions_screen_name <list>,
+#> #   lang <chr>, quoted_status_id <chr>, quoted_text <chr>,
+#> #   quoted_created_at <dttm>, quoted_source <chr>, quoted_favorite_count <int>,
+#> #   quoted_retweet_count <int>, quoted_user_id <chr>, quoted_screen_name <chr>,
+#> #   quoted_name <chr>, quoted_followers_count <int>,
+#> #   quoted_friends_count <int>, quoted_statuses_count <int>,
+#> #   quoted_location <chr>, quoted_description <chr>, quoted_verified <lgl>,
+#> #   retweet_status_id <chr>, retweet_text <chr>, retweet_created_at <dttm>,
+#> #   retweet_source <chr>, retweet_favorite_count <int>,
+#> #   retweet_retweet_count <int>, retweet_user_id <chr>,
+#> #   retweet_screen_name <chr>, retweet_name <chr>,
+#> #   retweet_followers_count <int>, retweet_friends_count <int>,
+#> #   retweet_statuses_count <int>, retweet_location <chr>,
+#> #   retweet_description <chr>, retweet_verified <lgl>, place_url <chr>,
+#> #   place_name <chr>, place_full_name <chr>, place_type <chr>, country <chr>,
+#> #   country_code <chr>, geo_coords <list>, coords_coords <list>,
+#> #   bbox_coords <list>, status_url <chr>, name <chr>, location <chr>,
+#> #   description <chr>, url <chr>, protected <lgl>, followers_count <int>,
+#> #   friends_count <int>, listed_count <int>, statuses_count <int>,
+#> #   favourites_count <int>, account_created_at <dttm>, verified <lgl>,
+#> #   profile_url <chr>, profile_expanded_url <chr>, account_lang <lgl>,
+#> #   profile_banner_url <chr>, profile_background_url <chr>,
+#> #   profile_image_url <chr>
 ```
 
 ## Process Data
@@ -119,21 +120,21 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 
 ```
-## # A tibble: 12 x 2
-##    sender              receiver             
-##    <chr>               <chr>                
-##  1 al-Mitri, Muhyddeen Gilman, Robert       
-##  2 Shoats, Dyona       Park, Duy            
-##  3 Shoats, Dyona       Mendoza, Hailey      
-##  4 Kendall, Hannah     Park, Duy            
-##  5 Kendall, Hannah     Gilman, Robert       
-##  6 Kendall, Hannah     Arguello, Taylor     
-##  7 Lewis, Zamen        Mendoza, Hailey      
-##  8 Lewis, Zamen        Kovoor-Misra, Allison
-##  9 Lewis, Zamen        Arguello, Taylor     
-## 10 el-Madani, Taaj     Condon, Matthew      
-## 11 Hervert, Saul       Mendoza, Hailey      
-## 12 Hervert, Saul       Condon, Matthew
+#> # A tibble: 12 x 2
+#>    sender              receiver          
+#>    <chr>               <chr>             
+#>  1 Rodriguez, Danielle Rea, Ramona       
+#>  2 el-Bacchus, Sameera Ho, Aaron         
+#>  3 el-Bacchus, Sameera Kowalik, Jalynn   
+#>  4 Victoria, Kendall   Ho, Aaron         
+#>  5 Victoria, Kendall   Rea, Ramona       
+#>  6 Victoria, Kendall   al-Ghazal, Badraan
+#>  7 Netsanet, Monica    Kowalik, Jalynn   
+#>  8 Netsanet, Monica    Martinez, Julio   
+#>  9 Netsanet, Monica    al-Ghazal, Badraan
+#> 10 al-Youssef, Uqbah   Jimenez, Leahana  
+#> 11 Hamill, Lauren      Kowalik, Jalynn   
+#> 12 Hamill, Lauren      Jimenez, Leahana
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -176,20 +177,20 @@ mentions
 ```
 
 ```
-## # A tibble: 2,447 x 2
-##    sender  all_mentions    
-##    <chr>   <chr>           
-##  1 cizzart @eldestapeweb   
-##  2 cizzart @INDECArgentina 
-##  3 cizzart @ENACOMArgentina
-##  4 cizzart @tribunalelecmns
-##  5 cizzart @CamaraElectoral
-##  6 cizzart @INDECArgentina 
-##  7 cizzart @tribunalelecmns
-##  8 cizzart @CamaraElectoral
-##  9 cizzart @AgroMnes       
-## 10 cizzart @AgroindustriaAR
-## # … with 2,437 more rows
+#> # A tibble: 2,447 x 2
+#>    sender  all_mentions    
+#>    <chr>   <chr>           
+#>  1 cizzart @eldestapeweb   
+#>  2 cizzart @INDECArgentina 
+#>  3 cizzart @ENACOMArgentina
+#>  4 cizzart @tribunalelecmns
+#>  5 cizzart @CamaraElectoral
+#>  6 cizzart @INDECArgentina 
+#>  7 cizzart @tribunalelecmns
+#>  8 cizzart @CamaraElectoral
+#>  9 cizzart @AgroMnes       
+#> 10 cizzart @AgroindustriaAR
+#> # … with 2,437 more rows
 ```
 
 What needs to happen to these to make them easier to work with in an edgelist? One step is to remove the "@" symbol from the columns we created and to save the results to a new tibble, `edgelist`.
@@ -224,20 +225,20 @@ interactions_sent
 ```
 
 ```
-## # A tibble: 618 x 2
-##    sender            n
-##    <chr>         <int>
-##  1 thomas_mock     347
-##  2 R4DScommunity    78
-##  3 WireMonkey       52
-##  4 CedScherer       41
-##  5 allison_horst    37
-##  6 mjhendrickson    34
-##  7 kigtembu         27
-##  8 WeAreRLadies     25
-##  9 PBecciu          23
-## 10 sil_aarts        23
-## # … with 608 more rows
+#> # A tibble: 618 x 2
+#>    sender            n
+#>    <chr>         <int>
+#>  1 thomas_mock     347
+#>  2 R4DScommunity    78
+#>  3 WireMonkey       52
+#>  4 CedScherer       41
+#>  5 allison_horst    37
+#>  6 mjhendrickson    34
+#>  7 kigtembu         27
+#>  8 WeAreRLadies     25
+#>  9 PBecciu          23
+#> 10 sil_aarts        23
+#> # … with 608 more rows
 ```
 
 618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
@@ -272,28 +273,28 @@ g
 ```
 
 ```
-## # A tbl_graph: 267 nodes and 975 edges
-## #
-## # A directed multigraph with 7 components
-## #
-## # Node Data: 267 x 1 (active)
-##   name           
-##   <chr>          
-## 1 dgwinfred      
-## 2 datawookie     
-## 3 jvaghela4      
-## 4 FournierJohanie
-## 5 JonTheGeek     
-## 6 jakekaupp      
-## # … with 261 more rows
-## #
-## # Edge Data: 975 x 2
-##    from    to
-##   <int> <int>
-## 1     1    32
-## 2     1    36
-## 3     2   120
-## # … with 972 more rows
+#> # A tbl_graph: 267 nodes and 975 edges
+#> #
+#> # A directed multigraph with 7 components
+#> #
+#> # Node Data: 267 x 1 (active)
+#>   name           
+#>   <chr>          
+#> 1 dgwinfred      
+#> 2 datawookie     
+#> 3 jvaghela4      
+#> 4 FournierJohanie
+#> 5 JonTheGeek     
+#> 6 jakekaupp      
+#> # … with 261 more rows
+#> #
+#> # Edge Data: 975 x 2
+#>    from    to
+#>   <int> <int>
+#> 1     1    32
+#> 2     1    36
+#> 3     2   120
+#> # … with 972 more rows
 ```
 
 We can see that the network now consists of 267 individuals - the 267 who sent more than one interaction.
@@ -313,7 +314,7 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
@@ -332,7 +333,7 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
@@ -467,25 +468,25 @@ summary(model1)
 ```
 
 ```
-## 
-## Call:
-## lm(formula = yvar2 ~ yvar1 + exposure_mean, data = final_data)
-## 
-## Residuals:
-##        1        2        3        4        5        6 
-##  0.02946 -0.09319  0.09429 -0.02730 -0.02548  0.02222 
-## 
-## Coefficients:
-##               Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    0.11614    0.03445   3.371   0.0434 *  
-## yvar1          0.67598    0.02406  28.092  9.9e-05 ***
-## exposure_mean  0.12542    0.03615   3.470   0.0403 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.08232 on 3 degrees of freedom
-## Multiple R-squared:  0.9984,	Adjusted R-squared:  0.9974 
-## F-statistic: 945.3 on 2 and 3 DF,  p-value: 6.306e-05
+#> 
+#> Call:
+#> lm(formula = yvar2 ~ yvar1 + exposure_mean, data = final_data)
+#> 
+#> Residuals:
+#>       1       2       3       4       5       6 
+#>  0.0295 -0.0932  0.0943 -0.0273 -0.0255  0.0222 
+#> 
+#> Coefficients:
+#>               Estimate Std. Error t value Pr(>|t|)    
+#> (Intercept)     0.1161     0.0345    3.37    0.043 *  
+#> yvar1           0.6760     0.0241   28.09  9.9e-05 ***
+#> exposure_mean   0.1254     0.0361    3.47    0.040 *  
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 0.0823 on 3 degrees of freedom
+#> Multiple R-squared:  0.998,	Adjusted R-squared:  0.997 
+#> F-statistic:  945 on 2 and 3 DF,  p-value: 6.31e-05
 ```
 
 So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Frank, 2009). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
