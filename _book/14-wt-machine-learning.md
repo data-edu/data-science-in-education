@@ -97,7 +97,7 @@ First, we will load the data. Our data is stored in the {dataedu} package that i
 
 ```r
 #loading the data from the .rda file and storing it as an object named 'data'
-data <- dataedu::sci_mo_data
+data <- dataedu::sci_mo_with_text
 ```
 
 It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.

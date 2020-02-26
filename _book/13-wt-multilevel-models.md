@@ -1,4 +1,10 @@
+
 # Walkthrough 7: The Role (and Usefulness) of Multi-Level Models {#c13}
+
+As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
+students' performance in these online courses, focusing on the time spent in the 
+course (made available through the learning management system) and the effects 
+of being in a particular class.
 
 ## Vocabulary
 
@@ -25,11 +31,6 @@ management system) and the effects of being in a particular class.
 
 We use the same data source on students' motivation in online science classes
 that we processed in [walkthrough 1](06-wt-multilevel-models-1).
-
-
-```r
-dat <- dataedu::sci_mo_processed
-```
 
 ### Methods
 
@@ -72,20 +73,20 @@ iris
 ```
 
 ```
-## # A tibble: 150 x 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
-##  1          5.1         3.5          1.4         0.2 setosa 
-##  2          4.9         3            1.4         0.2 setosa 
-##  3          4.7         3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # … with 140 more rows
+#> # A tibble: 150 x 5
+#>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#>           <dbl>       <dbl>        <dbl>       <dbl> <fct>  
+#>  1          5.1         3.5          1.4         0.2 setosa 
+#>  2          4.9         3            1.4         0.2 setosa 
+#>  3          4.7         3.2          1.3         0.2 setosa 
+#>  4          4.6         3.1          1.5         0.2 setosa 
+#>  5          5           3.6          1.4         0.2 setosa 
+#>  6          5.4         3.9          1.7         0.4 setosa 
+#>  7          4.6         3.4          1.4         0.3 setosa 
+#>  8          5           3.4          1.5         0.2 setosa 
+#>  9          4.4         2.9          1.4         0.2 setosa 
+#> 10          4.9         3.1          1.5         0.1 setosa 
+#> # … with 140 more rows
 ```
 
 As we can see above, the `Species` variable is a factor. If we consider how we could
@@ -108,7 +109,7 @@ levels(iris$Species)
 ```
 
 ```
-## [1] "setosa"     "versicolor" "virginica"
+#> [1] "setosa"     "versicolor" "virginica"
 ```
 
 When we run the `dummy()` function on the `Species` variable, we can see that it
@@ -122,32 +123,27 @@ dummies::dummy(iris$Species) %>%
 ```
 
 ```
-## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
-## non-list contrasts argument ignored
-```
-
-```
-##      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}setosa
-## [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-## [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-## [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-## [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-## [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-## [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
-##      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}versicolor
-## [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-## [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-## [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-## [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-## [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-## [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
-##      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}virginica
-## [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
-## [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
-## [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
-## [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
-## [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
-## [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#>      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}setosa
+#> [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#> [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#> [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#> [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#> [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#> [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1
+#>      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}versicolor
+#> [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#> [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#> [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#> [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#> [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#> [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0
+#>      {\n    args = commandArgs(TRUE)\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}virginica
+#> [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#> [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#> [3,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#> [4,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#> [5,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+#> [6,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
 ```
 
 We can confirm that every row associated with a specific species has a 1 in the
@@ -162,20 +158,19 @@ data frames by column.
 
 
 ```r
+# create matrix of dummy-coded variables
 species_dummy_coded <- dummies::dummy(iris$Species)
-```
 
-```
-## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
-## non-list contrasts argument ignored
-```
-
-```r
+# convert matrix to tibble so we can use tidyverse functions
 species_dummy_coded <- as_tibble(species_dummy_coded)
+
+# add dummy coded variables to iris
 iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
 ```
 
 Let's look at the results.
+
+<!-- I can't figure out why the following won't run - it runs when I run it code chunk-by-chunk, but not when I render! -->
 
 
 ```r
@@ -209,28 +204,7 @@ We will load a built-in dataset from the dataedu package.
 
 
 ```r
-sci_mo_processed
-```
-
-```
-## # A tibble: 603 x 24
-##    student_id course_id total_points_po… total_points_ea… percentage_earn…
-##         <dbl> <chr>                <dbl>            <dbl>            <dbl>
-##  1      43146 FrScA-S2…             1821             1039            0.571
-##  2      44638 OcnA-S11…             3636             2494            0.686
-##  3      47448 FrScA-S2…             4150             3242            0.781
-##  4      47979 OcnA-S21…             3750             3113            0.830
-##  5      48797 PhysA-S1…             2018             1684            0.834
-##  6      51943 FrScA-S2…             2608             2305            0.884
-##  7      52326 AnPhA-S2…             4040             3086            0.764
-##  8      52446 PhysA-S1…             2612             2223            0.851
-##  9      53447 FrScA-S1…             3063             2283            0.745
-## 10      53475 FrScA-S1…             4318             3347            0.775
-## # … with 593 more rows, and 19 more variables: subject <chr>, semester <chr>,
-## #   section <chr>, Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>,
-## #   q1 <lgl>, q2 <lgl>, q3 <lgl>, q4 <lgl>, q5 <lgl>, q6 <lgl>, q7 <lgl>,
-## #   q8 <lgl>, q9 <lgl>, q10 <lgl>, TimeSpent <dbl>, TimeSpent_hours <dbl>,
-## #   TimeSpent_std <dbl>
+dat <- dataedu::sci_mo_processed
 ```
 
 ### Using dummy codes
@@ -248,29 +222,29 @@ dat %>%
 ```
 
 ```
-## # A tibble: 26 x 2
-##    course_id         n
-##    <chr>         <int>
-##  1 AnPhA-S116-01    43
-##  2 AnPhA-S116-02    29
-##  3 AnPhA-S216-01    43
-##  4 AnPhA-S216-02    17
-##  5 AnPhA-T116-01    11
-##  6 BioA-S116-01     34
-##  7 BioA-S216-01      7
-##  8 BioA-T116-01      2
-##  9 FrScA-S116-01    70
-## 10 FrScA-S116-02    12
-## # … with 16 more rows
+#> # A tibble: 26 x 2
+#>    course_id         n
+#>    <chr>         <int>
+#>  1 AnPhA-S116-01    43
+#>  2 AnPhA-S116-02    29
+#>  3 AnPhA-S216-01    43
+#>  4 AnPhA-S216-02    17
+#>  5 AnPhA-T116-01    11
+#>  6 BioA-S116-01     34
+#>  7 BioA-S216-01      7
+#>  8 BioA-T116-01      2
+#>  9 FrScA-S116-01    70
+#> 10 FrScA-S116-02    12
+#> # … with 16 more rows
 ```
 
 ## Analysis
 
 ### Regression (linear model) analysis with dummy codes
 
-We will save this output to `m_linear_courses`, where the `dc` stands for dummy
+We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
-and `subject` - as independent variables.
+and `course_id` - as independent variables.
 
 
 ```r
@@ -843,8 +817,7 @@ estimated effects for each of many groups, like classes, and to address the
 assumption of independence. Multi-level models do this by (still) estimating the
 effect of being a student in each group, but with a key distinction from linear
 models: Instead of determining how different the observations in a group are
-from those in the reference group, the multi-level model "regularizes"
-(sometimes the term "shrinks" is used) the difference based on how
+from those in the reference group, the multi-level model "regularizes" (sometimes the term "shrinks" is used) the difference based on how
 systematically different the groups are. The reason why "shrinkage" is
 occasionally used is that the group-level estimates (i.e., for classes) that are
 obtained through multi-level modeling can never be larger than those from a
@@ -852,7 +825,7 @@ linear model (regression). As described earlier, when there are groups included
 in the model, a regression effectively estimates the effect for each group
 independent of all of the others.
 
-Through regularization, groups that are comprised of individuals who are
+Through regularization, groups that comprise individuals who are
 consistently different (higher or lower) than individuals on average are not
 regularized very much - their estimated difference may be close to the estimate
 from a multi-level model - whereas groups with only a few individuals, or with a
@@ -895,24 +868,29 @@ science analyses, reports, and articles.
 ### Multi-level model analysis
 
 Fortunately, for all of the complicated details, multi-level models are very
-easy to use in R. Their requires a new package; one of the most common for
-estimating these types of models is `lme4()`. We use it very similarly to the
-`lm()` function, but we pass it an additional argument about what the *groups*,
+easy to use in R. This requires a new package; one of the most common for
+estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*,
 in the data are. Such a model is often referred to as a "varying intercepts"
 multi-level model, because what is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
+You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
+
 
 ```r
-# install.packages("lme4") # note that this only needs to be run one time, after which the package will be installed on your local computer
-m_course <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
+install.packages("lme4") 
 ```
 
+Now we can fit our multi-level model:
+
+
+```r
+m_course <- 
+  lme4::lmer(percentage_earned ~ TimeSpent_std + (1|course_id), data = dat)
 ```
-## Warning: Some predictor variables are on very different scales: consider
-## rescaling
-```
+
+<!-- Preferable to add this as a footnote -->
+To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
 
 In a way, what is going on above is straightforward (and similar to what we have
 seen with `lm()`), but, it is also different and potentially confusing.
@@ -948,59 +926,6 @@ Let's view the results using the `tab_model()` function from sjPlot.
 tab_model(m_course)
 ```
 
-<table style="border-collapse:collapse; border:none;">
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.76</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.74&nbsp;&ndash;&nbsp;0.79</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">TimeSpent</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-0.00&nbsp;&ndash;&nbsp;0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.000</td>
-</tr>
-<tr>
-<td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
-</tr>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">&sigma;<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.01</td>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">&tau;<sub>00</sub> <sub>course_id</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.00</td>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.08</td>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N <sub>course_id</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">21</td>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">148</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">0.000 / 0.076</td>
-</tr>
-
-</table>
-
 There is another part of the above code to mention. The `tab_model()`
 function comparably as it does for `lm()` models, providing output for the
 model, including some fit statistics as well as coefficients and their standard
@@ -1020,19 +945,20 @@ As we mentioned earlier, a common way to understand how much variability is at
 the group level is to calculate the *intra-class* correlation. This value is the
 proportion of the variability in the outcome (the *y*-variable) that is
 accounted for solely by the groups identified in the model. There is a useful
-function in the **performance** package for doing this.
+function in the {performance} package for doing this.
+
+You can install the {performance} package by typing this code in your console: 
 
 
 ```r
-# install.packages("performance")
-performance::icc(m_course)
+install.packages("performance")
 ```
 
-```
-## # Intraclass Correlation Coefficient
-## 
-##      Adjusted ICC: 0.076
-##   Conditional ICC: 0.076
+After that, try this function: 
+
+
+```r
+performance::icc(m_course)
 ```
 
 This shows that nearly 17% of the variability in the percentage of points
@@ -1050,19 +976,20 @@ with another group added for the school. The model will account for the way in
 which the classes are nested within the schools automatically (Bates, Maechler,
 Bolker, & Walker, 2015).
 
+We don't have a variable containing the name of different schools. If we did we could fit the model like this, where `school_id` is the variable containing different schools: 
+
 
 ```r
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
 two ICC values representing the proportion of the variation in the dependent
 variable explained by each of the two groups we added - the course *and* the
-school. A common question those using lme4 have is whether it is necessary to
-explicitly nest the courses within schools; as long as the courses are unique
-labelled, this is not necessary to do.
+school. A common question those using {lme4} have is whether it is necessary to 
+explicitly nest the courses within schools; as long as the courses are unique labelled, this is not necessary to do.
 
 You can add further still levels to the model, as the {lme4} package was
 designed for complex multi-level models (and even those with not nested, but
