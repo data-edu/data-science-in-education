@@ -346,7 +346,7 @@ Now we can fit our multi-level model:
 
 ``` {r fit multi-level model}
 m_course <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
@@ -381,7 +381,7 @@ all of the classes can be interpreted as a *prior* for the group estimates.]
 
 Let's view the results using the `tab_model()` function from sjPlot.
 
-```{r}
+```{r, eval = FALSE}
 tab_model(m_course)
 ```
 
@@ -414,7 +414,7 @@ install.packages("performance")
 
 After that, try this function: 
 
-``` {r ICC}
+``` {r ICC, eval = FALSE}
 performance::icc(m_course)
 ```
 
@@ -480,6 +480,3 @@ Finally, as noted earlier, multi-level models have similarities to the Bayesian
 methods which are becoming more common among some R users - and educational data
 scientists. There are also references to recommended books on Bayesian methods
 in the additional resources chapter.
-
-```{r}
-```
