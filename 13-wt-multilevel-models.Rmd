@@ -31,10 +31,6 @@ management system) and the effects of being in a particular class.
 We use the same data source on students' motivation in online science classes
 that we processed in [walkthrough 1](06-wt-multilevel-models-1).
 
-``` {r, message = F, warning = F}
-dat <- dataedu::sci_mo_processed
-```
-
 ### Methods
 
 ## Load Packages
@@ -154,8 +150,8 @@ other group is compared.
 
 We will load a built-in dataset from the dataedu package. 
 
-```{r}
-sci_mo_data
+``` {r, message = F, warning = F}
+dat <- dataedu::sci_mo_processed
 ```
 
 ### Using dummy codes
@@ -168,7 +164,7 @@ function to see how many courses there are.
 
 ```{r count classes}
 dat %>% 
-  count(course_ID)
+  count(course_id)
 ```
 
 ## Analysis
@@ -177,11 +173,11 @@ dat %>%
 
 We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
-and `course_ID` - as independent variables.
+and `course_id` - as independent variables.
 
 ```{r fit model for course on time spent}
 m_linear_dc <- 
-  lm(percentage_earned ~ TimeSpent_std + course_ID, data = dat)
+  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 ```
 
 The output will be a bit, well, long, because each group will have its own
@@ -198,8 +194,8 @@ we count the number of classes, we see that there are 25 - and not 26! One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 0.74 represents the percentage of points that students in the reference
-group class, which is automatically the first level of the `course_ID` variable
-when it is converted to a factor, "course_IDAnPhA-S116-01" (which represents an anatomy 
+group class, which is automatically the first level of the `course_id` variable
+when it is converted to a factor, "course_idAnPhA-S116-01" (which represents an anatomy 
 and physiology course from semester `S1` (for the fall) of 20`16`; this is the first
 section (`01`)).
 
@@ -211,10 +207,10 @@ packages) makes it easy to do this. This function allows us to re-order the
 levels within a factor, so that the "first" level will change. We'll also use
 `mutate` again here, which we introduced in the previous chapter. 
 
-``` {r relevel course_ID}
+``` {r relevel course_id}
 dat <-
   dat %>%
-  mutate(course_ID = fct_relevel(course_ID, "PhysA-S116-01"))
+  mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
 ```
 
 We can now see that *that* group is no longer listed as an independent variable,
@@ -222,9 +218,9 @@ or a predictor: every coefficient in this model is now in reference to it.
 
 ``` {r fit model with new course level}
 # Here we run a linear model again, predicting percentage earned in the course
-# The predictor variables are the (standardized) amount of time spent and the subject of the course (course_ID)
+# The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
 m_linear_dc_1 <- 
-  lm(percentage_earned ~ TimeSpent_std + course_ID, data = dat)
+  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
 
 sjPlot::tab_model(m_linear_dc_1)
 ```
@@ -249,7 +245,7 @@ after the tilde, as follows:
 ``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
 m_linear_dc_2 <- 
-  lm(percentage_earned ~ -1 + TimeSpent_std + course_ID, data = dat)
+  lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
 
 sjPlot::tab_model(m_linear_dc_2)
 ```
@@ -350,7 +346,7 @@ Now we can fit our multi-level model:
 
 ``` {r fit multi-level model}
 m_course <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
@@ -358,13 +354,13 @@ To say *just* a bit more, there is a connection between multi-level models and B
 
 In a way, what is going on above is straightforward (and similar to what we have
 seen with `lm()`), but, it is also different and potentially confusing.
-Parentheses are not commonly used with `lm()`; there is a term (`(1|course_ID)`)
+Parentheses are not commonly used with `lm()`; there is a term (`(1|course_id)`)
 in parentheses. Also, the bar symbol - `|` - is not commonly used with `lm()`.
 
 As different as these (the parentheses and bar) are, they are used for a
 relatively straightforward purpose: to model the group (in this case, courses)
 in the data. With `lmer()`, these group terms are specified in parentheses -
-specifically, to the right of the bar. That is what the `|course_ID` part means
+specifically, to the right of the bar. That is what the `|course_id` part means
 - it is telling lmer that courses are groups in the data. The left side of the
 bar tells lmer that what we want to be specified are varying intercepts for each
 group (1 is used to denote the intercept). That is basically it!
@@ -385,7 +381,7 @@ all of the classes can be interpreted as a *prior* for the group estimates.]
 
 Let's view the results using the `tab_model()` function from sjPlot.
 
-```{r}
+```{r, eval = FALSE}
 tab_model(m_course)
 ```
 
@@ -418,7 +414,7 @@ install.packages("performance")
 
 After that, try this function: 
 
-``` {r ICC}
+``` {r ICC, eval = FALSE}
 performance::icc(m_course)
 ```
 
@@ -442,7 +438,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_ID) + (1|school_id), data = dat)
+  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
