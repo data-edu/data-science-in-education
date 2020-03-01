@@ -12,8 +12,6 @@ We will be covering the following topics in this chapter:
 - Steps for working through new and unfamiliar content
 - Accessing the data sets used in this book
 
-## Getting Started
-
 First, you will need to download the latest versions of R and RStudio. 
 R is a free environment for statistical computing and graphics using the programming language R. 
 RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
@@ -43,15 +41,16 @@ If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
 ## Getting to know R through RStudio
+
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
+
 <center>
 ![](https://imgur.com/a/eebVIXy)
 </center>
 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
 If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) textbook.
-
 
 You do not _have_ to use RStudio to access R, and many people don't! 
 Other IDEs that work with R include:
@@ -99,3 +98,46 @@ Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
 
 - Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
     + Choose a theme that works best for you and apply it
+    
+## Steps for working through new and unfamiliar content
+
+## Using the dataedu package to access the data used in this book
+
+We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
+
+We describe how to install the package in the next chapter. The package serves four functions:
+
+1. Mass installation of all the packages used in the book
+2. Reproducible code for the walkthroughs
+3. Access to the data used in each of the walkthroughs
+4. The dataedu theme and color palette for reuse
+
+### Mass Installation of Packages
+
+We strived to use packages that we use in our daily work when creating the walkthroughs in the book. Because we covered a variety of subjects, that means we used a lot of packages! As described in the Foundational Skills chapter, you can install the packages individually as they suit your needs. 
+
+However, if you want to quickly get started and download all the packages at once, please use `mass_install()`.
+
+``` r
+dataedu::mass_install()
+```
+
+To see the packages used in the book, run:
+
+```{r}
+dataedu::all_packages
+```
+
+**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
+
+### Reproducible Code for Walkthroughs
+
+<!-- Need to add -->
+
+### Accessing the Walkthrough Data
+
+You can call the dataset as mentioned in the walkthrough.
+
+``` r
+dataedu::course_data
+```
