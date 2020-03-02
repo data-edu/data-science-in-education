@@ -173,11 +173,21 @@ dat %>%
 
 We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
-and `course_id` - as independent variables.
+and `course_id` - as independent variables, but will predict students' final grade 
+(a variable in the dataset), rather than the `percentage_earned` variable that we 
+created in (chapter 7)[#c7].
+
+Since we will be using the final grade variable a lot, we can rename it to make 
+it quicker (and easier) to type.
+
+```{r}
+dat <- dat %>% 
+  rename(final_grade = FinalGradeCEMS)
+```
 
 ```{r fit model for course on time spent}
 m_linear_dc <- 
-  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+  lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 ```
 
 The output will be a bit, well, long, because each group will have its own
@@ -220,7 +230,7 @@ or a predictor: every coefficient in this model is now in reference to it.
 # Here we run a linear model again, predicting percentage earned in the course
 # The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
 m_linear_dc_1 <- 
-  lm(percentage_earned ~ TimeSpent_std + course_id, data = dat)
+  lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 
 sjPlot::tab_model(m_linear_dc_1)
 ```
@@ -245,7 +255,7 @@ after the tilde, as follows:
 ``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
 m_linear_dc_2 <- 
-  lm(percentage_earned ~ -1 + TimeSpent_std + course_id, data = dat)
+  lm(final_grade ~ -1 + TimeSpent_std + course_id, data = dat)
 
 sjPlot::tab_model(m_linear_dc_2)
 ```
@@ -346,7 +356,7 @@ Now we can fit our multi-level model:
 
 ``` {r fit multi-level model}
 m_course <- 
-  lme4::lmer(percentage_earned ~ TimeSpent_std + (1|course_id), data = dat)
+  lme4::lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
@@ -414,7 +424,7 @@ install.packages("performance")
 
 After that, try this function: 
 
-``` {r ICC, eval = FALSE}
+``` {r ICC, eval = TRUE}
 performance::icc(m_course)
 ```
 
@@ -438,7 +448,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(percentage_earned ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+  lme4::lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see

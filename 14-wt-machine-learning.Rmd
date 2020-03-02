@@ -112,7 +112,7 @@ data <- dataedu::sci_mo_with_text
 It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 ```{r}
-glimpse(sci_mo_data)
+glimpse(data)
 ```
 Scanning the data we glimpsed, we see that we have 662 observations and 111 variables. Many of these variables - everything below "WC" except the variable "n" -  are related to the text content of the discussion board posts. Our analysis here is not focused on the specifics of the discusion board posts, so we will select just a few variables from the LIWC analysis. If you're interested in learning more about analyzing text, the text analysis walkthrough in this volume will be a good place to start. 
 
@@ -135,9 +135,9 @@ data <-
 data <- 
     data %>%
     select(
-        pre_int,
-        pre_uv,
-        pre_percomp,
+        int,
+        uv,
+        percomp,
         time_spent,
         final_grade,
         subject,
@@ -258,7 +258,7 @@ Finally, we will estimate the models.
 
 Here, we will use the train function, passing *all* of the variables in the data frame (except for the outcome, or dependent variable, `final_grade`) as predictors.
 
-The predictor variables include three indicators of motivation: interest in the course (pre_int), perceived utility value of the course (pre_uv), and perceived competence for the subject matter (pre_percomp). There are a few predictor variables that help differentiate between the different courses in the dataset: subject matter of the course (subject), reason the student enrolled in the course (enrollment_reason), and semester in which the course took place (semester). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (time_spent).
+The predictor variables include three indicators of motivation: interest in the course (`int`), perceived utility value of the course (`uv`), and perceived competence for the subject matter (`pc`). There are a few predictor variables that help differentiate between the different courses in the dataset: subject matter of the course (subject), reason the student enrolled in the course (enrollment_reason), and semester in which the course took place (semester). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (time_spent).
 
 We also have a number of variables associated with the discussion board posts from the course. Specifically, the variables include the average level of cognitive processing in the discussion board posts (cogproc), the average level of social (rather than academic) content in the discussion board posts (social), the positive and negative emotions evident in the discussion board posts (posemo and negemo), and finally, the number of discussion board posts in total (n). We are using all those variables discussed in this paragraph to predict the outcome of the final grade in the course (final_grade).
 
