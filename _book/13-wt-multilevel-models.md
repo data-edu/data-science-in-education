@@ -13,11 +13,11 @@ of being in a particular class.
 - dummy coding
 - intra-class correlation
 
-## Introduction
+## Chapter Overview
 
-### Background: why are we highlighting this? What is the purpose, implications
+### Background
 
-This walkthrough accompanies the [previous chapter](06-wt-multilevel-models-1),
+This walkthrough accompanies the [previous chapter](#c12),
 which focused on preparing the data and beginning to viusualize and model the
 data. Here, we focus on an extension of the models we ran, one focused on how to
 address the fact that students in our dataset shared classes.
@@ -30,7 +30,7 @@ management system) and the effects of being in a particular class.
 ### Data Source
 
 We use the same data source on students' motivation in online science classes
-that we processed in [walkthrough 1](06-wt-multilevel-models-1).
+that we processed in [Walkthrough 1](#c07).
 
 ### Methods
 
@@ -48,7 +48,7 @@ library(performance)
 library(dataedu)
 ```
 
-## But what about different courses?
+## But What About Different Courses?
 
 Are there course-specific differences in how much time students spend on the
 course as well as in how time spent is related to the percentage of points
@@ -57,7 +57,7 @@ our linear model.
 
 Specifically, we can dummy-code the groups. Dummy coding means transforming a variable with multiple categories into multiple, new variables, where each variable indicates the presence and absence of only one of the categories.
 
-### The role of dummy codes
+### The Role of Dummy Codes
 
 We can see how dummy coding works through using the {dummies} package, though,
 as we will see, you often do not need to manually dummy code variables like
@@ -1126,8 +1126,8 @@ teacher in a school necessarily (or even likely) attended the same teacher
 preparation program, and graduates from every teacher preparation program are
 highly unlikely to all teach in the same school!
 
-There is much more that can be done with multi-level models; we have additional
-recommendations in the [additional resources](#17=additional-resources) chapter.
+There is much more that can be done with multi-level models; we have more
+recommendations in the [Additional Resources](#c18) chapter.
 
 Finally, as noted earlier, multi-level models have similarities to the Bayesian
 methods which are becoming more common among some R users - and educational data

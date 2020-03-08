@@ -248,7 +248,7 @@ Say, for example, an elementary school administrator wants to replace each stude
  1. Use `split()` to separate the data into classrooms again 
  1. Use {purrr} and `write_csv()` to create and rename individual spreadsheets to send back to teachers 
 
-With some initial investment into thoughtful coding on the front end of this problem, the admininistrator now has a script she can use repeatedly in the future when she needs to do this task again.
+With some initial investment into thoughtful coding on the front end of this problem, the administrator now has a script she can use repeatedly in the future when she needs to do this task again.
 
 ##  Other Ways to Reimagine the Scale of Your Work
 
@@ -293,7 +293,7 @@ Data scientists and non-data scientists in education are similar in this regard-
 
 Here are some reflection questions and exercise to use to inspire connection in your education workplace. Practice these questions both as personal reflections and also as questions you ask your coworkers: 
 
- 1. What does data analysis in our organiztion look like today? 
+ 1. What does data analysis in our organization look like today? 
  1. How do I wish data analysis will look like in the future?
  1. What is the hardest challenge I face in building my vision of student learning?
  1. What is one story about a rewarding experience I had with a student? 
@@ -310,11 +310,11 @@ Now along the path of data science daily practice you may discover that your non
 
 It is widely accepted that participating in personal and professional networks is important for survival, thriving, and innovation. The path to connecting to a data science in education network is apparent if your education workplace has an analytics department, but it will take a little more thought if you are the lone data scientist. When looking for allies that will inspire and teach you, the mind immediately searches for other programmers and statisticians and to be sure, these are relationships that will help you and the organization grow in its analytic approach. 
 
-What the authors argue here is that data science in eduation is not just about bringing programming and statistics, but in the broader view is about evolving the whole approach to analytics. When viewed that way, members of a network broaden beyond just programmers and statisticians. It grows to include administrators and staff who are endlessly curious about the lives of students, graduate students fascinated with unique research methodologies, and designers who create interesting approaches to measurement. 
+What the authors argue here is that data science in education is not just about bringing programming and statistics, but in the broader view is about evolving the whole approach to analytics. When viewed that way, members of a network broaden beyond just programmers and statisticians. It grows to include administrators and staff who are endlessly curious about the lives of students, graduate students fascinated with unique research methodologies, and designers who create interesting approaches to measurement. 
 
 Networks for growing data science in education are not limited to the workplace. There are plenty of online and in real life chances to participate in a network that are just as rewarding as the networks you participate in during regular work hours. Here are a few to check out: 
 
- - Communities on Twitter like #RLadies and #rstats 
+ - Communities on Twitter like #R-Ladies and #rstats 
  - Local coding communities 
  - Conferences like rstudio::conf and useR! 
  - Online forums like RStudio Community 
@@ -323,7 +323,7 @@ Networks for growing data science in education are not limited to the workplace.
 
 We've used almost all of this chapter to explore what to think about and what to do to help you bring your data science skills to your education workplace. So far the discussion has been from the data scientist's point of view, but what if you are one of the many who have an interest in analytics but very little interest in programming and statistics? Teachers in elementary and high schools are faced with a mind boggling amount of student data. A study by the @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57 percent of the teachers in the study said a lack of time was a barrier to using the data they have. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
 
-Yet the majority of teachers aren't interested in learning a programming language and statistical methods as a way to get better at analytics, and both time and professional development with respect to working with data are necessary [@datnow2015]. After all, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and evaluating statistical model output. But to leave them out feels like a glaring ommission in a field where perhaps the most important shared value is the effective teaching of students. 
+Yet the majority of teachers aren't interested in learning a programming language and statistical methods as a way to get better at analytics, and both time and professional development with respect to working with data are necessary [@datnow2015]. After all, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and evaluating statistical model output. But to leave them out feels like a glaring omission in a field where perhaps the most important shared value is the effective teaching of students. 
 
 If you do happen to be an elementary or high school teacher who wants use programming and statistics to improve how you use data, you will find the approaches in this book useful. But if you are not that person, there is still much to explore that will lead to a rewarding experience as you grow your analytic skill. This book lacks the scope to explore this topic thoroughly, but there are many ways to improve how you use data without requiring a programming language or deep knowledge of statistics. 
 

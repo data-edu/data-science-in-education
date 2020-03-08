@@ -1,7 +1,7 @@
 
 # Walkthrough 3: Introduction to Aggregate Data {#c09}
 
-## Introduction
+## Chapter Overview
 
 ### Background
 
@@ -69,7 +69,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulizer} package](https://github.com/ropensci/tabulizer) which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {RJava}.
+ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer) package which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer}, or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {RJava}.
 
 
 ```r
@@ -376,7 +376,7 @@ merged_df %>%
   # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
-                 fill = dataedu_cols("darkblue"))  +
+                 fill = dataedu_colors("darkblue"))  +
   xlab("White Percentage") +
   ylab("Count") +
   scale_x_continuous(labels = scales::percent) + 
@@ -434,7 +434,7 @@ Let’s explore what happens when we correlate race and FRPL percentage by schoo
 merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
-  geom_point(color = dataedu_cols("green")) +
+  geom_point(color = dataedu_colors("green")) +
   theme_dataedu() +
   xlab("White Percentage") +
   ylab("FRPL Percentage") +
@@ -453,7 +453,7 @@ Because of the disaggregated data this district provides, we can go deeper than 
 
 ## Conclusion
 
-According to the Urban Institute, the disproportionate percentage of students of color attending high poverty schools "is a defining feature of almost all Midwestern and northeastern metropolitan school systems." Among other issues, [high poverty schools tend to lack the educational resources—like highly qualified and experienced teachers, low student-teacher ratios, college prerequisite and advanced placement courses, and extracurricular activities—available in low-poverty schools.](https://www.urban.org/urban-wire/high-poverty-schools-undermine-education-children-color) This has a huge impact on these students and their futures.
+According to the Urban Institute, the disproportionate percentage of students of color attending high poverty schools "is a defining feature of almost all Midwestern and northeastern metropolitan school systems" @urbanpov. Among other issues, "high poverty schools tend to lack the educational resources—like highly qualified and experienced teachers, low student-teacher ratios, college prerequisite and advanced placement courses, and extracurricular activities—available in low-poverty schools." This has a huge impact on these students and their futures.
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, this deep segregation that exists in the district can have adverse effects on students.
 

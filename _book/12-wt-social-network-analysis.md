@@ -12,7 +12,7 @@
 - selection model
 - influence model
 
-## Introduction
+## Chapter Overview
 
 This chapter builds upon the previous chapter on [text analysis](#c11) of #tidytuesday data.
 
@@ -139,7 +139,7 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
 
-### Extracting mentions
+### Extracting Mentions
 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
@@ -167,7 +167,7 @@ mentions <-
   select(sender = screen_name, all_mentions)
 ```
 
-### Putting the edgelist together
+### Putting the Edgelist Together
 
 An edgelist is a common social network analysis data structure that has columns for the "sender" and "receiver" of interactions, or relations. For example, someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. This will require one last processing step. Let's look at our data as it is now.
 
@@ -209,7 +209,7 @@ edgelist <-
 
 Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
 
-### Plotting the network
+### Plotting the Network
 
 Because large networks (like this one) can present challenges, it is common to filter them to only include some individuals. Let's explore how many interactions each individual in the network sent.
 
@@ -386,7 +386,7 @@ data3 <-
              yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
 ```
 
-### Joining the data
+### Joining the Data
 
 Next, we'll join the data into one data frame. Note that while this is sometimes tedius and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualiations that are informative.
 
@@ -418,7 +418,7 @@ data <-
   left_join(data, tempdata, by = "nominee")
 ```
 
-#### Calculating an exposure term
+#### Calculating an Exposure Term
 
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
@@ -455,7 +455,7 @@ final_data <-
   left_join(final_data, data3, by = "nominator") 
 ```
 
-#### Regression (linear model)
+#### Regression (Linear Model)
 
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 
@@ -491,7 +491,7 @@ summary(model1)
 
 So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Frank, 2009). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
 
-### An example of selection
+### An Example of Selection
 
 Selection models are also commonly used - and are commonly of interest not only to researchers but also to administrators and teachers (and even to youth and students). 
 
@@ -509,8 +509,7 @@ m_selection <-
 
 While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
 
+#
 One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
 
 A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, {ergm}, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), {statnet}. A link to the statnet packages is [here](https://statnet.org/).
-
-Trust, T., Krutka, D. G., & Carpenter, J. P. (2016). “Together we are better”: Professional learning networks for teachers. Computers & education, 102, 15-34.

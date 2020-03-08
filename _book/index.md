@@ -17,7 +17,7 @@ favicon: "favicon.ico"
 
 # Welcome {-}
 
-Inspired by {bookdown}, this book is open source. This ensures its contents are reproducible and publicly accessible for people worldwide. The online version of the book is hosted at [datascienceineducation.com](https://datascienceineducation.com/).
+Welcome to Data Science in Education Using R! Inspired by {bookdown}, this book is open source. Its contents are reproducible and publicly accessible for people worldwide. The online version of the book is hosted at [datascienceineducation.com](https://datascienceineducation.com/).
 
 ## Prologue {-}
 
@@ -40,6 +40,8 @@ So give your chicken family a big hug, open up your laptop, and let’s start le
 </center>
 
 ## Acknowledgements {-}
+
+We started writing this book in the open, on GitHub and this work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grande, Jake Kaupp, Ludmila Janda, Kris Stevens, David Ranzolin, Gustavo Velásquez, and Bret Staudt Willet.
 
 ## Citation {-}
 

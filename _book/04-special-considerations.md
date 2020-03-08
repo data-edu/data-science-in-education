@@ -1,3 +1,4 @@
+
 # Special Considerations {#c04}
 
 Data science in education is a new domain. It presents opportunities, like those discussed in the [previous chapter](#c03), but also some challenges. These challenges vary a lot: we consider doing data science in education to include not only accessing, processing, and modeling data, but also social and cultural factors, like the training and support that educational data scientists have available to them. Some of these challenges are common to *all* domains in which data science is carried out, while others are very particular to the field of education.
@@ -57,7 +58,7 @@ Thoughtful decisions during the project design and data collection, analysis, an
 
 Thoughtful and deliberate data science can help us understand what to do so our students reach their highest potential. Data science can make us more efficient in our tasks. It can increase transparency about what we are doing to help our students. It can also help monitor how we are progressing. However, we must continuously inspect our processes and work to make sure we do not do unintentional harm.
 
-R and R Studio, both freely-available and open, also serve to increase equity in data science. As opposed to proprietary tools, they are accessible to anybody with a computer and internet. The code behind the packages is available online, opening up the "black box" of research. If code is submitted alongside analyses and reports, we can see what decisions were taken to produce the analysis and rerun the analysis ourselves. Using R can enable more audiences to learn, understand, and reuse analyses.
+R and RStudio, both freely-available and open, also serve to increase equity in data science. As opposed to proprietary tools, they are accessible to anybody with a computer and internet. The code behind the packages is available online, opening up the "black box" of research. If code is submitted alongside analyses and reports, we can see what decisions were taken to produce the analysis and rerun the analysis ourselves. Using R can enable more audiences to learn, understand, and reuse analyses.
 
 ### The Complex Nature of Education Data
 

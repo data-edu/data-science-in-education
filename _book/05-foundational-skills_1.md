@@ -1,9 +1,9 @@
 
 # Getting Started with R and RStudio {#c05}
 
-## Chapter overview
+## Chapter Overview
 
-This chapter is designed to take you from installing R and RStudio all the way through the very basics of data loading and manipulation using the {tidyverse} [@R-tidyverse]. 
+This chapter is designed to take you from installing R and RStudio all the way through the very basics of data loading and manipulation using the {tidyverse} [@wickham2019]. 
 
 We will be covering the following topics in this chapter: 
 
@@ -47,15 +47,16 @@ Now that we've installed both R and RStudio, we will be accessing R _through_ RS
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
 <center>
-![](https://imgur.com/a/eebVIXy)
+![](./man/figures/icons.png)
 </center>
 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
-If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) textbook.
+If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) @statisticalinf textbook.
 
 You do not _have_ to use RStudio to access R, and many people don't! 
 
 Other IDEs that work with R include:
+
 - [Jupyter notebook](https://jupyter.org/)
 - [VisualStudio](https://visualstudio.microsoft.com/services/visual-studio-online/)
 - [VIM](https://github.com/jalvesaq/Nvim-R)

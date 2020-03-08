@@ -30,7 +30,7 @@ we will use to build our framework are:
 
 You're likely using this text because you have some data that you'd like to do
 something with, and you'd like to try doing said thing using R. The framework
-we'll use assumes that your data exists externally from R in a `.csv` file, and
+we'll use assumes that your data exists externally from R in a `.csv` (comma-separated-values) file, and
 needs to be brought into R so that we can work with it.
 
 There are a multitude of file types that data can be stored in. We've provided
@@ -86,7 +86,7 @@ Creating a Project is one of the first steps in working on an R-based data
 science project in RStudio (if we were using GitHub for this we'd absolutely
 recommend setting up your repository first! While we do not use Git or GitHub
 in this text, you can read more about it at
-[happygitwithr.com](http://www.happygitwithr.com).) To create a Project you will
+[happygitwithr.com](http://www.happygitwithr.com)). To create a Project you will
 need to be in RStudio.
 
 From within RStudio, follow these steps:
@@ -129,9 +129,9 @@ variety of needs, thereby expanding on base R.
 Here, we will show how to install the {dataedu} package that accompanies this book.
 <!-- This needs to be introduced much better -->
 
-As of this writing, the `dataedu` package is not available on CRAN. 
-This means we'll have to install the package using `devtools`. 
-To do this you first have to install the `devtools` package, and then the `dataedu` package by running the following code either in your RStudio console or in a script (an .R file): 
+As of this writing, the {dataedu} package is not available on CRAN. 
+This means we'll have to install the package using {devtools}. 
+To do this you first have to install the {devtools} package, and then the {dataedu} package by running the following code either in your RStudio console or in a script (an .R file): 
 
 
 ```r
@@ -142,7 +142,7 @@ install.packages("devtools", repos = "http://cran.us.r-project.org")
 devtools::install_github("data-edu/dataedu")
 ```
 
-From here we can load the `dataedu` package using the `library()` call, as follows:
+From here we can load the {dataedu} package using the `library()` call, as follows:
 
 
 ```r
@@ -150,14 +150,14 @@ From here we can load the `dataedu` package using the `library()` call, as follo
 library(dataedu)
 ```
 
-## Exploring R quickly with `swirl`
+## Exploring R quickly with {swirl}
 
 If you're eager to get started exploring everything that R can do, we recommend
-installing and learning through [`swirl`](https://swirlstats.com/students.html).
-`swirl` is set of packages (more on those shortly!) that you can download,
+installing and learning through [{swirl}](https://swirlstats.com/students.html).
+{swirl} is set of packages (more on those shortly!) that you can download,
 providing an interactive method for learning R by using R.
 
-We are not affiliated with `swirl` in any way, nor is it required to progress
+We are not affiliated with {swirl} in any way, nor is it required to progress
 through this text. Below, we'll discuss packages, functions, and other skills
 that will get you up and running in R in no time.
 
@@ -335,16 +335,17 @@ Packages do not need to be submit to CRAN to be used by the public, and many pac
 
 [image]
 
-**The Tidyverse, a package of packages**
-The `tidyverse` is a single package that contains additional packages, and within each of those individual packages are a set of functions. 
-The `tidyverse` is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. 
-As of this writing, the `tidyverse` is the only known package of packages.  
+**The tidyverse, a package of packages**
+The {tidyverse} is a single package that contains additional packages, and within each of those individual packages are a set of functions. 
+The {tidyverse} is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. 
+As of this writing, the {tidyverse} is the only known package of packages.  
 
 [image]
 
-## Installing and loading a package
+## Installing and Loading a package
 
 *Installing a package*
+
 If you read Chapter 05, you might have noticed at the very end that we both installed and loaded packages, but didn't talk too much about what we were doing. 
 We'll get into more detail on installing and loading packages now!
 
@@ -370,6 +371,7 @@ This is a way to install a package using code or part of the RStudio interface.
 Usually writing code is a bit quicker, but using the interface can be very useful and complimentary to use of code. 
 
 *Loading a package*
+
 Once a package is installed on your computer you do not have to re-install it in order to use the functions in the package, however you need to give R instructions telling it where to look for the functions in order to access the functions in the package.
 
 If you know that you'll be using a package's functions multiple times in an R script (a file ending in `.R`), you can load the package into your R environment using `library()`.
@@ -396,7 +398,8 @@ We strongly advocate for the use of `library()`, as it forces R to load the pack
 `require()` on the other hand will not give an error if the package is not available or if there are issues with the package. 
 Using `library()` will help to eliminate sources of confusion later on.  
 
-### Recognizing a function
+### Recognizing a Function
+
 Functions in R can be spotted by a word followed by a set of parentheses, like so: `word()`
 
 The word (or set of words) represent the name of the function, and the parentheses are where we can provide arguments to a function, if arguments are needed for the function to run. 
@@ -405,7 +408,8 @@ You can see what the available arguments are for a given function by using the h
 
 What are the arguments for `library()`?
 
-### Running code in R  
+### Running Code in R
+
 In order to run code in R you need to type your code either in the Console or within an `.R` (or `.Rmd`) script. 
 For the purposes of this chapter we recommend creating an `.R` script to type all of your code because you can add comments and then save your `.R` script for reference, whereas anything that you type in the Console will disappear as soon as you restart or close R.  
 
@@ -417,7 +421,8 @@ You can also run your code by highlighting it and clicking the `Run` button.
 
 [image]
 
-### Run this code
+### Run This Code
+
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.  
 
 
@@ -459,7 +464,8 @@ library(here)
 Based on what we've covered so far in this chapter, what did running the above lines of code accomplish?
 How do you know?
 
-### Function conflicts between packages
+### Function Conflicts between Packages
+
 In your Console you may have noticed the following message: 
 
 [IMG on tidyverse conflicts] 
@@ -475,12 +481,12 @@ If you would like to see the packages that came pre-installed with R, you can ru
 Additionally, if you would like to see a list of _all_ of the packages that have been installed (both pre-installed with base R as well as those that you have installed), you can run `rownames(installed.packages())` in the Console.
 
 However because of the broad array of packages that have been created for use in R, it's not uncommon for two (or more!) packages to have functions with the same name.
-What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the `dplyr` package (a package within the `tidyverse`) rather than the `filter()` function from within the `stats()` package (one of the packages that accompanies base R). 
+What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the {dplyr} package (a package within the {tidyverse}) rather than the `filter()` function from within the {stats} package (one of the packages that accompanies base R). 
 
 How can we use the Help documentation to explore how the two functions might differ?
 
 R will give precedence the most recently loaded package.
-What happens if we want to use the `filter()` function from the `stats` package _and_ the `filter()` function from the `dplyr` package in the same R session? 
+What happens if we want to use the `filter()` function from the {stats} package _and_ the `filter()` function from the {dplyr} package in the same R session? 
 One solution would be to reload the library you want to use each time you want to change the package you're using the `filter()` function from.
 But this can be tricky for several reasons: 
 - It's best practice to keep your `library()` calls at the very top of your R script, so re-loading a package using `library()` throughout your script can clutter things and cause you headaches down the road
@@ -503,13 +509,15 @@ starwars %>%
     dplyr::filter(mass > 85)
 ```
 
-### How to find a package
+### How to Find a Package
+
 As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN. 
 [CRAN TaskViews](link) is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
-### How to learn more about a package
+### How to Learn More About a Package
+
 Sometimes when you look up a package, you're able to pull the function that you need and continue on your way.
 Other times you may need (or want!) to learn more about a specific package. 
 Packages on CRAN all come with something called a "vignette," which is a worked example using various functions from within the package. 
@@ -521,6 +529,7 @@ Package authors may also publish vignettes or blog posts about their package, an
 You may also find yourself on GitHub looking at information for a package - more often than not the README file will have good information for getting started with a package.
 
 ### Commenting in R
+
 It is considered good practice to comment your code when working in an `.R` script. 
 Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. Comments in R are how we accomplish that!
 Comments are ignored by R when running a script, so they will not affect your code or analysis. 
@@ -536,14 +545,14 @@ It is often better to simply start a new section of code to tinker with until yo
 _Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign in front of a line of code so that R ignores it._
 _We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` sign in an example._
 
-## Using functions to import data
+## Using Functions to Import Data
 
 You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
 
 The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
 Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. 
 Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files. 
-However we would be remiss if we didn't point out that there is a package, `googlesheets`, which can be used to read a Google Sheet directly into R.
+However we would be remiss if we didn't point out that there is a package, {googlesheets}, which can be used to read a Google Sheet directly into R.
 
 For these reasons, we start with - and emphasize - reading `.csv` files. 
 
@@ -617,7 +626,8 @@ It also helps you to use functions that you have never used before because you a
 Now, in RStudio, you should see the downloaded file in the Files tab. 
 This should be the case if you created a project with RStudio; if not, it should be whatever your working directory is set to. 
 If the file is there, great. 
-If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it. 
+If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it.
+
 ### Loading a `.csv` File
 
 Okay, we're ready to go. 
@@ -703,14 +713,14 @@ That will save a `.csv` file entitled `student-responses.csv` in the working dir
 
 In Technical Appendix A (at the end of this chapter), we show how to access directly data from a few other sources: Excel, SPSS (via `.SAV` files), and Google Sheets.
 
-### Downloading and accessing the data sets used in this book
+### Downloading and Accessing the Datasets Used in this Book
 
 Throughout this book you'll see data accessed in a multitude of ways.
 Sometimes we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
-We've also provided each of the datasets used in this book as `.rda` files that are accessible via the `dataedu` package.
-More details about the `dataedu` package on be found [on GitHub](https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
+We've also provided each of the datasets used in this book as `.rda` files that are accessible via the {dataedu} package.
+More details about the {dataedu} package on be found [on GitHub](https://github.com/data-edu/dataedu) (https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
 
-Once you've installed the `dataedu` package (described above), you can use the `install_dataedu()` function to download all of the packages we'll be using in this text. 
+Once you've installed the {dataedu} package (described above), you can use the `install_dataedu()` function to download all of the packages we'll be using in this text. 
 This step is optional, and you're welcome to install packages as you use them. 
 
 To install all of the packages used in this text, run the following code in your RStudio console:
@@ -724,7 +734,8 @@ dataedu::dataedu_packages
 dataedu::install_dataedu()
 ```
 
-### Run this code
+### Run this Code
+
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
 _Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
@@ -748,7 +759,7 @@ In our Environment pane we can see how each of the data types has been brought i
 
 [IMG of Environment pane]
 
-### The assignment operator
+### The Assignment Operator
 The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable.
 When we save something to a variable, we do so using what's called an "assignment operator," which in R is either a left- or right-facing arrow (`<-` or `->`).
 Writing the name of your variable followed by a left-facing arrow is currently the most common convention used in R, but it is also perfectly acceptable to use the right-facing arrow.
@@ -756,13 +767,15 @@ Writing the name of your variable followed by a left-facing arrow is currently t
 Intuitively the right-facing arrow may make more sense for those of us who work predemoninantly in languages that read left to right, as what we're essentially saying is "take this entire chunk of code and save it to this variable name." 
 Regardless of which option you choose, both are different means to the same end.
 
-### The `here` package 
-We've talked about what Projects are and why you should use them, but what really makes Projects in RStudio shine is the use of the `here()` function from the `here` package.
+### The {here} package
+
+We've talked about what Projects are and why you should use them, but what really makes Projects in RStudio shine is the use of the `here()` function from the {here} package.
 What `here()` does is eliminate the need for you to do what's called "hard-coding" your file path. 
 For example, if we had loaded the data using the file path on one of our individual computers, it would be difficult for someone to open our folders on _their_ computer and re-run the analysis because they do not have the same file structure.
 What `here()` does is tell R that the file structure starts at the Project-level, and so every subsequent call starts at the Project-level, and allows you to navigate throughout each of the folders and files within a given Project.
 
-### Data types
+### Data Types
+
 There are different types of data within R. 
 When you loaded the Massachusetts Public Schools data from 2017, you likely saw a series of messages like this:
 
@@ -779,10 +792,12 @@ One of the (many) implications of this is that you can no longer do mathematical
 
 Not all is lost! 
 There are methods for safely coercing your data into the correct format, and we'll cover a handful throughout this text. 
-If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands on Programming With R](https://rstudio-education.github.io/hopr/) and [Advanced R](https://adv-r.hadley.nz/).
+If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands-On Programming with R](https://rstudio-education.github.io/hopr/) @hopr and [Advanced R](https://adv-r.hadley.nz/) @wickham2019advr.
 
-## Reading code and writing functions
-### Run this code
+## Reading Code and Writing Functions
+
+### Run This Code
+
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
 If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
 
@@ -808,7 +823,8 @@ summary(ma_data_init$`AP_Test Takers`)
 What differences do you see between each line of code?
 What changes in the output to the Console with each line of code that you run?
 
-### Common errors
+### Common Errors
+
 There were two lines of code that resulted in errors, and both were due to one of the most common sources of error in programming - typos!
 The first was `glimpse(ma_dat_init)`. 
 This might be a tricky error to spot, because at first glance it might seem like nothing is wrong!
@@ -829,28 +845,32 @@ Another method for dealing with it is to leave the column names as they are, but
 
 _Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `' '` instead of the actual backticks `` ``!_
 
-### The `$` operator
+### The `$` Operator
+
 There are many ways to isolate and explore a single variable within your data set.
 In this set of examples we used the `$` symbol.
 The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
 It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your data set, otherwise R will tell you that it can't find anything! 
 
-## The pipe operator
+## The Pipe Operator
+
 The pipe operator `%>%` tends to throw R learners for a loop, until all of a sudden something clicks for them and they decide that they either love it or hate it.
-We use the pipe operator throughout this text because we also heavily rely on use of the Tidyverse. 
+We use the pipe operator throughout this text because we also heavily rely on use of the tidyverse. 
 
 _Note: As you progress in your R learning journey you will likely find that you need to move well beyond the Tidyverse for accomplishing your analytical goals - and that's OK!_
 _We like the Tidyverse for teaching and learning because it relies on the same syntax across packages, so as you learn how to use functions within one package, you're learning the syntax for functions in other Tidyverse packages._  
 
 It's worth taking a few moments to talk about the pipe operator and its package.
-The pipe operator first appeared in the `magrittr` package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images.
+The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images.
 In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
 
-[IMG of Magritte painting] 
+<center>
+![](./man/figures/pipe.png)
+</center>
 
-At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package (`dplyr`, `tidyr`, `stringr`, and even `purrr`).
+At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
 
-### Run this code
+### Run This Code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
 ```r
@@ -874,17 +894,17 @@ ma_data_init %>%
 #     arrange(desc(n)
 ```
 
-### Piping practices 
-The `magrittr` package
-`dplyr` and package dependencies 
+### Piping Practices 
+The {magrittr} package
+{dplyr} and package dependencies 
 "Correct" pipe length (careful - will need to stick to this throughout text)
 
 ### Closing your parentheses
 Seeing the `+` sign in the Console
 Fixing it by pressing `Esc`
 
-## Functions and equality
-### Run this code 
+## Functions and Equality
+### Run This Code 
 Take a few minutes to read through the code before typing or running anything in R.
 Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code.
 Once you've done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
@@ -912,7 +932,7 @@ ma_data_init %>%
     select(district_name, grade)
 ```
 
-### "Reading" code
+### "Reading" Code
 When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis as to what the code is trying to accomplish.
 Doing this will help you not only understand code a bit better, but also help you spot errors more quickly when the code doesn't do what you thought it was going to do. 
 
@@ -929,21 +949,21 @@ We do not need to call or refer to the `ma_data_init` data set each time.
 
 When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions."
 
-### Verb-based functions
+### Verb-Based Functions
 Another pattern you may have picked up on is that every function is a verb.
 That is, the name of the function is telling us what the function is going to do!
 This is common both within the Tidyverse as well as in other packages.
 
-### When functions need arguments and when they don't
+### When Functions Need Arguments and When They Don't
 You also may have noticed that some of our functions needed arguments, that is, some kind of additional information provided inside the parentheses.
 There are not any hard and fast rules about when a function needs an argument (or series of arguments), however if you are having trouble running your code, first check for typos, then check the help documentation to see if you can provide arguments to more clearly direct R as to what to do.
 
-### Functions within functions
+### Functions within Functions
 One of the (many!) cool things about R is that we can nest our functions.
 When we nest our functions, R will read the functions from the innermost function to the outermost.
 We saw this both in the section of code above that used `arrange(desc(n))`, as well as when we imported data using `read_csv(here())`. 
 
-### The difference between `=` and `==` 
+### The Difference Between `=` and `==` 
 We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing.
 When R encounters an equal sign (`=`) it is almost always looking to create an object by assigning a value to a variable.
 So when we saw `filter(n = 10)`, R didn't understand why we were trying to filter something we were naming, and told us so with an error message.
@@ -951,7 +971,7 @@ So when we saw `filter(n = 10)`, R didn't understand why we were trying to filte
 When we are looking to determine whether or not values are equal, we use a double equals sign (`==`), as we did in `filter(n == 10)`. 
 When R sees a double equals sign (`==`) it is evaluating whether or not the value on the left is equivalent to the value on the right. 
 
-### Writing your own functions
+### Writing Your Own Functions
 As you work in R more and more, you may find yourself copying and pasting the same lines of code, and then making small modifications. 
 This is perfectly fine while you're learning, but eventually you're going to come across a large enough dataset that's going to take you a couple hours to type out by hand (and increase the opportunity to introduce errors!).
 This is when you _know_ you need to write a function.
@@ -1015,12 +1035,12 @@ What happens if we provide more than two arguments?
 
 You'll encounter several (more advanced) functions that we'll write together in various walkthroughs in this book!
 
-## Basics of names
+## Basics of Names
 Naming things is important! 
 The more you use R the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. 
 But there are some hard and fast rules that R has about naming things, and we'll cover them in this section. 
 
-### Run this code
+### Run This Code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
 ```r
@@ -1056,7 +1076,7 @@ At the same time, sometimes you may need to directly read a file from Excel.
 Note that, when possible, we recommend the use of `.csv` files. 
 They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
 
-The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
+The package for loading Excel files, {readxl}, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install {readxl} is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 

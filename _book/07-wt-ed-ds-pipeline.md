@@ -18,11 +18,10 @@ In this - the first walkthrough - we explore some of the key steps that are a
 part of many data science in education projects. In particular, we explore how
 to process and prepare data: what is sometimes referred to as data wrangling. To
 do so, we rely heavily on a set of tools that we use throughout *all* of the
-walkthroughs, those associated with the tidyverse The `tidyverse` is a set of
+walkthroughs, those associated with the tidyverse, the set of
 packages for data manipulation, exploration, and visualization using the design
-philosophy of 'tidy' data [@wickham2019] (see <https://www.tidyverse.org/> for
-more). In short, the packages contained in the {tidyverse} provide useful
-functions that augment base R functionality.
+philosophy of 'tidy' data [@wickham2019] mentioned in the Foudnational Skills chapters (see <https://www.tidyverse.org/> for
+more).
 
 The tidyverse is predicated on the concept of tidy data [@wickham2014]. Tidy
 data has a specific structure: each variable is a column, each observation is a
@@ -892,7 +891,7 @@ the data,
 
 ## Analysis
 
-In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in a [later chapter'(\#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce a ggplot2, a visualization package we'll be using in our walkthroughs. 
+In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in a [later chapter'(\#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce {ggplot2}, a visualization package we'll be using in our walkthroughs. 
 
 ### About \{ggplot2\}
 
@@ -913,12 +912,25 @@ students <-
 ggplot(data = students, aes(x = school_id, y = mean_score)) + 
   # draw the plot
   geom_bar(stat = "identity",
-           fill = dataedu_cols("darkblue")) +
+           fill = dataedu_colors("darkblue")) +
   theme_dataedu()
 ```
 
 ```
-#> Exiting.
+#> Scanning ttf files in /Library/Fonts/, /System/Library/Fonts, ~/Library/Fonts/ ...
+```
+
+```
+#> Extracting .afm files from .ttf files...
+```
+
+```
+#> /Library/Fonts/Microsoft/Gill Sans MT Bold Italic.ttf : GillSansMT-BoldItalic already registered in fonts database. Skipping.
+#> /Library/Fonts/Microsoft/Gill Sans MT Bold.ttf : GillSansMT-Bold already registered in fonts database. Skipping.
+#> /Library/Fonts/Microsoft/Gill Sans MT Italic.ttf : GillSansMT-Italic already registered in fonts database. Skipping.
+#> /Library/Fonts/Microsoft/Gill Sans MT.ttf : GillSansMT already registered in fonts database. Skipping.
+#> Found FontName for 0 fonts.
+#> Scanning afm files in /Library/Frameworks/R.framework/Versions/3.6/Resources/library/extrafontdb/metrics
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" width="100%" style="display: block; margin: auto;" />
@@ -939,7 +951,7 @@ dat %>%
   # Here we map variables to the x- and y-axis
   ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
   # Creates a point with x- and y-axis coordinates specified above
-  geom_point(color = dataedu_cols("green")) + 
+  geom_point(color = dataedu_colors("green")) + 
   theme_dataedu() +
   xlab("Time Spent") +
   ylab("Percentage Earned")
@@ -953,7 +965,7 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 ```r
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
-    geom_point(color = dataedu_cols("green")) + # same as above
+    geom_point(color = dataedu_colors("green")) + # same as above
   # this adds a line of best fit
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
@@ -1033,7 +1045,7 @@ tab_model(m_linear)
 
 This will work well for R Markdown documents (or simply to interpet the model in
 R). If you want to save the model for use in a Word document, the
-[apaTables](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
+[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
 like we did with `tab_model()`. Then, you can save the output to a Word
 document, simply by adding a `filename` argument:
@@ -1052,7 +1064,7 @@ an input, a data frame with the variables for which you wish to calculate
 correlations. 
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
-be using a lot in this book. `filter()`, `group_by()`, and `summarise()` are functions
+be using a lot in this book. `filter()`, `group_by()`, and `summarize()` are functions
 in the {dplyr} package that you will see a lot in upcoming chapters.
 
   - `filter()` removes rows from the dataset that don't match a criteria. Use it
@@ -1359,9 +1371,9 @@ differences by subject. While we focused on using this model in a traditional,
 explanatory sense, it could also (potentially) be used predictively, in that
 knowing how long students spent on the course and what subject their course is
 could be used to estimate what that students' final grade might be. We focus on
-predictive uses of models further in [chapter 14](#c14)).
+predictive uses of models further in [Chapter 14](#c14)).
 
-Also, In the follow-up to this walkthrough (see [chapter 13](#c13)), we will
+In the follow-up to this walkthrough (see [Chapter 13](#c13)), we will
 focus on visualizing and then modeling the data using an advanced methodological
 technique, multi-level models, using the data we prepared as a part of this data
 processeing pipeline used in this chapter.
