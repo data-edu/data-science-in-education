@@ -17,7 +17,7 @@
  - Aggregate data
  - Student-level data
 
-## Introduction 
+## Chapter Overview 
 
 ### Background 
 
@@ -43,7 +43,7 @@ library(lubridate)
 
 ## Import Data 
 
-In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the CSVs we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
+In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv`s we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
 
 ### What to Download
 
@@ -601,7 +601,7 @@ Visualizing and modeling our data will be much easier if our dataset is in a "ti
 
 *A note on the gender variable in this dataset*
 
-*This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.*
+This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.
 
 The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `pivot_longer()` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
 
@@ -1229,16 +1229,16 @@ tibble(
 #> # A tibble: 10 x 3
 #>    student school test_score
 #>    <chr>   <chr>       <int>
-#>  1 a       k              17
-#>  2 b       l              75
-#>  3 c       m              75
-#>  4 d       n              22
-#>  5 e       o               3
-#>  6 f       k              50
-#>  7 g       l              22
-#>  8 h       m              99
-#>  9 i       n              78
-#> 10 j       o              80
+#>  1 a       k              18
+#>  2 b       l               8
+#>  3 c       m              63
+#>  4 d       n              66
+#>  5 e       o              82
+#>  6 f       k              55
+#>  7 g       l              36
+#>  8 h       m              50
+#>  9 i       n              14
+#> 10 j       o              54
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1259,11 +1259,11 @@ tibble(
 #> # A tibble: 5 x 2
 #>   school mean_score
 #>   <chr>       <dbl>
-#> 1 k            24  
-#> 2 l             3.5
-#> 3 m            45.5
-#> 4 n            48  
-#> 5 o            74.5
+#> 1 k            22  
+#> 2 l            63.5
+#> 3 m            57.5
+#> 4 n            52.5
+#> 5 o            60
 ```
 
 Notice here that this dataset no longer identifies individual students. 
@@ -1280,4 +1280,4 @@ For example, consider an analysis of student-level data in a school district ove
 
 Taking a cue from Daniel Kahneman, we should also ask what this pattern looks like in other states or in the country. Aggregate data allows us to ask questions about a larger population: One such question is Are the rates of special education identification for male students different from other gender identities *in the United States*? This style of question looks for answers *outside* your own educational system. The combination of the two lines of inquiry are powerful way to generate new knowledge about the student experience. 
 
-So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when an MOU for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 
+So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when a data sharing agreement for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 

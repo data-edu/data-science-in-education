@@ -23,9 +23,9 @@ Our message is this: learning R for your education job is doable, challenging,
 and rewarding all at once. We wrote this book for you because we do this work
 every day. We're not writing as education data science masters. We're writing as
 people who learned R and data science *after* we chose education. And like you,
-learning to use R and data science to improve the lives of students is our daily
-practice. Join us in enjoying all that comes with that--both the challenge of
-learning and the joy of solving problems in creative ways.
+improving the lives of students is our daily practice. Learning to use R and data
+science helped us do that. Join us in enjoying all that comes with R and data science -- both the challenge of
+learning and the joy of solving problems in creative and efficient ways.
 
 ## Different Strokes for Different Data Scientists in Education
 
@@ -33,27 +33,27 @@ As we learned in the introduction, it's tough to define data science in educatio
 because people are educated in all kinds of settings and in all kinds of age groups. Education organizations
 require different roles to make it work, which creates different kinds of data
 science uses. A teacher's approach to data analysis is different from an
-administrator's or an operations manager's.
+administrator's or an operations manager's perspective.
 
 We also know that learning data science and R is not in the typical job
 description. Most readers of this book are educators working with data and
 looking to expand their tools. You might even be an educator who **doesn't**
-work with data, but who's discovered a love for learning about the lives of
+work with data, but you've discovered a love for learning about the lives of
 students through data. Either way, learning data science and R is probably not
 in your job description.
 
-Does this describe your situation? You've got a full work schedule and
+Like most professionals in education, you've got a full work schedule and
 challenging demands in the name of improving the student experience. Your busy
 workday doesn't include regular professional development time or self-driven
 learning. You also have a life outside of work, including family, hobbies, and
 relaxation. We struggle with this ourselves, so we've designed this book to be
 used in lots of different ways. The important part in learning this material is
 to establish a routine that allows you to engage and practice the content every
-day, even if for a few minutes at a time. That will make the content ever
-present in your mind and will help you shift your mindset so you start seeing
+day, even if for just a few minutes at a time. That will make the content 
+ever-present in your mind and will help you shift your mindset so you start seeing
 even more opportunities for practice.
 
-We want all readers to have a rewarding experience and so we believe there
+We want all readers to have a rewarding experience, and so we believe there
 should be different ways to use this book. Here are some of those ways:
 
 ### Read the Book Cover to Cover (and How to Keep Going)
@@ -75,8 +75,8 @@ keep coding. When daily coding becomes a habit, so does the learning.
 
 If you get stuck in an advanced chapter and you need a break, try reviewing an
 earlier chapter. You'll be surprised at how much you learn from reviewing old
-material with the benefit of new experience. That kind of back-to-basics
-attitude is sometimes what we need to get a fresh perspective on new challenges.
+material with the benefit of new experience. Sometimes that kind of back-to-basics
+attitude is what we need to get a fresh perspective on new challenges.
 
 ### Pick a Chapter of Interest and Start There
 
@@ -118,15 +118,14 @@ messages!). After running the code in the walkthroughs, reflect on how what you
 learned can be applied to the datasets, problems, and analytic routines in your
 education work.
 
-One last note on this approach to the book: we believe that doing data science
-in R is, at its heart, an endeavor aimed at improving the student experience. The skills taught in the
+One last note on this approach to the book: we believe that doing data science in education
+using R is, at its heart, an endeavor aimed at improving the student experience. The skills taught in the
 walkthroughs are only one part of doing data science in education using R.
 As an experienced R user, you know that this endeavor involves complex problems and collaboration. Since part of your task may be to convince others around you of the merits of your analytic tools and approaches, we've written this book with that context in mind. [Chapter Fifteen](#c15) in particular explores ways to introduce these skills to your education
 job and invite others into analytic activities. We believe you'll glean useful perspectives from chapters on concepts you're already familiar with, too.
 
 ## A Note on Statistics
-
-It's been said that data science is the intersection between content expertise,
+Data science is the intersection between content expertise,
 programming, and statistics. You'll want to grow all three of these as you learn
 more about using data science in your education job. Your education knowledge
 will lead you to the right problems, your statistics skills will bring rigor to
@@ -181,7 +180,7 @@ detail some of what we had to not include in the book here.
 - Advanced statistical methodologies: As noted above, there are other excellent books for learning 
 statistics. While we do discuss basic and advanced statistical methods, this is not a statistical methods book. One advanced statistical book that we think is excellent from a machine learning perspective is @james2013 *An Introduction to Statistical Learning with Applications in R*.
 
-- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *blogdown: Creating Websites with R Markdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown's *bookdown: Authoring Books and Technical Documents with R Markdown* (https://bookdown.org/yihui/bookdown/)).
+- Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *blogdown: Creating Websites with R Markdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown's *bookdown: Authoring Books and Technical Documents with R Markdown* (https://bookdown.org/yihui/bookdown/).
 
 ## Supporting the Book
 
@@ -189,15 +188,15 @@ If you find this book useful, please support it by:
 
 * Letting people about it!
 * Communicating about the book on social media e.g. via the #dataedu hashtag on Twitter
-* Citing or linking-to it
-* Starring the GitHub repository
+* Citing or linking to it
+* Starring the GitHub repository for either the book (https://github.com/data-edu/data-science-in-education) or the package (https://github.com/data-edu/dataedu)
 * Reviewing it, e.g. on Amazon or Goodreads
 * Buying a copy
 
 ## Contributing to the Book
 
 We designed this book to be useful and practical for our readers in education. We wrote it as a guide to getting up and running in R, but we know this book does not comprehensively cover every topic related to R. We did this to create a
-reference that is not intimidating to new users and that creates frequent
+reference that is not intimidating to new users and that creates frequent,
 small wins while learning to use R.
 
 One question we asked ourselves was: How do we expand this work as data science in education expands as a field? We want readers of this book to be equipped with an agile skillset, and we want this book to continue to provide that even as new R packages are developed and new methods arise. We wrote this book in the open on GitHub so that community members can help us
@@ -210,13 +209,13 @@ built ways for you to share with us.
 
 If you have some experience with git and want to contribute that way, here's how you can can contribute:
 
-  - Submit a pull request to our [GitHub repository](https://github.com/data-edu/data-science-in-education) that describes
-    a data science problem that is unique to the education setting
+  - Submit an "issue" to our [GitHub repository](https://github.com/data-edu/data-science-in-education) (https://github.com/data-edu/data-science-in-education/issues) that describes
+    a data science problem that is unique to the education setting 
   - Submit a pull request to share a solution for the problems discussed in the
     book to the education setting
   - Share an anonymized dataset
 
-If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com). 
+If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com) (authors@datascienceineducation.com). 
 
 We hope that as the book evolves, it grows to reflect the
 changing needs of data scientists in education.

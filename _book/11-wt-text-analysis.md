@@ -14,9 +14,9 @@
 - sample_n()
 - stop words
 
-## Introduction
+## Chapter Overview
 
-The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in CSV files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
 ### Background 
 
@@ -34,7 +34,7 @@ We'll show these techniques using a dataset of tweets. We encourage you to compl
 
 It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
->RT @CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
+>RT \@CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
 
 Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#RStats" and "#Stata" make this tweet conveniently searchable. If Twitter uses search for "#RStats", Twitter returns all the Tweets containing that hashtag.
 
@@ -262,7 +262,7 @@ get_sentiments("nrc")
 
 This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
 
-### Count positive words
+### Count Positive Words
 
 Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count()` to total up the appearances of each positive word. 
 
@@ -308,7 +308,7 @@ pos_tokens_count %>%
   # only words that appear 75 times or more
   filter(n >= 75) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
-  geom_bar(stat = "identity", fill = dataedu_cols("darkblue")) +
+  geom_bar(stat = "identity", fill = dataedu_colors("darkblue")) +
   labs(
     title = "Count of words associated with positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
@@ -323,7 +323,7 @@ pos_tokens_count %>%
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
-### Dataviz and other positive words 
+### Dataviz and Other Positive Words 
 
 Earlier in the analysis we learned that "dataviz" was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
 
@@ -474,7 +474,7 @@ About 55 percent of tweets that have "dataviz" in them also had at least one pos
 
 Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of tweets for context.
 
-### Close read of randomly selected tweets 
+### Close Read of Randomly Selected Tweets 
 
 Let's review where we are so far as we work to learn more about the TidyTuesday learning community through tweets. So far we've counted frequently used words and estimated the number of tweets with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it's also useful to explore by zooming in and reading some of the tweets. Reading tweets helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn't lead to quantitative findings, it helps us to learn more about the content we're studying and analyzing. Instead of reading all 4418 tweets, let's write some code to randomly select tweets to review. 
 
@@ -516,7 +516,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-#> [1]  7  5  4  6 10
+#> [1] 4 3 1 8 7
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -562,9 +562,9 @@ We use this data set further in the next chapter [on social network analysis](#c
 
 ## Technical Appendix on Accessing Twitter data
 
-### Accessing historical Twitter data using already-collected status URLs
+### Accessing Historical Twitter Data Using Already-cCllected Status URLs
 
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through [the GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function
 
 
 ```r
@@ -608,7 +608,7 @@ tidytuesday_tweets <-
 
 The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
 
-### Accessing historical data when you do not have access to status URLs
+### Accessing Historical Data When You Do Not Have Access to Status URLs
 
 In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
 

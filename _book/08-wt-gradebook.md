@@ -1,4 +1,6 @@
 
+
+
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
 ## Vocabulary
@@ -11,7 +13,7 @@
 - outliers  
 - linear model  
 
-## Introduction
+## Chapter Overview
 
 There are a variety of data sources to explore in the education field. Student assessment scores can be examined for progress towards goals. The text from a teacher’s written classroom observation notes about a particular learner’s in-class behavior or emotional status can be analyzed for trends. We can tap into the exportable data available from common learning software or platforms popular in the K-12 education space.
 
@@ -45,7 +47,7 @@ library(dataedu)
 
 ## Import Data
 
-Recall how the Foundational Skills chapter recommended favoring CSV files, or comma-separated values files, when working with datasets in R? This is because CSV files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
+Recall how the Foundational Skills chapter recommended favoring `.csv` files, or comma-separated values files, when working with datasets in R? This is because `.csv` files, with the .csv file extension, are common in the digital world. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the .xlsx or .xls extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
 
 ### Import Using a File Path 
 
@@ -251,7 +253,7 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
@@ -278,7 +280,7 @@ classwork_df %>%
     ) 
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Model Data
 
@@ -301,14 +303,14 @@ First, we plot X and Y to determine if we can see a linear relationship between 
 gradebook %>%
   ggplot(aes(x = formative_assessments,
              y = running_average)) +
-  geom_point(color = dataedu_cols("green")) +
+  geom_point(color = dataedu_colors("green")) +
   labs(title = "Relationship Between Overall Grade and Formative Assessments",
        x = "Formative Assessment Score",
        y = "Overall Grade in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
@@ -320,7 +322,7 @@ We can layer different types of plots on top of each other in {ggplot2}. Here th
 gradebook %>%
   ggplot(aes(x = formative_assessments,
              y = running_average)) +
-  geom_point(color = dataedu_cols("green")) +
+  geom_point(color = dataedu_colors("green")) +
   geom_smooth(method = "lm",
               se = TRUE) +
   labs(title = "Relationship Between Overall Grade and Formative Assessments",
@@ -329,7 +331,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
 
 ##### Outliers
 
@@ -342,14 +344,14 @@ Now we use boxplots to determine if there are any outliers in formative assessme
 gradebook %>%
   ggplot(aes(x = "",
              y = formative_assessments)) +
-  geom_boxplot(fill = dataedu_cols("yellow")) +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Distribution of Formative Assessment Scores",
        x = "Formative Assessment",
        y = "Score") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -358,14 +360,14 @@ gradebook %>%
 gradebook %>%
   ggplot(aes(x = "",
              y = running_average)) +
-  geom_boxplot(fill = dataedu_cols("yellow")) +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Distribution of Overall Grade Scores",
        x = "Overall Grade",
        y = "Score in Percentage") +
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Correlation Analysis
 

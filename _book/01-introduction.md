@@ -1,9 +1,17 @@
 
-## The Role of Data Science in Education {#c01}
+# Introduction: Data Science in Education - You're Invited to the Party!
+
+Dear Data Scientists, Educators, and Data Scientists who are Educators: 
+
+This book is a warm welcome and an invitation. If you're a data scientist in education or an educator in data science, your role isn't exactly straightforward. This book is our contribution to a growing movement to merge the paths of data analysis and education. We wrote this book to make your first step on that path a little clearer and a little less scary. 
+
+Whether you're a data scientist using your skills in an education job or an educator who wants to learn data science skills, we invite you to read this book and put these techniques to work in the real world. We think that your work in the eduation community will help decide how education and data science come together going forward.
+
+## Learning Data Science in Education {#c01}
 
 Over the coming chapters we'll be learning together about what data science in education can look like. But to understand why we were compelled to write about the topic, we need to talk about why data science in education is not such a straightforward thing. 
 
-The role of data science in education is challenging because there isn't a universal vision for that role yet. Data science in education isn't straightforward because the role itself is not straightforward. If education were a building, it would be multi-storied with many rooms. There are privately and publicly funded schools. There are more than eighteen possible grade levels. Students can learn alone or with others in a classroom. 
+Learning data science in education is challenging because there isn't a universal vision for that role yet. Data science in education isn't straightforward because the role itself is not straightforward. If education were a building, it would be multi-storied with many rooms. There are privately and publicly funded schools. There are more than eighteen possible grade levels. Students can learn alone or with others in a classroom. 
 
 This imaginary building we call education also has rooms most residents never see: rooms where business and finance staff plan the most efficient use of limited funds. The transportation department plans bus routes across vast spaces. University administrators search for the best way to measure career readiness. Education consultants study how students perform on course work and even how they feel about class materials. 
 
@@ -13,7 +21,7 @@ Even if we did have perfect clarity on the topic, there's still the issue of hel
 
 ## Making the Path a Little Clearer
 
-As data science in education grows, the way we talk about and conceptualize it [@rosenberg2020mdsc] also needs to grow. We begin this book by offering a primer for data science in education, including a discussion of unique challenges and foundational skills in the programming language R. ((Why R? While it evident for some, might not be for others. Should a brief relevancy statement be included?))
+As data science in education grows, the way we talk about and conceptualize it [@rosenberg2020mdsc] also needs to grow. We begin this book by offering a primer for data science in education, including a discussion of unique challenges and foundational skills in the programming language R. 
 
 Next, you'll take what you've learned and apply it in our data analysis in education walkthroughs. The walkthroughs in this book are our contribution towards a more example-driven approach to learning. They're meant to make the ambiguous path of learning data science in education a little clearer by way of recognizable and actionable demonstrations. These examples fall into three different education data themes, with walkthroughs for each theme:
 
@@ -36,7 +44,3 @@ Get value from publicly available data
 We'll end the book by discussing how to bring data science skills into your education job.
 
 We hope after reading this book you'll feel like you're not alone in learning to do data science in education. We hope your experience with this book is the right balance of challenging and fun. Finally, we hope you'll take what you learned and share it with others who are looking to start this journey.
-
-## About the Book
-
-Inspired by {bookdown}, this book is open source. This ensures its contents are reproducible and publicly accessible for people worldwide. The online version of the book is hosted at [datascienceineducation.com](https://www.datascienceineducation.com/).
