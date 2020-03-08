@@ -48,7 +48,7 @@ referred to as an IDE, or "Interactive Development Environment." We use an IDE -
 in this case RStudio, although you could use others - because it adds features
 that make our analytical lives a little (and sometimes a lot!) easier.
 
-## Projects
+### Projects
 
 Within RStudio we set up a **Project**. This is the home for all of the files,
 images, reports, and code that we'll create for a single project. While there
@@ -78,7 +78,7 @@ yet* You may run into issues with packages being out of date and functions being
 deprecated - in which case you may be interested in learning more about how to
 set up a Project within Docker [AAA].
 
-### Setting up your Project
+#### Setting up your Project
 
 **How do I create a Project?**  
 Creating a Project is one of the first steps in working on an R-based data
@@ -118,283 +118,34 @@ running `setwd()` and providing your file path name as an argument.
 
 More on manually setting your working directory can be found [here]().
 
-## Packages
+### Packages
 
 "Packages" are shareable collections of R code that provide functions (i.e., a
 command to perform a specific task), data, and documentation. Packages increase
 the functionality of R by providing access to additional functions to suit a
 variety of needs, thereby expanding on base R.
 
+Here, we will show how to install the {dataedu} package that accompanies this book.
 <!-- This needs to be introduced much better -->
 
-### Installing the {dataedu} package
-First, let's install [devtools](https://github.com/r-lib/devtools), an R package with many handy R tools. In your R console, type in:
+As of this writing, the `dataedu` package is not available on CRAN. 
+This means we'll have to install the package using `devtools`. 
+To do this you first have to install the `devtools` package, and then the `dataedu` package by running the following code either in your RStudio console or in a script (an .R file): 
 
-``` r
-install.packages("devtools")
-```
+```{r, eval = F}
+# install devtools
+install.packages("devtools", repos = "http://cran.us.r-project.org")
 
-If you already have {devtools} installed, you can move on to the next step.
-
-If you are not sure whether you have it installed, you can run this function, which will install {devtools} if you do not already have it.
-
-``` r
-if (!require(devtools)) {
-  install.packages("devtools")
-  library(devtools)
-}
-```
-
-### 2. Install {dataedu}
-
-You can install {dataedu} by running this in your R Studio console:
-
-``` r
+# install the dataedu package
 devtools::install_github("data-edu/dataedu")
 ```
 
-### 3. Call the package
-
-Before you can use the package, make sure to call it using `library()`:
+From here we can load the `dataedu` package using the `library()` call, as follows:
 
 ```{r}
+# load the dataedu package into our R environment
 library(dataedu)
 ```
-
-**Importing your data**
-
-## Loading Data from Excel, SAV, and Google Sheets
-
-R comes with built in data sets, the list of which you can see by running
-`data()` in the Console (go ahead, try it! You can do this by typing `data()`
-in the Console window and hitting Enter.) You may be familiar with some of the
-data sets, such as `mtcars` or `iris`, which often get used in vignettes and
-other various examples. Using built-in data sets are a great way to work with R
-code using a data set that "just works."
-
-Think of any data science project as consisting of data and code. We use code to
-manipulate data, which means that when we are troubleshooting we need to think
-about whether or not our code is the source of the error, if our data is the
-source of the error, or if the error comes from the interaction of the code with
-the data.
-
-For this chapter we'll be using data from the Massachusetts Public School System
-that was originally downloaded from Kaggle on October 23, 2019. You can access
-the data from within the `dataedu` package, or [download the data from
-Kaggle]().
-
-Save your data to the `data --> raw` folder, make a copy of your data, and put
-the new copy into the `data --> for_use` folder.
-
-When working with downloaded data (in other words, data files, as opposed to
-pulling your data directly into R through an API, database connection, or
-webscraping) it's good practice to keep the initial copy of your data in a
-folder and to never open that data, *especially if that data is in an `.xls* or
-.csv` format!* Excel has an overly aggressive way of trying to be helpful with
-your data, and when you open a file you may find that [your numeric values have
-been converted to
-dates](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7).
-At best you need to re-download the file, and at worst you've made a significant
-amount of work for yourself.
-
-### Loading Excel Files
-
-We will now do the same with an Excel file. 
-You might be thinking that you can open the file in Excel and then save it as a `.csv`. 
-This is generally a good idea. 
-At the same time, sometimes you may need to directly read a file from Excel. 
-Note that, when possible, we recommend the use of `.csv` files. 
-They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
-
-The package for loading Excel files, `readxl`, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install `readxl` is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
-
-Once we have installed readxl, we have to load it (just like tidyverse):
-
-```{r, eval = FALSE}
-install.packages("readxl")
-```
-
-```{r}
-library(readxl)
-```
-
-We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located (note that this code is not run here):
-
-```{r, eval = FALSE}
-my_data <-
-    read_excel("path/to/file.xlsx")
-```
-
-Of course, were this run, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
-
-Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
-
-### Loading SAV Files
-
-The same factors that apply to reading Excel files apply to reading `SAV` files (from SPSS). NOte that you can also read `.csv` file directly into SPSS and so because of this and the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible. First, install the package `haven`, load it, and the use the function `read_sav()`:
-
-```{r, eval = FALSE}
-install.packages("haven")
-```
-
-```{r, eval = FALSE}
-library(haven)
-my_data <-
-    read_sav("path/to/file.xlsx")
-```
-
-### Google Sheets
-
-Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
-
-```{r, eval = FALSE}
-install.packages("googlesheets")
-```
-
-```{r, eval = FALSE}
-library(googlesheets)
-```
-
-When you run the command below, a link to authenticate with your Google account will open in your browser. 
-
-```{r, eval = FALSE}
-my_sheets <- gs_ls()
-```
-
-You can then simply use the `gs_title()` function in conjunction with the `gs_read()` function:
-
-```{r, eval = FALSE}
-df <- gs_title('title')
-df <- gs_read(df)
-```
-
-This section goes into depth on loading various types of data sources.
-
-In this section, we'll load data.
-
-You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
-
-The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
-Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. 
-Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files. 
-However we would be remiss if we didn't point out that there is a package, `googlesheets`, which can be used to read a Google Sheet directly into R.
-
-For these reasons, we start with - and emphasize - reading `.csv` files. 
-
-### Saving a File from the Web
-
-You'll need to copy this URL:
-
-`https://goo.gl/bUeMhV`
-
-Here's what it resolves to (it's a `.csv` file):
-
-`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/stu-quest.csv`
-
-This next chunk of code downloads the file to your working directory. 
-Run this to download it so in the next step you can read it into R. 
-As a note: There are ways to read the file directory (from the web) into R. 
-Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
-
-```{r, eval = FALSE}
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-It may take a few seconds to download as it's around 20 MB.
-
-The process above involves many core data science ideas and ideas from programming/coding. 
-We will walk through them step-by-step.
-
-1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
-
-```{r}
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-```
-
-2. We concatenate your working directory file path to the desired file name for the `.csv` using a *function* called `paste0`. 
-This is stored in another *object* called `student_reponses_file_name`. 
-This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
-
-```{r}
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-```
-
-3. The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()` along with `student_responses_file_name`, which is passed to the `destfile` argument.
-
-In short, the `download.file()` function needs to know
-- where the file is coming from (which you tell it through the `url`) argument and
-- where the file will be saved (which you tell it through the `destfile` argument).
-
-```{r}
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help. 
-It also helps you to use functions that you have never used before because you are familiar with how some functions work.
-
-Now, in RStudio, you should see the downloaded file in the Files tab. 
-This should be the case if you created a project with RStudio; if not, it should be whatever your working directory is set to. 
-If the file is there, great. 
-If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it. 
-
-### Loading a `.csv` File
-
-Okay, we're ready to go. 
-The easiest way to read a `.csv` file is with the function `read_csv()` from the package `readr`, which is contained within the Tidyverse.
-
-Let's load the tidyverse library:
-
-```{r, message = FALSE}
-library(tidyverse) # so tidyverse packages can be used for analysis
-```
-
-You may have noticed the hash symbol after the code that says `library(tidyverse`)`. 
-It reads `# so tidyverse packages can be used for analysis`. 
-That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). 
-Comments are useful for showing *why* a line of code does what it does. 
-
-After loading the tidyverse packages, we can now load a file. 
-We are going to call the data `student_responses`:
-
-```{r, eval = TRUE}
-# readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
-student_responses <-
-    read_csv("./data/student-responses-data.csv")
-```
-
-Since we loaded the data, we now want to look at it. 
-We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
-
-```{r, eval = FALSE}
-glimpse(student_responses)
-```
-
-Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
-
-Great job loading a file and printing it! 
-We are now well on our way to carrying out analysis of our data.
-
-### Saving Files
-
-Using our data frame `student_responses`, we can save it as a `.csv` (for example) with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
-
-```{r, eval = FALSE}
-write_csv(student_responses, "student-responses.csv")
-```
-
-That will save a `.csv` file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a `.csv` and directly load it in Excel.
 
 ## Exploring R quickly with `swirl`
 
@@ -406,7 +157,6 @@ providing an interactive method for learning R by using R.
 We are not affiliated with `swirl` in any way, nor is it required to progress
 through this text. Below, we'll discuss packages, functions, and other skills
 that will get you up and running in R in no time.
-
 
 ## Introduction to Help Documentation
 
@@ -447,7 +197,6 @@ is wrong (there is no documentation for `mutate`), it tells us what we should
 try to do to solve the error. Let's see what happens when we follow the error
 message instructions by typing `??mutate` (or `??mutate()`) into the Console and
 hitting `Enter`. What happens?
-
 
 ## Code for Foundational Skills
 
@@ -672,7 +421,9 @@ install.packages("tidyverse")
 install.packages("janitor")
 install.packages("skimr")
 install.packages("here")
+```
 
+```{r}
 # Setting up your environment
 library(tidyverse)
 library(janitor)
@@ -763,6 +514,129 @@ _We will also use the phrase "uncomment code," which means you should delete (or
 
 ## Using functions to import data
 
+You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
+
+The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
+Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. 
+Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files. 
+However we would be remiss if we didn't point out that there is a package, `googlesheets`, which can be used to read a Google Sheet directly into R.
+
+For these reasons, we start with - and emphasize - reading `.csv` files. 
+
+### Saving a File from the Web
+
+You'll need to copy this URL:
+
+`https://goo.gl/bUeMhV`
+
+Here's what it resolves to (it's a `.csv` file):
+
+`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/stu-quest.csv`
+
+This next chunk of code downloads the file to your working directory. 
+Run this to download it so in the next step you can read it into R. 
+As a note: There are ways to read the file directory (from the web) into R. 
+Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
+
+```{r, eval = FALSE}
+student_responses_url <-
+    "https://goo.gl/bUeMhV"
+
+student_responses_file_name <-
+    paste0(getwd(), "/data/student-responses-data.csv")
+
+download.file(
+    url = student_responses_url,
+    destfile = student_responses_file_name)
+```
+
+It may take a few seconds to download as it's around 20 MB.
+
+The process above involves many core data science ideas and ideas from programming/coding. 
+We will walk through them step-by-step.
+
+1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
+
+```{r}
+student_responses_url <-
+    "https://goo.gl/bUeMhV"
+```
+
+2. We concatenate your working directory file path to the desired file name for the `.csv` using a *function* called `paste0`. 
+This is stored in another *object* called `student_reponses_file_name`. 
+This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
+
+```{r}
+student_responses_file_name <-
+    paste0(getwd(), "/data/student-responses-data.csv")
+```
+
+3. The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()` along with `student_responses_file_name`, which is passed to the `destfile` argument.
+
+In short, the `download.file()` function needs to know
+- where the file is coming from (which you tell it through the `url`) argument and
+- where the file will be saved (which you tell it through the `destfile` argument).
+
+```{r}
+download.file(
+    url = student_responses_url,
+    destfile = student_responses_file_name)
+```
+
+Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help. 
+It also helps you to use functions that you have never used before because you are familiar with how some functions work.
+
+Now, in RStudio, you should see the downloaded file in the Files tab. 
+This should be the case if you created a project with RStudio; if not, it should be whatever your working directory is set to. 
+If the file is there, great. 
+If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it. 
+### Loading a `.csv` File
+
+Okay, we're ready to go. 
+The easiest way to read a `.csv` file is with the function `read_csv()` from the package `readr`, which is contained within the Tidyverse.
+
+Let's load the tidyverse library:
+
+```{r, message = FALSE}
+library(tidyverse) # so tidyverse packages can be used for analysis
+```
+
+You may have noticed the hash symbol after the code that says `library(tidyverse`)`. 
+It reads `# so tidyverse packages can be used for analysis`. 
+That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). 
+Comments are useful for showing *why* a line of code does what it does. 
+
+After loading the tidyverse packages, we can now load a file. 
+We are going to call the data `student_responses`:
+
+```{r, eval = TRUE}
+# readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
+student_responses <-
+    read_csv("./data/student-responses-data.csv")
+```
+
+Since we loaded the data, we now want to look at it. 
+We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
+
+```{r, eval = FALSE}
+glimpse(student_responses)
+```
+
+Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
+
+Great job loading a file and printing it! 
+We are now well on our way to carrying out analysis of our data.
+
+### Saving Files
+
+Using our data frame `student_responses`, we can save it as a `.csv` (for example) with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
+
+```{r, eval = FALSE}
+write_csv(student_responses, "student-responses.csv")
+```
+
+That will save a `.csv` file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a `.csv` and directly load it in Excel.
+
 
 ### Downloading and accessing the data sets used in this book
 
@@ -771,26 +645,7 @@ Sometimes we've pulled the data directly from a website, while other times we as
 We've also provided each of the datasets used in this book as `.rda` files that are accessible via the `dataedu` package.
 More details about the `dataedu` package on be found [on GitHub](https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
 
-As of this writing, the `dataedu` package is not available on CRAN. 
-This means we'll have to install the package using `devtools`. 
-To do this you first have to install the `devtools` package, and then the `dataedu` package by running the following code either in your RStudio console or in a script (an .R file): 
-
-```{r, eval = F}
-# install devtools
-install.packages("devtools", repos = "http://cran.us.r-project.org")
-
-# install the dataedu package
-devtools::install_github("data-edu/dataedu")
-```
-
-From here we can load the `dataedu` package using the `library()` call, as follows:
-
-```{r}
-# load the dataedu package into our R environment
-library(dataedu)
-```
-
-Once you've installed the `dataedu` package, you can use the `mass_install()` function to download all of the packages we'll be using in this text. 
+Once you've installed the `dataedu` package (described above), you can use the `mass_install()` function to download all of the packages we'll be using in this text. 
 This step is optional, and you're welcome to install packages as you use them. 
 
 To install all of the packages used in this text, run the following code in your RStudio console:
@@ -802,7 +657,6 @@ dataedu::all_packages
 # install all of the packages used in the Data Science in Education Using R text
 dataedu::mass_install()
 ```
-
 
 ### Run this code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
