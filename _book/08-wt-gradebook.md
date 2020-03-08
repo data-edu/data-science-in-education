@@ -1,4 +1,6 @@
 
+
+
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
 ## Vocabulary
@@ -251,7 +253,7 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
@@ -278,7 +280,7 @@ classwork_df %>%
     ) 
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Model Data
 
@@ -308,7 +310,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
@@ -329,7 +331,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
 
 ##### Outliers
 
@@ -349,7 +351,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-20-1.png" width="100%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -365,7 +367,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-21-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Correlation Analysis
 

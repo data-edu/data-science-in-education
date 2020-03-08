@@ -12,7 +12,22 @@
 - joins
 - regression
 
-## Introduction
+## Chapter Overview
+
+In this - the first walkthrough - we explore some of the key steps that are a
+part of many data science in education projects. In particular, we explore how
+to process and prepare data: what is sometimes referred to as data wrangling. To
+do so, we rely heavily on a set of tools that we use throughout *all* of the
+walkthroughs, those associated with the tidyverse The `tidyverse` is a set of
+packages for data manipulation, exploration, and visualization using the design
+philosophy of 'tidy' data [@wickham2019] (see <https://www.tidyverse.org/> for
+more). In short, the packages contained in the {tidyverse} provide useful
+functions that augment base R functionality.
+
+The tidyverse is predicated on the concept of tidy data [@wickham2014]. Tidy
+data has a specific structure: each variable is a column, each observation is a
+row, and each type of observational unit is a table. We'll disuss both the
+tidyverse and tidy data much more throughout the book.
 
 ### Background
 
@@ -45,7 +60,7 @@ provided by the school.
 
 ### Data Sources
 
-#### Data source \#1: Self-Report Survey about Students' Motivation
+#### Data Source \#1: Self-Report Survey about Students' Motivation
 
 The first data source is a self-report survey. This was data collected before
 the start of the course via self-report survey. The survey included 10 items,
@@ -66,7 +81,7 @@ value, and perceived competence:
     value)
 10. I’ve always wanted to learn more about this subject. (Interest)
 
-### Data source \#2: Log-Trace Data
+### Data Source \#2: Log-Trace Data
 
 *Log-trace data* is data generated from our interactions with digital
 technologies, such as archived data from social media postings (see
@@ -78,12 +93,12 @@ students spent on the course. Thus, while this data is rich, you can imagine
 even more complex sources of log-trace data (i.e. timestamps associated with
 when students started and stopped accessing the course!).
 
-### Data source \#3: Achievement-Related and Gradebook Data
+### Data Source \#3: Achievement-Related and Gradebook Data
 
 This is a common source of data, namely, one associated with graded assignments
 students completed. In this walkthrough, we just examine students' final grade.
 
-### Data source \#4: Discussion Board Data
+### Data Source \#4: Discussion Board Data
 
 Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight

@@ -11,9 +11,7 @@ We will be covering the following topics in this chapter:
 - RStudio environment and pane layout
 - Basics of customizing your RStudio environment
 - Steps for working through new and unfamiliar content
-- Downloading and accessing the data sets used in this book
-
-## Getting Started
+- Accessing the data sets used in this book
 
 First, you will need to download the latest versions of R and RStudio. 
 R is a free environment for statistical computing and graphics using the programming language R. 
@@ -44,8 +42,10 @@ If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
 ## Getting to know R through RStudio
+
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
+
 <center>
 ![](https://imgur.com/a/eebVIXy)
 </center>
@@ -53,8 +53,8 @@ One of the most reliable ways to tell if you're opening R or RStudio is to look 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
 If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) textbook.
 
-
 You do not _have_ to use RStudio to access R, and many people don't! 
+
 Other IDEs that work with R include:
 - [Jupyter notebook](https://jupyter.org/)
 - [VisualStudio](https://visualstudio.microsoft.com/services/visual-studio-online/)
@@ -83,16 +83,74 @@ It is generally better to type code in an `R script`, which saves as an `.R` fil
 This is because anything you type in the console will be lost as soon as you close R, whereas you can save everything in an `.R` script and see/use it again later.  
 
 **Running code in an R Script**  
+
 There are several ways to run code in an R script:  
 
 - Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
 - Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
 - To run _every_ line of code in your file you can press **Ctrl + Shift + Enter**  
 
+**Creating and running code in an R Markdown file**
+
+R Markdown is a highly convenient way to communicate and share results. Navigate to "New File" and then "R Markdown".
+
+Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
+
 **Changing your RStudio theme**  
 
 - Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
     + Choose a theme that works best for you and apply it
+    
+## Steps for working through new and unfamiliar content
 
-One last thing before we close out the chapter! 
-In the above chunks of code we've use
+## Using the dataedu package to access the data used in this book
+
+We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
+
+We describe how to install the package in the next chapter. The package serves four functions:
+
+1. Mass installation of all the packages used in the book
+2. Reproducible code for the walkthroughs
+3. Access to the data used in each of the walkthroughs
+
+### Mass Installation of Packages
+
+We strived to use packages that we use in our daily work when creating the walkthroughs in the book. Because we covered a variety of subjects, that means we used a lot of packages! As described in the Foundational Skills chapter, you can install the packages individually as they suit your needs. 
+
+However, if you want to quickly get started and download all the packages at once, please use `install_dataedu()`.
+
+``` r
+dataedu::install_dataedu()
+```
+
+To see the packages used in the book, run:
+
+
+```r
+dataedu::dataedu_packages
+```
+
+```
+#>  [1] "apaTables"   "caret"       "dummies"     "ggraph"      "here"       
+#>  [6] "janitor"     "lme4"        "lubridate"   "performance" "readxl"     
+#> [11] "rtweet"      "randomNames" "sjPlot"      "textdata"    "tidygraph"  
+#> [16] "tidylog"     "tidyverse"   "tidytext"
+```
+
+**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
+
+### Reproducible Code for Walkthroughs
+
+<!-- Need to add -->
+
+### Accessing the Walkthrough Data
+
+You can call the dataset as mentioned in the walkthrough.
+
+``` r
+dataedu::course_data
+```
+
+## Steps for working through new and unfamiliar content
+
+Need to add
