@@ -104,7 +104,7 @@ devtools::install_github("data-edu/dataedu")
 
 From here we can load the {dataedu} package using the `library()` call, as follows:
 
-```{r}
+```{r error = FALSE}
 # load the dataedu package into our R environment
 library(dataedu)
 ```
@@ -169,23 +169,19 @@ _Note: when we talk about a script, we're referring to an `.R` file that is crea
 # install.packages("tidyverse")
 # install.packages("janitor")
 # install.packages("skimr")
-# install.packages("here")
 
 # Setting up your environment
 library(tidyverse)
+library(dataedu)  # installing dataedu needs to precede this section
 library(janitor)
 library(skimr)
-library(here)
 
 # Importing data
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
+dataedu::ma_data_init
 
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-              "MA_Public_Schools_2017.csv")) -> my_data
+dataedu::ma_data_init -> my_data
 
-ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-                              "MA_Public_Schools_2017.csv"))
+my_data <- dataedu::ma_data_init
 
 # Exploring and manipulating your data
 names(ma_data_init)
@@ -246,10 +242,10 @@ ma_data_init %>%
 ma_data %>% 
     clean_names()
 
-01_ma_data <- ma_data_init %>%  #' intentional error
+01_ma_data <- ma_data_init %>%  
     clean_names()
 
-$_ma_data <- ma_data_init %>%  #' intentional error
+$_ma_data <- ma_data_init %>%  
     clean_names()
 
 ma_data_01 <- ma_data_init %>% 
@@ -360,15 +356,13 @@ Take a few minutes to type out and run each of the following lines of code in an
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("skimr")
-install.packages("here")
 ```
 
-```{r eval = FALSE}
+```{r eval = FALSE, error = FALSE}
 # Setting up your environment
 library(tidyverse)
 library(janitor)
 library(skimr)
-library(here)
 ```
 
 Based on what we've covered so far in this chapter, what did running the above lines of code accomplish?
@@ -613,14 +607,11 @@ Take a few minutes to type out and run each of the following lines of code, one 
 _Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
 ```{r, eval = FALSE}
 
-read_csv(here("data/foundational_skills/for_use", 
-              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
+dataedu::ma_data_init
 
-read_csv(here("data/foundational_skills/for_use", 
-              "MA_Public_Schools_2017.csv")) -> my_data
+dataedu::ma_data_init -> my_data
 
-ma_data_init <- read_csv(here("data/foundational_skills/for_use", 
-                              "MA_Public_Schools_2017.csv"))
+my_data <- dataedu::ma_data_init
 ```
 
 Each of the three code examples above look slightly different, but two of them do almost the exact same thing.
