@@ -26,13 +26,13 @@ to the dataset (and the question or problem) explored in the walkthrough.
 ### Background
 
 The online science classes from which the data used in this walkthrough was obtained
-wered designed and taught by instructors through a statewide online course provider
+were designed and taught by instructors through a statewide online course provider
 designed to supplement (and not replace) students' enrollment in their local school. For
 example, students may choose to enroll in an online physics class because one
 was not offered at their school. The data were originally collected for a research study, 
 which involved a number of different data sources which were explored to
 understand students' motivation, or their reasons for taking the course. The 
-datasets incuded:
+datasets included:
 
 1.  A self-report survey for three distinct but related aspects of students'
     motivation
@@ -48,7 +48,7 @@ running analyses).
 
 To understand students' performance we will focus on a variable that was available 
 through the learning management system used for the courses, on he amount of time
-sudents' spent on the course. We will also explore how different (science) 
+students' spent on the course. We will also explore how different (science) 
 subjects as well as being in a particular class may help to explain student performance.
 
 First, these different data sources will be described in terms of how they were
@@ -86,7 +86,7 @@ source of log-trace data is that generated from interactions with learning
 management systems and other digital tools [@siemens2012]. The data for this
 walk-through is a *summary of* log-trace data, namely, the number of minutes
 students spent on the course. Thus, while this data is rich, you can imagine
-even more complex sources of log-trace data (i.e. timestamps associated with
+even more complex sources of log-trace data (i.e. time stamps associated with
 when students started and stopped accessing the course!).
 
 ### Data source \#3: Achievement-Related and Gradebook Data
@@ -107,7 +107,7 @@ this as a potentially very rich data source.
 ## Load Packages
 
 This analysis uses R packages, which are collections of R code that help users
-code more efficiently, as you wil recall from [Chapter 1](#c1). We load
+code more efficiently, as you will recall from [Chapter 1](#c1). We load
 these packages with the function `library()`. In particular, the packages we'll
 use will help us load Excel files, organize the structure of the data, work with
 dates in the data, and navigate file directories.
@@ -124,7 +124,7 @@ library(sjPlot)
 
 ## Import Data
 
-This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three logtrace
+This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three log trace
 datasets. We assign each of the datasets a name using `<-`.
 
 ``` {r}
@@ -142,7 +142,7 @@ course_minutes <- dataedu::course_minutes
 
 ## View Data
 
-Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
+Now that we've successfully loaded all three log trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
 ``` {r}
 pre_survey
@@ -156,7 +156,7 @@ Often, survey data needs to be processed in order to be (most) useful. Here, we
 process the self-report items into three scales, for: interest, self-efficacy,
 and utility value. We do this by
 
-- Renaming the question variables to something more managable
+- Renaming the question variables to something more manageable
 - Reversing the response scales on questions 4 and 7
 - Categorizing each question into a measure
 - Computing the mean of each measure
@@ -256,7 +256,7 @@ pre_survey <-
          q7 = reverse_scale(q7))
 ```
 
-3.  We'll accomplish the last two steps in one chunk of code. First we'll create a column called `measure` and we'll fill that column with one of three question categories:
+3. We'll accomplish the last two steps in one chunk of code. First we'll create a column called `measure` and we'll fill that column with one of three question categories:
 
 - `int`: interest
 - `uv`: utility value
@@ -340,7 +340,7 @@ pre_survey
 
 Looks better now!
 
-In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data wiht the other data sources we have. Why does this varaible have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
+In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
 
 ```{r}
 head(pre_survey$student_id)
@@ -348,7 +348,7 @@ head(pre_survey$student_id)
 
 What we need is the five characters in between the underscore symbols - these: `_`.
 
-An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skippign the first underscore in the process.
+An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.
 
 ```{r}
 str_sub("_80624_1", start = 2)
@@ -476,7 +476,7 @@ dat_right <-
 dat_right
 ```
 
-If we wanted this to return exacty the same output as `left_join()` (and so to
+If we wanted this to return exactly the same output as `left_join()` (and so to
 create a data frame that is identical to the `dat` data frame above), we could
 simply switch the order of the two data frames to be the opposite of those used
 for the `left_join()` above:
@@ -592,7 +592,7 @@ dat <-
   distinct(dat, course_id, student_id, .keep_all = TRUE)
 ```
 
-This is a much smaller data frame - with one row for each sudnet in the course
+This is a much smaller data frame - with one row for each student in the course
 (instead of the 29,701 rows which we would be interested in were we analyzing
 this data at the level of specific students' grades for specific gradebook
 items). Now that our data are ready to go, we can start to ask some questions of
