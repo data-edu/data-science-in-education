@@ -5,14 +5,14 @@
 
 ## Vocabulary 
 
-- tokenize 
-- token 
-- RDS files 
 - anti_join 
-- set.seed
-- slice
+- RDS files 
 - sample_n()
+- set.seed
 - stop words
+- slice
+- token 
+- tokenize 
 
 ## Chapter Overview
 
@@ -80,7 +80,7 @@ Think of an API as a special door a home builder made for a house that has a lot
 
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
 
-A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an indivdual knows or believes).
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
 
 ## View Data 
 
@@ -188,7 +188,7 @@ tokens %>%
 #> # … with 15,325 more rows
 ```
 
-We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
+We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
 
 We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
 
@@ -223,7 +223,7 @@ Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 p
 
 ## Analysis: Sentiment analysis
 
-Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
+Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
 
 We'll need to use a technique called sentiment analysis to get at the "positivity" of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
 
@@ -325,7 +325,7 @@ Note the use of `reorder()` when mapping the `word` variable to the x aesthetic.
 
 ### Dataviz and Other Positive Words 
 
-Earlier in the analysis we learned that "dataviz" was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
+Earlier in the analysis we learned that "dataviz" was among the most frequently occurring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool. 
 
 There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `status_id` field in the `tweets` dataset to filter the tweets that have the word `dataviz` in them. Then we need to use the `status_id` field in this new bunch of `dataviz` tweets to identify the tweets that include at least one positive word. 
 
@@ -478,7 +478,7 @@ Since the point of exploratory data analysis is to explore and develop questions
 
 Let's review where we are so far as we work to learn more about the TidyTuesday learning community through tweets. So far we've counted frequently used words and estimated the number of tweets with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it's also useful to explore by zooming in and reading some of the tweets. Reading tweets helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn't lead to quantitative findings, it helps us to learn more about the content we're studying and analyzing. Instead of reading all 4418 tweets, let's write some code to randomly select tweets to review. 
 
-First, let's make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had "dataviz" and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let's resuse that technique, but instead of applying to a dataset of tweets containing "dataviz", let's use it on our dataset of all tweets. 
+First, let's make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had "dataviz" and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let's reuse that technique, but instead of applying to a dataset of tweets containing "dataviz", let's use it on our dataset of all tweets. 
 
 
 ```r
@@ -490,7 +490,7 @@ pos_tweets <-
 
 Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `status_id %in% pos_tokens$status_id` is true or not. 
 
-We can use `slice()` to help us pick the rows. When we pass `slice()` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way: 
+We can use `slice()` to help us pick the rows. When we pass `slice()` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets dataset this way: 
 
 
 ```r
@@ -562,9 +562,9 @@ We use this data set further in the next chapter [on social network analysis](#c
 
 ## Technical Appendix on Accessing Twitter data
 
-### Accessing Historical Twitter Data Using Already-cCllected Status URLs
+### Accessing Historical Twitter Data Using Already-Collected Status URLs
 
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory) can be read with the following function:
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
 
 ```r

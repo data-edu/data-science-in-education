@@ -2,19 +2,21 @@
 
 ## Vocabulary
 
+- correlation  
 - directory  
 - environment    
-- pivot  
-- linearity  
-- correlation  
-- outliers  
 - linear model  
+- linearity  
+- missing values/ NA
+- outliers  
+- pivot  
+- string
 
 ## Chapter Overview
 
 Whereas [the last walkthrough](#c7) focused on the the education data science pipeline 
 in the context of online science class data, this walkthrough explores a 
-different dataset - the ubiquitous but not-often-analyzed using data science 
+different dataset - ubiquitous but not-often-analyzed using data science 
 tools and techniques classroom gradebook dataset - and focuses more on analyses, 
 including correlations and linear models. 
 
@@ -22,7 +24,7 @@ There are a variety of data sources to explore in the education field. Student a
 
 ### Background
 
-This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. While gradebook data is nearly ubiquitous in education, it is sometimes ignored in favor of data collected by evaluators and researchers or data from state-wide tests. Nevertheless, it represents an important, occasionally untapped data source, and one for which a data science approach can reveal the potential of the data science framework for analyzing a range of educational data sources.
+This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a common K-12 classroom tool: the gradebook. While gradebook data is nearly ubiquitous in education, it is sometimes ignored in favor of data collected by evaluators and researchers or data from state-wide tests. Nevertheless, it represents an important, occasionally untapped data source, and one for which a data science approach can reveal the potential of the data science framework for analyzing a range of educational data sources.
 
 ### Data Sources
 
@@ -62,7 +64,7 @@ getwd()
 
 For example, an R user on Linux or Mac might see their working directory as: `/home/username/Desktop`. A Windows user might see their working directory as: `C:\Users\Username\Desktop`.
 
-From this location go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
+From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
 
 * `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
 * `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
@@ -75,7 +77,7 @@ ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
 
 ### Import Using `here()` 
 
-Whenever possible, we prefer to use `here()` from the {here} package because it conveniently guesses at the correct file path based on the working directory. In you working directory, place the `ExcelGradeBook.xlsx` file in a folder called `gradebooks`. Then place the `gradebooks` folder in a folder called `data`. The last step is to make sure your new `data` folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
+Whenever possible, we prefer to use `here()` from the {here} package because it conveniently guesses at the correct file path based on the working directory. In your working directory, place the `ExcelGradeBook.xlsx` file in a folder called `gradebooks`. Then place the `gradebooks` folder in a folder called `data`. The last step is to make sure your new `data` folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
 
 ```{r read in data, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 # Use readxl package to read and import file and assign it a name
@@ -185,7 +187,7 @@ As mentioned previously, `select()` is very powerful. In addition to explicitly 
 
 `pivot_longer()` transforms the dataset into tidy data.
 
-Note that `scores` are in character format. We use `mutate()` to transform them to numerical format.
+Note that `scores` are in character format. We use `mutate()` to transform them to numeric.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Creates new data frame, selects desired variables from gradebook, and gathers all classwork scores into key/value pairs
@@ -219,7 +221,7 @@ view(classwork_df)
 
 ### Visualize Data
 
-Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a simple summary of the data by each column similar to what we did in Walkthrough 1.
+Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a summary of the data by each column similar to what we did in Walkthrough 1.
 
 ```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 # Summary of the data by columns
@@ -359,6 +361,8 @@ In [Chapter 7](#c07), we introduced the concept of linear models. Let's use that
 * Your response (running_average)
 * The data (gradebook)
 
+`lm()` is available in "base R" - that is, no additional packages beyond what is loaded with R automatically are necessary.
+
 ```{r}
 linear_mod <- 
   lm(running_average ~ formative_assessments, data = gradebook)
@@ -372,7 +376,7 @@ When you fit a model to two variables, you create an equation that describes the
 running_average = 50.11511 + 0.42136*formative_assessments
 ```
 
-We interpret these results by saying "For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
+We interpret these results by saying "For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores." This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
 
 *More on Interpreting Models* 
 

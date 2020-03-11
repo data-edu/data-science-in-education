@@ -389,7 +389,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-6"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
 <li class="chapter" data-level="11.10" data-path="c11.html"><a href="c11.html#technical-appendix-on-accessing-twitter-data"><i class="fa fa-check"></i><b>11.10</b> Technical Appendix on Accessing Twitter data</a><ul>
-<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-ccllected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-cCllected Status URLs</a></li>
+<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-collected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-Collected Status URLs</a></li>
 <li class="chapter" data-level="11.10.2" data-path="c11.html"><a href="c11.html#accessing-historical-data-when-you-do-not-have-access-to-status-urls"><i class="fa fa-check"></i><b>11.10.2</b> Accessing Historical Data When You Do Not Have Access to Status URLs</a></li>
 </ul></li>
 </ul></li>
@@ -568,32 +568,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="vocabulary-1" class="section level2">
 <h2><span class="header-section-number">8.1</span> Vocabulary</h2>
 <ul>
+<li>correlation<br />
+</li>
 <li>directory<br />
 </li>
 <li>environment<br />
 </li>
-<li>pivot<br />
+<li>linear model<br />
 </li>
 <li>linearity<br />
 </li>
-<li>correlation<br />
-</li>
+<li>missing values/ NA</li>
 <li>outliers<br />
 </li>
-<li>linear model</li>
+<li>pivot<br />
+</li>
+<li>string</li>
 </ul>
 </div>
 <div id="chapter-overview-3" class="section level2">
 <h2><span class="header-section-number">8.2</span> Chapter Overview</h2>
 <p>Whereas <a href="#c7">the last walkthrough</a> focused on the the education data science pipeline
 in the context of online science class data, this walkthrough explores a
-different dataset - the ubiquitous but not-often-analyzed using data science
+different dataset - ubiquitous but not-often-analyzed using data science
 tools and techniques classroom gradebook dataset - and focuses more on analyses,
 including correlations and linear models.</p>
 <p>There are a variety of data sources to explore in the education field. Student assessment scores can be examined for progress towards goals. The text from a teacher’s written classroom observation notes about a particular learner’s in-class behavior or emotional status can be analyzed for trends. We can tap into the exportable data available from common learning software or platforms popular in the K-12 education space.</p>
 <div id="background-1" class="section level3">
 <h3><span class="header-section-number">8.2.1</span> Background</h3>
-<p>This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a ubiquitous K-12 classroom tool: the gradebook. While gradebook data is nearly ubiquitous in education, it is sometimes ignored in favor of data collected by evaluators and researchers or data from state-wide tests. Nevertheless, it represents an important, occasionally untapped data source, and one for which a data science approach can reveal the potential of the data science framework for analyzing a range of educational data sources.</p>
+<p>This walkthrough goes through a series of analyses using the data science framework. The first analysis centers around a common K-12 classroom tool: the gradebook. While gradebook data is nearly ubiquitous in education, it is sometimes ignored in favor of data collected by evaluators and researchers or data from state-wide tests. Nevertheless, it represents an important, occasionally untapped data source, and one for which a data science approach can reveal the potential of the data science framework for analyzing a range of educational data sources.</p>
 </div>
 <div id="data-sources-1" class="section level3">
 <h3><span class="header-section-number">8.2.2</span> Data Sources</h3>
@@ -624,7 +627,7 @@ including correlations and linear models.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1"><span class="co"># See the current working directory</span></a>
 <a class="sourceLine" id="cb107-2" title="2"><span class="kw">getwd</span>()</a></code></pre></div>
 <p>For example, an R user on Linux or Mac might see their working directory as: <code>/home/username/Desktop</code>. A Windows user might see their working directory as: <code>C:\Users\Username\Desktop</code>.</p>
-<p>From this location go deeper into files to find the desired file. For example, if you downloaded the <a href="https://github.com/data-edu/data-science-in-education">book repository</a> from Github to your Desktop the path to the Excel file might look like one of these below:</p>
+<p>From this location, go deeper into files to find the desired file. For example, if you downloaded the <a href="https://github.com/data-edu/data-science-in-education">book repository</a> from Github to your Desktop the path to the Excel file might look like one of these below:</p>
 <ul>
 <li><code>/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx</code> (on Linux &amp; Mac)</li>
 <li><code>C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx</code> (on Windows)</li>
@@ -634,7 +637,7 @@ including correlations and linear models.</p>
 </div>
 <div id="import-using-here" class="section level3">
 <h3><span class="header-section-number">8.4.2</span> Import Using <code>here()</code></h3>
-<p>Whenever possible, we prefer to use <code>here()</code> from the {here} package because it conveniently guesses at the correct file path based on the working directory. In you working directory, place the <code>ExcelGradeBook.xlsx</code> file in a folder called <code>gradebooks</code>. Then place the <code>gradebooks</code> folder in a folder called <code>data</code>. The last step is to make sure your new <code>data</code> folder and all its contents are in your working directory. Following those steps, use this code to read the data in:</p>
+<p>Whenever possible, we prefer to use <code>here()</code> from the {here} package because it conveniently guesses at the correct file path based on the working directory. In your working directory, place the <code>ExcelGradeBook.xlsx</code> file in a folder called <code>gradebooks</code>. Then place the <code>gradebooks</code> folder in a folder called <code>data</code>. The last step is to make sure your new <code>data</code> folder and all its contents are in your working directory. Following those steps, use this code to read the data in:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="co"># Use readxl package to read and import file and assign it a name</span></a>
 <a class="sourceLine" id="cb109-2" title="2">ExcelGradeBook &lt;-</a>
 <a class="sourceLine" id="cb109-3" title="3"><span class="st">  </span><span class="kw">read_excel</span>(</a>
@@ -705,7 +708,7 @@ including correlations and linear models.</p>
 <p>R users transform data to facilitate working with the data during later phases of visualization and analysis. A few examples of data transformation include creating new variables, grouping data, and more. This code chunk first creates a new data frame named <code>classwork_df</code>, then selects particular variables from our gradebook dataset using <code>select()</code>, and finally gathers all the homework data under new variables into new columns.</p>
 <p>As mentioned previously, <code>select()</code> is very powerful. In addition to explicitly writing out the columns you want to keep, you can also use functions from the package {stringr} within <code>select()</code>. The {stringr} package is contained within the {tidyverse} meta-package. Here, we’ll use the function <code>contains()</code> to tell R to select columns that contain a certain string (that is, text). Here, it searches for any column with the string <code>classwork_</code>. The underscore makes sure the variables from <code>classwork_1</code> all the way to <code>classwork_17</code> are included in <code>classwork_df</code>.</p>
 <p><code>pivot_longer()</code> transforms the dataset into tidy data.</p>
-<p>Note that <code>scores</code> are in character format. We use <code>mutate()</code> to transform them to numerical format.</p>
+<p>Note that <code>scores</code> are in character format. We use <code>mutate()</code> to transform them to numeric.</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" title="1"><span class="co"># Creates new data frame, selects desired variables from gradebook, and gathers all classwork scores into key/value pairs</span></a>
 <a class="sourceLine" id="cb120-2" title="2">classwork_df &lt;-</a>
 <a class="sourceLine" id="cb120-3" title="3"><span class="st">  </span>gradebook <span class="op">%&gt;%</span></a>
@@ -733,7 +736,7 @@ including correlations and linear models.</p>
 <h2><span class="header-section-number">8.6</span> Analysis</h2>
 <div id="visualize-data" class="section level3">
 <h3><span class="header-section-number">8.6.1</span> Visualize Data</h3>
-<p>Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a simple summary of the data by each column similar to what we did in Walkthrough 1.</p>
+<p>Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a summary of the data by each column similar to what we did in Walkthrough 1.</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" title="1"><span class="co"># Summary of the data by columns</span></a>
 <a class="sourceLine" id="cb122-2" title="2"><span class="kw">summary</span>(gradebook)</a></code></pre></div>
 <p>But R can do more than just print numbers to a screen. We’ll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable <code>Letter_grade</code> is plotted on the x-axis showing the counts of each letter grade on the y-axis.</p>
@@ -854,6 +857,7 @@ including correlations and linear models.</p>
 <li>Your response (running_average)</li>
 <li>The data (gradebook)</li>
 </ul>
+<p><code>lm()</code> is available in “base R” - that is, no additional packages beyond what is loaded with R automatically are necessary.</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" title="1">linear_mod &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb131-2" title="2"><span class="st">  </span><span class="kw">lm</span>(running_average <span class="op">~</span><span class="st"> </span>formative_assessments, <span class="dt">data =</span> gradebook)</a>
 <a class="sourceLine" id="cb131-3" title="3"></a>
@@ -878,7 +882,7 @@ including correlations and linear models.</p>
 #&gt; F-statistic: 18.1 on 1 and 23 DF,  p-value: 0.000302</code></pre>
 <p>When you fit a model to two variables, you create an equation that describes the relationship between those two variables on average. This equation uses the <code>(Intercept)</code>, which is 50.11511, and the coefficient for <code>formative_assessments</code>, which is .42136. The equation reads like this:</p>
 <pre><code>running_average = 50.11511 + 0.42136*formative_assessments</code></pre>
-<p>We interpret these results by saying “For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores”. This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student’s running average, if all you had was their formative assessment scores.</p>
+<p>We interpret these results by saying “For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores.” This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student’s running average, if all you had was their formative assessment scores.</p>
 <p><em>More on Interpreting Models</em></p>
 <p>Challenge yourself to apply your education knowledge to the way you communicate a model’s output to your audience. Consider the difference between describing the relationship between formative assessment scores and running averages for a large group of students and for an individual student.</p>
 <p>If you were describing the formative assessment system to stakeholders, you might say something like, “We can generally expect our students to show a .421 increase in their running average score for every one point increase in their formative assessment scores.” That makes sense, because your goal is to explain what happens <strong>in general</strong>.</p>

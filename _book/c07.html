@@ -389,7 +389,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-6"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
 <li class="chapter" data-level="11.10" data-path="c11.html"><a href="c11.html#technical-appendix-on-accessing-twitter-data"><i class="fa fa-check"></i><b>11.10</b> Technical Appendix on Accessing Twitter data</a><ul>
-<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-ccllected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-cCllected Status URLs</a></li>
+<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-collected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-Collected Status URLs</a></li>
 <li class="chapter" data-level="11.10.2" data-path="c11.html"><a href="c11.html#accessing-historical-data-when-you-do-not-have-access-to-status-urls"><i class="fa fa-check"></i><b>11.10.2</b> Accessing Historical Data When You Do Not Have Access to Status URLs</a></li>
 </ul></li>
 </ul></li>
@@ -567,10 +567,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">7</span> Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data</h1>
 <div id="introduction-to-the-walkthroughs" class="section level2">
 <h2><span class="header-section-number">7.1</span> Introduction to the walkthroughs</h2>
-<p>This chapter presents the first of eight walkthroughs included in the book. In it,
+<p>This chapter is the first of eight walkthroughs included in the book. In it,
 we present <em>one approach</em> to analyzing a specific dataset; in this case, the approach
 is what we call the education data science pipeline using data from a number of
-online science classes. While the walkthroughs are very different the structure
+online science classes. While the walkthroughs are very different, the structure
 (and section headings) will be consistent throughout the walkthroughs. For example,
 every walkthrough will begin with a vocabulary section, followed by an introduction
 to the dataset (and the question or problem) explored in the walkthrough.</p>
@@ -578,27 +578,30 @@ to the dataset (and the question or problem) explored in the walkthrough.</p>
 <div id="vocabulary" class="section level2">
 <h2><span class="header-section-number">7.2</span> Vocabulary</h2>
 <ul>
-<li>log-trace data</li>
-<li>survey</li>
 <li>item</li>
-<li>reverse scale</li>
 <li>joins</li>
+<li>keys</li>
+<li>log-trace data</li>
+<li>pass</li>
+<li>reverse scale</li>
 <li>regression</li>
+<li>survey</li>
+<li>tibble</li>
+<li>vectorize</li>
 </ul>
 </div>
 <div id="chapter-overview-2" class="section level2">
 <h2><span class="header-section-number">7.3</span> Chapter Overview</h2>
-<p>In this - the first walkthrough - we explore some of the key steps that are a
+<p>In this walkthrough, we explore some of the key steps that are a
 part of many data science in education projects. In particular, we explore how
 to process and prepare data: what is sometimes referred to as data wrangling. To
 do so, we rely heavily on a set of tools that we use throughout <em>all</em> of the
 walkthroughs, those associated with the tidyverse, the set of
 packages for data manipulation, exploration, and visualization using the design
-philosophy of ‘tidy’ data <span class="citation">(Wickham et al. <a href="references.html#ref-wickham2019">2019</a>)</span> mentioned in the Foudnational Skills chapters (see <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a> for
-more).</p>
+philosophy of ‘tidy’ data <span class="citation">(Wickham et al. <a href="references.html#ref-wickham2019">2019</a>)</span>. For more information, see the Foundational Skills chapters or <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>.</p>
 <p>The tidyverse is predicated on the concept of tidy data <span class="citation">(Wickham <a href="references.html#ref-wickham2014">2014</a>)</span>. Tidy
 data has a specific structure: each variable is a column, each observation is a
-row, and each type of observational unit is a table. We’ll disuss both the
+row, and each type of observational unit is a table. We’ll discuss both the
 tidyverse and tidy data much more throughout the book.</p>
 <div id="background" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Background</h3>
@@ -619,11 +622,11 @@ motivation</li>
 </ol>
 <p>Our <em>purpose</em> for this walkthrough is to begin to understand what explains
 students’ performance in these online courses. The <em>problem</em> we are facing is a
-very common one when it comes to data science in education: the data is complex
-and in need of further processing, before we can get to answering questions (or
+very common one when it comes to data science in education: the data are complex
+and in need of further processing before we can get to answering questions (or
 running analyses).</p>
-<p>To understand students’ performance we will focus on a variable that was available
-through the learning management system used for the courses, on he amount of time
+<p>To understand students’ performance, we will focus on a variable that was available
+through the learning management system used for the courses on the amount of time
 students’ spent on the course. We will also explore how different (science)
 subjects as well as being in a particular class may help to explain student performance.</p>
 <p>First, these different data sources will be described in terms of how they were
@@ -635,7 +638,7 @@ provided by the school.</p>
 <h4><span class="header-section-number">7.3.2.1</span> Data Source #1: Self-Report Survey about Students’ Motivation</h4>
 <p>The first data source is a self-report survey. This was data collected before
 the start of the course via self-report survey. The survey included 10 items,
-each corresponding to one of three <em>measures</em>, namely, for interest, utility
+each corresponding to one of three <em>measures</em>: interest, utility
 value, and perceived competence:</p>
 <ol style="list-style-type: decimal">
 <li>I think this course is an interesting subject. (Interest)</li>
@@ -658,24 +661,23 @@ value)</li>
 <h3><span class="header-section-number">7.3.3</span> Data Source #2: Log-Trace Data</h3>
 <p><em>Log-trace data</em> is data generated from our interactions with digital
 technologies, such as archived data from social media postings (see
-<a href="c11.html#c11">chapter 11</a> and <a href="c12.html#c12">chapter 12</a>). In education, an increasingly common
+<a href="c11.html#c11">Chapter 11</a> and <a href="c12.html#c12">Chapter 12</a>). In education, an increasingly common
 source of log-trace data is that generated from interactions with learning
 management systems and other digital tools <span class="citation">(Siemens and d Baker <a href="references.html#ref-siemens2012">2012</a>)</span>. The data for this
 walk-through is a <em>summary of</em> log-trace data, namely, the number of minutes
-students spent on the course. Thus, while this data is rich, you can imagine
-even more complex sources of log-trace data (i.e. time stamps associated with
+students spent on the course. While this data is rich, you can imagine
+even more complex sources of log-trace data (e.g. time stamps associated with
 when students started and stopped accessing the course!).</p>
 </div>
 <div id="data-source-3-achievement-related-and-gradebook-data" class="section level3">
 <h3><span class="header-section-number">7.3.4</span> Data Source #3: Achievement-Related and Gradebook Data</h3>
-<p>This is a common source of data, namely, one associated with graded assignments
+<p>This is a common source of data: one associated with graded assignments
 students completed. In this walkthrough, we just examine students’ final grade.</p>
 </div>
 <div id="data-source-4-discussion-board-data" class="section level3">
 <h3><span class="header-section-number">7.3.5</span> Data Source #4: Discussion Board Data</h3>
 <p>Discussion board data is both rich and unstructured, in that it is primarily in
-the form of written text. We collected discussion board data, too, and highlight
-this as a potentially very rich data source.</p>
+the form of written text. We also collected discussion board data for this project.</p>
 </div>
 <div id="methods" class="section level3">
 <h3><span class="header-section-number">7.3.6</span> Methods</h3>
@@ -688,8 +690,8 @@ this as a potentially very rich data source.</p>
 code more efficiently, as you will recall from <a href="#c1">Chapter 1</a>. We load
 these packages with the function <code>library()</code>. In particular, the packages we’ll
 use will help us organize the structure of the data, work with
-dates in the data <span class="citation">(Spinu, Grolemund, and Wickham <a href="references.html#ref-R-lubridate">2018</a>)</span>, create formatted
-tables <span class="citation">(Stanley <a href="references.html#ref-R-apaTables">2018</a>, <span class="citation">@R-sjPlot</span>)</span> and navigate file directories <span class="citation">(Müller <a href="references.html#ref-R-here">2017</a>)</span>.</p>
+dates in the data using {lubridate} <span class="citation">(Spinu, Grolemund, and Wickham <a href="references.html#ref-R-lubridate">2018</a>)</span>, create formatted
+tables using {apaTables} <span class="citation">(Stanley <a href="references.html#ref-R-apaTables">2018</a>)</span> and {sjPlot} <span class="citation">(Lüdecke <a href="references.html#ref-R-sjPlot">2020</a>)</span>, and navigate file directories using {here} <span class="citation">(Müller <a href="references.html#ref-R-here">2017</a>)</span>.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">library</span>(readxl)</a>
 <a class="sourceLine" id="cb45-2" title="2"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb45-3" title="3"><span class="kw">library</span>(lubridate)</a>
@@ -700,7 +702,7 @@ tables <span class="citation">(Stanley <a href="references.html#ref-R-apaTables"
 </div>
 <div id="import-data" class="section level2">
 <h2><span class="header-section-number">7.5</span> Import Data</h2>
-<p>This code chunk loads the log trace data from the {dataedu} package. Note that we assign a dataset to an object three times, once for each of the three log trace
+<p>This code chunk loads the log-trace data from the {dataedu} package. Note that we assign a dataset to an object three times, once for each of the three log-trace
 datasets. We assign each of the datasets a name using <code>&lt;-</code>.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="co"># Gradebook and log-trace data for F15 and S16 semesters</span></a>
 <a class="sourceLine" id="cb46-2" title="2">course_data &lt;-<span class="st"> </span>dataedu<span class="op">::</span>course_data</a>
@@ -715,7 +717,7 @@ datasets. We assign each of the datasets a name using <code>&lt;-</code>.</p>
 </div>
 <div id="view-data" class="section level2">
 <h2><span class="header-section-number">7.6</span> View Data</h2>
-<p>Now that we’ve successfully loaded all three log trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.</p>
+<p>Now that we’ve successfully loaded all three log-trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">pre_survey</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,102 x 12
 #&gt;    opdata_username opdata_CourseID Q1Maincellgroup… Q1Maincellgroup…
@@ -770,8 +772,8 @@ datasets. We assign each of the datasets a name using <code>&lt;-</code>.</p>
 <div id="process-data" class="section level2">
 <h2><span class="header-section-number">7.7</span> Process Data</h2>
 <p>Often, survey data needs to be processed in order to be (most) useful. Here, we
-process the self-report items into three scales, for: interest, self-efficacy,
-and utility value. We do this by</p>
+process the self-report items into three scales for 1) interest, 2) self-efficacy,
+and 3) utility value. We do this by:</p>
 <ul>
 <li>Renaming the question variables to something more manageable</li>
 <li>Reversing the response scales on questions 4 and 7</li>
@@ -823,7 +825,7 @@ and question 7. This will result in much less code, plus it will make it
 easier for us to change in the future.</li>
 </ol>
 <p>We’ll use <code>case_when()</code> in our function to reverse the scale of the item responses. <code>case_when()</code> is useful when you need to replace the values in a column with other values based on some criteria. Education datasets use a lot of codes to describe demographics, like numerical codes for disability categories, race groups, or proficiency in a test. When you work with codes like this, you’ll often want to change the codes to values that are easier to understand. For a example, a consultant analyzing how students did on state testing might use <code>case_when()</code> to replace proficiency codes like 1, 2, or 3 to more descriptive words like “below proficiency”, “proficient”, or “advanced”.</p>
-<p><code>case_when()</code> lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your <code>case_when()</code> sequence. <code>case_when()</code> is helpful because it does this without complicated for loops and by using code that is compact and readable once you understand how all the arguments work.</p>
+<p><code>case_when()</code> lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your <code>case_when()</code> sequence. <code>case_when()</code> is helpful because it does this without complicated loops. By using code that is compact and readable once you understand how all the arguments work.</p>
 <p>The left hand side of each <code>case_when()</code> argument will be a formula that returns either a <code>TRUE</code> or a <code>FALSE</code>. In the function below we’ll use logical operators in the left hand side of the formula like this: <code>question == 1 ~ 5</code>. Here are some other logical operators you can use in the future:</p>
 <ul>
 <li><code>&gt;</code>: greater than</li>
@@ -905,7 +907,6 @@ easier for us to change in the future.</li>
 #&gt; 1 int              4.25      0.178
 #&gt; 2 pc               3.65      0.178
 #&gt; 3 uv               3.74      0.178</code></pre>
-<p>We will use a similar process later to calculate these variables’ correlations.</p>
 <div id="processing-the-course-data" class="section level3">
 <h3><span class="header-section-number">7.7.1</span> Processing the Course Data</h3>
 <p>We also can process the course data in order to create new variables which we can use in analyses.
@@ -933,7 +934,7 @@ each of our datasets so that they will match. One variable will correspond to
 the course, and the other will correspond to the student. We are not changing
 anything in the data itself at this step - instead, we are just cleaning it up
 so that we can look at the data all in one place.</p>
-<p>Let’s start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.</p>
+<p>Let’s start with the pre-survey data. We will rename <code>RespondentID</code> and <code>opdata_CourseID</code> to be <code>student_id</code> and <code>course_id</code>, respectively.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1">pre_survey &lt;-</a>
 <a class="sourceLine" id="cb60-2" title="2"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb60-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">student_id =</span> opdata_username,</a>
@@ -955,20 +956,20 @@ so that we can look at the data all in one place.</p>
 #&gt; 10 _80624_1   PhysA-S1…     4     4     3     4     4     4     4     4     3
 #&gt; # … with 1,092 more rows, and 1 more variable: q10 &lt;dbl&gt;</code></pre>
 <p>Looks better now!</p>
-<p>In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after <em>the actual ID</em> that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional “meta”-data added on. In any event, here is what the variables look like before and processing:</p>
+<p>In addition to needing to be renamed, the <code>student_id</code> variable had an issue - the variable has some additional characters before and after <em>the actual ID</em> that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional “meta”-data added on. In any event, here is what the variables look like before and processing:</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">head</span>(pre_survey<span class="op">$</span>student_id)</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;_80624_1&quot; &quot;_80623_1&quot; &quot;_82588_1&quot; &quot;_80623_1&quot; &quot;_80624_1&quot; &quot;_80624_1&quot;</code></pre>
 <p>What we need is the five characters in between the underscore symbols - these: <code>_</code>.</p>
-<p>An easy way to do this (among others) is to use the <code>str_sub()</code> function from the stringr package. You can specify the indices of the variables you want the string to <em>start</em> and <em>end</em> with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.</p>
+<p>One way to do this is to use the <code>str_sub()</code> function from the {stringr} package. You can specify the indices of the variables you want the string to <em>start</em> and <em>end</em> with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_80624_1&quot;</span>, <span class="dt">start =</span> <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;80624_1&quot;</code></pre>
 <p>We can do the same with the last few characters:</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_80624_1&quot;</span>, <span class="dt">end =</span> <span class="dv">-3</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;_80624&quot;</code></pre>
-<p>Putting the pieces together, the following should return what we want</p>
+<p>Putting the pieces together, the following should return what we want:</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_80624_1&quot;</span>, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">-3</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;80624&quot;</code></pre>
-<p>We can apply this to our data using <code>mutate()</code>; we coerce the string into a number using <code>as.numeric()</code> at the same time, so the data can be joined to the other, numeric student_id variables (in the other data sets):</p>
+<p>We can apply this to our data using <code>mutate()</code>. We convert the string into a number using <code>as.numeric()</code> at the same time, so the data can be joined to the other, numeric <code>student_id</code> variables (in the other data sets):</p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">pre_survey &lt;-<span class="st"> </span>pre_survey <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb70-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">student_id =</span> <span class="kw">as.numeric</span>(<span class="kw">str_sub</span>(student_id, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">-3</span>)))</a></code></pre></div>
 <p>Let’s proceed to the course data. Our goal is to rename two variables that
@@ -979,14 +980,13 @@ variables we just created for the pre-survey data.</p>
 <a class="sourceLine" id="cb71-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">student_id =</span> Bb_UserPK,</a>
 <a class="sourceLine" id="cb71-4" title="4">         <span class="dt">course_id =</span> CourseSectionOrigID)</a></code></pre></div>
 <p>Now that we have two variables that are consistent across both datasets - we
-have called them “course_id” and “student_id” - we can join these using the
-<strong>dplyr</strong> function, <code>left_join()</code>.</p>
-<p>Let’s save our joined data as a new object called “dat.”</p>
+have called them <code>course_id</code> and <code>student_id</code> - we can join them using the
+{dplyr} function, <code>left_join()</code>.</p>
+<p>Let’s save our joined data as a new object called <code>dat</code>.</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1">dat &lt;-</a>
-<a class="sourceLine" id="cb72-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(course_data,</a>
-<a class="sourceLine" id="cb72-3" title="3">            pre_survey,</a>
-<a class="sourceLine" id="cb72-4" title="4">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
-<a class="sourceLine" id="cb72-5" title="5">dat</a></code></pre></div>
+<a class="sourceLine" id="cb72-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(course_data, pre_survey,</a>
+<a class="sourceLine" id="cb72-3" title="3">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb72-4" title="4">dat</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 40,348 x 21
 #&gt;    course_id subject semester section student_id Gradebook_Item Grade_Category
 #&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
@@ -1004,35 +1004,30 @@ have called them “course_id” and “student_id” - we can join these using 
 #&gt; #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;, q1 &lt;dbl&gt;,
 #&gt; #   q2 &lt;dbl&gt;, q3 &lt;dbl&gt;, q4 &lt;dbl&gt;, q5 &lt;dbl&gt;, q6 &lt;dbl&gt;, q7 &lt;dbl&gt;, q8 &lt;dbl&gt;,
 #&gt; #   q9 &lt;dbl&gt;, q10 &lt;dbl&gt;</code></pre>
-<p><code>left_join()</code> is named on the basis of the order of the two data frames that are
-being joined - and which data frame is joined to the other. In the above case,
-note the order of the data frames passed to our “left” join. Let’s focus just on
-the first two arguments. Left joins retain all of the rows in the “left” data
-frame, and joins every matching row in the right data frame to it.</p>
-<p>Note that in the above, after <code>left_join()</code>, we see <code>course_data</code> and then
+<p><code>left_join()</code> is named based on the ‘direction’ that the data is being joined. Note the order of the data frames passed to our “left” join. Left joins retain all of the rows in the data
+frame on the “left”, and joins every matching row in the right data frame to it.</p>
+<p>Let’s hone in on how this code is structured. After <code>left_join()</code>, we see <code>course_data</code> and then
 <code>pre_survey</code>. In this case, <code>course_data</code> is the “left” data frame (passed as
-the <em>first</em> argument), while <code>pre_survey</code> is the “right” data frame, passed as
-the <em>second</em> argument. So, in the above, knowing how <code>left_join()</code> works, what
-happened? You can run the code yourself to check.</p>
-<p>What our aim was - and what should happen - is that all of the rows of
+the <em>first</em> argument), while <code>pre_survey</code> is the “right” data frame (passed as
+the <em>second</em> argument). So, in the above, what
+happens? You can run the code yourself to check.</p>
+<p>What our aim - and what should happen - is that all of the rows in
 <code>course_data</code> are retained in our new data frame, <code>dat</code>, with matching rows of
-<code>pre_survey</code> joined to it. We note that in this case, one key is that there are
-not multiple matching rows of pre-survey: in this case, you would end up with
-more rows in <code>dat</code> than expected. There is a lot packed into one simple function
-that we just unpacked. Joins are, however, extremely powerful - and common - in
-many data analysis processing pipelines, in education and in any field. Think of
+<code>pre_survey</code> joined to it. An important note is that there are
+not multiple matching rows of <code>pre_survey</code>; otherwise, you would end up with
+more rows in <code>dat</code> than expected. There is a lot packed into this one function. Joins are, however, extremely powerful - and common - in
+many data analysis processing pipelines, both in education and in any field. Think of
 all of the times you have data in more than one data frame, and want them to be
 in a single data frame! As a result, we think that joins are well worth
 investing the time to be able to use.</p>
 <p>With education (and other) data, <code>left_join()</code> is helpful for carrying out
-most tasks related to joining datasets. There are, though, functions for other
-types of joins, those less important than <code>left_join()</code> but still worth
-mentioning.</p>
-<p>They are the following (note that for all of these, the “left” data frame is
+most tasks related to joining datasets. However, there are functions for other
+types of joins. They may be less important than <code>left_join()</code> but are still worth
+mentioning (note that for all of these, the “left” data frame is
 always the first argument, and the “right” data frame is always the second):</p>
 <div id="semi_join" class="section level4">
 <h4><span class="header-section-number">7.7.2.1</span> <code>semi_join()</code></h4>
-<p><code>semi_join()</code>: joins and retains all of the <em>matching</em> rows in the “left” and “right” data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
+<p><code>semi_join()</code>: joins and retains all of the <em>matching</em> rows in the “left” and “right” data frame; it is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined.
 <code>semi_join()</code> will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame.</p>
 <p>For example, the following returns only the rows that are present in both
 <code>course_data</code> and <code>pre_survey</code>:</p>
@@ -1175,12 +1170,12 @@ The pre_survey data has been joined for each student by course combination.</p>
 #&gt; #   q2 &lt;dbl&gt;, q3 &lt;dbl&gt;, q4 &lt;dbl&gt;, q5 &lt;dbl&gt;, q6 &lt;dbl&gt;, q7 &lt;dbl&gt;, q8 &lt;dbl&gt;,
 #&gt; #   q9 &lt;dbl&gt;, q10 &lt;dbl&gt;, TimeSpent &lt;dbl&gt;</code></pre>
 <p>It looks like we have 40348 observations from 30 variables.</p>
-<p>There is one last step to take. Were we interested in a fine-grained analysis of
+<p>There is one last step to take. If we were interested in a fine-grained analysis of
 how students performed (according to the teacher) on different assignments (see
 the <code>Gradebook_Item</code> column), we would keep all rows of the data. But,
 our goal (for now) is more modest: to calculate the percentage of points
 students earned as a measure of their final grade (noting that the teacher may
-have assigned a different grade–or weighted their grades in ways not reflected
+have assigned a different grade - or weighted their grades in ways not reflected
 through the points).</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">dat &lt;-</a>
 <a class="sourceLine" id="cb85-2" title="2"><span class="st">  </span>dat <span class="op">%&gt;%</span></a>
@@ -1199,16 +1194,16 @@ through the points).</p>
 </div>
 <div id="finding-distinct-cases-at-the-student-level" class="section level3">
 <h3><span class="header-section-number">7.7.3</span> Finding Distinct Cases at the Student-Level</h3>
-<p>This last step calculated a new column, for the percentage of points each
+<p>This last step calculated a new column for the percentage of points each
 student earned. That value is the same for the same student (an easy way we
 would potentially use to check this is <code>View()</code>, i.e., <code>View(dat)</code>).
-But–because we are not carrying out a finer-grained analysis using the
-<code>Gradebook_Item</code>–the duplicate rows are not necessary. We only want variables
+But, because we are not carrying out a finer-grained analysis using the
+<code>Gradebook_Item</code>, the duplicate rows are not necessary. We only want variables
 at the student-level (and not at the level of different gradebook items). We can
 do this using the <code>distinct()</code> function. This function takes the name of the
 data frame and the name of the variables used to determine what counts as a
-unique case.
-Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. <code>distinct()</code> takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
+unique case.</p>
+<p>Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. <code>distinct()</code> takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
 Another thing to note about <code>distinct()</code> is that it will only
 return the variable(s) (we note that you can pass more than one variable to
 <code>distinct()</code>) you used to determine uniqueness, <em>unless</em> you include the
@@ -1268,7 +1263,7 @@ the data,</p>
 </div>
 <div id="analysis" class="section level2">
 <h2><span class="header-section-number">7.8</span> Analysis</h2>
-<p>In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in <a href="c13.html#c13">Chapter 13</a>. Before we start visualizing relationships between variables in our survey dataset, let’s introduce {ggplot2}, a visualization package we’ll be using in our walkthroughs.</p>
+<p>In this section, we focus on some initial analyses in the form of visualizations and some models. We expand on these in <a href="c13.html#c13">Chapter 13</a>. Before we start visualizing relationships between variables in our survey dataset, let’s introduce {ggplot2}, a visualization package we’ll be using in our walkthroughs.</p>
 <div id="about-ggplot2" class="section level3">
 <h3><span class="header-section-number">7.8.1</span> About {ggplot2}</h3>
 <p>{ggplot2} is a package we’ll be using a lot for graphing our education datasets. {ggplot2} is designed to build graphs layer by layer, where each layer is a building block for your graph. Making graphs in layers is useful because we can think of building up our graphs in separate parts–the data comes first, then the x- and y-axis, then other components like text labels and graph shapes. When something goes wrong and your ggplot2 code returns an error, you can learn about what’s happening by removing one layer at a time and running it again until the code works properly. Once you know which line is causing the problem, you can focus on fixing it.</p>
@@ -1293,7 +1288,6 @@ the data,</p>
 <h3><span class="header-section-number">7.8.2</span> The Relationship between Time Spent on Course and Percentage of Points Earned</h3>
 <p>One thing we might be wondering is how time spent on course is related to
 students’ final grade.</p>
-<p>We note that {ggplot2}, which we use to create these plots, is discussed further in chapter XXX.</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1">dat <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb93-2" title="2"><span class="st">  </span><span class="co"># aes() tells ggplot2 what variables to map to what feature of a plot</span></a>
 <a class="sourceLine" id="cb93-3" title="3"><span class="st">  </span><span class="co"># Here we map variables to the x- and y-axis</span></a>
@@ -1325,10 +1319,10 @@ discuss linear models in <a href="c10.html#c10">Chapter 10</a>.</p>
 <p>Let’s use this technique to model the relationship between the time spent on the
 course and the percentage of points earned. Here, we predict
 <code>percentage_earned</code>, or the percentage of the total points that are possible for
-a student to earn. Here, percentage earned is the dependent, or <em>y</em>-variable,
-and so we enter it first, after the <code>lm()</code> command, before the tilde (<code>~</code>)
+a student to earn. Percentage earned is the dependent, or <em>y</em>-variable,
+and so we enter it first, after the <code>lm()</code> command and before the tilde (<code>~</code>)
 symbol. To the right of the tilde is one independent variable, <code>TimeSpent</code>, or
-the time that students spent on the course. We also pass the data frame, <code>dat</code>.
+the time that students spent on the course. We also pass, or provide, the data frame, <code>dat</code>.
 At this point, we’re ready to run the model. Let’s run this line of code and
 save the results to an object - we chose <code>m_linear</code>, but any name will work, as
 well as the <code>summary()</code> function on the output.</p>
@@ -1412,7 +1406,7 @@ package may be helpful. To do so, just pass the name of the regression model,
 like we did with <code>tab_model()</code>. Then, you can save the output to a Word
 document, simply by adding a <code>filename</code> argument:</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="kw">apa.reg.table</span>(m_linear, <span class="dt">filename =</span> <span class="st">&quot;regression-table-output.doc&quot;</span>)</a></code></pre></div>
-<p>You might be wondering what else the apaTables package does; we encourage you to
+<p>You might be wondering what else the {apaTables} package does. We encourage you to
 read more about the package here:
 <a href="https://cran.r-project.org/web/packages/apaTables/index.html" class="uri">https://cran.r-project.org/web/packages/apaTables/index.html</a>. The vignette is
 especially helpful. One function that may be useful for writing manuscripts is
@@ -1823,10 +1817,9 @@ model, a linear model, also known as a regression model. We found that the time
 that students spent on the course was positively (and statistically
 significantly) related to students’ final grades, and that there appeared to be
 differences by subject. While we focused on using this model in a traditional,
-explanatory sense, it could also (potentially) be used predictively, in that
+explanatory sense, it could also (potentially) be used for predictive analytics, in that
 knowing how long students spent on the course and what subject their course is
-could be used to estimate what that students’ final grade might be. We focus on
-predictive uses of models further in <a href="c14.html#c14">Chapter 14</a>).</p>
+could be used to estimate what that students’ final grade might be. We focus on uses of predictive models further in <a href="c14.html#c14">Chapter 14</a>.</p>
 <p>In the follow-up to this walkthrough (see <a href="c13.html#c13">Chapter 13</a>), we will
 focus on visualizing and then modeling the data using an advanced methodological
 technique, multi-level models, using the data we prepared as a part of this data

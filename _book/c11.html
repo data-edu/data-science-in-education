@@ -389,7 +389,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-6"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
 <li class="chapter" data-level="11.10" data-path="c11.html"><a href="c11.html#technical-appendix-on-accessing-twitter-data"><i class="fa fa-check"></i><b>11.10</b> Technical Appendix on Accessing Twitter data</a><ul>
-<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-ccllected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-cCllected Status URLs</a></li>
+<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-collected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-Collected Status URLs</a></li>
 <li class="chapter" data-level="11.10.2" data-path="c11.html"><a href="c11.html#accessing-historical-data-when-you-do-not-have-access-to-status-urls"><i class="fa fa-check"></i><b>11.10.2</b> Accessing Historical Data When You Do Not Have Access to Status URLs</a></li>
 </ul></li>
 </ul></li>
@@ -568,14 +568,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="vocabulary-4" class="section level2">
 <h2><span class="header-section-number">11.1</span> Vocabulary</h2>
 <ul>
-<li>tokenize</li>
-<li>token</li>
-<li>RDS files</li>
 <li>anti_join</li>
-<li>set.seed</li>
-<li>slice</li>
+<li>RDS files</li>
 <li>sample_n()</li>
+<li>set.seed</li>
 <li>stop words</li>
+<li>slice</li>
+<li>token</li>
+<li>tokenize</li>
 </ul>
 </div>
 <div id="chapter-overview-6" class="section level2">
@@ -622,7 +622,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It’s worth taking a short detour to talk about another way you can get a dataset like this. A more advanced but common way to import data from a social media website is to use something called an application programming interface (API). A full discussion and walkthrough of using an API is outside the scope of this book, but it’s worth introducing the idea so you have a sense of the possibilities. Once you learn how to do it, using an API offers some advantages over downloading the dataset.</p>
 <p>Think of an API as a special door a home builder made for a house that has a lot of cool stuff in it. The home builder doesn’t want everyone to be able to walk right in and use a bunch of stuff in the house. But they also don’t want to make it too hard because, after all, sharing is caring! So imagine the home builder made a door just for folks who know how to use doors. In order to get through this door, users need to know where to find it along the outside of the house. Once they’re there, they have to know the code to open. And once they’re through the door, they have to know how to use the stuff inside. An API for social media platforms like Twitter and Facebook are the same way. You can download datasets of social media information, like tweets, using some code and authentication credentials organized by the website.</p>
 <p>There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.</p>
-<p>A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter’s <em>Technical Appendix</em>, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the <code>tt-tweets</code> dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an indivdual knows or believes).</p>
+<p>A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter’s <em>Technical Appendix</em>, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the <code>tt-tweets</code> dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).</p>
 </div>
 </div>
 <div id="view-data-2" class="section level2">
@@ -696,7 +696,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt;  9 dataviz       607
 #&gt; 10 time          494
 #&gt; # … with 15,325 more rows</code></pre>
-<p>We pass <code>count()</code> the argument <code>sort = TRUE</code> to sort the <code>n</code> variable from the highest value to the lowest value. This makes it easy to see the most frequenly occuring words at the top. Not surprisingly, “tidytuesday” was the third most frequent word in this dataset.</p>
+<p>We pass <code>count()</code> the argument <code>sort = TRUE</code> to sort the <code>n</code> variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, “tidytuesday” was the third most frequent word in this dataset.</p>
 <p>We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services.</p>
 <p>In our tweets dataset, we’ll be calculating the count of words as a percentage of all tweets. We can do that by using <code>mutate()</code> to add a column called <code>percent</code>. <code>percent</code> will divide <code>n</code> by <code>sum(n)</code>, which is the total number of words. Finally, will multiply the result by 100.</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb243-1" title="1">tokens <span class="op">%&gt;%</span></a>
@@ -721,7 +721,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="analysis-sentiment-analysis" class="section level2">
 <h2><span class="header-section-number">11.8</span> Analysis: Sentiment analysis</h2>
-<p>Now that we have a sense of the most frequently appearing words, it’s time to explore some questions in our tweets dataset. Let’s imagine that we’re education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token “dataviz” appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words.</p>
+<p>Now that we have a sense of the most frequently appearing words, it’s time to explore some questions in our tweets dataset. Let’s imagine that we’re education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token “dataviz” (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words.</p>
 <p>We’ll need to use a technique called sentiment analysis to get at the “positivity” of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our <code>tokens</code> data.</p>
 <p>The functions we’ll be using for our sentiment analysis are in a package called {textdata}. Let’s start by installing that.</p>
 <div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;textdata&quot;</span>)</a></code></pre></div>
@@ -792,7 +792,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="dataviz-and-other-positive-words" class="section level3">
 <h3><span class="header-section-number">11.8.2</span> Dataviz and Other Positive Words</h3>
-<p>Earlier in the analysis we learned that “dataviz” was among the most frequently occuring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with “dataviz” also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool.</p>
+<p>Earlier in the analysis we learned that “dataviz” was among the most frequently occurring words in this dataset. We can continue our exploration of TidyTuesday tweets by seeing how many tweets with “dataviz” also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool.</p>
 <p>There are a few steps to this part of the analysis, so let’s review our strategy. We’ll need to use the <code>status_id</code> field in the <code>tweets</code> dataset to filter the tweets that have the word <code>dataviz</code> in them. Then we need to use the <code>status_id</code> field in this new bunch of <code>dataviz</code> tweets to identify the tweets that include at least one positive word.</p>
 <p>How do we know which <code>status_id</code> values contain the word “dataviz” and which ones contain a positive word? Recall that our <code>tokens</code> dataset only has one word per row, which makes it easy to use functions like <code>filter()</code> and <code>inner_join()</code> to make two new datasets: one of <code>status_id</code> values that have “dataviz” in the <code>word</code> column and one of <code>status_id</code> values that have a positive word in the <code>word</code> column.</p>
 <p>We’ll explore the combinations of “dataviz” and any positive words in our <code>tweets</code> dataset using these three ingredients: our <code>tweets</code> dataset, a vector of <code>status_id</code>s for tweets that have “dataviz” in them, and a vector of <code>status_id</code>s for tweets that have positive words in them. Now that we have our strategy, let’s write some code and see how it works.</p>
@@ -883,13 +883,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="close-read-of-randomly-selected-tweets" class="section level3">
 <h3><span class="header-section-number">11.8.3</span> Close Read of Randomly Selected Tweets</h3>
 <p>Let’s review where we are so far as we work to learn more about the TidyTuesday learning community through tweets. So far we’ve counted frequently used words and estimated the number of tweets with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it’s also useful to explore by zooming in and reading some of the tweets. Reading tweets helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn’t lead to quantitative findings, it helps us to learn more about the content we’re studying and analyzing. Instead of reading all 4418 tweets, let’s write some code to randomly select tweets to review.</p>
-<p>First, let’s make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had “dataviz” and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let’s resuse that technique, but instead of applying to a dataset of tweets containing “dataviz”, let’s use it on our dataset of all tweets.</p>
+<p>First, let’s make a dataset of tweets that had positive words from the NRC dataset. Remember earlier when we made a dataset of tweets that had “dataviz” and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let’s reuse that technique, but instead of applying to a dataset of tweets containing “dataviz”, let’s use it on our dataset of all tweets.</p>
 <div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" title="1">pos_tweets &lt;-</a>
 <a class="sourceLine" id="cb264-2" title="2"><span class="st">  </span>tweets <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb264-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">positive =</span> <span class="kw">if_else</span>(status_id <span class="op">%in%</span><span class="st"> </span>pos_tokens<span class="op">$</span>status_id, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb264-4" title="4"><span class="st">  </span><span class="kw">filter</span>(positive <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a></code></pre></div>
 <p>Again, we’re using <code>if_else</code> to make a new column called <code>positive</code> that takes its value based on whether <code>status_id %in% pos_tokens$status_id</code> is true or not.</p>
-<p>We can use <code>slice()</code> to help us pick the rows. When we pass <code>slice()</code> a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets datset this way:</p>
+<p>We can use <code>slice()</code> to help us pick the rows. When we pass <code>slice()</code> a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets dataset this way:</p>
 <div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" title="1">tweets <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb265-2" title="2"><span class="st">  </span><span class="kw">slice</span>(<span class="dv">1</span>, <span class="dv">3</span>)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 2 x 2
@@ -936,9 +936,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="technical-appendix-on-accessing-twitter-data" class="section level2">
 <h2><span class="header-section-number">11.10</span> Technical Appendix on Accessing Twitter data</h2>
-<div id="accessing-historical-twitter-data-using-already-ccllected-status-urls" class="section level3">
-<h3><span class="header-section-number">11.10.1</span> Accessing Historical Twitter Data Using Already-cCllected Status URLs</h3>
-<p>Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the <a href="https://github.com/nsgrantham/tidytuesdayrocks">GitHub repository</a> (<a href="https://github.com/nsgrantham/tidytuesdayrocks" class="uri">https://github.com/nsgrantham/tidytuesdayrocks</a>) for the Shiny application. These Tweets (saved in the <code>data</code> directory) can be read with the following function:</p>
+<div id="accessing-historical-twitter-data-using-already-collected-status-urls" class="section level3">
+<h3><span class="header-section-number">11.10.1</span> Accessing Historical Twitter Data Using Already-Collected Status URLs</h3>
+<p>Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the <a href="https://github.com/nsgrantham/tidytuesdayrocks">GitHub repository</a> (<a href="https://github.com/nsgrantham/tidytuesdayrocks" class="uri">https://github.com/nsgrantham/tidytuesdayrocks</a>) for the Shiny application. These Tweets (saved in the <code>data</code> directory as a <code>.tsv</code> (tab-separated-values) file) can be read with the following function:</p>
 <div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" title="1">raw_tidytuesday_tweets &lt;-</a>
 <a class="sourceLine" id="cb271-2" title="2"><span class="st">  </span><span class="kw">read_delim</span>(</a>
 <a class="sourceLine" id="cb271-3" title="3">    <span class="st">&quot;https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv&quot;</span>,</a>
