@@ -574,10 +574,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="load-packages-3" class="section level2">
 <h2><span class="header-section-number">10.3</span> Load Packages</h2>
 <p>For this walkthrough, we’ll be using four packages: {tidyverse}, {here}, {dataedu}, and {lubridate}. You can load those packages by running this code:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb158-2" title="2"><span class="kw">library</span>(here)</a>
-<a class="sourceLine" id="cb158-3" title="3"><span class="kw">library</span>(dataedu)</a>
-<a class="sourceLine" id="cb158-4" title="4"><span class="kw">library</span>(lubridate)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb162-2" title="2"><span class="kw">library</span>(here)</a>
+<a class="sourceLine" id="cb162-3" title="3"><span class="kw">library</span>(dataedu)</a>
+<a class="sourceLine" id="cb162-4" title="4"><span class="kw">library</span>(lubridate)</a></code></pre></div>
 </div>
 <div id="import-data-3" class="section level2">
 <h2><span class="header-section-number">10.4</span> Import Data</h2>
@@ -598,9 +598,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a-note-on-file-paths" class="section level3">
 <h3><span class="header-section-number">10.4.2</span> A Note on File Paths</h3>
 <p>When you download these files, be sure to store them in a folder in your working directory. To get to the data in this walkthrough, we’ll be using this file path in our working directory: “data/longitudinal_data”. We’ll be using the {here} package, which convenieniently fills in all the folders in the file path of your working directory all the way up to the folders you specify in the arguments. So when referencing the file path “data/longitudinal_data”, we’ll use code like this:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1">here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,</a>
-<a class="sourceLine" id="cb159-2" title="2">           <span class="st">&quot;longitudinal_data&quot;</span>,</a>
-<a class="sourceLine" id="cb159-3" title="3">           <span class="st">&quot;bchildcountandedenvironments2012.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1">here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>,</a>
+<a class="sourceLine" id="cb163-2" title="2">           <span class="st">&quot;longitudinal_data&quot;</span>,</a>
+<a class="sourceLine" id="cb163-3" title="3">           <span class="st">&quot;bchildcountandedenvironments2012.csv&quot;</span>)</a></code></pre></div>
 <p>You can use a different file path if you like, just take note of where your downloaded files are so you can use the correct file path when writing your code to import the data.</p>
 </div>
 <div id="reading-in-one-dataset" class="section level3">
@@ -627,12 +627,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The rows containing “Extraction Date:”, “Updated:” and “Revised:” aren’t actually rows. They’re notes the authors left at the top of the dataset to show when the dataset was changed.</p>
 <p><code>read_csv()</code> uses the first row as the variable names unless told otherwise, so we need to tell <code>read_csv()</code> to skip those lines using the <code>skip</code> argument. If we don’t, <code>read_csv()</code> assumes the very first line–the one that says “Extraction Date:”–is the correct row of variable names. That’s why calling <code>read_csv()</code> without the <code>skip</code> argument results in column names like <code>X4</code>. When there’s no obvious column name to read in, <code>read_csv()</code> names them <code>X[...]</code> and let’s you know in a warning message.</p>
 <p>Try using <code>skip = 4</code> in your call to <code>read_csv()</code>:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1"><span class="kw">read_csv</span>(here<span class="op">::</span><span class="kw">here</span>(</a>
-<a class="sourceLine" id="cb161-2" title="2">  <span class="st">&quot;data&quot;</span>,</a>
-<a class="sourceLine" id="cb161-3" title="3">  <span class="st">&quot;longitudinal_data&quot;</span>,</a>
-<a class="sourceLine" id="cb161-4" title="4">  <span class="st">&quot;bchildcountandedenvironments2012.csv&quot;</span></a>
-<a class="sourceLine" id="cb161-5" title="5">),</a>
-<a class="sourceLine" id="cb161-6" title="6"><span class="dt">skip =</span> <span class="dv">4</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1"><span class="kw">read_csv</span>(here<span class="op">::</span><span class="kw">here</span>(</a>
+<a class="sourceLine" id="cb165-2" title="2">  <span class="st">&quot;data&quot;</span>,</a>
+<a class="sourceLine" id="cb165-3" title="3">  <span class="st">&quot;longitudinal_data&quot;</span>,</a>
+<a class="sourceLine" id="cb165-4" title="4">  <span class="st">&quot;bchildcountandedenvironments2012.csv&quot;</span></a>
+<a class="sourceLine" id="cb165-5" title="5">),</a>
+<a class="sourceLine" id="cb165-6" title="6"><span class="dt">skip =</span> <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 16,230 x 31
 #&gt;     Year `State Name` `SEA Education … `SEA Disability… `American India…
 #&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
@@ -676,13 +676,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><em>Expected widgets</em>: a list of datasets</li>
 </ul>
 <p>Let’s create the raw materials first. Our raw materials will be file paths to each of the CSVs we want to read. Use <code>list.files</code> to make a vector of filename paths and name that vector <code>filenames</code>. <code>list.files</code> returns a vector of file names in the folder specified in the <code>path</code> argument. When we set the <code>full.names</code> argument to “TRUE”, we get a full path of these filenames. This will be useful later when we need the file names and their paths to read our data in.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1"><span class="co"># Get filenames from the data folder </span></a>
-<a class="sourceLine" id="cb163-2" title="2">filenames &lt;-</a>
-<a class="sourceLine" id="cb163-3" title="3"><span class="st">  </span><span class="kw">list.files</span>(<span class="dt">path =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;longitudinal_data&quot;</span>),</a>
-<a class="sourceLine" id="cb163-4" title="4">             <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb163-5" title="5"></a>
-<a class="sourceLine" id="cb163-6" title="6"><span class="co"># A list of filenames and paths</span></a>
-<a class="sourceLine" id="cb163-7" title="7">filenames</a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1"><span class="co"># Get filenames from the data folder </span></a>
+<a class="sourceLine" id="cb167-2" title="2">filenames &lt;-</a>
+<a class="sourceLine" id="cb167-3" title="3"><span class="st">  </span><span class="kw">list.files</span>(<span class="dt">path =</span> here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;longitudinal_data&quot;</span>),</a>
+<a class="sourceLine" id="cb167-4" title="4">             <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb167-5" title="5"></a>
+<a class="sourceLine" id="cb167-6" title="6"><span class="co"># A list of filenames and paths</span></a>
+<a class="sourceLine" id="cb167-7" title="7">filenames</a></code></pre></div>
 <pre><code>#&gt; [1] &quot;/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv&quot;   
 #&gt; [2] &quot;/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2013.csv&quot;   
 #&gt; [3] &quot;/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2014.csv&quot;   
@@ -690,23 +690,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; [5] &quot;/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2016.csv&quot;   
 #&gt; [6] &quot;/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2017-18.csv&quot;</code></pre>
 <p>That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called <code>filenames</code>, to our widget-making machine called <code>map()</code> and give the machine the instructions <code>read_csv(., skip = 4)</code>. Name the list of widgets it cranks out <code>all_files</code>:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1"><span class="co"># Pass filenames to map and read_csv</span></a>
-<a class="sourceLine" id="cb165-2" title="2">all_files &lt;-</a>
-<a class="sourceLine" id="cb165-3" title="3"><span class="st">  </span>filenames <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb165-4" title="4"><span class="st">  </span><span class="co"># Apply the function read_csv to each element of filenames</span></a>
-<a class="sourceLine" id="cb165-5" title="5"><span class="st">  </span><span class="kw">map</span>(., <span class="op">~</span><span class="st"> </span><span class="kw">read_csv</span>(., <span class="dt">skip =</span> <span class="dv">4</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="co"># Pass filenames to map and read_csv</span></a>
+<a class="sourceLine" id="cb169-2" title="2">all_files &lt;-</a>
+<a class="sourceLine" id="cb169-3" title="3"><span class="st">  </span>filenames <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb169-4" title="4"><span class="st">  </span><span class="co"># Apply the function read_csv to each element of filenames</span></a>
+<a class="sourceLine" id="cb169-5" title="5"><span class="st">  </span><span class="kw">map</span>(., <span class="op">~</span><span class="st"> </span><span class="kw">read_csv</span>(., <span class="dt">skip =</span> <span class="dv">4</span>))</a></code></pre></div>
 <p>It is important to think ahead here. The goal is to combine the datasets in <code>all_files</code> into one dataset using <code>bind_rows()</code>. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using <code>map()</code> and <code>names()</code>:</p>
 <p>We can use <code>identical()</code> to see if the variables from two datasets match. We see that the variable names of the first and second datasets don’t match, but the variables from the second and third do.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1"><span class="co"># Variables of first and second dataset don&#39;t match</span></a>
-<a class="sourceLine" id="cb166-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">1</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">2</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1"><span class="co"># Variables of first and second dataset don&#39;t match</span></a>
+<a class="sourceLine" id="cb170-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">1</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">2</span>]]))</a></code></pre></div>
 <pre><code>#&gt; [1] FALSE</code></pre>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1"><span class="co"># Variables of third and second files match</span></a>
-<a class="sourceLine" id="cb168-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">2</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">3</span>]]))</a></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1"><span class="co"># Variables of third and second files match</span></a>
+<a class="sourceLine" id="cb172-2" title="2"><span class="kw">identical</span>(<span class="kw">names</span>(all_files[[<span class="dv">2</span>]]), <span class="kw">names</span>(all_files[[<span class="dv">3</span>]]))</a></code></pre></div>
 <pre><code>#&gt; [1] TRUE</code></pre>
 <p>And we can check the number of columns by using <code>map()</code> and <code>ncol()</code>:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">all_files <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb170-2" title="2"><span class="st">  </span><span class="co"># apply the function ncol to each element of all_files</span></a>
-<a class="sourceLine" id="cb170-3" title="3"><span class="st">  </span><span class="kw">map</span>(ncol)</a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">all_files <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb174-2" title="2"><span class="st">  </span><span class="co"># apply the function ncol to each element of all_files</span></a>
+<a class="sourceLine" id="cb174-3" title="3"><span class="st">  </span><span class="kw">map</span>(ncol)</a></code></pre></div>
 <pre><code>#&gt; [[1]]
 #&gt; [1] 31
 #&gt; 
@@ -725,11 +725,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; [[6]]
 #&gt; [1] 50</code></pre>
 <p>Congratulations on finding an extremely common problem in education data! You’ve discovered that niehter the number of columns nor the column names match. This is a problem because we won’t be able to combine the datasets into one. When we try, <code>bind_rows()</code> returns a dataet with 100 columns instead of the expected 50.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1"><span class="co"># combining the datasets at this stage results in the incorrect </span></a>
-<a class="sourceLine" id="cb172-2" title="2"><span class="co"># number of columns</span></a>
-<a class="sourceLine" id="cb172-3" title="3"><span class="kw">bind_rows</span>(all_files) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb172-4" title="4"><span class="st">  </span><span class="co"># check the number of columns</span></a>
-<a class="sourceLine" id="cb172-5" title="5"><span class="st">  </span><span class="kw">ncol</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1"><span class="co"># combining the datasets at this stage results in the incorrect </span></a>
+<a class="sourceLine" id="cb176-2" title="2"><span class="co"># number of columns</span></a>
+<a class="sourceLine" id="cb176-3" title="3"><span class="kw">bind_rows</span>(all_files) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb176-4" title="4"><span class="st">  </span><span class="co"># check the number of columns</span></a>
+<a class="sourceLine" id="cb176-5" title="5"><span class="st">  </span><span class="kw">ncol</span>()</a></code></pre></div>
 <pre><code>#&gt; [1] 100</code></pre>
 <p>We’ll correct this in the next section by selecting and renaming our variables, but it’s good to notice this problem early in the process so you know to work on it later.</p>
 </div>
@@ -754,18 +754,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fix-the-variable-names-in-the-2016-data" class="section level3">
 <h3><span class="header-section-number">10.5.1</span> Fix the Variable Names in the 2016 Data</h3>
 <p>When we print the 2016 dataset, we notice that the variable names are incorrect. Let’s verify that by looking at the first ten variable names of the 2016 dataset, which is the fifth element of <code>all_files</code>:</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1"><span class="co"># Look at the first 10 column names of 2016</span></a>
-<a class="sourceLine" id="cb174-2" title="2"><span class="kw">names</span>(all_files[[<span class="dv">5</span>]])[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" title="1"><span class="co"># Look at the first 10 column names of 2016</span></a>
+<a class="sourceLine" id="cb178-2" title="2"><span class="kw">names</span>(all_files[[<span class="dv">5</span>]])[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
 <pre><code>#&gt;  [1] &quot;2016&quot;                    &quot;Alabama&quot;                
 #&gt;  [3] &quot;Correctional Facilities&quot; &quot;All Disabilities&quot;       
 #&gt;  [5] &quot;-&quot;                       &quot;-_1&quot;                    
 #&gt;  [7] &quot;-_2&quot;                     &quot;-_3&quot;                    
 #&gt;  [9] &quot;-_4&quot;                     &quot;-_5&quot;</code></pre>
 <p>We want the variable names to be <code>Year</code> and <code>State Name</code>, not <code>2016</code> and <code>Alabama</code>. But first, let’s go back and review how to get at the 2016 dataset from <code>all_files</code>. We need to identify which element the 2016 dataset was in the list. The order of the list elements was set all the way back when we fed <code>map()</code> our list of filenames. If we look at <code>filenames</code> again, we see that its fifth element is the 2016 dataset. Try looking at the first and fifth elements of <code>filenames</code>:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" title="1">filenames[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb176-2" title="2">filenames[[<span class="dv">5</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" title="1">filenames[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb180-2" title="2">filenames[[<span class="dv">5</span>]]</a></code></pre></div>
 <p>Once we know the 2016 dataset is the fifth element of our list, we can pluck it out by using double brackets:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" title="1">all_files[[<span class="dv">5</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1">all_files[[<span class="dv">5</span>]]</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 16,230 x 50
 #&gt;    `2016` Alabama `Correctional F… `All Disabiliti… `-`   `-_1` `-_2` `-_3`
 #&gt;     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
@@ -800,13 +800,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>We want to make comparisons by state and reporting year, so we’ll also pick <code>State Name</code> and <code>Year</code></li>
 </ul>
 <p>Combining <code>select()</code> and <code>contains()</code> is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym “SEA” and variables that contain “male” in their names, we can pass those characters to <code>contains()</code>:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" title="1">all_files[[<span class="dv">1</span>]] <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb179-2" title="2"><span class="st">  </span><span class="kw">select</span>(</a>
-<a class="sourceLine" id="cb179-3" title="3">    Year,</a>
-<a class="sourceLine" id="cb179-4" title="4">    <span class="kw">contains</span>(<span class="st">&quot;State&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb179-5" title="5">    <span class="kw">contains</span>(<span class="st">&quot;SEA&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb179-6" title="6">    <span class="kw">contains</span>(<span class="st">&quot;male&quot;</span>)</a>
-<a class="sourceLine" id="cb179-7" title="7">  ) </a></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" title="1">all_files[[<span class="dv">1</span>]] <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb183-2" title="2"><span class="st">  </span><span class="kw">select</span>(</a>
+<a class="sourceLine" id="cb183-3" title="3">    Year,</a>
+<a class="sourceLine" id="cb183-4" title="4">    <span class="kw">contains</span>(<span class="st">&quot;State&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb183-5" title="5">    <span class="kw">contains</span>(<span class="st">&quot;SEA&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb183-6" title="6">    <span class="kw">contains</span>(<span class="st">&quot;male&quot;</span>)</a>
+<a class="sourceLine" id="cb183-7" title="7">  ) </a></code></pre></div>
 <pre><code>#&gt; # A tibble: 16,230 x 8
 #&gt;     Year `State Name` `SEA Education … `SEA Disability… `Female Age 3 t…
 #&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
@@ -823,29 +823,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; # … with 16,220 more rows, and 3 more variables: `Male Age 3 to 5` &lt;chr&gt;,
 #&gt; #   `Female Age 6 to 21` &lt;chr&gt;, `Male Age 6 to 21` &lt;chr&gt;</code></pre>
 <p>That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called <code>pick_vars()</code>. We will then use <code>map()</code> to apply <code>pick_vars()</code> to each dataset of our list, <code>all_files</code>, to the function. In this function, we’ll use a special version of <code>select()</code> called <code>select_at()</code>, which conveniently picks variables based on criteria we give it. The argument <code>vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))</code> tells R we want to keep any column whose name has “State” in upper or lower case letters, has “SEA” in the title, and has “male” in the title. This will result in a newly transformed <code>all_files</code> list that contains six datasets, all with the desired variables.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" title="1"><span class="co"># build the function</span></a>
-<a class="sourceLine" id="cb181-2" title="2">pick_vars &lt;-</a>
-<a class="sourceLine" id="cb181-3" title="3"><span class="st">  </span><span class="cf">function</span>(df) {</a>
-<a class="sourceLine" id="cb181-4" title="4">    df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb181-5" title="5"><span class="st">      </span><span class="kw">select_at</span>(<span class="kw">vars</span>(</a>
-<a class="sourceLine" id="cb181-6" title="6">        Year,</a>
-<a class="sourceLine" id="cb181-7" title="7">        <span class="kw">contains</span>(<span class="st">&quot;State&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb181-8" title="8">        <span class="kw">contains</span>(<span class="st">&quot;SEA&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb181-9" title="9">        <span class="kw">contains</span>(<span class="st">&quot;male&quot;</span>)</a>
-<a class="sourceLine" id="cb181-10" title="10">      ))</a>
-<a class="sourceLine" id="cb181-11" title="11">  }</a>
-<a class="sourceLine" id="cb181-12" title="12"></a>
-<a class="sourceLine" id="cb181-13" title="13"><span class="co"># use the function with `all_files`</span></a>
-<a class="sourceLine" id="cb181-14" title="14">all_files &lt;-</a>
-<a class="sourceLine" id="cb181-15" title="15"><span class="st">  </span>all_files <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb181-16" title="16"><span class="st">  </span><span class="kw">map</span>(pick_vars)</a></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1"><span class="co"># build the function</span></a>
+<a class="sourceLine" id="cb185-2" title="2">pick_vars &lt;-</a>
+<a class="sourceLine" id="cb185-3" title="3"><span class="st">  </span><span class="cf">function</span>(df) {</a>
+<a class="sourceLine" id="cb185-4" title="4">    df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-5" title="5"><span class="st">      </span><span class="kw">select_at</span>(<span class="kw">vars</span>(</a>
+<a class="sourceLine" id="cb185-6" title="6">        Year,</a>
+<a class="sourceLine" id="cb185-7" title="7">        <span class="kw">contains</span>(<span class="st">&quot;State&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb185-8" title="8">        <span class="kw">contains</span>(<span class="st">&quot;SEA&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb185-9" title="9">        <span class="kw">contains</span>(<span class="st">&quot;male&quot;</span>)</a>
+<a class="sourceLine" id="cb185-10" title="10">      ))</a>
+<a class="sourceLine" id="cb185-11" title="11">  }</a>
+<a class="sourceLine" id="cb185-12" title="12"></a>
+<a class="sourceLine" id="cb185-13" title="13"><span class="co"># use the function with `all_files`</span></a>
+<a class="sourceLine" id="cb185-14" title="14">all_files &lt;-</a>
+<a class="sourceLine" id="cb185-15" title="15"><span class="st">  </span>all_files <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb185-16" title="16"><span class="st">  </span><span class="kw">map</span>(pick_vars)</a></code></pre></div>
 </div>
 <div id="combine-six-datasets-into-one" class="section level3">
 <h3><span class="header-section-number">10.5.3</span> Combine Six Datasets into One</h3>
 <p>Now we’ll turn our attention to combining the datasets in our list <code>all_files</code> into one. We’ll use <code>bind_rows()</code>, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use <code>names()</code> on our list of newly changed datasets, we see that each dataset’s variable names are the same:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" title="1"><span class="co"># check variable names</span></a>
-<a class="sourceLine" id="cb182-2" title="2">all_files <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb182-3" title="3"><span class="st">  </span><span class="kw">map</span>(names)</a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" title="1"><span class="co"># check variable names</span></a>
+<a class="sourceLine" id="cb186-2" title="2">all_files <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb186-3" title="3"><span class="st">  </span><span class="kw">map</span>(names)</a></code></pre></div>
 <pre><code>#&gt; [[1]]
 #&gt; [1] &quot;Year&quot;                      &quot;State Name&quot;               
 #&gt; [3] &quot;SEA Education Environment&quot; &quot;SEA Disability Category&quot;  
@@ -882,12 +882,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; [5] &quot;Female Age 3 to 5&quot;         &quot;Male Age 3 to 5&quot;          
 #&gt; [7] &quot;Female Age 6 to 21&quot;        &quot;Male Age 6 to 21&quot;</code></pre>
 <p>That means that we can combine all six datasets into one using <code>bind_rows()</code>. We’ll call this newly combined dataset <code>child_counts</code>:</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb184-2" title="2"><span class="st">  </span>all_files <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb184-3" title="3"><span class="st">  </span><span class="co"># combine all datasets in `all_files`</span></a>
-<a class="sourceLine" id="cb184-4" title="4"><span class="st">  </span><span class="kw">bind_rows</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb188-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb188-2" title="2"><span class="st">  </span>all_files <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb188-3" title="3"><span class="st">  </span><span class="co"># combine all datasets in `all_files`</span></a>
+<a class="sourceLine" id="cb188-4" title="4"><span class="st">  </span><span class="kw">bind_rows</span>()</a></code></pre></div>
 <p>Since we know that a) each of our six datasets had eight variables and b) our combined dataset also has eight variables, we can conclude that all our rows combined together correctly. But let’s use <code>str()</code> to verify:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" title="1"><span class="kw">str</span>(child_counts)</a></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" title="1"><span class="kw">str</span>(child_counts)</a></code></pre></div>
 <pre><code>#&gt; Classes &#39;spec_tbl_df&#39;, &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;: 97387 obs. of  8 variables:
 #&gt;  $ Year                     : num  2012 2012 2012 2012 2012 ...
 #&gt;  $ State Name               : chr  &quot;ALABAMA&quot; &quot;ALABAMA&quot; &quot;ALABAMA&quot; &quot;ALABAMA&quot; ...
@@ -901,9 +901,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="filter-for-the-desired-disabilities-and-age-groups" class="section level3">
 <h3><span class="header-section-number">10.5.4</span> Filter for the Desired Disabilities and Age Groups</h3>
 <p>We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use <code>count()</code> to explore all the different disability groups in the dataset. Here’s the number of times an <code>SEA Disability Category</code> appears in the dataset:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb187-2" title="2"><span class="st">  </span><span class="co"># count number of times the category appears in the dataset</span></a>
-<a class="sourceLine" id="cb187-3" title="3"><span class="st">  </span><span class="kw">count</span>(<span class="st">`</span><span class="dt">SEA Disability Category</span><span class="st">`</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb191-2" title="2"><span class="st">  </span><span class="co"># count number of times the category appears in the dataset</span></a>
+<a class="sourceLine" id="cb191-3" title="3"><span class="st">  </span><span class="kw">count</span>(<span class="st">`</span><span class="dt">SEA Disability Category</span><span class="st">`</span>)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 16 x 2
 #&gt;    `SEA Disability Category`                                                   n
 #&gt;    &lt;chr&gt;                                                                   &lt;int&gt;
@@ -924,38 +924,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 15 Visual impairment                                                        6954
 #&gt; 16 &lt;NA&gt;                                                                       31</code></pre>
 <p>Since we will be visualizing and modeling gender variables for all students in the dataset, we’ll filter out all subgoups except “All Disabilities” and the age totals:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb189-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb189-3" title="3"><span class="st">  </span><span class="kw">filter</span>(</a>
-<a class="sourceLine" id="cb189-4" title="4">    <span class="co"># filter all but the All Disabilities category</span></a>
-<a class="sourceLine" id="cb189-5" title="5">    <span class="st">`</span><span class="dt">SEA Disability Category</span><span class="st">`</span> <span class="op">==</span><span class="st"> &quot;All Disabilities&quot;</span>,</a>
-<a class="sourceLine" id="cb189-6" title="6">    <span class="co"># filter all but the age totals</span></a>
-<a class="sourceLine" id="cb189-7" title="7">    <span class="st">`</span><span class="dt">SEA Education Environment</span><span class="st">`</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Total, Age 3-5&quot;</span>, <span class="st">&quot;Total, Age 6-21&quot;</span>)</a>
-<a class="sourceLine" id="cb189-8" title="8">  ) </a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb193-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb193-3" title="3"><span class="st">  </span><span class="kw">filter</span>(</a>
+<a class="sourceLine" id="cb193-4" title="4">    <span class="co"># filter all but the All Disabilities category</span></a>
+<a class="sourceLine" id="cb193-5" title="5">    <span class="st">`</span><span class="dt">SEA Disability Category</span><span class="st">`</span> <span class="op">==</span><span class="st"> &quot;All Disabilities&quot;</span>,</a>
+<a class="sourceLine" id="cb193-6" title="6">    <span class="co"># filter all but the age totals</span></a>
+<a class="sourceLine" id="cb193-7" title="7">    <span class="st">`</span><span class="dt">SEA Education Environment</span><span class="st">`</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Total, Age 3-5&quot;</span>, <span class="st">&quot;Total, Age 6-21&quot;</span>)</a>
+<a class="sourceLine" id="cb193-8" title="8">  ) </a></code></pre></div>
 </div>
 <div id="rename-the-variables" class="section level3">
 <h3><span class="header-section-number">10.5.5</span> Rename the Variables</h3>
 <p>In the next section we’ll prepare the dataset for visualization and modeling by “tidying” it. When we write code to transform datasets, we’ll be typing the column names a lot, so it’s useful to change them to ones with more convenient names.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb190-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb190-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb190-3" title="3"><span class="st">  </span><span class="kw">rename</span>(</a>
-<a class="sourceLine" id="cb190-4" title="4">    <span class="co"># change these columns to more convenient names</span></a>
-<a class="sourceLine" id="cb190-5" title="5">    <span class="dt">year =</span> Year,</a>
-<a class="sourceLine" id="cb190-6" title="6">    <span class="dt">state =</span> <span class="st">&quot;State Name&quot;</span>,</a>
-<a class="sourceLine" id="cb190-7" title="7">    <span class="dt">age =</span> <span class="st">&quot;SEA Education Environment&quot;</span>,</a>
-<a class="sourceLine" id="cb190-8" title="8">    <span class="dt">disability =</span> <span class="st">&quot;SEA Disability Category&quot;</span>,</a>
-<a class="sourceLine" id="cb190-9" title="9">    <span class="dt">f_3_5 =</span> <span class="st">&quot;Female Age 3 to 5&quot;</span>,</a>
-<a class="sourceLine" id="cb190-10" title="10">    <span class="dt">m_3_5 =</span> <span class="st">&quot;Male Age 3 to 5&quot;</span>,</a>
-<a class="sourceLine" id="cb190-11" title="11">    <span class="dt">f_6_21 =</span> <span class="st">&quot;Female Age 6 to 21&quot;</span>,</a>
-<a class="sourceLine" id="cb190-12" title="12">    <span class="dt">m_6_21 =</span> <span class="st">&quot;Male Age 6 to 21&quot;</span></a>
-<a class="sourceLine" id="cb190-13" title="13">  )</a></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb194-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb194-3" title="3"><span class="st">  </span><span class="kw">rename</span>(</a>
+<a class="sourceLine" id="cb194-4" title="4">    <span class="co"># change these columns to more convenient names</span></a>
+<a class="sourceLine" id="cb194-5" title="5">    <span class="dt">year =</span> Year,</a>
+<a class="sourceLine" id="cb194-6" title="6">    <span class="dt">state =</span> <span class="st">&quot;State Name&quot;</span>,</a>
+<a class="sourceLine" id="cb194-7" title="7">    <span class="dt">age =</span> <span class="st">&quot;SEA Education Environment&quot;</span>,</a>
+<a class="sourceLine" id="cb194-8" title="8">    <span class="dt">disability =</span> <span class="st">&quot;SEA Disability Category&quot;</span>,</a>
+<a class="sourceLine" id="cb194-9" title="9">    <span class="dt">f_3_5 =</span> <span class="st">&quot;Female Age 3 to 5&quot;</span>,</a>
+<a class="sourceLine" id="cb194-10" title="10">    <span class="dt">m_3_5 =</span> <span class="st">&quot;Male Age 3 to 5&quot;</span>,</a>
+<a class="sourceLine" id="cb194-11" title="11">    <span class="dt">f_6_21 =</span> <span class="st">&quot;Female Age 6 to 21&quot;</span>,</a>
+<a class="sourceLine" id="cb194-12" title="12">    <span class="dt">m_6_21 =</span> <span class="st">&quot;Male Age 6 to 21&quot;</span></a>
+<a class="sourceLine" id="cb194-13" title="13">  )</a></code></pre></div>
 </div>
 <div id="clean-state-names" class="section level3">
 <h3><span class="header-section-number">10.5.6</span> Clean State Names</h3>
 <p>You might have noticed that some state names in our dataset are in upper case letters and some are in lower case letters:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb191-2" title="2"><span class="st">  </span><span class="kw">count</span>(state) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb191-3" title="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb195-2" title="2"><span class="st">  </span><span class="kw">count</span>(state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb195-3" title="3"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 2
 #&gt;   state              n
 #&gt;   &lt;chr&gt;          &lt;int&gt;
@@ -966,9 +966,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 5 American Samoa     8
 #&gt; 6 AMERICAN SAMOA     4</code></pre>
 <p>If we leave it like this, R will treat state values like “CALIFORNIA” and “California” as two different states. We can use <code>mutate</code> and <code>tolower</code> to transform all the state names to lowercase letters.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb193-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb193-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">state =</span> <span class="kw">tolower</span>(state)) </a></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb197-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb197-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">state =</span> <span class="kw">tolower</span>(state)) </a></code></pre></div>
 </div>
 <div id="tidy-the-dataset" class="section level3">
 <h3><span class="header-section-number">10.5.7</span> Tidy the Dataset</h3>
@@ -983,32 +983,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><em>A note on the gender variable in this dataset</em></p>
 <p>This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by <span class="citation">(“Reachable: Data Collection Methods for Sexual Orientation and Gender Identity” <a href="references.html#ref-park2016">2016</a>)</span> of The Williams Institute at UCLA.</p>
 <p>The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use <code>pivot_longer()</code> to bring the gender variable into one column. In this transformation, we create two new columns: a <code>gender</code> column and a <code>total</code> column. The <code>total</code> column will contain the number of students in each row’s gender and age category.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb194-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb194-3" title="3"><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> f_<span class="dv">3</span>_<span class="dv">5</span><span class="op">:</span>m_<span class="dv">6</span>_<span class="dv">21</span>, </a>
-<a class="sourceLine" id="cb194-4" title="4">                 <span class="dt">names_to =</span> <span class="st">&quot;gender&quot;</span>, </a>
-<a class="sourceLine" id="cb194-5" title="5">                 <span class="dt">values_to =</span> <span class="st">&quot;total&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb198-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb198-3" title="3"><span class="st">    </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> f_<span class="dv">3</span>_<span class="dv">5</span><span class="op">:</span>m_<span class="dv">6</span>_<span class="dv">21</span>, </a>
+<a class="sourceLine" id="cb198-4" title="4">                 <span class="dt">names_to =</span> <span class="st">&quot;gender&quot;</span>, </a>
+<a class="sourceLine" id="cb198-5" title="5">                 <span class="dt">values_to =</span> <span class="st">&quot;total&quot;</span>)</a></code></pre></div>
 <p>To make the values of the <code>gender</code> column more intuitive, we’ll use <code>case_when()</code> to transform the values to either “f” or “m”:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" title="1">child_counts &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb195-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb195-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb195-4" title="4">    <span class="dt">gender =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb195-5" title="5">      gender <span class="op">==</span><span class="st"> &quot;f_3_5&quot;</span> <span class="op">~</span><span class="st"> &quot;f&quot;</span>,</a>
-<a class="sourceLine" id="cb195-6" title="6">      gender <span class="op">==</span><span class="st"> &quot;m_3_5&quot;</span> <span class="op">~</span><span class="st"> &quot;m&quot;</span>,</a>
-<a class="sourceLine" id="cb195-7" title="7">      gender <span class="op">==</span><span class="st"> &quot;f_6_21&quot;</span> <span class="op">~</span><span class="st"> &quot;f&quot;</span>,</a>
-<a class="sourceLine" id="cb195-8" title="8">      gender <span class="op">==</span><span class="st"> &quot;m_6_21&quot;</span> <span class="op">~</span><span class="st"> &quot;m&quot;</span>,</a>
-<a class="sourceLine" id="cb195-9" title="9">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="kw">as.character</span>(gender)</a>
-<a class="sourceLine" id="cb195-10" title="10">    )</a>
-<a class="sourceLine" id="cb195-11" title="11">  )</a></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" title="1">child_counts &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb199-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb199-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb199-4" title="4">    <span class="dt">gender =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb199-5" title="5">      gender <span class="op">==</span><span class="st"> &quot;f_3_5&quot;</span> <span class="op">~</span><span class="st"> &quot;f&quot;</span>,</a>
+<a class="sourceLine" id="cb199-6" title="6">      gender <span class="op">==</span><span class="st"> &quot;m_3_5&quot;</span> <span class="op">~</span><span class="st"> &quot;m&quot;</span>,</a>
+<a class="sourceLine" id="cb199-7" title="7">      gender <span class="op">==</span><span class="st"> &quot;f_6_21&quot;</span> <span class="op">~</span><span class="st"> &quot;f&quot;</span>,</a>
+<a class="sourceLine" id="cb199-8" title="8">      gender <span class="op">==</span><span class="st"> &quot;m_6_21&quot;</span> <span class="op">~</span><span class="st"> &quot;m&quot;</span>,</a>
+<a class="sourceLine" id="cb199-9" title="9">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="kw">as.character</span>(gender)</a>
+<a class="sourceLine" id="cb199-10" title="10">    )</a>
+<a class="sourceLine" id="cb199-11" title="11">  )</a></code></pre></div>
 </div>
 <div id="convert-data-types" class="section level3">
 <h3><span class="header-section-number">10.5.8</span> Convert Data Types</h3>
 <p>The values in the <code>total</code> column represent the number of students from a specific year, state, gender, and age group. We know from the <code>chr</code> under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it’s much safer to prepare the dataset by changing these character columns to numeric columns. We’ll use <code>mutate()</code> to change the count columns.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb196-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb196-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total =</span> <span class="kw">as.numeric</span>(total))</a>
-<a class="sourceLine" id="cb196-4" title="4"></a>
-<a class="sourceLine" id="cb196-5" title="5">child_counts</a></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb200-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb200-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total =</span> <span class="kw">as.numeric</span>(total))</a>
+<a class="sourceLine" id="cb200-4" title="4"></a>
+<a class="sourceLine" id="cb200-5" title="5">child_counts</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 2,928 x 6
 #&gt;     year state   age             disability       gender total
 #&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
@@ -1024,25 +1024,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 10  2012 alaska  Total, Age 3-5  All Disabilities m       1440
 #&gt; # … with 2,918 more rows</code></pre>
 <p>Converting these count columns from character classes to number classes resulted in two changes. First, the <code>chr</code> under these variable names has now changed to <code>dbl</code>, short for “double-precision”. This lets us know that R recognizes these values as numbers with decimal points. Second, the blank values changed to <code>NA</code>. When R sees a character class value like <code>"4"</code>, it knows to change it to numeric class <code>4</code>. But there is no obvious number represented by a value like <code>""</code> or <code>-</code>, so it changes it to <code>NA</code>:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" title="1"><span class="co"># Convert a character to a number </span></a>
-<a class="sourceLine" id="cb198-2" title="2"><span class="kw">as.numeric</span>(<span class="st">&quot;4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="co"># Convert a character to a number </span></a>
+<a class="sourceLine" id="cb202-2" title="2"><span class="kw">as.numeric</span>(<span class="st">&quot;4&quot;</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] 4</code></pre>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" title="1"><span class="co"># Convert a blank character or a symbol to a number</span></a>
-<a class="sourceLine" id="cb200-2" title="2"><span class="kw">as.numeric</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1"><span class="co"># Convert a blank character or a symbol to a number</span></a>
+<a class="sourceLine" id="cb204-2" title="2"><span class="kw">as.numeric</span>(<span class="st">&quot;&quot;</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" title="1"><span class="kw">as.numeric</span>(<span class="st">&quot;-&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb206-1" title="1"><span class="kw">as.numeric</span>(<span class="st">&quot;-&quot;</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] NA</code></pre>
 <p>Similarly, the variable <code>year</code> needs to be changed from the character format to the date format. Doing so will make sure R treats this variable like a point in time when we plot our dataset. The package {lubridate} has a handy function called <code>ymd</code> that can help us. We just have to use the <code>truncated</code> argument to let R know we don’t have a month and date to convert.</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb204-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb204-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb204-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">ymd</span>(year, <span class="dt">truncated =</span> <span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb208-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb208-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">ymd</span>(year, <span class="dt">truncated =</span> <span class="dv">2</span>))</a></code></pre></div>
 </div>
 <div id="explore-and-address-nas" class="section level3">
 <h3><span class="header-section-number">10.5.9</span> Explore and Address NAs</h3>
 <p>You’ll notice that some rows in the <code>total</code> column contain an <code>NA</code>. When we used <code>pivot_longer()</code> to create a <code>gender</code> column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like <code>Female Age 3 to 5</code>, R made rows where the <code>total</code> value is NA . For example, there is no student count for the <code>age</code> value “Total, Age 3-5” that also has the <code>gender</code> value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender.</p>
 <p>In our foundational skills chapter, we introduced a {dplyr} function called <code>arrange()</code> to sort the rows of a dataset by the values in a column. Let’s use <code>arrange()</code> here to sort the dataset by the <code>year</code>, <code>state</code> and <code>gender</code> columns. When you pass <code>arrange()</code> a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, <code>arrange()</code> will sort by the first variable, then by the second, and so on. Let’s see what it does on <code>child_counts</code> when we pass it the <code>year</code>, <code>state</code>, and <code>gender</code> variables:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb205-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(year, state, gender)</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb209-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(year, state, gender)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 2,928 x 6
 #&gt;    year       state   age             disability       gender total
 #&gt;    &lt;date&gt;     &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
@@ -1065,12 +1065,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>males age 6-21</li>
 </ul>
 <p>Each of these categories will be associated with a state and reporting year:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" title="1">child_counts &lt;-</a>
-<a class="sourceLine" id="cb207-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb207-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(total)) </a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" title="1">child_counts &lt;-</a>
+<a class="sourceLine" id="cb211-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb211-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(total)) </a></code></pre></div>
 <p>We can verify we have the categories we want by sorting again:</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb208-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(year, state, gender)</a></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb212-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(year, state, gender)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,390 x 6
 #&gt;    year       state          age             disability       gender total
 #&gt;    &lt;date&gt;     &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
@@ -1093,11 +1093,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="visualize-the-dataset" class="section level3">
 <h3><span class="header-section-number">10.6.1</span> Visualize the Dataset</h3>
 <p>Showing this many states in a plot can be overwhelming, so to start we’ll make a subset of the dataset. We can use a function in the {dplyr} package called <code>top_n()</code> to help us learn which states have the highest mean count of students with disabilities:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb210-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb210-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(state) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb210-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_count =</span> <span class="kw">mean</span>(total)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb210-4" title="4"><span class="st">  </span><span class="co"># which six states have the highest mean count of students with disabilities</span></a>
-<a class="sourceLine" id="cb210-5" title="5"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">6</span>, mean_count)</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb214-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb214-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_count =</span> <span class="kw">mean</span>(total)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb214-4" title="4"><span class="st">  </span><span class="co"># which six states have the highest mean count of students with disabilities</span></a>
+<a class="sourceLine" id="cb214-5" title="5"><span class="st">  </span><span class="kw">top_n</span>(<span class="dv">6</span>, mean_count)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 2
 #&gt;   state                                            mean_count
 #&gt;   &lt;chr&gt;                                                 &lt;dbl&gt;
@@ -1108,54 +1108,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 5 texas                                               115593.
 #&gt; 6 us, outlying areas, and freely associated states   1671931.</code></pre>
 <p>These six states have the highest mean count of students in special education over the six years we are examining. For reasons we will see in a later visualization, we are going to exclude outlying areas and freely associated states. That leaves us us with five states: California, Florida, New York, Pennsylvania, and Texas. We can remove all other states but these by using <code>filter()</code>. We’ll call this new dataset <code>high_count</code>:</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" title="1">high_count &lt;-</a>
-<a class="sourceLine" id="cb212-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb212-3" title="3"><span class="st">  </span><span class="kw">filter</span>(state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;california&quot;</span>, <span class="st">&quot;florida&quot;</span>, <span class="st">&quot;new york&quot;</span>, <span class="st">&quot;pennsylvania&quot;</span>, <span class="st">&quot;texas&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" title="1">high_count &lt;-</a>
+<a class="sourceLine" id="cb216-2" title="2"><span class="st">  </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb216-3" title="3"><span class="st">  </span><span class="kw">filter</span>(state <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;california&quot;</span>, <span class="st">&quot;florida&quot;</span>, <span class="st">&quot;new york&quot;</span>, <span class="st">&quot;pennsylvania&quot;</span>, <span class="st">&quot;texas&quot;</span>))</a></code></pre></div>
 <p>Now we can use <code>high_count</code> to do some initial exploration. Our analysis is about comparing counts of male and female students in special education, but visualization is also a great way to explore related curiosities. You may surprise yourself with what you find when visualizing your datasets. You might come up with more interesting hypotheses, find that your initial hypothesis requires more data transformation, or find interesting subsets of the data–we saw a little of that in the surprisingly high <code>mean_count</code> of freely associated states in the <code>state</code> column. Let your curiosity and intuition drive this part of the analysis. It’s one of the activities that makes data analysis a creative process.</p>
 <p>In that spirit, we’ll start by visualizing specific genders and age groups. Feel free to try these, but also try the other student groups for practice and more exploration.</p>
 <p>Start by copying and running this code in your console to see what it does:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" title="1">high_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb213-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;f&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb213-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb213-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb213-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of female students in special education over time&quot;</span>,</a>
-<a class="sourceLine" id="cb213-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb213-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb213-8" title="8"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">high_count <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb217-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;f&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb217-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of female students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb217-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb217-8" title="8"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20female%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents.</p>
 <p>Let’s look at that closer: We used <code>filter()</code> to subset our dataset for students who are female and ages 6 to 21. We used <code>aes</code> to connect visual elements of our plot to our data. We connected the x-axis to <code>year</code>, the y-axis to <code>total</code>, and the color of the line to <code>state</code>.</p>
 <p>It’s worth calling out one more thing, since it’s a technique we’ll be using as we explore further. Note here that, instead of storing our new dataset in a new variable, we filter the dataset then use the pipe operator <code>%&gt;%</code> to feed it to {ggplot}. Since we’re exploring freely, we don’t need to create a lot of new variables we probably won’t need later.</p>
 <p>We can also try the same plot, but subsetting for male students instead. We can use the same code we used for the last plot, but filter for the value “m” in the <code>gender</code> field:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" title="1">high_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb214-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;m&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb214-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb214-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb214-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of male students in special education over time&quot;</span>,</a>
-<a class="sourceLine" id="cb214-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb214-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb214-8" title="8"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" title="1">high_count <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb218-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;m&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb218-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of male students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb218-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-8" title="8"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20male%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>We’ve looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we’ll need to add both gender values together and both age group values together. We’ll do this using a very common combination of functions: <code>group_by()</code> and <code>summarize()</code>.</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" title="1">high_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb215-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb215-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb215-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> state)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb215-5" title="5"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb215-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Total count of students in special education over time&quot;</span>,</a>
-<a class="sourceLine" id="cb215-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 3-21&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb215-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb215-9" title="9"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">high_count <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb219-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> state)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb219-5" title="5"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb219-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Total count of students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb219-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 3-21&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb219-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb219-9" title="9"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>So far we’ve looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let’s see if we can summarize that difference by looking at the median student count for each state over the years:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" title="1">high_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb216-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb216-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb216-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> state, <span class="dt">y =</span> n)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb216-5" title="5"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;yellow&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb216-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Median students with disabilities count&quot;</span>,</a>
-<a class="sourceLine" id="cb216-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;All ages and genders, 2012-2017&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb216-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>() </a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" title="1">high_count <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb220-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb220-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb220-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> state, <span class="dt">y =</span> n)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb220-5" title="5"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;yellow&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb220-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Median students with disabilities count&quot;</span>,</a>
+<a class="sourceLine" id="cb220-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;All ages and genders, 2012-2017&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb220-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>() </a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/median%20total%20per%20state-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>The boxplots show us what we might have expected from our <code>freqpoly</code> plots before it. The highest median student count over time is California and the lowest is Pennsylvania.</p>
 <p>What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated states) do not have similar counts to each other. The student counts for each state also appear to have grown over time.</p>
@@ -1170,21 +1170,21 @@ Wikpedia</p>
 <li>Use <code>mutate()</code> to create a new variable called <code>ratio</code>. The values in this column will be the result of dividing the count of male students by the count of female students</li>
 </ul>
 <p>Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students.</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" title="1">high_count <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state, gender) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">total =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-4" title="4"><span class="st">  </span><span class="co"># Create new columns for male and female student counts</span></a>
-<a class="sourceLine" id="cb217-5" title="5"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
-<a class="sourceLine" id="cb217-6" title="6">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb217-7" title="7"><span class="st">  </span><span class="co"># Create a new ratio column</span></a>
-<a class="sourceLine" id="cb217-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ratio =</span> m <span class="op">/</span><span class="st"> </span>f) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb217-9" title="9"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio, <span class="dt">color =</span> state)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb217-10" title="10"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb217-11" title="11"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb217-12" title="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male student to female student ratio over time&quot;</span>,</a>
-<a class="sourceLine" id="cb217-13" title="13">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb217-14" title="14"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb217-15" title="15"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1">high_count <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb221-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state, gender) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb221-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">total =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb221-4" title="4"><span class="st">  </span><span class="co"># Create new columns for male and female student counts</span></a>
+<a class="sourceLine" id="cb221-5" title="5"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
+<a class="sourceLine" id="cb221-6" title="6">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb221-7" title="7"><span class="st">  </span><span class="co"># Create a new ratio column</span></a>
+<a class="sourceLine" id="cb221-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ratio =</span> m <span class="op">/</span><span class="st"> </span>f) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb221-9" title="9"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio, <span class="dt">color =</span> state)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb221-10" title="10"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb221-11" title="11"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb221-12" title="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male student to female student ratio over time&quot;</span>,</a>
+<a class="sourceLine" id="cb221-13" title="13">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb221-14" title="14"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb221-15" title="15"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/male%20to%20female%20ratio%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we’ll explore ways to quantify the relationship between male student counts and female student counts.</p>
 </div>
@@ -1198,30 +1198,30 @@ Wikpedia</p>
 <p>In this example, we’ll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we’ll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.</p>
 <p><em>Do we have enough information for our model?</em></p>
 <p>At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here’s a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere bewteen the values of 250,000 and 1,750,000:</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb218-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb218-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
-<a class="sourceLine" id="cb218-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb218-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> f, <span class="dt">y =</span> m)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb218-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb218-7" title="7"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb218-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb218-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students in special education&quot;</span>,</a>
-<a class="sourceLine" id="cb218-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21&quot;</span>,</a>
-<a class="sourceLine" id="cb218-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
-<a class="sourceLine" id="cb218-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
-<a class="sourceLine" id="cb218-13" title="13">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
-<a class="sourceLine" id="cb218-14" title="14">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb218-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
+<a class="sourceLine" id="cb222-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb222-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> f, <span class="dt">y =</span> m)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-7" title="7"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb222-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students in special education&quot;</span>,</a>
+<a class="sourceLine" id="cb222-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21&quot;</span>,</a>
+<a class="sourceLine" id="cb222-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
+<a class="sourceLine" id="cb222-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
+<a class="sourceLine" id="cb222-13" title="13">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
+<a class="sourceLine" id="cb222-14" title="14">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb222-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/plot%20female%20students%20to%20male%20students-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>If you think of each potential point on the linear regression line as a ratio of male to female students, you’ll notice that we don’t know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year.</p>
 <p>To learn more about what’s happening in our dataset, we can filter it for only states that have more than 500,000 female students in any year:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb219-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb219-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
-<a class="sourceLine" id="cb219-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb219-5" title="5"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&gt;</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb219-6" title="6"><span class="st">  </span><span class="kw">select</span>(year, state, age, f, m)</a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb223-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb223-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
+<a class="sourceLine" id="cb223-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb223-5" title="5"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&gt;</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb223-6" title="6"><span class="st">  </span><span class="kw">select</span>(year, state, age, f, m)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 5
 #&gt;   year       state                                  age                 f      m
 #&gt;   &lt;date&gt;     &lt;chr&gt;                                  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
@@ -1232,40 +1232,40 @@ Wikpedia</p>
 #&gt; 5 2016-01-01 us, outlying areas, and freely associ… Total, Age 6… 2014120 3.97e6
 #&gt; 6 2017-01-01 us, outlying areas, and freely associ… Total, Age 6… 2051438 4.02e6</code></pre>
 <p>This is where we discover that each of the data points in the upper right hand corner of the plot are from the state value “us, us, outlying areas, and freely associated states”. If we remove these outliers, we have a distribution of female students that looks more complete.</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" title="1">child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb221-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb221-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
-<a class="sourceLine" id="cb221-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb221-5" title="5"><span class="st">  </span><span class="co"># Filter for female student counts less than 500,000</span></a>
-<a class="sourceLine" id="cb221-6" title="6"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&lt;=</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb221-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> f, <span class="dt">y =</span> m)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-8" title="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-9" title="9"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb221-10" title="10">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students with disabilities&quot;</span>,</a>
-<a class="sourceLine" id="cb221-11" title="11">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21.</span><span class="ch">\n</span><span class="st">Does not include outlying areas and freely associated states&quot;</span>,</a>
-<a class="sourceLine" id="cb221-12" title="12">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
-<a class="sourceLine" id="cb221-13" title="13">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
-<a class="sourceLine" id="cb221-14" title="14">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
-<a class="sourceLine" id="cb221-15" title="15">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb221-16" title="16"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" title="1">child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-3" title="3"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
+<a class="sourceLine" id="cb225-4" title="4">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-5" title="5"><span class="st">  </span><span class="co"># Filter for female student counts less than 500,000</span></a>
+<a class="sourceLine" id="cb225-6" title="6"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&lt;=</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb225-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> f, <span class="dt">y =</span> m)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb225-8" title="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb225-9" title="9"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb225-10" title="10">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students with disabilities&quot;</span>,</a>
+<a class="sourceLine" id="cb225-11" title="11">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21.</span><span class="ch">\n</span><span class="st">Does not include outlying areas and freely associated states&quot;</span>,</a>
+<a class="sourceLine" id="cb225-12" title="12">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
+<a class="sourceLine" id="cb225-13" title="13">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
+<a class="sourceLine" id="cb225-14" title="14">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
+<a class="sourceLine" id="cb225-15" title="15">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb225-16" title="16"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/plot%20without%20outliers-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000.</p>
 <p><em>Male to Female Ratio Over Time</em></p>
 <p>Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?</p>
 <p>To answer that question, let’s start by making a new dataset that excludes any rows where the <code>f</code> variables has a value that is less than or equal to 500000. We’ll convert the <code>year</code> variable to a factor data type–we’ll see how this helps in a bit. We’ll also add a column called <code>ratio</code> that contains the male to female count ratio.</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" title="1">model_data &lt;-<span class="st"> </span>child_counts <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb222-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb222-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.factor</span>(<span class="kw">year</span>(year))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb222-4" title="4"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
-<a class="sourceLine" id="cb222-5" title="5">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb222-6" title="6"><span class="st">  </span><span class="co"># Exclude outliers</span></a>
-<a class="sourceLine" id="cb222-7" title="7"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&lt;=</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb222-8" title="8"><span class="st">  </span><span class="co"># Compute male student to female student ratio</span></a>
-<a class="sourceLine" id="cb222-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ratio =</span> m <span class="op">/</span><span class="st"> </span>f) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb222-10" title="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">c</span>(age, disability))</a></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" title="1">model_data &lt;-<span class="st"> </span>child_counts <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-2" title="2"><span class="st">  </span><span class="kw">filter</span>(age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.factor</span>(<span class="kw">year</span>(year))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-4" title="4"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> gender, </a>
+<a class="sourceLine" id="cb226-5" title="5">              <span class="dt">values_from =</span> total) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb226-6" title="6"><span class="st">  </span><span class="co"># Exclude outliers</span></a>
+<a class="sourceLine" id="cb226-7" title="7"><span class="st">  </span><span class="kw">filter</span>(f <span class="op">&lt;=</span><span class="st"> </span><span class="dv">500000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-8" title="8"><span class="st">  </span><span class="co"># Compute male student to female student ratio</span></a>
+<a class="sourceLine" id="cb226-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ratio =</span> m <span class="op">/</span><span class="st"> </span>f) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb226-10" title="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="kw">c</span>(age, disability))</a></code></pre></div>
 <p>We can see how much data we have per year by using <code>count()</code>:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" title="1">model_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb223-2" title="2"><span class="st">  </span><span class="kw">count</span>(year)</a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" title="1">model_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb227-2" title="2"><span class="st">  </span><span class="kw">count</span>(year)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 2
 #&gt;   year      n
 #&gt;   &lt;fct&gt; &lt;int&gt;
@@ -1276,17 +1276,17 @@ Wikpedia</p>
 #&gt; 5 2016     57
 #&gt; 6 2017     55</code></pre>
 <p>Let’s visualize the ratio values across all years as an additional check. Note the use of <code>geom_jitter()</code> to spread the points horizontally so we can estimate the quantities better:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> model_data, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb225-2" title="2"><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_cols</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb225-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male to female ratio across years (jittered)&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb225-4" title="4"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> model_data, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb229-2" title="2"><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb229-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male to female ratio across years (jittered)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb229-4" title="4"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/ratios%20across%20years-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable.</p>
 <p>We fit the linear regression model by passing the argument <code>ratio ~ year</code> to the function <code>lm()</code>. In R, the <code>~</code> usually indicates a formula. In this case, the formula is the variable <code>year</code> as a predictor of the variable <code>ratio</code>. The final argument we pass to <code>lm</code> is <code>data = model_data</code>, which tells R to look for the variables <code>ratio</code> and <code>year</code> in the dataset <code>model_data</code>. The results of the model are called a “model object.” We’ll store the model object in <code>ratio_year</code>:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" title="1">ratio_year &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb226-2" title="2"><span class="st">  </span><span class="kw">lm</span>(ratio <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> model_data)</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" title="1">ratio_year &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb230-2" title="2"><span class="st">  </span><span class="kw">lm</span>(ratio <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> model_data)</a></code></pre></div>
 <p>Each model object is filled with all sorts of model information. We can look at this information using the function <code>summary()</code>:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" title="1"><span class="kw">summary</span>(ratio_year)</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1"><span class="kw">summary</span>(ratio_year)</a></code></pre></div>
 <pre><code>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = ratio ~ year, data = model_data)
@@ -1311,9 +1311,9 @@ Wikpedia</p>
 #&gt; F-statistic: 0.824 on 5 and 335 DF,  p-value: 0.533</code></pre>
 <p>Here’s how we can interpret the <code>Estimate</code> column: The estimate of the <code>(Intercept)</code> is 2.03356, which is the estimated value of the <code>ratio</code> variable when the <code>year</code> variable is “2012”. Note that the value <code>year2012</code> isn’t present in the in the list of rownames. That’s because the <code>(Intercept)</code> row represents <code>year2012</code>. In linear regression models that use factor variables as predictors, the first level of the factor is the intercept. Sometimes this level is called a “dummy variable”. The remaining rows of the model output show how much each year differs from the intercept, 2012. For example, <code>year2013</code> has an estimate of -0.01205, which suggests that on average the value of <code>ratio</code> is .01205 less than 2.03356. On average, the ratio of <code>year2014</code> is .02372 less than 2.03356. The <code>t value</code> column tells us the size of difference between the estimated value of the ratio for each year and the estimated value of the ratio of the intercept. Generally speaking, the larger the t value, the larger the chance that any difference between the coefficient of a factor level and the intercept are significant.</p>
 <p>Though the relationship between <code>year</code> as a preditor of <code>ratio</code> is not linear (recall our previous plot), the linear regression model still gives us useful information. We fit a linear regression model to a factor variable, like <code>year</code>, as a predictor of a continuous variable, like<code>ratio</code>. In doing so, we got the average <code>ratio</code> at every value of <code>year</code>. We can verify this by taking the mean <code>ratio</code> of ever <code>year</code>:</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" title="1">model_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb229-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb229-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_ratio =</span> <span class="kw">mean</span>(ratio))</a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" title="1">model_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb233-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb233-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_ratio =</span> <span class="kw">mean</span>(ratio))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 2
 #&gt;   year  mean_ratio
 #&gt;   &lt;fct&gt;      &lt;dbl&gt;
@@ -1325,9 +1325,9 @@ Wikpedia</p>
 #&gt; 6 2017        1.98</code></pre>
 <p>This verifies that our intercept, the value of <code>ratio</code> during the year 2012, is 2.033563 and the value of <code>ratio</code> for 2013 is .01205 less than that of 2012 on average. Fitting the model gives us more details about these mean ratio scores– namely the coefficient, t value, and p value. These values help us apply judgement when deciding if differences in <code>ratio</code> values suggest an underlying difference between years or simply differences you can expect from randomness. In this case, the absence of "*" in all rows except the Intercept row suggest that any differences occuring between years are within the range you’d expect by chance.</p>
 <p>If we use <code>summary()</code> on our <code>model_data</code> dataset, we can verify the intercept again:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1">model_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb231-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> &quot;2012&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb231-3" title="3"><span class="st">  </span><span class="kw">summary</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1">model_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">==</span><span class="st"> &quot;2012&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb235-3" title="3"><span class="st">  </span><span class="kw">summary</span>()</a></code></pre></div>
 <pre><code>#&gt;    year       state                 f                m              ratio     
 #&gt;  2012:59   Length:59          Min.   :   208   Min.   :   443   Min.   :1.71  
 #&gt;  2013: 0   Class :character   1st Qu.:  5606   1st Qu.: 11467   1st Qu.:1.93  
@@ -1338,9 +1338,9 @@ Wikpedia</p>
 <p>The mean value of the <code>ratio</code> column when the <code>year</code> column is 2012 is 2.034, just like in the model output’s intercept row.</p>
 <p>Lastly, we may want to communicate to a larger audience that there were roughly twice amount of male students in this datset than female students and that this did not change significantly between the years 2012 and 2017. When you are not communicating to an audience of other data scientists, it’s helpful to illustrate your point without the technical details of the model output. Think of yourself as an interpreter: since you can speak the language of model outputs and the language of data visualization, your challenge is to take what you learned from the model output and tell that story in a way that is meaningful to your non-data scientist audience.</p>
 <p>There are many ways to do this, but we’ll choose boxplots to show our audience that there was roughly twice as many male students in special education than female students between 2012 and 2017. For our purposes, let’s verify this by looking at the median male to female ratio for each year:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" title="1">model_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb233-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb233-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">median_ratio =</span> <span class="kw">median</span>(ratio))</a></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" title="1">model_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb237-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb237-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">median_ratio =</span> <span class="kw">median</span>(ratio))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 6 x 2
 #&gt;   year  median_ratio
 #&gt;   &lt;fct&gt;        &lt;dbl&gt;
@@ -1351,22 +1351,22 @@ Wikpedia</p>
 #&gt; 5 2016          1.97
 #&gt; 6 2017          1.96</code></pre>
 <p>Now let’s visualize this using our boxplots:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1">model_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb235-2" title="2"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(f, m), </a>
-<a class="sourceLine" id="cb235-3" title="3">               <span class="dt">names_to =</span> <span class="st">&quot;gender&quot;</span>, </a>
-<a class="sourceLine" id="cb235-4" title="4">               <span class="dt">values_to =</span> <span class="st">&quot;students&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb235-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> students, <span class="dt">color =</span> gender)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb235-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb235-7" title="7"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
-<a class="sourceLine" id="cb235-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb235-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Median male and female student counts in special education&quot;</span>,</a>
-<a class="sourceLine" id="cb235-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21. Does not include outlying areas and freely associated states&quot;</span>,</a>
-<a class="sourceLine" id="cb235-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb235-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb235-13" title="13">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
-<a class="sourceLine" id="cb235-14" title="14">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb235-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb235-16" title="16"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" title="1">model_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb239-2" title="2"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(f, m), </a>
+<a class="sourceLine" id="cb239-3" title="3">               <span class="dt">names_to =</span> <span class="st">&quot;gender&quot;</span>, </a>
+<a class="sourceLine" id="cb239-4" title="4">               <span class="dt">values_to =</span> <span class="st">&quot;students&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb239-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> students, <span class="dt">color =</span> gender)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb239-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb239-7" title="7"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
+<a class="sourceLine" id="cb239-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
+<a class="sourceLine" id="cb239-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Median male and female student counts in special education&quot;</span>,</a>
+<a class="sourceLine" id="cb239-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21. Does not include outlying areas and freely associated states&quot;</span>,</a>
+<a class="sourceLine" id="cb239-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb239-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb239-13" title="13">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
+<a class="sourceLine" id="cb239-14" title="14">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb239-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb239-16" title="16"><span class="st">  </span><span class="kw">scale_color_dataedu</span>()</a></code></pre></div>
 <p><img src="10-wt-longitudinal-analysis_files/figure-html/visualize%20female%20to%20male%20ratio-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed.</p>
 </div>
@@ -1383,42 +1383,42 @@ Wikpedia</p>
 <p>Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.</p>
 <p>Before we discuss the benefits of aggregate data, let’s take some time to understand the differences between aggregate and student-level data. Publicly available data–like the US Federal Government special education student count we used in this walkthrough–is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept.</p>
 <p>Here are rows in a student-level dataset:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" title="1"><span class="co"># student-level data </span></a>
-<a class="sourceLine" id="cb236-2" title="2"><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb236-3" title="3">  <span class="dt">student =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],</a>
-<a class="sourceLine" id="cb236-4" title="4">  <span class="dt">school =</span> <span class="kw">rep</span>(letters[<span class="dv">11</span><span class="op">:</span><span class="dv">15</span>], <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb236-5" title="5">  <span class="dt">test_score =</span> <span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb236-6" title="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" title="1"><span class="co"># student-level data </span></a>
+<a class="sourceLine" id="cb240-2" title="2"><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb240-3" title="3">  <span class="dt">student =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],</a>
+<a class="sourceLine" id="cb240-4" title="4">  <span class="dt">school =</span> <span class="kw">rep</span>(letters[<span class="dv">11</span><span class="op">:</span><span class="dv">15</span>], <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb240-5" title="5">  <span class="dt">test_score =</span> <span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb240-6" title="6">)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 10 x 3
 #&gt;    student school test_score
 #&gt;    &lt;chr&gt;   &lt;chr&gt;       &lt;int&gt;
-#&gt;  1 a       k              18
-#&gt;  2 b       l               8
-#&gt;  3 c       m              63
-#&gt;  4 d       n              66
-#&gt;  5 e       o              82
+#&gt;  1 a       k              75
+#&gt;  2 b       l              78
+#&gt;  3 c       m              16
+#&gt;  4 d       n              12
+#&gt;  5 e       o               9
 #&gt;  6 f       k              55
-#&gt;  7 g       l              36
-#&gt;  8 h       m              50
-#&gt;  9 i       n              14
-#&gt; 10 j       o              54</code></pre>
+#&gt;  7 g       l               2
+#&gt;  8 h       m              95
+#&gt;  9 i       n              42
+#&gt; 10 j       o              93</code></pre>
 <p>Aggregate data totals up a variable–the variable <code>test_score</code> in this case–to “hide” the student-level information. The rows of the resulting dataset represent a group. The group in our example is the <code>school</code> variable:</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" title="1"><span class="kw">tibble</span>(</a>
-<a class="sourceLine" id="cb238-2" title="2">  <span class="dt">student =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],</a>
-<a class="sourceLine" id="cb238-3" title="3">  <span class="dt">school =</span> <span class="kw">rep</span>(letters[<span class="dv">11</span><span class="op">:</span><span class="dv">15</span>], <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb238-4" title="4">  <span class="dt">test_score =</span> <span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb238-5" title="5">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb238-6" title="6"><span class="st">  </span><span class="co"># Aggregate by school</span></a>
-<a class="sourceLine" id="cb238-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(school) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb238-8" title="8"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_score =</span> <span class="kw">mean</span>(test_score))</a></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" title="1"><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb242-2" title="2">  <span class="dt">student =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],</a>
+<a class="sourceLine" id="cb242-3" title="3">  <span class="dt">school =</span> <span class="kw">rep</span>(letters[<span class="dv">11</span><span class="op">:</span><span class="dv">15</span>], <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb242-4" title="4">  <span class="dt">test_score =</span> <span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb242-5" title="5">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb242-6" title="6"><span class="st">  </span><span class="co"># Aggregate by school</span></a>
+<a class="sourceLine" id="cb242-7" title="7"><span class="st">  </span><span class="kw">group_by</span>(school) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb242-8" title="8"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">mean_score =</span> <span class="kw">mean</span>(test_score))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 5 x 2
 #&gt;   school mean_score
 #&gt;   &lt;chr&gt;       &lt;dbl&gt;
-#&gt; 1 k            22  
-#&gt; 2 l            63.5
-#&gt; 3 m            57.5
-#&gt; 4 n            52.5
-#&gt; 5 o            60</code></pre>
+#&gt; 1 k            28.5
+#&gt; 2 l            55.5
+#&gt; 3 m            76  
+#&gt; 4 n            54.5
+#&gt; 5 o            57.5</code></pre>
 <p>Notice here that this dataset no longer identifies individual students.</p>
 <p><em>Student-level data for analysis of local populations. Aggregate data for base rate and context.</em></p>
 <p>Longitudinal analysis is typically done with student-level data because educators are interested in what happens to students over time. So if you cannot access student-level data, how do we use aggregate data to offer value to the analytic conversation?</p>

@@ -904,15 +904,23 @@ For the purposes of this chapter we recommend creating an <code>.R</code> script
 <a class="sourceLine" id="cb10-4" title="4"><span class="kw">install.packages</span>(<span class="st">&quot;skimr&quot;</span>)</a>
 <a class="sourceLine" id="cb10-5" title="5"><span class="kw">install.packages</span>(<span class="st">&quot;here&quot;</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># Setting up your environment</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="kw">library</span>(janitor)</a></code></pre></div>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
+<pre><code>#&gt; ── Attaching packages ──────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>#&gt; ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
+#&gt; ✓ tibble  2.1.3     ✓ dplyr   0.8.3
+#&gt; ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+#&gt; ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
+<pre><code>#&gt; ── Conflicts ─────────────── tidyverse_conflicts() ──
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">library</span>(janitor)</a></code></pre></div>
 <pre><code>#&gt; 
 #&gt; Attaching package: &#39;janitor&#39;</code></pre>
 <pre><code>#&gt; The following objects are masked from &#39;package:stats&#39;:
 #&gt; 
 #&gt;     chisq.test, fisher.test</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">library</span>(skimr)</a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="kw">library</span>(here)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">library</span>(skimr)</a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="kw">library</span>(here)</a></code></pre></div>
 <pre><code>#&gt; here() starts at /Users/shortessay/data-science-in-education</code></pre>
 <p>Based on what we’ve covered so far in this chapter, what did running the above lines of code accomplish?
 How do you know?</p>
@@ -940,13 +948,13 @@ But this can be tricky for several reasons:
 When we have conflicting function names from different packages we can tell R which package we’d like to pull a function from by using <code>::</code>.
 Using the example of the <code>filter()</code> function above, coupled with the examples in the Help documentation, we can specify which package to pull the <code>filter()</code> function using <code>::</code>, as outlined below:</p>
 <p><em>Note: we haven’t covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation!</em></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># using the filter() function from the stats package</span></a>
-<a class="sourceLine" id="cb16-2" title="2">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb16-3" title="3">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb16-4" title="4"></a>
-<a class="sourceLine" id="cb16-5" title="5"><span class="co"># using the filter() function from the dplyr package</span></a>
-<a class="sourceLine" id="cb16-6" title="6">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-7" title="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">85</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="co"># using the filter() function from the stats package</span></a>
+<a class="sourceLine" id="cb20-2" title="2">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb20-3" title="3">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb20-4" title="4"></a>
+<a class="sourceLine" id="cb20-5" title="5"><span class="co"># using the filter() function from the dplyr package</span></a>
+<a class="sourceLine" id="cb20-6" title="6">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">85</span>)</a></code></pre></div>
 </div>
 <div id="how-to-find-a-package" class="section level3">
 <h3><span class="header-section-number">6.7.5</span> How to Find a Package</h3>
@@ -999,39 +1007,39 @@ However we would be remiss if we didn’t point out that there is a package, {go
 Run this to download it so in the next step you can read it into R.
 As a note: There are ways to read the file directory (from the web) into R.
 Also, of course, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to ‘right’ or ‘control’ click the page to save it as a text file with a <code>.csv</code> extension).</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">student_responses_url &lt;-</a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="st">    &quot;https://goo.gl/bUeMhV&quot;</span></a>
-<a class="sourceLine" id="cb17-3" title="3"></a>
-<a class="sourceLine" id="cb17-4" title="4">student_responses_file_name &lt;-</a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">getwd</span>(), <span class="st">&quot;/data/student-responses-data.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb17-6" title="6"></a>
-<a class="sourceLine" id="cb17-7" title="7"><span class="kw">download.file</span>(</a>
-<a class="sourceLine" id="cb17-8" title="8">    <span class="dt">url =</span> student_responses_url,</a>
-<a class="sourceLine" id="cb17-9" title="9">    <span class="dt">destfile =</span> student_responses_file_name)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">student_responses_url &lt;-</a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="st">    &quot;https://goo.gl/bUeMhV&quot;</span></a>
+<a class="sourceLine" id="cb21-3" title="3"></a>
+<a class="sourceLine" id="cb21-4" title="4">student_responses_file_name &lt;-</a>
+<a class="sourceLine" id="cb21-5" title="5"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">getwd</span>(), <span class="st">&quot;/data/student-responses-data.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb21-6" title="6"></a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="kw">download.file</span>(</a>
+<a class="sourceLine" id="cb21-8" title="8">    <span class="dt">url =</span> student_responses_url,</a>
+<a class="sourceLine" id="cb21-9" title="9">    <span class="dt">destfile =</span> student_responses_file_name)</a></code></pre></div>
 <p>It may take a few seconds to download as it’s around 20 MB.</p>
 <p>The process above involves many core data science ideas and ideas from programming/coding.
 We will walk through them step-by-step.</p>
 <ol style="list-style-type: decimal">
 <li>The <em>character string</em> <code>"https://goo.gl/wPmujv"</code> is being saved to an <em>object</em> called <code>student_responses_url</code>.</li>
 </ol>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">student_responses_url &lt;-</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="st">    &quot;https://goo.gl/bUeMhV&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">student_responses_url &lt;-</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="st">    &quot;https://goo.gl/bUeMhV&quot;</span></a></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>We concatenate your working directory file path to the desired file name for the <code>.csv</code> using a <em>function</em> called <code>paste0</code>.
 This is stored in another <em>object</em> called <code>student_reponses_file_name</code>.
 This creates a file name with a <em>file path</em> in your working directory and it saves the file in the folder that you are working in.</li>
 </ol>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">student_responses_file_name &lt;-</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">getwd</span>(), <span class="st">&quot;/data/student-responses-data.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">student_responses_file_name &lt;-</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="st">    </span><span class="kw">paste0</span>(<span class="kw">getwd</span>(), <span class="st">&quot;/data/student-responses-data.csv&quot;</span>)</a></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>The <code>student_responses_url</code> <em>object</em> is passed to the <code>url</code> argument of the <em>function</em> called <code>download.file()</code> along with <code>student_responses_file_name</code>, which is passed to the <code>destfile</code> argument.</li>
 </ol>
 <p>In short, the <code>download.file()</code> function needs to know
 - where the file is coming from (which you tell it through the <code>url</code>) argument and
 - where the file will be saved (which you tell it through the <code>destfile</code> argument).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">download.file</span>(</a>
-<a class="sourceLine" id="cb20-2" title="2">    <span class="dt">url =</span> student_responses_url,</a>
-<a class="sourceLine" id="cb20-3" title="3">    <span class="dt">destfile =</span> student_responses_file_name)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">download.file</span>(</a>
+<a class="sourceLine" id="cb24-2" title="2">    <span class="dt">url =</span> student_responses_url,</a>
+<a class="sourceLine" id="cb24-3" title="3">    <span class="dt">destfile =</span> student_responses_file_name)</a></code></pre></div>
 <p>Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help.
 It also helps you to use functions that you have never used before because you are familiar with how some functions work.</p>
 <p>Now, in RStudio, you should see the downloaded file in the Files tab.
@@ -1044,15 +1052,15 @@ If things are <em>not</em> working, consider downloading the file in the manual 
 <p>Okay, we’re ready to go.
 The easiest way to read a <code>.csv</code> file is with the function <code>read_csv()</code> from the package <code>readr</code>, which is contained within the Tidyverse.</p>
 <p>Let’s load the tidyverse library:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">library</span>(tidyverse) <span class="co"># so tidyverse packages can be used for analysis</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">library</span>(tidyverse) <span class="co"># so tidyverse packages can be used for analysis</span></a></code></pre></div>
 <p>You may have noticed the hash symbol after the code that says <code>library(tidyverse</code>)<code>.  It reads</code># so tidyverse packages can be used for analysis`.
 That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal).
 Comments are useful for showing <em>why</em> a line of code does what it does.</p>
 <p>After loading the tidyverse packages, we can now load a file.
 We are going to call the data <code>student_responses</code>:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co"># readr::write_csv(pisaUSA15::stu_quest, here::here(&quot;data&quot;, &quot;pisaUSA15&quot;, &quot;stu_quest.csv&quot;))</span></a>
-<a class="sourceLine" id="cb22-2" title="2">student_responses &lt;-</a>
-<a class="sourceLine" id="cb22-3" title="3"><span class="st">    </span><span class="kw">read_csv</span>(<span class="st">&quot;./data/student-responses-data.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="co"># readr::write_csv(pisaUSA15::stu_quest, here::here(&quot;data&quot;, &quot;pisaUSA15&quot;, &quot;stu_quest.csv&quot;))</span></a>
+<a class="sourceLine" id="cb26-2" title="2">student_responses &lt;-</a>
+<a class="sourceLine" id="cb26-3" title="3"><span class="st">    </span><span class="kw">read_csv</span>(<span class="st">&quot;./data/student-responses-data.csv&quot;</span>)</a></code></pre></div>
 <pre><code>#&gt; Parsed with column specification:
 #&gt; cols(
 #&gt;   .default = col_double(),
@@ -1081,7 +1089,7 @@ We are going to call the data <code>student_responses</code>:</p>
 <pre><code>#&gt; See spec(...) for full column specifications.</code></pre>
 <p>Since we loaded the data, we now want to look at it.
 We can type its name in the function <code>glimpse()</code> to print some information on the dataset (this code is not run here).</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">glimpse</span>(student_responses)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">glimpse</span>(student_responses)</a></code></pre></div>
 <p>Woah, that’s a big data frame (with a lot of variables with confusing names, to boot)!</p>
 <p>Great job loading a file and printing it!
 We are now well on our way to carrying out analysis of our data.</p>
@@ -1089,7 +1097,7 @@ We are now well on our way to carrying out analysis of our data.</p>
 <div id="saving-files" class="section level3">
 <h3><span class="header-section-number">6.8.3</span> Saving Files</h3>
 <p>Using our data frame <code>student_responses</code>, we can save it as a <code>.csv</code> (for example) with the following function. The first argument, <code>student_reponses</code>, is the name of the object that you want to save. The second argument, <code>student-responses.csv</code>, what you want to call the saved dataset.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">write_csv</span>(student_responses, <span class="st">&quot;student-responses.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">write_csv</span>(student_responses, <span class="st">&quot;student-responses.csv&quot;</span>)</a></code></pre></div>
 <p>That will save a <code>.csv</code> file entitled <code>student-responses.csv</code> in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. <code>path/to/student-responses.csv</code>. To save a file for SPSS, load the haven package and use <code>write_sav()</code>. There is not a function to save an Excel file, but you can save as a <code>.csv</code> and directly load it in Excel.</p>
 <p>In Technical Appendix A (at the end of this chapter), we show how to access directly data from a few other sources: Excel, SPSS (via <code>.SAV</code> files), and Google Sheets.</p>
 </div>
@@ -1102,24 +1110,24 @@ More details about the {dataedu} package on be found <a href="https://github.com
 <p>Once you’ve installed the {dataedu} package (described above), you can use the <code>install_dataedu()</code> function to download all of the packages we’ll be using in this text.
 This step is optional, and you’re welcome to install packages as you use them.</p>
 <p>To install all of the packages used in this text, run the following code in your RStudio console:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="co"># see which packages are used in the Data Science in Education Using R text</span></a>
-<a class="sourceLine" id="cb27-2" title="2">dataedu<span class="op">::</span>dataedu_packages</a>
-<a class="sourceLine" id="cb27-3" title="3"></a>
-<a class="sourceLine" id="cb27-4" title="4"><span class="co"># install all of the packages used in the Data Science in Education Using R text</span></a>
-<a class="sourceLine" id="cb27-5" title="5">dataedu<span class="op">::</span><span class="kw">install_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="co"># see which packages are used in the Data Science in Education Using R text</span></a>
+<a class="sourceLine" id="cb31-2" title="2">dataedu<span class="op">::</span>dataedu_packages</a>
+<a class="sourceLine" id="cb31-3" title="3"></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="co"># install all of the packages used in the Data Science in Education Using R text</span></a>
+<a class="sourceLine" id="cb31-5" title="5">dataedu<span class="op">::</span><span class="kw">install_dataedu</span>()</a></code></pre></div>
 </div>
 <div id="run-this-code-1" class="section level3">
 <h3><span class="header-section-number">6.8.5</span> Run this Code</h3>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
 <p><em>Note: although we provide all of the data sets used in this book in the <code>dataedu</code> package, we would strongly suggest <a href="link">downloading the dataset from Kaggle</a> so that we can show you the true power of Projects in R.</em></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
-<a class="sourceLine" id="cb28-2" title="2">              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>))  <span class="co"># change path once finalized in book</span></a>
-<a class="sourceLine" id="cb28-3" title="3"></a>
-<a class="sourceLine" id="cb28-4" title="4"><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
-<a class="sourceLine" id="cb28-5" title="5">              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>)) -&gt;<span class="st"> </span>my_data</a>
-<a class="sourceLine" id="cb28-6" title="6"></a>
-<a class="sourceLine" id="cb28-7" title="7">ma_data_init &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
-<a class="sourceLine" id="cb28-8" title="8">                              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
+<a class="sourceLine" id="cb32-2" title="2">              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>))  <span class="co"># change path once finalized in book</span></a>
+<a class="sourceLine" id="cb32-3" title="3"></a>
+<a class="sourceLine" id="cb32-4" title="4"><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
+<a class="sourceLine" id="cb32-5" title="5">              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>)) -&gt;<span class="st"> </span>my_data</a>
+<a class="sourceLine" id="cb32-6" title="6"></a>
+<a class="sourceLine" id="cb32-7" title="7">ma_data_init &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;data/foundational_skills/for_use&quot;</span>, </a>
+<a class="sourceLine" id="cb32-8" title="8">                              <span class="st">&quot;MA_Public_Schools_2017.csv&quot;</span>))</a></code></pre></div>
 <p>Each of the three code examples above look slightly different, but two of them do almost the exact same thing.
 The first example provided loads the data into our R environment, but not in a format that’s immediately useful to us.
 The second and third examples read in the data and assign it to a variable,<code>my_data</code> and <code>ma_data_init</code> respectively.
@@ -1165,19 +1173,19 @@ If you’re looking for more in-depth information on data types and coercion rul
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
 If you’d like, practice commenting your code by noting what you see happening with each line of code that you run.</p>
 <p><em>Note: we have intentionally included errors in this chapter to help highlight concepts as well as introduce you to error messages early on!</em></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="co"># Exploring and manipulating your data</span></a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="kw">names</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb29-3" title="3"></a>
-<a class="sourceLine" id="cb29-4" title="4"><span class="kw">glimpse</span>(ma_dat_init) </a>
-<a class="sourceLine" id="cb29-5" title="5"><span class="kw">glimpse</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb29-6" title="6"><span class="kw">summary</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb29-7" title="7"></a>
-<a class="sourceLine" id="cb29-8" title="8"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>Town)</a>
-<a class="sourceLine" id="cb29-9" title="9"><span class="kw">summary</span>(ma_data_init<span class="op">$</span>Town)</a>
-<a class="sourceLine" id="cb29-10" title="10"></a>
-<a class="sourceLine" id="cb29-11" title="11"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>AP_Test Takers)</a>
-<a class="sourceLine" id="cb29-12" title="12"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a>
-<a class="sourceLine" id="cb29-13" title="13"><span class="kw">summary</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># Exploring and manipulating your data</span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="kw">names</span>(ma_data_init)</a>
+<a class="sourceLine" id="cb33-3" title="3"></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="kw">glimpse</span>(ma_dat_init) </a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="kw">glimpse</span>(ma_data_init)</a>
+<a class="sourceLine" id="cb33-6" title="6"><span class="kw">summary</span>(ma_data_init)</a>
+<a class="sourceLine" id="cb33-7" title="7"></a>
+<a class="sourceLine" id="cb33-8" title="8"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>Town)</a>
+<a class="sourceLine" id="cb33-9" title="9"><span class="kw">summary</span>(ma_data_init<span class="op">$</span>Town)</a>
+<a class="sourceLine" id="cb33-10" title="10"></a>
+<a class="sourceLine" id="cb33-11" title="11"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>AP_Test Takers)</a>
+<a class="sourceLine" id="cb33-12" title="12"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a>
+<a class="sourceLine" id="cb33-13" title="13"><span class="kw">summary</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a></code></pre></div>
 <p>What differences do you see between each line of code?
 What changes in the output to the Console with each line of code that you run?</p>
 </div>
@@ -1223,24 +1231,24 @@ In these images he would paint an object, such as a pipe, and accompany it with 
 <div id="run-this-code-3" class="section level3">
 <h3><span class="header-section-number">6.10.1</span> Run This Code</h3>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(District Name) <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb30-3" title="3"><span class="st">    </span><span class="kw">count</span>()</a>
-<a class="sourceLine" id="cb30-4" title="4"></a>
-<a class="sourceLine" id="cb30-5" title="5">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-6" title="6"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-7" title="7"><span class="st">    </span><span class="kw">count</span>()  </a>
-<a class="sourceLine" id="cb30-8" title="8">    </a>
-<a class="sourceLine" id="cb30-9" title="9">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-10" title="10"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-11" title="11"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb30-12" title="12"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb30-13" title="13"></a>
-<a class="sourceLine" id="cb30-14" title="14"><span class="co"># ma_data_init %&gt;% </span></a>
-<a class="sourceLine" id="cb30-15" title="15"><span class="co">#     group_by(`District Name`) %&gt;% </span></a>
-<a class="sourceLine" id="cb30-16" title="16"><span class="co">#     count() %&gt;% </span></a>
-<a class="sourceLine" id="cb30-17" title="17"><span class="co">#     filter(n &gt; 10) %&gt;% </span></a>
-<a class="sourceLine" id="cb30-18" title="18"><span class="co">#     arrange(desc(n)</span></a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(District Name) <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="st">    </span><span class="kw">count</span>()</a>
+<a class="sourceLine" id="cb34-4" title="4"></a>
+<a class="sourceLine" id="cb34-5" title="5">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-6" title="6"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-7" title="7"><span class="st">    </span><span class="kw">count</span>()  </a>
+<a class="sourceLine" id="cb34-8" title="8">    </a>
+<a class="sourceLine" id="cb34-9" title="9">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-10" title="10"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-11" title="11"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-12" title="12"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb34-13" title="13"></a>
+<a class="sourceLine" id="cb34-14" title="14"><span class="co"># ma_data_init %&gt;% </span></a>
+<a class="sourceLine" id="cb34-15" title="15"><span class="co">#     group_by(`District Name`) %&gt;% </span></a>
+<a class="sourceLine" id="cb34-16" title="16"><span class="co">#     count() %&gt;% </span></a>
+<a class="sourceLine" id="cb34-17" title="17"><span class="co">#     filter(n &gt; 10) %&gt;% </span></a>
+<a class="sourceLine" id="cb34-18" title="18"><span class="co">#     arrange(desc(n)</span></a></code></pre></div>
 </div>
 <div id="piping-practices" class="section level3">
 <h3><span class="header-section-number">6.10.2</span> Piping Practices</h3>
@@ -1261,26 +1269,26 @@ Fixing it by pressing <code>Esc</code></p>
 <p>Take a few minutes to read through the code before typing or running anything in R.
 Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code.
 Once you’ve done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">ma_data_init <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-5" title="5"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a>
-<a class="sourceLine" id="cb31-6" title="6"></a>
-<a class="sourceLine" id="cb31-7" title="7">ma_data_init <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-8" title="8"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-9" title="9"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-10" title="10"><span class="st">    </span><span class="kw">filter</span>(<span class="dt">n =</span> <span class="dv">10</span>) </a>
-<a class="sourceLine" id="cb31-11" title="11"></a>
-<a class="sourceLine" id="cb31-12" title="12">ma_data_init <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-13" title="13"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-14" title="14"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-15" title="15"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">==</span><span class="st"> </span><span class="dv">10</span>) </a>
-<a class="sourceLine" id="cb31-16" title="16"></a>
-<a class="sourceLine" id="cb31-17" title="17">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb31-18" title="18"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">district_name =</span> <span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb31-19" title="19">           <span class="dt">grade =</span> Grade) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb31-20" title="20"><span class="st">    </span><span class="kw">select</span>(district_name, grade)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">ma_data_init <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-3" title="3"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-5" title="5"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a>
+<a class="sourceLine" id="cb35-6" title="6"></a>
+<a class="sourceLine" id="cb35-7" title="7">ma_data_init <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-8" title="8"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-9" title="9"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-10" title="10"><span class="st">    </span><span class="kw">filter</span>(<span class="dt">n =</span> <span class="dv">10</span>) </a>
+<a class="sourceLine" id="cb35-11" title="11"></a>
+<a class="sourceLine" id="cb35-12" title="12">ma_data_init <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-13" title="13"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-14" title="14"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb35-15" title="15"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">==</span><span class="st"> </span><span class="dv">10</span>) </a>
+<a class="sourceLine" id="cb35-16" title="16"></a>
+<a class="sourceLine" id="cb35-17" title="17">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-18" title="18"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">district_name =</span> <span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>,</a>
+<a class="sourceLine" id="cb35-19" title="19">           <span class="dt">grade =</span> Grade) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-20" title="20"><span class="st">    </span><span class="kw">select</span>(district_name, grade)</a></code></pre></div>
 </div>
 <div id="reading-code" class="section level3">
 <h3><span class="header-section-number">6.11.2</span> “Reading” Code</h3>
@@ -1334,26 +1342,26 @@ This is when you <em>know</em> you need to write a function.
 You might write a function for a specific script, or you might find yourself using a function across multiple scripts (at which point you might want to consider creating a package!)</p>
 <p>We’ll cover the very basics of writing a function, but would strongly suggest you check out <a href="link">RESOURCE ONE</a> and <a href="link">RESOURCE TWO</a> for more information and practice.</p>
 <p>The template for writing a function is:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">name_of_function &lt;-<span class="st"> </span><span class="cf">function</span>(argument_<span class="dv">1</span>, argument_<span class="dv">2</span>, argument_n){</a>
-<a class="sourceLine" id="cb32-2" title="2">    code_that_does_something</a>
-<a class="sourceLine" id="cb32-3" title="3">    code_that_does_something_else</a>
-<a class="sourceLine" id="cb32-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">name_of_function &lt;-<span class="st"> </span><span class="cf">function</span>(argument_<span class="dv">1</span>, argument_<span class="dv">2</span>, argument_n){</a>
+<a class="sourceLine" id="cb36-2" title="2">    code_that_does_something</a>
+<a class="sourceLine" id="cb36-3" title="3">    code_that_does_something_else</a>
+<a class="sourceLine" id="cb36-4" title="4">}</a></code></pre></div>
 <p>Functions can be as simple or as complex as you would like.
 For example, if we wanted to create a function that adds two numbers together, we would write:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># writing our function</span></a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="co"># we&#39;ve named the function &quot;addition&quot;</span></a>
-<a class="sourceLine" id="cb33-3" title="3"><span class="co"># and asked for two arguments, &quot;number_1&quot; and &quot;number_2&quot;</span></a>
-<a class="sourceLine" id="cb33-4" title="4">addition &lt;-<span class="st"> </span><span class="cf">function</span>(number_<span class="dv">1</span>, number_<span class="dv">2</span>) {</a>
-<a class="sourceLine" id="cb33-5" title="5">    number_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>number_<span class="dv">2</span></a>
-<a class="sourceLine" id="cb33-6" title="6">}</a>
-<a class="sourceLine" id="cb33-7" title="7"></a>
-<a class="sourceLine" id="cb33-8" title="8"><span class="co"># using our function</span></a>
-<a class="sourceLine" id="cb33-9" title="9"><span class="co"># note that we provide each argument separated by commas</span></a>
-<a class="sourceLine" id="cb33-10" title="10"><span class="kw">addition</span>(<span class="dt">number_1 =</span> <span class="dv">3</span>, <span class="dt">number_2 =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="co"># writing our function</span></a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="co"># we&#39;ve named the function &quot;addition&quot;</span></a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="co"># and asked for two arguments, &quot;number_1&quot; and &quot;number_2&quot;</span></a>
+<a class="sourceLine" id="cb37-4" title="4">addition &lt;-<span class="st"> </span><span class="cf">function</span>(number_<span class="dv">1</span>, number_<span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb37-5" title="5">    number_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>number_<span class="dv">2</span></a>
+<a class="sourceLine" id="cb37-6" title="6">}</a>
+<a class="sourceLine" id="cb37-7" title="7"></a>
+<a class="sourceLine" id="cb37-8" title="8"><span class="co"># using our function</span></a>
+<a class="sourceLine" id="cb37-9" title="9"><span class="co"># note that we provide each argument separated by commas</span></a>
+<a class="sourceLine" id="cb37-10" title="10"><span class="kw">addition</span>(<span class="dt">number_1 =</span> <span class="dv">3</span>, <span class="dt">number_2 =</span> <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] 4</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">addition</span>(<span class="fl">0.921</span>, <span class="fl">12.01</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">addition</span>(<span class="fl">0.921</span>, <span class="fl">12.01</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] 12.9</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">addition</span>(<span class="dv">62</span>, <span class="dv">34</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">addition</span>(<span class="dv">62</span>, <span class="dv">34</span>)</a></code></pre></div>
 <pre><code>#&gt; [1] 96</code></pre>
 <p>What happens if we only provide one argument?
 What happens if we provide more than two arguments?</p>
@@ -1368,17 +1376,17 @@ But there are some hard and fast rules that R has about naming things, and we’
 <div id="run-this-code-5" class="section level3">
 <h3><span class="header-section-number">6.12.1</span> Run This Code</h3>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">ma_data <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb39-2" title="2"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb39-3" title="3"></a>
-<a class="sourceLine" id="cb39-4" title="4"><span class="dv">01</span>_ma_data &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb39-5" title="5"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb39-6" title="6"></a>
-<a class="sourceLine" id="cb39-7" title="7"><span class="op">$</span>_ma_data &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb39-8" title="8"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb39-9" title="9"></a>
-<a class="sourceLine" id="cb39-10" title="10">ma_data_<span class="dv">01</span> &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb39-11" title="11"><span class="st">    </span><span class="kw">clean_names</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1">ma_data <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="st">    </span><span class="kw">clean_names</span>()</a>
+<a class="sourceLine" id="cb43-3" title="3"></a>
+<a class="sourceLine" id="cb43-4" title="4"><span class="dv">01</span>_ma_data &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb43-5" title="5"><span class="st">    </span><span class="kw">clean_names</span>()</a>
+<a class="sourceLine" id="cb43-6" title="6"></a>
+<a class="sourceLine" id="cb43-7" title="7"><span class="op">$</span>_ma_data &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
+<a class="sourceLine" id="cb43-8" title="8"><span class="st">    </span><span class="kw">clean_names</span>()</a>
+<a class="sourceLine" id="cb43-9" title="9"></a>
+<a class="sourceLine" id="cb43-10" title="10">ma_data_<span class="dv">01</span> &lt;-<span class="st"> </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb43-11" title="11"><span class="st">    </span><span class="kw">clean_names</span>()</a></code></pre></div>
 <p>As you saw in the above examples, R doesn’t like it when you create a name that starts with a number or symbol.
 In addition, R is going to squawk when you give it a name with a space in it.</p>
 </div>
@@ -1400,11 +1408,11 @@ Note that, when possible, we recommend the use of <code>.csv</code> files.
 They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).</p>
 <p>The package for loading Excel files, {readxl}, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using <code>library(readxl)</code>. Note that the command to install {readxl} is grayed-out below: The <code>#</code> symbol before <code>install.packages("readxl")</code> indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.</p>
 <p>Once we have installed readxl, we have to load it (just like tidyverse):</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;readxl&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">library</span>(readxl)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;readxl&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">library</span>(readxl)</a></code></pre></div>
 <p>We can then use the function <code>read_excel()</code> in the same way as <code>read_csv()</code>, where “path/to/file.xlsx” is where an Excel file you want to load is located (note that this code is not run here):</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">my_data &lt;-</a>
-<a class="sourceLine" id="cb42-2" title="2"><span class="st">    </span><span class="kw">read_excel</span>(<span class="st">&quot;path/to/file.xlsx&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">my_data &lt;-</a>
+<a class="sourceLine" id="cb46-2" title="2"><span class="st">    </span><span class="kw">read_excel</span>(<span class="st">&quot;path/to/file.xlsx&quot;</span>)</a></code></pre></div>
 <p>Of course, were this run, you can replace <code>my_data</code> with a name you like. Generally, it’s best to use short and easy-to-type names for data as you will be typing and using it a lot.</p>
 <p>Note that one easy way to find the path to a file is to use the “Import Dataset” menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., “From Excel”), and then click The “Browse” button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.</p>
 </div>
@@ -1414,17 +1422,17 @@ They work well across platforms and software (i.e., even if you need to load the
 <pre><code>```r
 install.packages(&quot;haven&quot;)
 ```</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">library</span>(haven)</a>
-<a class="sourceLine" id="cb44-2" title="2">my_data &lt;-</a>
-<a class="sourceLine" id="cb44-3" title="3"><span class="st">    </span><span class="kw">read_sav</span>(<span class="st">&quot;path/to/file.xlsx&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">library</span>(haven)</a>
+<a class="sourceLine" id="cb48-2" title="2">my_data &lt;-</a>
+<a class="sourceLine" id="cb48-3" title="3"><span class="st">    </span><span class="kw">read_sav</span>(<span class="st">&quot;path/to/file.xlsx&quot;</span>)</a></code></pre></div>
 </div>
 <div id="google-sheets" class="section level3">
 <h3><span class="header-section-number">6.14.3</span> Google Sheets</h3>
 <p>Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;googlesheets&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">library</span>(googlesheets)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;googlesheets&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">library</span>(googlesheets)</a></code></pre></div>
 <p>When you run the command below, a link to authenticate with your Google account will open in your browser.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">my_sheets &lt;-<span class="st"> </span><span class="kw">gs_ls</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">my_sheets &lt;-<span class="st"> </span><span class="kw">gs_ls</span>()</a></code></pre></div>
 <p>You can then simply use the <code>gs_title()</code> function in conjunction with the <code>gs_read()</code> function:</p>
 <pre><code>```r
 df &lt;- gs_title(&#39;title&#39;)

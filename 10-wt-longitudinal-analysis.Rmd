@@ -543,7 +543,7 @@ high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
-  geom_boxplot(fill = dataedu_cols("yellow")) +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Median students with disabilities count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
@@ -605,7 +605,7 @@ child_counts %>%
   pivot_wider(names_from = gender, 
               values_from = total) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
     title = "Comparison of female students to male students in special education",
@@ -640,7 +640,7 @@ child_counts %>%
   # Filter for female student counts less than 500,000
   filter(f <= 500000) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
     title = "Comparison of female students to male students with disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
@@ -683,7 +683,7 @@ Let's visualize the ratio values across all years as an additional check. Note t
 
 ```{r ratios across years, results = 'hide', message = FALSE}
 ggplot(data = model_data, aes(x = year, y = ratio)) +
-  geom_jitter(alpha = .5, color = dataedu_cols("green")) +
+  geom_jitter(alpha = .5, color = dataedu_colors("green")) +
   labs(title = "Male to female ratio across years (jittered)") +
   theme_dataedu()
 ```

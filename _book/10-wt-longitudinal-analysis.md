@@ -874,7 +874,7 @@ high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
-  geom_boxplot(fill = dataedu_cols("yellow")) +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Median students with disabilities count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
@@ -942,7 +942,7 @@ child_counts %>%
   pivot_wider(names_from = gender, 
               values_from = total) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
     title = "Comparison of female students to male students in special education",
@@ -993,7 +993,7 @@ child_counts %>%
   # Filter for female student counts less than 500,000
   filter(f <= 500000) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
     title = "Comparison of female students to male students with disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
@@ -1053,7 +1053,7 @@ Let's visualize the ratio values across all years as an additional check. Note t
 
 ```r
 ggplot(data = model_data, aes(x = year, y = ratio)) +
-  geom_jitter(alpha = .5, color = dataedu_cols("green")) +
+  geom_jitter(alpha = .5, color = dataedu_colors("green")) +
   labs(title = "Male to female ratio across years (jittered)") +
   theme_dataedu()
 ```
@@ -1229,16 +1229,16 @@ tibble(
 #> # A tibble: 10 x 3
 #>    student school test_score
 #>    <chr>   <chr>       <int>
-#>  1 a       k              18
-#>  2 b       l               8
-#>  3 c       m              63
-#>  4 d       n              66
-#>  5 e       o              82
+#>  1 a       k              75
+#>  2 b       l              78
+#>  3 c       m              16
+#>  4 d       n              12
+#>  5 e       o               9
 #>  6 f       k              55
-#>  7 g       l              36
-#>  8 h       m              50
-#>  9 i       n              14
-#> 10 j       o              54
+#>  7 g       l               2
+#>  8 h       m              95
+#>  9 i       n              42
+#> 10 j       o              93
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1259,11 +1259,11 @@ tibble(
 #> # A tibble: 5 x 2
 #>   school mean_score
 #>   <chr>       <dbl>
-#> 1 k            22  
-#> 2 l            63.5
-#> 3 m            57.5
-#> 4 n            52.5
-#> 5 o            60
+#> 1 k            28.5
+#> 2 l            55.5
+#> 3 m            76  
+#> 4 n            54.5
+#> 5 o            57.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

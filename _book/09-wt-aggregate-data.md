@@ -332,8 +332,8 @@ tidy_df %>%
   ) +
   scale_y_continuous(labels = scales::percent) + # makes labels present as percentages
   scale_fill_dataedu() +
-  theme_dataedu() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
@@ -403,7 +403,6 @@ tidy_df %>%
          str_detect(category, "povsch")) %>%
   ggplot(aes(x = reorder(category,-value), y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
-  theme_dataedu() +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
   scale_x_discrete(
@@ -416,9 +415,9 @@ tidy_df %>%
     )
   ) +
   scale_y_continuous(labels = scales::percent) +
-  theme_dataedu() +
   scale_fill_dataedu() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
@@ -435,12 +434,12 @@ merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_colors("green")) +
-  theme_dataedu() +
   xlab("White Percentage") +
   ylab("FRPL Percentage") +
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 <img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />

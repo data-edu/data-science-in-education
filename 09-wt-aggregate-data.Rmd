@@ -318,8 +318,8 @@ tidy_df %>%
   ) +
   scale_y_continuous(labels = scales::percent) + # makes labels present as percentages
   scale_fill_dataedu() +
-  theme_dataedu() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
@@ -376,7 +376,6 @@ tidy_df %>%
          str_detect(category, "povsch")) %>%
   ggplot(aes(x = reorder(category,-value), y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
-  theme_dataedu() +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
   scale_x_discrete(
@@ -389,9 +388,9 @@ tidy_df %>%
     )
   ) +
   scale_y_continuous(labels = scales::percent) +
-  theme_dataedu() +
   scale_fill_dataedu() +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
@@ -405,12 +404,12 @@ merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_colors("green")) +
-  theme_dataedu() +
   xlab("White Percentage") +
   ylab("FRPL Percentage") +
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(labels = scales::percent) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  theme_dataedu()
 ```
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
