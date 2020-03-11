@@ -9,4 +9,5 @@ knitr::opts_chunk$set(
     fig.align = "center",
     warning = FALSE,
     dpi = 300
-)
+    )
+

@@ -13,8 +13,7 @@ chapter.
 Please note that this chapter is not intended to be a full and complete
 introduction to programming with R, nor for using R for data science. There are
 many excellent resources available which provide this kind of instruction, and
-we've listed them for you on page [AAA] in the **Resources** section [link
-for bookdown version].
+we've listed them for you in Chapter 17, [Additional Resources].
 
 ## Foundational Skills Framework
 
@@ -29,65 +28,38 @@ we will use to build our framework are:
   - **Functions**
 
 You're likely using this text because you have some data that you'd like to do
-something with, and you'd like to try doing said thing using R. The framework
-we'll use assumes that your data exists externally from R in a `.csv` (comma-separated-values) file, and
-needs to be brought into R so that we can work with it.
+something with, and you'd like to try doing said thing using R. 
+The framework we'll use assumes that your data exists externally from R in a `.csv` (comma-separated-values) file, and needs to be brought into R so that we can work with it.
 
-There are a multitude of file types that data can be stored in. We've provided
-additional resources for loading data from Excel, SAV, and Google Sheets at the
-end of this chapter.
+There are a multitude of file types that data can be stored in. 
+We've provided additional resources for loading data from Excel, SAV, and Google Sheets in the [Technical Appendix A] at the end of this chapter.
 
-While it is possible to connect directly to a database from within R, we do not
-cover those skills in this text. For those curious as to how to accomplish this,
-we recommend the following resources [AAA].
+While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
+For those curious as to how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) resource from RStudio.
 
 ### Data
 
-We have **data** that we bring into a Project within RStudio. RStudio is the
-interface that we use to access and manipulate R. Sometimes you'll hear RStudio
-referred to as an IDE, or "Interactive Development Environment." We use an IDE -
-in this case RStudio, although you could use others - because it adds features
-that make our analytical lives a little (and sometimes a lot!) easier.
+We have **data** that we bring into a Project within RStudio. 
+RStudio is the interface that we use to access and manipulate R. 
+Sometimes you'll hear RStudio referred to as an "eye-dee-eee", "IDE", or "Interactive Development Environment." 
+We use an IDE - in this case RStudio, although you could use others - because it adds features that make our analytical lives a little (and sometimes a lot!) easier.
 
 ### Projects
 
-Within RStudio we set up a **Project**. This is the home for all of the files,
-images, reports, and code that we'll create for a single project. While there
-are a myriad of ways to set up the files in your Project, the method we'll use
-in this text is:
-
-[IMAGE with src, data (sub: raw, for use), results, images]
-
-It's OK (and totally normal) for your initial projects to consist of only one or
-two files. As your skill set grows and develops you'll need more and more files,
-and laying the groundwork for a file structure now will make future you very
-happy.
+Within RStudio we set up a **Project**. 
+This is the home for all of the files, images, reports, and code that we'll create for a single project. 
 
 We use Projects because they create a self-contained folder for a given analysis
-in R. This means that if you want to share your Project with a colleague they
-will not have to reset file paths (or even know anything about file paths!) in
-order to re-run your analysis.
+in R. 
+This means that if you want to share your Project with a colleague they will not have to reset file paths (or even know anything about file paths!) in order to re-run your analysis.
 
-And even if the only person you ever collaborate with is a future version of
-yourself, using a Project for each of your analyses will mean that you can move
-the Project folder around on your computer, or even move it to a new computer,
-and remain confident that the analysis will run in the future, at least in terms
-of file path structures.
-
-*Perhaps move this sentence as we have not yet introduced functions/packages
-yet* You may run into issues with packages being out of date and functions being
-deprecated - in which case you may be interested in learning more about how to
-set up a Project within Docker [AAA].
+And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future (at least in terms of file path structures).
 
 #### Setting up your Project
 
 **How do I create a Project?**  
-Creating a Project is one of the first steps in working on an R-based data
-science project in RStudio (if we were using GitHub for this we'd absolutely
-recommend setting up your repository first! While we do not use Git or GitHub
-in this text, you can read more about it at
-[happygitwithr.com](http://www.happygitwithr.com)). To create a Project you will
-need to be in RStudio.
+Creating a Project is one of the first steps in working on an R-based data science project in RStudio. 
+To create a Project you will need to be in RStudio.
 
 From within RStudio, follow these steps:
 
@@ -107,27 +79,17 @@ From within RStudio, follow these steps:
     later.
 7.  Click "Create Project"
 
-If you are looking for more resources, including information on using a git
-repository, whether or not you should open in a new session, etc., please see
-AAA and BBB resources.
-
-We should point out that it is not *necessary* to create a Project for your
-work, although we strongly recommend it. If you do not create a Project, you can
-always check where your working directory (i.e., where your R is pointing) is by
-running `getwd()`. You can then change your working directory manually, by
-running `setwd()` and providing your file path name as an argument.
-
-More on manually setting your working directory can be found [here]().
+We should point out that it is not *necessary* to create a Project for your work, although we _strongly_ recommend it, as when it is coupled with the {here} package, will set you up with an easy to use workflow. 
+However if you do not create a Project, you can always check where your working directory is by running `getwd()`. 
+You can then change your working directory manually, by running `setwd()` and providing your file path name as an argument.
 
 ### Packages
 
-"Packages" are shareable collections of R code that provide functions (i.e., a
-command to perform a specific task), data, and documentation. Packages increase
-the functionality of R by providing access to additional functions to suit a
-variety of needs, thereby expanding on base R.
+"Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data, and documentation. 
+Packages increase the functionality of R by providing access to additional functions to suit a variety of needs, thereby expanding on base R.
 
 Here, we will show how to install the {dataedu} package that accompanies this book.
-<!-- This needs to be introduced much better -->
+<!-- This needs to be introduced much better - move to end, add guiding questions that review what's been covered in the chapter to help someone install, load, and explore the package -->
 
 As of this writing, the {dataedu} package is not available on CRAN. 
 This means we'll have to install the package using {devtools}. 
@@ -152,73 +114,55 @@ library(dataedu)
 
 ## Exploring R quickly with {swirl}
 
-If you're eager to get started exploring everything that R can do, we recommend
-installing and learning through [{swirl}](https://swirlstats.com/students.html).
-{swirl} is set of packages (more on those shortly!) that you can download,
-providing an interactive method for learning R by using R.
+If you're eager to get started exploring everything that R can do, we recommend installing and learning through [{swirl}](https://swirlstats.com/students.html).
+{swirl} is set of packages (more on those shortly!) that you can download, providing an interactive method for learning R by using R.
 
 We are not affiliated with {swirl} in any way, nor is it required to progress
-through this text. Below, we'll discuss packages, functions, and other skills
-that will get you up and running in R in no time.
+through this text. 
+Below, we'll discuss packages, functions, and other skills that will get you up and running in R in no time.
 
 ## Introduction to Help Documentation
 
-Very few - if any - people in the world know everything there is to know about
-R. This means that we all need to look things up, sometimes every few minutes!
-Thankfully there are some excellent built-in resources that we can leverage as
-we use R.
+Very few - if any - people in the world know everything there is to know about R. 
+This means that we all need to look things up, sometimes every few minutes!
+Thankfully there are some excellent built-in resources that we can leverage as we use R.
 
-From within RStudio we can access the `Help` documentation by using `?` or `??`
-in the console. For example, if I wanted to look up information on the `data()`
-function, I can type `?data` or `data()` next to the carat `>` in the Console
-and hit `Enter`. You should see the `Help` panel on the bottom right side of
-your RStudio environment populate with documentation on the `data()` function.
+From within RStudio we can access the `Help` documentation by using `?` or `??` in the console. 
+For example, if I wanted to look up information on the `data()` function, I can type `?data` or `?data()` next to the carat `>` in the Console and hit `Enter`. 
+Try this now, and you should see the `Help` panel on the bottom right side of your RStudio environment populate with documentation on the `data()` function.
 
-This works because the `data()` function is part of something called **base R**
-- that is, all of the functions included with R when you first install it. R
-also comes with packages pre-installed, however as you use R throughout this
-book, we'll be asking you to install additional packages. These additional
-packages extend the functionality of base R and its pre-installed packages by
-providing us with access to new functions. This means that instead of writing a
-function to do a common data analysis task, such as creating a new variable out
-of existing variables, someone has written that function and made it available
-for you to use (almost always at no charge! Don't worry - all of the packages
+This works because the `data()` function is part of something called **base R** - that is, all of the functions included with R when you first install it. 
+R also comes with packages pre-installed, however as you use R throughout this book, we'll be asking you to install additional packages. 
+These additional packages extend the functionality of base R and its pre-installed packages by providing us with access to new functions. 
+This means that instead of writing a function to do a common data analysis task, such as creating a new variable out of existing variables, someone has written that function and made it available for you to use (almost always at no charge! Don't worry - all of the packages
 we'll be using in this text are considered **O**pen **S**ource **S**oftware, and
 you will not have to purchase anything to complete any of the exercises or
 walkthroughs in this text.)
 
-One of the functions that can accomplish this task is called `mutate()`. What
-happens when you type `?mutate` (or `mutate()`) into the Console and hit
-`Enter`?
+One of the functions that can accomplish the task of creating a new variable out of existing variables is called `mutate()`. 
+What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `Enter`?
 
 We've gotten one of our first error messages!
 
-[IMG of error message - pending RStudio bug fix]
+!["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](images/mutate_error.png)
 
-This is a fantastic error message because not only has it told us that something
-is wrong (there is no documentation for `mutate`), it tells us what we should
-try to do to solve the error. Let's see what happens when we follow the error
-message instructions by typing `??mutate` (or `??mutate()`) into the Console and
-hitting `Enter`. What happens?
+This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
+Let's see what happens when we follow the error
+message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
+What do you see?
 
 ## Code for Foundational Skills
 
-The following code comprises all of the code that we'll use in this chapter. We
-present it here in its entirety, and then break it down into chunks in order to
-explain what's happening.
+The following code comprises all of the code that we'll use in this chapter. 
+We present it here in its entirety, and then break it down into chunks in order to explain what's happening.
 
-This code may resemble the start of an analytical workflow, but does not walk
-you through a complete analysis. Instead, the code chosen below is used to
-highlight key features and foundational skills that comprise the interaction of
-packages and functions with data. We recommend the text [R for Data
-Science]("https://r4ds.had.co.nz/") for those looking for a more in-depth look
-into completing an analytical workflow in R.
+This code may resemble the start of an analytical workflow, but does not walk you through a complete analysis. 
+Instead, the code chosen below is used to highlight key features and foundational skills that comprise the interaction of packages and functions with data. 
+We recommend the text [R for Data Science]("https://r4ds.had.co.nz/") for those looking for a more in-depth look into completing an analytical workflow in R.
 
-We do not recommend running the following block of code all at once! It
-intentionally contains errors that will prevent it from running in its entirety.
-Instead we recommend creating a new `.R` script and adding chunks of code as we
-discuss them in the book, running each chunk of code as we go along in order to
-better see what is happening in a given line of code.   
+We do not recommend running the following block of code all at once! 
+It intentionally contains errors that will prevent it from running in its entirety.
+Instead we recommend creating a new `.R` script and adding chunks of code as we discuss them in the book, running each chunk of code as we go along in order to better see what is happening in a given line of code.   
 
 _Note: when we talk about a script, we're referring to an `.R` file that is created using File --> New File --> R script, and **not** to code that you're running in the Console._
 
@@ -229,23 +173,19 @@ _Note: when we talk about a script, we're referring to an `.R` file that is crea
 # install.packages("tidyverse")
 # install.packages("janitor")
 # install.packages("skimr")
-# install.packages("here")
 
 # Setting up your environment
 library(tidyverse)
+library(dataedu)  # installing dataedu needs to precede this section
 library(janitor)
 library(skimr)
-library(here)
 
 # Importing data
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
+dataedu::ma_data_init
 
-read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-              "MA_Public_Schools_2017.csv")) -> my_data
+dataedu::ma_data_init -> my_data
 
-ma_data_init <- read_csv(here("zz_jesse_practice_scripts/data/for_use", 
-                              "MA_Public_Schools_2017.csv"))
+my_data <- dataedu::ma_data_init
 
 # Exploring and manipulating your data
 names(ma_data_init)
@@ -306,10 +246,10 @@ ma_data_init %>%
 ma_data %>% 
     clean_names()
 
-01_ma_data <- ma_data_init %>%  #' intentional error
+01_ma_data <- ma_data_init %>%  
     clean_names()
 
-$_ma_data <- ma_data_init %>%  #' intentional error
+$_ma_data <- ma_data_init %>%  
     clean_names()
 
 ma_data_01 <- ma_data_init %>% 
@@ -333,14 +273,10 @@ Most of the packages we'll be working with in this book are available on CRAN, w
 The process of submitting a package and having it published through CRAN is beyond the scope of this book, and it's important to point out that you - yes, you! - can create a package that you use all for yourself, share with colleagues, or submit to CRAN. 
 Packages do not need to be submit to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub.  
 
-[image]
-
 **The tidyverse, a package of packages**
 The {tidyverse} is a single package that contains additional packages, and within each of those individual packages are a set of functions. 
 The {tidyverse} is an excellent tool that has a cohesive syntax across all functions, and the packages allow you do to the bulk of an analytical workflow. 
 As of this writing, the {tidyverse} is the only known package of packages.  
-
-[image]
 
 ## Installing and Loading a package
 
@@ -363,12 +299,9 @@ install.packages("package_name")
 install.packages("dplyr")
 ```
 
-You can also navigate to the Packages pane, and then click "Install", which will work the same as the line of code above. 
+You can also navigate to the Packages pane, click "Install", and then search for and Install one or more packages. 
 
-[IMG of packages pane]
-
-This is a way to install a package using code or part of the RStudio interface. 
-Usually writing code is a bit quicker, but using the interface can be very useful and complimentary to use of code. 
+!["Image of the Packages pane, which is found in the bottom right corder of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes"](images/packages_pane.png)
 
 *Loading a package*
 
@@ -417,13 +350,11 @@ To run code in the Console, you type your code and hit 'Enter'.
 
 To run code in an R script, you can run a single line by highlighting it (or placing your cursor at the end of the line) and hitting `Ctrl` + `Enter`.  
 
-You can also run your code by highlighting it and clicking the `Run` button.
-
-[image]
+You can also run your code by highlighting it and clicking the `Run` button, located in the top right of the source pane.
 
 ### Run This Code
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.  
+Take a few minutes to type out and run each of the following lines of code in an `.R` script, one by one, and notice what you see happening in the Console after you run each line.  
 
 
 ```r
@@ -431,54 +362,14 @@ Take a few minutes to type out and run each of the following lines of code, one 
 install.packages("tidyverse")
 install.packages("janitor")
 install.packages("skimr")
-install.packages("here")
 ```
 
 
 ```r
 # Setting up your environment
 library(tidyverse)
-```
-
-```
-#> ── Attaching packages ──────────── tidyverse 1.3.0 ──
-```
-
-```
-#> ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
-#> ✓ tibble  2.1.3     ✓ dplyr   0.8.3
-#> ✓ tidyr   1.0.2     ✓ stringr 1.4.0
-#> ✓ readr   1.3.1     ✓ forcats 0.4.0
-```
-
-```
-#> ── Conflicts ─────────────── tidyverse_conflicts() ──
-#> x dplyr::filter() masks stats::filter()
-#> x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(janitor)
-```
-
-```
-#> 
-#> Attaching package: 'janitor'
-```
-
-```
-#> The following objects are masked from 'package:stats':
-#> 
-#>     chisq.test, fisher.test
-```
-
-```r
 library(skimr)
-library(here)
-```
-
-```
-#> here() starts at /Users/shortessay/data-science-in-education
 ```
 
 Based on what we've covered so far in this chapter, what did running the above lines of code accomplish?
@@ -488,7 +379,7 @@ How do you know?
 
 In your Console you may have noticed the following message: 
 
-[IMG on tidyverse conflicts] 
+!["List of attached packages and associated conflicts when loading the Tidyverse"](images/tv_conflicts.png) 
 
 This isn't error, but rather some important information that we need to consider!
 When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R along with a (relative) handful of pre-installed packages. 
@@ -506,7 +397,9 @@ What this message is telling us then is that if we use the `filter()` function, 
 How can we use the Help documentation to explore how the two functions might differ?
 
 R will give precedence the most recently loaded package.
+
 What happens if we want to use the `filter()` function from the {stats} package _and_ the `filter()` function from the {dplyr} package in the same R session? 
+
 One solution would be to reload the library you want to use each time you want to change the package you're using the `filter()` function from.
 But this can be tricky for several reasons: 
 - It's best practice to keep your `library()` calls at the very top of your R script, so re-loading a package using `library()` throughout your script can clutter things and cause you headaches down the road
@@ -532,7 +425,7 @@ starwars %>%
 ### How to Find a Package
 
 As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN. 
-[CRAN TaskViews](link) is one of the best resources for seeing what packages are available and might be relevant to your work.
+[CRAN TaskViews]("https://cran.r-project.org/web/views/") is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
@@ -543,16 +436,16 @@ Other times you may need (or want!) to learn more about a specific package.
 Packages on CRAN all come with something called a "vignette," which is a worked example using various functions from within the package. 
 You can access a package's vignette(s) on CRAN TaskViews:
 
-[IMG on CRAN taskviews]
-
 Package authors may also publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package.
 You may also find yourself on GitHub looking at information for a package - more often than not the README file will have good information for getting started with a package.
 
 ### Commenting in R
 
 It is considered good practice to comment your code when working in an `.R` script. 
-Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. Comments in R are how we accomplish that!
+Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. 
+Comments in R are how we accomplish that!
 Comments are ignored by R when running a script, so they will not affect your code or analysis. 
+
 To comment out a line of code, you can place a pound sign (`#`) in front of the line of code.
 If you think you'll be writing more than one line of code, you can do a pound sign followed by a single quotation mark (`#'`). 
 This will continue to comment out lines of text or code each time you hit "Enter."
@@ -567,12 +460,12 @@ _We will also use the phrase "uncomment code," which means you should delete (or
 
 ## Using Functions to Import Data
 
-You might be thinking that an Excel file is the first that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R as well as SPSS and other statistical software, like MPlus, and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
+You might be thinking that an Excel file is the first type of data that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R, as well as SPSS and other statistical software (like MPlus) and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
 
 The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
-Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can view it in a text editor, like TextEdit for Macintosh, as well. 
+Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can also view it in a text editor, like TextEdit for Macintosh. 
 Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files. 
-However we would be remiss if we didn't point out that there is a package, {googlesheets}, which can be used to read a Google Sheet directly into R.
+However we would be remiss if we didn't point out that there is a package, {googlesheets4}, which can be used to read a Google Sheet directly into R.
 
 For these reasons, we start with - and emphasize - reading `.csv` files. 
 
@@ -761,23 +654,18 @@ Take a few minutes to type out and run each of the following lines of code, one 
 _Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
 
 ```r
-read_csv(here("data/foundational_skills/for_use", 
-              "MA_Public_Schools_2017.csv"))  # change path once finalized in book
+dataedu::ma_data_init
 
-read_csv(here("data/foundational_skills/for_use", 
-              "MA_Public_Schools_2017.csv")) -> my_data
+dataedu::ma_data_init -> my_data
 
-ma_data_init <- read_csv(here("data/foundational_skills/for_use", 
-                              "MA_Public_Schools_2017.csv"))
+my_data <- dataedu::ma_data_init
 ```
 
 Each of the three code examples above look slightly different, but two of them do almost the exact same thing.
 The first example provided loads the data into our R environment, but not in a format that's immediately useful to us.
 The second and third examples read in the data and assign it to a variable,`my_data` and `ma_data_init` respectively.
 In our Environment pane we can see how each of the data types has been brought into R, and even click on the table icon to get an interactive table
-(The data set is rather large, so RStudio may lag as you open the table and manipulate it.)
-
-[IMG of Environment pane]
+(The data set is rather large, so RStudio may lag slightly as you open the table and manipulate it.)
 
 ### The Assignment Operator
 The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable.
@@ -890,6 +778,7 @@ In these images he would paint an object, such as a pipe, and accompany it with 
 
 At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
 
+
 ### Run This Code
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
@@ -958,7 +847,11 @@ Doing this will help you not only understand code a bit better, but also help yo
 
 The way that we would read the first chunk of code is:
 
-> Take the `ma_data_init` data set _and then_ **group** it **by** `District Name` _and then_ **count** (the number of schools in a district) _and then_ **filter** for Districts with more than 10 schools _and then_ **arrange** the list of Districts and the number of schools in each District in descending order, based on the number of schools.
+> Take the `ma_data_init` data set _and then_ 
+> **group** it **by** `District Name` _and then_ 
+> **count** (the number of schools in a district) _and then_ 
+> **filter** for Districts with more than 10 schools _and then_ 
+> **arrange** the list of Districts and the number of schools in each District in descending order, based on the number of schools.
 
 That's a mouthful! 
 But there are a couple of consistent points to make regarding this paragraph.
