@@ -3,14 +3,15 @@
 
 ## Vocabulary
 
-- social network analysis
 - Application Programming Interface (API)
 - edgelist
 - edge
-- vertex
-- sociogram
-- selection model
 - influence model
+- regex
+- selection model
+- social network analysis
+- sociogram
+- vertex
 
 ## Chapter Overview
 
@@ -144,7 +145,7 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)
+- `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)).
  
 
 ```r

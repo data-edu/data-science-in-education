@@ -5,37 +5,40 @@
 
 ## Introduction to the walkthroughs
 
-This chapter presents the first of eight walkthroughs included in the book. In it, 
+This chapter is the first of eight walkthroughs included in the book. In it, 
 we present *one approach* to analyzing a specific dataset; in this case, the approach
 is what we call the education data science pipeline using data from a number of 
-online science classes. While the walkthroughs are very different the structure 
+online science classes. While the walkthroughs are very different, the structure 
 (and section headings) will be consistent throughout the walkthroughs. For example,
 every walkthrough will begin with a vocabulary section, followed by an introduction 
 to the dataset (and the question or problem) explored in the walkthrough. 
 
 ## Vocabulary
 
-- log-trace data
-- survey
 - item
-- reverse scale
 - joins
+- keys
+- log-trace data
+- pass
+- reverse scale
 - regression
+- survey
+- tibble
+- vectorize
 
 ## Chapter Overview
 
-In this - the first walkthrough - we explore some of the key steps that are a
+In this walkthrough, we explore some of the key steps that are a
 part of many data science in education projects. In particular, we explore how
 to process and prepare data: what is sometimes referred to as data wrangling. To
 do so, we rely heavily on a set of tools that we use throughout *all* of the
 walkthroughs, those associated with the tidyverse, the set of
 packages for data manipulation, exploration, and visualization using the design
-philosophy of 'tidy' data [@wickham2019] mentioned in the Foudnational Skills chapters (see <https://www.tidyverse.org/> for
-more).
+philosophy of 'tidy' data [@wickham2019]. For more information, see the Foundational Skills chapters or https://www.tidyverse.org/.
 
 The tidyverse is predicated on the concept of tidy data [@wickham2014]. Tidy
 data has a specific structure: each variable is a column, each observation is a
-row, and each type of observational unit is a table. We'll disuss both the
+row, and each type of observational unit is a table. We'll discuss both the
 tidyverse and tidy data much more throughout the book.
 
 ### Background
@@ -57,12 +60,12 @@ datasets included:
 
 Our *purpose* for this walkthrough is to begin to understand what explains
 students' performance in these online courses. The *problem* we are facing is a 
-very common one when it comes to data science in education: the data is complex 
-and in need of further processing, before we can get to answering questions (or 
+very common one when it comes to data science in education: the data are complex 
+and in need of further processing before we can get to answering questions (or 
 running analyses).
 
-To understand students' performance we will focus on a variable that was available 
-through the learning management system used for the courses, on he amount of time
+To understand students' performance, we will focus on a variable that was available 
+through the learning management system used for the courses on the amount of time
 students' spent on the course. We will also explore how different (science) 
 subjects as well as being in a particular class may help to explain student performance.
 
@@ -75,7 +78,7 @@ provided by the school.
 
 The first data source is a self-report survey. This was data collected before
 the start of the course via self-report survey. The survey included 10 items,
-each corresponding to one of three *measures*, namely, for interest, utility
+each corresponding to one of three *measures*: interest, utility
 value, and perceived competence:
 
 1.  I think this course is an interesting subject. (Interest)
@@ -96,24 +99,23 @@ value, and perceived competence:
 
 *Log-trace data* is data generated from our interactions with digital
 technologies, such as archived data from social media postings (see
-[chapter 11](#c11) and [chapter 12](#c12)). In education, an increasingly common
+[Chapter 11](#c11) and [Chapter 12](#c12)). In education, an increasingly common
 source of log-trace data is that generated from interactions with learning
 management systems and other digital tools [@siemens2012]. The data for this
 walk-through is a *summary of* log-trace data, namely, the number of minutes
-students spent on the course. Thus, while this data is rich, you can imagine
-even more complex sources of log-trace data (i.e. time stamps associated with
+students spent on the course. While this data is rich, you can imagine
+even more complex sources of log-trace data (e.g. time stamps associated with
 when students started and stopped accessing the course!).
 
 ### Data Source \#3: Achievement-Related and Gradebook Data
 
-This is a common source of data, namely, one associated with graded assignments
+This is a common source of data: one associated with graded assignments
 students completed. In this walkthrough, we just examine students' final grade.
 
 ### Data Source \#4: Discussion Board Data
 
 Discussion board data is both rich and unstructured, in that it is primarily in
-the form of written text. We collected discussion board data, too, and highlight
-this as a potentially very rich data source.
+the form of written text. We also collected discussion board data for this project.
 
 ### Methods
 
@@ -125,8 +127,8 @@ This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you will recall from [Chapter 1](#c1). We load
 these packages with the function `library()`. In particular, the packages we'll
 use will help us organize the structure of the data, work with
-dates in the data [@R-lubridate], create formatted 
-tables [@R-apaTables, @R-sjPlot] and navigate file directories [@R-here].
+dates in the data using {lubridate} [@R-lubridate], create formatted 
+tables using {apaTables} [@R-apaTables] and {sjPlot} [@R-sjPlot], and navigate file directories using {here} [@R-here].
 
 
 ```r
@@ -141,7 +143,7 @@ library(sjPlot)
 
 ## Import Data
 
-This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three log trace
+This code chunk loads the log-trace data from the {dataedu} package. Note that we assign a dataset to an object three times, once for each of the three log-trace
 datasets. We assign each of the datasets a name using `<-`.
 
 
@@ -160,7 +162,7 @@ course_minutes <- dataedu::course_minutes
 
 ## View Data
 
-Now that we've successfully loaded all three log trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
+Now that we've successfully loaded all three log-trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
 
 ```r
@@ -234,8 +236,8 @@ course_minutes
 ## Process Data
 
 Often, survey data needs to be processed in order to be (most) useful. Here, we
-process the self-report items into three scales, for: interest, self-efficacy,
-and utility value. We do this by
+process the self-report items into three scales for 1) interest, 2) self-efficacy,
+and 3) utility value. We do this by:
 
 - Renaming the question variables to something more manageable
 - Reversing the response scales on questions 4 and 7
@@ -300,7 +302,7 @@ easier for us to change in the future.
 
 We'll use `case_when()` in our function to reverse the scale of the item responses. `case_when()` is useful when you need to replace the values in a column with other values based on some criteria. Education datasets use a lot of codes to describe demographics, like numerical codes for disability categories, race groups, or proficiency in a test. When you work with codes like this, you'll often want to change the codes to values that are easier to understand. For a example, a consultant analyzing how students did on state testing might use `case_when()` to replace proficiency codes like 1, 2, or 3 to more descriptive words like "below proficiency", "proficient", or "advanced". 
 	
-`case_when()` lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your `case_when()` sequence. `case_when()` is helpful because it does this without complicated for loops and by using code that is compact and readable once you understand how all the arguments work. 
+`case_when()` lets you vectorize the rules you want to use to change values in a column. When a sequence of criteria is vectorized, R will evaluate a value in a column against each criteria in your `case_when()` sequence. `case_when()` is helpful because it does this without complicated loops. By using code that is compact and readable once you understand how all the arguments work. 
 
 The left hand side of each `case_when()` argument will be a formula that returns either a `TRUE` or a `FALSE`. In the function below we'll use logical operators in the left hand side of the formula like this: `question == 1 ~ 5`. Here are some other logical operators you can use in the future: 
 
@@ -394,8 +396,6 @@ measure_mean
 #> 3 uv               3.74      0.178
 ```
 
-We will use a similar process later to calculate these variables' correlations.
-
 ### Processing the Course Data
 
 We also can process the course data in order to create new variables which we can use in analyses. 
@@ -429,7 +429,7 @@ the course, and the other will correspond to the student. We are not changing
 anything in the data itself at this step - instead, we are just cleaning it up
 so that we can look at the data all in one place.
 
-Let's start with the pre-survey data. We will rename RespondentID and opdata_CourseID to be student_id and course_id, respectively.
+Let's start with the pre-survey data. We will rename `RespondentID` and `opdata_CourseID` to be `student_id` and `course_id`, respectively.
 
 
 ```r
@@ -460,7 +460,7 @@ pre_survey
 
 Looks better now!
 
-In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
+In addition to needing to be renamed, the `student_id` variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
 
 
 ```r
@@ -473,7 +473,7 @@ head(pre_survey$student_id)
 
 What we need is the five characters in between the underscore symbols - these: `_`.
 
-An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.
+One way to do this is to use the `str_sub()` function from the {stringr} package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.
 
 
 ```r
@@ -495,7 +495,7 @@ str_sub("_80624_1", end = -3)
 #> [1] "_80624"
 ```
 
-Putting the pieces together, the following should return what we want
+Putting the pieces together, the following should return what we want:
 
 
 ```r
@@ -506,7 +506,7 @@ str_sub("_80624_1", start = 2, end = -3)
 #> [1] "80624"
 ```
 
-We can apply this to our data using `mutate()`; we coerce the string into a number using `as.numeric()` at the same time, so the data can be joined to the other, numeric student_id variables (in the other data sets):
+We can apply this to our data using `mutate()`. We convert the string into a number using `as.numeric()` at the same time, so the data can be joined to the other, numeric `student_id` variables (in the other data sets):
 
 
 ```r
@@ -527,16 +527,15 @@ course_data <-
 ```
 
 Now that we have two variables that are consistent across both datasets - we
-have called them "course\_id" and "student\_id" - we can join these using the
-**dplyr** function, `left_join()`.
+have called them `course_id` and `student_id` - we can join them using the
+{dplyr} function, `left_join()`.
 
-Let's save our joined data as a new object called "dat."
+Let's save our joined data as a new object called `dat`.
 
 
 ```r
 dat <-
-  left_join(course_data,
-            pre_survey,
+  left_join(course_data, pre_survey,
             by = c("student_id", "course_id"))
 dat
 ```
@@ -561,40 +560,34 @@ dat
 #> #   q9 <dbl>, q10 <dbl>
 ```
 
-`left_join()` is named on the basis of the order of the two data frames that are
-being joined - and which data frame is joined to the other. In the above case,
-note the order of the data frames passed to our "left" join. Let's focus just on
-the first two arguments. Left joins retain all of the rows in the "left" data
-frame, and joins every matching row in the right data frame to it.
+`left_join()` is named based on the 'direction' that the data is being joined. Note the order of the data frames passed to our "left" join. Left joins retain all of the rows in the data
+frame on the "left", and joins every matching row in the right data frame to it.
 
-Note that in the above, after `left_join()`, we see `course_data` and then
+Let's hone in on how this code is structured. After `left_join()`, we see `course_data` and then
 `pre_survey`. In this case, `course_data` is the "left" data frame (passed as
-the *first* argument), while `pre_survey` is the "right" data frame, passed as
-the *second* argument. So, in the above, knowing how `left_join()` works, what
-happened? You can run the code yourself to check.
+the *first* argument), while `pre_survey` is the "right" data frame (passed as
+the *second* argument). So, in the above, what
+happens? You can run the code yourself to check.
 
-What our aim was - and what should happen - is that all of the rows of
+What our aim - and what should happen - is that all of the rows in
 `course_data` are retained in our new data frame, `dat`, with matching rows of
-`pre_survey` joined to it. We note that in this case, one key is that there are
-not multiple matching rows of pre-survey: in this case, you would end up with
-more rows in `dat` than expected. There is a lot packed into one simple function
-that we just unpacked. Joins are, however, extremely powerful - and common - in
-many data analysis processing pipelines, in education and in any field. Think of
+`pre_survey` joined to it. An important note is that there are
+not multiple matching rows of `pre_survey`; otherwise, you would end up with
+more rows in `dat` than expected. There is a lot packed into this one function. Joins are, however, extremely powerful - and common - in
+many data analysis processing pipelines, both in education and in any field. Think of
 all of the times you have data in more than one data frame, and want them to be
 in a single data frame! As a result, we think that joins are well worth
 investing the time to be able to use.
 
 With education (and other) data, `left_join()` is helpful for carrying out
-most tasks related to joining datasets. There are, though, functions for other
-types of joins, those less important than `left_join()` but still worth
-mentioning.
-
-They are the following (note that for all of these, the "left" data frame is
+most tasks related to joining datasets. However, there are functions for other
+types of joins. They may be less important than `left_join()` but are still worth
+mentioning (note that for all of these, the "left" data frame is
 always the first argument, and the "right" data frame is always the second):
 
 #### `semi_join()`
 
-`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
+`semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; it is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
 `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
 
 For example, the following returns only the rows that are present in both
@@ -783,12 +776,12 @@ dat
 
 It looks like we have 40348 observations from 30 variables.
 
-There is one last step to take. Were we interested in a fine-grained analysis of
+There is one last step to take. If we were interested in a fine-grained analysis of
 how students performed (according to the teacher) on different assignments (see
 the `Gradebook_Item` column), we would keep all rows of the data. But,
 our goal (for now) is more modest: to calculate the percentage of points
 students earned as a measure of their final grade (noting that the teacher may
-have assigned a different grade--or weighted their grades in ways not reflected
+have assigned a different grade - or weighted their grades in ways not reflected
 through the points).
 
 
@@ -813,15 +806,16 @@ dat <-
 
 ### Finding Distinct Cases at the Student-Level
 
-This last step calculated a new column, for the percentage of points each
+This last step calculated a new column for the percentage of points each
 student earned. That value is the same for the same student (an easy way we
 would potentially use to check this is `View()`, i.e., `View(dat)`).
-But--because we are not carrying out a finer-grained analysis using the
-`Gradebook_Item`--the duplicate rows are not necessary. We only want variables
+But, because we are not carrying out a finer-grained analysis using the
+`Gradebook_Item`, the duplicate rows are not necessary. We only want variables
 at the student-level (and not at the level of different gradebook items). We can
 do this using the `distinct()` function. This function takes the name of the
 data frame and the name of the variables used to determine what counts as a
-unique case. 
+unique case.
+
 Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct()` takes that bucket of 100 pieces and returns a bucket containing only one of each distinct piece.
 Another thing to note about `distinct()` is that it will only
 return the variable(s) (we note that you can pass more than one variable to
@@ -904,7 +898,7 @@ the data,
 
 ## Analysis
 
-In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in [Chapter 13](#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce {ggplot2}, a visualization package we'll be using in our walkthroughs. 
+In this section, we focus on some initial analyses in the form of visualizations and some models. We expand on these in [Chapter 13](#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce {ggplot2}, a visualization package we'll be using in our walkthroughs. 
 
 ### About \{ggplot2\}
 
@@ -937,8 +931,6 @@ The `data` argument in the first line tells R we’ll be using the dataset calle
 
 One thing we might be wondering is how time spent on course is related to
 students' final grade.
-
-We note that {ggplot2}, which we use to create these plots, is discussed further in chapter XXX.
 
 
 ```r
@@ -983,10 +975,10 @@ discuss linear models in [Chapter 10](#c10).
 Let's use this technique to model the relationship between the time spent on the
 course and the percentage of points earned. Here, we predict
 `percentage_earned`, or the percentage of the total points that are possible for
-a student to earn. Here, percentage earned is the dependent, or *y*-variable,
-and so we enter it first, after the `lm()` command, before the tilde (`~`)
+a student to earn. Percentage earned is the dependent, or *y*-variable,
+and so we enter it first, after the `lm()` command and before the tilde (`~`)
 symbol. To the right of the tilde is one independent variable, `TimeSpent`, or
-the time that students spent on the course. We also pass the data frame, `dat`.
+the time that students spent on the course. We also pass, or provide, the data frame, `dat`.
 At this point, we're ready to run the model. Let's run this line of code and
 save the results to an object - we chose `m_linear`, but any name will work, as
 well as the `summary()` function on the output.
@@ -1051,7 +1043,7 @@ document, simply by adding a `filename` argument:
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
-You might be wondering what else the apaTables package does; we encourage you to
+You might be wondering what else the {apaTables} package does. We encourage you to
 read more about the package here:
 <https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
 especially helpful. One function that may be useful for writing manuscripts is
@@ -1364,10 +1356,9 @@ model, a linear model, also known as a regression model. We found that the time
 that students spent on the course was positively (and statistically
 significantly) related to students' final grades, and that there appeared to be
 differences by subject. While we focused on using this model in a traditional,
-explanatory sense, it could also (potentially) be used predictively, in that
+explanatory sense, it could also (potentially) be used for predictive analytics, in that
 knowing how long students spent on the course and what subject their course is
-could be used to estimate what that students' final grade might be. We focus on
-predictive uses of models further in [Chapter 14](#c14)).
+could be used to estimate what that students' final grade might be. We focus on uses of predictive models further in [Chapter 14](#c14).
 
 In the follow-up to this walkthrough (see [Chapter 13](#c13)), we will
 focus on visualizing and then modeling the data using an advanced methodological

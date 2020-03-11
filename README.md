@@ -1,4 +1,5 @@
 # Data Science in Education Using R
+<img src='man/figures/logo.png' align="right" height="150" />
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/data-edu/data-science-in-education.svg?branch=master)](https://travis-ci.org/data-edu/data-science-in-education)

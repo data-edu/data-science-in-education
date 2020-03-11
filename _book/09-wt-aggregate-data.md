@@ -5,13 +5,13 @@
 
 * aggregate data
 * disaggregated data
-* subgroup
-* lists
 * data frame
-* trim
 * Free/Reduced Price Lunch (FRPL)
-* weighted average
 * histogram
+* lists
+* subgroup
+* trim
+* weighted average
 
 ## Chapter Overview
 
