@@ -1,7 +1,7 @@
 # Data Science in Education Using R
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/dataedu/data-science-in-education.svg?branch=master)](https://travis-ci.org/dataedu/data-science-in-education)
+[![Travis build status](https://travis-ci.org/data-edu/data-science-in-education.svg?branch=master)](https://travis-ci.org/data-edu/data-science-in-education)
 <!-- badges: end -->
  
 * [How to Contribute](#Contributing)
