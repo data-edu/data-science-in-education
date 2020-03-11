@@ -1,5 +1,17 @@
 # Walkthrough 3: Introduction to Aggregate Data {#c09}
 
+## Vocabulary
+
+* Aggregate data
+* Disaggregated data
+* Subgroup
+* Lists
+* Data frame
+* Trim
+* Free/Reduced Price Lunch
+* Weighted average
+* Histogram
+
 ## Chapter Overview
 
 ### Background
@@ -196,7 +208,7 @@ frpl_df <-
   )
 ```
 
-To clean it up, we remove the rows that are blank. When looking at the PDF, we notice that there are aggregations inserted into the table that are not district-level. For example, they have included ELM K_08, presumably to aggregate FRPL numbers up to the K-8 level. Although this is useful data, we don't need it for this district-level analysis. There are different ways we can remove these rows but we will just filter them out.
+To clean it up, we remove the rows that are blank. When looking at the PDF, we notice that there are aggregations inserted into the table that are not district-level. For example, they have included `ELM K_08`, presumably to aggregate FRPL numbers up to the K-8 level. Although this is useful data, we don't need it for this district-level analysis. There are different ways we can remove these rows but we will just filter them out.
 
 ```{r, eval = FALSE}
 frpl_clean <-
@@ -235,7 +247,7 @@ joined_df <-
 
 Now we move on to the fun part of creating new columns based on the merged dataset. 
 
-1. We want to calculate, for each race, the number of students in 'high poverty' schools. This is defined by NCES as schools that are over 75% FRPL. When a school has over 75% FRPL, we count the number of students for that particular race under the variable `[racename]_povnum`.
+1. We want to calculate, for each race, the number of students in 'high poverty' schools. This is defined by NCES as schools that are over 75% FRPL @ncesfrpl. When a school has over 75% FRPL, we count the number of students for that particular race under the variable `[racename]_povnum`.
 2. The {janitor} package has a handy `adorn_totals()` function that sums the columns for you. This is important because we want a weighted average of students in each category, so we need the total number of students in each group.
 3. We create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.
 4. To get FRPL percentage for all schools, we have to recalculate `frpl_pct.`
@@ -270,7 +282,7 @@ merged_df <-
   )
 ```
 
-To facilitate the creation of ggplots later on, we put this data in tidy format.
+To facilitate the creation of plots later on, we put this data in tidy format.
 
 ```{r, eval = FALSE}
 tidy_df <-
@@ -368,7 +380,7 @@ The school race demographics are not representative of the district populations 
 
 ### Creating Categories
 
-High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, [24% of public school students attended high-poverty schools.](https://nces.ed.gov/fastfacts/display.asp?id=898) However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
+High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools @ncesfrpl. However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
 ```{r, fig.align = "center", results = 'hide', message = FALSE }
 tidy_df %>%
@@ -424,4 +436,4 @@ According to the Urban Institute, the disproportionate percentage of students of
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, this deep segregation that exists in the district can have adverse effects on students.
 
-As an education data practitioner, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
+As a data scientist in education, we can use these data to suggest interventions for what we can do to improve equity in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep.
