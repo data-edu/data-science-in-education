@@ -43,7 +43,8 @@ Specifically, we can dummy-code the groups. Dummy coding means transforming a va
 
 ## Load Packages
 
-We will load the tidyverse and a few other packages specific to multi-level models.
+We will load the tidyverse and a few other packages specific to using multi-level models, particularly, 
+{lme4} [@R-lme4] and {performance}.
 
 
 ```r

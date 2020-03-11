@@ -3,6 +3,8 @@
 
 
 
+## Introduction to the walkthroughs
+
 This chapter presents the first of eight walkthroughs included in the book. In it, 
 we present *one approach* to analyzing a specific dataset; in this case, the approach
 is what we call the education data science pipeline using data from a number of 
@@ -122,8 +124,9 @@ In this walkthrough, we will concentrate on the different joins available in the
 This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you will recall from [Chapter 1](#c1). We load
 these packages with the function `library()`. In particular, the packages we'll
-use will help us load Excel files, organize the structure of the data, work with
-dates in the data, and navigate file directories.
+use will help us organize the structure of the data, work with
+dates in the data [@R-lubridate], create formatted 
+tables [@R-apaTables, @R-sjPlot] and navigate file directories [@R-here].
 
 
 ```r
@@ -802,6 +805,10 @@ dat <-
   ungroup() %>%
   # note that we join this back to the original data frame to retain all of the variables
   left_join(dat)
+```
+
+```
+#> Joining, by = c("student_id", "course_id")
 ```
 
 ### Finding Distinct Cases at the Student-Level

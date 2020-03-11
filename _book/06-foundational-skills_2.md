@@ -310,7 +310,7 @@ Once a package is installed on your computer you do not have to re-install it in
 If you know that you'll be using a package's functions multiple times in an R script (a file ending in `.R`), you can load the package into your R environment using `library()`.
 Loading a package into our R enviroment signals to R that we would like to use any of the functions available to us in that package.
 
-We load a package using the following code:  
+We load a package, like the {dplyr} package [@R-dplyr] below, using the following code:  
 
 
 ```r
@@ -630,7 +630,7 @@ In Technical Appendix A (at the end of this chapter), we show how to access dire
 
 Throughout this book you'll see data accessed in a multitude of ways.
 Sometimes we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
-We've also provided each of the datasets used in this book as `.rda` files that are accessible via the {dataedu} package.
+We've also provided each of the datasets used in this book as `.rda` files that are accessible via the {dataedu} package [@R-dataedu].
 More details about the {dataedu} package on be found [on GitHub](https://github.com/data-edu/dataedu) (https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
 
 Once you've installed the {dataedu} package (described above), you can use the `install_dataedu()` function to download all of the packages we'll be using in this text. 
