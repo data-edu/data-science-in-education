@@ -1,5 +1,5 @@
 
-# Conclusion: To where next? {#c19}
+# Conclusion: Where to next? {#c19}
 
 To start closing our journey together, let's recap what we've learned so far. When we started writing this book, we set out to create a learning experience that had recognizable education examples as its foundation. We used these examples to explore the role of a data scientist in the education field. Building on that context, we introduced basic R tools. In the analysis walkthroughs, we learned to apply data science techniques to datasets and scenarios we've seen in our education jobs. Our goal was to help you learn data science using datasets, functions, language, and analytic approaches that you'll keep using in your own education job. Finally, we discussed using these technical skills to positively influence how your education organization uses data. 
 

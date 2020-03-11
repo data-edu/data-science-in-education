@@ -5,23 +5,23 @@
 
 ## Vocabulary 
 
- - Read in
- - Aggregate data 
- - Vector 
- - List
- - Tidy format
- - Subset
+ - read in
+ - aggregate data 
+ - vector 
+ - list
+ - tidy format
+ - subset
  - `select_at`
  - `mutate`
- - Statistical model 
- - Aggregate data
- - Student-level data
+ - statistical model 
+ - aggregate data
+ - student-level data
 
 ## Chapter Overview 
 
 ### Background 
 
-Data scientists working in education don't always have access to student level data, so knowing how to work with publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
+Data scientists working in education don't always have access to student level data, so knowing how to model publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
 
 You can download the datasets for this walkthrough on the United States Department of Education website (see @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. This walkthrough uses datasets of student with disabilities counts in each state.
 
@@ -43,7 +43,7 @@ library(lubridate)
 
 ## Import Data 
 
-In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv`s we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
+In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv` files we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
 
 ### What to Download
 
@@ -769,9 +769,9 @@ child_counts %>%
 #> # … with 1,380 more rows
 ```
 
-## Analysis: How Have Child Counts Changed Over Time? 
+## Analysis
 
-In the last section we focused on importing our dataset. In this section, we will turn to exploring it. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
+In the last section we focused on importing our dataset. In this section, we will ask: how have child counts changed over time? First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
 
 ### Visualize the Dataset  
 
@@ -821,8 +821,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Count of female students in special education over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/total female students over time-1.png" width="100%" style="display: block; margin: auto;" />
@@ -843,8 +843,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Count of male students in special education over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/total male students over time-1.png" width="100%" style="display: block; margin: auto;" />
@@ -860,8 +860,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Total count of students in special education over time",
        subtitle = "Ages 3-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/total students over time-1.png" width="100%" style="display: block; margin: auto;" />
@@ -874,7 +874,7 @@ high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
-  geom_boxplot(fill = dataedu_cols("yellow")) +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Median students with disabilities count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
@@ -913,8 +913,8 @@ high_count %>%
   scale_y_continuous(limits = c(1.5, 2.5)) +
   labs(title = "Male student to female student ratio over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/male to female ratio over time-1.png" width="100%" style="display: block; margin: auto;" />
@@ -942,7 +942,7 @@ child_counts %>%
   pivot_wider(names_from = gender, 
               values_from = total) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
     title = "Comparison of female students to male students in special education",
@@ -993,7 +993,7 @@ child_counts %>%
   # Filter for female student counts less than 500,000
   filter(f <= 500000) %>%
   ggplot(aes(x = f, y = m)) +
-  geom_point(size = 3, alpha = .5, color = dataedu_cols("green")) +
+  geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
     title = "Comparison of female students to male students with disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
@@ -1053,7 +1053,7 @@ Let's visualize the ratio values across all years as an additional check. Note t
 
 ```r
 ggplot(data = model_data, aes(x = year, y = ratio)) +
-  geom_jitter(alpha = .5, color = dataedu_cols("green")) +
+  geom_jitter(alpha = .5, color = dataedu_colors("green")) +
   labs(title = "Male to female ratio across years (jittered)") +
   theme_dataedu()
 ```
@@ -1189,8 +1189,8 @@ model_data %>%
     y = "",
     caption = "Data: US Dept of Education"
   ) +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 <img src="10-wt-longitudinal-analysis_files/figure-html/visualize female to male ratio-1.png" width="100%" style="display: block; margin: auto;" />
@@ -1205,9 +1205,9 @@ When we look at these five states over time, we see that despite the differences
 
 The comparison of student counts across each state is tricky because there is a lot of variation in total enrollment across all fifty states. While we explored student counts across each state and verified that there is variation in the counts, a good next step would be to combine these data with total enrollment data. This would allow us to compare counts of students with disabilities as a percentage of total enrollment. Comparing proportions like this is a common way to compare subgroups of a population across states when each state's population varies in size. 
 
-## Conclusion: Aggregate Data as Context for Student Data 
+## Conclusion
 
-Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that an education data scientist would typically do. 
+Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that a data scientist in education would typically do. 
 
 Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
 
@@ -1229,16 +1229,16 @@ tibble(
 #> # A tibble: 10 x 3
 #>    student school test_score
 #>    <chr>   <chr>       <int>
-#>  1 a       k              18
-#>  2 b       l               8
-#>  3 c       m              63
-#>  4 d       n              66
-#>  5 e       o              82
-#>  6 f       k              55
-#>  7 g       l              36
-#>  8 h       m              50
-#>  9 i       n              14
-#> 10 j       o              54
+#>  1 a       k              44
+#>  2 b       l              28
+#>  3 c       m              96
+#>  4 d       n              64
+#>  5 e       o              84
+#>  6 f       k              56
+#>  7 g       l              24
+#>  8 h       m               7
+#>  9 i       n              17
+#> 10 j       o               8
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1259,11 +1259,11 @@ tibble(
 #> # A tibble: 5 x 2
 #>   school mean_score
 #>   <chr>       <dbl>
-#> 1 k            22  
-#> 2 l            63.5
-#> 3 m            57.5
-#> 4 n            52.5
-#> 5 o            60
+#> 1 k            80.5
+#> 2 l            49  
+#> 3 m            68  
+#> 4 n            34  
+#> 5 o            45.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

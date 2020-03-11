@@ -1,18 +1,3 @@
-```{r include=FALSE, cache=FALSE}
-rm(list=ls(all=TRUE))
-
-options(digits = 3)
-
-knitr::opts_chunk$set(
-    comment = "#>",
-    cache = TRUE,
-    out.width = "100%",
-    fig.align = "center",
-    warning = FALSE,
-    dpi = 300
-)
-```
-
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
 ## Vocabulary
@@ -43,13 +28,13 @@ This walkthrough goes through a series of analyses using the data science framew
 
 We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
 
-### Method
+### Methods
 
 This analysis uses a linear model, which relates one or more X, or independent variables, to a Y, or dependent variable, and a correlation analysis.
 
 ## Load Packages
 
-As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will load the {tidyverse} package used in [Walkthrough 1](06-wt-multilevel-models-1). This chapter has an example of using the {readxl} [@R-readxl] package to read and import Excel spreadsheets, file types are very common in the education field. We will also use the {janitor} package, which provides a number of functions related to cleaning and preparing data, for the first time [@R-janitor].
+As mentioned in the Foundational Skills chapter, begin by loading the libraries that will be used. We will load the {tidyverse} package used in [Walkthrough 1](#c07). This chapter has an example of using the {readxl} package to read and import Excel spreadsheets, file types are very common in the education field. We will also use the {janitor} package, which provides a number of functions related to cleaning and preparing data, for the first time [@R-janitor].
 
 Make sure you have installed the packages in R on your computer before starting (see Foundational Skills chapter). Load the libraries, including as they must be loaded each time we start a new project.
 
@@ -111,15 +96,27 @@ gradebook <- ExcelGradeBook
 
 Your environment will now have two versions of the dataset. There is `ExcelGradeBook` which was the original dataset imported. There is also `gradebook` which is currently a copy of `ExcelGradeBook`. As you progress through this section, we will work primarily with the `gradebook` dataset. Additionally, while working onward in this section of the book, if you make a mistake and mess up the `gradebook` data frame and are not able to fix it, you can reset the data frame to return to the same state as the original `ExcelGradeBook` data frame by running `gradebook <- ExcelGradeBook` again. This will overwrite any errors in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame. Afterwards, just continue running code from this point in the text.
 
-## Process data
+## Process Data
 
-###  Tidy Data
+### Tidy Data
 
 This walkthrough uses an Excel data file because it is one that we are likely to encounter. Moreover, the messy state of this file mirrors what might be encountered in real life. The Excel file contains more than one sheet, has rows we don't need, and uses column names that have spaces between words. All these things make the data tough to work with. The data is **not** tidy. We can begin to overcome these challenges before importing the file into RStudio by deleting the unnecessary parts of the Excel file then saving it as a .csv file. However, if you clean the file outside of R, this means if you ever have to clean it up (say, if the dataset is accidentally deleted and you need to re-download it from the original source) you would have to do everything from the beginning, and may not recall exactly what you did in Excel prior to importing the data to R. We recommend cleaning the original data in R so that you can recreate all the steps necessary for your analysis. Also, the untidy Excel file provides realistic practice for tidying up the data programmatically (using a computer program) with R itself (instead of doing these steps manually).
 
 First, modify the column names of the `gradebook` data frame to remove any spaces and replace them with an underscore. Using spaces as column names in R can present difficulties later on when working with the data.
 
 Second, we want the column names of our data to be easy to use and understand. The original dataset has column names with uppercase letters and spaces. We can use the {janitor} package to quickly change them to a more usable format.
+
+### About \{janitor\}
+
+The {janitor} package is a great resource for anybody who works with data, and particularly fantastic for data scientists in education. Created by Sam Firke, the Analytics Director of The New Teacher Project, it is a package created by practitioner in education with education data in mind.
+
+{janitor} has many handy functions to clean and tabulate data. Some examples include:
+
+- `clean_names()`, which takes messy column names that have periods, capitalized letters, spaces, etc. into R-friendly column names
+- `get_dupes()`, which identifies and examines duplicate records
+- `tabyl()`, which tabulates data in a `data.frame` format, and can be 'adorned' with the `adorn_` functions to add total rows, percentages, and other dressings
+
+Let's use {janitor} with these data!
 
 First, let's have a look at the original column names. The output will be long, so let's just look at the first ten by using `head()`.
 
@@ -154,7 +151,7 @@ view(gradebook)
 
 The data frame looks cleaner now but there still are some things we can remove. For example, there are rows without any names in them. Also, there are entire columns that are unused and contain no data (such as gender). These are called missing values and are denoted by *NA*. Since our simulated classroom only has 25 learners and doesn't use all the columns for demographic information, we can safely remove these to tidy our dataset up even more.
 
-We can remove the extra columns rows that have no data using the janitor package. The handy `remove_empty()` removes columns, rows, or both that have no information in them.
+We can remove the extra columns rows that have no data using the {janitor} package. The handy `remove_empty()` removes columns, rows, or both that have no information in them.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Removing rows with nothing but missing data
@@ -271,7 +268,7 @@ classwork_df %>%
 
 ### Model Data
 
-#### Deciding an an Analysis
+#### Deciding on an Analysis
 
 Using this spreadsheet, we can start to form hypotheses about the data. For example, we can ask ourselves, "Can we predict overall grade using formative assessment scores?" For this, we will try to predict a response variable Y (overall grade) as a function of a predictor variable Y (formative assessment scores). The goal is to create a mathematical equation for overall grade as a function of formative assessment scores when only formative assessment scores are known.
 
@@ -354,9 +351,9 @@ Correlation is good for finding relationships but it does *not* imply that one v
 cor(gradebook$formative_assessments, gradebook$running_average)
 ```
 
-### Building a Linear Model
+## Results
 
-In chapter 7, we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
+In [Chapter 7](#c07), we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model, that is, a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
 
 * Your predictor (formative_assessments)
 * Your response (running_average)
@@ -377,7 +374,7 @@ running_average = 50.11511 + 0.42136*formative_assessments
 
 We interpret these results by saying "For every one unit increase in formative assessment scores, we can expect a .421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
 
-*More on interpreting models* 
+*More on Interpreting Models* 
 
 Challenge yourself to apply your education knowledge to the way you communicate a model's output to your audience. Consider the difference between describing the relationship between formative assessment scores and running averages for a large group of students and for an individual student. 
 

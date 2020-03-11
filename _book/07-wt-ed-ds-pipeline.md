@@ -1,7 +1,15 @@
 
-# Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data {#c07}
+# Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
 
+
+This chapter presents the first of eight walkthroughs included in the book. In it, 
+we present *one approach* to analyzing a specific dataset; in this case, the approach
+is what we call the education data science pipeline using data from a number of 
+online science classes. While the walkthroughs are very different the structure 
+(and section headings) will be consistent throughout the walkthroughs. For example,
+every walkthrough will begin with a vocabulary section, followed by an introduction 
+to the dataset (and the question or problem) explored in the walkthrough. 
 
 ## Vocabulary
 
@@ -30,16 +38,14 @@ tidyverse and tidy data much more throughout the book.
 
 ### Background
 
-In the 2015-2016 and 2016-2017 school years, researchers carried out a study on
-students' motivation to learn in online science classes. The online science
-classes were part of a statewide online course provider designed to
-supplement(and not replace) students' enrollment in their local school. For
+The online science classes from which the data used in this walkthrough was obtained
+were designed and taught by instructors through a statewide online course provider
+designed to supplement (and not replace) students' enrollment in their local school. For
 example, students may choose to enroll in an online physics class because one
-was not offered at their school (or they were not able to take it given their
-schedule).
-
-The study involved a number of different data sources which were explored to
-understand students' motivation:
+was not offered at their school. The data were originally collected for a research study, 
+which involved a number of different data sources which were explored to
+understand students' motivation, or their reasons for taking the course. The 
+datasets included:
 
 1.  A self-report survey for three distinct but related aspects of students'
     motivation
@@ -48,11 +54,15 @@ understand students' motivation:
 4.  Achievement-related (i.e., final grade) data
 
 Our *purpose* for this walkthrough is to begin to understand what explains
-students' performance in these online courses. To do so, we will focus on a
-variable that was available through the learning management system used for the
-courses, on he amount of time sudents' spent on the course. We will also explore
-how different (science) subjects as well as being in a particular class may help
-to explain student performance.
+students' performance in these online courses. The *problem* we are facing is a 
+very common one when it comes to data science in education: the data is complex 
+and in need of further processing, before we can get to answering questions (or 
+running analyses).
+
+To understand students' performance we will focus on a variable that was available 
+through the learning management system used for the courses, on he amount of time
+students' spent on the course. We will also explore how different (science) 
+subjects as well as being in a particular class may help to explain student performance.
 
 First, these different data sources will be described in terms of how they were
 provided by the school.
@@ -89,7 +99,7 @@ source of log-trace data is that generated from interactions with learning
 management systems and other digital tools [@siemens2012]. The data for this
 walk-through is a *summary of* log-trace data, namely, the number of minutes
 students spent on the course. Thus, while this data is rich, you can imagine
-even more complex sources of log-trace data (i.e. timestamps associated with
+even more complex sources of log-trace data (i.e. time stamps associated with
 when students started and stopped accessing the course!).
 
 ### Data Source \#3: Achievement-Related and Gradebook Data
@@ -103,14 +113,14 @@ Discussion board data is both rich and unstructured, in that it is primarily in
 the form of written text. We collected discussion board data, too, and highlight
 this as a potentially very rich data source.
 
-## Methods
+### Methods
 
-<!-- ### Methods: quick summary of the methods that we’ll use in the analysis -->
+In this walkthrough, we will concentrate on the different joins available in the {dplyr} package. We will also start exploring how to run linear models in R.
 
 ## Load Packages
 
 This analysis uses R packages, which are collections of R code that help users
-code more efficiently, as you wil recall from [Chapter 1](#c1). We load
+code more efficiently, as you will recall from [Chapter 1](#c1). We load
 these packages with the function `library()`. In particular, the packages we'll
 use will help us load Excel files, organize the structure of the data, work with
 dates in the data, and navigate file directories.
@@ -128,7 +138,7 @@ library(sjPlot)
 
 ## Import Data
 
-This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three logtrace
+This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three log trace
 datasets. We assign each of the datasets a name using `<-`.
 
 
@@ -147,7 +157,7 @@ course_minutes <- dataedu::course_minutes
 
 ## View Data
 
-Now that we've successfully loaded all three logtrace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
+Now that we've successfully loaded all three log trace datasets, we can visually inspect the data by typing the names that we assigned to each dataset.
 
 
 ```r
@@ -224,7 +234,7 @@ Often, survey data needs to be processed in order to be (most) useful. Here, we
 process the self-report items into three scales, for: interest, self-efficacy,
 and utility value. We do this by
 
-- Renaming the question variables to something more managable
+- Renaming the question variables to something more manageable
 - Reversing the response scales on questions 4 and 7
 - Categorizing each question into a measure
 - Computing the mean of each measure
@@ -334,7 +344,7 @@ pre_survey <-
          q7 = reverse_scale(q7))
 ```
 
-3.  We'll accomplish the last two steps in one chunk of code. First we'll create a column called `measure` and we'll fill that column with one of three question categories:
+3. We'll accomplish the last two steps in one chunk of code. First we'll create a column called `measure` and we'll fill that column with one of three question categories:
 
 - `int`: interest
 - `uv`: utility value
@@ -447,7 +457,7 @@ pre_survey
 
 Looks better now!
 
-In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data wiht the other data sources we have. Why does this varaible have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
+In addition to needing to be renamed, the student_id variable had an issue - the variable has some additional characters before and after *the actual ID* that we will need to be able to join this data with the other data sources we have. Why does this variable have these additional characters? We are not sure! Sometimes, educational data from different systems (used for different purposes) may have additional "meta"-data added on. In any event, here is what the variables look like before and processing:
 
 
 ```r
@@ -460,7 +470,7 @@ head(pre_survey$student_id)
 
 What we need is the five characters in between the underscore symbols - these: `_`.
 
-An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skippign the first underscore in the process.
+An easy way to do this (among others) is to use the `str_sub()` function from the stringr package. You can specify the indices of the variables you want the string to *start* and *end* with. Here, for example, is how we can start with the second character, skipping the first underscore in the process.
 
 
 ```r
@@ -685,7 +695,7 @@ dat_right
 #> #   q9 <dbl>, q10 <dbl>
 ```
 
-If we wanted this to return exacty the same output as `left_join()` (and so to
+If we wanted this to return exactly the same output as `left_join()` (and so to
 create a data frame that is identical to the `dat` data frame above), we could
 simply switch the order of the two data frames to be the opposite of those used
 for the `left_join()` above:
@@ -794,10 +804,6 @@ dat <-
   left_join(dat)
 ```
 
-```
-#> Joining, by = c("student_id", "course_id")
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column, for the percentage of points each
@@ -883,7 +889,7 @@ dat <-
   distinct(dat, course_id, student_id, .keep_all = TRUE)
 ```
 
-This is a much smaller data frame - with one row for each sudnet in the course
+This is a much smaller data frame - with one row for each student in the course
 (instead of the 29,701 rows which we would be interested in were we analyzing
 this data at the level of specific students' grades for specific gradebook
 items). Now that our data are ready to go, we can start to ask some questions of
@@ -891,7 +897,7 @@ the data,
 
 ## Analysis
 
-In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in a [later chapter'(\#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce {ggplot2}, a visualization package we'll be using in our walkthroughs. 
+In this section, we focus on some initial analyses in the form of visualizations and some models. We note that we expand on these in [Chapter 13](#c13). Before we start visualizing relationships between variables in our survey dataset, let's introduce {ggplot2}, a visualization package we'll be using in our walkthroughs. 
 
 ### About \{ggplot2\}
 
@@ -914,23 +920,6 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
   geom_bar(stat = "identity",
            fill = dataedu_colors("darkblue")) +
   theme_dataedu()
-```
-
-```
-#> Scanning ttf files in /Library/Fonts/, /System/Library/Fonts, ~/Library/Fonts/ ...
-```
-
-```
-#> Extracting .afm files from .ttf files...
-```
-
-```
-#> /Library/Fonts/Microsoft/Gill Sans MT Bold Italic.ttf : GillSansMT-BoldItalic already registered in fonts database. Skipping.
-#> /Library/Fonts/Microsoft/Gill Sans MT Bold.ttf : GillSansMT-Bold already registered in fonts database. Skipping.
-#> /Library/Fonts/Microsoft/Gill Sans MT Italic.ttf : GillSansMT-Italic already registered in fonts database. Skipping.
-#> /Library/Fonts/Microsoft/Gill Sans MT.ttf : GillSansMT already registered in fonts database. Skipping.
-#> Found FontName for 0 fonts.
-#> Scanning afm files in /Library/Frameworks/R.framework/Versions/3.6/Resources/library/extrafontdb/metrics
 ```
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" width="100%" style="display: block; margin: auto;" />
@@ -976,13 +965,13 @@ dat %>%
 
 <img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" />
 
-So, it appeares that the more time students spent on the course, the more points
+So, it appears that the more time students spent on the course, the more points
 they earned.
 
 ### Linear Model (Regression)
 
 We can find out exactly what the relationship is using a linear model. We also
-discuss linear models in walkthrough XXX.
+discuss linear models in [Chapter 10](#c10).
 
 Let's use this technique to model the relationship between the time spent on the
 course and the percentage of points earned. Here, we predict
@@ -1043,7 +1032,7 @@ tab_model(m_linear)
 
 </table>
 
-This will work well for R Markdown documents (or simply to interpet the model in
+This will work well for R Markdown documents (or simply to interpret the model in
 R). If you want to save the model for use in a Word document, the
 [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
@@ -1073,7 +1062,7 @@ in the {dplyr} package that you will see a lot in upcoming chapters.
     groups instead of on the entire dataset. Use it for tasks like getting the
     mean test score of each school instead of a whole school district
   - `summarize()` and `summarise()` reduce your dataset down to a summary statistic.
-    Use it for tasks like turning a datset of student test scores into a datset
+    Use it for tasks like turning a dataset of student test scores into a dataset
     of grade levels and their mean test score
 
 So let's use these {dplyr} functions on our survey analysis. We will create the
@@ -1376,6 +1365,6 @@ predictive uses of models further in [Chapter 14](#c14)).
 In the follow-up to this walkthrough (see [Chapter 13](#c13)), we will
 focus on visualizing and then modeling the data using an advanced methodological
 technique, multi-level models, using the data we prepared as a part of this data
-processeing pipeline used in this chapter.
+processing pipeline used in this chapter.
 
 

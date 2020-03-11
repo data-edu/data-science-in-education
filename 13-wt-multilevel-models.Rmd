@@ -1,10 +1,5 @@
 # Walkthrough 7: The Role (and Usefulness) of Multi-Level Models {#c13}
 
-As for the earlier walkthrough using the same data, the *purpose* for this walkthrough is to explore
-students' performance in these online courses, focusing on the time spent in the 
-course (made available through the learning management system) and the effects 
-of being in a particular class.
-
 ## Vocabulary
 
 - hierarchical linear model  
@@ -14,16 +9,21 @@ of being in a particular class.
 
 ## Chapter Overview
 
+The *purpose* of this walkthrough is to explore
+students' performance in these online courses, focusing on the time spent in the 
+course (made available through the learning management system) and the effects 
+of being in a particular class.
+
 ### Background
 
-This walkthrough accompanies the [previous chapter](#c12),
-which focused on preparing the data and beginning to viusualize and model the
+This walkthrough accompanies [Chapter 12](#c12),
+which focused on preparing the data and beginning to visualize and model the
 data. Here, we focus on an extension of the models we ran, one focused on how to
 address the fact that students in our dataset shared classes.
 
-As for the earlier walkthrough using the same data, the *purpose* for this
+As for the earlier walkthrough using the same data, [Walkthrough 1/Chapter 7](#c07), the *purpose* for this
 walkthrough is to explore students' performance in these online courses,
-focusing on the time spent in the course (made available throygh the learning
+focusing on the time spent in the course (made available through the learning
 management system) and the effects of being in a particular class.
 
 ### Data Source
@@ -32,6 +32,13 @@ We use the same data source on students' motivation in online science classes
 that we processed in [Walkthrough 1](#c07).
 
 ### Methods
+
+Are there course-specific differences in how much time students spend on the
+course as well as in how time spent is related to the percentage of points
+students earned? There are a number of ways to approach this question. Let's use
+our linear model.
+
+Specifically, we can dummy-code the groups. Dummy coding means transforming a variable with multiple categories into multiple, new variables, where each variable indicates the presence and absence of only one of the categories.
 
 ## Load Packages
 
@@ -47,14 +54,7 @@ library(performance)
 library(dataedu)
 ```
 
-## But What About Different Courses?
-
-Are there course-specific differences in how much time students spend on the
-course as well as in how time spent is related to the percentage of points
-students earned? There are a number of ways to approach this question. Let's use
-our linear model.
-
-Specifically, we can dummy-code the groups. Dummy coding means transforming a variable with multiple categories into multiple, new variables, where each variable indicates the presence and absence of only one of the categories.
+## Import Data
 
 ### The Role of Dummy Codes
 
@@ -147,9 +147,7 @@ in short, the dummy code would not be compared to anything else. For this
 reason, one group is typically selected as the reference group, to which every 
 other group is compared.
 
-## Import Data
-
-We will load a built-in dataset from the dataedu package. 
+We will load a built-in dataset from the {dataedu} package. 
 
 ``` {r, message = F, warning = F}
 dat <- dataedu::sci_mo_processed
@@ -470,7 +468,7 @@ In this example (and in many examples in educational research), the groups are
 classes. But, multi-level models can be used for other cases in which data is
 associated with a common group. For example, if students respond to repeated
 measures (such as quizzes) over time, then the multiple quiz responses for each
-sudent could be considered to be "grouped" within students. In such a case,
+student could be considered to be "grouped" within students. In such a case,
 instead of specifying the model with the course as the "grouping factor",
 students could be.
 
