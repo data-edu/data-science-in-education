@@ -96,7 +96,7 @@ For example,
 
 ### Start lessons or activities with visualizing data
 
-There are examples from data science books @grolemund2018 and past research (e.g. @lehrer2015) that suggests that starting with visualizing data can be beneficial in terms of learners' ability to work with data. @golemund2018 write that they begin their book, *Data Science Using R*, with a chapter on visualization, because doing so allows learners to create something that they can share immediately, whereas tasks such as loading data can be rife with issues - and does not immediately lead learners to have a product they can share. @lehrer2007 show how providing students with an opportunity to invent statistics by displaying the data in new ways. This led to (productive) critique among fifth- and sixth-grade students and their teacher.
+There are examples from data science books @grolemund2018 and past research (e.g. @lehrer2015) that suggests that starting with visualizing data can be beneficial in terms of learners' ability to work with data. @grolemund2018 write that they begin their book, *Data Science Using R*, with a chapter on visualization, because doing so allows learners to create something that they can share immediately, whereas tasks such as loading data can be rife with issues - and does not immediately lead learners to have a product they can share. @lehrer2007 show how providing students with an opportunity to invent statistics by displaying the data in new ways. This led to (productive) critique among fifth- and sixth-grade students and their teacher.
 
 ### Consider representation in the data and examples you use
 

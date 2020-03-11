@@ -13,7 +13,7 @@ We will be covering the following topics in this chapter:
 - Steps for working through new and unfamiliar content
 - Accessing the data sets used in this book
 
-First, you will need to download the latest versions of R and RStudio. 
+First, you will need to download the latest versions of R [@rcoreteam] and RStudio [@rstudio]. 
 R is a free environment for statistical computing and graphics using the programming language R. 
 RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
 
