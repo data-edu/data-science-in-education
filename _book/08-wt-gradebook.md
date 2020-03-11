@@ -114,7 +114,7 @@ Second, we want the column names of our data to be easy to use and understand. T
 
 ### About \{janitor\}
 
-The {janitor} package is a great resource for anybody who works with data, and particularly fantastic for data scientists in education. Created by Sam Firke, the Analytics Director of The New Teacher Project, it is a package created by practitioner in education with education data in mind.
+The {janitor} package is a great resource for anybody who works with data, and particularly fantastic for data scientists in education. Created by Sam Firke, the Analytics Director of The New Teacher Project, it is a package created by a practitioner in education with education data in mind.
 
 {janitor} has many handy functions to clean and tabulate data. Some examples include:
 
