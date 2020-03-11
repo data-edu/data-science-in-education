@@ -6,23 +6,23 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 ## Vocabulary 
 
- - Read in
- - Aggregate data 
- - Vector 
- - List
- - Tidy format
- - Subset
+ - read in
+ - aggregate data 
+ - vector 
+ - list
+ - tidy format
+ - subset
  - `select_at`
  - `mutate`
- - Statistical model 
- - Aggregate data
- - Student-level data
+ - statistical model 
+ - aggregate data
+ - student-level data
 
 ## Chapter Overview 
 
 ### Background 
 
-Data scientists working in education don't always have access to student level data, so knowing how to work with publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
+Data scientists working in education don't always have access to student level data, so knowing how to model publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
 
 You can download the datasets for this walkthrough on the United States Department of Education website (see @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. This walkthrough uses datasets of student with disabilities counts in each state.
 
@@ -43,7 +43,7 @@ library(lubridate)
 
 ## Import Data 
 
-In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv`s we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
+In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv` files we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
 
 ### What to Download
 
@@ -462,9 +462,9 @@ child_counts %>%
   arrange(year, state, gender)
 ```
 
-## Analysis: How Have Child Counts Changed Over Time? 
+## Analysis
 
-In the last section we focused on importing our dataset. In this section, we will turn to exploring it. First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
+In the last section we focused on importing our dataset. In this section, we will ask: how have child counts changed over time? First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
 
 ### Visualize the Dataset  
 
@@ -499,8 +499,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Count of female students in special education over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
@@ -518,8 +518,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Count of male students in special education over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
@@ -532,8 +532,8 @@ high_count %>%
   geom_freqpoly(stat = "identity", size = 1) +
   labs(title = "Total count of students in special education over time",
        subtitle = "Ages 3-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
@@ -579,8 +579,8 @@ high_count %>%
   scale_y_continuous(limits = c(1.5, 2.5)) +
   labs(title = "Male student to female student ratio over time",
        subtitle = "Ages 6-21") +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
@@ -752,8 +752,8 @@ model_data %>%
     y = "",
     caption = "Data: US Dept of Education"
   ) +
-  theme_dataedu() +
-  scale_color_dataedu()
+  scale_color_dataedu() +
+  theme_dataedu()
 ```
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
@@ -766,9 +766,9 @@ When we look at these five states over time, we see that despite the differences
 
 The comparison of student counts across each state is tricky because there is a lot of variation in total enrollment across all fifty states. While we explored student counts across each state and verified that there is variation in the counts, a good next step would be to combine these data with total enrollment data. This would allow us to compare counts of students with disabilities as a percentage of total enrollment. Comparing proportions like this is a common way to compare subgroups of a population across states when each state's population varies in size. 
 
-## Conclusion: Aggregate Data as Context for Student Data 
+## Conclusion
 
-Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that an education data scientist would typically do. 
+Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that a data scientist in education would typically do. 
 
 Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
 
