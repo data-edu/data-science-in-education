@@ -144,7 +144,7 @@ What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `
 
 We've gotten one of our first error messages!
 
-!["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](images/mutate_error.png)
+!["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](man/figures/mutate_error.png)
 
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
 Let's see what happens when we follow the error
@@ -301,7 +301,7 @@ install.packages("dplyr")
 
 You can also navigate to the Packages pane, click "Install", and then search for and Install one or more packages. 
 
-!["Image of the Packages pane, which is found in the bottom right corder of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes"](images/packages_pane.png)
+!["Image of the Packages pane, which is found in the bottom right corder of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes"](man/figures/packages_pane.png)
 
 *Loading a package*
 
@@ -379,7 +379,7 @@ How do you know?
 
 In your Console you may have noticed the following message: 
 
-!["List of attached packages and associated conflicts when loading the Tidyverse"](images/tv_conflicts.png) 
+!["List of attached packages and associated conflicts when loading the Tidyverse"](man/figures/tv_conflicts.png) 
 
 This isn't error, but rather some important information that we need to consider!
 When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R along with a (relative) handful of pre-installed packages. 

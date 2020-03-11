@@ -141,7 +141,7 @@ library(sjPlot)
 
 ## Import Data
 
-This code chunk loads the log trace data using the `read_csv()` function. Note that we call `read_csv()` three times, once for each of the three log trace
+This code chunk loads the log trace data from the {dataedu} package. Note that we assign a dataset to an object three times, once for each of the three log trace
 datasets. We assign each of the datasets a name using `<-`.
 
 
