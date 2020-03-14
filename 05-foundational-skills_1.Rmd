@@ -101,8 +101,6 @@ Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
 - Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
     + Choose a theme that works best for you and apply it
     
-## Steps for working through new and unfamiliar content
-
 ## Using the dataedu package to access the data used in this book
 
 We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
@@ -145,4 +143,62 @@ dataedu::course_data
 
 ## Steps for working through new and unfamiliar content
 
-Need to add
+A sure sign of a great educator is the ability to ask questions. 
+Asking the right questions at the right time of the learners in your classroom can facilitate understanding, uncover misconceptions, and indicate whether or not learners have mastered the material.
+
+However, when you’re learning on your own you have to simultaneously fill the roles of both learner and educator, and not only know both how and when to ask yourself questions, but also answer your questions, evaluate your answers, and redirect your learning path as you progress.
+
+This section is intended to give you a series of steps you can use as you encounter new and unfamiliar content both in reading this book as well as in your broader data science learning endeavors.
+For this section we'll use the example of encountering a function for the first time, but you can use these steps with any new piece of information that you encounter!
+We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task. 
+
+**Activate prior knowledge**
+You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor):
+
+```{r eval = FALSE}
+library(tidyverse)
+library(janitor)
+
+roster <- roster_raw %>% 
+    clean_names() %>% 
+    remove_empty(c("rows", "cols")) %>% 
+    mutate(hire_date = excel_numeric_to_date(hire_date),
+           cert = coalesce(certification, certification_1)) %>% 
+    select(-certification, -certification_1)
+```
+
+_Note: you aren't expected to know what the chunk of code that you've just read does, but by the time you've finished this book you'll be able to run and understand everything in the code example!_
+
+Take a moment to think through the following questions:
+
+* What does the word "coalesce" mean?
+* Have you ever seen the `coalesce()` function before? If so, in what context?
+
+**Look for context clues**
+
+* Read a couple of lines of code both above and below where the `coalesce()` function appears - are there any clues as to what this function might do?
+
+**Check the docs**
+
+* What information is available in the Help documentation?
+* Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
+
+![Example from the `coalesce()` Help documentation](images/coalesce_help_doc.png)
+
+**Find the limits**
+Work through examples in the Help documentation (or examples that you've found online) and test the limits.
+Testing the limits is a way of understanding the code by seeing how it handles different situations.
+Ultimately what you're doing is recognizing a pattern, developing a hypothesis, and testing whether or not that hypothesis is true.
+Some methods for testing the limits include:
+
+* Substituting obviously larger (or smaller values)
+* Substituting different data types
+* What happens if you introduce `NA` values?
+* Is the order of values important?
+
+**Test (and refine) your understanding**
+Take a moment to think through whether or not you could explain what you've just learned to someone else.
+Imagine the questions that they might ask of you, and try to answer them.
+If you can't answer them, dig deeper into the documentation, online forums, or even in testing your own knowledge, until you feel like you can! 
+
+You won't necessarily have the time (or interest!) in doing this for each new or unfamiliar piece of content that you come across, but we hope that this provides you with a starting framework for furthering your understanding when you _do_ come across content that you want to explore a bit more in-depth! 
