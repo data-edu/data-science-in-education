@@ -924,8 +924,8 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" alt="School ID vs. Mean Score" width="100%" />
-<p class="caption">(\#fig:ggplot example)School ID vs. Mean Score</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-27)Example Plot</p>
 </div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
@@ -948,7 +948,10 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-28)Percentage Earned vs. Time Spent</p>
+</div>
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
@@ -965,7 +968,10 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-29)Adding a Line of Best Fit</p>
+</div>
 
 So, it appears that the more time students spent on the course, the more points
 they earned.
@@ -997,10 +1003,11 @@ Another way that we can generate table output is with a function from the
 
 
 ```r
-tab_model(m_linear)
+tab_model(m_linear, title = "(\\#tab:tab-model-table) Linear Model Table Output")
 ```
 
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">(\#tab:tab-model-table) Linear Model Table Output</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>

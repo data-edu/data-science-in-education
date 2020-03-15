@@ -1281,10 +1281,10 @@ the data,</p>
 <a class="sourceLine" id="cb92-11" title="11"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
 <a class="sourceLine" id="cb92-12" title="12">           <span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb92-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot%20example-1.png" alt="School ID vs. Mean Score" width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-27"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
 <p class="caption">
-(#fig:ggplot example)School ID vs. Mean Score
+Figure 7.1: Example Plot
 </p>
 </div>
 <p>The <code>data</code> argument in the first line tells R we’ll be using the dataset called <code>students</code>. The <code>aes</code> argument tells R we’ll be using values from the <code>school_id</code> column for the x-axis and values from the <code>mean_score</code> column for the y-axis. In the second line, the <code>geom_bar</code> function tells R we’ll drawing the graph using the bar chart format. Each line of ggplot code is connected by a <code>+</code> at the end to tell R the next line of code is an additional ggplot layer to add.</p>
@@ -1302,7 +1302,12 @@ students’ final grade.</p>
 <a class="sourceLine" id="cb93-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb93-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb93-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Earned&quot;</span>)</a></code></pre></div>
-<p><img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-28"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">
+Figure 7.2: Percentage Earned vs. Time Spent
+</p>
+</div>
 <p>There appears to be <em>some</em> relationship. What if we added a line of best fit - a linear model?</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">dat <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb94-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> TimeSpent, <span class="dt">y =</span> percentage_earned)) <span class="op">+</span></a>
@@ -1313,7 +1318,12 @@ students’ final grade.</p>
 <a class="sourceLine" id="cb94-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb94-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb94-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Earned&quot;</span>)</a></code></pre></div>
-<p><img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-29"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">
+Figure 7.3: Adding a Line of Best Fit
+</p>
+</div>
 <p>So, it appears that the more time students spent on the course, the more points
 they earned.</p>
 </div>
@@ -1335,8 +1345,11 @@ well as the <code>summary()</code> function on the output.</p>
 <a class="sourceLine" id="cb95-2" title="2"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>Another way that we can generate table output is with a function from the
 {sjPlot} package, <code>tab_model()</code>.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1"><span class="kw">tab_model</span>(m_linear)</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" title="1"><span class="kw">tab_model</span>(m_linear, <span class="dt">title =</span> <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">#tab:tab-model-table) Linear Model Table Output&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+<span id="tab:tab-model-table">Table 7.1: </span> Linear Model Table Output
+</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
