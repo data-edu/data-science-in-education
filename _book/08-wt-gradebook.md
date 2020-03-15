@@ -271,7 +271,10 @@ gradebook %>%
   scale_fill_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" alt="Bar Graph of Student Grades" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-14)Bar Graph of Student Grades</p>
+</div>
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
@@ -298,7 +301,10 @@ classwork_df %>%
     ) 
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" alt="Distribution of Classwork Scores" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-15)Distribution of Classwork Scores</p>
+</div>
 
 ### Model Data
 
@@ -328,7 +334,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Relationship Between Overall Grade and Formative Assessments</p>
+</div>
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
@@ -349,7 +358,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
+</div>
 
 ##### Outliers
 
@@ -369,7 +381,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-18)Distribution of Formative Assessment Scores</p>
+</div>
 
 
 ```r
@@ -385,7 +400,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-19)Distribution of Overall Grade Scores</p>
+</div>
 
 ### Correlation Analysis
 

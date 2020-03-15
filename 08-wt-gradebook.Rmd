@@ -230,7 +230,7 @@ summary(gradebook)
 
 But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Bar Graph of Student Grades"}
 # Bar graph for categorical variable
 gradebook %>%
   ggplot(aes(x = letter_grade,
@@ -246,7 +246,7 @@ gradebook %>%
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Classwork Scores"}
 # Scatterplot of continuous variable
 classwork_df %>%
   ggplot(aes(x = classwork_number,
@@ -282,7 +282,7 @@ It's important to visualize data to see any distributions, trends, or patterns b
 
 First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, the overall grade goes up too.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments"}  
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
 gradebook %>%
@@ -297,7 +297,7 @@ gradebook %>%
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)"}  
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
 # With line of best fit
@@ -317,7 +317,7 @@ gradebook %>%
 
 Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Formative Assessment Scores"}  
 # Boxplot of formative assessment scores
 # To determine if there are any outliers
 gradebook %>%
@@ -330,7 +330,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Overall Grade Scores"}  
 # Boxplot of overall grade scores in percentage
 # To determine if there are any outliers
 gradebook %>%

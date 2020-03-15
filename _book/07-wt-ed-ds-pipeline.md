@@ -1003,11 +1003,10 @@ Another way that we can generate table output is with a function from the
 
 
 ```r
-tab_model(m_linear, title = "(\\#tab:tab-model-table) Linear Model Table Output")
+tab_model(m_linear)
 ```
 
 <table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">(\#tab:tab-model-table) Linear Model Table Output</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
