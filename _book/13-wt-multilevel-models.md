@@ -30,7 +30,7 @@ regression (or linear model), like those described in
 [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10):
 the multi-level model "regularizes" the estimates for each group based upon
 systematically different the groups (classes) are, in terms of the dependent variable,
-from the overall (across all groups [classes]) values of the deoendent variable. 
+from the overall (across all groups [classes]) values of the dependent variable. 
 
 These are the conceptual details underlying multi-level models, but, fortunately, 
 fitting them is straightforward, and should be familiar if you have used R's `lm()` 
@@ -52,8 +52,8 @@ Specifically, we can dummy-code the groups. Dummy coding means transforming a va
 
 ## Load Packages
 
-We will load the tidyverse and a few other packages specific to using multi-level models, particularly, 
-{lme4} [@R-lme4] and {performance}.
+We will load the tidyverse and a few other packages specific to using multi-level models: 
+{lme4} [@R-lme4] and {performance} [@R-performance].
 
 
 ```r
@@ -73,7 +73,7 @@ We can see how dummy coding works through using the {dummies} package, though,
 as we will see, you often do not need to manually dummy code variables like
 this.
 
-Let's consider the `iris` data that comes built into R, but, since we are fans
+Let's consider the `iris` data that comes built into R. Since we are fans
 of the {tidyverse}, we will first change it into a tibble.
 
 
@@ -188,7 +188,7 @@ iris_with_dummy_codes %>%
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
-Okay, this covers how dummy codes work: but, how do they work when used in a
+Okay, this covers how dummy codes work. How do they work when used in a
 model, like with the linear model we have been using (through `lm()`)?
 
 In the context of using `lm()` (and many other functions in R) is that the
@@ -215,7 +215,7 @@ We will load a built-in dataset from the {dataedu} package.
 dat <- dataedu::sci_mo_processed
 ```
 
-### Using dummy codes
+### Using Dummy Codes
 
 Let's return use online science class data and consider the effect (for a
 student) of being in a specific class in the data set.
@@ -248,13 +248,13 @@ dat %>%
 
 ## Analysis
 
-### Regression (linear model) analysis with dummy codes
+### Regression (Linear Model) Analysis with Dummy Codes
 
 We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
 and `course_id` - as independent variables, but will predict students' final grade 
 (a variable in the dataset), rather than the `percentage_earned` variable that we 
-created in (chapter 7)[#c7].
+created in (chapter 7)[#c07].
 
 Since we will be using the final grade variable a lot, we can rename it to make 
 it quicker (and easier) to type.
@@ -473,17 +473,17 @@ been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 0.74 represents the percentage of points that students in the reference
 group class, which is automatically the first level of the `course_id` variable
-when it is converted to a factor, "course_idAnPhA-S116-01" (which represents an anatomy 
-and physiology course from semester `S1` (for the fall) of 20`16`; this is the first
-section (`01`)).
+when it is converted to a factor, `course_idAnPhA-S116-01` (which represents an anatomy 
+and physiology course from semester `S1` (for the fall) of 20`16` in the first
+section `01`).
 
-We can easily choose another class to serve as a reference group. Imagine, for
-example, that we want "course\_idPhysA-S116-01" (the first section of the
+We can choose another class to serve as a reference group. For
+example, say that we want `course\_idPhysA-S116-01` (the first section of the
 physics class offered during this semester and year) to be the reference group.
 The `fct_relevel()` function (which is a part of the {tidyverse} suite of
 packages) makes it easy to do this. This function allows us to re-order the
 levels within a factor, so that the "first" level will change. We'll also use
-`mutate` again here, which we introduced in the previous chapter. 
+`mutate()` again here, which we introduced in the previous chapter. 
 
 
 ```r
@@ -904,7 +904,7 @@ factors, and so we emphasized that in this walkthrough. However, we want you to 
 aware that it is possible (though uncommon) to estimate a model without an
 intercept.
 
-### A deep-dive into multi-level models
+### A Deep-Dive into Multi-Level Models
 
 Dummy-coding is a very helpful strategy. It is particularly useful with a small
 number of groups (i.e., for estimating the effects of being in one of the five
@@ -931,7 +931,7 @@ effect of being a student in each group, but with a key distinction from linear
 models: Instead of determining how different the observations in a group are
 from those in the reference group, the multi-level model "regularizes" (sometimes the term "shrinks" is used) the difference based on how
 systematically different the groups are. The reason why "shrinkage" is
-occasionally used is that the group-level estimates (i.e., for classes) that are
+occasionally used is that the group-level estimates (e.g., for classes) that are
 obtained through multi-level modeling can never be larger than those from a
 linear model (regression). As described earlier, when there are groups included
 in the model, a regression effectively estimates the effect for each group
@@ -984,10 +984,10 @@ science analyses, reports, and articles.
 ### Multi-level model analysis
 
 Fortunately, for all of the complicated details, multi-level models are very
-easy to use in R. This requires a new package; one of the most common for
-estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*,
-in the data are. Such a model is often referred to as a "varying intercepts"
-multi-level model, because what is different between the groups is the effect of
+easy to use in R. This requires a new package. One of the most common for
+estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*
+in the data are. This model is often referred to as a "varying intercepts"
+multi-level model. What is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
 You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
@@ -1002,7 +1002,7 @@ Now we can fit our multi-level model:
 
 ```r
 m_course <- 
-  lme4::lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
+  lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
@@ -1019,23 +1019,23 @@ in the data. With `lmer()`, these group terms are specified in parentheses -
 specifically, to the right of the bar. That is what the `|course_id` part means
 - it is telling lmer that courses are groups in the data. The left side of the
 bar tells lmer that what we want to be specified are varying intercepts for each
-group (1 is used to denote the intercept). That is basically it!
+group (1 is used to denote the intercept).
 
-That is basically it, but there is potentially more to the story: In addition to
+There is potentially more to the story: in addition to
 the 1, variables which can be specified to have a different effect for each
 group can also be specified. These variables are referred to not as varying
 intercepts, but as varying slopes. We will not cover these in this walkthrough,
 but want you to be aware of them (we recommend the book by West, Welch, and
 Galecki [2014] provide an excellent walkthrough on how to specify varying
-slopes using lmer).^[To say *just* a bit more, there is a connection between
+slopes using `lmer()`). To say *just* a bit more, there is a connection between
 multi-level models and Bayesian methods (@gelman2006data); one way to think
 about the "regularizing" going on is that estimates for each group (class) are
 made taking account of the data across all of the groups (classes). The data for
-all of the classes can be interpreted as a *prior* for the group estimates.]
+all of the classes can be interpreted as a *prior* for the group estimates.
 
 ## Results
 
-Let's view the results using the `tab_model()` function from sjPlot.
+Let's view the results using the `tab_model()` function from {sjPlot}.
 
 
 ```r
@@ -1074,7 +1074,7 @@ After that, try this function:
 
 
 ```r
-performance::icc(m_course)
+icc(m_course)
 ```
 
 ```
@@ -1105,7 +1105,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ```r
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+  lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see

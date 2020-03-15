@@ -8,19 +8,21 @@ This chapter is designed to take you from installing R and RStudio all the way t
 We will be covering the following topics in this chapter: 
 
 - Installing R and RStudio
-- RStudio environment and pane layout
-- Basics of customizing your RStudio environment
+- RStudio environment, layout, and customization
+- How to run code in R
+- Installing the {dataedu} package
+- Help documentation
 - Steps for working through new and unfamiliar content
-- Accessing the data sets used in this book
+- Getting started with {swirl}
+
+## Downloading R and RStudio
 
 First, you will need to download the latest versions of R [@rcoreteam] and RStudio [@rstudio]. 
 R is a free environment for statistical computing and graphics using the programming language R. 
 RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
 
-Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes. 
+Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes.  
 Both R and RStudio are freely-available, cross-platform, and open-source.
-
-## Downloading R and RStudio
 
 ### To download R:
 
@@ -41,21 +43,18 @@ Once you've installed R, you can get started.
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
-<<<<<<< HEAD
-## Getting to Know R through RStudio
-=======
 ## RStudio layout and customization: getting to know R through RStudio
->>>>>>> upstream/master
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-<div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)Icons</p>
-</div>
+<center>
+![R and RStudio icons](./man/figures/icons.png)
+</center>
 
-RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
+Whenever we want to work with R, we'll open RStudio.
+RStudio interfaces directly with R, and is an **I**ntegrated **D**evelopment **E**nvironment (IDE).
+This means that RStudio comes with built-in features that make using R a little easier. 
 If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) @statisticalinf textbook.
 
 You do not _have_ to use RStudio to access R, and many people don't! 
@@ -72,135 +71,254 @@ This is a non-exhaustive list, and most of these options require a good deal of 
 However we bring up alternative IDEs -- particularly ESS -- because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers.
 We have chosen to use RStudio in this text in order to standardize the experience, but encourage you to choose the IDE that best suits your needs!
 
-**RStudio layout** 
+### RStudio layout 
 
 When we open RStudio for the first time, we're should see something similar to this:
 
-<<<<<<< HEAD
-<div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.2.png" alt="R Studio Panes" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)R Studio Panes</p>
-</div>
-
-=======
 <center>
 ![RStudio layout](./man/figures/rstudio_three_pane.png)
 </center>
   
->>>>>>> upstream/master
-These three "panes" are referred to as the **console** pane, the **environment** pane, and the **files** pane. 
-The large square on the left is the **console** pane, the square in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
+We'll refer to these three "panes" as the **Console** pane, the **Environment** pane, and the **Files** pane. 
+The large square on the left is the **Console** pane, the square in the top right is the **Environment** pane, and the square in the bottom right is the **Files** pane.  
 
 As you work with R more, you'll find yourself using the tabs within each of the panes.
-<<<<<<< HEAD
+
+When we create a new file, such as an R script, an R Markdown file, or a Shiny app, RStudio will open a fourth pane, known as the **source** pane.  
+The source pane should show up as a square in the top left.
+We can open up an `.R` script in the source pane by going to File, selecting New File, and then selecting R Script:
+
+<center>
+![Creating a new R Script in RStudio](./man/figures/r_script.png)
+</center>
+
+You do not need to do anything specific with this file, but we encourage you to experiment with it if you would like!  
+
+### Customizing RStudio  
+
+One of the balances we've tried to strike in this text is a balance between best practices in your _workflow_ (how you'll use R in your projects) and your _R code_.
+A best practice for your _workflow_ is to ensure that you're starting with a blank slate every time you open R (through RStudio). 
+To accomplish this, go to Tools and select Global Options from the dropdown menu.
+
+<center>
+![Selecting Global Options from the Tool dropdown menu](./man/figures/tools_global.png)
+</center>
+
+The General tab will open, with several checkboxes selected and unselected.
+The most important thing you can do is select "Never" next to the **Save workspace to .RData on exit:** prompt.
+After selecting "Never", go through and check and uncheck boxes so that your General tab looks like this: 
+
+<center>
+![General tab from Global Options](./man/figures/save-workspace-reminder.jpg)
+</center>
+
+Last, but certainly not least, click on the "Appearance" tab from within the Global Options. 
+From here you can select your RStudio Font, Font Size, and Theme.
+Go through the options and select an appearance that works best for you, and know that you can _always_ come back and change it!
+    
+### Minimized and Missing Panes
+
 If at any point you find that one of your panes seems to have "disappeared," one of two things has likely happened: 
 
 - A pane has been minimized
 - A pane has been closed
 
-Let's look at the environment pane as an example.
-If the environment pane has been minimized, we'll see something like this:  
+Let's look at the Environment pane as an example.
+If the Environment pane has been minimized, we'll see something like this:  
 
+<center>
+![RStudio layout with the Environment pane minimized](./man/figures/env_minimized.png)
+</center>
 
-=======
->>>>>>> a71ad20d42af11674759644683e7f34ee4857c66
+We know that the Environment pane has been minimized, because we can see the pane headers in the top right, we just can't see the information _within_ the Environment pane.
+To fix this we can click on the icon of two squares in the top right of the Environment pane.
+If you click on the icon of the large square in the top right of the Environment pane you'll maximize the Environment pane and minimize the Files pane.  
 
-<<<<<<< HEAD
-When we create a new file, such as an `R script`, an `R Markdown` file, or a `Shiny app`, RStudio will open a fourth pane, known as the **source** pane. 
-You can try this out by going to `File -> New File -> R Script`.
-=======
-When we create a new file, such as an R script, an R Markdown file, or a Shiny app, RStudio will open a fourth pane, known as the **source** pane.  
-The source pane should show up as a square in the top left.
-Go ahead and complete the following steps to open up an `.R` script in the source pane:
+If the Environment pane has somehow been closed, you can recover it by going to the View menu, selecting Panes, and then selecting Pane Layout, like so: 
 
-In this book we'll primarily be working with `.R` files, which we also refer to as "R scripts."
-You can try this out by going to `File -> New File -> R Script`.  
-You do not need to do anything specific with this file, but are welcome to experiment with it if you would like!  
-**Customizing RStudio**  
+<center>
+![Accessing the Pane Layout from the View dropdown menu](./man/figures/view_to_layout.png)
+</center>
 
-- Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
-    + Choose a theme that works best for you and apply it  
+When we select Pane Layout, we'll see this: 
 
-### Writing and Running Code in R
->>>>>>> upstream/master
+<center>
+![Pane Layout options within RStudio](./man/figures/pane_layout.png)
+</center>
 
-When we type out code, we do so in either the **console** or **source** pane. 
-It is generally better to type code in an `R script`, which saves as an `.R` file, than to type your code in the console. 
-This is because anything you type in the console will be lost as soon as you close R, whereas you can save everything in an `.R` script and see/use it again later.  
+From here you can select which tabs you'd like to appear within each pane, and even change where each pane appears within RStudio. 
+So if our Environment Pane had been closed, we would select it from the Pane Layout in order to re-open it within RStudio.
 
-**Running code in an R Script**  
+## Writing and Running Code in RStudio
 
-There are several ways to run code in an R script:  
+Up to this point we've been exploring the RStudio interface and setting up our preferences.
+Now we'll shift to some basic coding practices.
+In order to run code in R you need to type your code either in the Console or within an `.R` script.  
 
-<<<<<<< HEAD
-=======
-There are three ways to run code in an `.R` script:  
->>>>>>> upstream/master
-- Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
-- Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
-- To run _every_ line of code in your file you can press **Ctrl + Shift + Enter**  
+We generally recommend creating an `.R` script as you're learning, as it allows you to type all of your code, add comments, and then save your `.R` script for reference.
+If instead you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R and you will not be able to reference it in the future.    
 
-**Creating and running code in an R Markdown file**
+### Writing Code in the Console
+To run code in the Console, you type your code next to the `>` and hit 'Enter'.  
+We'll spend a little time practicing running code in the Console by exploring some basic properties of coding in R.  
 
-R Markdown is a highly convenient way to communicate and share results. Navigate to "New File" and then "R Markdown".
+In the Console, type `3 + 4` and hit `Enter`. 
+You should see the following:  
 
-Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
+<center>
+![Using the Console as a calculator](./man/figures/console_adding.png)
+</center>
 
-**Changing your RStudio theme**  
+We've just used R to add the numbers 3 and 4. 
+R has returned the sum of `3 + 4` on a new line, next to `[1]`.
+The `[1]` tells us that there is one row of data.
 
-- Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
-    + Choose a theme that works best for you and apply it
-    
-## Steps for working through new and unfamiliar content
-
-## Using the dataedu package to access the data used in this book
-
-We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
-
-We describe how to install the package in the next chapter. The package serves four functions:
-
-1. Mass installation of all the packages used in the book
-2. Reproducible code for the walkthroughs
-3. Access to the data used in each of the walkthroughs
-
-### Mass Installation of Packages
-
-We strived to use packages that we use in our daily work when creating the walkthroughs in the book. Because we covered a variety of subjects, that means we used a lot of packages! As described in the Foundational Skills chapter, you can install the packages individually as they suit your needs. 
-
-However, if you want to quickly get started and download all the packages at once, please use `install_dataedu()`.
-
-``` r
-dataedu::install_dataedu()
-```
-
-To see the packages used in the book, run:
+We can also use R to print out text.
+Type the following in the Console and hit `Enter`: 
 
 
 ```r
-dataedu::dataedu_packages
+print("I am learning R")
 ```
 
-```
-#>  [1] "apaTables"   "caret"       "dummies"     "ggraph"      "here"       
-#>  [6] "janitor"     "lme4"        "lubridate"   "performance" "readxl"     
-#> [11] "rtweet"      "randomNames" "sjPlot"      "textdata"    "tidygraph"  
-#> [16] "tidylog"     "tidyverse"   "tidytext"
-```
+We should see this in the Console:
 
-**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
+<center>
+![Printing text to the Console](./man/figures/console_text.png)
+</center>
 
-### Reproducible Code for Walkthroughs
+There's one error that you're likely going to come across, both when running code in the Console as well as in an R script. 
+Let's explore that error now, by running the following code in the Console and hitting `Enter`: 
 
-<!-- Need to add -->
 
-### Accessing the Walkthrough Data
-
-You can call the dataset as mentioned in the walkthrough.
-
-``` r
-dataedu::course_data
+```r
+print("This is going to cause a problem"
 ```
 
-## Steps for working through new and unfamiliar content
+Make sure that you left off the closing parentheses! 
+What you'll see in the Console is: 
 
-Need to add
+<center>
+![Incomplete parentheses change what R expects next](./man/figures/console_plus.png)
+</center>
+
+When we're missing a closing parentheses, R is expecting us to provide more code.
+We know this because instead of seeing a carat `>` in our Console, we see a `+`, and R has not returned the print statement that we were expecting! 
+There are two ways to fix this problem: 
+
+- Type the closing `)` in the Console and hit Enter
+- Hit the `Esc` key
+
+Go ahead and run this intentional error and try each of the options above.
+Compare the output of each, and think about how they're different.
+Can you think of when you might want to use one option instead of the other? 
+
+### Writing Code in an R Script
+
+There are three main ways to run code in an `.R` script:  
+- Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
+- Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
+- To run _every_ line of code in your file you can press **Ctrl + Shift + Enter** 
+
+Create a new `.R` script, or using the one you created earlier in this chapter, type in the following code and run it using each of the options listed above.
+
+
+```r
+print("We're going to use R as a calculator.")
+print("First up, addition!")
+
+12 + 8
+632 + 41
+
+print("Next, subtraction!")
+
+48 - 6
+0.65 - 1.42
+```
+
+Feel free to spend some more time writing and running code within your `.R` script, or move on to the next section, where we'll add comments to our code.  
+
+### Commenting Your Code in R
+
+It is considered good practice to comment your code when working in an `.R` script. 
+Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. 
+Moreover, writing comments in your code as you work through the examples in this book is a great way to help reinforce what you're learning.
+Comments are ignored by R when running a script, so they will not affect your code or analysis. 
+
+To comment out a line of code, you can place a pound sign (also called an octothorpe!) `#` in front of the line of code that you want to exclude when you're running your script.
+Be careful when doing this, especially in longer files, as it can be easy to forget where you've commented out code. 
+It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out lines of code.
+
+We can also write comments in-line with our code, like this: 
+
+
+```r
+#' this will be a short code example.
+#' you are not expected to know what this does,
+#' nor do you need to try running it on your computer.
+
+library(readr)  # load the readr package
+library(here)  # load the here package
+
+data <- read_csv(here("file_path", "file_name.csv"))  # save file_name.csv as data
+```
+
+
+If you think you'll be writing more than one line of code, you can do a pound sign followed by a single quotation mark (`#'`). 
+This will continue to comment out lines of text or code each time you hit "Enter."
+You can delete the `#'` on a new line where you want to write code for R to run.
+This method is useful when you're writing a description of what you're doing in R.
+
+_Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign (octothorpe) in front of a line of code so that R ignores it._
+_We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` in an example._
+    
+## Installing the {dataedu} package 
+This next section will briefly go over installing the {dataedu} package that's used throughout this book.
+We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
+
+The package serves three main functions:
+
+1. Mass installation of all the packages used in the book
+2. Reproducible code for the walkthroughs
+3. Access to the data used in each of the walkthroughs  
+
+If you feel that you need more information before you're ready to install the package, you can skip this section and rest assured that we'll cover packages, their installation, and how to load them into R in more depth in Chapter 6.
+However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below:
+
+
+```r
+# install devtools
+install.packages("devtools", repos = "http://cran.us.r-project.org")
+
+# install the dataedu package
+devtools::install_github("data-edu/dataedu")
+```
+
+## Exploring R with the {swirl} package
+
+If you were able to install the {dataedu} package without any issues or concerns, and you're eager to get started exploring everything that R can do, you can supplement your learning through [{swirl}](https://swirlstats.com/students.html).  
+
+You can install {swirl} by running the following code:  
+
+```r
+install.packages("swirl")
+```
+
+{swirl} is set of packages (more on packages in Chapter 6!) that you can download, providing an interactive method for learning R by using R in the RStudio Console.  
+You can follow the instructions on the {swirl} webpage (you've already installed R, RStudio, and the {swirl} package), or run the following code _in your console pane_ to get started with a beginner-level course in {swirl}:
+
+
+```r
+library(swirl)
+install_course("R_Programming_E")
+swirl()
+```
+
+There are multiple courses available on {swirl}, and you can access them by installing them and then running the `swirl()` command in your console.
+We are not affiliated with {swirl} in any way, nor is it required to use {swirl} in order to progress through this text, but it's a great resource that we want to make sure that you're aware of!  
+
+## Conclusion
+
+Congratulations! At this point in the book you've installed R and RStudio, explored the RStudio IDE, and even written some basic code. 
+At this point you're set up to either move on to Chapter 6, where we'll go in-depth on Projects, packages, and functions, and how those relate to the data you'll work with, as well as information on Help documentation and some skills for when you're working with new or unfamiliar information. 
+If that information is something you're already comfortable with, you can jump ahead to a walkthrough of your choosing! 
