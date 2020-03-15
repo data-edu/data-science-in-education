@@ -11,21 +11,30 @@
 ## Chapter Overview
 
 The *purpose* of this walkthrough is to explore
-students' performance in these online courses, focusing on the time spent in the 
-course (made available through the learning management system) and the effects 
-of being in a particular class.
+students' performance in these online courses. While this and the analysis in 
+[Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, 
+this walkthrough is distinguished by a focus on the effects of being in a particular 
+course. To do so, we explore the use of *multi-level models*, which are suited
+to addressing the fact that the students in our dataset shared classes. While the
+conceptual details underlying multi-level models can be complex, the basic problem
+that they address - cases, or observations, such as students, grouped within higher
+level units, such as classes or schools - is likely familiar to readers of this book.
 
 ### Background
 
-This walkthrough accompanies [Chapter 12](#c12),
-which focused on preparing the data and beginning to visualize and model the
-data. Here, we focus on an extension of the models we ran, one focused on how to
-address the fact that students in our dataset shared classes.
+Using multi-level models is a way to account for the way in which individual 
+cases - like responses for individual students - are "grouped" together into higher-level
+units, like classes. As we describe later in this chapter, multi-level models do this by (still) estimating the
+effect of being a student in each group, but with a key distinction from a 
+regression (or linear model), like those described in 
+[Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10):
+the multi-level model "regularizes" the estimates for each group based upon
+systematically different the groups (classes) are, in terms of the dependent variable,
+from the overall (across all groups [classes]) values of the deoendent variable. 
 
-As for the earlier walkthrough using the same data, [Walkthrough 1/Chapter 7](#c07), the *purpose* for this
-walkthrough is to explore students' performance in these online courses,
-focusing on the time spent in the course (made available through the learning
-management system) and the effects of being in a particular class.
+These are the conceptual details underlying multi-level models, but, fortunately, 
+fitting them is straightforward, and should be familiar if you have used R's `lm()` 
+function before. So, let's get started!
 
 ### Data Source
 
@@ -457,8 +466,9 @@ sjPlot::tab_model(m_linear_dc)
 
 Wow! That is a lot of effects. In addition to the time spent and subject
 variables, the model estimated the difference, accounting for the effects of
-being a student in a specific class. Let's count how many classes there are. If
-we count the number of classes, we see that there are 25 - and not 26! One has
+being a student in a specific class. Let's count how many classes there are. 
+
+If we count the number of classes, we see that there are 25 - and not 26! One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 0.74 represents the percentage of points that students in the reference
@@ -894,7 +904,7 @@ factors, and so we emphasized that in this walkthrough. However, we want you to 
 aware that it is possible (though uncommon) to estimate a model without an
 intercept.
 
-### A deep-dive into the background of multi-level models
+### A deep-dive into multi-level models
 
 Dummy-coding is a very helpful strategy. It is particularly useful with a small
 number of groups (i.e., for estimating the effects of being in one of the five
@@ -906,14 +916,15 @@ different effects (and to compare them to the intercept).
 
 Additionally, analysts often have the goal not of determining the effect of
 being in a specific class, *per se*, but rather of accounting for the fact that
-students share a class. This is important because linear models (i.e., the model
-we estimated using `lm()`) have an assumption that the data points are - apart
+students share a class. This is important because linear models (i.e., those 
+estiated using `lm()`) have an assumption that the data points are - apart
 from sharing levels of the variables that are used in the model - independent,
 or not correlated. This is what is meant by the "assumption of independence" or
 of "independently and identically distributed" (*i.i.d.*) residuals (Field,
 Miles, & Field, 2012).
 
-Multi-level models are a way to deal with the difficulty of interpreting the
+As we noted in the chapter overview, multi-level models are a way to deal 
+with the difficulty of interpreting the
 estimated effects for each of many groups, like classes, and to address the
 assumption of independence. Multi-level models do this by (still) estimating the
 effect of being a student in each group, but with a key distinction from linear
@@ -930,13 +941,15 @@ Through regularization, groups that comprise individuals who are
 consistently different (higher or lower) than individuals on average are not
 regularized very much - their estimated difference may be close to the estimate
 from a multi-level model - whereas groups with only a few individuals, or with a
-lot of variability within individuals, would be regularized a lot^[The way that
+lot of variability within individuals, would be regularized a lot~ The way that
 a multi-level model does this "regularizing" is by considering the groups (and
 not the data points, in this case) to be samples from a larger population of
 classes. By considering the effects of groups to be samples from a larger
 population, the model is able to use information not only particular to each
 group (as the models created using `lm()`), but also information across all of
-the data. Using multi-level models means that the assumption of independence can
+the data. 
+
+Using multi-level models, then, means that the assumption of independence can
 be addressed; their use also means that individual coefficients for classes do
 not need to be included (or interpreted, thankfully!), though they are still
 included in and accounted for in the model. As we describe, the way that
@@ -959,8 +972,10 @@ students take the same classes, or even go to the same school (see Raudenbush &
 Bryk, 2002).
 
 That was a lot of technical information about multi-level models; thank you for
-sticking with us through it! We wanted to include this as multi-level models
-are common: consider how often the data you collect involves students nested (or
+sticking with us through it!
+
+We wanted to include this as multi-level models
+*are* common (and, we think, could usefully be even more common!).Consider how often the data you collect involves students nested (or
 grouped) in classes, or classes nested in schools (or even schools nested in
 districts - you get the picture!). Educational data is complex, and so it is
 not surprising that multi-level models may be encountered in educational data

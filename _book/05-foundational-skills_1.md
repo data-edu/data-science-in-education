@@ -41,14 +41,15 @@ Once you've installed R, you can get started.
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
-## Getting to know R through RStudio
+## Getting to Know R through RStudio
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-<center>
-![](./man/figures/icons.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Icons</p>
+</div>
 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
 If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) @statisticalinf textbook.
@@ -69,10 +70,11 @@ We have chosen to use RStudio in this text in order to standardize the experienc
 
 When we open RStudio for the first time, we're likely to see this:
 
-<center>
-![](https://i.imgur.com/2rhZmMg.png?1)
-</center>  
-  
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.2.png" alt="R Studio Panes" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-3)R Studio Panes</p>
+</div>
+
 These three "panes" are referred to as the **console** pane, the **environment** pane, and the **files** pane. 
 The large square on the left is the **console**, the pane in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
 

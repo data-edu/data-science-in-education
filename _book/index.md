@@ -8,7 +8,7 @@ output:
         fig_caption: yes
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: apalike
+biblio-style: "apalike"
 link-citations: yes
 github-repo: "data-edu/data-science-in-education"
 description: "Bookdown for 'Data Science in Education Using R' by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020"
@@ -38,9 +38,10 @@ We started talking about data science in education online because we wanted to b
 
 So give your chicken family a big hug, open up your laptop, and let’s start learning together. Turns out, there are a lot more hatchlings wanting to be eagles and chickens at the same time.
 
-<center>
-![alt text](./man/figures/Screen Shot 2020-02-06 at 6.10.02 AM.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-3)The Tweet That Started It All</p>
+</div>
 
 ## Acknowledgements {-}
 

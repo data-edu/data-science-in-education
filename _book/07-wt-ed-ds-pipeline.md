@@ -923,7 +923,10 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
   theme_dataedu()
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" alt="School ID vs. Mean Score" width="100%" />
+<p class="caption">(\#fig:ggplot example)School ID vs. Mean Score</p>
+</div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
 
