@@ -14,6 +14,8 @@
 
 ## Chapter Overview
 
+In this chapter, we explore the use of machine learning methods for predicting a student-level outcome, students' final grade in online courses. We use the same dataset used in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 7/Chapter 13](#c13)], but pursue a different aim than in those chapters: We focus on *predicting* an outcome, final grade, more than *explaining* how variables relate to an outcome, such as how the amount of time students spend on the course relate to their final grade. We illustrate the use of a particular, common (yet powerful) machine learning method, random forests, choosing to explore their use in-depth, rather than providing a more general overview of other machine learning methods. Though we focus on the use of random forests, many of the ideas explored in this chapter will likely extend and prove useful with respect to the use of other machine learning methods; our goal is for you to finish this, the final walkthrough, with the confidence to explore using machine learning to answer a question or to solve a problem of your own with respect to teaching, learning, and educational systems.
+
 ### Background
 
 One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses [@allen2008]. With the dawn of online learning comes an abundance of new educational tools to facilitate that learning. Indeed, online learning interfaces are used to facilitate the submission of assignments and quizzes in courses in which students and instructor meet face-to-face, but these interfaces are also used in fully online courses to deliver all instruction and assessment. 
@@ -102,7 +104,7 @@ First, we will load the data. Our data is stored in the {dataedu} package that i
 data <- dataedu::sci_mo_with_text
 ```
 
-It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and data points. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 
 ```r

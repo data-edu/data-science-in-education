@@ -41,14 +41,19 @@ Once you've installed R, you can get started.
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
-## Getting to know R through RStudio
+<<<<<<< HEAD
+## Getting to Know R through RStudio
+=======
+## RStudio layout and customization: getting to know R through RStudio
+>>>>>>> upstream/master
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-<center>
-![](./man/figures/icons.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Icons</p>
+</div>
 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
 If you'd like more information on the difference between R and RStudio, we recommend the **Getting Started** section of the [Modern Dive](https://moderndive.com/1-getting-started.html#) @statisticalinf textbook.
@@ -67,17 +72,57 @@ This is a non-exhaustive list, and most of these options require a good deal of 
 However we bring up alternative IDEs -- particularly ESS -- because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers.
 We have chosen to use RStudio in this text in order to standardize the experience, but encourage you to choose the IDE that best suits your needs!
 
-When we open RStudio for the first time, we're likely to see this:
+**RStudio layout** 
 
+When we open RStudio for the first time, we're should see something similar to this:
+
+<<<<<<< HEAD
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.2.png" alt="R Studio Panes" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-3)R Studio Panes</p>
+</div>
+
+=======
 <center>
-![](https://i.imgur.com/2rhZmMg.png?1)
-</center>  
+![RStudio layout](./man/figures/rstudio_three_pane.png)
+</center>
   
+>>>>>>> upstream/master
 These three "panes" are referred to as the **console** pane, the **environment** pane, and the **files** pane. 
-The large square on the left is the **console**, the pane in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
+The large square on the left is the **console** pane, the square in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
 
+As you work with R more, you'll find yourself using the tabs within each of the panes.
+<<<<<<< HEAD
+If at any point you find that one of your panes seems to have "disappeared," one of two things has likely happened: 
+
+- A pane has been minimized
+- A pane has been closed
+
+Let's look at the environment pane as an example.
+If the environment pane has been minimized, we'll see something like this:  
+
+
+=======
+>>>>>>> a71ad20d42af11674759644683e7f34ee4857c66
+
+<<<<<<< HEAD
 When we create a new file, such as an `R script`, an `R Markdown` file, or a `Shiny app`, RStudio will open a fourth pane, known as the **source** pane. 
 You can try this out by going to `File -> New File -> R Script`.
+=======
+When we create a new file, such as an R script, an R Markdown file, or a Shiny app, RStudio will open a fourth pane, known as the **source** pane.  
+The source pane should show up as a square in the top left.
+Go ahead and complete the following steps to open up an `.R` script in the source pane:
+
+In this book we'll primarily be working with `.R` files, which we also refer to as "R scripts."
+You can try this out by going to `File -> New File -> R Script`.  
+You do not need to do anything specific with this file, but are welcome to experiment with it if you would like!  
+**Customizing RStudio**  
+
+- Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
+    + Choose a theme that works best for you and apply it  
+
+### Writing and Running Code in R
+>>>>>>> upstream/master
 
 When we type out code, we do so in either the **console** or **source** pane. 
 It is generally better to type code in an `R script`, which saves as an `.R` file, than to type your code in the console. 
@@ -87,6 +132,10 @@ This is because anything you type in the console will be lost as soon as you clo
 
 There are several ways to run code in an R script:  
 
+<<<<<<< HEAD
+=======
+There are three ways to run code in an `.R` script:  
+>>>>>>> upstream/master
 - Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
 - Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
 - To run _every_ line of code in your file you can press **Ctrl + Shift + Enter**  

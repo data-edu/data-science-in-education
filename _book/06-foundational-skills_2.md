@@ -7,13 +7,13 @@ This chapter is designed to give you the skills and knowledge necessary to *get
 started* in any of the walk through chapters. Our goal is to get you working
 with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through
 a series of applied examples. If you have not yet installed R and/or RStudio,
-please go through the steps outlined in Chapter 05 before beginning this
+please go through the steps outlined in [Chapter 5](#c05) before beginning this
 chapter.
 
 Please note that this chapter is not intended to be a full and complete
 introduction to programming with R, nor for using R for data science. There are
 many excellent resources available which provide this kind of instruction, and
-we've listed them for you in Chapter 17, [Additional Resources].
+we've listed them for you in Chapter 17, [Additional Resources](#c17).
 
 ## Foundational Skills Framework
 
@@ -112,7 +112,7 @@ From here we can load the {dataedu} package using the `library()` call, as follo
 library(dataedu)
 ```
 
-## Exploring R quickly with {swirl}
+## Exploring R Quickly with {swirl}
 
 If you're eager to get started exploring everything that R can do, we recommend installing and learning through [{swirl}](https://swirlstats.com/students.html).
 {swirl} is set of packages (more on those shortly!) that you can download, providing an interactive method for learning R by using R.
@@ -144,7 +144,10 @@ What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `
 
 We've gotten one of our first error messages!
 
-!["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](man/figures/mutate_error.png)
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Image 6.1.png" alt="Error message when running ?mutate" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-4)Error message when running ?mutate</p>
+</div>
 
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
 Let's see what happens when we follow the error
@@ -301,7 +304,10 @@ install.packages("dplyr")
 
 You can also navigate to the Packages pane, click "Install", and then search for and Install one or more packages. 
 
-!["Image of the Packages pane, which is found in the bottom right corder of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes"](man/figures/packages_pane.png)
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Image 6.2.png" alt="Image of the Packages Pane" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-7)Image of the Packages Pane</p>
+</div>
 
 *Loading a package*
 
@@ -379,7 +385,11 @@ How do you know?
 
 In your Console you may have noticed the following message: 
 
-!["List of attached packages and associated conflicts when loading the Tidyverse"](man/figures/tv_conflicts.png) 
+.center[
+![List of attached packages and associated conflicts when loading the Tidyverse](./man/figures/Image 6.3.png)
+.caption[
+]
+]
 
 This isn't error, but rather some important information that we need to consider!
 When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R along with a (relative) handful of pre-installed packages. 
@@ -687,7 +697,12 @@ What `here()` does is tell R that the file structure starts at the Project-level
 There are different types of data within R. 
 When you loaded the Massachusetts Public Schools data from 2017, you likely saw a series of messages like this:
 
-[IMG of import message]
+.center[
+![alt text](./man/figures/Image 6.4.png)
+.caption[
+**Image 6.4:** Loading dataedu::ma_data_init
+]
+]
 
 This message is telling you how R decided to "code" each column, as you can only have one data type per column in R.
 We can see that the default is to code everything as a double (a number) where it says `.default = col_double().
@@ -751,7 +766,7 @@ First, we could make sure that data column names never have spaces in them.
 This is unlikely to be within our control, so a second option would be to use R to convert the column names upon import, before we start doing any exploration. 
 Another method for dealing with it is to leave the column names as they are, but to use single backticks `` `` to surround the column header with spaces in it.
 
-_Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `' '` instead of the actual backticks `` ``!_
+_Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `\'` instead of the actual backticks ``\'``!_
 
 ### The `$` Operator
 
@@ -772,9 +787,12 @@ It's worth taking a few moments to talk about the pipe operator and its package.
 The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images.
 In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
 
-<center>
-![](./man/figures/pipe.png)
-</center>
+.center[
+![alt text](./man/figures/Image 6.5.png)
+.caption[
+**Image 6.5:** Magritte's The Treachery of Images
+]
+]
 
 At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
 
