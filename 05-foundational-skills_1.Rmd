@@ -7,19 +7,21 @@ This chapter is designed to take you from installing R and RStudio all the way t
 We will be covering the following topics in this chapter: 
 
 - Installing R and RStudio
-- RStudio environment and pane layout
-- Basics of customizing your RStudio environment
+- RStudio environment, layout, and customization
+- How to run code in R
+- Installing the {dataedu} package
+- Help documentation
 - Steps for working through new and unfamiliar content
-- Accessing the data sets used in this book
+- Getting started with {swirl}
+
+## Downloading R and RStudio
 
 First, you will need to download the latest versions of R [@rcoreteam] and RStudio [@rstudio]. 
 R is a free environment for statistical computing and graphics using the programming language R. 
 RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
 
-Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes. 
+Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes.  
 Both R and RStudio are freely-available, cross-platform, and open-source.
-
-## Downloading R and RStudio
 
 ### To download R:
 
@@ -40,13 +42,13 @@ Once you've installed R, you can get started.
 If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
 Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
 
-## Getting to know R through RStudio
+## RStudio environment, layout, and customization: getting to know R through RStudio
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
 <center>
-![](./man/figures/icons.png)
+![R and RStudio icons](./man/figures/icons.png)
 </center>
 
 RStudio is an **I**ntegrated **D**evelopment **E**nvironment (IDE), and comes with built-in features that make using R a little easier. 
@@ -69,136 +71,100 @@ We have chosen to use RStudio in this text in order to standardize the experienc
 When we open RStudio for the first time, we're likely to see this:
 
 <center>
-![](https://i.imgur.com/2rhZmMg.png?1)
+![RStudio layout]()(https://i.imgur.com/2rhZmMg.png?1)
 </center>  
   
 These three "panes" are referred to as the **console** pane, the **environment** pane, and the **files** pane. 
 The large square on the left is the **console**, the pane in the top right is the **environment** pane, and the square in the bottom right is the **files** pane.  
 
-When we create a new file, such as an `R script`, an `R Markdown` file, or a `Shiny app`, RStudio will open a fourth pane, known as the **source** pane. 
-You can try this out by going to `File -> New File -> R Script`.
-
-When we type out code, we do so in either the **console** or **source** pane. 
-It is generally better to type code in an `R script`, which saves as an `.R` file, than to type your code in the console. 
-This is because anything you type in the console will be lost as soon as you close R, whereas you can save everything in an `.R` script and see/use it again later.  
-
-**Running code in an R Script**  
-
-There are several ways to run code in an R script:  
-
-- Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
-- Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
-- To run _every_ line of code in your file you can press **Ctrl + Shift + Enter**  
-
-**Creating and running code in an R Markdown file**
-
-R Markdown is a highly convenient way to communicate and share results. Navigate to "New File" and then "R Markdown".
-
-Then, click "Knit to PDF", "Knit to HTML", or "Knit to Word".
+When we create a new file, such as an R script, an R Markdown file, or a Shiny app, RStudio will open a fourth pane, known as the **source** pane.  
+In this book we'll primarily be working with `.R` files, which we also refer to as "R scripts."
+You can try this out by going to `File -> New File -> R Script`.  
+You do not need to do anything specific with this file, but are welcome to experiment with it if you would like!  
 
 **Changing your RStudio theme**  
 
 - Explore the various themes available to you in RStudio by going to _Tools -> Global Options -> Appearance_
-    + Choose a theme that works best for you and apply it
+    + Choose a theme that works best for you and apply it  
+
+### Writing and Running Code in R
+
+In order to run code in R you need to type your code either in the Console or within an `.R` script.  
+
+For the purposes of this chapter we recommend creating an `.R` script to type all of your code because you can add comments and then save your `.R` script for reference, whereas anything that you type in the Console will disappear as soon as you restart or close R.  
+
+To run code in the Console, you type your code and hit 'Enter'.  
+Go ahead and try this by...
+
+Tjere are three ways to run code in an `.R` script:  
+- Highlight the line(s) of code you'd like to run and press **Ctrl + Enter**  
+- Highlight the line(s) of code you'd like to run and click the **Run** button in the `R script` pane  
+- To run _every_ line of code in your file you can press **Ctrl + Shift + Enter** 
+
+Go ahead and try this by...  
+Go ahead and try this by...   
+Go ahead and try this by...
+
+### Commenting Your Code in R
+
+It is considered good practice to comment your code when working in an `.R` script. 
+Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. 
+Comments in R are how we accomplish that!
+Comments are ignored by R when running a script, so they will not affect your code or analysis. 
+
+To comment out a line of code, you can place a pound sign (`#`) in front of the line of code.
+If you think you'll be writing more than one line of code, you can do a pound sign followed by a single quotation mark (`#'`). 
+This will continue to comment out lines of text or code each time you hit "Enter."
+You can delete the `#'` on a new line where you want to write code for R to run.
+
+You can also use `#` to comment out lines of code.
+Be careful when doing this, especially in longer files, as it can be easy to forget where you've commented out code. 
+It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out lines of code.
+
+_Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign in front of a line of code so that R ignores it._
+_We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` sign in an example._
     
 ## Using the dataedu package to access the data used in this book
 
 We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
 
-We describe how to install the package in the next chapter. The package serves four functions:
+The package serves three main functions:
 
 1. Mass installation of all the packages used in the book
 2. Reproducible code for the walkthroughs
-3. Access to the data used in each of the walkthroughs
+3. Access to the data used in each of the walkthroughs  
 
-### Mass Installation of Packages
+Because we've just covered how to run code, go ahead and install the {dataedu} package by running the code below.
+If you would like more information about what's happening in this code before you run anything on your computer, that's OK! 
+We'll go over installing, loading, and exploring the {dataedu} package in more depth in Chapter 6.  
 
-We strived to use packages that we use in our daily work when creating the walkthroughs in the book. Because we covered a variety of subjects, that means we used a lot of packages! As described in the Foundational Skills chapter, you can install the packages individually as they suit your needs. 
+```{r, eval = FALSE}
+# install devtools
+install.packages("devtools", repos = "http://cran.us.r-project.org")
 
-However, if you want to quickly get started and download all the packages at once, please use `install_dataedu()`.
-
-``` r
-dataedu::install_dataedu()
+# install the dataedu package
+devtools::install_github("data-edu/dataedu")
 ```
 
-To see the packages used in the book, run:
+## Exploring R quickly with {swirl}
 
-```{r}
-dataedu::dataedu_packages
+If you were able to install the {dataedu} package without any issues or concerns, and you're eager to get started exploring everything that R can do, we recommend installing and learning through [{swirl}](https://swirlstats.com/students.html).  
+You can install swirl by running the following code:  
+```{r, eval = FALSE}
+install.packages("swirl")
 ```
 
-**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
+{swirl} is set of packages (more on those in Chapter 6!) that you can download, providing an interactive method for learning R by using R in the console.  
+You can follow the instructions on the {swirl} webpage (you've already installed R, RStudio, and the {swirl} package), or run the following code _in your console pane_ to get started with a beginner-level course in {swirl}:
 
-### Reproducible Code for Walkthroughs
-
-<!-- Need to add -->
-
-### Accessing the Walkthrough Data
-
-You can call the dataset as mentioned in the walkthrough.
-
-``` r
-dataedu::course_data
+```{r, eval = FALSE}
+library(swirl)
+install_course("R_Programming_E")
+swirl()
 ```
 
-## Steps for working through new and unfamiliar content
+There are multiple courses available on {swirl}, and you can access them by installing them and then running the `swirl()` command in your console.
+We are not affiliated with {swirl} in any way, nor is it required to use {swirl} in order to progress through this text, but it's a great resource that we want to make sure that you're aware of!  
 
-A sure sign of a great educator is the ability to ask questions. 
-Asking the right questions at the right time of the learners in your classroom can facilitate understanding, uncover misconceptions, and indicate whether or not learners have mastered the material.
+## Conclusion
 
-However, when you’re learning on your own you have to simultaneously fill the roles of both learner and educator, and not only know both how and when to ask yourself questions, but also answer your questions, evaluate your answers, and redirect your learning path as you progress.
-
-This section is intended to give you a series of steps you can use as you encounter new and unfamiliar content both in reading this book as well as in your broader data science learning endeavors.
-For this section we'll use the example of encountering a function for the first time, but you can use these steps with any new piece of information that you encounter!
-We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task. 
-
-**Activate prior knowledge**
-You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor):
-
-```{r eval = FALSE}
-library(tidyverse)
-library(janitor)
-
-roster <- roster_raw %>% 
-    clean_names() %>% 
-    remove_empty(c("rows", "cols")) %>% 
-    mutate(hire_date = excel_numeric_to_date(hire_date),
-           cert = coalesce(certification, certification_1)) %>% 
-    select(-certification, -certification_1)
-```
-
-_Note: you aren't expected to know what the chunk of code that you've just read does, but by the time you've finished this book you'll be able to run and understand everything in the code example!_
-
-Take a moment to think through the following questions:
-
-* What does the word "coalesce" mean?
-* Have you ever seen the `coalesce()` function before? If so, in what context?
-
-**Look for context clues**
-
-* Read a couple of lines of code both above and below where the `coalesce()` function appears - are there any clues as to what this function might do?
-
-**Check the docs**
-
-* What information is available in the Help documentation?
-* Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
-
-![Example from the `coalesce()` Help documentation](images/coalesce_help_doc.png)
-
-**Find the limits**
-Work through examples in the Help documentation (or examples that you've found online) and test the limits.
-Testing the limits is a way of understanding the code by seeing how it handles different situations.
-Ultimately what you're doing is recognizing a pattern, developing a hypothesis, and testing whether or not that hypothesis is true.
-Some methods for testing the limits include:
-
-* Substituting obviously larger (or smaller values)
-* Substituting different data types
-* What happens if you introduce `NA` values?
-* Is the order of values important?
-
-**Test (and refine) your understanding**
-Take a moment to think through whether or not you could explain what you've just learned to someone else.
-Imagine the questions that they might ask of you, and try to answer them.
-If you can't answer them, dig deeper into the documentation, online forums, or even in testing your own knowledge, until you feel like you can! 
-
-You won't necessarily have the time (or interest!) in doing this for each new or unfamiliar piece of content that you come across, but we hope that this provides you with a starting framework for furthering your understanding when you _do_ come across content that you want to explore a bit more in-depth! 
