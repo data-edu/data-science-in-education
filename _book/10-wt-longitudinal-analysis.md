@@ -5,17 +5,15 @@
 
 ## Vocabulary 
 
- - read in
- - aggregate data 
- - vector 
- - list
- - tidy format
- - subset
- - `select_at`
- - `mutate`
- - statistical model 
- - aggregate data
- - student-level data
+- aggregate data
+- file path
+- list
+- read in
+- tidy format
+- statistical model 
+- student-level data
+- subset
+- vector
 
 ## Chapter Overview 
 
@@ -703,7 +701,7 @@ child_counts <-
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 
-In our foundational skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
+In our Foundational Skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
 
 ```r
@@ -819,13 +817,16 @@ high_count %>%
   filter(gender == "f", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of female students in special education over time",
+  labs(title = "Count of Female Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total female students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Count of Female Students in Special Education Over Time</p>
+</div>
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
 
@@ -841,13 +842,16 @@ high_count %>%
   filter(gender == "m", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of male students in special education over time",
+  labs(title = "Count of Male Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total male students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/total male students over time-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:total male students over time)Count of Male Students in Special Education Over Time</p>
+</div>
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
 
@@ -858,13 +862,16 @@ high_count %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Total count of students in special education over time",
+  labs(title = "Total Count of Students in Special Education Over Time",
        subtitle = "Ages 3-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/total students over time-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:total students over time)Total Count of Students in Special Education Over Time</p>
+</div>
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
 
@@ -875,12 +882,15 @@ high_count %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
   geom_boxplot(fill = dataedu_colors("yellow")) +
-  labs(title = "Median students with disabilities count",
+  labs(title = "Median Students with Disabilities Count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/median total per state-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/median total per state-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<p class="caption">(\#fig:median total per state)Median Students with Disabilities Count</p>
+</div>
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
 
@@ -911,13 +921,16 @@ high_count %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
   scale_y_continuous(limits = c(1.5, 2.5)) +
-  labs(title = "Male student to female student ratio over time",
+  labs(title = "Male Student to Female Student Ratio Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/male to female ratio over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/male to female ratio over time-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<p class="caption">(\#fig:male to female ratio over time)Male Student to Female Student Ratio Over Time</p>
+</div>
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
 
@@ -945,7 +958,7 @@ child_counts %>%
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
-    title = "Comparison of female students to male students in special education",
+    title = "Comparison of Female Students to Male Students in Special Education",
     subtitle = "Counts of students in each state, ages 6-21",
     x = "Female students",
     y = "Male students",
@@ -954,7 +967,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/plot female students to male students-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/plot female students to male students-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<p class="caption">(\#fig:plot female students to male students)Comparison of Female Students to Male Students in Special Education</p>
+</div>
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
 
@@ -995,7 +1011,7 @@ child_counts %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
-    title = "Comparison of female students to male students with disabilities",
+    title = "Comparison of Female Students to Male Students with Disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
     x = "Female students",
     y = "Male students",
@@ -1004,7 +1020,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/plot without outliers-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/plot without outliers-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<p class="caption">(\#fig:plot without outliers)Comparison of Female Students to Male Students with Disabilities</p>
+</div>
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
@@ -1054,11 +1073,14 @@ Let's visualize the ratio values across all years as an additional check. Note t
 ```r
 ggplot(data = model_data, aes(x = year, y = ratio)) +
   geom_jitter(alpha = .5, color = dataedu_colors("green")) +
-  labs(title = "Male to female ratio across years (jittered)") +
+  labs(title = "Male to Female Ratio Across Years (Jittered)") +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/ratios across years-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/ratios across years-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<p class="caption">(\#fig:ratios across years)Male to Female Ratio Across Years (Jittered)</p>
+</div>
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
 
@@ -1183,7 +1205,7 @@ model_data %>%
   geom_boxplot() +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Median male and female student counts in special education",
+    title = "Median Male and Female Student Counts in Special Education",
     subtitle = "Ages 6-21. Does not include outlying areas and freely associated states",
     x = "",
     y = "",
@@ -1193,7 +1215,10 @@ model_data %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/visualize female to male ratio-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/visualize female to male ratio-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<p class="caption">(\#fig:visualize female to male ratio)Median Male and Female Student Counts in Special Education</p>
+</div>
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 

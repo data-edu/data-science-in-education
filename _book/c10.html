@@ -568,17 +568,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="vocabulary-3" class="section level2">
 <h2><span class="header-section-number">10.1</span> Vocabulary</h2>
 <ul>
-<li>read in</li>
 <li>aggregate data</li>
-<li>vector</li>
+<li>file path</li>
 <li>list</li>
+<li>read in</li>
 <li>tidy format</li>
-<li>subset</li>
-<li><code>select_at</code></li>
-<li><code>mutate</code></li>
 <li>statistical model</li>
-<li>aggregate data</li>
 <li>student-level data</li>
+<li>subset</li>
+<li>vector</li>
 </ul>
 </div>
 <div id="chapter-overview-5" class="section level2">
@@ -1062,7 +1060,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="explore-and-address-nas" class="section level3">
 <h3><span class="header-section-number">10.5.9</span> Explore and Address NAs</h3>
 <p>You’ll notice that some rows in the <code>total</code> column contain an <code>NA</code>. When we used <code>pivot_longer()</code> to create a <code>gender</code> column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like <code>Female Age 3 to 5</code>, R made rows where the <code>total</code> value is NA . For example, there is no student count for the <code>age</code> value “Total, Age 3-5” that also has the <code>gender</code> value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender.</p>
-<p>In our foundational skills chapter, we introduced a {dplyr} function called <code>arrange()</code> to sort the rows of a dataset by the values in a column. Let’s use <code>arrange()</code> here to sort the dataset by the <code>year</code>, <code>state</code> and <code>gender</code> columns. When you pass <code>arrange()</code> a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, <code>arrange()</code> will sort by the first variable, then by the second, and so on. Let’s see what it does on <code>child_counts</code> when we pass it the <code>year</code>, <code>state</code>, and <code>gender</code> variables:</p>
+<p>In our Foundational Skills chapter, we introduced a {dplyr} function called <code>arrange()</code> to sort the rows of a dataset by the values in a column. Let’s use <code>arrange()</code> here to sort the dataset by the <code>year</code>, <code>state</code> and <code>gender</code> columns. When you pass <code>arrange()</code> a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, <code>arrange()</code> will sort by the first variable, then by the second, and so on. Let’s see what it does on <code>child_counts</code> when we pass it the <code>year</code>, <code>state</code>, and <code>gender</code> variables:</p>
 <div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb198-1" title="1">child_counts <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb198-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(year, state, gender)</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 2,928 x 6
@@ -1140,11 +1138,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb206-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;f&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb206-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb206-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb206-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of female students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb206-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of Female Students in Special Education Over Time&quot;</span>,</a>
 <a class="sourceLine" id="cb206-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb206-7" title="7"><span class="st">  </span><span class="kw">scale_color_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb206-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20female%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<p class="caption">
+Figure 5.1: Count of Female Students in Special Education Over Time
+</p>
+</div>
 <p>That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents.</p>
 <p>Let’s look at that closer: We used <code>filter()</code> to subset our dataset for students who are female and ages 6 to 21. We used <code>aes</code> to connect visual elements of our plot to our data. We connected the x-axis to <code>year</code>, the y-axis to <code>total</code>, and the color of the line to <code>state</code>.</p>
 <p>It’s worth calling out one more thing, since it’s a technique we’ll be using as we explore further. Note here that, instead of storing our new dataset in a new variable, we filter the dataset then use the pipe operator <code>%&gt;%</code> to feed it to {ggplot}. Since we’re exploring freely, we don’t need to create a lot of new variables we probably won’t need later.</p>
@@ -1153,32 +1156,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb207-2" title="2"><span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &quot;m&quot;</span>, age <span class="op">==</span><span class="st"> &quot;Total, Age 6-21&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb207-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> total, <span class="dt">color =</span> state)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb207-4" title="4"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb207-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of male students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb207-5" title="5"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Count of Male Students in Special Education Over Time&quot;</span>,</a>
 <a class="sourceLine" id="cb207-6" title="6">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb207-7" title="7"><span class="st">  </span><span class="kw">scale_color_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb207-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20male%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/total%20male%20students%20over%20time-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<p class="caption">
+(#fig:total male students over time)Count of Male Students in Special Education Over Time
+</p>
+</div>
 <p>We’ve looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we’ll need to add both gender values together and both age group values together. We’ll do this using a very common combination of functions: <code>group_by()</code> and <code>summarize()</code>.</p>
 <div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb208-1" title="1">high_count <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb208-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb208-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb208-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> n, <span class="dt">color =</span> state)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb208-5" title="5"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb208-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Total count of students in special education over time&quot;</span>,</a>
+<a class="sourceLine" id="cb208-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Total Count of Students in Special Education Over Time&quot;</span>,</a>
 <a class="sourceLine" id="cb208-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 3-21&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb208-8" title="8"><span class="st">  </span><span class="kw">scale_color_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb208-9" title="9"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/total%20students%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/total%20students%20over%20time-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<p class="caption">
+(#fig:total students over time)Total Count of Students in Special Education Over Time
+</p>
+</div>
 <p>So far we’ve looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let’s see if we can summarize that difference by looking at the median student count for each state over the years:</p>
 <div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" title="1">high_count <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb209-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(year, state) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb209-3" title="3"><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n =</span> <span class="kw">sum</span>(total)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb209-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> state, <span class="dt">y =</span> n)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb209-5" title="5"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;yellow&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb209-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Median students with disabilities count&quot;</span>,</a>
+<a class="sourceLine" id="cb209-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Median Students with Disabilities Count&quot;</span>,</a>
 <a class="sourceLine" id="cb209-7" title="7">       <span class="dt">subtitle =</span> <span class="st">&quot;All ages and genders, 2012-2017&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb209-8" title="8"><span class="st">  </span><span class="kw">theme_dataedu</span>() </a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/median%20total%20per%20state-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/median%20total%20per%20state-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<p class="caption">
+(#fig:median total per state)Median Students with Disabilities Count
+</p>
+</div>
 <p>The boxplots show us what we might have expected from our <code>freqpoly</code> plots before it. The highest median student count over time is California and the lowest is Pennsylvania.</p>
 <p>What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated states) do not have similar counts to each other. The student counts for each state also appear to have grown over time.</p>
 <p>But how can we start comparing the male student count to the female student count? One way is to use a ratio:</p>
@@ -1203,11 +1221,16 @@ Wikipedia</p>
 <a class="sourceLine" id="cb210-9" title="9"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio, <span class="dt">color =</span> state)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb210-10" title="10"><span class="st">  </span><span class="kw">geom_freqpoly</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb210-11" title="11"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb210-12" title="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male student to female student ratio over time&quot;</span>,</a>
+<a class="sourceLine" id="cb210-12" title="12"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male Student to Female Student Ratio Over Time&quot;</span>,</a>
 <a class="sourceLine" id="cb210-13" title="13">       <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb210-14" title="14"><span class="st">  </span><span class="kw">scale_color_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb210-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/male%20to%20female%20ratio%20over%20time-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/male%20to%20female%20ratio%20over%20time-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<p class="caption">
+(#fig:male to female ratio over time)Male Student to Female Student Ratio Over Time
+</p>
+</div>
 <p>By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we’ll explore ways to quantify the relationship between male student counts and female student counts.</p>
 </div>
 <div id="model-the-dataset" class="section level3">
@@ -1228,14 +1251,19 @@ Wikipedia</p>
 <a class="sourceLine" id="cb211-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb211-7" title="7"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb211-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb211-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students in special education&quot;</span>,</a>
+<a class="sourceLine" id="cb211-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Comparison of Female Students to Male Students in Special Education&quot;</span>,</a>
 <a class="sourceLine" id="cb211-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21&quot;</span>,</a>
 <a class="sourceLine" id="cb211-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
 <a class="sourceLine" id="cb211-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
 <a class="sourceLine" id="cb211-13" title="13">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
 <a class="sourceLine" id="cb211-14" title="14">  ) <span class="op">+</span></a>
 <a class="sourceLine" id="cb211-15" title="15"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/plot%20female%20students%20to%20male%20students-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/plot%20female%20students%20to%20male%20students-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<p class="caption">
+(#fig:plot female students to male students)Comparison of Female Students to Male Students in Special Education
+</p>
+</div>
 <p>If you think of each potential point on the linear regression line as a ratio of male to female students, you’ll notice that we don’t know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year.</p>
 <p>To learn more about what’s happening in our dataset, we can filter it for only states that have more than 500,000 female students in any year:</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" title="1">child_counts <span class="op">%&gt;%</span></a>
@@ -1263,14 +1291,19 @@ Wikipedia</p>
 <a class="sourceLine" id="cb214-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> f, <span class="dt">y =</span> m)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb214-8" title="8"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb214-9" title="9"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb214-10" title="10">    <span class="dt">title =</span> <span class="st">&quot;Comparison of female students to male students with disabilities&quot;</span>,</a>
+<a class="sourceLine" id="cb214-10" title="10">    <span class="dt">title =</span> <span class="st">&quot;Comparison of Female Students to Male Students with Disabilities&quot;</span>,</a>
 <a class="sourceLine" id="cb214-11" title="11">    <span class="dt">subtitle =</span> <span class="st">&quot;Counts of students in each state, ages 6-21.</span><span class="ch">\n</span><span class="st">Does not include outlying areas and freely associated states&quot;</span>,</a>
 <a class="sourceLine" id="cb214-12" title="12">    <span class="dt">x =</span> <span class="st">&quot;Female students&quot;</span>,</a>
 <a class="sourceLine" id="cb214-13" title="13">    <span class="dt">y =</span> <span class="st">&quot;Male students&quot;</span>,</a>
 <a class="sourceLine" id="cb214-14" title="14">    <span class="dt">caption =</span> <span class="st">&quot;Data: US Dept of Education&quot;</span></a>
 <a class="sourceLine" id="cb214-15" title="15">  ) <span class="op">+</span></a>
 <a class="sourceLine" id="cb214-16" title="16"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/plot%20without%20outliers-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/plot%20without%20outliers-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<p class="caption">
+(#fig:plot without outliers)Comparison of Female Students to Male Students with Disabilities
+</p>
+</div>
 <p>This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000.</p>
 <p><em>Male to Female Ratio Over Time</em></p>
 <p>Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?</p>
@@ -1300,9 +1333,14 @@ Wikipedia</p>
 <p>Let’s visualize the ratio values across all years as an additional check. Note the use of <code>geom_jitter()</code> to spread the points horizontally so we can estimate the quantities better:</p>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> model_data, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> ratio)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb218-2" title="2"><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb218-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male to female ratio across years (jittered)&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb218-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Male to Female Ratio Across Years (Jittered)&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb218-4" title="4"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/ratios%20across%20years-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/ratios%20across%20years-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<p class="caption">
+(#fig:ratios across years)Male to Female Ratio Across Years (Jittered)
+</p>
+</div>
 <p>Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable.</p>
 <p>We fit the linear regression model by passing the argument <code>ratio ~ year</code> to the function <code>lm()</code>. In R, the <code>~</code> usually indicates a formula. In this case, the formula is the variable <code>year</code> as a predictor of the variable <code>ratio</code>. The final argument we pass to <code>lm</code> is <code>data = model_data</code>, which tells R to look for the variables <code>ratio</code> and <code>year</code> in the dataset <code>model_data</code>. The results of the model are called a “model object.” We’ll store the model object in <code>ratio_year</code>:</p>
 <div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" title="1">ratio_year &lt;-<span class="st"> </span></a>
@@ -1381,7 +1419,7 @@ Wikipedia</p>
 <a class="sourceLine" id="cb228-6" title="6"><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb228-7" title="7"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>comma) <span class="op">+</span></a>
 <a class="sourceLine" id="cb228-8" title="8"><span class="st">  </span><span class="kw">labs</span>(</a>
-<a class="sourceLine" id="cb228-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Median male and female student counts in special education&quot;</span>,</a>
+<a class="sourceLine" id="cb228-9" title="9">    <span class="dt">title =</span> <span class="st">&quot;Median Male and Female Student Counts in Special Education&quot;</span>,</a>
 <a class="sourceLine" id="cb228-10" title="10">    <span class="dt">subtitle =</span> <span class="st">&quot;Ages 6-21. Does not include outlying areas and freely associated states&quot;</span>,</a>
 <a class="sourceLine" id="cb228-11" title="11">    <span class="dt">x =</span> <span class="st">&quot;&quot;</span>,</a>
 <a class="sourceLine" id="cb228-12" title="12">    <span class="dt">y =</span> <span class="st">&quot;&quot;</span>,</a>
@@ -1389,7 +1427,12 @@ Wikipedia</p>
 <a class="sourceLine" id="cb228-14" title="14">  ) <span class="op">+</span></a>
 <a class="sourceLine" id="cb228-15" title="15"><span class="st">  </span><span class="kw">scale_color_dataedu</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb228-16" title="16"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="10-wt-longitudinal-analysis_files/figure-html/visualize%20female%20to%20male%20ratio-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/visualize%20female%20to%20male%20ratio-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<p class="caption">
+(#fig:visualize female to male ratio)Median Male and Female Student Counts in Special Education
+</p>
+</div>
 <p>Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed.</p>
 </div>
 </div>
