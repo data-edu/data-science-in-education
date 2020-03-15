@@ -28,7 +28,7 @@ When we think about data science in education, our minds tends to go data in spr
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
-Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
+Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic," on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
 
 Using text analysis can help to broadly estimate what is happening in the text. When paired with observations, interviews, and close review of the text, this approach can help education staff learn from text data. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
 
@@ -54,7 +54,7 @@ In this walkthrough, we'll be learning how to count words in a text dataset. We'
 
 ## Load Packages 
 
-For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package, for working with textual data [@R-tidytext]. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
+For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
 
 
 ```r
@@ -86,7 +86,7 @@ Think of an API as a special door a home builder made for a house that has a lot
 
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
 
-A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
 
 ## View Data 
 
@@ -316,7 +316,7 @@ pos_tokens_count %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
   geom_bar(stat = "identity", fill = dataedu_colors("darkblue")) +
   labs(
-    title = "Count of words associated with positivity",
+    title = "Count of Words Associated with Positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
     caption = "Data: Twitter and NRC",
     x = "",
@@ -325,7 +325,10 @@ pos_tokens_count %>%
   theme_dataedu()
 ```
 
-<img src="11-wt-text-analysis_files/figure-html/visualize positive-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="11-wt-text-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Words Associated with Positivity" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Count of Words Associated with Positivity</p>
+</div>
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
