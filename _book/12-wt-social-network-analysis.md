@@ -242,7 +242,8 @@ interactions_sent
 
 
 ```r
-interactions_sent <- interactions_sent %>% 
+interactions_sent <- 
+  interactions_sent %>% 
   filter(n > 1)
 ```
 
@@ -311,7 +312,10 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-16-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Network Graph</p>
+</div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
@@ -330,7 +334,10 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-18-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-18)Network Graph with Centrality</p>
+</div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
