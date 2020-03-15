@@ -833,22 +833,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb146-6" title="6"><span class="st">  </span><span class="co"># reordering x axis so bars appear by descending value</span></a>
 <a class="sourceLine" id="cb146-7" title="7"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(category, <span class="op">-</span>value), <span class="dt">y =</span> value)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb146-8" title="8"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> category)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage of Population&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-11" title="11"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
-<a class="sourceLine" id="cb146-12" title="12">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
-<a class="sourceLine" id="cb146-13" title="13">      <span class="st">&quot;aa_pct&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
-<a class="sourceLine" id="cb146-14" title="14">      <span class="st">&quot;wh_pct&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
-<a class="sourceLine" id="cb146-15" title="15">      <span class="st">&quot;hi_pct&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
-<a class="sourceLine" id="cb146-16" title="16">      <span class="st">&quot;as_pct&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
-<a class="sourceLine" id="cb146-17" title="17">      <span class="st">&quot;na_pct&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
-<a class="sourceLine" id="cb146-18" title="18">    )</a>
-<a class="sourceLine" id="cb146-19" title="19">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-20" title="20"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span><span class="st"> </span><span class="co"># makes labels present as percentages</span></a>
-<a class="sourceLine" id="cb146-21" title="21"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-22" title="22"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb146-23" title="23"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb146-9" title="9"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Percentage of Population by Subgroup&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb146-10" title="10"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-11" title="11"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage of Population&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-12" title="12"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
+<a class="sourceLine" id="cb146-13" title="13">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb146-14" title="14">      <span class="st">&quot;aa_pct&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
+<a class="sourceLine" id="cb146-15" title="15">      <span class="st">&quot;wh_pct&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
+<a class="sourceLine" id="cb146-16" title="16">      <span class="st">&quot;hi_pct&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
+<a class="sourceLine" id="cb146-17" title="17">      <span class="st">&quot;as_pct&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
+<a class="sourceLine" id="cb146-18" title="18">      <span class="st">&quot;na_pct&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
+<a class="sourceLine" id="cb146-19" title="19">    )</a>
+<a class="sourceLine" id="cb146-20" title="20">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-21" title="21"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span><span class="st"> </span><span class="co"># makes labels present as percentages</span></a>
+<a class="sourceLine" id="cb146-22" title="22"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-23" title="23"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-24" title="24"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<p class="caption">
+Figure 8.1: Percentage of Population by Subgroup
+</p>
+</div>
 <p>When we look at these data, the district looks very diverse. Almost <strong>40% of students are Black</strong> and around <strong>36% are White.</strong></p>
 <blockquote>
 <p>Note: this matches the percentages provided in the original PDF’s. This shows our calculations above were accurate. Hooray!</p>
@@ -890,12 +896,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb148-5" title="5"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> wh_pct)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb148-6" title="6"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">.1</span>),</a>
 <a class="sourceLine" id="cb148-7" title="7">                 <span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>))  <span class="op">+</span></a>
-<a class="sourceLine" id="cb148-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb148-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb148-10" title="10"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb148-11" title="11"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb148-12" title="12"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb148-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Count of Schools by White Population&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-9" title="9"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-10" title="10"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Count&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-11" title="11"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb148-12" title="12"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-13" title="13"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
+<p class="caption">
+Figure 8.3: Count of Schools by White Population
+</p>
+</div>
 <p><strong>26 of the 74 (35%) of schools have between 0-10% White students.</strong> This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.</p>
 <p>The school race demographics are not representative of the district populations but does that hold for socioeconomic status as well?</p>
 </div>
@@ -904,28 +916,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">9.7</span> Analysis</h2>
 <div id="creating-categories" class="section level3">
 <h3><span class="header-section-number">9.7.1</span> Creating Categories</h3>
-<p>High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools <span class="citation">U.S. Department of Education (<a href="references.html#ref-ncesfrpl">2019</a>)</span>. However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?</p>
+<p>High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools (<span class="citation">U.S. Department of Education (<a href="references.html#ref-ncesfrpl">2019</a>)</span>). However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?</p>
 <div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1">tidy_df <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb149-2" title="2"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">==</span><span class="st"> &quot;Total&quot;</span>,</a>
 <a class="sourceLine" id="cb149-3" title="3">         <span class="kw">str_detect</span>(category, <span class="st">&quot;povsch&quot;</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb149-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(category,<span class="op">-</span>value), <span class="dt">y =</span> value)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb149-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill =</span> <span class="kw">factor</span>(category))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-6" title="6"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-7" title="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage in High Poverty Schools&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-8" title="8"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
-<a class="sourceLine" id="cb149-9" title="9">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
-<a class="sourceLine" id="cb149-10" title="10">      <span class="st">&quot;aa_povsch&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
-<a class="sourceLine" id="cb149-11" title="11">      <span class="st">&quot;wh_povsch&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
-<a class="sourceLine" id="cb149-12" title="12">      <span class="st">&quot;hi_povsch&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
-<a class="sourceLine" id="cb149-13" title="13">      <span class="st">&quot;as_povsch&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
-<a class="sourceLine" id="cb149-14" title="14">      <span class="st">&quot;na_povsch&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
-<a class="sourceLine" id="cb149-15" title="15">    )</a>
-<a class="sourceLine" id="cb149-16" title="16">  ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-17" title="17"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-18" title="18"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-19" title="19"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb149-20" title="20"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb149-6" title="6"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Distribution of Subgroups in High Poverty Schools&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-7" title="7"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Subgroup&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-8" title="8"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Percentage in High Poverty Schools&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-9" title="9"><span class="st">  </span><span class="kw">scale_x_discrete</span>(</a>
+<a class="sourceLine" id="cb149-10" title="10">    <span class="dt">labels =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb149-11" title="11">      <span class="st">&quot;aa_povsch&quot;</span> =<span class="st"> &quot;Black&quot;</span>,</a>
+<a class="sourceLine" id="cb149-12" title="12">      <span class="st">&quot;wh_povsch&quot;</span> =<span class="st"> &quot;White&quot;</span>,</a>
+<a class="sourceLine" id="cb149-13" title="13">      <span class="st">&quot;hi_povsch&quot;</span> =<span class="st"> &quot;Hispanic&quot;</span>,</a>
+<a class="sourceLine" id="cb149-14" title="14">      <span class="st">&quot;as_povsch&quot;</span> =<span class="st"> &quot;Asian&quot;</span>,</a>
+<a class="sourceLine" id="cb149-15" title="15">      <span class="st">&quot;na_povsch&quot;</span> =<span class="st"> &quot;Native Am.&quot;</span></a>
+<a class="sourceLine" id="cb149-16" title="16">    )</a>
+<a class="sourceLine" id="cb149-17" title="17">  ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-18" title="18"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-19" title="19"><span class="st">  </span><span class="kw">scale_fill_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-20" title="20"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-21" title="21"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<p class="caption">
+Figure 8.4: Distribution of Subgroups in High Poverty Schools
+</p>
+</div>
 <p><strong>8% of White students</strong> attend high poverty schools, compared to <strong>43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.</strong> We can conclude these students are disproportionally attending high poverty schools.</p>
 </div>
 <div id="reveal-relationships" class="section level3">
@@ -935,13 +953,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb150-2" title="2"><span class="st">  </span><span class="kw">filter</span>(school_name <span class="op">!=</span><span class="st"> &quot;Total&quot;</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb150-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> wh_pct, <span class="dt">y =</span> frpl_pct)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb150-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-5" title="5"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-6" title="6"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;FRPL Percentage&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-7" title="7"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-8" title="8"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-9" title="9"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb150-10" title="10"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<p><img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb150-5" title="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;FRPL Percentage vs. White Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-6" title="6"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;White Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-7" title="7"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;FRPL Percentage&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-8" title="8"><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-9" title="9"><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-10" title="10"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-11" title="11"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-18"></span>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<p class="caption">
+Figure 8.5: FRPL Percentage vs. White Percentage
+</p>
+</div>
 <p>Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.</p>
 </div>
 </div>

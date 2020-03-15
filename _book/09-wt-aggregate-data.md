@@ -331,6 +331,7 @@ tidy_df %>%
   # reordering x axis so bars appear by descending value
   ggplot(aes(x = reorder(category, -value), y = value)) +
   geom_bar(stat = "identity", aes(fill = category)) +
+  ggtitle("Percentage of Population by Subgroup") + 
   xlab("Subgroup") +
   ylab("Percentage of Population") +
   scale_x_discrete(
@@ -348,7 +349,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-14)Percentage of Population by Subgroup</p>
+</div>
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
 
@@ -389,6 +393,7 @@ merged_df %>%
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_colors("darkblue"))  +
+  ggtitle("Count of Schools by White Population") +
   xlab("White Percentage") +
   ylab("Count") +
   scale_x_continuous(labels = scales::percent) + 
@@ -396,7 +401,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Count of Schools by White Population</p>
+</div>
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -406,7 +414,7 @@ The school race demographics are not representative of the district populations 
 
 ### Creating Categories
 
-High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools @ncesfrpl. However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
+High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools (@ncesfrpl). However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
 
 ```r
@@ -415,6 +423,7 @@ tidy_df %>%
          str_detect(category, "povsch")) %>%
   ggplot(aes(x = reorder(category,-value), y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
+  ggtitle("Distribution of Subgroups in High Poverty Schools") +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
   scale_x_discrete(
@@ -432,7 +441,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)Distribution of Subgroups in High Poverty Schools</p>
+</div>
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
 
@@ -446,6 +458,7 @@ merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_colors("green")) +
+  ggtitle("FRPL Percentage vs. White Percentage") +
   xlab("White Percentage") +
   ylab("FRPL Percentage") +
   scale_y_continuous(labels = scales::percent) +
@@ -454,7 +467,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-18)FRPL Percentage vs. White Percentage</p>
+</div>
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 
