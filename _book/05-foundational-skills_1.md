@@ -24,7 +24,7 @@ RStudio is a set of integrated tools that allows for a more user-friendly experi
 Although you will likely use RStudio as your main console and editor, _you must first install R_, as RStudio uses R behind-the-scenes.  
 Both R and RStudio are freely-available, cross-platform, and open-source.
 
-### To download R:
+### To Download R:
 
 - Visit this page to download R: [https://cran.r-project.org/](https://cran.r-project.org/)
 - Find your operating system (Mac, Windows, or Linux)
@@ -33,24 +33,25 @@ Both R and RStudio are freely-available, cross-platform, and open-source.
 Don't worry; you will not mess anything up if you download (or even install!) the wrong file. 
 Once you've installed R, you can get started.
 
-### To download RStudio:
+### To Download RStudio:
 
 - Visit this page to download RStudio: [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
 - Under the column called "RStudio Desktop FREE", click Download
 - Find your operating system (Mac, Windows, or Linux)
 - Download the 'latest release' on the page for your operating system and download and install the application
 
-If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
-Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/).
+If you do have issues, consider this [page](https://datacarpentry.org/R-ecology-lesson/)(https://datacarpentry.org/R-ecology-lesson/), and then reach out for help. 
+Another excellent place to get help is the [RStudio Community](https://community.rstudio.com/)(https://community.rstudio.com/).
 
-## RStudio layout and customization: getting to know R through RStudio
+## RStudio Layout and Customization: Getting to Know R through RStudio
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-<center>
-![R and RStudio icons](./man/figures/icons.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Icons</p>
+</div>
 
 Whenever we want to work with R, we'll open RStudio.
 RStudio interfaces directly with R, and is an **I**ntegrated **D**evelopment **E**nvironment (IDE).
@@ -75,10 +76,11 @@ We have chosen to use RStudio in this text in order to standardize the experienc
 
 When we open RStudio for the first time, we're should see something similar to this:
 
-<center>
-![RStudio layout](./man/figures/rstudio_three_pane.png)
-</center>
-  
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-3)RStudio Layout</p>
+</div>
+
 We'll refer to these three "panes" as the **Console** pane, the **Environment** pane, and the **Files** pane. 
 The large square on the left is the **Console** pane, the square in the top right is the **Environment** pane, and the square in the bottom right is the **Files** pane.  
 
@@ -88,9 +90,10 @@ When we create a new file, such as an R script, an R Markdown file, or a Shiny a
 The source pane should show up as a square in the top left.
 We can open up an `.R` script in the source pane by going to File, selecting New File, and then selecting R Script:
 
-<center>
-![Creating a new R Script in RStudio](./man/figures/r_script.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.3.png" alt="Creating a new R Script in RStudio" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-4)Creating a new R Script in RStudio</p>
+</div>
 
 You do not need to do anything specific with this file, but we encourage you to experiment with it if you would like!  
 
@@ -100,17 +103,19 @@ One of the balances we've tried to strike in this text is a balance between best
 A best practice for your _workflow_ is to ensure that you're starting with a blank slate every time you open R (through RStudio). 
 To accomplish this, go to Tools and select Global Options from the dropdown menu.
 
-<center>
-![Selecting Global Options from the Tool dropdown menu](./man/figures/tools_global.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-5)Selecting Global Options from the Tool Dropdown Menu</p>
+</div>
 
 The General tab will open, with several checkboxes selected and unselected.
 The most important thing you can do is select "Never" next to the **Save workspace to .RData on exit:** prompt.
 After selecting "Never", go through and check and uncheck boxes so that your General tab looks like this: 
 
-<center>
-![General tab from Global Options](./man/figures/save-workspace-reminder.jpg)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.5.png" alt="General tab from Global Options" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-6)General tab from Global Options</p>
+</div>
 
 Last, but certainly not least, click on the "Appearance" tab from within the Global Options. 
 From here you can select your RStudio Font, Font Size, and Theme.
@@ -126,9 +131,10 @@ If at any point you find that one of your panes seems to have "disappeared," one
 Let's look at the Environment pane as an example.
 If the Environment pane has been minimized, we'll see something like this:  
 
-<center>
-![RStudio layout with the Environment pane minimized](./man/figures/env_minimized.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.6.png" alt="RStudio layout with the Environment Pane Minimized" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-7)RStudio layout with the Environment Pane Minimized</p>
+</div>
 
 We know that the Environment pane has been minimized, because we can see the pane headers in the top right, we just can't see the information _within_ the Environment pane.
 To fix this we can click on the icon of two squares in the top right of the Environment pane.
@@ -136,15 +142,17 @@ If you click on the icon of the large square in the top right of the Environment
 
 If the Environment pane has somehow been closed, you can recover it by going to the View menu, selecting Panes, and then selecting Pane Layout, like so: 
 
-<center>
-![Accessing the Pane Layout from the View dropdown menu](./man/figures/view_to_layout.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-8)Accessing the Pane Layout from the View Dropdown Menu</p>
+</div>
 
 When we select Pane Layout, we'll see this: 
 
-<center>
-![Pane Layout options within RStudio](./man/figures/pane_layout.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.8.png" alt="Pane Layout options within RStudio" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-9)Pane Layout options within RStudio</p>
+</div>
 
 From here you can select which tabs you'd like to appear within each pane, and even change where each pane appears within RStudio. 
 So if our Environment Pane had been closed, we would select it from the Pane Layout in order to re-open it within RStudio.
@@ -159,15 +167,17 @@ We generally recommend creating an `.R` script as you're learning, as it allows 
 If instead you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R and you will not be able to reference it in the future.    
 
 ### Writing Code in the Console
+
 To run code in the Console, you type your code next to the `>` and hit 'Enter'.  
 We'll spend a little time practicing running code in the Console by exploring some basic properties of coding in R.  
 
 In the Console, type `3 + 4` and hit `Enter`. 
 You should see the following:  
 
-<center>
-![Using the Console as a calculator](./man/figures/console_adding.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.9.png" alt="Using the Console as a Calculator" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-10)Using the Console as a Calculator</p>
+</div>
 
 We've just used R to add the numbers 3 and 4. 
 R has returned the sum of `3 + 4` on a new line, next to `[1]`.
@@ -183,9 +193,10 @@ print("I am learning R")
 
 We should see this in the Console:
 
-<center>
-![Printing text to the Console](./man/figures/console_text.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.10.png" alt="Printing Text to the Console" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-12)Printing Text to the Console</p>
+</div>
 
 There's one error that you're likely going to come across, both when running code in the Console as well as in an R script. 
 Let's explore that error now, by running the following code in the Console and hitting `Enter`: 
@@ -198,9 +209,10 @@ print("This is going to cause a problem"
 Make sure that you left off the closing parentheses! 
 What you'll see in the Console is: 
 
-<center>
-![Incomplete parentheses change what R expects next](./man/figures/console_plus.png)
-</center>
+<div class="figure" style="text-align: center">
+<img src="./man/figures/Figure 5.11.png" alt="Incomplete Parentheses Change what R Expects Next" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-14)Incomplete Parentheses Change what R Expects Next</p>
+</div>
 
 When we're missing a closing parentheses, R is expecting us to provide more code.
 We know this because instead of seeing a carat `>` in our Console, we see a `+`, and R has not returned the print statement that we were expecting! 
