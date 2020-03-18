@@ -326,7 +326,7 @@ pos_tokens_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-wt-text-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Words Associated with Positivity" width="100%" />
+<img src="figures/unnamed-chunk-2-1.png" alt="Count of Words Associated with Positivity" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-2)Count of Words Associated with Positivity</p>
 </div>
 
@@ -525,7 +525,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-#> [1] 10  8  1  3  2
+#> [1] 2 8 5 1 6
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

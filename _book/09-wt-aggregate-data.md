@@ -350,7 +350,7 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-14)Percentage of Population by Subgroup</p>
 </div>
 
@@ -402,7 +402,7 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-16)Count of Schools by White Population</p>
 </div>
 
@@ -442,7 +442,7 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-17)Distribution of Subgroups in High Poverty Schools</p>
 </div>
 
@@ -468,7 +468,7 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-18)FRPL Percentage vs. White Percentage</p>
 </div>
 

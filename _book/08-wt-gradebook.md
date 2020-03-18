@@ -272,7 +272,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" alt="Bar Graph of Student Grades" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" alt="Bar Graph of Student Grades" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-14)Bar Graph of Student Grades</p>
 </div>
 
@@ -302,7 +302,7 @@ classwork_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" alt="Distribution of Classwork Scores" width="100%" />
+<img src="figures/unnamed-chunk-15-1.png" alt="Distribution of Classwork Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-15)Distribution of Classwork Scores</p>
 </div>
 
@@ -335,7 +335,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-16)Relationship Between Overall Grade and Formative Assessments</p>
 </div>
 
@@ -359,7 +359,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-17)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
 </div>
 
@@ -382,7 +382,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-18)Distribution of Formative Assessment Scores</p>
 </div>
 
@@ -401,7 +401,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
+<img src="figures/unnamed-chunk-19-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-19)Distribution of Overall Grade Scores</p>
 </div>
 

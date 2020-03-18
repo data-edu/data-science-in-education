@@ -784,7 +784,7 @@ varImp(rf_fit2_imp) %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-17-1.png" alt="Variable Importance" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" alt="Variable Importance" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-17)Variable Importance</p>
 </div>
 
