@@ -525,7 +525,11 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
+<<<<<<< HEAD
 #> [1] 2 8 5 1 6
+=======
+#> [1]  1  5  6 10  9
+>>>>>>> upstream/master
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
