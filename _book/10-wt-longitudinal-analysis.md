@@ -815,7 +815,7 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<img src="figures/unnamed-chunk-2-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-2)Count of Female Students in Special Education Over Time</p>
 </div>
 
@@ -840,7 +840,7 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-3-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<img src="figures/unnamed-chunk-3-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-3)Count of Male Students in Special Education Over Time</p>
 </div>
 
@@ -860,7 +860,7 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-4-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<img src="figures/unnamed-chunk-4-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-4)Total Count of Students in Special Education Over Time</p>
 </div>
 
@@ -879,7 +879,7 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-5-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<img src="figures/unnamed-chunk-5-1.png" alt="Median Students with Disabilities Count" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-5)Median Students with Disabilities Count</p>
 </div>
 
@@ -919,7 +919,7 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-6-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<img src="figures/unnamed-chunk-6-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-6)Male Student to Female Student Ratio Over Time</p>
 </div>
 
@@ -959,7 +959,7 @@ child_counts %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-7-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<img src="figures/unnamed-chunk-7-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-7)Comparison of Female Students to Male Students in Special Education</p>
 </div>
 
@@ -1012,7 +1012,7 @@ child_counts %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-8-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<img src="figures/unnamed-chunk-8-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-8)Comparison of Female Students to Male Students with Disabilities</p>
 </div>
 
@@ -1069,7 +1069,7 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-9-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<img src="figures/unnamed-chunk-9-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-9)Male to Female Ratio Across Years (Jittered)</p>
 </div>
 
@@ -1207,7 +1207,7 @@ model_data %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-10-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<img src="figures/unnamed-chunk-10-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-10)Median Male and Female Student Counts in Special Education</p>
 </div>
 
@@ -1245,16 +1245,16 @@ tibble(
 #> # A tibble: 10 x 3
 #>    student school test_score
 #>    <chr>   <chr>       <int>
-#>  1 a       k              51
-#>  2 b       l              99
-#>  3 c       m              29
-#>  4 d       n              58
-#>  5 e       o              43
-#>  6 f       k              65
-#>  7 g       l              43
-#>  8 h       m              48
-#>  9 i       n              22
-#> 10 j       o              67
+#>  1 a       k              79
+#>  2 b       l              88
+#>  3 c       m              15
+#>  4 d       n              64
+#>  5 e       o              59
+#>  6 f       k              92
+#>  7 g       l              25
+#>  8 h       m               4
+#>  9 i       n              78
+#> 10 j       o              84
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1275,11 +1275,11 @@ tibble(
 #> # A tibble: 5 x 2
 #>   school mean_score
 #>   <chr>       <dbl>
-#> 1 k            45.5
-#> 2 l            26  
-#> 3 m            34.5
-#> 4 n            22  
-#> 5 o            89
+#> 1 k            67  
+#> 2 l            49  
+#> 3 m            35.5
+#> 4 n            43  
+#> 5 o            80
 ```
 
 Notice here that this dataset no longer identifies individual students. 
