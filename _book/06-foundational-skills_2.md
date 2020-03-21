@@ -71,7 +71,7 @@ What `here()` does is tell R that the file structure starts at the Project-level
 "Packages" are shareable collections of R code that provide functions (i.e., a command to perform a specific task), data, and documentation. 
 Packages increase the functionality of R by providing access to additional functions to suit a variety of needs, thereby expanding on base R.
 
-If an R user feels that their package would be of benefit to a broad audience, they may choose to submit their package to [CRAN](https://cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork.
+If an R user feels that their package would be of benefit to a broad audience, they may choose to submit their package to [CRAN](https://cran.r-project.org/) (https[]()://cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork.
 Most of the packages we'll be working with in this book are available on CRAN, which means that we can install them using the `install.packages()` function, as we did above.  
 
 The process of submitting a package and having it published through CRAN is beyond the scope of this book, and it's important to point out that you - yes, you! - can create a package that you use all for yourself, share with colleagues, or submit to CRAN. 
@@ -138,7 +138,7 @@ Using `library()` will help to eliminate sources of confusion later on.
 ### How to Find a Package
 
 As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN. 
-[CRAN TaskViews]("https://cran.r-project.org/web/views/") is one of the best resources for seeing what packages are available and might be relevant to your work.
+[CRAN TaskViews](https://cran.r-project.org/web/views/) (https[]()://cran.r-project.org/web/views/) is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
@@ -199,7 +199,7 @@ _What this translates to is the idea that once you find yourself copying and pas
 Functions are reusable pieces of code that you can write and use over and over again. 
 You might write a function for a specific script, or you might find yourself using a function across multiple scripts (at which point you might want to consider creating a package!) 
 
-We'll cover the very basics of writing a function, but would strongly suggest you check out [RESOURCE ONE](link) and [RESOURCE TWO](link) for more information and practice. 
+We'll cover the very basics of writing a function, but would strongly suggest you check out [R For Data Science](https://r4ds.had.co.nz) (https[]()://r4ds.had.co.nz). 
 
 The template for writing a function is: 
 
@@ -265,7 +265,7 @@ The framework we'll use pulls data directly from the {dataedu} package, however 
 We've provided additional resources for loading data from Excel, SAV, and Google Sheets in the [Technical Appendix A] at the end of this chapter.
 
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
-For those curious as to how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) resource from RStudio.
+For those curious as to how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) (https[]()://db.rstudio.com/) resource from RStudio.
 
 ### Data Types
 
@@ -285,7 +285,7 @@ One of the (many) implications of this is that you can no longer do mathematical
 
 Not all is lost! 
 There are methods for safely coercing your data into the correct format, and we'll cover a handful throughout this text. 
-If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands-On Programming with R](https://rstudio-education.github.io/hopr/) @hopr and [Advanced R](https://adv-r.hadley.nz/) @wickham2019advr.
+If you're looking for more in-depth information on data types and coercion rules, we recommend both [Hands-On Programming with R](https://rstudio-education.github.io/hopr/) (https[]()://rstudio-education.github.io/hopr/) @hopr and [Advanced R](https://adv-r.hadley.nz/) (https[]()://adv-r.hadley.nz/) @wickham2019advr.
 
 
 ## Introduction to Help Documentation
@@ -330,7 +330,7 @@ For this section we'll use the example of encountering a function for the first 
 We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task. 
 
 **Activate prior knowledge**
-You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor):
+You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function](https://github.com/sfirke/janitor) (https[]()://github.com/sfirke/janitor):
 
 
 ```r
@@ -512,16 +512,14 @@ dataedu::dataedu_packages
 #> [16] "tidylog"     "tidyverse"   "tidytext"
 ```
 
-**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
-
-
+**A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer) (https[]()://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html) (https[]()://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
 
 ### Downloading and Accessing the Datasets Used in this Book
 
 Throughout this book you'll see data accessed in a multitude of ways.
 Sometimes we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
 We've also provided each of the datasets used in this book as `.rda` files that are accessible via the {dataedu} package [@R-dataedu].
-More details about the {dataedu} package on be found [on GitHub](https://github.com/data-edu/dataedu) (https://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
+More details about the {dataedu} package on be found [on GitHub](https://github.com/data-edu/dataedu) (https[]()://github.com/data-edu/dataedu), however we'll walk through the basic steps here as well.
 
 Once you've installed the {dataedu} package (described above), you can use the `install_dataedu()` function to download all of the packages we'll be using in this text. 
 This step is optional, and you're welcome to install packages as you use them. 
@@ -536,12 +534,14 @@ dataedu::dataedu_packages
 # install all of the packages used in the Data Science in Education Using R text
 dataedu::install_dataedu()
 ```
+
 ## Assigning Data to a Variable//Everything's An Object!
 ### Run this Code
 <!-- write a mini-intro to prime learning: what will readers be able to do at the end of this section? -->
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
-_Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](link) so that we can show you the true power of Projects in R._
+_Note: although we provide all of the data sets used in this book in the `dataedu` package, we would strongly suggest [downloading the dataset from Kaggle](https://www.kaggle.com) (https[]()://www.kaggle.com) so that we can show you the true power of Projects in R._
+
 
 ```r
 dataedu::ma_data_init

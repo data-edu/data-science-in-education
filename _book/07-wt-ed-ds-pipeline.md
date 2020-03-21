@@ -800,6 +800,10 @@ dat <-
   left_join(dat)
 ```
 
+```
+#> Joining, by = c("student_id", "course_id")
+```
+
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each
@@ -920,7 +924,7 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
+<img src="figures/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-27)Example Plot</p>
 </div>
 
@@ -945,7 +949,7 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<img src="figures/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-28)Percentage Earned vs. Time Spent</p>
 </div>
 
@@ -965,7 +969,7 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<img src="figures/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-29)Adding a Line of Best Fit</p>
 </div>
 
@@ -1038,7 +1042,7 @@ tab_model(m_linear)
 
 This will work well for R Markdown documents (or simply to interpret the model in
 R). If you want to save the model for use in a Word document, the
-[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
+[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
 like we did with `tab_model()`. Then, you can save the output to a Word
 document, simply by adding a `filename` argument:

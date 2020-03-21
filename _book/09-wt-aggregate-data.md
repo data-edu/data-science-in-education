@@ -27,11 +27,11 @@ For education data practitioners, these reports and datasets can be analyzed to 
 
 Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future. This walkthrough, then, uses and explores aggregate data, with a focus on educational equity, from a single school district.
 
-#### Disaggregating Aggregated Data
+*Disaggregating Aggregated Data*
 
 Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the *Individuals with Disabilities Education Act (IDEA)*.
 
-#### Disaggregating Data and Equity
+*Disaggregating Data and Equity*
 
 Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
 
@@ -61,7 +61,7 @@ On the state and district level, examples include:
 
 - [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
 
-#### Selecting Data
+*Selecting Data*
 
 For the purposes of this walkthrough, we will be looking at a particular school district's data. This district reports their student demographics in a robust, complete way. Not only do they report the percentage of students in a subgroup, but they also include the number of students in each subgroup. This allows a deep look into their individual school demographics. Their reporting of the composition of their schools provides an excellent opportunity to explore inequities in a system. 
 
@@ -350,7 +350,7 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-14)Percentage of Population by Subgroup</p>
 </div>
 
@@ -402,7 +402,7 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-16)Count of Schools by White Population</p>
 </div>
 
@@ -442,7 +442,7 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-17)Distribution of Subgroups in High Poverty Schools</p>
 </div>
 
@@ -468,7 +468,7 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-18)FRPL Percentage vs. White Percentage</p>
 </div>
 

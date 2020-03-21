@@ -29,7 +29,7 @@ This walkthrough goes through a series of analyses using the data science framew
 
 ### Data Sources
 
-We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
+We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html) (https[]()://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
 
 ### Methods
 
@@ -67,7 +67,7 @@ getwd()
 
 For example, an R user on Linux or Mac might see their working directory as: `/home/username/Desktop`. A Windows user might see their working directory as: `C:\Users\Username\Desktop`.
 
-From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
+From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) (https[]()://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
 
 * `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
 * `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
@@ -272,7 +272,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" alt="Bar Graph of Student Grades" width="100%" />
+<img src="figures/unnamed-chunk-14-1.png" alt="Bar Graph of Student Grades" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-14)Bar Graph of Student Grades</p>
 </div>
 
@@ -302,7 +302,7 @@ classwork_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" alt="Distribution of Classwork Scores" width="100%" />
+<img src="figures/unnamed-chunk-15-1.png" alt="Distribution of Classwork Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-15)Distribution of Classwork Scores</p>
 </div>
 
@@ -335,7 +335,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
+<img src="figures/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-16)Relationship Between Overall Grade and Formative Assessments</p>
 </div>
 
@@ -359,7 +359,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
+<img src="figures/unnamed-chunk-17-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-17)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
 </div>
 
@@ -382,7 +382,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
+<img src="figures/unnamed-chunk-18-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-18)Distribution of Formative Assessment Scores</p>
 </div>
 
@@ -401,7 +401,7 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-19-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
+<img src="figures/unnamed-chunk-19-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-19)Distribution of Overall Grade Scores</p>
 </div>
 
@@ -484,6 +484,6 @@ It takes practice to interpret and communicate these concepts well. A good start
 This walkthrough chapter followed the basic steps of a data analysis project. 
 We first *imported* our data, then *cleaned and transformed* it.
 Once we had the data in a tidy format, we were able to *explore* the data using data visualization before *modeling* the data using linear regression.
-Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format). 
+Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format). 
 We note that while we began to explore models in this walkthrough, in later chapters (i.e., [Chapter 9 on aggregate data](#c9), [Chapter 10 on longitudinal analyses](#c10), [Chapter 13 on multi-level models](#c13), and [Chapter 14 on random forest machine learning models](#c14)), we will discuss such analyses and statistical modeling in more detail.
 
