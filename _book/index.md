@@ -45,7 +45,9 @@ So give your chicken family a big hug, open up your laptop, and let’s start le
 
 ## Acknowledgements {-}
 
-This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Jake Kaupp, Ludmila Janda, Kris Stevens, David Ranzolin, Gustavo Velásquez, and Bret Staudt Willet.
+This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Ludmila Janda, Jake Kaupp, Nathan Kenner, David Ranzolin, Kris Stevens,  Gustavo Velásquez, and Bret Staudt Willet.
+
+Thank you to the data scientists in education that took time share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
 
 ## Citation {-}
 
