@@ -222,7 +222,7 @@ Now, we will prepare the **train** and **test** datasets, using the caret functi
 
 ```{r, cache = TRUE}
 # First, we set a seed to ensure the reproducibility of our data partition.
-set.seed(62020)
+set.seed(2020)
 
 # we create a new object called trainIndex that will take 80 percent of the data
 trainIndex <- createDataPartition(data$final_grade,
@@ -285,7 +285,7 @@ Here, we set the seed again, to ensure that our analysis is reproducible. This s
 
 ```{r, cache = TRUE}
 # setting a seed for reproducibility
-set.seed(62020)
+set.seed(2020)
 
 # we run the model here
 rf_fit <- train(final_grade ~ .,
@@ -307,7 +307,7 @@ The value of resampling here is that it allows for higher accuracy of the model 
 Let's see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.
 
 ```{r, cache = TRUE}
-set.seed(62020)
+set.seed(2020)
 
 train_control <-
     trainControl(method = "repeatedcv",
@@ -343,7 +343,7 @@ tune_grid <-
     )
 
 # Set a seed
-set.seed(62020)
+set.seed(2020)
 
 # Fit a new model, using the tuning grid we created above
 rf_fit2 <-
@@ -374,7 +374,7 @@ Now that we understand how to develop a basic machine learning model, and how to
 What if we use the test data set - data not used to train the model? Below, we'll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called "pred." At the same, time, we'll make a row called "obs" that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
 
 ```{r, cache = TRUE}
-set.seed(62020)
+set.seed(2020)
 
 ##Create a new object for the testing data including predicted values 
 data_test_augmented <-
@@ -404,7 +404,7 @@ We'll re-run the `rf_fit2` model with the same specifications as before, but thi
 
 ```{r, cache = TRUE}
 # Set a seed
-set.seed(62020)
+set.seed(2020)
 
 # Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric
 rf_fit2_imp <-
