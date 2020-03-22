@@ -573,7 +573,7 @@ We use this data set further in the next chapter [on social network analysis](#c
 
 ### Accessing Historical Twitter Data Using Already-Collected Status URLs
 
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
 
 ```r
@@ -621,6 +621,6 @@ The end result will be a tibble, like that above for #rstats, for #tidytuesday t
 
 In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
 
-First is [TAGS](https://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
+First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
 
 A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
