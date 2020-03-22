@@ -21,11 +21,10 @@ knitr::opts_chunk$set(
     comment = "#>",
     out.width = "100%",
     fig.align = "center",
-    fig.path = "./figures/",
+    fig.path = "/figures",
     warning = FALSE,
     dpi = 500,
-    linewidth = 80,
-    tidy.opts = list(width.cutoff = 80), tidy = TRUE
+    linewidth = 80
     )
 
 set.seed(2020)
