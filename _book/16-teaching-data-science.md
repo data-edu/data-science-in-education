@@ -1,4 +1,3 @@
-
 # Teaching Data Science {#c16}
 
 This book is focused on the application of data science to education. In other words, this book focuses on how to apply data science to questions of teaching, learning, and educational systems. The previous chapters have addresses these topics through narrative and in the form of walkthroughs for common questions (or problems) and the types of data encountered in education. 

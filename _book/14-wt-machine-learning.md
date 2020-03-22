@@ -1,4 +1,3 @@
-
 # Walkthrough 8: Predicting Students' Final Grades Using Machine Learning Methods with Online Course Data {#c14}
 
 ## Vocabulary
@@ -353,7 +352,7 @@ Now, we will prepare the **train** and **test** datasets, using the caret functi
 
 ```r
 # First, we set a seed to ensure the reproducibility of our data partition.
-set.seed(62020)
+set.seed(2020)
 
 # we create a new object called trainIndex that will take 80 percent of the data
 trainIndex <- createDataPartition(data$final_grade,
@@ -451,7 +450,7 @@ Here, we set the seed again, to ensure that our analysis is reproducible. This s
 
 ```r
 # setting a seed for reproducibility
-set.seed(62020)
+set.seed(2020)
 
 # we run the model here
 rf_fit <- train(final_grade ~ .,
@@ -473,13 +472,13 @@ rf_fit
 #> Summary of sample sizes: 372, 372, 372, 372, 372, 372, ... 
 #> Resampling results across tuning parameters:
 #> 
-#>   mtry  splitrule   RMSE  Rsquared  MAE 
-#>    2    variance    15.8  0.524     11.4
-#>    2    extratrees  17.0  0.520     12.0
-#>   10    variance    14.4  0.564     10.4
-#>   10    extratrees  14.0  0.612     10.1
-#>   19    variance    14.4  0.560     10.3
-#>   19    extratrees  13.6  0.613      9.9
+#>   mtry  splitrule   RMSE  Rsquared  MAE  
+#>    2    variance    15.3  0.565     11.18
+#>    2    extratrees  17.0  0.523     12.06
+#>   10    variance    14.0  0.593     10.14
+#>   10    extratrees  13.9  0.621     10.07
+#>   19    variance    14.1  0.589     10.02
+#>   19    extratrees  13.4  0.632      9.77
 #> 
 #> Tuning parameter 'min.node.size' was held constant at a value of 5
 #> RMSE was used to select the optimal model using the smallest value.
@@ -499,7 +498,7 @@ Let's see if we end up with slightly different values if we change the resamplin
 
 
 ```r
-set.seed(62020)
+set.seed(2020)
 
 train_control <-
     trainControl(method = "repeatedcv",
@@ -523,16 +522,16 @@ rf_fit1
 #> 
 #> No pre-processing
 #> Resampling: Cross-Validated (10 fold, repeated 10 times) 
-#> Summary of sample sizes: 333, 336, 335, 335, 336, 336, ... 
+#> Summary of sample sizes: 335, 334, 334, 336, 334, 334, ... 
 #> Resampling results across tuning parameters:
 #> 
 #>   mtry  splitrule   RMSE  Rsquared  MAE  
-#>    2    variance    15.0  0.564     11.15
-#>    2    extratrees  16.5  0.568     11.81
-#>   10    variance    13.3  0.606      9.96
-#>   10    extratrees  13.1  0.650      9.79
-#>   19    variance    13.1  0.613      9.71
-#>   19    extratrees  12.7  0.651      9.56
+#>    2    variance    14.6  0.590     10.97
+#>    2    extratrees  16.2  0.585     11.79
+#>   10    variance    13.3  0.618      9.83
+#>   10    extratrees  13.0  0.660      9.66
+#>   19    variance    13.3  0.617      9.68
+#>   19    extratrees  12.6  0.664      9.36
 #> 
 #> Tuning parameter 'min.node.size' was held constant at a value of 5
 #> RMSE was used to select the optimal model using the smallest value.
@@ -561,7 +560,7 @@ tune_grid <-
     )
 
 # Set a seed
-set.seed(62020)
+set.seed(2020)
 
 # Fit a new model, using the tuning grid we created above
 rf_fit2 <-
@@ -585,60 +584,60 @@ rf_fit2
 #> Resampling results across tuning parameters:
 #> 
 #>   mtry  splitrule   min.node.size  RMSE  Rsquared  MAE  
-#>    2    variance     1             15.8  0.526     11.40
-#>    2    variance     5             15.8  0.528     11.42
-#>    2    variance    10             15.9  0.520     11.54
-#>    2    variance    15             16.1  0.511     11.65
-#>    2    variance    20             16.2  0.506     11.71
-#>    2    extratrees   1             17.0  0.520     11.93
-#>    2    extratrees   5             17.1  0.515     12.01
-#>    2    extratrees  10             17.2  0.512     12.18
-#>    2    extratrees  15             17.4  0.504     12.32
-#>    2    extratrees  20             17.6  0.494     12.46
-#>    3    variance     1             15.2  0.539     11.06
-#>    3    variance     5             15.3  0.536     11.10
-#>    3    variance    10             15.3  0.532     11.17
-#>    3    variance    15             15.5  0.525     11.28
-#>    3    variance    20             15.6  0.517     11.39
-#>    3    extratrees   1             15.8  0.554     11.15
-#>    3    extratrees   5             15.9  0.553     11.25
-#>    3    extratrees  10             16.2  0.545     11.45
-#>    3    extratrees  15             16.4  0.538     11.62
-#>    3    extratrees  20             16.6  0.529     11.75
-#>    7    variance     1             14.5  0.558     10.57
-#>    7    variance     5             14.6  0.558     10.58
-#>    7    variance    10             14.6  0.555     10.64
-#>    7    variance    15             14.7  0.551     10.71
-#>    7    variance    20             14.8  0.548     10.76
-#>    7    extratrees   1             14.3  0.603     10.33
-#>    7    extratrees   5             14.4  0.600     10.38
-#>    7    extratrees  10             14.5  0.599     10.49
-#>    7    extratrees  15             14.7  0.594     10.62
-#>    7    extratrees  20             14.9  0.585     10.77
-#>   10    variance     1             14.4  0.563     10.42
-#>   10    variance     5             14.4  0.564     10.42
-#>   10    variance    10             14.4  0.564     10.43
-#>   10    variance    15             14.4  0.561     10.48
-#>   10    variance    20             14.5  0.557     10.53
-#>   10    extratrees   1             13.9  0.612     10.10
-#>   10    extratrees   5             14.0  0.609     10.14
-#>   10    extratrees  10             14.1  0.609     10.23
-#>   10    extratrees  15             14.3  0.602     10.36
-#>   10    extratrees  20             14.4  0.603     10.42
-#>   19    variance     1             14.4  0.561     10.31
-#>   19    variance     5             14.4  0.559     10.31
-#>   19    variance    10             14.4  0.559     10.28
-#>   19    variance    15             14.4  0.559     10.28
-#>   19    variance    20             14.4  0.562     10.26
-#>   19    extratrees   1             13.7  0.610      9.92
-#>   19    extratrees   5             13.6  0.612      9.92
-#>   19    extratrees  10             13.6  0.613      9.91
-#>   19    extratrees  15             13.7  0.613      9.99
-#>   19    extratrees  20             13.8  0.611     10.05
+#>    2    variance     1             15.2  0.564     11.12
+#>    2    variance     5             15.3  0.564     11.18
+#>    2    variance    10             15.5  0.554     11.35
+#>    2    variance    15             15.6  0.550     11.45
+#>    2    variance    20             15.7  0.543     11.57
+#>    2    extratrees   1             16.9  0.522     11.96
+#>    2    extratrees   5             17.0  0.518     12.08
+#>    2    extratrees  10             17.3  0.506     12.27
+#>    2    extratrees  15             17.4  0.502     12.39
+#>    2    extratrees  20             17.7  0.489     12.56
+#>    3    variance     1             14.7  0.574     10.73
+#>    3    variance     5             14.7  0.572     10.80
+#>    3    variance    10             14.8  0.567     10.94
+#>    3    variance    15             15.0  0.557     11.08
+#>    3    variance    20             15.2  0.550     11.22
+#>    3    extratrees   1             15.7  0.560     11.20
+#>    3    extratrees   5             15.9  0.556     11.31
+#>    3    extratrees  10             16.2  0.545     11.58
+#>    3    extratrees  15             16.4  0.539     11.75
+#>    3    extratrees  20             16.6  0.530     11.90
+#>    7    variance     1             14.1  0.589     10.27
+#>    7    variance     5             14.1  0.590     10.26
+#>    7    variance    10             14.2  0.584     10.37
+#>    7    variance    15             14.2  0.581     10.46
+#>    7    variance    20             14.4  0.576     10.56
+#>    7    extratrees   1             14.3  0.607     10.31
+#>    7    extratrees   5             14.4  0.603     10.37
+#>    7    extratrees  10             14.5  0.600     10.54
+#>    7    extratrees  15             14.7  0.596     10.68
+#>    7    extratrees  20             15.0  0.586     10.87
+#>   10    variance     1             13.9  0.593     10.12
+#>   10    variance     5             14.0  0.593     10.13
+#>   10    variance    10             14.0  0.591     10.18
+#>   10    variance    15             14.1  0.587     10.26
+#>   10    variance    20             14.1  0.585     10.33
+#>   10    extratrees   1             13.8  0.623     10.00
+#>   10    extratrees   5             13.9  0.619     10.08
+#>   10    extratrees  10             14.1  0.613     10.22
+#>   10    extratrees  15             14.3  0.606     10.38
+#>   10    extratrees  20             14.4  0.603     10.49
+#>   19    variance     1             14.0  0.590      9.99
+#>   19    variance     5             14.0  0.588     10.01
+#>   19    variance    10             14.1  0.588     10.03
+#>   19    variance    15             14.1  0.588     10.07
+#>   19    variance    20             14.1  0.587     10.08
+#>   19    extratrees   1             13.4  0.634      9.73
+#>   19    extratrees   5             13.4  0.633      9.75
+#>   19    extratrees  10             13.5  0.629      9.83
+#>   19    extratrees  15             13.6  0.626      9.90
+#>   19    extratrees  20             13.7  0.621     10.01
 #> 
 #> RMSE was used to select the optimal model using the smallest value.
 #> The final values used for the model were mtry = 19, splitrule = extratrees
-#>  and min.node.size = 5.
+#>  and min.node.size = 1.
 ```
 
 The model with the same values as identified before for `mtry` (19) and `splitrule` (extratrees), but with `min.node.size` equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.027) and the variance explained is highest (0.684) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make. 
@@ -664,12 +663,12 @@ rf_fit2$finalModel
 #> Sample size:                      372 
 #> Number of independent variables:  19 
 #> Mtry:                             19 
-#> Target node size:                 5 
+#> Target node size:                 1 
 #> Variable importance mode:         none 
 #> Splitrule:                        extratrees 
 #> Number of random splits:          1 
-#> OOB prediction error (MSE):       163 
-#> R squared (OOB):                  0.652
+#> OOB prediction error (MSE):       160 
+#> R squared (OOB):                  0.66
 ```
 In looking at this output, we see the same parameters we noted above: `mtry` is 19, the node size is 1, and the split rule is extra trees. We can also note the *OOB prediction error (MSE)*, of 154.332, and the proportion of the variance explained, or R squared, of 0.692. As before, we want the error to be low and the variance explained to be high.
 
@@ -681,7 +680,7 @@ What if we use the test data set - data not used to train the model? Below, we'l
 
 
 ```r
-set.seed(62020)
+set.seed(2020)
 
 ##Create a new object for the testing data including predicted values 
 data_test_augmented <-
@@ -695,7 +694,7 @@ data_test_augmented <-
 ```
 
 ```
-#>         new variable 'obs' with 89 unique values and 0% NA
+#>         new variable 'obs' with 90 unique values and 0% NA
 ```
 
 ```r
@@ -705,7 +704,7 @@ defaultSummary(as.data.frame(data_test_augmented))
 
 ```
 #>     RMSE Rsquared      MAE 
-#>   12.690    0.574    9.386
+#>   12.982    0.552    9.974
 ```
 
 We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 11.214 on the test data here, and it was 13.027 on the training data. The Rsquared value is 0.743 here, as compared to the 0.684 we got when we passed the training data through `rf_fit2` earlier. 
@@ -727,7 +726,7 @@ We'll re-run the `rf_fit2` model with the same specifications as before, but thi
 
 ```r
 # Set a seed
-set.seed(62020)
+set.seed(2020)
 
 # Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric
 rf_fit2_imp <-
@@ -748,24 +747,24 @@ varImp(rf_fit2_imp)
 #> 
 #>                                                     Overall
 #> n                                                   100.000
-#> subjectFrScA                                         22.186
-#> time_spent                                           12.381
-#> subjectPhysA                                          3.694
-#> pc                                                    2.888
-#> semesterS216                                          2.563
-#> negemo                                                2.108
-#> posemo                                                1.092
-#> social                                                0.924
-#> cogproc                                               0.760
-#> subjectOcnA                                           0.715
-#> int                                                   0.597
-#> enrollment_reasonOther                                0.519
-#> uv                                                    0.466
-#> enrollment_reasonScheduling Conflict                  0.434
-#> subjectBioA                                           0.385
-#> semesterT116                                          0.290
-#> enrollment_reasonCredit Recovery                      0.259
-#> enrollment_reasonLearning Preference of the Student   0.000
+#> subjectFrScA                                         20.827
+#> time_spent                                           13.680
+#> subjectPhysA                                          5.288
+#> semesterS216                                          4.063
+#> negemo                                                3.137
+#> pc                                                    2.558
+#> social                                                2.360
+#> posemo                                                1.724
+#> int                                                   0.933
+#> cogproc                                               0.729
+#> enrollment_reasonScheduling Conflict                  0.516
+#> enrollment_reasonLearning Preference of the Student   0.466
+#> enrollment_reasonOther                                0.412
+#> uv                                                    0.387
+#> enrollment_reasonCredit Recovery                      0.233
+#> semesterT116                                          0.212
+#> subjectOcnA                                           0.180
+#> subjectBioA                                           0.000
 ```
 
 Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
@@ -784,8 +783,8 @@ varImp(rf_fit2_imp) %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-17-1.png" alt="Variable Importance" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-17)Variable Importance</p>
+<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-16-1.png" alt="Variable Importance" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Variable Importance</p>
 </div>
 
 Cool! We can now visualize which variables are most important in predicting final grade. 
@@ -829,7 +828,7 @@ data_train_lm <-
 ```
 
 ```
-#> mutate: new variable 'obs' with 352 unique values and 0% NA
+#> mutate: new variable 'obs' with 354 unique values and 0% NA
 ```
 
 ```
@@ -849,7 +848,7 @@ data_train_randomfor <-
 ```
 
 ```
-#>         new variable 'obs' with 352 unique values and 0% NA
+#>         new variable 'obs' with 354 unique values and 0% NA
 ```
 
 ```r
@@ -860,7 +859,7 @@ defaultSummary(as.data.frame(data_train_lm))
 
 ```
 #>     RMSE Rsquared      MAE 
-#>   14.141    0.572   10.621
+#>   14.434    0.556   10.848
 ```
 
 ```r
@@ -870,7 +869,7 @@ defaultSummary(as.data.frame(data_train_randomfor))
 
 ```
 #>     RMSE Rsquared      MAE 
-#>    6.098    0.937    4.465
+#>    4.602    0.968    3.393
 ```
 Our output will come in the order we wrote the code, so the linear model output shows up above the random forest output.
 

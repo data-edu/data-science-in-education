@@ -1,4 +1,3 @@
-
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
 
@@ -800,10 +799,6 @@ dat <-
   left_join(dat)
 ```
 
-```
-#> Joining, by = c("student_id", "course_id")
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each
@@ -924,8 +919,8 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-27)Example Plot</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-26-1.png" alt="Example Plot" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-26)Example Plot</p>
 </div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
@@ -949,8 +944,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-28)Percentage Earned vs. Time Spent</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-27)Percentage Earned vs. Time Spent</p>
 </div>
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
@@ -969,8 +964,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-29)Adding a Line of Best Fit</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-28)Adding a Line of Best Fit</p>
 </div>
 
 So, it appears that the more time students spent on the course, the more points

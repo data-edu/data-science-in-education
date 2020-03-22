@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>14 Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="14 Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -641,7 +641,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A random forest is well suited to the research questions that we had here because it allows for nonlinear modeling. We hypothesized complex relationships between students’ motivation, their engagement with the online courses, and their achievement. For this reason, a traditional regressive or structural equation model would have been insufficient to model the parameter space we were interesting in modeling. Our random forest model had one outcome and eleven predictors.</p>
 <p>One term you will hear used in machine learning is “tuning parameter.” People often think of tuning parameters as knobs or dials on a radio: they are features of the model that can be adjusted to get the clearest signal. A common tuning parameter for machine learning models is the number of variables considered at each split <span class="citation">(Kuhn &amp; others, <a href="references.html#ref-kuhn2008">2008</a>)</span>; we considered three variables at each split for this analysis.</p>
 <p>The outcome was the final course grade that the student earned. The predictor variables included motivation variables (interest value, utility value, and science perceived competence) and trace variables (the amount of time spent in the course, the course name, the number of discussion board posts over the course of the semester, the mean level of cognitive processing evident in discussion board posts, the positive emotions evident in discussion board posts, the negative emotions evident in discussion board posts, and the social-related discourse evident in their discussion board posts). We used this random forest model to address all three of our research questions.</p>
-<p>To interpret our findings, we will consider three main factors: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model. In this walkthrough, we will use the R package {caret} <span class="citation">(Kuhn, <a href="references.html#ref-R-caret">2020</a>)</span> to carry out the analysis. We also use the {tidylog} package <span class="citation">(Elbers, <a href="references.html#ref-R-tidylog">2020</a>)</span> to help us to understand how the data processing steps we take have the desired effect.</p>
+<p>To interpret our findings, we will consider three main factors: (1) predictive accuracy of the random forest model, (2) variable importance, and (3) variance explained by the final random forest model. In this walkthrough, we will use the R package {caret} <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-caret"><strong>???</strong></span>)</span> to carry out the analysis. We also use the {tidylog} package <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-tidylog"><strong>???</strong></span>)</span> to help us to understand how the data processing steps we take have the desired effect.</p>
 </div>
 </div>
 </div>
@@ -823,7 +823,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>#&gt;            converted &#39;semester&#39; from character to factor (0 new NA)</code></pre>
 <p>Now, we will prepare the <strong>train</strong> and <strong>test</strong> datasets, using the caret function for creating data partitions. Here, the <strong>p</strong> argument specifies what proportion of the data we want to be in the <strong>training</strong> partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don’t have either a training or testing dataset that has too many good grades - or too many bad grades. Note the <code>times = 1</code> argument; this function can be used to create <em>multiple</em> train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to initiate a process called “setting the seed.” This means that we are ensuring that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that when you open the same code file again to run in the future, you do not change the number you selected for your seed. This ensures your code is reproducible. In fact, it ensures that anyone who runs the same code file on any computer, anywhere, will get the same result. With that background information, try running the code chunk below.</p>
 <div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" title="1"><span class="co"># First, we set a seed to ensure the reproducibility of our data partition.</span></a>
-<a class="sourceLine" id="cb351-2" title="2"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<a class="sourceLine" id="cb351-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb351-3" title="3"></a>
 <a class="sourceLine" id="cb351-4" title="4"><span class="co"># we create a new object called trainIndex that will take 80 percent of the data</span></a>
 <a class="sourceLine" id="cb351-5" title="5">trainIndex &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(data<span class="op">$</span>final_grade,</a>
@@ -878,7 +878,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that you can read more about the specific random forest implementation chosen <a href="http://topepo.github.io/caret/train-models-by-tag.html#random-forest">in the {caret} bookdown page</a> (<a href="http://topepo.github.io/caret/train-models-by-tag.html#random-forest" class="uri">http://topepo.github.io/caret/train-models-by-tag.html#random-forest</a>). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation <code>outcome ~ .</code>. R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the <code>~</code>, and the <code>.</code> that we see after the <code>~</code> means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the <code>~</code> and precedes the comma is treated as predictors of the outcome.</p>
 <p>Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the “random” elements of random forest, because it’s likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are “growing”!</p>
 <div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
-<a class="sourceLine" id="cb363-2" title="2"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<a class="sourceLine" id="cb363-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb363-3" title="3"></a>
 <a class="sourceLine" id="cb363-4" title="4"><span class="co"># we run the model here</span></a>
 <a class="sourceLine" id="cb363-5" title="5">rf_fit &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
@@ -897,13 +897,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; Summary of sample sizes: 372, 372, 372, 372, 372, 372, ... 
 #&gt; Resampling results across tuning parameters:
 #&gt; 
-#&gt;   mtry  splitrule   RMSE  Rsquared  MAE 
-#&gt;    2    variance    15.8  0.524     11.4
-#&gt;    2    extratrees  17.0  0.520     12.0
-#&gt;   10    variance    14.4  0.564     10.4
-#&gt;   10    extratrees  14.0  0.612     10.1
-#&gt;   19    variance    14.4  0.560     10.3
-#&gt;   19    extratrees  13.6  0.613      9.9
+#&gt;   mtry  splitrule   RMSE  Rsquared  MAE  
+#&gt;    2    variance    15.3  0.565     11.18
+#&gt;    2    extratrees  17.0  0.523     12.06
+#&gt;   10    variance    14.0  0.593     10.14
+#&gt;   10    extratrees  13.9  0.621     10.07
+#&gt;   19    variance    14.1  0.589     10.02
+#&gt;   19    extratrees  13.4  0.632      9.77
 #&gt; 
 #&gt; Tuning parameter &#39;min.node.size&#39; was held constant at a value of 5
 #&gt; RMSE was used to select the optimal model using the smallest value.
@@ -914,7 +914,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It appears that the model with the value of the <code>mtry</code> tuning parameter equal to 19 seemed to explain the data best, the <code>splitrule</code> being “extratrees”, and <code>min.node.size</code> held constant at a value of 5. We know this model fits best because the RMSE is the lowest of the options (13.64) and the Rsquared is the highest of the options (.613).</p>
 <p>The value of resampling here is that it allows for higher accuracy of the model <span class="citation">(James et al., <a href="references.html#ref-james2013">2013</a>)</span>. Without resampling (bootstrapping or cross-validation), the variance would be higher and the predictive accuracy of the model would be lower.</p>
 <p>Let’s see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb365-2" title="2"></a>
 <a class="sourceLine" id="cb365-3" title="3">train_control &lt;-</a>
 <a class="sourceLine" id="cb365-4" title="4"><span class="st">    </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>,</a>
@@ -935,16 +935,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 
 #&gt; No pre-processing
 #&gt; Resampling: Cross-Validated (10 fold, repeated 10 times) 
-#&gt; Summary of sample sizes: 333, 336, 335, 335, 336, 336, ... 
+#&gt; Summary of sample sizes: 335, 334, 334, 336, 334, 334, ... 
 #&gt; Resampling results across tuning parameters:
 #&gt; 
 #&gt;   mtry  splitrule   RMSE  Rsquared  MAE  
-#&gt;    2    variance    15.0  0.564     11.15
-#&gt;    2    extratrees  16.5  0.568     11.81
-#&gt;   10    variance    13.3  0.606      9.96
-#&gt;   10    extratrees  13.1  0.650      9.79
-#&gt;   19    variance    13.1  0.613      9.71
-#&gt;   19    extratrees  12.7  0.651      9.56
+#&gt;    2    variance    14.6  0.590     10.97
+#&gt;    2    extratrees  16.2  0.585     11.79
+#&gt;   10    variance    13.3  0.618      9.83
+#&gt;   10    extratrees  13.0  0.660      9.66
+#&gt;   19    variance    13.3  0.617      9.68
+#&gt;   19    extratrees  12.6  0.664      9.36
 #&gt; 
 #&gt; Tuning parameter &#39;min.node.size&#39; was held constant at a value of 5
 #&gt; RMSE was used to select the optimal model using the smallest value.
@@ -966,7 +966,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb367-7" title="7">    )</a>
 <a class="sourceLine" id="cb367-8" title="8"></a>
 <a class="sourceLine" id="cb367-9" title="9"><span class="co"># Set a seed</span></a>
-<a class="sourceLine" id="cb367-10" title="10"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<a class="sourceLine" id="cb367-10" title="10"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb367-11" title="11"></a>
 <a class="sourceLine" id="cb367-12" title="12"><span class="co"># Fit a new model, using the tuning grid we created above</span></a>
 <a class="sourceLine" id="cb367-13" title="13">rf_fit2 &lt;-</a>
@@ -987,60 +987,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; Resampling results across tuning parameters:
 #&gt; 
 #&gt;   mtry  splitrule   min.node.size  RMSE  Rsquared  MAE  
-#&gt;    2    variance     1             15.8  0.526     11.40
-#&gt;    2    variance     5             15.8  0.528     11.42
-#&gt;    2    variance    10             15.9  0.520     11.54
-#&gt;    2    variance    15             16.1  0.511     11.65
-#&gt;    2    variance    20             16.2  0.506     11.71
-#&gt;    2    extratrees   1             17.0  0.520     11.93
-#&gt;    2    extratrees   5             17.1  0.515     12.01
-#&gt;    2    extratrees  10             17.2  0.512     12.18
-#&gt;    2    extratrees  15             17.4  0.504     12.32
-#&gt;    2    extratrees  20             17.6  0.494     12.46
-#&gt;    3    variance     1             15.2  0.539     11.06
-#&gt;    3    variance     5             15.3  0.536     11.10
-#&gt;    3    variance    10             15.3  0.532     11.17
-#&gt;    3    variance    15             15.5  0.525     11.28
-#&gt;    3    variance    20             15.6  0.517     11.39
-#&gt;    3    extratrees   1             15.8  0.554     11.15
-#&gt;    3    extratrees   5             15.9  0.553     11.25
-#&gt;    3    extratrees  10             16.2  0.545     11.45
-#&gt;    3    extratrees  15             16.4  0.538     11.62
-#&gt;    3    extratrees  20             16.6  0.529     11.75
-#&gt;    7    variance     1             14.5  0.558     10.57
-#&gt;    7    variance     5             14.6  0.558     10.58
-#&gt;    7    variance    10             14.6  0.555     10.64
-#&gt;    7    variance    15             14.7  0.551     10.71
-#&gt;    7    variance    20             14.8  0.548     10.76
-#&gt;    7    extratrees   1             14.3  0.603     10.33
-#&gt;    7    extratrees   5             14.4  0.600     10.38
-#&gt;    7    extratrees  10             14.5  0.599     10.49
-#&gt;    7    extratrees  15             14.7  0.594     10.62
-#&gt;    7    extratrees  20             14.9  0.585     10.77
-#&gt;   10    variance     1             14.4  0.563     10.42
-#&gt;   10    variance     5             14.4  0.564     10.42
-#&gt;   10    variance    10             14.4  0.564     10.43
-#&gt;   10    variance    15             14.4  0.561     10.48
-#&gt;   10    variance    20             14.5  0.557     10.53
-#&gt;   10    extratrees   1             13.9  0.612     10.10
-#&gt;   10    extratrees   5             14.0  0.609     10.14
-#&gt;   10    extratrees  10             14.1  0.609     10.23
-#&gt;   10    extratrees  15             14.3  0.602     10.36
-#&gt;   10    extratrees  20             14.4  0.603     10.42
-#&gt;   19    variance     1             14.4  0.561     10.31
-#&gt;   19    variance     5             14.4  0.559     10.31
-#&gt;   19    variance    10             14.4  0.559     10.28
-#&gt;   19    variance    15             14.4  0.559     10.28
-#&gt;   19    variance    20             14.4  0.562     10.26
-#&gt;   19    extratrees   1             13.7  0.610      9.92
-#&gt;   19    extratrees   5             13.6  0.612      9.92
-#&gt;   19    extratrees  10             13.6  0.613      9.91
-#&gt;   19    extratrees  15             13.7  0.613      9.99
-#&gt;   19    extratrees  20             13.8  0.611     10.05
+#&gt;    2    variance     1             15.2  0.564     11.12
+#&gt;    2    variance     5             15.3  0.564     11.18
+#&gt;    2    variance    10             15.5  0.554     11.35
+#&gt;    2    variance    15             15.6  0.550     11.45
+#&gt;    2    variance    20             15.7  0.543     11.57
+#&gt;    2    extratrees   1             16.9  0.522     11.96
+#&gt;    2    extratrees   5             17.0  0.518     12.08
+#&gt;    2    extratrees  10             17.3  0.506     12.27
+#&gt;    2    extratrees  15             17.4  0.502     12.39
+#&gt;    2    extratrees  20             17.7  0.489     12.56
+#&gt;    3    variance     1             14.7  0.574     10.73
+#&gt;    3    variance     5             14.7  0.572     10.80
+#&gt;    3    variance    10             14.8  0.567     10.94
+#&gt;    3    variance    15             15.0  0.557     11.08
+#&gt;    3    variance    20             15.2  0.550     11.22
+#&gt;    3    extratrees   1             15.7  0.560     11.20
+#&gt;    3    extratrees   5             15.9  0.556     11.31
+#&gt;    3    extratrees  10             16.2  0.545     11.58
+#&gt;    3    extratrees  15             16.4  0.539     11.75
+#&gt;    3    extratrees  20             16.6  0.530     11.90
+#&gt;    7    variance     1             14.1  0.589     10.27
+#&gt;    7    variance     5             14.1  0.590     10.26
+#&gt;    7    variance    10             14.2  0.584     10.37
+#&gt;    7    variance    15             14.2  0.581     10.46
+#&gt;    7    variance    20             14.4  0.576     10.56
+#&gt;    7    extratrees   1             14.3  0.607     10.31
+#&gt;    7    extratrees   5             14.4  0.603     10.37
+#&gt;    7    extratrees  10             14.5  0.600     10.54
+#&gt;    7    extratrees  15             14.7  0.596     10.68
+#&gt;    7    extratrees  20             15.0  0.586     10.87
+#&gt;   10    variance     1             13.9  0.593     10.12
+#&gt;   10    variance     5             14.0  0.593     10.13
+#&gt;   10    variance    10             14.0  0.591     10.18
+#&gt;   10    variance    15             14.1  0.587     10.26
+#&gt;   10    variance    20             14.1  0.585     10.33
+#&gt;   10    extratrees   1             13.8  0.623     10.00
+#&gt;   10    extratrees   5             13.9  0.619     10.08
+#&gt;   10    extratrees  10             14.1  0.613     10.22
+#&gt;   10    extratrees  15             14.3  0.606     10.38
+#&gt;   10    extratrees  20             14.4  0.603     10.49
+#&gt;   19    variance     1             14.0  0.590      9.99
+#&gt;   19    variance     5             14.0  0.588     10.01
+#&gt;   19    variance    10             14.1  0.588     10.03
+#&gt;   19    variance    15             14.1  0.588     10.07
+#&gt;   19    variance    20             14.1  0.587     10.08
+#&gt;   19    extratrees   1             13.4  0.634      9.73
+#&gt;   19    extratrees   5             13.4  0.633      9.75
+#&gt;   19    extratrees  10             13.5  0.629      9.83
+#&gt;   19    extratrees  15             13.6  0.626      9.90
+#&gt;   19    extratrees  20             13.7  0.621     10.01
 #&gt; 
 #&gt; RMSE was used to select the optimal model using the smallest value.
 #&gt; The final values used for the model were mtry = 19, splitrule = extratrees
-#&gt;  and min.node.size = 5.</code></pre>
+#&gt;  and min.node.size = 1.</code></pre>
 <p>The model with the same values as identified before for <code>mtry</code> (19) and <code>splitrule</code> (extratrees), but with <code>min.node.size</code> equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.027) and the variance explained is highest (0.684) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make.</p>
 <p>While the output above gives us a good summary of the model, we might want to look more closely at what we found with our <code>rf_fit2</code> model. The code below is a way for us to zoom in and look specifically at the <em>final</em> random forest model generated by our <code>rf_fit2.</code></p>
 <p>In the code chunk below, you’ll notice we are selecting the “finalModel” output using a <code>$</code> operator rather than the familiar <code>select</code>. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - we have stored a random forest model as a model, so it’s not a normal dataframe. Thus, we extract with a <code>$</code>. We want to select only the final model used, and not worry about the prior iterations of the model.</p>
@@ -1056,19 +1056,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; Sample size:                      372 
 #&gt; Number of independent variables:  19 
 #&gt; Mtry:                             19 
-#&gt; Target node size:                 5 
+#&gt; Target node size:                 1 
 #&gt; Variable importance mode:         none 
 #&gt; Splitrule:                        extratrees 
 #&gt; Number of random splits:          1 
-#&gt; OOB prediction error (MSE):       163 
-#&gt; R squared (OOB):                  0.652</code></pre>
+#&gt; OOB prediction error (MSE):       160 
+#&gt; R squared (OOB):                  0.66</code></pre>
 <p>In looking at this output, we see the same parameters we noted above: <code>mtry</code> is 19, the node size is 1, and the split rule is extra trees. We can also note the <em>OOB prediction error (MSE)</em>, of 154.332, and the proportion of the variance explained, or R squared, of 0.692. As before, we want the error to be low and the variance explained to be high.</p>
 <p>Now that we understand how to develop a basic machine learning model, and how to use different tuning parameters (such as node size and the splitting rule), we can explore some other related themes. We might wonder about how we could examine the predictive accuracy of the random forest model we just developed.</p>
 </div>
 <div id="examining-predictive-accuracy-on-the-test-data-set" class="section level3">
 <h3><span class="header-section-number">14.6.3</span> Examining predictive accuracy on the test data set</h3>
 <p>What if we use the test data set - data not used to train the model? Below, we’ll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called “pred.” At the same, time, we’ll make a row called “obs” that includes the real final grades that students earned. Later, we’ll compare these predicted and observed values to see how well our model did.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" title="1"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb371-2" title="2"></a>
 <a class="sourceLine" id="cb371-3" title="3"><span class="co">##Create a new object for the testing data including predicted values </span></a>
 <a class="sourceLine" id="cb371-4" title="4">data_test_augmented &lt;-</a>
@@ -1076,11 +1076,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb371-6" title="6"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, data_test),</a>
 <a class="sourceLine" id="cb371-7" title="7">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
 <pre><code>#&gt; mutate: new variable &#39;pred&#39; with 92 unique values and 0% NA</code></pre>
-<pre><code>#&gt;         new variable &#39;obs&#39; with 89 unique values and 0% NA</code></pre>
+<pre><code>#&gt;         new variable &#39;obs&#39; with 90 unique values and 0% NA</code></pre>
 <div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" title="1"><span class="co">###Transform this new object into a dataframe</span></a>
 <a class="sourceLine" id="cb374-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(data_test_augmented))</a></code></pre></div>
 <pre><code>#&gt;     RMSE Rsquared      MAE 
-#&gt;   12.690    0.574    9.386</code></pre>
+#&gt;   12.982    0.552    9.974</code></pre>
 <p>We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 11.214 on the test data here, and it was 13.027 on the training data. The Rsquared value is 0.743 here, as compared to the 0.684 we got when we passed the training data through <code>rf_fit2</code> earlier.</p>
 <p>While we might have expected that the model performance would be worse for the testing data as compared to the training data, we actually are seeing marginal improvements here: the model does better with the test data than with the training data. These results suggest to us that the model is fairly robust, as we get comparable - in fact, improved - results when running the model on data it has never “seen” before (the testing data). This is good news!</p>
 </div>
@@ -1094,7 +1094,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that importance values are not calculated automatically, but that “impurity” or “permutation” can be passed to the <code>importance</code> argument in <code>train()</code>. See more <a href="https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html">here</a>.</p>
 <p>We’ll re-run the <code>rf_fit2</code> model with the same specifications as before, but this time we will add an argument to call the variable importance metric.</p>
 <div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" title="1"><span class="co"># Set a seed</span></a>
-<a class="sourceLine" id="cb376-2" title="2"><span class="kw">set.seed</span>(<span class="dv">62020</span>)</a>
+<a class="sourceLine" id="cb376-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
 <a class="sourceLine" id="cb376-3" title="3"></a>
 <a class="sourceLine" id="cb376-4" title="4"><span class="co"># Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric</span></a>
 <a class="sourceLine" id="cb376-5" title="5">rf_fit2_imp &lt;-</a>
@@ -1112,24 +1112,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 
 #&gt;                                                     Overall
 #&gt; n                                                   100.000
-#&gt; subjectFrScA                                         22.186
-#&gt; time_spent                                           12.381
-#&gt; subjectPhysA                                          3.694
-#&gt; pc                                                    2.888
-#&gt; semesterS216                                          2.563
-#&gt; negemo                                                2.108
-#&gt; posemo                                                1.092
-#&gt; social                                                0.924
-#&gt; cogproc                                               0.760
-#&gt; subjectOcnA                                           0.715
-#&gt; int                                                   0.597
-#&gt; enrollment_reasonOther                                0.519
-#&gt; uv                                                    0.466
-#&gt; enrollment_reasonScheduling Conflict                  0.434
-#&gt; subjectBioA                                           0.385
-#&gt; semesterT116                                          0.290
-#&gt; enrollment_reasonCredit Recovery                      0.259
-#&gt; enrollment_reasonLearning Preference of the Student   0.000</code></pre>
+#&gt; subjectFrScA                                         20.827
+#&gt; time_spent                                           13.680
+#&gt; subjectPhysA                                          5.288
+#&gt; semesterS216                                          4.063
+#&gt; negemo                                                3.137
+#&gt; pc                                                    2.558
+#&gt; social                                                2.360
+#&gt; posemo                                                1.724
+#&gt; int                                                   0.933
+#&gt; cogproc                                               0.729
+#&gt; enrollment_reasonScheduling Conflict                  0.516
+#&gt; enrollment_reasonLearning Preference of the Student   0.466
+#&gt; enrollment_reasonOther                                0.412
+#&gt; uv                                                    0.387
+#&gt; enrollment_reasonCredit Recovery                      0.233
+#&gt; semesterT116                                          0.212
+#&gt; subjectOcnA                                           0.180
+#&gt; subjectBioA                                           0.000</code></pre>
 <p>Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.</p>
 <p>We can visualize this variable importance list with {ggplot2}.</p>
 <div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" title="1"><span class="kw">varImp</span>(rf_fit2_imp) <span class="op">%&gt;%</span></a>
@@ -1139,10 +1139,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb378-5" title="5"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb378-6" title="6"><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb378-7" title="7"><span class="st">    </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
-<img src="figures/unnamed-chunk-17-1.png" alt="Variable Importance" width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-16-1.png" alt="Variable Importance" width="100%" />
 <p class="caption">
-Figure 8.3: Variable Importance
+Figure 8.4: Variable Importance
 </p>
 </div>
 <p>Cool! We can now visualize which variables are most important in predicting final grade.</p>
@@ -1171,7 +1171,7 @@ Figure 8.3: Variable Importance
 <a class="sourceLine" id="cb381-11" title="11"><span class="st">    </span>data_train <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb381-12" title="12"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">obs =</span> final_grade,</a>
 <a class="sourceLine" id="cb381-13" title="13">           <span class="dt">pred =</span> <span class="kw">predict</span>(lm_fit, data_train_lm))</a></code></pre></div>
-<pre><code>#&gt; mutate: new variable &#39;obs&#39; with 352 unique values and 0% NA</code></pre>
+<pre><code>#&gt; mutate: new variable &#39;obs&#39; with 354 unique values and 0% NA</code></pre>
 <pre><code>#&gt;         new variable &#39;pred&#39; with 372 unique values and 0% NA</code></pre>
 <div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" title="1"><span class="co"># Append the predicted values to the training dataset for the random forest</span></a>
 <a class="sourceLine" id="cb384-2" title="2">data_train_randomfor &lt;-</a>
@@ -1179,16 +1179,16 @@ Figure 8.3: Variable Importance
 <a class="sourceLine" id="cb384-4" title="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, data_train),</a>
 <a class="sourceLine" id="cb384-5" title="5">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
 <pre><code>#&gt; mutate: new variable &#39;pred&#39; with 372 unique values and 0% NA</code></pre>
-<pre><code>#&gt;         new variable &#39;obs&#39; with 352 unique values and 0% NA</code></pre>
+<pre><code>#&gt;         new variable &#39;obs&#39; with 354 unique values and 0% NA</code></pre>
 <div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" title="1"><span class="co"># Summarize, as data frames, the training data with the predicted </span></a>
 <a class="sourceLine" id="cb387-2" title="2"><span class="co"># and the actual values for both the linear model</span></a>
 <a class="sourceLine" id="cb387-3" title="3"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(data_train_lm))</a></code></pre></div>
 <pre><code>#&gt;     RMSE Rsquared      MAE 
-#&gt;   14.141    0.572   10.621</code></pre>
+#&gt;   14.434    0.556   10.848</code></pre>
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" title="1"><span class="co"># and the random forest</span></a>
 <a class="sourceLine" id="cb389-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(data_train_randomfor))</a></code></pre></div>
 <pre><code>#&gt;     RMSE Rsquared      MAE 
-#&gt;    6.098    0.937    4.465</code></pre>
+#&gt;    4.602    0.968    3.393</code></pre>
 <p>Our output will come in the order we wrote the code, so the linear model output shows up above the random forest output.</p>
 <p>We can see that the random forest technique seems to perform better than regression. Specifically, the RMSE is lower for the random forest (4.605 as compared to 14.14 for the linear model). Second, the variance explained (<code>Rsquared</code>) is much higher in the random forest (0.97 as compared to 0.57 for the linear model). It may be interesting to compare the results from the random forest not to a more straightforward model, such as a regression, but to a more sophisticated model, like one for deep learning. As you expand your skills, you might be curious to do something like that.</p>
 </div>

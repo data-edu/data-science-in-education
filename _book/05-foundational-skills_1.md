@@ -1,4 +1,3 @@
-
 # Getting Started with R and RStudio {#c05}
 
 ## Chapter Overview
@@ -49,7 +48,7 @@ One of the most reliable ways to tell if you're opening R or RStudio is to look 
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)Icons</p>
+<p class="caption">(\#fig:fig5-1)Icons</p>
 </div>
 
 Whenever we want to work with R, we'll open RStudio.
@@ -77,7 +76,7 @@ When we open RStudio for the first time, we're should see something similar to t
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)RStudio Layout</p>
+<p class="caption">(\#fig:fig5-2)RStudio Layout</p>
 </div>
 
 We'll refer to these three "panes" as the **Console** pane, the **Environment** pane, and the **Files** pane. 
@@ -91,7 +90,7 @@ We can open up an `.R` script in the source pane by going to File, selecting New
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.3.png" alt="Creating a new R Script in RStudio" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-4)Creating a new R Script in RStudio</p>
+<p class="caption">(\#fig:fig5-3)Creating a new R Script in RStudio</p>
 </div>
 
 You do not need to do anything specific with this file, but we encourage you to experiment with it if you would like!  
@@ -104,7 +103,7 @@ To accomplish this, go to Tools and select Global Options from the dropdown menu
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-5)Selecting Global Options from the Tool Dropdown Menu</p>
+<p class="caption">(\#fig:unnamed-chunk-1)Selecting Global Options from the Tool Dropdown Menu</p>
 </div>
 
 The General tab will open, with several checkboxes selected and unselected.
@@ -113,7 +112,7 @@ After selecting "Never", go through and check and uncheck boxes so that your Gen
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.5.png" alt="General tab from Global Options" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-6)General tab from Global Options</p>
+<p class="caption">(\#fig:unnamed-chunk-2)General tab from Global Options</p>
 </div>
 
 Last, but certainly not least, click on the "Appearance" tab from within the Global Options. 
@@ -132,7 +131,7 @@ If the Environment pane has been minimized, we'll see something like this:
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.6.png" alt="RStudio layout with the Environment Pane Minimized" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-7)RStudio layout with the Environment Pane Minimized</p>
+<p class="caption">(\#fig:unnamed-chunk-3)RStudio layout with the Environment Pane Minimized</p>
 </div>
 
 We know that the Environment pane has been minimized, because we can see the pane headers in the top right, we just can't see the information _within_ the Environment pane.
@@ -143,14 +142,14 @@ If the Environment pane has somehow been closed, you can recover it by going to 
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-8)Accessing the Pane Layout from the View Dropdown Menu</p>
+<p class="caption">(\#fig:unnamed-chunk-4)Accessing the Pane Layout from the View Dropdown Menu</p>
 </div>
 
 When we select Pane Layout, we'll see this: 
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.8.png" alt="Pane Layout options within RStudio" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-9)Pane Layout options within RStudio</p>
+<p class="caption">(\#fig:unnamed-chunk-5)Pane Layout options within RStudio</p>
 </div>
 
 From here you can select which tabs you'd like to appear within each pane, and even change where each pane appears within RStudio. 
@@ -175,7 +174,7 @@ You should see the following:
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.9.png" alt="Using the Console as a Calculator" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-10)Using the Console as a Calculator</p>
+<p class="caption">(\#fig:unnamed-chunk-6)Using the Console as a Calculator</p>
 </div>
 
 We've just used R to add the numbers 3 and 4. 
@@ -194,7 +193,7 @@ We should see this in the Console:
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.10.png" alt="Printing Text to the Console" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-12)Printing Text to the Console</p>
+<p class="caption">(\#fig:unnamed-chunk-8)Printing Text to the Console</p>
 </div>
 
 There's one error that you're likely going to come across, both when running code in the Console as well as in an R script. 
@@ -210,7 +209,7 @@ What you'll see in the Console is:
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.11.png" alt="Incomplete Parentheses Change what R Expects Next" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-14)Incomplete Parentheses Change what R Expects Next</p>
+<p class="caption">(\#fig:unnamed-chunk-10)Incomplete Parentheses Change what R Expects Next</p>
 </div>
 
 When we're missing a closing parentheses, R is expecting us to provide more code.
