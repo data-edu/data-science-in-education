@@ -1,4 +1,3 @@
-
 # Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data {#c10}
 
 
@@ -47,19 +46,19 @@ In this analysis we'll be importing and combining six datasets that describe the
 
 In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
 
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
+ - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
+ - [2013 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
+ - [2014 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
+ - [2015 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
+ - [2016 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
+ - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
 
-You can also find these files on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+You can also find these files on the [United States Department of Education website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html) (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
 ### A Note on File Paths
 
@@ -815,8 +814,8 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-2-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)Count of Female Students in Special Education Over Time</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-1-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-1)Count of Female Students in Special Education Over Time</p>
 </div>
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
@@ -840,8 +839,8 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-3-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)Count of Male Students in Special Education Over Time</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-2-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-2)Count of Male Students in Special Education Over Time</p>
 </div>
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
@@ -860,8 +859,8 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-4-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-4)Total Count of Students in Special Education Over Time</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-3-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-3)Total Count of Students in Special Education Over Time</p>
 </div>
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
@@ -879,8 +878,8 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-5-1.png" alt="Median Students with Disabilities Count" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-5)Median Students with Disabilities Count</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-4-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<p class="caption">(\#fig:fig10-4)Median Students with Disabilities Count</p>
 </div>
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
@@ -919,8 +918,8 @@ high_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-6-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-6)Male Student to Female Student Ratio Over Time</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-5-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-5)Male Student to Female Student Ratio Over Time</p>
 </div>
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
@@ -959,8 +958,8 @@ child_counts %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-7-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-7)Comparison of Female Students to Male Students in Special Education</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-6-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<p class="caption">(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education</p>
 </div>
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
@@ -1012,8 +1011,8 @@ child_counts %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-8-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-8)Comparison of Female Students to Male Students with Disabilities</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-7-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<p class="caption">(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities</p>
 </div>
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
@@ -1069,8 +1068,8 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-9-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-9)Male to Female Ratio Across Years (Jittered)</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-8-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<p class="caption">(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)</p>
 </div>
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
@@ -1207,8 +1206,8 @@ model_data %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-10-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-10)Median Male and Female Student Counts in Special Education</p>
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-9-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<p class="caption">(\#fig:fig10-9)Median Male and Female Student Counts in Special Education</p>
 </div>
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
@@ -1245,16 +1244,16 @@ tibble(
 #> # A tibble: 10 x 3
 #>    student school test_score
 #>    <chr>   <chr>       <int>
-#>  1 a       k              79
-#>  2 b       l              88
-#>  3 c       m              15
-#>  4 d       n              64
-#>  5 e       o              59
-#>  6 f       k              92
-#>  7 g       l              25
-#>  8 h       m               4
-#>  9 i       n              78
-#> 10 j       o              84
+#>  1 a       k              70
+#>  2 b       l              70
+#>  3 c       m              22
+#>  4 d       n              87
+#>  5 e       o              76
+#>  6 f       k              31
+#>  7 g       l              99
+#>  8 h       m              72
+#>  9 i       n              92
+#> 10 j       o              86
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -1275,11 +1274,11 @@ tibble(
 #> # A tibble: 5 x 2
 #>   school mean_score
 #>   <chr>       <dbl>
-#> 1 k            67  
-#> 2 l            49  
-#> 3 m            35.5
-#> 4 n            43  
-#> 5 o            80
+#> 1 k            65  
+#> 2 l            50  
+#> 3 m            55.5
+#> 4 n            37.5
+#> 5 o            75.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 

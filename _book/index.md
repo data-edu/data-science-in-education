@@ -1,11 +1,10 @@
-
 --- 
 title: "Data Science in Education Using R"
 author: "Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez"
 site: bookdown::bookdown_site
 output:
     bookdown::gitbook:
-        fig_caption: yes
+        number_sections: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: "apalike"
@@ -40,7 +39,7 @@ So give your chicken family a big hug, open up your laptop, and let’s start le
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)The Tweet That Started It All</p>
+<p class="caption">(\#fig:unnamed-chunk-2)The Tweet That Started It All</p>
 </div>
 
 ## Acknowledgements {-}

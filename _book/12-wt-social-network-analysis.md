@@ -1,4 +1,3 @@
-
 # Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data {#c12}
 
 ## Vocabulary
@@ -118,20 +117,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 #> # A tibble: 12 x 2
-#>    sender             receiver           
-#>    <chr>              <chr>              
-#>  1 Pham, Pa Nhia      Wojtowick, Gary    
-#>  2 Davis, Segan       Duenez, Aureliano  
-#>  3 Davis, Segan       Cox, Mariah        
-#>  4 al-Muhammed, Ulyaa Duenez, Aureliano  
-#>  5 al-Muhammed, Ulyaa Wojtowick, Gary    
-#>  6 al-Muhammed, Ulyaa Labishak, Aiyana   
-#>  7 Lowe, Rafael       Cox, Mariah        
-#>  8 Lowe, Rafael       Olson, Jeremy      
-#>  9 Lowe, Rafael       Labishak, Aiyana   
-#> 10 Wilson, James      Bannister, Kenaniah
-#> 11 Tarrant, Shontae   Cox, Mariah        
-#> 12 Tarrant, Shontae   Bannister, Kenaniah
+#>    sender                     receiver              
+#>    <chr>                      <chr>                 
+#>  1 al-Sawaya, Nabeeha         Nuno Villanueva, Angie
+#>  2 Tewolde, Jernayiah         Cloud, Desiree        
+#>  3 Tewolde, Jernayiah         Chase, Timothy        
+#>  4 Castillo-Halvorssen, Scott Cloud, Desiree        
+#>  5 Castillo-Halvorssen, Scott Nuno Villanueva, Angie
+#>  6 Castillo-Halvorssen, Scott Mattie, Logan         
+#>  7 Vigil, Tiffany             Chase, Timothy        
+#>  8 Vigil, Tiffany             Martel, Alondra       
+#>  9 Vigil, Tiffany             Mattie, Logan         
+#> 10 Proctor, Tina              al-Imam, Samraa       
+#> 11 Ewald, Audrey              Chase, Timothy        
+#> 12 Ewald, Audrey              al-Imam, Samraa
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -313,8 +312,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-16-1.png" alt="Network Graph" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Network Graph</p>
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-1-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:fig12-1)Network Graph</p>
 </div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
@@ -335,8 +334,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-18-1.png" alt="Network Graph with Centrality" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-18)Network Graph with Centrality</p>
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-2-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:fig12-2)Network Graph with Centrality</p>
 </div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/

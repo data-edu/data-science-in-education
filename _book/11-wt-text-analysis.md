@@ -1,4 +1,3 @@
-
 # Walkthrough 5: Text Analysis With Social Media Data {#c11}
 
 
@@ -326,8 +325,8 @@ pos_tokens_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-2-1.png" alt="Count of Words Associated with Positivity" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)Count of Words Associated with Positivity</p>
+<img src="11-wt-text-analysis_files/figure-html/fig11-1-1.png" alt="Count of Words Associated with Positivity" width="100%" />
+<p class="caption">(\#fig:fig11-1)Count of Words Associated with Positivity</p>
 </div>
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
@@ -525,7 +524,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-#> [1] 2 8 5 1 6
+#> [1]  7  6  8  1 10
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -534,28 +533,29 @@ Passing `sample()` a vector of numbers and the size of the sample you want retur
 
 
 ```r
-set.seed(369)
+set.seed(2020)
 
-pos_tweets %>% sample_n(., size = 10)
+pos_tweets %>% 
+  sample_n(., size = 10)
 ```
 
 ```
 #> # A tibble: 10 x 3
 #>    status_id        text                                                positive
 #>    <chr>            <chr>                                                  <dbl>
-#>  1 100038669024092… "A few more maps, this time at the county level, f…        1
-#>  2 109913022775261… "Unpivotr::behead() &amp; tidyxl can recognize ind…        1
-#>  3 106138333884440… "First time working with maps in #ggplot2\nNothing…        1
-#>  4 106757191930893… "I explored data on bridges in Maryland for this w…        1
-#>  5 106525318257251… "I was trying to do some practice last night in R …        1
-#>  6 108770602257839… "For my first #tidytuesday, I look at the distribu…        1
-#>  7 108888393956397… "In this week's #tidytuesday screencast, I analyze…        1
-#>  8 105291401296128… "#TidyTuesday week 2. Took a look at the relations…        1
-#>  9 989114304619302… "@dylanjm_ds And let's not forget that the primary…        1
-#> 10 996466149641482… "Is there a way to combine specific values from a …        1
+#>  1 113347244173969… "Today is the day - excited to be leading this Bos…        1
+#>  2 114436276456938… "UFO sightings with gganimate - need to tidy up so…        1
+#>  3 996745975124430… "This week's #TidyTuesday dataset looks too fun to…        1
+#>  4 108681181347857… "This week: 2019-01-15 #TidyTuesday #rstats my foc…        1
+#>  5 103451450126419… "#TidyTuesday week 22.\nInteresting patterns in ho…        1
+#>  6 113597645318988… ".@broadwym is kicking off the #TidyTuesday colear…        1
+#>  7 114881375394674… "Night everyone i am heading to bed now i love you…        1
+#>  8 107466544430342… "@sebastianhwells @jspairani Hi Sebastian - every …        1
+#>  9 115468388823039… "Have you signed up for our next #rladies event? \…        1
+#> 10 112789066770597… "Better late than never. My first #TidyTuesday plo…        1
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion 
 

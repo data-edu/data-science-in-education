@@ -1,4 +1,3 @@
-
 # Foundational Skills {#c06}
 
 ## Chapter Overview

@@ -1,4 +1,3 @@
-
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
 
@@ -800,10 +799,6 @@ dat <-
   left_join(dat)
 ```
 
-```
-#> Joining, by = c("student_id", "course_id")
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each
@@ -924,8 +919,8 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-27)Example Plot</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-1-1.png" alt="Example Plot" width="100%" />
+<p class="caption">(\#fig:fig7-1)Example Plot</p>
 </div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
@@ -949,8 +944,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-28)Percentage Earned vs. Time Spent</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">(\#fig:fig7-2)Percentage Earned vs. Time Spent</p>
 </div>
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
@@ -969,8 +964,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-29)Adding a Line of Best Fit</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-3-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">(\#fig:fig7-3)Adding a Line of Best Fit</p>
 </div>
 
 So, it appears that the more time students spent on the course, the more points
@@ -1003,10 +998,12 @@ Another way that we can generate table output is with a function from the
 
 
 ```r
-tab_model(m_linear)
+tab_model(m_linear,
+          title = "Table 7.1")
 ```
 
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Table 7.1</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
@@ -1040,6 +1037,8 @@ tab_model(m_linear)
 
 </table>
 
+
+
 This will work well for R Markdown documents (or simply to interpret the model in
 R). If you want to save the model for use in a Word document, the
 [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
@@ -1052,13 +1051,7 @@ document, simply by adding a `filename` argument:
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
-You might be wondering what else the {apaTables} package does. We encourage you to
-read more about the package here:
-<https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
-especially helpful. One function that may be useful for writing manuscripts is
-the following function for creating correlation tables; the function takes, as
-an input, a data frame with the variables for which you wish to calculate
-correlations. 
+We encourage you to read more about the package at https://cran.r-project.org/web/packages/apaTables/index.html to see what else the {apaTables} package does. The vignette is especially helpful.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
 be using a lot in this book. `filter()`, `group_by()`, and `summarize()` are functions
@@ -1177,10 +1170,12 @@ m_linear_1 <-
   lm(percentage_earned ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_1)
+tab_model(m_linear_1,
+          title = "Table 7.2")
 ```
 
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Table 7.2</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
@@ -1214,6 +1209,8 @@ tab_model(m_linear_1)
 
 </table>
 
+
+
 The scale still does not seem quite right. What if we standardized the variable
 to have a mean of zero and a standard deviation of one?
 
@@ -1229,10 +1226,12 @@ m_linear_2 <-
   lm(percentage_earned ~ TimeSpent_std, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_2)
+tab_model(m_linear_2,
+          title = "Table 7.3")
 ```
 
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Table 7.3</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
@@ -1266,6 +1265,8 @@ tab_model(m_linear_2)
 
 </table>
 
+
+
 That seems to make more sense. However, there is a different interpretation
 now for the time spent variable: for every one standard deviation increase in
 the amount of time spent on the course, the percentage of points a student earns
@@ -1290,10 +1291,12 @@ We can use `tab_model()` once again to view the results:
 
 
 ```r
-tab_model(m_linear_3)
+tab_model(m_linear_3,
+          title = "Table 7.4")
 ```
 
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Table 7.4</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">percentage earned</th>
@@ -1350,6 +1353,8 @@ tab_model(m_linear_3)
 </tr>
 
 </table>
+
+
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
 oceanography - are associated with a higher percentage of points earned,

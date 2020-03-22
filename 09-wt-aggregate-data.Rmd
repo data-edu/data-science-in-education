@@ -308,7 +308,7 @@ merged_df <-
 
 What do the racial demographics in this district look like? For this, a barplot can quickly visualize the different proportion of subgroups.
 
-```{r, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup"}
+```{r fig9-1, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup"}
 tidy_df %>%
   # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
@@ -344,8 +344,7 @@ In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 ```{r}
 tidy_df %>%
   filter(category == "frpl_pct",
-         school_name == "Total") %>%
-  knitr::kable() # creates a nice looking table
+         school_name == "Total")
 ```
 
 **56.9% of the students are eligible for FRPL**, compared to [the U.S. average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes) (https[]()://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
@@ -358,7 +357,7 @@ Now, we dig deeper to see if there is more to the story.
 
 Another view of the data can be visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
-```{r, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population"}
+```{r fig9-2, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population"}
 merged_df %>%
   # remove district totals
   filter(school_name != "Total") %>%
@@ -384,7 +383,7 @@ The school race demographics are not representative of the district populations 
 
 High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools (@ncesfrpl). However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
-```{r, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Distribution of Subgroups in High Poverty Schools"}
+```{r fig9-3, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Distribution of Subgroups in High Poverty Schools"}
 tidy_df %>%
   filter(school_name == "Total",
          str_detect(category, "povsch")) %>%
@@ -414,7 +413,7 @@ tidy_df %>%
 
 Let’s explore what happens when we correlate race and FRPL percentage by school.
 
-```{r, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage"}
+```{r fig9-4, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage"}
 merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +

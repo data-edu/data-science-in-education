@@ -619,7 +619,7 @@ In this section, we focus on some initial analyses in the form of visualizations
 
 The first two lines of most {ggplot2} code look similar in most graphs. The first line tells R which dataset to graph and which columns the x-axis and y-axis will represent. The second line tells R which shape to use when drawing the graph. You can tell R which shape to use in your graphs with a family of {ggplot2} functions that start with `geom_`. {ggplot2} has many graph shapes you can use, including points, bars, lines, and boxplots.  Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
 
-```{r, warning = FALSE, message = FALSE, results = 'hide', fig.cap = "Example Plot"}
+```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.cap = "Example Plot"}
 # make dataset
 students <- 
   tibble(
@@ -642,7 +642,7 @@ The `data` argument in the first line tells R we’ll be using the dataset calle
 One thing we might be wondering is how time spent on course is related to
 students' final grade.
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent"}
+``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent"}
 dat %>%
   # aes() tells ggplot2 what variables to map to what feature of a plot
   # Here we map variables to the x- and y-axis
@@ -656,7 +656,7 @@ dat %>%
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit"}
+``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit"}
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
     geom_point(color = dataedu_colors("green")) + # same as above
@@ -696,7 +696,14 @@ Another way that we can generate table output is with a function from the
 {sjPlot} package, `tab_model()`.
 
 ``` {r}
-tab_model(m_linear)
+tab_model(m_linear,
+          title = "Table 7.1")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear,
+          file = "./man/tables/Table 7.1.doc",
+          title = "Table 7.1")
 ```
 
 This will work well for R Markdown documents (or simply to interpret the model in
@@ -710,13 +717,7 @@ document, simply by adding a `filename` argument:
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
-You might be wondering what else the {apaTables} package does. We encourage you to
-read more about the package here:
-<https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
-especially helpful. One function that may be useful for writing manuscripts is
-the following function for creating correlation tables; the function takes, as
-an input, a data frame with the variables for which you wish to calculate
-correlations. 
+We encourage you to read more about the package at https://cran.r-project.org/web/packages/apaTables/index.html to see what else the {apaTables} package does. The vignette is especially helpful.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
 be using a lot in this book. `filter()`, `group_by()`, and `summarize()` are functions
@@ -787,7 +788,14 @@ m_linear_1 <-
   lm(percentage_earned ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_1)
+tab_model(m_linear_1,
+          title = "Table 7.2")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_1,
+          file = "./man/tables/Table 7.2.doc",
+          title = "Table 7.2")
 ```
 
 The scale still does not seem quite right. What if we standardized the variable
@@ -804,7 +812,14 @@ m_linear_2 <-
   lm(percentage_earned ~ TimeSpent_std, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_2)
+tab_model(m_linear_2,
+          title = "Table 7.3")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_2,
+          file = "./man/tables/Table 7.3.doc",
+          title = "Table 7.3")
 ```
 
 That seems to make more sense. However, there is a different interpretation
@@ -829,7 +844,14 @@ m_linear_3 <-
 We can use `tab_model()` once again to view the results:
 
 ``` {r}
-tab_model(m_linear_3)
+tab_model(m_linear_3,
+          title = "Table 7.4")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_3,
+          file = "./man/tables/Table 7.4.doc",
+          title = "Table 7.4")
 ```
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -

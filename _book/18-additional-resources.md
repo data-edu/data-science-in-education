@@ -1,4 +1,3 @@
-
 # Additional Resources {#c18}
 
 ## Chapter Overview
