@@ -15,17 +15,13 @@
 
 ## Chapter Overview
 
-This chapter builds upon the previous chapter on [text analysis](#c11) of #tidytuesday data.
+This chapter builds upon [Walkthrough 5/Chapter 11]](#c11) of #tidytuesday data. Whereas the previous chapter was focused on using text analysis to understand the *content* of tweets, this chapter focuses on the *interactions* between #tidytuesday participants. Thus, this chapter explores the use of social network analysis techniques. We note that this chapter, like the previous chapter, includes a technical appendix: This chapter's technical appendix is focused on two social network processes, selection and influence, that are not the focus of this chapter, but are feasible to investigate using R, and so are, we think, worth introducing as a topic for further reading and study.
 
 ### Background
 
-In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in the professional learning network [@trust2016].
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as professional learning networks [@trust2016]. 
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
-
-In this chapter, we focus on a source of data that could be used to understand how one new community functions. That community, #tidytuesday is one sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks). 
-
-In this walkthrough, we focus on a) accessing data on #tidytuesday from Twitter and b) trying to understand the nature of the interactions that take place through #tidytuesday. We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning that a data science toolkit allows an analyst to try to understand (through new data sources), we also chose this because it is straightforward to access data from Twitter, and we think you may find other opportunities to analyze data from Twitter in other cases.
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in a social media-based network. Thus, while the kinds of interactions that take place through #tidytuesday do represent a new context for individuals to communicate and share, it is the kind of network that is becoming increasingly common in education, and, so, being able to use a data science approach to understand the nature of the activity that takes places through #tidytuesday is a potentially valuable capability.
 
 ### Packages, Data Sources and Import, and Methods
 
@@ -122,20 +118,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 #> # A tibble: 12 x 2
-#>    sender               receiver            
-#>    <chr>                <chr>               
-#>  1 Ali, Brian           Rich, Katurah       
-#>  2 al-Javid, Nazeema    Lewis, Robert       
-#>  3 al-Javid, Nazeema    al-Mirza, Mahdhoodha
-#>  4 Martinez, Diamantina Lewis, Robert       
-#>  5 Martinez, Diamantina Rich, Katurah       
-#>  6 Martinez, Diamantina el-Ramadan, Shaheed 
-#>  7 Foutz, Demri         al-Mirza, Mahdhoodha
-#>  8 Foutz, Demri         al-Hakim, Yaasmeena 
-#>  9 Foutz, Demri         el-Ramadan, Shaheed 
-#> 10 Mcginnis, Gabriel    Sangalang, Simon    
-#> 11 Sherman, Karli       al-Mirza, Mahdhoodha
-#> 12 Sherman, Karli       Sangalang, Simon
+#>    sender             receiver           
+#>    <chr>              <chr>              
+#>  1 Pham, Pa Nhia      Wojtowick, Gary    
+#>  2 Davis, Segan       Duenez, Aureliano  
+#>  3 Davis, Segan       Cox, Mariah        
+#>  4 al-Muhammed, Ulyaa Duenez, Aureliano  
+#>  5 al-Muhammed, Ulyaa Wojtowick, Gary    
+#>  6 al-Muhammed, Ulyaa Labishak, Aiyana   
+#>  7 Lowe, Rafael       Cox, Mariah        
+#>  8 Lowe, Rafael       Olson, Jeremy      
+#>  9 Lowe, Rafael       Labishak, Aiyana   
+#> 10 Wilson, James      Bannister, Kenaniah
+#> 11 Tarrant, Shontae   Cox, Mariah        
+#> 12 Tarrant, Shontae   Bannister, Kenaniah
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -246,7 +242,8 @@ interactions_sent
 
 
 ```r
-interactions_sent <- interactions_sent %>% 
+interactions_sent <- 
+  interactions_sent %>% 
   filter(n > 1)
 ```
 
@@ -315,7 +312,10 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-16-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Network Graph</p>
+</div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
@@ -334,7 +334,10 @@ g %>%
   theme_graph()
 ```
 
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-18-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-18)Network Graph with Centrality</p>
+</div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
@@ -510,6 +513,4 @@ m_selection <-
 
 While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
 
-One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
-
-A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, {ergm}, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), {statnet}. A link to the statnet packages is [here](https://statnet.org/).
+One type of selection model extends the logistic regression. The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed. Another extension is an Exponential Random Graph Model, or ERGM. The {ergm} R package makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet]. These packages collectively begin to illustrate the richness of the packages available within R for using social network analysis models and methods; moreover, as developments in social network analysis methods continue to be made, cutting-edge techniques are likely to continue to be available (through R packages) to those using R for these types of analyses. 

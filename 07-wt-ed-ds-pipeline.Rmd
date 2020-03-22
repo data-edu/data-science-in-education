@@ -619,7 +619,7 @@ In this section, we focus on some initial analyses in the form of visualizations
 
 The first two lines of most {ggplot2} code look similar in most graphs. The first line tells R which dataset to graph and which columns the x-axis and y-axis will represent. The second line tells R which shape to use when drawing the graph. You can tell R which shape to use in your graphs with a family of {ggplot2} functions that start with `geom_`. {ggplot2} has many graph shapes you can use, including points, bars, lines, and boxplots.  Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
 
-```{r ggplot example, warning = FALSE, message = FALSE, results = 'hide'}
+```{r, warning = FALSE, message = FALSE, results = 'hide', fig.cap = "Example Plot"}
 # make dataset
 students <- 
   tibble(
@@ -642,7 +642,7 @@ The `data` argument in the first line tells R we’ll be using the dataset calle
 One thing we might be wondering is how time spent on course is related to
 students' final grade.
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide'}
+``` {r, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent"}
 dat %>%
   # aes() tells ggplot2 what variables to map to what feature of a plot
   # Here we map variables to the x- and y-axis
@@ -656,7 +656,7 @@ dat %>%
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide'}
+``` {r, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit"}
 dat %>%
   ggplot(aes(x = TimeSpent, y = percentage_earned)) +
     geom_point(color = dataedu_colors("green")) + # same as above
@@ -701,7 +701,7 @@ tab_model(m_linear)
 
 This will work well for R Markdown documents (or simply to interpret the model in
 R). If you want to save the model for use in a Word document, the
-[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
+[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
 like we did with `tab_model()`. Then, you can save the output to a Word
 document, simply by adding a `filename` argument:

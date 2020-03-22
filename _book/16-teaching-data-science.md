@@ -21,7 +21,7 @@ As the authors of a book about data science in education - and readers of books 
 
 Problem-based learning (PBL) is a method of instruction that presents learners with a real-world challenge in which they must apply their skills and knowledge to solve. We applied this principle to the design of this book through including walk-throughs for common questions with respect to data science and education. Whereas some topics may benefit less from such an approach (and the inclusion of walk-throughs), for data science, we believe this is important because we do not have all of the right answers in this text. Moreover, there is not one right statistical model or algorithm, a technique to write code or even software and tools to utilize. 
 
-Thus, the text features walkthroughs that reflect the types of challenges that educational data scientists may encounter in the course of their work: readers may choose to go about approaching the analysis of the data used in each walkthrough differently. At the end of walkthrough, there exist exercises that provide the opportunity for readers to extend and apply the ideas presented in the chapter. Moreover, the challenges are structured in such a way that readers return to some of them, but with different aims, over the course of the book.
+Thus, the text features walkthroughs that reflect the types of challenges that data scientists in education may encounter in the course of their work: readers may choose to go about approaching the analysis of the data used in each walkthrough differently. At the end of walkthrough, there exist exercises that provide the opportunity for readers to extend and apply the ideas presented in the chapter. Moreover, the challenges are structured in such a way that readers return to some of them, but with different aims, over the course of the book.
 
 <!-- Josh: To what extent do we need to change the walkthroughs or their order to make this accurate? -->
 
@@ -49,11 +49,11 @@ Many of the seven guiding principles of Universal Design are readily transferabl
 
 ### Working in the Open
 
-We started writing this book in the open, on GitHub. This allowed us to share the book as it developed. Writing the book in the open also allowed others from the wider educational data science and data science community to contribute. These contributions included writing sections of the book in which contributors had specific expertise, asking clarifying questions, and, even, creating a logo for the book which informed our choice of a color palette. We decided to write this book in the open after witnessing the success of other books on data science (such as @wickham2019advr *Advanced R* (https://adv-r.hadley.nz/) book.
+We started writing this book in the open, on GitHub. This allowed us to share the book as it developed. Writing the book in the open also allowed others from the wider data science community to contribute. These contributions included writing sections of the book in which contributors had specific expertise, asking clarifying questions, and, even, creating a logo for the book which informed our choice of a color palette. We decided to write this book in the open after witnessing the success of other books on data science (such as @wickham2019advr *Advanced R* (https://adv-r.hadley.nz/) book.
 
 ## Strategies for teaching data science
 
-You may be interested in teaching others' data science. You may be doing this informally (such as by teaching a colleague with whom you work in your school district or organization), in a formal environment (such as a class on data science for educational data scientists or analysts), or in some setting in-between (such as a workshop you are asked to provide). There is some research on teaching data science, as well as practical advice from experienced instructors that can inform these efforts, which we detail in this section.
+You may be interested in teaching others' data science. You may be doing this informally (such as by teaching a colleague with whom you work in your school district or organization), in a formal environment (such as a class on data science for data scientists or analysts in education), or in some setting in-between (such as a workshop you are asked to provide). There is some research on teaching data science, as well as practical advice from experienced instructors that can inform these efforts, which we detail in this section.
 
 ### Provide a home base for learners to access resources (and to learn more)
 
@@ -145,7 +145,7 @@ Educators and educational researchers often talk about metacognition, or thinkin
 
 While teachers are responsible for designing learning opportunities, learners also play an important role - in their own learning! Learning strategies, according to the authors of *HPL2*, matter, including those that help students to retrieve information and summarize and explain what they have learned (for themselves and others). There are many specific strategies documented in [chapter four](https://www.nap.edu/read/24783/chapter/6#72) of *HPL2*. What is important for teachers of data science to know is less the specific strategies, and more the commitment to teaching learners how to learn. 
 
-In addition to strategies for learners, teaching strategies, such as how content is spaced and sequenced, can also help learners. @dierksen2015's *Design for How People Learn* presents these strategies, based largely about instructional design research, that may be helpful to those teaching data science.
+In addition to strategies for learners, teaching strategies, such as how content is spaced and sequenced, can also help learners. [@dirksen2015]'s *Design for How People Learn* presents these strategies, based largely about instructional design research, that may be helpful to those teaching data science.
 
 ### Educators can help students to learn
 
