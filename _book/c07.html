@@ -697,8 +697,8 @@ the form of written text. We also collected discussion board data for this proje
 code more efficiently, as you will recall from <a href="#c1">Chapter 1</a>. We load
 these packages with the function <code>library()</code>. In particular, the packages we’ll
 use will help us organize the structure of the data, work with
-dates in the data using {lubridate} <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-lubridate"><strong>???</strong></span>)</span>, create formatted
-tables using {apaTables} <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-apaTables"><strong>???</strong></span>)</span> and {sjPlot} <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-sjPlot"><strong>???</strong></span>)</span>, and navigate file directories using {here} <span class="citation">(<span class="citeproc-not-found" data-reference-id="R-here"><strong>???</strong></span>)</span>.</p>
+dates in the data using {lubridate} <span class="citation">(Spinu et al., <a href="references.html#ref-R-lubridate">2018</a>)</span>, create formatted
+tables using {apaTables} <span class="citation">(Stanley, <a href="references.html#ref-R-apaTables">2018</a>)</span> and {sjPlot} <span class="citation">(Lüdecke, <a href="references.html#ref-R-sjPlot">2020</a>)</span>, and navigate file directories using {here} <span class="citation">(Müller, <a href="references.html#ref-R-here">2017</a>)</span>.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">library</span>(readxl)</a>
 <a class="sourceLine" id="cb51-2" title="2"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb51-3" title="3"><span class="kw">library</span>(lubridate)</a>
@@ -1352,8 +1352,12 @@ well as the <code>summary()</code> function on the output.</p>
 <a class="sourceLine" id="cb101-2" title="2"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>Another way that we can generate table output is with a function from the
 {sjPlot} package, <code>tab_model()</code>.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1"><span class="kw">tab_model</span>(m_linear)</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" title="1"><span class="kw">tab_model</span>(m_linear,</a>
+<a class="sourceLine" id="cb102-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 7.1&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.1
+</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1428,13 +1432,7 @@ package may be helpful. To do so, just pass the name of the regression model,
 like we did with <code>tab_model()</code>. Then, you can save the output to a Word
 document, simply by adding a <code>filename</code> argument:</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1"><span class="kw">apa.reg.table</span>(m_linear, <span class="dt">filename =</span> <span class="st">&quot;regression-table-output.doc&quot;</span>)</a></code></pre></div>
-<p>You might be wondering what else the {apaTables} package does. We encourage you to
-read more about the package here:
-<a href="https://cran.r-project.org/web/packages/apaTables/index.html" class="uri">https://cran.r-project.org/web/packages/apaTables/index.html</a>. The vignette is
-especially helpful. One function that may be useful for writing manuscripts is
-the following function for creating correlation tables; the function takes, as
-an input, a data frame with the variables for which you wish to calculate
-correlations.</p>
+<p>We encourage you to read more about the package at <a href="https://cran.r-project.org/web/packages/apaTables/index.html" class="uri">https://cran.r-project.org/web/packages/apaTables/index.html</a> to see what else the {apaTables} package does. The vignette is especially helpful.</p>
 <p>Before we proceed to the next code chunk, let’s talk about some functions we’ll
 be using a lot in this book. <code>filter()</code>, <code>group_by()</code>, and <code>summarize()</code> are functions
 in the {dplyr} package that you will see a lot in upcoming chapters.</p>
@@ -1533,8 +1531,12 @@ the <code>mutate()</code> function we used earlier. We’ll end the variable nam
 <a class="sourceLine" id="cb108-8" title="8"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_hours, <span class="dt">data =</span> dat)</a>
 <a class="sourceLine" id="cb108-9" title="9"></a>
 <a class="sourceLine" id="cb108-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
-<a class="sourceLine" id="cb108-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">1</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb108-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb108-12" title="12">          <span class="dt">title =</span> <span class="st">&quot;Table 7.2&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.2
+</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1614,8 +1616,12 @@ to have a mean of zero and a standard deviation of one?</p>
 <a class="sourceLine" id="cb109-8" title="8"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std, <span class="dt">data =</span> dat)</a>
 <a class="sourceLine" id="cb109-9" title="9"></a>
 <a class="sourceLine" id="cb109-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
-<a class="sourceLine" id="cb109-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb109-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb109-12" title="12">          <span class="dt">title =</span> <span class="st">&quot;Table 7.3&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.3
+</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1700,8 +1706,12 @@ variable easily, as follows:</p>
 <a class="sourceLine" id="cb110-3" title="3">m_linear_<span class="dv">3</span> &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb110-4" title="4"><span class="st">  </span><span class="kw">lm</span>(percentage_earned <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>subject, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>We can use <code>tab_model()</code> once again to view the results:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">tab_model</span>(m_linear_<span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1"><span class="kw">tab_model</span>(m_linear_<span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb111-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 7.4&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.4
+</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  

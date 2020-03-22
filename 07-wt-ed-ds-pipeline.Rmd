@@ -696,7 +696,14 @@ Another way that we can generate table output is with a function from the
 {sjPlot} package, `tab_model()`.
 
 ``` {r}
-tab_model(m_linear)
+tab_model(m_linear,
+          title = "Table 7.1")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear,
+          file = "./man/tables/Table 7.1.doc",
+          title = "Table 7.1")
 ```
 
 This will work well for R Markdown documents (or simply to interpret the model in
@@ -710,13 +717,7 @@ document, simply by adding a `filename` argument:
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
-You might be wondering what else the {apaTables} package does. We encourage you to
-read more about the package here:
-<https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
-especially helpful. One function that may be useful for writing manuscripts is
-the following function for creating correlation tables; the function takes, as
-an input, a data frame with the variables for which you wish to calculate
-correlations. 
+We encourage you to read more about the package at https://cran.r-project.org/web/packages/apaTables/index.html to see what else the {apaTables} package does. The vignette is especially helpful.
 
 Before we proceed to the next code chunk, let's talk about some functions we'll
 be using a lot in this book. `filter()`, `group_by()`, and `summarize()` are functions
@@ -787,7 +788,14 @@ m_linear_1 <-
   lm(percentage_earned ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_1)
+tab_model(m_linear_1,
+          title = "Table 7.2")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_1,
+          file = "./man/tables/Table 7.2.doc",
+          title = "Table 7.2")
 ```
 
 The scale still does not seem quite right. What if we standardized the variable
@@ -804,7 +812,14 @@ m_linear_2 <-
   lm(percentage_earned ~ TimeSpent_std, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_2)
+tab_model(m_linear_2,
+          title = "Table 7.3")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_2,
+          file = "./man/tables/Table 7.3.doc",
+          title = "Table 7.3")
 ```
 
 That seems to make more sense. However, there is a different interpretation
@@ -829,7 +844,14 @@ m_linear_3 <-
 We can use `tab_model()` once again to view the results:
 
 ``` {r}
-tab_model(m_linear_3)
+tab_model(m_linear_3,
+          title = "Table 7.4")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_3,
+          file = "./man/tables/Table 7.4.doc",
+          title = "Table 7.4")
 ```
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
