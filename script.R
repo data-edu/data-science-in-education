@@ -8,7 +8,9 @@ knitr::opts_chunk$set(
     fig.align = "center",
     fig.path = "/figures",
     warning = FALSE,
-    dpi = 500
+    dpi = 300,
+    tidy.opts = list(width.cutoff = 80), 
+    tidy = TRUE
     )
 
 set.seed(2020)
