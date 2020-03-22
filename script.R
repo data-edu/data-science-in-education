@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
     comment = "#>",
     out.width = "100%",
     fig.align = "center",
-    fig.path = "figures/",
+    fig.path = "./figures/",
     warning = FALSE,
     dpi = 500,
     linewidth = 80,
