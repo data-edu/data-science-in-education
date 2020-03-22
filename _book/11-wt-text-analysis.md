@@ -325,8 +325,8 @@ pos_tokens_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-wt-text-analysis_files/figure-html/unnamed-chunk-1-1.png" alt="Count of Words Associated with Positivity" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-1)Count of Words Associated with Positivity</p>
+<img src="11-wt-text-analysis_files/figure-html/fig11-1-1.png" alt="Count of Words Associated with Positivity" width="100%" />
+<p class="caption">(\#fig:fig11-1)Count of Words Associated with Positivity</p>
 </div>
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 

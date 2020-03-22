@@ -783,8 +783,8 @@ varImp(rf_fit2_imp) %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-16-1.png" alt="Variable Importance" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Variable Importance</p>
+<img src="14-wt-machine-learning_files/figure-html/fig14-1-1.png" alt="Variable Importance" width="100%" />
+<p class="caption">(\#fig:fig14-1)Variable Importance</p>
 </div>
 
 Cool! We can now visualize which variables are most important in predicting final grade. 

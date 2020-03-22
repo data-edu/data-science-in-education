@@ -312,8 +312,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-15-1.png" alt="Network Graph" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-15)Network Graph</p>
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-1-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:fig12-1)Network Graph</p>
 </div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
@@ -334,8 +334,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-17-1.png" alt="Network Graph with Centrality" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-17)Network Graph with Centrality</p>
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-2-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:fig12-2)Network Graph with Centrality</p>
 </div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
