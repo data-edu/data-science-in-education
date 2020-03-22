@@ -1,4 +1,4 @@
-# Teaching Data Science {\#c16}
+# Teaching Data Science {#c16}
 
 ## Chapter Overview
 
