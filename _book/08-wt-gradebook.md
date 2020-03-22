@@ -267,8 +267,8 @@ gradebook %>%
        x = "Letter Grades",
        y = "Count",
        fill = "A or Better") +
-  theme_dataedu() +
-  scale_fill_dataedu()
+  scale_fill_dataedu() +
+  theme_dataedu()
 ```
 
 <div class="figure" style="text-align: center">
@@ -291,14 +291,14 @@ classwork_df %>%
     x = "Classwork",
     y = "Scores"
   ) +
-  theme_dataedu() +
   scale_fill_dataedu() +
+  theme_dataedu() +
   theme(
     # removes legend
     legend.position = "none",
     # angles the x axis labels
     axis.text.x = element_text(angle = 45, hjust = 1)
-    ) 
+    )
 ```
 
 <div class="figure" style="text-align: center">
