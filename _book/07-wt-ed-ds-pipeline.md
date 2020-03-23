@@ -1,7 +1,5 @@
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
-
-
 ## Introduction to the walkthroughs
 
 This chapter is the first of eight walkthroughs included in the book. In it, 
@@ -169,24 +167,24 @@ pre_survey
 ```
 
 ```
-#> # A tibble: 1,102 x 12
-#>    opdata_username opdata_CourseID Q1Maincellgroup… Q1Maincellgroup…
-#>    <chr>           <chr>                      <dbl>            <dbl>
-#>  1 _80624_1        FrScA-S116-01                  4                4
-#>  2 _80623_1        BioA-S116-01                   4                4
-#>  3 _82588_1        OcnA-S116-03                  NA               NA
-#>  4 _80623_1        AnPhA-S116-01                  4                3
-#>  5 _80624_1        AnPhA-S116-01                 NA               NA
-#>  6 _80624_1        AnPhA-S116-02                  4                2
-#>  7 _80624_1        AnPhA-T116-01                 NA               NA
-#>  8 _80624_1        BioA-S116-01                   5                3
-#>  9 _80624_1        BioA-T116-01                  NA               NA
-#> 10 _80624_1        PhysA-S116-01                  4                4
-#> # … with 1,092 more rows, and 8 more variables: Q1MaincellgroupRow3 <dbl>,
-#> #   Q1MaincellgroupRow4 <dbl>, Q1MaincellgroupRow5 <dbl>,
-#> #   Q1MaincellgroupRow6 <dbl>, Q1MaincellgroupRow7 <dbl>,
-#> #   Q1MaincellgroupRow8 <dbl>, Q1MaincellgroupRow9 <dbl>,
-#> #   Q1MaincellgroupRow10 <dbl>
+## # A tibble: 1,102 x 12
+##    opdata_username opdata_CourseID Q1Maincellgroup… Q1Maincellgroup…
+##    <chr>           <chr>                      <dbl>            <dbl>
+##  1 _80624_1        FrScA-S116-01                  4                4
+##  2 _80623_1        BioA-S116-01                   4                4
+##  3 _82588_1        OcnA-S116-03                  NA               NA
+##  4 _80623_1        AnPhA-S116-01                  4                3
+##  5 _80624_1        AnPhA-S116-01                 NA               NA
+##  6 _80624_1        AnPhA-S116-02                  4                2
+##  7 _80624_1        AnPhA-T116-01                 NA               NA
+##  8 _80624_1        BioA-S116-01                   5                3
+##  9 _80624_1        BioA-T116-01                  NA               NA
+## 10 _80624_1        PhysA-S116-01                  4                4
+## # … with 1,092 more rows, and 8 more variables: Q1MaincellgroupRow3 <dbl>,
+## #   Q1MaincellgroupRow4 <dbl>, Q1MaincellgroupRow5 <dbl>,
+## #   Q1MaincellgroupRow6 <dbl>, Q1MaincellgroupRow7 <dbl>,
+## #   Q1MaincellgroupRow8 <dbl>, Q1MaincellgroupRow9 <dbl>,
+## #   Q1MaincellgroupRow10 <dbl>
 ```
 
 ```r
@@ -194,21 +192,21 @@ course_data
 ```
 
 ```
-#> # A tibble: 29,711 x 8
-#>    CourseSectionOr… Bb_UserPK Gradebook_Item Grade_Category FinalGradeCEMS
-#>    <chr>                <dbl> <chr>          <chr>                   <dbl>
-#>  1 AnPhA-S116-01        60186 POINTS EARNED… <NA>                     86.3
-#>  2 AnPhA-S116-01        60186 WORK ATTEMPTED <NA>                     86.3
-#>  3 AnPhA-S116-01        60186 0.1: Message … <NA>                     86.3
-#>  4 AnPhA-S116-01        60186 0.2: Intro As… Hw                       86.3
-#>  5 AnPhA-S116-01        60186 0.3: Intro As… Hw                       86.3
-#>  6 AnPhA-S116-01        60186 1.1: Quiz      Qz                       86.3
-#>  7 AnPhA-S116-01        60186 1.2: Quiz      Qz                       86.3
-#>  8 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
-#>  9 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
-#> 10 AnPhA-S116-01        60186 1.4: Negative… Hw                       86.3
-#> # … with 29,701 more rows, and 3 more variables: Points_Possible <dbl>,
-#> #   Points_Earned <dbl>, Gender <chr>
+## # A tibble: 29,711 x 8
+##    CourseSectionOr… Bb_UserPK Gradebook_Item Grade_Category FinalGradeCEMS
+##    <chr>                <dbl> <chr>          <chr>                   <dbl>
+##  1 AnPhA-S116-01        60186 POINTS EARNED… <NA>                     86.3
+##  2 AnPhA-S116-01        60186 WORK ATTEMPTED <NA>                     86.3
+##  3 AnPhA-S116-01        60186 0.1: Message … <NA>                     86.3
+##  4 AnPhA-S116-01        60186 0.2: Intro As… Hw                       86.3
+##  5 AnPhA-S116-01        60186 0.3: Intro As… Hw                       86.3
+##  6 AnPhA-S116-01        60186 1.1: Quiz      Qz                       86.3
+##  7 AnPhA-S116-01        60186 1.2: Quiz      Qz                       86.3
+##  8 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
+##  9 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
+## 10 AnPhA-S116-01        60186 1.4: Negative… Hw                       86.3
+## # … with 29,701 more rows, and 3 more variables: Points_Possible <dbl>,
+## #   Points_Earned <dbl>, Gender <chr>
 ```
 
 ```r
@@ -216,20 +214,20 @@ course_minutes
 ```
 
 ```
-#> # A tibble: 598 x 3
-#>    Bb_UserPK CourseSectionOrigID TimeSpent
-#>        <dbl> <chr>                   <dbl>
-#>  1     44638 OcnA-S116-01            1383.
-#>  2     54346 OcnA-S116-01            1191.
-#>  3     57981 OcnA-S116-01            3343.
-#>  4     66740 OcnA-S116-01             965.
-#>  5     67920 OcnA-S116-01            4095.
-#>  6     85355 OcnA-S116-01             595.
-#>  7     85644 OcnA-S116-01            1632.
-#>  8     86349 OcnA-S116-01            1601.
-#>  9     86460 OcnA-S116-01            1891.
-#> 10     87970 OcnA-S116-01            3123.
-#> # … with 588 more rows
+## # A tibble: 598 x 3
+##    Bb_UserPK CourseSectionOrigID TimeSpent
+##        <dbl> <chr>                   <dbl>
+##  1     44638 OcnA-S116-01            1383.
+##  2     54346 OcnA-S116-01            1191.
+##  3     57981 OcnA-S116-01            3343.
+##  4     66740 OcnA-S116-01             965.
+##  5     67920 OcnA-S116-01            4095.
+##  6     85355 OcnA-S116-01             595.
+##  7     85644 OcnA-S116-01            1632.
+##  8     86349 OcnA-S116-01            1601.
+##  9     86460 OcnA-S116-01            1891.
+## 10     87970 OcnA-S116-01            3123.
+## # … with 588 more rows
 ```
 
 ## Process Data
@@ -283,10 +281,10 @@ df %>% mutate(total_students = male + female)
 ```
 
 ```
-#> # A tibble: 1 x 3
-#>    male female total_students
-#>   <dbl>  <dbl>          <dbl>
-#> 1     5      5             10
+## # A tibble: 1 x 3
+##    male female total_students
+##   <dbl>  <dbl>          <dbl>
+## 1     5      5             10
 ```
 
 `mutate_at()` is a special version of `mutate()`, which conveniently changes the values of multiple columns. In our dataset `pre_survey`, we let `mutate()` know we want to change the variables `q1` through `q10`. We do this with the argument `vars(q1:q10)`
@@ -387,12 +385,12 @@ measure_mean
 ```
 
 ```
-#> # A tibble: 3 x 3
-#>   measure mean_response percent_NA
-#>   <chr>           <dbl>      <dbl>
-#> 1 int              4.25      0.178
-#> 2 pc               3.65      0.178
-#> 3 uv               3.74      0.178
+## # A tibble: 3 x 3
+##   measure mean_response percent_NA
+##   <chr>           <dbl>      <dbl>
+## 1 int              4.25      0.178
+## 2 pc               3.65      0.178
+## 3 uv               3.74      0.178
 ```
 
 ### Processing the Course Data
@@ -441,20 +439,20 @@ pre_survey
 ```
 
 ```
-#> # A tibble: 1,102 x 12
-#>    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
-#>    <chr>      <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#>  1 _80624_1   FrScA-S1…     4     4     4     5     5     4     5     5     5
-#>  2 _80623_1   BioA-S11…     4     4     3     4     4     4     4     3     4
-#>  3 _82588_1   OcnA-S11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
-#>  4 _80623_1   AnPhA-S1…     4     3     3     4     3     3     3     4     2
-#>  5 _80624_1   AnPhA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
-#>  6 _80624_1   AnPhA-S1…     4     2     2     4     4     4     5     4     4
-#>  7 _80624_1   AnPhA-T1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
-#>  8 _80624_1   BioA-S11…     5     3     3     5     5     4     5     5     3
-#>  9 _80624_1   BioA-T11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
-#> 10 _80624_1   PhysA-S1…     4     4     3     4     4     4     4     4     3
-#> # … with 1,092 more rows, and 1 more variable: q10 <dbl>
+## # A tibble: 1,102 x 12
+##    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
+##    <chr>      <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+##  1 _80624_1   FrScA-S1…     4     4     4     5     5     4     5     5     5
+##  2 _80623_1   BioA-S11…     4     4     3     4     4     4     4     3     4
+##  3 _82588_1   OcnA-S11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  4 _80623_1   AnPhA-S1…     4     3     3     4     3     3     3     4     2
+##  5 _80624_1   AnPhA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  6 _80624_1   AnPhA-S1…     4     2     2     4     4     4     5     4     4
+##  7 _80624_1   AnPhA-T1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  8 _80624_1   BioA-S11…     5     3     3     5     5     4     5     5     3
+##  9 _80624_1   BioA-T11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+## 10 _80624_1   PhysA-S1…     4     4     3     4     4     4     4     4     3
+## # … with 1,092 more rows, and 1 more variable: q10 <dbl>
 ```
 
 Looks better now!
@@ -467,7 +465,7 @@ head(pre_survey$student_id)
 ```
 
 ```
-#> [1] "_80624_1" "_80623_1" "_82588_1" "_80623_1" "_80624_1" "_80624_1"
+## [1] "_80624_1" "_80623_1" "_82588_1" "_80623_1" "_80624_1" "_80624_1"
 ```
 
 What we need is the five characters in between the underscore symbols - these: `_`.
@@ -480,7 +478,7 @@ str_sub("_80624_1", start = 2)
 ```
 
 ```
-#> [1] "80624_1"
+## [1] "80624_1"
 ```
 
 We can do the same with the last few characters:
@@ -491,7 +489,7 @@ str_sub("_80624_1", end = -3)
 ```
 
 ```
-#> [1] "_80624"
+## [1] "_80624"
 ```
 
 Putting the pieces together, the following should return what we want:
@@ -502,7 +500,7 @@ str_sub("_80624_1", start = 2, end = -3)
 ```
 
 ```
-#> [1] "80624"
+## [1] "80624"
 ```
 
 We can apply this to our data using `mutate()`. We convert the string into a number using `as.numeric()` at the same time, so the data can be joined to the other, numeric `student_id` variables (in the other data sets):
@@ -540,23 +538,23 @@ dat
 ```
 
 ```
-#> # A tibble: 40,348 x 21
-#>    course_id subject semester section student_id Gradebook_Item Grade_Category
-#>    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-#>  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
-#>  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
-#>  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
-#>  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
-#>  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
-#>  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
-#>  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
-#>  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#>  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#> 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
-#> # … with 40,338 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
-#> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
-#> #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
-#> #   q9 <dbl>, q10 <dbl>
+## # A tibble: 40,348 x 21
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 40,338 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
+## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
+## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
+## #   q9 <dbl>, q10 <dbl>
 ```
 
 `left_join()` is named based on the 'direction' that the data is being joined. Note the order of the data frames passed to our "left" join. Left joins retain all of the rows in the data
@@ -603,21 +601,21 @@ dat_semi
 ```
 
 ```
-#> # A tibble: 28,655 x 11
-#>    course_id subject semester section student_id Gradebook_Item Grade_Category
-#>    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-#>  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
-#>  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
-#>  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
-#>  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
-#>  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
-#>  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
-#>  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
-#>  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#>  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#> 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
-#> # … with 28,645 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
-#> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
+## # A tibble: 28,655 x 11
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 28,645 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
+## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
 #### `anti_join()`
@@ -636,21 +634,21 @@ dat_anti
 ```
 
 ```
-#> # A tibble: 1,056 x 11
-#>    course_id subject semester section student_id Gradebook_Item Grade_Category
-#>    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-#>  1 AnPhA-S1… AnPhA   S116     01           85865 POINTS EARNED… <NA>          
-#>  2 AnPhA-S1… AnPhA   S116     01           85865 WORK ATTEMPTED <NA>          
-#>  3 AnPhA-S1… AnPhA   S116     01           85865 0.1: Message … <NA>          
-#>  4 AnPhA-S1… AnPhA   S116     01           85865 0.2: Intro As… Hw            
-#>  5 AnPhA-S1… AnPhA   S116     01           85865 0.3: Intro As… Hw            
-#>  6 AnPhA-S1… AnPhA   S116     01           85865 1.1: Quiz      Qz            
-#>  7 AnPhA-S1… AnPhA   S116     01           85865 1.2: Quiz      Qz            
-#>  8 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
-#>  9 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
-#> 10 AnPhA-S1… AnPhA   S116     01           85865 1.4: Negative… Hw            
-#> # … with 1,046 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
-#> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
+## # A tibble: 1,056 x 11
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S1… AnPhA   S116     01           85865 POINTS EARNED… <NA>          
+##  2 AnPhA-S1… AnPhA   S116     01           85865 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S1… AnPhA   S116     01           85865 0.1: Message … <NA>          
+##  4 AnPhA-S1… AnPhA   S116     01           85865 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           85865 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           85865 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           85865 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           85865 1.4: Negative… Hw            
+## # … with 1,046 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
+## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
 #### `right_join()`
@@ -671,23 +669,23 @@ dat_right
 ```
 
 ```
-#> # A tibble: 39,593 x 21
-#>    course_id subject semester section student_id Gradebook_Item Grade_Category
-#>    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-#>  1 FrScA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#>  2 BioA-S11… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
-#>  3 OcnA-S11… <NA>    <NA>     <NA>         82588 <NA>           <NA>          
-#>  4 AnPhA-S1… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
-#>  5 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#>  6 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#>  7 AnPhA-T1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#>  8 BioA-S11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#>  9 BioA-T11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#> 10 PhysA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-#> # … with 39,583 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
-#> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
-#> #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
-#> #   q9 <dbl>, q10 <dbl>
+## # A tibble: 39,593 x 21
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 FrScA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  2 BioA-S11… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
+##  3 OcnA-S11… <NA>    <NA>     <NA>         82588 <NA>           <NA>          
+##  4 AnPhA-S1… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
+##  5 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  6 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  7 AnPhA-T1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  8 BioA-S11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  9 BioA-T11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+## 10 PhysA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+## # … with 39,583 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
+## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
+## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
+## #   q9 <dbl>, q10 <dbl>
 ```
 
 If we wanted this to return exactly the same output as `left_join()` (and so to
@@ -706,20 +704,20 @@ dat_right
 ```
 
 ```
-#> # A tibble: 801 x 12
-#>    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
-#>         <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#>  1      85791 FrScA-S1…     3     3     3     3     4     3     3     3     2
-#>  2      87010 FrScA-S1…     5     3     3     5     4     4     3     5     2
-#>  3      87027 FrScA-S1…     5     5     4     4     4     5     4     5     4
-#>  4      85649 FrScA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
-#>  5      86216 BioA-S11…     5     3     4     4     5     4     3     5     4
-#>  6      68476 OcnA-S11…     4     4     2     2     3     4     4     4     4
-#>  7      68476 OcnA-S11…     4     4     4     4     4     4     4     4     4
-#>  8      87866 FrScA-T1…     5     4     3     5     4     4     3     3     3
-#>  9      64930 FrScA-T1…     4     3     3     4     4     4     3     4     4
-#> 10      86280 FrScA-S1…     4     3     2     4     4     4     4     4     3
-#> # … with 791 more rows, and 1 more variable: q10 <dbl>
+## # A tibble: 801 x 12
+##    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
+##         <dbl> <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+##  1      85791 FrScA-S1…     3     3     3     3     4     3     3     3     2
+##  2      87010 FrScA-S1…     5     3     3     5     4     4     3     5     2
+##  3      87027 FrScA-S1…     5     5     4     4     4     5     4     5     4
+##  4      85649 FrScA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  5      86216 BioA-S11…     5     3     4     4     5     4     3     5     4
+##  6      68476 OcnA-S11…     4     4     2     2     3     4     4     4     4
+##  7      68476 OcnA-S11…     4     4     4     4     4     4     4     4     4
+##  8      87866 FrScA-T1…     5     4     3     5     4     4     3     3     3
+##  9      64930 FrScA-T1…     4     3     3     4     4     4     3     4     4
+## 10      86280 FrScA-S1…     4     3     2     4     4     4     4     4     3
+## # … with 791 more rows, and 1 more variable: q10 <dbl>
 ```
 
 Just one more data frame to merge:
@@ -754,23 +752,23 @@ dat
 ```
 
 ```
-#> # A tibble: 40,348 x 22
-#>    course_id subject semester section student_id Gradebook_Item Grade_Category
-#>    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-#>  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
-#>  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
-#>  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
-#>  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
-#>  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
-#>  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
-#>  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
-#>  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#>  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
-#> 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
-#> # … with 40,338 more rows, and 15 more variables: FinalGradeCEMS <dbl>,
-#> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
-#> #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
-#> #   q9 <dbl>, q10 <dbl>, TimeSpent <dbl>
+## # A tibble: 40,348 x 22
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 40,338 more rows, and 15 more variables: FinalGradeCEMS <dbl>,
+## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
+## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
+## #   q9 <dbl>, q10 <dbl>, TimeSpent <dbl>
 ```
 
 It looks like we have 40348 observations from 30 variables.
@@ -797,6 +795,10 @@ dat <-
   ungroup() %>%
   # note that we join this back to the original data frame to retain all of the variables
   left_join(dat)
+```
+
+```
+## Joining, by = c("student_id", "course_id")
 ```
 
 ### Finding Distinct Cases at the Student-Level
@@ -827,20 +829,20 @@ distinct(dat, Gradebook_Item)
 ```
 
 ```
-#> # A tibble: 222 x 1
-#>    Gradebook_Item                                             
-#>    <chr>                                                      
-#>  1 POINTS EARNED & TOTAL COURSE POINTS                        
-#>  2 WORK ATTEMPTED                                             
-#>  3 0-1.1: Intro Assignment - Send a Message to Your Instructor
-#>  4 0-1.2: Intro Assignment - DB #1                            
-#>  5 0-1.3: Intro Assignment - Submitting Files                 
-#>  6 1-1.1: Lesson 1-1 Graphic Organizer                        
-#>  7 1-2.1: Explore a Career Assignment                         
-#>  8 1-2.2: Explore a Career DB #2                              
-#>  9 PROGRESS CHECK 1 @ 02-18-16                                
-#> 10 1-2.3: Lesson 1-2 Graphic Organizer                        
-#> # … with 212 more rows
+## # A tibble: 222 x 1
+##    Gradebook_Item                                             
+##    <chr>                                                      
+##  1 POINTS EARNED & TOTAL COURSE POINTS                        
+##  2 WORK ATTEMPTED                                             
+##  3 0-1.1: Intro Assignment - Send a Message to Your Instructor
+##  4 0-1.2: Intro Assignment - DB #1                            
+##  5 0-1.3: Intro Assignment - Submitting Files                 
+##  6 1-1.1: Lesson 1-1 Graphic Organizer                        
+##  7 1-2.1: Explore a Career Assignment                         
+##  8 1-2.2: Explore a Career DB #2                              
+##  9 PROGRESS CHECK 1 @ 02-18-16                                
+## 10 1-2.3: Lesson 1-2 Graphic Organizer                        
+## # … with 212 more rows
 ```
 
 What is every distinct gradebook item is what is returned. You might be
@@ -854,20 +856,20 @@ distinct(dat, course_id, Gradebook_Item)
 ```
 
 ```
-#> # A tibble: 1,269 x 2
-#>    course_id     Gradebook_Item                                             
-#>    <chr>         <chr>                                                      
-#>  1 FrScA-S216-02 POINTS EARNED & TOTAL COURSE POINTS                        
-#>  2 FrScA-S216-02 WORK ATTEMPTED                                             
-#>  3 FrScA-S216-02 0-1.1: Intro Assignment - Send a Message to Your Instructor
-#>  4 FrScA-S216-02 0-1.2: Intro Assignment - DB #1                            
-#>  5 FrScA-S216-02 0-1.3: Intro Assignment - Submitting Files                 
-#>  6 FrScA-S216-02 1-1.1: Lesson 1-1 Graphic Organizer                        
-#>  7 FrScA-S216-02 1-2.1: Explore a Career Assignment                         
-#>  8 FrScA-S216-02 1-2.2: Explore a Career DB #2                              
-#>  9 FrScA-S216-02 PROGRESS CHECK 1 @ 02-18-16                                
-#> 10 FrScA-S216-02 1-2.3: Lesson 1-2 Graphic Organizer                        
-#> # … with 1,259 more rows
+## # A tibble: 1,269 x 2
+##    course_id     Gradebook_Item                                             
+##    <chr>         <chr>                                                      
+##  1 FrScA-S216-02 POINTS EARNED & TOTAL COURSE POINTS                        
+##  2 FrScA-S216-02 WORK ATTEMPTED                                             
+##  3 FrScA-S216-02 0-1.1: Intro Assignment - Send a Message to Your Instructor
+##  4 FrScA-S216-02 0-1.2: Intro Assignment - DB #1                            
+##  5 FrScA-S216-02 0-1.3: Intro Assignment - Submitting Files                 
+##  6 FrScA-S216-02 1-1.1: Lesson 1-1 Graphic Organizer                        
+##  7 FrScA-S216-02 1-2.1: Explore a Career Assignment                         
+##  8 FrScA-S216-02 1-2.2: Explore a Career DB #2                              
+##  9 FrScA-S216-02 PROGRESS CHECK 1 @ 02-18-16                                
+## 10 FrScA-S216-02 1-2.3: Lesson 1-2 Graphic Organizer                        
+## # … with 1,259 more rows
 ```
 
 It looks like *a lot* of gradebook items were repeated - likely across the
@@ -918,10 +920,7 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-1-1.png" alt="Example Plot" width="100%" />
-<p class="caption">(\#fig:fig7-1)Example Plot</p>
-</div>
+![(\#fig:fig7-1)Example Plot](07-wt-ed-ds-pipeline_files/figure-docx/fig7-1-1.png)
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
 
@@ -943,10 +942,7 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
-<p class="caption">(\#fig:fig7-2)Percentage Earned vs. Time Spent</p>
-</div>
+![(\#fig:fig7-2)Percentage Earned vs. Time Spent](07-wt-ed-ds-pipeline_files/figure-docx/fig7-2-1.png)
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
@@ -963,10 +959,7 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<div class="figure" style="text-align: center">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-3-1.png" alt="Adding a Line of Best Fit" width="100%" />
-<p class="caption">(\#fig:fig7-3)Adding a Line of Best Fit</p>
-</div>
+![(\#fig:fig7-3)Adding a Line of Best Fit](07-wt-ed-ds-pipeline_files/figure-docx/fig7-3-1.png)
 
 So, it appears that the more time students spent on the course, the more points
 they earned.
@@ -1101,21 +1094,21 @@ survey_responses
 ```
 
 ```
-#> # A tibble: 515 x 4
-#> # Groups:   student_id [515]
-#>    student_id   int    pc    uv
-#>         <dbl> <dbl> <dbl> <dbl>
-#>  1      43146  5     4.5   4.33
-#>  2      44638  4.2   3.5   4   
-#>  3      47448  5     4     3.67
-#>  4      47979  5     3.5   5   
-#>  5      48797  3.8   3.5   3.5 
-#>  6      49147  4.25  3.73  3.71
-#>  7      51943  4.6   4     4   
-#>  8      52326  5     3.5   5   
-#>  9      52446  3     3     3.33
-#> 10      53248  4     3     3.33
-#> # … with 505 more rows
+## # A tibble: 515 x 4
+## # Groups:   student_id [515]
+##    student_id   int    pc    uv
+##         <dbl> <dbl> <dbl> <dbl>
+##  1      43146  5     4.5   4.33
+##  2      44638  4.2   3.5   4   
+##  3      47448  5     4     3.67
+##  4      47979  5     3.5   5   
+##  5      48797  3.8   3.5   3.5 
+##  6      49147  4.25  3.73  3.71
+##  7      51943  4.6   4     4   
+##  8      52326  5     3.5   5   
+##  9      52446  3     3     3.33
+## 10      53248  4     3     3.33
+## # … with 505 more rows
 ```
 
 Now that we've prepared the survey responses, we can use the `apa.cor.table()` function:
@@ -1127,30 +1120,30 @@ survey_responses %>%
 ```
 
 ```
-#> 
-#> 
-#> Means, standard deviations, and correlations with confidence intervals
-#>  
-#> 
-#>   Variable      M        SD       1           2          3         
-#>   1. student_id 85966.07 10809.12                                  
-#>                                                                    
-#>   2. int        4.22     0.59     .00                              
-#>                                   [-.08, .09]                      
-#>                                                                    
-#>   3. pc         3.60     0.64     .04         .59**                
-#>                                   [-.05, .13] [.53, .64]           
-#>                                                                    
-#>   4. uv         3.71     0.71     .02         .57**      .50**     
-#>                                   [-.06, .11] [.51, .62] [.43, .56]
-#>                                                                    
-#> 
-#> Note. M and SD are used to represent mean and standard deviation, respectively.
-#> Values in square brackets indicate the 95% confidence interval.
-#> The confidence interval is a plausible range of population correlations 
-#> that could have caused the sample correlation (Cumming, 2014).
-#> * indicates p < .05. ** indicates p < .01.
-#> 
+## 
+## 
+## Means, standard deviations, and correlations with confidence intervals
+##  
+## 
+##   Variable      M        SD       1           2          3         
+##   1. student_id 85966.07 10809.12                                  
+##                                                                    
+##   2. int        4.22     0.59     .00                              
+##                                   [-.08, .09]                      
+##                                                                    
+##   3. pc         3.60     0.64     .04         .59**                
+##                                   [-.05, .13] [.53, .64]           
+##                                                                    
+##   4. uv         3.71     0.71     .02         .57**      .50**     
+##                                   [-.06, .11] [.51, .62] [.43, .56]
+##                                                                    
+## 
+## Note. M and SD are used to represent mean and standard deviation, respectively.
+## Values in square brackets indicate the 95% confidence interval.
+## The confidence interval is a plausible range of population correlations 
+## that could have caused the sample correlation (Cumming, 2014).
+## * indicates p < .05. ** indicates p < .01.
+## 
 ```
 
 The time spent variable is on a very large scale (minutes); what if we transform

@@ -37,10 +37,7 @@ We started talking about data science in education online because we wanted to b
 
 So give your chicken family a big hug, open up your laptop, and let’s start learning together. Turns out, there are a lot more hatchlings wanting to be eagles and chickens at the same time.
 
-<div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)The Tweet That Started It All</p>
-</div>
+![(\#fig:unnamed-chunk-2)The Tweet That Started It All](./man/figures/Figure 0.1.png)
 
 ## Acknowledgements {-}
 

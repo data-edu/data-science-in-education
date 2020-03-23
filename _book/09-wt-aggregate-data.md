@@ -348,10 +348,7 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/fig9-1-1.png" alt="Percentage of Population by Subgroup" width="100%" />
-<p class="caption">(\#fig:fig9-1)Percentage of Population by Subgroup</p>
-</div>
+![(\#fig:fig9-1)Percentage of Population by Subgroup](09-wt-aggregate-data_files/figure-docx/fig9-1-1.png)
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
 
@@ -367,10 +364,10 @@ tidy_df %>%
 ```
 
 ```
-#> # A tibble: 1 x 3
-#>   school_name category value
-#>   <chr>       <chr>    <dbl>
-#> 1 Total       frpl_pct 0.569
+## # A tibble: 1 x 3
+##   school_name category value
+##   <chr>       <chr>    <dbl>
+## 1 Total       frpl_pct 0.569
 ```
 
 **56.9% of the students are eligible for FRPL**, compared to [the U.S. average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes) (https[]()://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
@@ -400,10 +397,7 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/fig9-2-1.png" alt="Count of Schools by White Population" width="100%" />
-<p class="caption">(\#fig:fig9-2)Count of Schools by White Population</p>
-</div>
+![(\#fig:fig9-2)Count of Schools by White Population](09-wt-aggregate-data_files/figure-docx/fig9-2-1.png)
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -440,10 +434,7 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/fig9-3-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
-<p class="caption">(\#fig:fig9-3)Distribution of Subgroups in High Poverty Schools</p>
-</div>
+![(\#fig:fig9-3)Distribution of Subgroups in High Poverty Schools](09-wt-aggregate-data_files/figure-docx/fig9-3-1.png)
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
 
@@ -466,10 +457,7 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/fig9-4-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
-<p class="caption">(\#fig:fig9-4)FRPL Percentage vs. White Percentage</p>
-</div>
+![(\#fig:fig9-4)FRPL Percentage vs. White Percentage](09-wt-aggregate-data_files/figure-docx/fig9-4-1.png)
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 

@@ -228,7 +228,7 @@ addition(number_1 = 3, number_2 = 1)
 ```
 
 ```
-#> [1] 4
+## [1] 4
 ```
 
 ```r
@@ -236,7 +236,7 @@ addition(0.921, 12.01)
 ```
 
 ```
-#> [1] 12.9
+## [1] 12.9
 ```
 
 ```r
@@ -244,7 +244,7 @@ addition(62, 34)
 ```
 
 ```
-#> [1] 96
+## [1] 96
 ```
 
 What happens if we only provide one argument?
@@ -505,10 +505,10 @@ dataedu::dataedu_packages
 ```
 
 ```
-#>  [1] "apaTables"   "caret"       "dummies"     "ggraph"      "here"       
-#>  [6] "janitor"     "lme4"        "lubridate"   "performance" "readxl"     
-#> [11] "rtweet"      "randomNames" "sjPlot"      "textdata"    "tidygraph"  
-#> [16] "tidylog"     "tidyverse"   "tidytext"
+##  [1] "apaTables"   "caret"       "dummies"     "ggraph"      "here"       
+##  [6] "janitor"     "lme4"        "lubridate"   "performance" "readxl"     
+## [11] "rtweet"      "randomNames" "sjPlot"      "textdata"    "tidygraph"  
+## [16] "tidylog"     "tidyverse"   "tidytext"
 ```
 
 **A special note on {tabulizer}:** One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer) (https[]()://github.com/ropensci/tabulizer), created by ROpenSci to read PDFs. {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html) (https[]()://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. {tabulizer} is not included in `mass_install()` and we recommend reading through the notes on its Github repo if installing.
@@ -885,35 +885,35 @@ student_responses <-
 ```
 
 ```
-#> Parsed with column specification:
-#> cols(
-#>   .default = col_double(),
-#>   CNT = col_character(),
-#>   CYC = col_character(),
-#>   NatCen = col_character(),
-#>   STRATUM = col_character(),
-#>   Option_Read = col_character(),
-#>   Option_Math = col_character(),
-#>   ST011D17TA = col_character(),
-#>   ST011D18TA = col_character(),
-#>   ST011D19TA = col_character(),
-#>   ST124Q01TA = col_logical(),
-#>   IC001Q01TA = col_logical(),
-#>   IC001Q02TA = col_logical(),
-#>   IC001Q03TA = col_logical(),
-#>   IC001Q04TA = col_logical(),
-#>   IC001Q05TA = col_logical(),
-#>   IC001Q06TA = col_logical(),
-#>   IC001Q07TA = col_logical(),
-#>   IC001Q08TA = col_logical(),
-#>   IC001Q09TA = col_logical(),
-#>   IC001Q10TA = col_logical()
-#>   # ... with 420 more columns
-#> )
+## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   CNT = col_character(),
+##   CYC = col_character(),
+##   NatCen = col_character(),
+##   STRATUM = col_character(),
+##   Option_Read = col_character(),
+##   Option_Math = col_character(),
+##   ST011D17TA = col_character(),
+##   ST011D18TA = col_character(),
+##   ST011D19TA = col_character(),
+##   ST124Q01TA = col_logical(),
+##   IC001Q01TA = col_logical(),
+##   IC001Q02TA = col_logical(),
+##   IC001Q03TA = col_logical(),
+##   IC001Q04TA = col_logical(),
+##   IC001Q05TA = col_logical(),
+##   IC001Q06TA = col_logical(),
+##   IC001Q07TA = col_logical(),
+##   IC001Q08TA = col_logical(),
+##   IC001Q09TA = col_logical(),
+##   IC001Q10TA = col_logical()
+##   # ... with 420 more columns
+## )
 ```
 
 ```
-#> See spec(...) for full column specifications.
+## See spec(...) for full column specifications.
 ```
 
 Since we loaded the data, we now want to look at it. 
