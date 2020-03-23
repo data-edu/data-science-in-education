@@ -97,7 +97,7 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
-- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
+- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)).
  
 ```{r}
@@ -159,7 +159,8 @@ interactions_sent
 618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
 
 ```{r}
-interactions_sent <- interactions_sent %>% 
+interactions_sent <- 
+  interactions_sent %>% 
   filter(n > 1)
 ```
 
@@ -188,7 +189,7 @@ We can see that the network now consists of 267 individuals - the 267 who sent m
 
 Next, we'll use the `ggraph()` function:
 
-```{r}
+```{r, fig.cap="Network Graph"}
 g %>%
   # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
   ggraph(layout = "kk") +
@@ -206,7 +207,7 @@ Finally, let's size the points based on a measure of centrality, typically a mea
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
 ```
 
-```{r}
+```{r, fig.cap="Network Graph with Centrality"}
 g %>% 
   # this calculates the centrality of each individual using the built-in centrality_authority() function
   mutate(centrality = centrality_authority()) %>% 

@@ -18,13 +18,17 @@
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
+In this chapter, we focus on analyzing data from a data visualization-focused learning community on Twitter, #tidytuesday. That community, #tidytuesday is one sparked by the work of one of the Data Science in Education Using R co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks).
+
+We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. Relatedly, this chapter includes a technical appendix which is not necessary to read to understand text analysis, but which describes a number of techniques for accessing data from Twitter, such as the data from the #tidytuesday explored in this and the subsequent chapter.
+
 ### Background 
 
 When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
-Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
+Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values the way numbers do. The number 2 will always be more than 1 and less than 3. The word "fantastic," on the other hand, has multiple ambiguous levels of degree depending on interpretation and context. 
 
 Using text analysis can help to broadly estimate what is happening in the text. When paired with observations, interviews, and close review of the text, this approach can help education staff learn from text data. In this chapter, we'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
 
@@ -38,7 +42,9 @@ It's useful to learn these techniques from text datasets that are available for 
 
 Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#RStats" and "#Stata" make this tweet conveniently searchable. If Twitter uses search for "#RStats", Twitter returns all the Tweets containing that hashtag.
 
-In this example, we'll be analyzing a dataset of tweets that have the hashtag #tidytuesday (https://twitter.com/hashtag/tidytuesday). This hashtag returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
+In this example, we'll be analyzing a dataset of tweets that have the hashtag #tidytuesday (https://twitter.com/hashtag/tidytuesday). #tidytuesday is a community sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the (related) #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks). 
+
+The #tidytuesday hashtag (search Twitter for the hashtag, or see the results here: http://bit.ly/tidytuesday-search) returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
 
 You can view the TidyTuesday tweets dataset here: http://bit.ly/tidytuesday-dataset
 
@@ -48,7 +54,7 @@ In this walkthrough, we'll be learning how to count words in a text dataset. We'
 
 ## Load Packages 
 
-For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package, for working with textual data [@R-tidytext]. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
+For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
 
 
 ```r
@@ -80,7 +86,7 @@ Think of an API as a special door a home builder made for a house that has a lot
 
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
 
-A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the dataedu R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
 
 ## View Data 
 
@@ -310,7 +316,7 @@ pos_tokens_count %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
   geom_bar(stat = "identity", fill = dataedu_colors("darkblue")) +
   labs(
-    title = "Count of words associated with positivity",
+    title = "Count of Words Associated with Positivity",
     subtitle = "Tweets with the hashtag #tidytuesday",
     caption = "Data: Twitter and NRC",
     x = "",
@@ -319,7 +325,10 @@ pos_tokens_count %>%
   theme_dataedu()
 ```
 
-<img src="11-wt-text-analysis_files/figure-html/visualize positive-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-2-1.png" alt="Count of Words Associated with Positivity" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Count of Words Associated with Positivity</p>
+</div>
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
@@ -516,7 +525,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-#> [1] 10  8  1  3  2
+#> [1] 2 8 5 1 6
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -560,7 +569,7 @@ There are also advanced text analysis techniques to explore. Consider trying top
 
 We use this data set further in the next chapter [on social network analysis](#c12).
 
-## Technical Appendix on Accessing Twitter data
+## Technical Appendix: Accessing Twitter data
 
 ### Accessing Historical Twitter Data Using Already-Collected Status URLs
 

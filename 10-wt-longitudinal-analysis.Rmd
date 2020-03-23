@@ -6,17 +6,15 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 ## Vocabulary 
 
- - read in
- - aggregate data 
- - vector 
- - list
- - tidy format
- - subset
- - `select_at`
- - `mutate`
- - statistical model 
- - aggregate data
- - student-level data
+- aggregate data
+- file path
+- list
+- read in
+- tidy format
+- statistical model 
+- student-level data
+- subset
+- vector
 
 ## Chapter Overview 
 
@@ -49,19 +47,19 @@ In this analysis we'll be importing and combining six datasets that describe the
 
 In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
 
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
+ - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
+ - [2013 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
+ - [2014 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
+ - [2015 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
+ - [2016 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
+ - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
 
-You can also find these files on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+You can also find these files on the [United States Department of Education website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html) (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
 ### A Note on File Paths
 
@@ -123,7 +121,7 @@ Imagine a widget-making machine that works by acting on raw materials it receive
 
 Let's create the raw materials first. Our raw materials will be file paths to each of the CSVs we want to read. Use `list.files` to make a vector of filename paths and name that vector `filenames`. `list.files` returns a vector of file names in the folder specified in the `path` argument. When we set the `full.names` argument to "TRUE", we get a full path of these filenames. This will be useful later when we need the file names and their paths to read our data in. 
 
-```{r get filenames}
+```{r get filenames, results='hide'}
 # Get filenames from the data folder 
 filenames <-
   list.files(path = here::here("data", "longitudinal_data"),
@@ -433,7 +431,7 @@ child_counts <-
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 
-In our foundational skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
+In our Foundational Skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
 ```{r show NAs}
 child_counts %>%
@@ -492,12 +490,12 @@ In that spirit, we'll start by visualizing specific genders and age groups. Feel
 
 Start by copying and running this code in your console to see what it does: 
 
-```{r total female students over time, results = 'hide', message = FALSE, warning = F}
+```{r, results = 'hide', message = FALSE, warning = F, fig.cap = "Count of Female Students in Special Education Over Time"}
 high_count %>%
   filter(gender == "f", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of female students in special education over time",
+  labs(title = "Count of Female Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
@@ -511,12 +509,12 @@ It's worth calling out one more thing, since it's a technique we'll be using as 
 
 We can also try the same plot, but subsetting for male students instead. We can use the same code we used for the last plot, but filter for the value "m" in the `gender` field: 
 
-```{r total male students over time, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Count of Male Students in Special Education Over Time"}
 high_count %>%
   filter(gender == "m", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of male students in special education over time",
+  labs(title = "Count of Male Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
@@ -524,13 +522,13 @@ high_count %>%
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
 
-```{r total students over time, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time"}
 high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Total count of students in special education over time",
+  labs(title = "Total Count of Students in Special Education Over Time",
        subtitle = "Ages 3-21") +
   scale_color_dataedu() +
   theme_dataedu()
@@ -538,13 +536,13 @@ high_count %>%
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
 
-```{r median total per state, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Median Students with Disabilities Count"}
 high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
   geom_boxplot(fill = dataedu_colors("yellow")) +
-  labs(title = "Median students with disabilities count",
+  labs(title = "Median Students with Disabilities Count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
 ```
@@ -565,7 +563,7 @@ We can use the count of male students in each state and divide it by the count o
  
 Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students. 
 
-```{r male to female ratio over time, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time"}
 high_count %>%
   group_by(year, state, gender) %>%
   summarize(total = sum(total)) %>%
@@ -577,7 +575,7 @@ high_count %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
   scale_y_continuous(limits = c(1.5, 2.5)) +
-  labs(title = "Male student to female student ratio over time",
+  labs(title = "Male Student to Female Student Ratio Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
@@ -599,7 +597,7 @@ In this example, we'll follow our intuition about the relationship between male 
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere between the values of 250,000 and 1,750,000: 
 
-```{r plot female students to male students, results='hide', message = FALSE}
+```{r, results='hide', message = FALSE, fig.cap="Comparison of Female Students to Male Students in Special Education"}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   pivot_wider(names_from = gender, 
@@ -608,7 +606,7 @@ child_counts %>%
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
-    title = "Comparison of female students to male students in special education",
+    title = "Comparison of Female Students to Male Students in Special Education",
     subtitle = "Counts of students in each state, ages 6-21",
     x = "Female students",
     y = "Male students",
@@ -632,7 +630,7 @@ child_counts %>%
 
 This is where we discover that each of the data points in the upper right hand corner of the plot are from the state value "us, us, outlying areas, and freely associated states". If we remove these outliers, we have a distribution of female students that looks more complete.
 
-```{r plot without outliers, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap = "Comparison of Female Students to Male Students with Disabilities"}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   pivot_wider(names_from = gender, 
@@ -642,7 +640,7 @@ child_counts %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
-    title = "Comparison of female students to male students with disabilities",
+    title = "Comparison of Female Students to Male Students with Disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
     x = "Female students",
     y = "Male students",
@@ -681,10 +679,10 @@ model_data %>%
 
 Let's visualize the ratio values across all years as an additional check. Note the use of `geom_jitter()` to spread the points horizontally so we can estimate the quantities better: 
 
-```{r ratios across years, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Male to Female Ratio Across Years (Jittered)"}
 ggplot(data = model_data, aes(x = year, y = ratio)) +
   geom_jitter(alpha = .5, color = dataedu_colors("green")) +
-  labs(title = "Male to female ratio across years (jittered)") +
+  labs(title = "Male to Female Ratio Across Years (Jittered)") +
   theme_dataedu()
 ```
 
@@ -737,7 +735,7 @@ model_data %>%
 
 Now let's visualize this using our boxplots: 
 
-```{r visualize female to male ratio, results = 'hide', message = FALSE}
+```{r, results = 'hide', message = FALSE, fig.cap="Median Male and Female Student Counts in Special Education"}
 model_data %>%
   pivot_longer(cols = c(f, m), 
                names_to = "gender", 
@@ -746,7 +744,7 @@ model_data %>%
   geom_boxplot() +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Median male and female student counts in special education",
+    title = "Median Male and Female Student Counts in Special Education",
     subtitle = "Ages 6-21. Does not include outlying areas and freely associated states",
     x = "",
     y = "",
