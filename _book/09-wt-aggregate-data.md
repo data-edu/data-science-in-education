@@ -1,4 +1,3 @@
-
 # Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities {#c09}
 
 ## Vocabulary
@@ -25,8 +24,68 @@ Federal and international education datasets provide additional context for eval
 
 For education data practitioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large and often suppressed to protect privacy. Sometimes they are already a couple of years old by the time they're released. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.
 
-Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future. This walkthrough, then, uses and explores aggregate data, with a focus on educational equity, from a single school district.
+Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future. 
 
+We want to take time to explore using aggregate data since it's so commonly used in education. This chapter and chapter 10 provide two different examples of cleaning an aggregate dataset and two different examples of using aggregate datasets to compare student experiences. In this chapter, we'll focus on educational equity by identifing and comparing patterns in student race groups. In the next chapter, we'll compare student counts over time in different states.
+
+*Differences Between Aggregate and Student-Level Data* 
+
+Let's dig a little deeper into the differences between aggregate and student-level data. Publicly available data--like the data we'll use in this walkthrough--is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept. 
+
+Here are rows in a student-level dataset:
+
+
+```r
+# student-level data 
+tibble(
+  student = letters[1:10],
+  school = rep(letters[11:15], 2),
+  test_score = sample(0:100, 10, replace = TRUE)
+)
+```
+
+```
+#> # A tibble: 10 x 3
+#>    student school test_score
+#>    <chr>   <chr>       <int>
+#>  1 a       k              85
+#>  2 b       l              90
+#>  3 c       m              82
+#>  4 d       n              31
+#>  5 e       o              91
+#>  6 f       k               8
+#>  7 g       l               5
+#>  8 h       m               5
+#>  9 i       n              11
+#> 10 j       o              66
+```
+
+Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
+
+
+```r
+tibble(
+  student = letters[1:10],
+  school = rep(letters[11:15], 2),
+  test_score = sample(0:100, 10, replace = TRUE)
+) %>%
+  # Aggregate by school
+  group_by(school) %>%
+  summarize(mean_score = mean(test_score))
+```
+
+```
+#> # A tibble: 5 x 2
+#>   school mean_score
+#>   <chr>       <dbl>
+#> 1 k              34
+#> 2 l              42
+#> 3 m              54
+#> 4 n              24
+#> 5 o              23
+```
+
+Notice here that this dataset no longer identifies individual students. 
 *Disaggregating Aggregated Data*
 
 Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the *Individuals with Disabilities Education Act (IDEA)*.
@@ -41,25 +100,25 @@ It is important to define what equity means to your team so you know whether you
 
 There are many education-related, publicly available aggregate datasets. On the international level, perhaps the most well known is:
 
-- [Programme for International Student Assessment (PISA)](http://www.oecd.org/pisa/), which measures 15-year-old school pupils' scholastic performance on mathematics, science, and reading.
+- [Programme for International Student Assessment (PISA)](http://www.oecd.org/pisa/) (http[]()://www.oecd.org/pisa/), which measures 15-year-old school pupils' scholastic performance on mathematics, science, and reading.
 
 On the federal level, examples include:
 
-- [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html), which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.
+- [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which reports many different variables on educational program and services disaggregated by race/ethnicity, sex, limited English proficiency, and disability. These data are school-level.
 
-- [Common Core of Data (CCD)](https://nces.ed.gov/ccd/), which is the U.S. Department of Education's primary database on public elementary and secondary education.
+- [Common Core of Data (CCD)](https://nces.ed.gov/ccd/) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which is the U.S. Department of Education's primary database on public elementary and secondary education.
 
-- [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.
+- [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html) (https[]()://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. These data are school- and district-level.
 
-- [Integrated Postsecondary Education Data System (IPEDS)](https://nces.ed.gov/ipeds/), which is the U.S. Department of Education's primary database on postsecondary education.
+- [Integrated Postsecondary Education Data System (IPEDS)](https://nces.ed.gov/ipeds/) (https[]()://nces.ed.gov/ipeds/), which is the U.S. Department of Education's primary database on postsecondary education.
 
-- [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), an assessment of educational progress in the United States. Often called the "nation's report card." The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.
+- [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx) (https[]()://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), an assessment of educational progress in the United States. Often called the "nation's report card." The NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.
 
 On the state and district level, examples include:
 
-- [California Department of Education](https://www.cde.ca.gov/ds/), which is the state department of education website. It includes both downloadable CSV files and "Data Quest", which lets you query the data online.
+- [California Department of Education](https://www.cde.ca.gov/ds/) (https[]()://www.cde.ca.gov/ds/), which is the state department of education website. It includes both downloadable CSV files and "Data Quest", which lets you query the data online.
 
-- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
+- [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data) (https[]()://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
 
 *Selecting Data*
 
@@ -81,7 +140,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer) package which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {rJava} is a required package to load {tabulizer}. Unfortunately, installing {rJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {rJava} [@R-rJava].
+ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer) (https[]()://github.com/ropensci/tabulizer) package which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {rJava} is a required package to load {tabulizer}. Unfortunately, installing {rJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {rJava} [@R-rJava].
 
 
 ```r
@@ -350,8 +409,8 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-14)Percentage of Population by Subgroup</p>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-13)Percentage of Population by Subgroup</p>
 </div>
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
@@ -374,7 +433,7 @@ school_name   category    value
 ------------  ---------  ------
 Total         frpl_pct    0.569
 
-**56.9% of the students are eligible for FRPL**, compared to [the U.S. average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
+**56.9% of the students are eligible for FRPL**, compared to [the U.S. average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes) (https[]()://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
 
 > This also matches the PDF's. Great!
 
@@ -402,8 +461,8 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Count of Schools by White Population</p>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" alt="Count of Schools by White Population" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-15)Count of Schools by White Population</p>
 </div>
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
@@ -442,8 +501,8 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-17)Distribution of Subgroups in High Poverty Schools</p>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Distribution of Subgroups in High Poverty Schools</p>
 </div>
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
@@ -468,8 +527,8 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-18)FRPL Percentage vs. White Percentage</p>
+<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)FRPL Percentage vs. White Percentage</p>
 </div>
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.

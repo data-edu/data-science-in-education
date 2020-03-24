@@ -1,4 +1,3 @@
-
 # Learning More {#c17}
 
 ## Introduction 

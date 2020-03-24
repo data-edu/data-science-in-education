@@ -1,4 +1,3 @@
-
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
 
@@ -74,7 +73,7 @@ provided by the school.
 
 ### Data Sources
 
-#### Data Source \#1: Self-Report Survey about Students' Motivation
+**Data Source \#1: Self-Report Survey about Students' Motivation**
 
 The first data source is a self-report survey. This was data collected before
 the start of the course via self-report survey. The survey included 10 items,
@@ -585,7 +584,7 @@ types of joins. They may be less important than `left_join()` but are still wort
 mentioning (note that for all of these, the "left" data frame is
 always the first argument, and the "right" data frame is always the second):
 
-#### `semi_join()`
+**`semi_join()`**
 
 `semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; it is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
 `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
@@ -621,7 +620,7 @@ dat_semi
 #> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
-#### `anti_join()`
+**`anti_join()`**
 
 `anti_join()`: *removes* all of the rows in the "left" data frame that can be
 joined with those in the "right" data frame.
@@ -654,7 +653,7 @@ dat_anti
 #> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
-#### `right_join()`
+**`right_join()`**
 
 `right_join()`: perhaps the least helpful of the three, `right_join()` works the
 same as `left_join()`, but by retaining all of the rows in the "right" data
@@ -924,8 +923,8 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-27-1.png" alt="Example Plot" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-27)Example Plot</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-26-1.png" alt="Example Plot" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-26)Example Plot</p>
 </div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
@@ -949,8 +948,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-28-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-28)Percentage Earned vs. Time Spent</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-27)Percentage Earned vs. Time Spent</p>
 </div>
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
@@ -969,8 +968,8 @@ dat %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-29-1.png" alt="Adding a Line of Best Fit" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-29)Adding a Line of Best Fit</p>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-28)Adding a Line of Best Fit</p>
 </div>
 
 So, it appears that the more time students spent on the course, the more points
