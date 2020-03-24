@@ -1,4 +1,3 @@
-
 # Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data {#c12}
 
 ## Vocabulary
@@ -118,20 +117,20 @@ An edgelist looks like the following, where the sender denotes who is initiating
 
 ```
 #> # A tibble: 12 x 2
-#>    sender             receiver           
-#>    <chr>              <chr>              
-#>  1 Pham, Pa Nhia      Wojtowick, Gary    
-#>  2 Davis, Segan       Duenez, Aureliano  
-#>  3 Davis, Segan       Cox, Mariah        
-#>  4 al-Muhammed, Ulyaa Duenez, Aureliano  
-#>  5 al-Muhammed, Ulyaa Wojtowick, Gary    
-#>  6 al-Muhammed, Ulyaa Labishak, Aiyana   
-#>  7 Lowe, Rafael       Cox, Mariah        
-#>  8 Lowe, Rafael       Olson, Jeremy      
-#>  9 Lowe, Rafael       Labishak, Aiyana   
-#> 10 Wilson, James      Bannister, Kenaniah
-#> 11 Tarrant, Shontae   Cox, Mariah        
-#> 12 Tarrant, Shontae   Bannister, Kenaniah
+#>    sender              receiver         
+#>    <chr>               <chr>            
+#>  1 Garcia, Braxton     el-Bilal, Awn    
+#>  2 al-Hussain,  Saalih Jenkins, Joshua  
+#>  3 al-Hussain,  Saalih Cleckley, Janay  
+#>  4 Eli, Benjamin       Jenkins, Joshua  
+#>  5 Eli, Benjamin       el-Bilal, Awn    
+#>  6 Eli, Benjamin       al-Siddiqi, Safar
+#>  7 Gallegos, Marimar   Cleckley, Janay  
+#>  8 Gallegos, Marimar   Dieken, Jack     
+#>  9 Gallegos, Marimar   al-Siddiqi, Safar
+#> 10 Pino, Cynthia       Ouk, Lorrena     
+#> 11 Beattie, Bethany    Cleckley, Janay  
+#> 12 Beattie, Bethany    Ouk, Lorrena
 ```
 
 In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -140,7 +139,7 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
-- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
+- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)).
  
 
@@ -313,8 +312,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-16-1.png" alt="Network Graph" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Network Graph</p>
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-15-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-15)Network Graph</p>
 </div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
@@ -335,8 +334,8 @@ g %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="figures/unnamed-chunk-18-1.png" alt="Network Graph with Centrality" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-18)Network Graph with Centrality</p>
+<img src="12-wt-social-network-analysis_files/figure-html/unnamed-chunk-17-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)Network Graph with Centrality</p>
 </div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
@@ -422,7 +421,7 @@ data <-
   left_join(data, tempdata, by = "nominee")
 ```
 
-#### Calculating an Exposure Term
+**Calculating an Exposure Term**
 
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
@@ -459,7 +458,7 @@ final_data <-
   left_join(final_data, data3, by = "nominator") 
 ```
 
-#### Regression (Linear Model)
+**Regression (Linear Model)**
 
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 

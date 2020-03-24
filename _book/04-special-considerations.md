@@ -1,4 +1,3 @@
-
 # Special Considerations {#c04}
 
 Data science in education is a new domain. It presents opportunities, like those discussed in the [previous chapter](#c03), but also some challenges. These challenges vary a lot: we consider doing data science in education to include not only accessing, processing, and modeling data, but also social and cultural factors, like the training and support that these data scientists have available to them. Some of these challenges are common to *all* domains in which data science is carried out, while others are very particular to the field of education.

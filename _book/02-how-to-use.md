@@ -1,4 +1,3 @@
-
 # How to Use this Book {#c02}
 
 We've heard it from fellow data scientists and experienced it ourselves -
