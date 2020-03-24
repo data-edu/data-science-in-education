@@ -1226,63 +1226,6 @@ Education data science is about using data science tools to learn about and impr
 
 Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
 
-Before we discuss the benefits of aggregate data, let's take some time to understand the differences between aggregate and student-level data. Publicly available data--like the US Federal Government special education student count we used in this walkthrough--is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept. 
-
-Here are rows in a student-level dataset:
-
-
-```r
-# student-level data 
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-)
-```
-
-```
-#> # A tibble: 10 x 3
-#>    student school test_score
-#>    <chr>   <chr>       <int>
-#>  1 a       k              71
-#>  2 b       l              36
-#>  3 c       m              67
-#>  4 d       n              42
-#>  5 e       o              39
-#>  6 f       k              42
-#>  7 g       l              59
-#>  8 h       m              94
-#>  9 i       n              13
-#> 10 j       o              66
-```
-
-Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
-
-
-```r
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-) %>%
-  # Aggregate by school
-  group_by(school) %>%
-  summarize(mean_score = mean(test_score))
-```
-
-```
-#> # A tibble: 5 x 2
-#>   school mean_score
-#>   <chr>       <dbl>
-#> 1 k            65.5
-#> 2 l            78  
-#> 3 m            67.5
-#> 4 n            40  
-#> 5 o            25.5
-```
-
-Notice here that this dataset no longer identifies individual students. 
-
 *Student-level data for analysis of local populations. Aggregate data for base rate and context.*
 
 Longitudinal analysis is typically done with student-level data because educators are interested in what happens to students over time. So if you cannot access student-level data, how do we use aggregate data to offer value to the analytic conversation?
