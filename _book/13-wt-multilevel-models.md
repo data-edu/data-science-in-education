@@ -11,21 +11,30 @@
 ## Chapter Overview
 
 The *purpose* of this walkthrough is to explore
-students' performance in these online courses, focusing on the time spent in the 
-course (made available through the learning management system) and the effects 
-of being in a particular class.
+students' performance in these online courses. While this and the analysis in 
+[Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, 
+this walkthrough is distinguished by a focus on the effects of being in a particular 
+course. To do so, we explore the use of *multi-level models*, which are suited
+to addressing the fact that the students in our dataset shared classes. While the
+conceptual details underlying multi-level models can be complex, the basic problem
+that they address - cases, or observations, such as students, grouped within higher
+level units, such as classes or schools - is likely familiar to readers of this book.
 
 ### Background
 
-This walkthrough accompanies [Chapter 12](#c12),
-which focused on preparing the data and beginning to visualize and model the
-data. Here, we focus on an extension of the models we ran, one focused on how to
-address the fact that students in our dataset shared classes.
+Using multi-level models is a way to account for the way in which individual 
+cases - like responses for individual students - are "grouped" together into higher-level
+units, like classes. As we describe later in this chapter, multi-level models do this by (still) estimating the
+effect of being a student in each group, but with a key distinction from a 
+regression (or linear model), like those described in 
+[Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10):
+the multi-level model "regularizes" the estimates for each group based upon
+systematically different the groups (classes) are, in terms of the dependent variable,
+from the overall (across all groups [classes]) values of the dependent variable. 
 
-As for the earlier walkthrough using the same data, [Walkthrough 1/Chapter 7](#c07), the *purpose* for this
-walkthrough is to explore students' performance in these online courses,
-focusing on the time spent in the course (made available through the learning
-management system) and the effects of being in a particular class.
+These are the conceptual details underlying multi-level models, but, fortunately, 
+fitting them is straightforward, and should be familiar if you have used R's `lm()` 
+function before. So, let's get started!
 
 ### Data Source
 
@@ -43,8 +52,8 @@ Specifically, we can dummy-code the groups. Dummy coding means transforming a va
 
 ## Load Packages
 
-We will load the tidyverse and a few other packages specific to using multi-level models, particularly, 
-{lme4} [@R-lme4] and {performance}.
+We will load the tidyverse and a few other packages specific to using multi-level models: 
+{lme4} [@R-lme4] and {performance} [@R-performance].
 
 
 ```r
@@ -64,7 +73,7 @@ We can see how dummy coding works through using the {dummies} package, though,
 as we will see, you often do not need to manually dummy code variables like
 this.
 
-Let's consider the `iris` data that comes built into R, but, since we are fans
+Let's consider the `iris` data that comes built into R. Since we are fans
 of the {tidyverse}, we will first change it into a tibble.
 
 
@@ -179,7 +188,7 @@ iris_with_dummy_codes %>%
     count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
-Okay, this covers how dummy codes work: but, how do they work when used in a
+Okay, this covers how dummy codes work. How do they work when used in a
 model, like with the linear model we have been using (through `lm()`)?
 
 In the context of using `lm()` (and many other functions in R) is that the
@@ -206,7 +215,7 @@ We will load a built-in dataset from the {dataedu} package.
 dat <- dataedu::sci_mo_processed
 ```
 
-### Using dummy codes
+### Using Dummy Codes
 
 Let's return use online science class data and consider the effect (for a
 student) of being in a specific class in the data set.
@@ -239,13 +248,13 @@ dat %>%
 
 ## Analysis
 
-### Regression (linear model) analysis with dummy codes
+### Regression (Linear Model) Analysis with Dummy Codes
 
 We will save this output to `m_linear_dc`, where the `dc` stands for dummy
 code. We will keep the variables we used in our last set of models - `TimeSpent`
 and `course_id` - as independent variables, but will predict students' final grade 
 (a variable in the dataset), rather than the `percentage_earned` variable that we 
-created in (chapter 7)[#c7].
+created in (chapter 7)[#c07].
 
 Since we will be using the final grade variable a lot, we can rename it to make 
 it quicker (and easier) to type.
@@ -457,23 +466,24 @@ sjPlot::tab_model(m_linear_dc)
 
 Wow! That is a lot of effects. In addition to the time spent and subject
 variables, the model estimated the difference, accounting for the effects of
-being a student in a specific class. Let's count how many classes there are. If
-we count the number of classes, we see that there are 25 - and not 26! One has
+being a student in a specific class. Let's count how many classes there are. 
+
+If we count the number of classes, we see that there are 25 - and not 26! One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 0.74 represents the percentage of points that students in the reference
 group class, which is automatically the first level of the `course_id` variable
-when it is converted to a factor, "course_idAnPhA-S116-01" (which represents an anatomy 
-and physiology course from semester `S1` (for the fall) of 20`16`; this is the first
-section (`01`)).
+when it is converted to a factor, `course_idAnPhA-S116-01` (which represents an anatomy 
+and physiology course from semester `S1` (for the fall) of 20`16` in the first
+section `01`).
 
-We can easily choose another class to serve as a reference group. Imagine, for
-example, that we want "course\_idPhysA-S116-01" (the first section of the
+We can choose another class to serve as a reference group. For
+example, say that we want `course\_idPhysA-S116-01` (the first section of the
 physics class offered during this semester and year) to be the reference group.
 The `fct_relevel()` function (which is a part of the {tidyverse} suite of
 packages) makes it easy to do this. This function allows us to re-order the
 levels within a factor, so that the "first" level will change. We'll also use
-`mutate` again here, which we introduced in the previous chapter. 
+`mutate()` again here, which we introduced in the previous chapter. 
 
 
 ```r
@@ -894,7 +904,7 @@ factors, and so we emphasized that in this walkthrough. However, we want you to 
 aware that it is possible (though uncommon) to estimate a model without an
 intercept.
 
-### A deep-dive into the background of multi-level models
+### A Deep-Dive into Multi-Level Models
 
 Dummy-coding is a very helpful strategy. It is particularly useful with a small
 number of groups (i.e., for estimating the effects of being in one of the five
@@ -906,21 +916,22 @@ different effects (and to compare them to the intercept).
 
 Additionally, analysts often have the goal not of determining the effect of
 being in a specific class, *per se*, but rather of accounting for the fact that
-students share a class. This is important because linear models (i.e., the model
-we estimated using `lm()`) have an assumption that the data points are - apart
+students share a class. This is important because linear models (i.e., those 
+estiated using `lm()`) have an assumption that the data points are - apart
 from sharing levels of the variables that are used in the model - independent,
 or not correlated. This is what is meant by the "assumption of independence" or
 of "independently and identically distributed" (*i.i.d.*) residuals (Field,
 Miles, & Field, 2012).
 
-Multi-level models are a way to deal with the difficulty of interpreting the
+As we noted in the chapter overview, multi-level models are a way to deal 
+with the difficulty of interpreting the
 estimated effects for each of many groups, like classes, and to address the
 assumption of independence. Multi-level models do this by (still) estimating the
 effect of being a student in each group, but with a key distinction from linear
 models: Instead of determining how different the observations in a group are
 from those in the reference group, the multi-level model "regularizes" (sometimes the term "shrinks" is used) the difference based on how
 systematically different the groups are. The reason why "shrinkage" is
-occasionally used is that the group-level estimates (i.e., for classes) that are
+occasionally used is that the group-level estimates (e.g., for classes) that are
 obtained through multi-level modeling can never be larger than those from a
 linear model (regression). As described earlier, when there are groups included
 in the model, a regression effectively estimates the effect for each group
@@ -930,13 +941,15 @@ Through regularization, groups that comprise individuals who are
 consistently different (higher or lower) than individuals on average are not
 regularized very much - their estimated difference may be close to the estimate
 from a multi-level model - whereas groups with only a few individuals, or with a
-lot of variability within individuals, would be regularized a lot^[The way that
+lot of variability within individuals, would be regularized a lot~ The way that
 a multi-level model does this "regularizing" is by considering the groups (and
 not the data points, in this case) to be samples from a larger population of
 classes. By considering the effects of groups to be samples from a larger
 population, the model is able to use information not only particular to each
 group (as the models created using `lm()`), but also information across all of
-the data. Using multi-level models means that the assumption of independence can
+the data. 
+
+Using multi-level models, then, means that the assumption of independence can
 be addressed; their use also means that individual coefficients for classes do
 not need to be included (or interpreted, thankfully!), though they are still
 included in and accounted for in the model. As we describe, the way that
@@ -959,8 +972,10 @@ students take the same classes, or even go to the same school (see Raudenbush &
 Bryk, 2002).
 
 That was a lot of technical information about multi-level models; thank you for
-sticking with us through it! We wanted to include this as multi-level models
-are common: consider how often the data you collect involves students nested (or
+sticking with us through it!
+
+We wanted to include this as multi-level models
+*are* common (and, we think, could usefully be even more common!).Consider how often the data you collect involves students nested (or
 grouped) in classes, or classes nested in schools (or even schools nested in
 districts - you get the picture!). Educational data is complex, and so it is
 not surprising that multi-level models may be encountered in educational data
@@ -969,10 +984,10 @@ science analyses, reports, and articles.
 ### Multi-level model analysis
 
 Fortunately, for all of the complicated details, multi-level models are very
-easy to use in R. This requires a new package; one of the most common for
-estimating these types of models is **lme4**. We use it very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*,
-in the data are. Such a model is often referred to as a "varying intercepts"
-multi-level model, because what is different between the groups is the effect of
+easy to use in R. This requires a new package. One of the most common for
+estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*
+in the data are. This model is often referred to as a "varying intercepts"
+multi-level model. What is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
 You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
@@ -987,7 +1002,7 @@ Now we can fit our multi-level model:
 
 ```r
 m_course <- 
-  lme4::lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
+  lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
@@ -1004,23 +1019,23 @@ in the data. With `lmer()`, these group terms are specified in parentheses -
 specifically, to the right of the bar. That is what the `|course_id` part means
 - it is telling lmer that courses are groups in the data. The left side of the
 bar tells lmer that what we want to be specified are varying intercepts for each
-group (1 is used to denote the intercept). That is basically it!
+group (1 is used to denote the intercept).
 
-That is basically it, but there is potentially more to the story: In addition to
+There is potentially more to the story: in addition to
 the 1, variables which can be specified to have a different effect for each
 group can also be specified. These variables are referred to not as varying
 intercepts, but as varying slopes. We will not cover these in this walkthrough,
 but want you to be aware of them (we recommend the book by West, Welch, and
 Galecki [2014] provide an excellent walkthrough on how to specify varying
-slopes using lmer).^[To say *just* a bit more, there is a connection between
+slopes using `lmer()`). To say *just* a bit more, there is a connection between
 multi-level models and Bayesian methods (@gelman2006data); one way to think
 about the "regularizing" going on is that estimates for each group (class) are
 made taking account of the data across all of the groups (classes). The data for
-all of the classes can be interpreted as a *prior* for the group estimates.]
+all of the classes can be interpreted as a *prior* for the group estimates.
 
 ## Results
 
-Let's view the results using the `tab_model()` function from sjPlot.
+Let's view the results using the `tab_model()` function from {sjPlot}.
 
 
 ```r
@@ -1059,7 +1074,7 @@ After that, try this function:
 
 
 ```r
-performance::icc(m_course)
+icc(m_course)
 ```
 
 ```
@@ -1090,7 +1105,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ```r
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lme4::lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+  lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see

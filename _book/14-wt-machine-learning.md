@@ -14,6 +14,8 @@
 
 ## Chapter Overview
 
+In this chapter, we explore the use of machine learning methods for predicting a student-level outcome, students' final grade in online courses. We use the same dataset used in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 7/Chapter 13](#c13)], but pursue a different aim than in those chapters: We focus on *predicting* an outcome, final grade, more than *explaining* how variables relate to an outcome, such as how the amount of time students spend on the course relate to their final grade. We illustrate the use of a particular, common (yet powerful) machine learning method, random forests, choosing to explore their use in-depth, rather than providing a more general overview of other machine learning methods. Though we focus on the use of random forests, many of the ideas explored in this chapter will likely extend and prove useful with respect to the use of other machine learning methods; our goal is for you to finish this, the final walkthrough, with the confidence to explore using machine learning to answer a question or to solve a problem of your own with respect to teaching, learning, and educational systems.
+
 ### Background
 
 One area of interest is the delivery of online instruction, which is becoming more prevalent: in 2007, over 3.9 million U.S. students were enrolled one or more online courses [@allen2008]. With the dawn of online learning comes an abundance of new educational tools to facilitate that learning. Indeed, online learning interfaces are used to facilitate the submission of assignments and quizzes in courses in which students and instructor meet face-to-face, but these interfaces are also used in fully online courses to deliver all instruction and assessment. 
@@ -46,7 +48,7 @@ Specific information in the dataset included:
 - students' final course grades 
 - students' involvement in discussion forums
 
-For discussion board responses, we were interested in calculating the number of posts per student and understanding the emotional tone of the discussion board posts. We used the Linguistic Inquiry and Word Count (LIWC; Pennebaker, Boyd, Jordan, & Blackburn, 2015) tool to calculate the number of posts per student and to categorize the emotional tone (positive or negative) and topics of those posts. Those linguistic categorization was conducted after the data was gathered from the discussion posts, but is not replicated here to protect the privacy of the students' posts. Instead, we present the already-categorized discussion board data, in its ready-to-use format. Thus, in the dataset used in this walkthrough, we will see pre-created variables for the mean levels of students' cognitive processing, positive emotions, negative emotions, and social-related discourse.
+For discussion board responses, we were interested in calculating the number of posts per student and understanding the emotional tone of the discussion board posts. We used the Linguistic Inquiry and Word Count (LIWC; Pennebaker, Boyd, Jordan, & Blackburn, 2015) tool to calculate the number of posts per student and to categorize the emotional tone (positive or negative) and topics of those posts. Those linguistic categorization was conducted after the data was gathered from the discussion posts, but is not replicated here to protect the privacy of the students' posts. Instead, we present the already-categorized discussion board data, in its ready-to-use format. In the dataset used in this walkthrough, we will see pre-created variables for the mean levels of students' cognitive processing, positive emotions, negative emotions, and social-related discourse.
 
 At the beginning of the semester, students were asked to complete the pre-course survey about their perceived competence, utility value, and interest. At the end of the semester, the time students spent on the course, their final course grades, and the contents of the discussion forums were collected.
 
@@ -92,7 +94,7 @@ To interpret our findings, we will consider three main factors: (1) predictive a
 
 
 
-First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an .rda file. We note that this data is augmented to have some other - and additional - variables that the `sci_mo_processed` data (used in [Chapter 7](#c7) and [Chapter 14](#c14) does not.
+First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an .rda file. We note that this data is augmented to have some other - and additional - variables that the `sci_mo_processed` data used in [Chapter 7](#c7) and [Chapter 14](#c14) does not.
 
 ## Import and View Data
 
@@ -102,7 +104,7 @@ First, we will load the data. Our data is stored in the {dataedu} package that i
 data <- dataedu::sci_mo_with_text
 ```
 
-It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and datapoints. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
+It's a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the `glimpse()` function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and data points. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we'll glimpse the data.
 
 
 ```r
@@ -193,7 +195,7 @@ As is the case with many datasets you'll work with in education contexts, there 
 
 Thus, we will *filter* the data to include only the data from one that semester, and then *select* variables of interest. For each step, we will save over the previous version of the "data" object so that our working environment doesn't get cluttered with each new version of the dataset. Keep in mind that the original data will stay intact, and that any changes we make to it within R will not overwrite that original data (unless we tell R to specifically save out a new file with exactly the same name as the original file). Changes we make within our working environment are all totally reversible. 
 
-Below, we will *filter* to remove all the datapoints from the spring 2017 semester (indicated with a value of `S217` for the `semester` variable). We use the "!" to indicate that we want to keep all datapoints EXCEPT the datapoints that have a value of "S217" for the semester variable. Then, we will *select* only the variables we are interested in: motivation, time spent in the course, grade in the course, subject, enrollment information, positive and negative emotions, cognitive processing, and the number of discussion board posts.
+Below, we will *filter* to remove all the datapoints from the spring 2017 semester (indicated with a value of `S217` for the `semester` variable). We use the `!` to indicate that we want to keep all datapoints EXCEPT the datapoints that have a value of `S217` for the semester variable. Then, we will *select* only the variables we are interested in: motivation, time spent in the course, grade in the course, subject, enrollment information, positive and negative emotions, cognitive processing, and the number of discussion board posts.
 
 ## Process Data
 
@@ -238,7 +240,7 @@ data <-
 
 ## Analysis
 
-### Use of caret
+### Use of {caret}
 
 Here, we remove observations with missing data (per our note above about random forests requiring complete cases).
 
@@ -641,7 +643,7 @@ rf_fit2
 
 The model with the same values as identified before for `mtry` (19) and `splitrule` (extratrees), but with `min.node.size` equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.027) and the variance explained is highest (0.684) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make. 
 
-While the output above gives us a good summary of the model, we might want to look more closely at what we found with our rf_fit2 model. The code below is a way for us to zoom in and look specifically at the *final* random forest model generated by our rf_fit2.
+While the output above gives us a good summary of the model, we might want to look more closely at what we found with our `rf_fit2` model. The code below is a way for us to zoom in and look specifically at the *final* random forest model generated by our `rf_fit2.`
 
 In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use dplyr and the tidyverse here because of the structure of the rf_fit2 object - we have stored a random forest model as a model, so it's not a normal dataframe. Thus, we extract with a `$`. We want to select only the final model used, and not worry about the prior iterations of the model.
 
@@ -706,7 +708,7 @@ defaultSummary(as.data.frame(data_test_augmented))
 #>   12.690    0.574    9.386
 ```
 
-We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 11.214 on the test data here, and it was 13.027 on the training data. The Rsquared value is 0.743 here, as compared to the 0.684 we got when we passed the training data through rf_fit2 earlier. 
+We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 11.214 on the test data here, and it was 13.027 on the training data. The Rsquared value is 0.743 here, as compared to the 0.684 we got when we passed the training data through `rf_fit2` earlier. 
 
 While we might have expected that the model performance would be worse for the testing data as compared to the training data, we actually are seeing marginal improvements here: the model does better with the test data than with the training data. These results suggest to us that the model is fairly robust, as we get comparable - in fact, improved - results when running the model on data it has never "seen" before (the testing data). This is good news!
 
@@ -716,11 +718,11 @@ While we might have expected that the model performance would be worse for the t
 
 One helpful characteristic of random forest models is that we can learn about which variables contributed most strongly to the predictions in our model, across all the trees in our forest.
 
-We can examine two different variable importance measures using the **ranger** method in **caret**.
+We can examine two different variable importance measures using the **ranger** method in {caret}.
 
 Note that importance values are not calculated automatically, but that "impurity" or "permutation" can be passed to the `importance` argument in `train()`. See more [here](https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).
 
-We'll re-run the rf_fit2 model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
+We'll re-run the `rf_fit2` model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
 
 
 ```r
@@ -781,7 +783,10 @@ varImp(rf_fit2_imp) %>%
     theme_dataedu()
 ```
 
-<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-17-1.png" alt="Variable Importance" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)Variable Importance</p>
+</div>
 
 Cool! We can now visualize which variables are most important in predicting final grade. 
 
@@ -793,7 +798,7 @@ As a quick statistical note: above, we selected our variable importance method t
 
 ### Comparing a random forest to a regression
 
-You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (rf_fit2). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the rf_fit2 model predicted as well as the actual rf_fit2 values.
+You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (`rf_fit2`). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the `rf_fit2` model predicted as well as the actual `rf_fit2` values.
 
 
 ```r

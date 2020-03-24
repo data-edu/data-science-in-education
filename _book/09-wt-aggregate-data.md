@@ -1,5 +1,5 @@
 
-# Walkthrough 3: Introduction to Aggregate Data {#c09}
+# Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities {#c09}
 
 ## Vocabulary
 
@@ -25,13 +25,13 @@ Federal and international education datasets provide additional context for eval
 
 For education data practitioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large and often suppressed to protect privacy. Sometimes they are already a couple of years old by the time they're released. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.
 
-Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future.
+Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future. This walkthrough, then, uses and explores aggregate data, with a focus on educational equity, from a single school district.
 
-#### Disaggregating Aggregated Data
+*Disaggregating Aggregated Data*
 
-Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA).
+Aggregated data can tell us many things, but in order for us to examine subgroups and their information, we must have data _disaggregated_ by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the *Individuals with Disabilities Education Act (IDEA)*.
 
-#### Disaggregating Data and Equity
+*Disaggregating Data and Equity*
 
 Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
 
@@ -61,7 +61,7 @@ On the state and district level, examples include:
 
 - [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data), which is a district-level website with datasets beyond those listed in the state website.
 
-#### Selecting Data
+*Selecting Data*
 
 For the purposes of this walkthrough, we will be looking at a particular school district's data. This district reports their student demographics in a robust, complete way. Not only do they report the percentage of students in a subgroup, but they also include the number of students in each subgroup. This allows a deep look into their individual school demographics. Their reporting of the composition of their schools provides an excellent opportunity to explore inequities in a system. 
 
@@ -81,7 +81,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer) package which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {RJava} is a required package to load {tabulizer}. Unfortunately, installing {RJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {RJava} [@R-RJava].
+ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer) package which provides R bindings to the Tabula java library, which can be used to computationally extract tables from PDF documents. {rJava} is a required package to load {tabulizer}. Unfortunately, installing {rJava} on Macs can be very tedious. If you find yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip to the data processing, the data pulled from the PDFs is available in the {dataedu} package. You can decide whether to skip the steps requiring {rJava} [@R-rJava].
 
 
 ```r
@@ -331,6 +331,7 @@ tidy_df %>%
   # reordering x axis so bars appear by descending value
   ggplot(aes(x = reorder(category, -value), y = value)) +
   geom_bar(stat = "identity", aes(fill = category)) +
+  ggtitle("Percentage of Population by Subgroup") + 
   xlab("Subgroup") +
   ylab("Percentage of Population") +
   scale_x_discrete(
@@ -348,7 +349,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-14-1.png" alt="Percentage of Population by Subgroup" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-14)Percentage of Population by Subgroup</p>
+</div>
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
 
@@ -389,6 +393,7 @@ merged_df %>%
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_colors("darkblue"))  +
+  ggtitle("Count of Schools by White Population") +
   xlab("White Percentage") +
   ylab("Count") +
   scale_x_continuous(labels = scales::percent) + 
@@ -396,7 +401,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-16-1.png" alt="Count of Schools by White Population" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-16)Count of Schools by White Population</p>
+</div>
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -406,7 +414,7 @@ The school race demographics are not representative of the district populations 
 
 ### Creating Categories
 
-High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools @ncesfrpl. However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
+High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools (@ncesfrpl). However, different subgroups were overrepresented and underrepresented within the high poverty schools. Is this the case for this district?
 
 
 ```r
@@ -415,6 +423,7 @@ tidy_df %>%
          str_detect(category, "povsch")) %>%
   ggplot(aes(x = reorder(category,-value), y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
+  ggtitle("Distribution of Subgroups in High Poverty Schools") +
   xlab("Subgroup") +
   ylab("Percentage in High Poverty Schools") +
   scale_x_discrete(
@@ -432,7 +441,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-17-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-17)Distribution of Subgroups in High Poverty Schools</p>
+</div>
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
 
@@ -446,6 +458,7 @@ merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_colors("green")) +
+  ggtitle("FRPL Percentage vs. White Percentage") +
   xlab("White Percentage") +
   ylab("FRPL Percentage") +
   scale_y_continuous(labels = scales::percent) +
@@ -454,7 +467,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="figures/unnamed-chunk-18-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-18)FRPL Percentage vs. White Percentage</p>
+</div>
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 

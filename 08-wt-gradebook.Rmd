@@ -28,7 +28,7 @@ This walkthrough goes through a series of analyses using the data science framew
 
 ### Data Sources
 
-We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
+We use an Excel gradebook template, [*Assessment Types - Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html) (https[]()://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first read through this section try using our simulated dataset found in this book's `data/` folder.
 
 ### Methods
 
@@ -64,7 +64,7 @@ getwd()
 
 For example, an R user on Linux or Mac might see their working directory as: `/home/username/Desktop`. A Windows user might see their working directory as: `C:\Users\Username\Desktop`.
 
-From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
+From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) (https[]()://github.com/data-edu/data-science-in-education) from Github to your Desktop the path to the Excel file might look like one of these below:
 
 * `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
 * `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
@@ -230,7 +230,7 @@ summary(gradebook)
 
 But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable `Letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Bar Graph of Student Grades"}
 # Bar graph for categorical variable
 gradebook %>%
   ggplot(aes(x = letter_grade,
@@ -246,7 +246,7 @@ gradebook %>%
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Classwork Scores"}
 # Scatterplot of continuous variable
 classwork_df %>%
   ggplot(aes(x = classwork_number,
@@ -270,19 +270,19 @@ classwork_df %>%
 
 ### Model Data
 
-#### Deciding on an Analysis
+**Deciding on an Analysis**
 
 Using this spreadsheet, we can start to form hypotheses about the data. For example, we can ask ourselves, "Can we predict overall grade using formative assessment scores?" For this, we will try to predict a response variable Y (overall grade) as a function of a predictor variable Y (formative assessment scores). The goal is to create a mathematical equation for overall grade as a function of formative assessment scores when only formative assessment scores are known.
 
-#### Visualize Data to Check Assumptions
+**Visualize Data to Check Assumptions
 
 It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot2} to understand these variables graphically. 
 
-##### Linearity
+**Linearity**
 
 First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, the overall grade goes up too.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments"}  
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
 gradebook %>%
@@ -297,7 +297,7 @@ gradebook %>%
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)"}  
 # Scatterplot between formative assessment and grades by percent
 # To determine linear relationship
 # With line of best fit
@@ -313,11 +313,11 @@ gradebook %>%
   theme_dataedu()
 ```
 
-##### Outliers
+**Outliers**
 
 Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Formative Assessment Scores"}  
 # Boxplot of formative assessment scores
 # To determine if there are any outliers
 gradebook %>%
@@ -330,7 +330,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Overall Grade Scores"}  
 # Boxplot of overall grade scores in percentage
 # To determine if there are any outliers
 gradebook %>%
@@ -395,6 +395,6 @@ It takes practice to interpret and communicate these concepts well. A good start
 This walkthrough chapter followed the basic steps of a data analysis project. 
 We first *imported* our data, then *cleaned and transformed* it.
 Once we had the data in a tidy format, we were able to *explore* the data using data visualization before *modeling* the data using linear regression.
-Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format). 
+Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format). 
 We note that while we began to explore models in this walkthrough, in later chapters (i.e., [Chapter 9 on aggregate data](#c9), [Chapter 10 on longitudinal analyses](#c10), [Chapter 13 on multi-level models](#c13), and [Chapter 14 on random forest machine learning models](#c14)), we will discuss such analyses and statistical modeling in more detail.
 
