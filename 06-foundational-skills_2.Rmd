@@ -1,3 +1,4 @@
+
 # Foundational Skills {#c06}
 
 ## Chapter Overview
@@ -5,12 +6,10 @@
 This chapter is designed to give you the skills and knowledge necessary to *get started* in any of the walkthrough chapters. 
 Our goal in this chapter is to give you insights into key areas of working with R, help you develop mental models for working with R, and ultimately to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of introductory applied examples. 
 If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05 before beginning this chapter.
-
 Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. 
-There are many excellent resources available which provide this kind of instruction, and we've listed them for you in Chapter 17, [Additional Resources].
+There are many excellent resources available which provide this kind of instruction, and we've listed them for you in Chapter 17.
 
 ## Foundational Skills Framework
-
 No two data science projects are the same, and rather than be overly prescriptive, we've erred on the side of creating a general framework for you to use as a home base as you work through this text. 
 The four basic concepts we will use to build our framework are:
 
@@ -58,7 +57,7 @@ Take a few moments to set up a couple of additional Projects.
 Within each Project, add and save `.R` scripts.
 
 We should point out that it is not *necessary* to create a Project for your work, although we _strongly_ recommend it, as when it is coupled with the {here} package, will set you up with an easy to use workflow. 
-For more on using Projects with the {here} package, read Jenny Bryan's article, titled [Project-oriented Workflow]("https://www.tidyverse.org/blog/2017/12/workflow-vs-script/).
+For more on using Projects with the {here} package, read Jenny Bryan's article, titled [Project-oriented Workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)(https:[]()//www.tidyverse.org/blog/2017/12/workflow-vs-script/).
 If you choose not to create a Project, you will be able to navigate the walkthroughs in this text and even future analyses relatively easily.
 Although be aware that at some point you will run into issues with how the files are structured on your computer.
 And while we cannot emphasize enough how Projects and the {here} package streamline this process, you can always check where your working directory is by running `getwd()`, and then change your working directory manually by running `setwd()` and providing your file path name as an argument.
@@ -81,7 +80,7 @@ This is when you _know_ you need to write a function.
 _(We could argue that you need functions **much** sooner! For example, a general premise in programming is DRY, or **D**on't **R**epeat **Y**ourself._
 _What this translates to is the idea that once you find yourself copying and pasting code for the third time, it's time to write a function!)_
 
-We'll cover the very basics of writing a function, but would strongly suggest you check out this [Creating Functions]("https://swcarpentry.github.io/r-novice-inflammation/02-func-R/) tutorial from [Software Carpentries](https://software-carpentry.org/) for more information and practice. 
+We'll cover the very basics of writing a function, but would strongly suggest you check out this [Creating Functions](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/)(https:[]()//swcarpentry.github.io/r-novice-inflammation/02-func-R/) tutorial from [Software Carpentries](https:[]()//software-carpentry.org/)(https://software-carpentry.org/) for more information and practice. 
 
 The template for writing a function is: 
 
@@ -102,7 +101,6 @@ For example, if we wanted to create a function that adds two numbers together, w
 addition <- function(number_1, number_2) {
     number_1 + number_2
 }
-
 #' using our function
 #' note that we provide each argument separated by commas
 addition(number_1 = 3, number_2 = 1)
@@ -133,7 +131,6 @@ If the package is on CRAN we can install it by running the following code in the
 ```{r eval = FALSE}
 # template for installing a package
 install.packages("package_name")
-
 # example of installing a package
 install.packages("dplyr")
 ```
@@ -154,7 +151,6 @@ We can accomplish loading the package into our R environment using the `library(
 
 > A package is a like a book, a library is like a library; you use library() to check a package out of the library.
 > - Hadley Wickham, Chief Scientist, RStudio
-
 Loading a package into our R environment signals to R that we would like to have access to all of the functions available to us in that package.
 
 We can load a package, such as the {dplyr} package [@R-dplyr], using the following code:  
@@ -162,7 +158,6 @@ We can load a package, such as the {dplyr} package [@R-dplyr], using the followi
 ```{r eval = FALSE}
 # template for loading a package
 library(package_name)  
-
 # example of loading a package
 library(dplyr)
 ```
@@ -193,57 +188,43 @@ You can access a package's vignette(s) on CRAN TaskViews.
 Package authors may also publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package.
 And if you find yourself on GitHub looking at information for a package - more often than not the README file will have good information for getting started with a package.
 
-If an R user feels that their package would be of benefit to a broad audience, they may choose to submit their package to [CRAN](https://cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork.
+If an R user feels that their package would be of benefit to a broad audience, they may choose to submit their package to [CRAN](https://cran.r-project.org/)(https:[]()//cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork.
 Most of the packages we'll be working with in this book are available on CRAN, which means that we can install them using the `install.packages()` function, as we did above.  
-
 The process of submitting a package and having it published through CRAN is beyond the scope of this book, but it's important to point out that you - yes, you! - can create a package that you use all for yourself, share with colleagues, or submit to CRAN. 
 Packages do not need to be submit to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub.  
 This is the case with the {dataedu} package we've created.
-
 #### Installing the {dataedu} package
 In Chapter 05 we provided the following code for installing the {dataedu} package.
 If you installed the {dataedu} package you can skip to the next section, otherwise go ahead and run the following code:
 ```{r, eval = FALSE}
 # install devtools
 install.packages("devtools", repos = "http://cran.us.r-project.org")
-
 # install the dataedu package
 devtools::install_github("data-edu/dataedu")
 ```
-
 Let's take this code apart a bit.
 The first function, `install.packages("devtools", repos = "http://cran.us.r-project.org")`, has two arguments, `"devtools"` and `repos = "http://cran.us.r-project.org"`.
 The first argument, `"devtools"`, is the name of the package that we want to install.
 The second argument, `repos = "http://cran.us.r-project.org"`, tells R the URL of the repository to use. 
 For now all we need to know is that a repository is a place where code can be stored.  
-
 In order for us to load and use the {dataedu} package, we first needed to install the {devtools} package.
-
 The second function, `devtools::install_github("data-edu/dataedu")`, has only one argument, `"data-edu/dataedu"`, but also looks a little different from the first function.
 What we're doing here is telling R to go to the {devtools} package to find the `install_github()` function.
 The `install_github()` function is telling R to go to a specific repository on GitHub to get the code for the {dataedu} package.
-You can also see [the repository for the {dataedu} package on GitHub]("https://github.com/data-edu/dataedu") yourself!
-
+You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to loading the {dataedu} package because the package is not available on CRAN.
-
 #### Loading the {dataedu} package
-
 Now that we've installed the {dataedu} package, we can load it using `library()`.
 You can create an `.R` script in your Project to load and explore the {dataedu} package.
 We'll load the {dataedu} package by running the following code in an `.R` script: 
-
 ```{r}
 # loading the dataedu package
 library(dataedu)
 ```
-
 When we work with packages, we _don't_ include the `install.packages()` function in an `.R` script, but we _do_ include any `library()` functions that we use.
 This ensures that we know what packages we need to load into our RStudio environment, and signals to anyone else using our code which packages they'll need to use to run our code. 
-
 #### Exploring the {dataedu} package
-
 There are some basic functions in the {dataedu} package that are helpful to know. 
-
 **Installing the packages used throughout this book**
 Type and run `dataedu::install_dataedu()` in your Console to install all of the packages used in this book.
 If you run into issues, you can follow the prompts that are printed out in the RStudio Console.
@@ -258,7 +239,7 @@ You can file an issue on GitHub, or email us at authors@datascienceineducation.c
 
 **Accessing the datasets used in this book**
 
-All of the datasets are available within the {dataedu} package, as well as through downloadable `.csv` files stored in the `data` folder within [our GitHub repository](https://github.com/data-edu/dataedu).
+All of the datasets are available within the {dataedu} package, as well as through downloadable `.csv` files stored in the `data` folder within [our GitHub repository](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu).
 
 You can load any of the data files using the following code: `dataedu::dataset_name`. 
 We'll practice doing this in a later section of this chapter, but if you wanted to try it out now, the names of the available datasets are:
@@ -307,39 +288,27 @@ This works because the `data()` function is part of something called **base R** 
 R also comes with packages pre-installed, however as you saw in a previous section, we'll be asking you to install additional packages. 
 These additional packages extend the functionality of base R and its pre-installed packages by providing us with access to new functions. 
 This means that instead of writing a function to do a common data analysis task, such as creating a new variable out of existing variables, someone has written that function and made it available for you to use (almost always at no charge! Don't worry - all of the packages we'll be using in this text are considered **O**pen **S**ource **S**oftware, and you will not have to purchase anything to complete any of the exercises or walkthroughs in this text.)
-
 One of the functions that can accomplish the task of creating a new variable out of existing variables is called `mutate()`. 
 What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `Enter`?
-
 We've gotten one of our first error messages!
-
 !["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](./man/figures/mutate_error.png)
-
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
 Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
 What do you see?
-
 The Help documentation is a great first-stop when you've got a question about R. 
 The next section will provide you with additional skills for working with new and unfamiliar content!
-
 ## Steps for working through new and unfamiliar content
-
 Great educators have the ability to ask great questions. 
 Asking the right questions at the right time of the learners in your classroom can facilitate understanding, uncover misconceptions, and indicate whether or not learners have mastered the material.
-
 However when you’re learning on your own you have to simultaneously fill the roles of both learner and educator, and not only know both how and when to ask yourself questions, but also answer your questions, evaluate your answers, and redirect your learning path as you progress.
-
 This section is intended to give you a series of steps you can use as you encounter new and unfamiliar content both in reading this book as well as in your broader data science learning endeavors.
 For this section we'll use the example of encountering a function for the first time, but you can use these steps with any new piece of information that you encounter!
 We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task. 
-
 ### Activate prior knowledge
-You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor):
-
+You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor)("https:[]()//github.com/sfirke/janitor):
 ```{r eval = FALSE}
 library(tidyverse)
 library(janitor)
-
 roster <- roster_raw %>% 
     clean_names() %>% 
     remove_empty(c("rows", "cols")) %>% 
@@ -347,55 +316,38 @@ roster <- roster_raw %>%
            cert = coalesce(certification, certification_1)) %>% 
     select(-certification, -certification_1)
 ```
-
 _Note: you aren't expected to know what the chunk of code that you've just read does, nor are you expected to run it, but by the time you've finished this book you'll be able to run and understand everything in the code example!_
-
 Take a moment to think through the following questions:
-
 * What does the word "coalesce" mean?
 * Have you ever seen the `coalesce()` function before? If so, in what context?
-
 ### Look for context clues
-
 * Read a couple of lines of code both above and below where the `coalesce()` function appears - are there any clues as to what this function might do?
-
 ### Check the Help documentation
-
 * What information is available in the Help documentation?
 * Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
-
 ![Example from the `coalesce()` Help documentation](images/coalesce_help_doc.png)
-
 ### Find the limits
 Work through examples in the Help documentation (or examples that you've found online) and test the limits.
 Testing the limits is a way of understanding the code by seeing how it handles different situations.
 Ultimately what you're doing is recognizing a pattern, developing a hypothesis, and testing whether or not that hypothesis is true.
 Some methods for testing the limits include:
-
 * Substituting obviously larger (or smaller values)
 * Substituting different data types
 * What happens if you introduce `NA` values?
 * Is the order of values important?
-
 ### Test (and refine) your understanding
 Take a moment to think through whether or not you could explain what you've just learned to someone else.
 Imagine the questions that they might ask of you, and try to answer them.
 If you can't answer them, dig deeper into the documentation, online forums, or even in testing your own knowledge, until you feel like you can! 
-
 You won't necessarily have the time (or interest!) in doing this for each new or unfamiliar piece of content that you come across, but we hope that this provides you with a starting framework for furthering your understanding when you _do_ come across content that you want to explore a bit more in-depth! 
-
-
 ## Bringing It All Together: Getting Started Coding Walkthrough
-
 This section is going to take everything we've talked about so far and walkthrough some getting started code.
 This code does not represent a comprehensive data analysis, but does use some exploratory data analysis techniques.
 At this point we are assuming that you've installed the {dataedu} package and also run `dataedu::install_dataedu()` to install the associated packages.
 If you have _not_ installed the {dataedu} package and run `dataedu::install_dataedu()` yet, please do so before continuing. 
-
 ### Creating a Project and an `.R` Script, and Setting Up Our RStudio Environment
 If you haven't already, set up a Project in RStudio and create a new `.R` script. 
 Save your `.R` script as "chapter_06_walkthrough" or another similar name.
-
 Run the following code in the **RStudio Console**: 
 ```{r, eval = FALSE}
 # Installing the skimr package, not included in {dataedu}
@@ -425,9 +377,7 @@ These are packages and functions that exist in R that we have access to without 
 
 ```{block}
 If you would like to see what functions are available to you in base R, you can run `library(help = "base")` in the Console.
-
 If you would like to see the packages that came pre-installed with R, you can run `installed.packages()[ installed.packages()[,"Priority"] %in% "base", c("Package", "Priority")]` in the Console.
-
 Additionally, if you would like to see a list of _all_ of the packages that have been installed (both pre-installed with base R as well as those that you have installed), you can run `rownames(installed.packages())` in the Console.
 ```
 
@@ -456,7 +406,6 @@ _Note: we haven't covered what any of this code does yet, but see what you can l
 # using the filter() function from the stats package
 x <- 1:100
 stats::filter(x, rep(1, 3))
-
 # using the filter() function from the dplyr package
 starwars %>% 
     dplyr::filter(mass > 85)
@@ -468,11 +417,8 @@ In this section we're going to explore not only how to load a dataset from the {
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
 ```{r, eval = FALSE}
-
 dataedu::ma_data_init
-
 dataedu::ma_data_init -> ma_data
-
 ma_data_init <- dataedu::ma_data_init
 ```
 
@@ -501,14 +447,11 @@ _Note: we have intentionally included errors in this and subsequent code chunks 
 ```{r, eval = FALSE}
 # Exploring and manipulating your data
 names(ma_data_init)
-
 glimpse(ma_dat_init) 
 glimpse(ma_data_init)
 summary(ma_data_init)
-
 glimpse(ma_data_init$Town)
 summary(ma_data_init$Town)
-
 glimpse(ma_data_init$AP_Test Takers)
 glimpse(ma_data_init$`AP_Test Takers`)
 summary(ma_data_init$`AP_Test Takers`)
@@ -559,7 +502,6 @@ Take a few minutes to type out and run each of the following lines of code, one 
 ma_data_init %>% 
     group_by(District Name) %>%  
     count()
-
 ma_data_init %>% 
     group_by(`District Name`) %>% 
     count()  
@@ -568,7 +510,6 @@ ma_data_init %>%
     group_by(`District Name`) %>% 
     count() %>% 
     filter(n > 10)
-
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
@@ -587,7 +528,6 @@ The way that we would read the last chunk of code is:
 > **count** (the number of schools in a district) _and then_ 
 > **filter** for Districts with more than 10 schools _and then_ 
 > **arrange** the list of Districts and the number of schools in each District in descending order, based on the number of schools.
-
 That's a mouthful! 
 But there are a couple of consistent points to make regarding this paragraph.
 Every time we see the pipe, we say "and then." 
@@ -629,17 +569,14 @@ ma_data_init %>%
     count() %>%
     filter(n > 10) %>%
     arrange(desc(n))
-
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
     filter(n = 10) 
-
 ma_data_init %>%
     group_by(`District Name`) %>%
     count() %>%
     filter(n == 10) 
-
 ma_data_init %>% 
     rename(district_name = `District Name`,
            grade = Grade) %>% 
@@ -663,16 +600,12 @@ Take a few minutes to type out and run each of the following lines of code, one 
 ```{r, eval = FALSE}
 ma_data %>% 
     clean_names()
-
 01_ma_data <- ma_data_init %>%  
     clean_names()
-
 $_ma_data <- ma_data_init %>%  
     clean_names()
-
 ma_data_01 <- ma_data_init %>% 
     clean_names()
-
 MA_data_02 <- ma_data_init %>% 
     clean_names()
 ```
@@ -722,10 +655,8 @@ Also, of course, you could do what the next (two) lines of code do manually: Fee
 ```{r, eval = FALSE}
 student_responses_url <-
     "https://goo.gl/bUeMhV"
-
 student_responses_file_name <-
     paste0(getwd(), "/data/student-responses-data.csv")
-
 download.file(
     url = student_responses_url,
     destfile = student_responses_file_name)
@@ -787,10 +718,8 @@ You may have noticed the hash symbol after the code that says `library(tidyverse
 It reads `# so tidyverse packages can be used for analysis`. 
 That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). 
 Comments are useful for showing *why* a line of code does what it does. 
-
 After loading the tidyverse packages, we can now load a file. 
 We are going to call the data `student_responses`:
-
 ```{r, eval = TRUE}
 # readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
 student_responses <-
