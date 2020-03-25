@@ -14,13 +14,28 @@
 - subset
 - vector
 
-## Chapter Overview 
+## Chapter Overview
 
-### Background 
+Data scientists working in education don't always have access to student level
+data, so knowing how to model publicly available datasets, as in [the previous
+chapter](#c9), is a useful skill. This walkthrough builds upon and extends the
+focus on aggregate data in the last chapter to focus on change over time in
+students with disabilities in each state.
 
-Data scientists working in education don't always have access to student level data, so knowing how to model publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
+### Background
 
-You can download the datasets for this walkthrough on the United States Department of Education website (see @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. This walkthrough uses datasets of student with disabilities counts in each state.
+In this chapter, we'll be learning some ways to explore data over time. In
+addition, we'll be learning some additional techniques for exploring a publicly
+available dataset. Like most public datasets (see [the previous chapter](#c9)),
+this one contains aggregate data. This means that someone totaled up the student
+counts so it doesn't reveal any private information.
+
+You can download the datasets for this walkthrough on the United States
+Department of Education website (see @usdoe2019)^[The documentation for the
+dataset is available here:
+https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf],
+though they are also available in the {dataedu} package that accompanies this
+book.
 
 ### Methods 
 
