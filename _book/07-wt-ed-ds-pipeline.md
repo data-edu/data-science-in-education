@@ -799,10 +799,6 @@ dat <-
   left_join(dat)
 ```
 
-```
-#> Joining, by = c("student_id", "course_id")
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each
