@@ -72,7 +72,7 @@ We have chosen to use RStudio in this text in order to standardize the experienc
 
 ### RStudio layout 
 
-When we open RStudio for the first time, we see the following layout:
+When we open RStudio for the first time, we're should see something similar to this:
 
 <div class="figure" style="text-align: center">
 <img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="100%" />
@@ -236,12 +236,9 @@ Create a new `.R` script, or using the one you created earlier in this chapter, 
 ```r
 print("We're going to use R as a calculator.")
 print("First up, addition!")
-
 12 + 8
 632 + 41
-
 print("Next, subtraction!")
-
 48 - 6
 0.65 - 1.42
 ```
@@ -266,10 +263,8 @@ We can also write comments in-line with our code, like this:
 #' this will be a short code example.
 #' you are not expected to know what this does,
 #' nor do you need to try running it on your computer.
-
 library(readr)  # load the readr package
 library(here)  # load the here package
-
 data <- read_csv(here("file_path", "file_name.csv"))  # save file_name.csv as data
 ```
 
@@ -300,7 +295,6 @@ However, if you're feeling a bit adventurous, go ahead and give it a shot by run
 ```r
 # install devtools
 install.packages("devtools", repos = "http://cran.us.r-project.org")
-
 # install the dataedu package
 devtools::install_github("data-edu/dataedu")
 ```
