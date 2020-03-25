@@ -7,6 +7,7 @@ knitr::opts_chunk$set(
     cache = TRUE,
     out.width = "100%",
     fig.align = "center",
+    fig.path = "figures/",
     warning = FALSE,
     dpi = 300
     )

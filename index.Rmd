@@ -17,9 +17,25 @@ url: "datascienceineducation.com/"
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+# for packages
+
+knitr::write_bib(c("bookdown", "tidyverse", "dplyr", "tidyr", 
+                 "ggplot2", "sjPlot", "lme4", "ggraph", "tidygraph", 
+                 "caret", "readxl", "here", "lubridate", "dummies",
+                 "janitor", "dataedu", "tidyverse", 
+                 "statnet", "amen", "ergm", "rJava", "tabulizer", 
+                 dataedu:::dataedu_packages), "packages.bib")
+
+library(RefManageR)
+
+b <- ReadBib('book.bib')
+b_packages <- ReadBib('packages.bib')
+
+b <- sort(b)
+b_packages <- sort(b_packages)
+
+WriteBib(b, "book.bib")
+WriteBib(b_packages, "packages.bib")
 ```
 
 # Welcome {-}
@@ -42,13 +58,15 @@ We started talking about data science in education online because we wanted to b
 
 So give your chicken family a big hug, open up your laptop, and let’s start learning together. Turns out, there are a lot more hatchlings wanting to be eagles and chickens at the same time.
 
-<center>
-![alt text](./man/figures/Screen Shot 2020-02-06 at 6.10.02 AM.png)
-</center>
+```{r, fig.cap = "The Tweet That Started It All", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 0.1.png")
+```
 
 ## Acknowledgements {-}
 
-This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Jake Kaupp, Ludmila Janda, Kris Stevens, David Ranzolin, Gustavo Velásquez, and Bret Staudt Willet.
+This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Ludmila Janda, Jake Kaupp, Nathan Kenner, David Ranzolin, Kris Stevens,  Gustavo Velásquez, and Bret Staudt Willet.
+
+Thank you to the data scientists in education that took time share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
 
 ## Citation {-}
 

@@ -1,4 +1,3 @@
-
 # Introduction: Data Science in Education - You're Invited to the Party!
 
 Dear Data Scientists, Educators, and Data Scientists who are Educators: 

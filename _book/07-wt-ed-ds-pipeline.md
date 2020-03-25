@@ -1,4 +1,3 @@
-
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
 
@@ -74,7 +73,7 @@ provided by the school.
 
 ### Data Sources
 
-#### Data Source \#1: Self-Report Survey about Students' Motivation
+**Data Source \#1: Self-Report Survey about Students' Motivation**
 
 The first data source is a self-report survey. This was data collected before
 the start of the course via self-report survey. The survey included 10 items,
@@ -585,7 +584,7 @@ types of joins. They may be less important than `left_join()` but are still wort
 mentioning (note that for all of these, the "left" data frame is
 always the first argument, and the "right" data frame is always the second):
 
-#### `semi_join()`
+**`semi_join()`**
 
 `semi_join()`: joins and retains all of the *matching* rows in the "left" and "right" data frame; it is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. 
 `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame. 
@@ -621,7 +620,7 @@ dat_semi
 #> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
-#### `anti_join()`
+**`anti_join()`**
 
 `anti_join()`: *removes* all of the rows in the "left" data frame that can be
 joined with those in the "right" data frame.
@@ -654,7 +653,7 @@ dat_anti
 #> #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
 
-#### `right_join()`
+**`right_join()`**
 
 `right_join()`: perhaps the least helpful of the three, `right_join()` works the
 same as `left_join()`, but by retaining all of the rows in the "right" data
@@ -800,10 +799,6 @@ dat <-
   left_join(dat)
 ```
 
-```
-#> Joining, by = c("student_id", "course_id")
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each
@@ -923,7 +918,10 @@ ggplot(data = students, aes(x = school_id, y = mean_score)) +
   theme_dataedu()
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/ggplot example-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-26-1.png" alt="Example Plot" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-26)Example Plot</p>
+</div>
 
 The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing the graph using the bar chart format.  Each line of ggplot code is connected by a `+` at the end to tell R the next line of code is an additional ggplot layer to add. 
 
@@ -945,7 +943,10 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-27-1.png" alt="Percentage Earned vs. Time Spent" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-27)Percentage Earned vs. Time Spent</p>
+</div>
 
 There appears to be *some* relationship. What if we added a line of best fit - a linear model?
 
@@ -962,7 +963,10 @@ dat %>%
   ylab("Percentage Earned")
 ```
 
-<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="07-wt-ed-ds-pipeline_files/figure-html/unnamed-chunk-28-1.png" alt="Adding a Line of Best Fit" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-28)Adding a Line of Best Fit</p>
+</div>
 
 So, it appears that the more time students spent on the course, the more points
 they earned.
@@ -1033,7 +1037,7 @@ tab_model(m_linear)
 
 This will work well for R Markdown documents (or simply to interpret the model in
 R). If you want to save the model for use in a Word document, the
-[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
+[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
 package may be helpful. To do so, just pass the name of the regression model,
 like we did with `tab_model()`. Then, you can save the output to a Word
 document, simply by adding a `filename` argument:

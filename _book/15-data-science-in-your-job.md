@@ -1,7 +1,6 @@
-
 # Introducing Data Science Tools To Your Education Job {#c15}
 
-## Introduction 
+## Chapter Overview
 
 The purpose of this section is to explore what it is like to take newfound data science skills into your work place with the challenge of finding practical ways to use your skills, encouraging your coworkers to be better users of data, and develop analytic routines that are individualized to the needs of your organization. Whether you are helping an education institution as a consultant, an administrator leading teachers at a school, or a university department chair, there are things you can do to transform what you've learned in the abstract into more concrete learning objectives in the context of your education work place. We'll discuss this topic using two areas of focus: bringing your organization the gift of speed and scale, and the importance of connecting well with others. We'll close this chapter by discussing some of the ways that K-12 teachers in particular might engage a work culture that is bringing on data science as a problem-solving tool. 
 
@@ -11,7 +10,7 @@ The power of doing data analysis with a programming language like R comes from t
 
 ### Working With Data Faster
 
-Data analysts who have have an efficient analytic process understand their clients' questions and participate by rapidly cycling through analysis and discussion. They quickly accumulate skill and experience because their routines facilitate many cycles of data analysis. Roger Peng and Elizabeth Matsui discuss epicycles of analysis in their book [The Art of Data Science](https://bookdown.org/rdpeng/artofdatascience/epicycles-of-analysis.html). In their book [R for Data Science](https://r4ds.had.co.nz/explore-intro.html), Garrett Grolemund and Hadley Wickham demonstrate a routine for data exploration. When the problem space is not clearly defined, as is often the case with education data analysis questions, the path to get from the initial question to analysis itself is full of detours and distractions. Having a routine that points you to the next immediate analytic step gets the analyst started quickly, and many quick starts results in a lot of data analyzed.
+Data analysts who have have an efficient analytic process understand their clients' questions and participate by rapidly cycling through analysis and discussion. They quickly accumulate skill and experience because their routines facilitate many cycles of data analysis. Roger Peng and Elizabeth Matsui discuss epicycles of analysis in their book, *The Art of Data Science* [@peng2015]. In their book, *R for Data Science* @grolemund2018 demonstrate a routine for data exploration. When the problem space is not clearly defined, as is often the case with education data analysis questions, the path to get from the initial question to analysis itself is full of detours and distractions. Having a routine that points you to the next immediate analytic step gets the analyst started quickly, and many quick starts results in a lot of data analyzed.
 
 But speed gives us more than just an accelerated flow of experience or the thrill of rapidly getting to the bottom of a teacher's data inquiry. It fuels the creativity required to understand problems in education and the imaginative solutions required to address them. Analyzing data quickly keeps the analytic momentum going at the speed needed to indulge organic exploration of the problem. Imagine an education consultant working with a school district to help them measure the effect of a new intervention on how well their students are learning math. During this process the superintendent presents the idea of comparing quiz scores at the schools in the district. The speed at which the consultant offers answers is important for the purposes of keeping the analytic conversation going. 
 
@@ -25,7 +24,7 @@ Users of data science techniques in education have wonderful opportunities to co
 
 The trick here is to use statistics, programming, and knowledge about education to raise and answer the right questions quickly so the process feels like a conversation. When there's too much time between analytic questions and their answers, educators lose the momentum required to follow the logical and exploratory path towards understanding the needs of their students. 
 
-#### Example: Preparing quiz data to compute average scores
+**Example: Preparing quiz data to compute average scores**
 
 Let's take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
@@ -218,7 +217,7 @@ For example, imagine a teacher whose students have an average quiz score of 75 p
 
 This is where using R for data analysis enters the conversation. Working with data past a certain size, say 10,000 rows, is difficult because you have to interact with each row through the graphical user interface. Instead, you can work with larger datasets like using programming languages like R to issue complex instructions for acting on the data rather than using a mouse and keyboard to act on what you can see on the screen. 
 
-#### Example: Replacing Many Student Names With Numerical IDs
+**Example: Replacing Many Student Names With Numerical IDs**
 
 Say, for example, an elementary school administrator wants to replace each student name in a classroom dataset with a unique numerical ID. Doing this in a spreadsheet using good old fashioned data entry is fairly straightforward. Doing this for a whole school's worth of classrooms though, demands a different approach. Rather than hand enter a unique id into a spreadsheet, the administrator can write an R script that executes the following steps: 
 
@@ -280,7 +279,7 @@ Here are some reflection questions and exercise to use to inspire connection in 
 
 ### Create a Daily Practice Commitment That Answers Someone Else's Question
 
-In his book Feck Perfuction, designer @victore2019 writes "Success goes to those who keep moving, to those who can practice, make mistakes, fail, and still progress. It all adds up. Like exercise for muscles, the more you learn, the more you develop, and the stronger your skills become" (p. 31). Doing data science is a skill and like all skills, repetition and mistakes are their fuel for learning. But what happens if you are the first person to do data science in your education workplace? When you have no data science mentors, analytics routines, or examples of past practice, it can feel aimless to say the least. The antidote to that aimlessness is daily practice. 
+In his book *Feck Perfuction*, designer @victore2019 writes "Success goes to those who keep moving, to those who can practice, make mistakes, fail, and still progress. It all adds up. Like exercise for muscles, the more you learn, the more you develop, and the stronger your skills become" (p. 31). Doing data science is a skill and like all skills, repetition and mistakes are their fuel for learning. But what happens if you are the first person to do data science in your education workplace? When you have no data science mentors, analytics routines, or examples of past practice, it can feel aimless to say the least. The antidote to that aimlessness is daily practice. 
 
 Commit to writing code everyday. Even the the simplest three line scripts have a way of adding to your growing programming instincts. Train your ears to be radars for data projects that are usually done in a spreadsheet, then take them on and do them i R. Need the average amount of time a student with disabilities spends in speech and language sessions? Try it in R. Need to rename the columns in a student quiz dataset? Try it in R. The principal is hand assembling twelve classroom attendance sheets into one dataset? You get the picture. 
 
@@ -301,7 +300,7 @@ Networks for growing data science in education are not limited to the workplace.
 
 ## For K-12 Teachers 
 
-We've used almost all of this chapter to explore what to think about and what to do to help you bring your data science skills to your education workplace. So far the discussion has been from the data scientist's point of view, but what if you are one of the many who have an interest in analytics but very little interest in programming and statistics? Teachers in elementary and high schools are faced with a mind boggling amount of student data. A study by the @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57 percent of the teachers in the study said a lack of time was a barrier to using the data they have. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
+We've used almost all of this chapter to explore what to think about and what to do to help you bring your data science skills to your education workplace. So far the discussion has been from the data scientist's point of view, but what if you are one of the many who have an interest in analytics but very little interest in programming and statistics? Teachers in elementary and high schools are faced with a mind boggling amount of student data. A study by @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57 percent of the teachers in the study said a lack of time was a barrier to using the data they have. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
 
 Yet the majority of teachers aren't interested in learning a programming language and statistical methods as a way to get better at analytics, and both time and professional development with respect to working with data are necessary [@datnow2015]. After all, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and evaluating statistical model output. But to leave them out feels like a glaring omission in a field where perhaps the most important shared value is the effective teaching of students. 
 

@@ -14,15 +14,13 @@
 
 ## Chapter Overview
 
-This chapter builds upon the previous chapter on [text analysis](#c11) of #tidytuesday data.
+This chapter builds upon [Walkthrough 5/Chapter 11]](#c11) of #tidytuesday data. Whereas the previous chapter was focused on using text analysis to understand the *content* of tweets, this chapter focuses on the *interactions* between #tidytuesday participants. Thus, this chapter explores the use of social network analysis techniques. We note that this chapter, like the previous chapter, includes a technical appendix: This chapter's technical appendix is focused on two social network processes, selection and influence, that are not the focus of this chapter, but are feasible to investigate using R, and so are, we think, worth introducing as a topic for further reading and study.
 
 ### Background
 
-In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in the professional learning network [@trust2016].
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as professional learning networks [@trust2016]. 
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as learning through informal communities.
-
-In this chapter, we explore the same #tidytuesday dataset explored in [the last chapter on text analysis](#c11). Here, we focus on a) accessing data on #tidytuesday from Twitter and b) trying to understand the nature of the interactions that take place through #tidytuesday. We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning that a data science toolkit allows an analyst to try to understand (through new data sources), we also chose this because it is straightforward to access data from Twitter, and we think you may find other opportunities to analyze data from Twitter in other cases.
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in a social media-based network. Thus, while the kinds of interactions that take place through #tidytuesday do represent a new context for individuals to communicate and share, it is the kind of network that is becoming increasingly common in education, and, so, being able to use a data science approach to understand the nature of the activity that takes places through #tidytuesday is a potentially valuable capability.
 
 ### Packages, Data Sources and Import, and Methods
 
@@ -99,7 +97,7 @@ In this edgelist, the sender could indicate, for example, someone who nominates 
 
 Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
 
-- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
+- `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
 - `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)).
  
 ```{r}
@@ -161,7 +159,8 @@ interactions_sent
 618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
 
 ```{r}
-interactions_sent <- interactions_sent %>% 
+interactions_sent <- 
+  interactions_sent %>% 
   filter(n > 1)
 ```
 
@@ -190,7 +189,7 @@ We can see that the network now consists of 267 individuals - the 267 who sent m
 
 Next, we'll use the `ggraph()` function:
 
-```{r}
+```{r, fig.cap="Network Graph"}
 g %>%
   # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
   ggraph(layout = "kk") +
@@ -208,7 +207,7 @@ Finally, let's size the points based on a measure of centrality, typically a mea
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
 ```
 
-```{r}
+```{r, fig.cap="Network Graph with Centrality"}
 g %>% 
   # this calculates the centrality of each individual using the built-in centrality_authority() function
   mutate(centrality = centrality_authority()) %>% 
@@ -301,7 +300,7 @@ data <-
   left_join(data, tempdata, by = "nominee")
 ```
 
-#### Calculating an Exposure Term
+**Calculating an Exposure Term**
 
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
@@ -336,7 +335,7 @@ final_data <-
   left_join(final_data, data3, by = "nominator") 
 ```
 
-#### Regression (Linear Model)
+**Regression (Linear Model)**
 
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 
@@ -366,6 +365,4 @@ m_selection <-
 
 While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
 
-One type of model extends the logistic regression. It can be used for data that is not only 1's and 0's but also data that is normally distributed . It is the amen package available [here](https://cran.r-project.org/web/packages/amen/index.html).
-
-A particularly common one is an Exponential Random Graph Model, or an ERGM. An R package that makes estimating these easy is available [here](https://cran.r-project.org/web/packages/ergm/index.html). That R package, {ergm}, is part of a powerful and often-used collection of packages, including those for working with network data (data that can begin with an edgelist, but may need additional processing that is challenging to do with edgelist data), {statnet}. A link to the statnet packages is [here](https://statnet.org/).
+One type of selection model extends the logistic regression. The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed. Another extension is an Exponential Random Graph Model, or ERGM. The {ergm} R package makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet]. These packages collectively begin to illustrate the richness of the packages available within R for using social network analysis models and methods; moreover, as developments in social network analysis methods continue to be made, cutting-edge techniques are likely to continue to be available (through R packages) to those using R for these types of analyses. 

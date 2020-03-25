@@ -1,21 +1,18 @@
-
 # Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data {#c10}
 
 
 
 ## Vocabulary 
 
- - read in
- - aggregate data 
- - vector 
- - list
- - tidy format
- - subset
- - `select_at`
- - `mutate`
- - statistical model 
- - aggregate data
- - student-level data
+- aggregate data
+- file path
+- list
+- read in
+- tidy format
+- statistical model 
+- student-level data
+- subset
+- vector
 
 ## Chapter Overview 
 
@@ -31,7 +28,7 @@ In this walkthrough, we'll learn how to read multiple datasets in using the `map
 
 ## Load Packages 
 
-For this walkthrough, we'll be using four packages: {tidyverse}, {here}, {dataedu}, and {lubridate}. You can load those packages by running this code: 
+For this walkthrough, we'll be using four packages: {tidyverse}, {here}, {dataedu}, and {lubridate} [@R-lubridate]; of these, {lubridate} is the sole package we have not used previously. You can load those packages by running this code: 
 
 
 ```r
@@ -49,19 +46,19 @@ In this analysis we'll be importing and combining six datasets that describe the
 
 In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
 
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
+ - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
+ - [2013 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
+ - [2014 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
+ - [2015 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
+ - [2016 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
  
- - [https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
+ - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
 
-You can also find these files on the United States Department of Education website: [https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+You can also find these files on the [United States Department of Education website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html) (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
 ### A Note on File Paths
 
@@ -177,15 +174,6 @@ filenames <-
 filenames
 ```
 
-```
-#> [1] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv"   
-#> [2] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2013.csv"   
-#> [3] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2014.csv"   
-#> [4] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2015.csv"   
-#> [5] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2016.csv"   
-#> [6] "/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2017-18.csv"
-```
-
 That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called `filenames`, to our widget-making machine called `map()` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
 
 
@@ -251,7 +239,7 @@ all_files %>%
 #> [1] 50
 ```
 
-Congratulations on finding an extremely common problem in education data! You've discovered that niehter the number of columns nor the column names match. This is a problem because we won't be able to combine the datasets into one. When we try, `bind_rows()` returns a dataet with 100 columns instead of the expected 50. 
+Congratulations on finding an extremely common problem in education data! You've discovered that neither the number of columns nor the column names match. This is a problem because we won't be able to combine the datasets into one. When we try, `bind_rows()` returns a dataset with 100 columns instead of the expected 50. 
 
 
 ```r
@@ -270,7 +258,7 @@ We'll correct this in the next section by selecting and renaming our variables, 
 
 ## Process Data 
 
-Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the {ggplot2} package, work best when datsets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
+Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the {ggplot2} package, work best when datasets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
 
 Let's preview the steps we'll be taking: 
 
@@ -524,7 +512,7 @@ child_counts %>%
 #> 16 <NA>                                                                       31
 ```
 
-Since we will be visualizing and modeling gender variables for all students in the dataset, we'll filter out all subgoups except "All Disabilities" and the age totals: 
+Since we will be visualizing and modeling gender variables for all students in the dataset, we'll filter out all subgroups except "All Disabilities" and the age totals: 
 
 
 ```r
@@ -703,7 +691,7 @@ child_counts <-
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
 
-In our foundational skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
+In our Foundational Skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
 
 
 ```r
@@ -819,13 +807,16 @@ high_count %>%
   filter(gender == "f", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of female students in special education over time",
+  labs(title = "Count of Female Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total female students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-1-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-1)Count of Female Students in Special Education Over Time</p>
+</div>
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
 
@@ -841,13 +832,16 @@ high_count %>%
   filter(gender == "m", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Count of male students in special education over time",
+  labs(title = "Count of Male Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total male students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-2-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-2)Count of Male Students in Special Education Over Time</p>
+</div>
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
 
@@ -858,13 +852,16 @@ high_count %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = year, y = n, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
-  labs(title = "Total count of students in special education over time",
+  labs(title = "Total Count of Students in Special Education Over Time",
        subtitle = "Ages 3-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/total students over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-3-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-3)Total Count of Students in Special Education Over Time</p>
+</div>
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
 
@@ -875,12 +872,15 @@ high_count %>%
   summarize(n = sum(total)) %>%
   ggplot(aes(x = state, y = n)) +
   geom_boxplot(fill = dataedu_colors("yellow")) +
-  labs(title = "Median students with disabilities count",
+  labs(title = "Median Students with Disabilities Count",
        subtitle = "All ages and genders, 2012-2017") +
   theme_dataedu() 
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/median total per state-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-4-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-4)Median Students with Disabilities Count</p>
+</div>
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
 
@@ -889,7 +889,7 @@ What have we learned about our data so far? The five states in the US with the h
 But how can we start comparing the male student count to the female student count? One way is to use a ratio: 
 
 >In mathematics, a ratio is a relationship between two numbers indicating how many times the first number contains the second.
->Wikpedia
+>Wikipedia
 
 We can use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and year. Our coding strategy will be to 
 
@@ -911,29 +911,32 @@ high_count %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
   geom_freqpoly(stat = "identity", size = 1) +
   scale_y_continuous(limits = c(1.5, 2.5)) +
-  labs(title = "Male student to female student ratio over time",
+  labs(title = "Male Student to Female Student Ratio Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/male to female ratio over time-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-5-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-5)Male Student to Female Student Ratio Over Time</p>
+</div>
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
 
 ### Model the Dataset 
 
-When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visuzliation: A Practical Introduction*, @healy2019 teaches us that 
+When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visualization: A Practical Introduction*, @healy2019 teaches us that 
 
 >Visualizations encode numbers in lines, shapes, and colors. That means that our interpretation of these encodings is partly conditional on how we perceive geometric shapes and relationships generally.
 
-What are some ways we can combat these errors of perception and at the same time draw substantive conclusions about our education dataset? When you spot a possible relationship between variables, the relationship between female and male counts for example, you'll want to quantify that relationship by fitting a statisitcal model. Practically speaking, this means you are selecting a distribution that represents your dataset reasonably well. This distribution will help you quantify and predict relationships between variables. This is an important step in the analytic process, because it acts as a check on what you saw in your exploratory visualizations. 
+What are some ways we can combat these errors of perception and at the same time draw substantive conclusions about our education dataset? When you spot a possible relationship between variables, the relationship between female and male counts for example, you'll want to quantify that relationship by fitting a statistical model. Practically speaking, this means you are selecting a distribution that represents your dataset reasonably well. This distribution will help you quantify and predict relationships between variables. This is an important step in the analytic process, because it acts as a check on what you saw in your exploratory visualizations. 
 
 In this example, we'll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we'll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.
 
 *Do we have enough information for our model?*
 
-At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere bewteen the values of 250,000 and 1,750,000: 
+At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere between the values of 250,000 and 1,750,000: 
 
 
 ```r
@@ -945,7 +948,7 @@ child_counts %>%
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   geom_smooth() +
   labs(
-    title = "Comparison of female students to male students in special education",
+    title = "Comparison of Female Students to Male Students in Special Education",
     subtitle = "Counts of students in each state, ages 6-21",
     x = "Female students",
     y = "Male students",
@@ -954,7 +957,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/plot female students to male students-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-6-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-6)Comparison of Female Students to Male Students in Special Education</p>
+</div>
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
 
@@ -995,7 +1001,7 @@ child_counts %>%
   ggplot(aes(x = f, y = m)) +
   geom_point(size = 3, alpha = .5, color = dataedu_colors("green")) +
   labs(
-    title = "Comparison of female students to male students with disabilities",
+    title = "Comparison of Female Students to Male Students with Disabilities",
     subtitle = "Counts of students in each state, ages 6-21.\nDoes not include outlying areas and freely associated states",
     x = "Female students",
     y = "Male students",
@@ -1004,7 +1010,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/plot without outliers-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-7-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-7)Comparison of Female Students to Male Students with Disabilities</p>
+</div>
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
@@ -1054,11 +1063,14 @@ Let's visualize the ratio values across all years as an additional check. Note t
 ```r
 ggplot(data = model_data, aes(x = year, y = ratio)) +
   geom_jitter(alpha = .5, color = dataedu_colors("green")) +
-  labs(title = "Male to female ratio across years (jittered)") +
+  labs(title = "Male to Female Ratio Across Years (Jittered)") +
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/ratios across years-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-8-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-8)Male to Female Ratio Across Years (Jittered)</p>
+</div>
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
 
@@ -1104,7 +1116,7 @@ summary(ratio_year)
 
 Here's how we can interpret the `Estimate` column: The estimate of the `(Intercept)` is 2.03356, which is the estimated value of the `ratio` variable when the `year` variable is "2012". Note that the value `year2012` isn't present in the in the list of rownames. That's because the `(Intercept)` row represents `year2012`. In linear regression models that use factor variables as predictors, the first level of the factor is the intercept. Sometimes this level is called a "dummy variable". The remaining rows of the model output show how much each year differs from the intercept, 2012. For example, `year2013` has an estimate of -0.01205, which suggests that on average the value of `ratio` is .01205 less than 2.03356. On average, the ratio of `year2014` is .02372 less than 2.03356. The `t value` column tells us the size of difference between the estimated value of the ratio for each year and the estimated value of the ratio of the intercept. Generally speaking, the larger the t value, the larger the chance that any difference between the coefficient of a factor level and the intercept are significant. 
 
-Though the relationship between `year` as a preditor of `ratio` is not linear (recall our previous plot), the linear regression model still gives us useful information. We fit a linear regression model to a factor variable, like `year`, as a predictor of a continuous variable, like`ratio`. In doing so, we got the average `ratio` at every value of `year`. We can verify this by taking the mean `ratio` of ever `year`: 
+Though the relationship between `year` as a predictor of `ratio` is not linear (recall our previous plot), the linear regression model still gives us useful information. We fit a linear regression model to a factor variable, like `year`, as a predictor of a continuous variable, like`ratio`. In doing so, we got the average `ratio` at every value of `year`. We can verify this by taking the mean `ratio` of ever `year`: 
 
 
 ```r
@@ -1125,7 +1137,7 @@ model_data %>%
 #> 6 2017        1.98
 ```
 
-This verifies that our intercept, the value of `ratio` during the year 2012, is 2.033563 and the value of `ratio` for 2013 is .01205 less than that of 2012 on average. Fitting the model gives us more details about these mean ratio scores-- namely the coefficient, t value, and p value. These values help us apply judgement when deciding if differences in `ratio` values suggest an underlying difference between years or simply differences you can expect from randomness. In this case, the absence of "*" in all rows except the Intercept row suggest that any differences occuring between years are within the range you'd expect by chance.
+This verifies that our intercept, the value of `ratio` during the year 2012, is 2.033563 and the value of `ratio` for 2013 is .01205 less than that of 2012 on average. Fitting the model gives us more details about these mean ratio scores-- namely the coefficient, t value, and p value. These values help us apply judgement when deciding if differences in `ratio` values suggest an underlying difference between years or simply differences you can expect from randomness. In this case, the absence of "*" in all rows except the Intercept row suggest that any differences occurring between years are within the range you'd expect by chance.
 
 If we use `summary()` on our `model_data` dataset, we can verify the intercept again: 
 
@@ -1148,7 +1160,7 @@ model_data %>%
 
 The mean value of the `ratio` column when the `year` column is 2012 is 2.034, just like in the model output's intercept row.
 
-Lastly, we may want to communicate to a larger audience that there were roughly twice amount of male students in this datset than female students and that this did not change significantly between the years 2012 and 2017. When you are not communicating to an audience of other data scientists, it's helpful to illustrate your point without the technical details of the model output. Think of yourself as an interpreter: since you can speak the language of model outputs and the language of data visualization, your challenge is to take what you learned from the model output and tell that story in a way that is meaningful to your non-data scientist audience. 
+Lastly, we may want to communicate to a larger audience that there were roughly twice amount of male students in this dataset than female students and that this did not change significantly between the years 2012 and 2017. When you are not communicating to an audience of other data scientists, it's helpful to illustrate your point without the technical details of the model output. Think of yourself as an interpreter: since you can speak the language of model outputs and the language of data visualization, your challenge is to take what you learned from the model output and tell that story in a way that is meaningful to your non-data scientist audience. 
 
 There are many ways to do this, but we'll choose boxplots to show our audience that there was roughly twice as many male students in special education than female students between 2012 and 2017. For our purposes, let's verify this by looking at the median male to female ratio for each year: 
 
@@ -1183,7 +1195,7 @@ model_data %>%
   geom_boxplot() +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Median male and female student counts in special education",
+    title = "Median Male and Female Student Counts in Special Education",
     subtitle = "Ages 6-21. Does not include outlying areas and freely associated states",
     x = "",
     y = "",
@@ -1193,7 +1205,10 @@ model_data %>%
   theme_dataedu()
 ```
 
-<img src="10-wt-longitudinal-analysis_files/figure-html/visualize female to male ratio-1.png" width="100%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/unnamed-chunk-9-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-9)Median Male and Female Student Counts in Special Education</p>
+</div>
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
@@ -1211,63 +1226,6 @@ Education data science is about using data science tools to learn about and impr
 
 Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
 
-Before we discuss the benefits of aggregate data, let's take some time to understand the differences between aggregate and student-level data. Publicly available data--like the US Federal Government special education student count we used in this walkthrough--is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept. 
-
-Here are rows in a student-level dataset:
-
-
-```r
-# student-level data 
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-)
-```
-
-```
-#> # A tibble: 10 x 3
-#>    student school test_score
-#>    <chr>   <chr>       <int>
-#>  1 a       k              44
-#>  2 b       l              28
-#>  3 c       m              96
-#>  4 d       n              64
-#>  5 e       o              84
-#>  6 f       k              56
-#>  7 g       l              24
-#>  8 h       m               7
-#>  9 i       n              17
-#> 10 j       o               8
-```
-
-Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
-
-
-```r
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-) %>%
-  # Aggregate by school
-  group_by(school) %>%
-  summarize(mean_score = mean(test_score))
-```
-
-```
-#> # A tibble: 5 x 2
-#>   school mean_score
-#>   <chr>       <dbl>
-#> 1 k            80.5
-#> 2 l            49  
-#> 3 m            68  
-#> 4 n            34  
-#> 5 o            45.5
-```
-
-Notice here that this dataset no longer identifies individual students. 
-
 *Student-level data for analysis of local populations. Aggregate data for base rate and context.*
 
 Longitudinal analysis is typically done with student-level data because educators are interested in what happens to students over time. So if you cannot access student-level data, how do we use aggregate data to offer value to the analytic conversation?
@@ -1276,7 +1234,7 @@ Aggregate data is valuable because it allows us to learn from populations that a
 
 In the book *Thinking Fast and Slow*, @kahneman2011 discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to only focus on conclusions we can draw from immediately available information. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
 
-For example, consider an analysis of student-level data in a school district over time. Student-level data allows us to ask questions about our local population: One such question is: Are the rates of special education identification for male students different from other gender identitites *in our district*? This style of question looks *inward* at your own educational system. 
+For example, consider an analysis of student-level data in a school district over time. Student-level data allows us to ask questions about our local population: One such question is: Are the rates of special education identification for male students different from other gender identities *in our district*? This style of question looks *inward* at your own educational system. 
 
 Taking a cue from Daniel Kahneman, we should also ask what this pattern looks like in other states or in the country. Aggregate data allows us to ask questions about a larger population: One such question is Are the rates of special education identification for male students different from other gender identities *in the United States*? This style of question looks for answers *outside* your own educational system. The combination of the two lines of inquiry are powerful way to generate new knowledge about the student experience. 
 
