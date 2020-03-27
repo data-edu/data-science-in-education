@@ -555,7 +555,7 @@ dat <-
 This last step calculated a new column for the percentage of points each student earned. Since we grouped our data by both `student_id` and `course_id`, we calculated the percentage for each of those unique combinations. If a student was enrolled in two courses, she will have a different percentage for each of those two courses. However, since there are many gradebook items, our data in its current form has many rows representing EACH course. Therefore, the new variable `percentage_earned` will be the same across all rows for the same student, by course. An easy way we can visually inspect to make sure every row is the same for the same student, by course is to use the `View()` function. Try it below.
 
 ```{r}
-View(dat)
+glimpse(dat)
 ```
 
 Visually inspecting the first several rows of data, we see that they all correspond to the same student for the same course. As we expected, the `percentage_earned` variable is also consistent across these rows. Since we are not carrying out a finer-grained analysis using the `Gradebook_Item`, these duplicate rows are not necessary. We only want variables
@@ -620,7 +620,8 @@ students <-
   )
 
 # tell R which dataset to plot and which columns the x-axis and y-axis will represent
-ggplot(data = students, aes(x = school_id, y = mean_score)) + 
+students %>% 
+  ggplot(aes(x = school_id, y = mean_score)) + 
   # draw the plot
   geom_bar(stat = "identity",
            fill = dataedu_colors("darkblue")) +
