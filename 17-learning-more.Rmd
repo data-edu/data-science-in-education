@@ -43,19 +43,19 @@ In our Resources chapter, we share books and online resources that inspire us an
 
 So far, we've discussed learning activities you can do on your own. Data science is a team sport, so at eventually your learning will lead you to others in the data science community. You can do this in many ways, both virtual and in real life. Here are a few examples you can try online. Try these and learn about what you're comfortable with. Then build on that to surround yourself with many ways to ask and answer questions. 
 
-### Discussion forums 
+### Discussion Forums 
 
 Visiting discussion forums is a common way to learn and participate in the R community. Websites like R Studio Community (https://community.rstudio.com/) and Stack Overflow (https://stackoverflow.com/) are very popular ways to do this. On these forums you'll find many years worth of discussion about R and statistics. It's quite unusual to search these and not find a way to get unstuck. Many discussions include a reproducible example of code that you can copy and paste into your own R console. This is a fantastic way to learn!
 
 Consider learning best practices for asking forum questions. Including a reproducible example, or "reprex", to communiate problems is a widely-accepted norm. @bryan2019's video about making reproducible examples is a great place to learn more.
 
-### GitHub repositories
+### GitHub Repositories
 
 When you want to learn more about how a package works or engage a package's online community, consider visiting the its GitHub repository. {dplyr}'s repository (https://github.com/tidyverse/dplyr) is a great example. You can start with the README then dive deeper in the vignettes, which contain demonstrations of the package's functions. You can even browse the code on GitHub to learn more about how the packages work. Don't worry, you won't break anything! 
 
 When you're ready to see how the community engages a package's authors, you can read through the Issues page. Each respository's Issues page contains questions, feature requests, and bugs submitted by the programming community. Visit this page when you want to see if someone's already submitted the coding challenge you're working through. If you find you're working on something that's *not* a known problem, you can contribute by adding an issue. And finally, you can contribute to the development of packages by submitting code to the respository--this process is called a pull request. To learn more about contributing to packages, check out @woo18 talk.
 
-## Share what you've learned
+## Share What You've Learned
 
 If you keep asking questions and finding solutions, you will soon find yourself ready to help others who are just getting started. The adage of learning by teaching applies here--answering someone else's question also helps you deepen your learning and build empathy for new learners.
 
@@ -69,7 +69,7 @@ What you share doesn't have to be perfect. You can decide when you're ready to s
 
 Laslty, you can select your best work from all your sharing and use it as an online work portfolio.
 
-### Where to share 
+### Where to Share 
 
 There are many ways to share your work online. For rapid fire conversational sharing, Twitter. Be sure to use the hashtag #rstats to reach more data scientists. For long form sharing, consider posting to a data science blog. @robinson18's blog post *Advice to aspiring data scientists: start a blog* is wonderful inspiration for getting started. 
 
@@ -82,7 +82,7 @@ When you do share a blog post or a tweet, broadcast what you have to say! On Twi
 
 Finally, share the love by engaging your fellow data scientists! Retweet others, leave comments, and interact with the vibrant data science and R communities online.
 
-## Welcome others
+## Welcome Others
 
 If you find yourself becoming an envangelist for R and data science in education--that's what happened to us!--welcome folks who are curious and ready to learn. The strength of any community comes from its inclusiveness, safe learning environment, and capacity to welcome new members. The data science community is no exception--many members work hard to create an environment with active participants, engaging conversations, and celebrations for little and big data science wins. Our call to action is this: continue growing this inclusive and positive environment by being the community member you'd want in your own network.
 
