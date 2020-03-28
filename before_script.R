@@ -5,5 +5,5 @@ options(digits = 3)
 knitr::opts_chunk$set(
     warning = FALSE,
     fig.align = "center",
-    dpi = 300 # must have {png} installed
-    )
+    dpi = 300, # must have {png} installed
+    fig.width = 5)
