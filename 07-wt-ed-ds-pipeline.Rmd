@@ -731,25 +731,23 @@ It looks like we have `r nrow(dat)` observations from 22 variables.
 
 ### Finding Distinct Cases at the Student-Level
 
-This last step calculated a new column for the percentage of points each student
-earned. Since we grouped our data by both `student_id` and `course_id`, we
-calculated the percentage for each of those unique combinations. If a student
-was enrolled in two courses, she will have a different percentage for each of
-those two courses. However, since there are many gradebook items, our data in
-its current form has many rows representing EACH course. Therefore, the new
-variable `percentage_earned` will be the same across all rows for the same
-student, by course. An easy way we can visually inspect to make sure every row
-is the same for the same student, by course is to use the `View()` function. Try
-it below.
+If a student was enrolled in two courses, she will have a different final grade for each of
+those two courses. However,  our data in
+its current form has many rows representing *each course. An easy way we can visually inspect to make sure every row
+is the same for the same student, by course is to use the `glimpse()` function. 
+Try it below.
 
 ```{r}
 glimpse(dat)
 ```
 
+You can also use `View(dat)` in order to view the data in RStudio's viewer.
+
 Visually inspecting the first several rows of data, we see that they all
 correspond to the same student for the same course. As we expected, the
-`percentage_earned` variable is also consistent across these rows. Since we are
-not carrying out a finer-grained analysis using the `Gradebook_Item`, these
+`FinalGradeCEMs` variable (representing students' final grade) is also consistent across these rows. 
+
+Since we are not carrying out a finer-grained analysis using the `Gradebook_Item`, these
 duplicate rows are not necessary. We only want variables at the student level,
 and not at the level of different gradebook items. We can extract only the
 unique student-level data using the `distinct()` function. This function takes
@@ -768,14 +766,14 @@ TRUE`. For the sake of making it simple to view the output, we will omit this
 argument for now.
 
 Were we to run `distinct(dat, Gradebook_Item)`, what do you think would be
-returned?
-
+returned? Running the following code returns a one-column dataframe that lists the names of
+every distinct gradebook item.
+ 
 ``` {r}
 distinct(dat, Gradebook_Item)
 ```
 
-Running the code above retruns a one-column dataframe that lists the names of
-every distinct gradebook item. You might be wondering whether some gradebook
+You might be wondering whether some gradebook
 items have the same names across courses. We can return the unique *combination*
 of courses and gradebook items by simply adding another variable to
 `distinct()`:
@@ -795,7 +793,7 @@ level. Thus, instead of exploring unique gradebook items, we will explore unique
 students (still accounting for the course, as students could enroll in more than
 one course.) This time, we will add the `keep_all = TRUE` argument.
 
-``` {r}
+```{r}
 dat <-
   distinct(dat, course_id, student_id, .keep_all = TRUE)
 ```
@@ -807,6 +805,15 @@ students' grades for specific gradebook items. Our new dataset keeps only the
 unique combinations of student and course, leaving us with a more manageable
 number of observations: `r nrow(dat)`. Now that our data are ready to go, we can
 start to ask some questions of the data.
+
+Let's take one last step. Since we will be using the final grade variable in 
+many of the figures and analyses that follow, let's rename it using the {dplyr} 
+`rename()` function to something that is a bit easier to type and remember than
+`FinalGradeCEMS`:
+
+```{r}
+dat <- rename(dat, final_grade = FinalGradeCEMS)
+```
 
 ## Analysis
 
@@ -860,7 +867,7 @@ the graph using the bar chart format. Each line of ggplot code is connected by a
 `+` at the end to tell R the next line of code is an additional ggplot layer to
 add.
 
-### The Relationship between Time Spent on Course and Percentage of Points Earned
+### The Relationship between Time Spent on Course and Final Grade
 
 One thing we might be wondering is how time spent on course is related to
 students' final grade. Let's make a plot to depict that relationship. Below,
@@ -870,12 +877,12 @@ we'll use `geom_point` instead of `geom_bar`.
 dat %>%
   # aes() tells ggplot2 what variables to map to what feature of a plot
   # Here we map variables to the x- and y-axis
-  ggplot(aes(x = TimeSpent, y = percentage_earned)) + 
+  ggplot(aes(x = TimeSpent, y = final_grade)) + 
   # Creates a point with x- and y-axis coordinates specified above
   geom_point(color = dataedu_colors("green")) + 
   theme_dataedu() +
   xlab("Time Spent") +
-  ylab("Percentage Earned")
+  ylab("Final Grade")
 ```
 
 There appears to be *some* relationship. What if we added a line of best fit - a
@@ -884,18 +891,26 @@ addition of another layer called `geom_smooth`.
 
 ``` {r, message = FALSE, warning = FALSE, results = 'hide'}
 dat %>%
-  ggplot(aes(x = TimeSpent, y = percentage_earned)) +
+  ggplot(aes(x = TimeSpent, y = final_grade)) +
     geom_point(color = dataedu_colors("green")) + # same as above
   # this adds a line of best fit
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
   theme_dataedu() +
   xlab("Time Spent") +
-  ylab("Percentage Earned")
+  ylab("Final Grade")
 ```
 
 Looking at this plot, it appears that the more time students spent on the
-course, the more points they earned.
+course, the higher that there final grade is. 
+
+What is the line doing in the upper right part of the graph? Based upon the trend
+that is observable in the data, the line of best fit predicts that students who spend 
+a particular amount of time on the course *earn greater than 100* for their final grade!
+Of course, this is not possible, and highlights the importance of understanding your 
+data and carefully interpreting lines of best fit (and other, more sophisticated analyses)
+carefully, keeping that understanding and knowledge in mind as you present and make sense 
+of the results.
 
 ### Linear Model (Regression)
 
@@ -904,9 +919,8 @@ using a linear model. We discuss linear models in more detail in
 [Chapter 10](#c10).
 
 Let's use this technique to model the relationship between the time spent on the
-course and the percentage of points earned. Here, we predict
-`percentage_earned`, or the percentage of the total points that are possible for
-a student to earn. Percentage earned is the dependent, or *y*-variable, and so
+course and students' final grade. Here, we predict
+`final_grade`. Students' final, reported grade is the dependent, or *y*-variable, and so
 we enter it first, after the `lm()` command and before the tilde (`~`) symbol.
 To the right of the tilde is one independent variable, `TimeSpent`, or the time
 that students spent on the course. We also pass, or provide, the data frame,
@@ -916,7 +930,7 @@ We will then run the `summary()` function on the output.
 
 ``` {r}
 m_linear <-
-  lm(percentage_earned ~ TimeSpent, data = dat)
+  lm(final_grade ~ TimeSpent, data = dat)
 
 summary(m_linear)
 ```
@@ -1021,7 +1035,7 @@ dat <-
 
 # the same linear model as above, but with the TimeSpent variable in hours
 m_linear_1 <- 
-  lm(percentage_earned ~ TimeSpent_hours, data = dat)
+  lm(final_grade ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
 tab_model(m_linear_1)
@@ -1038,7 +1052,7 @@ dat <-
 
 # the same linear model as above, but with the TimeSpent variable standardized
 m_linear_2 <- 
-  lm(percentage_earned ~ TimeSpent_std, data = dat)
+  lm(final_grade ~ TimeSpent_std, data = dat)
 
 # viewing the output of the linear model
 tab_model(m_linear_2)
@@ -1046,8 +1060,8 @@ tab_model(m_linear_2)
 
 When we look at this output, it seems to make more sense. However, there is a
 different interpretation now for the time spent variable: for every one standard
-deviation increase in the amount of time spent on the course, the percentage of
-points a student earns increases by .11, or 11 percentage points.
+deviation increase in the amount of time spent on the course, students' final
+grades increases by XXX, or 11 percentage points.
 
 ## Results
 
@@ -1060,7 +1074,7 @@ variable easily, as follows:
 # a linear model with the subject added 
 # independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:
 m_linear_3 <- 
-  lm(percentage_earned ~ TimeSpent_std + subject, data = dat)
+  lm(final_grade ~ TimeSpent_std + subject, data = dat)
 ```
 
 We can use `tab_model()` once again to view the results:
@@ -1070,8 +1084,7 @@ tab_model(m_linear_3)
 ```
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
-oceanography - are associated with a higher percentage of points earned,
-overall. This indicates that students in those two classes earned higher grades
+oceanography - are associated with a higher final grade. This indicates that students in those two classes earned higher grades
 than students in other science classes in this dataset.
 
 ## Conclusion
