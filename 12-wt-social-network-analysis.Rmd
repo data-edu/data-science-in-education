@@ -14,17 +14,19 @@
 
 ## Chapter Overview
 
-This chapter builds upon [Walkthrough 5/Chapter 11]](#c11) of #tidytuesday data. Whereas the previous chapter was focused on using text analysis to understand the *content* of tweets, this chapter focuses on the *interactions* between #tidytuesday participants. Thus, this chapter explores the use of social network analysis techniques. We note that this chapter, like the previous chapter, includes a technical appendix: This chapter's technical appendix is focused on two social network processes, selection and influence, that are not the focus of this chapter, but are feasible to investigate using R, and so are, we think, worth introducing as a topic for further reading and study.
+This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we're including a technical appendix to introduce some ideas for further exploration. This chapter's technical appendix introduces two social network processes, selection and influence. 
 
 ### Background
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may be interested in who is interacting with the content you share. If you are a researcher, you may wish to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data can also be interesting because it provides new contexts for learning to take place, such as professional learning networks [@trust2016]. 
+There are a few reasons to be interested in social media. For example, if you work in a school district, you may want to know who is interacting with the content you share. If you are a researcher, you may want to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data also provides new contexts for learning to take place, like in professional learning networks [@trust2016]. 
 
-In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would likely turn to a trusted peer in their building or district [@spillane2012]. In the present, though, they are as likely to turn to someone in a social media-based network. Thus, while the kinds of interactions that take place through #tidytuesday do represent a new context for individuals to communicate and share, it is the kind of network that is becoming increasingly common in education, and, so, being able to use a data science approach to understand the nature of the activity that takes places through #tidytuesday is a potentially valuable capability.
+In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would turn to a trusted peer in their building or district [@spillane2012]. Today they are as likely to turn to someone in a social media network. Social media interactions like the ones tagged with the #tidytuesday hashtag are increasingly common in education. Using data science tools to learn from these interactions is valuable for improving the student experience. 
 
 ### Packages, Data Sources and Import, and Methods
 
-In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet}, it is easy to access data from Twitter as long as one has a Twitter account. We will load the {tidyverse} and {rtweet} packages to get started. Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph, @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames].
+In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet} and a Twitter account, it is easy to access data from Twitter. We will load the {tidyverse} and {rtweet} packages to get started. 
+
+We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph, @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames].
 
 ```{r, message = F, warning = F}
 library(tidyverse)
@@ -35,12 +37,14 @@ library(tidygraph)
 library(ggraph)
 ```
 
+Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
+
 ```{r, eval = FALSE}
 rstats_tweets <- 
   search_tweets("#rstats")
 ```
 
-As described in [the previous chapter](#c11), the search term can be easily changed to other hashtags - or other terms. To search for #tidytuesday tweets, we can simply replace #rstats with #tidytuesday. 
+As described in [the previous chapter](#c11), you can easily change the search term to other hashtags terms. For example, to search for #tidytuesday tweets, we can replace #rstats with #tidytuesday: 
 
 ```{r, eval = FALSE}
 tidytuesday_tweets <- 
