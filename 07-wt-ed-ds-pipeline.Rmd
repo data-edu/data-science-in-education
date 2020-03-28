@@ -729,43 +729,6 @@ dat
 
 It looks like we have `r nrow(dat)` observations from 22 variables.
 
-There is one last step to take. If we were interested in a fine-grained analysis
-of how students performed on different teacher-graded assignments (see the
-`Gradebook_Item` column), we would keep all rows of the data. But, our goal is
-more modest: to calculate the percentage of points students earned as a measure
-of their final grade. Though we have chosen this target for analysis, we
-acknowledge that the teacher may have assigned a different final grade than the
-total points would indicate. It's also possible the teacher could have weighted
-their grades in ways not reflected through the points. Even so, we'll calculate
-this variable below to illustrate one educational outcome we might be interested
-in examining.
-
-In the code chunk below, we carry out a number of steps all at once. We group
-our merged dataframe by `student_id` and `course_id`. We transform the existing
-variable `Points_Earned` into integer format. Then, we create two new variables
-that sum the number of total points possible and total points earned,
-respectively: `total_points_possible` and `total_points_earned`. We create a new
-variable using `mutate()` that takes those two new variables and calculates a
-percentage from them, and we call the resulting variable `percentage_earned`. We
-ungroup the data so that we are not sectioning it out by student and course
-anymore. Finally, we re-join the data back with the original dataframe to retain
-all the newly created variables and all the previously existing variables.
-
-``` {r}
-dat <-
-  dat %>%
-  group_by(student_id, course_id) %>%
-  mutate(Points_Earned = as.integer(Points_Earned)) %>%
-  summarize(
-    total_points_possible = sum(Points_Possible, na.rm = TRUE),
-    total_points_earned = sum(Points_Earned, na.rm = TRUE)
-  ) %>%
-  mutate(percentage_earned = total_points_earned / total_points_possible) %>%
-  ungroup() %>%
-  # note that we join this back to the original data frame to retain all of the variables
-  left_join(dat)
-```
-
 ### Finding Distinct Cases at the Student-Level
 
 This last step calculated a new column for the percentage of points each student
