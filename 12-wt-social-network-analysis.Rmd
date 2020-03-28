@@ -61,9 +61,9 @@ nrow(tt_tweets)
 
 ## Process Data
 
-Network data, in general, and network data from Twitter, particularly, requires some processing before it can be used in subsequent analyses. In particular, we are going to create an edgelist, a data structure that is especially helpful for understanding the nature of relationships. 
+Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist". An edgelist is a dataset where each row is a unique interaction between two parties. 
 
-An edgelist looks like the following, where the sender denotes who is initiating the interaction or relationship, and the receiver is who is the recipient of it:
+An edgelist looks like the following, where the `sender` column identifies who is initiating the interaction and the `receiver` column identifies who is receiving the interaction:
 
 ```{r, include = FALSE}
 names_d1 <-
@@ -95,7 +95,7 @@ example_edgelist <-
 example_edgelist
 ```
 
-In this edgelist, the sender could indicate, for example, someone who nominates someone else (the receiver) as someone they go to for help. The sender could also indicate someone who interacted with the receiver, such as by recognizing one of their tweets with a favorite (or a mention). In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
+In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
 
 ### Extracting Mentions
 
