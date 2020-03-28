@@ -18,7 +18,7 @@ In this chapter, we provide references and links to additional resources related
 - Cheat sheets
 - Learning communities
 
-## Data science courses
+## Data Science Courses
 
 Anderson, D. J. (2019). University of Oregon Data Science Specialization for the College of Education. https://github.com/uo-datasci-specialization
 
@@ -32,7 +32,7 @@ R Studio. (2019). Data Science in a Box. https://datasciencebox.org/hello/
 
 > A complete course, including a curriculum and teaching materials, for data science. 
 
-## Workshop materials
+## Workshop Materials
 
 Staudt Willet, B., Greenhalgh, S., & Rosenberg, J. M. (2019, October). Workshop on using R at the Association for Educational Communications and Technology. https://github.com/bretsw/aect19-workshop
 
@@ -42,7 +42,7 @@ Anderson, D. J., and Rosenberg, J. M. (2019, April). Transparent and reproducibl
 
 > Slides and code for another workshop carried out at an educational research conference, focused on reproducible research and R Markdown.
 
-## Data visualization
+## Data Visualization
 
 Tufte, E. (2006). *Beautiful evidence*. Cheshire, CT: Graphics Press LLC.
 
@@ -60,7 +60,7 @@ Wilke, C. (2019). *Fundamentals of data visualization*. O'Reilly. https://serial
 
 > A fantastic (though more conceptual than practical, i.e., there is no R code or other software implementation ror creating the plots) introduction to data visualization.
 
-## Books related to data science in education
+## Books Related to Data Science in Education
 
 Geller, W., Cratty, D., & Knowles, J. (2020). *Education data done right: Lessons from the trenches of applied data science.* Leanpub. https://leanpub.com/eddatadoneright
 
@@ -86,7 +86,7 @@ Williamson, B. (2017). *Big data in education: The digital future of learning, p
 
 >
 
-## Articles related to data science in education
+## Articles Related to Data Science in Education
 
 Dutt, A., Ismail, M. A., & Herawan, T. (2017). A systematic review on educational data mining. *IEEE Access, 5*, 15991-16005.
 
@@ -204,7 +204,7 @@ McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in
 
 > A new classic, accessible introduction to Bayesian methods. We note that this book has been "translated" into tidyverse code by @kurz2019.
 
-## R packages and statistical software development
+## R packages and Statistical Software Development
 
 Peng, R. D. (2019). *Mastering software development in R*. Leanpub. https://leanpub.com/msdr
 
@@ -214,33 +214,33 @@ Wickham, H. (2015). *R packages: Organize, test, document, and share your code*.
 
 > A comprehensive introduction to (and walkthrough for) creating your own R packages. 
 
-## A career in data science
+## A Career in Data Science
 
 Robinson, E., & Nolis, J. (2020). *Building a career in data science*. Manning.  https://www.manning.com/books/build-a-career-in-data-science?a_aid=buildcareer&a_bid=76784b6a
 
 > 
 
-## Places to share your work
+## Places to Share Your Work
 
-Twitter: [twitter.com](twitter.com)
+Twitter: [twitter.com](twitter.com) 
 
 > Especially through the hashtags we mentioned below.
 
-LinkedIn: [linkedin.com](linkedin.com)
+LinkedIn: [linkedin.com](linkedin.com) 
 
 > Can be a place not only to share career updates, but also data science-related works-in-progress.
 
-Medium : [medium.com](medium.com)
+Medium: [medium.com](medium.com) 
 
 >
 
 ## Cheat Sheets
 
-R Studio Cheat Sheets. https://rstudio.com/resources/cheatsheets/
+[R Studio Cheat Sheets](https://rstudio.com/resources/cheatsheets/) (https[]()://rstudio.com/resources/cheatsheets/)
 
 > See especially the dplyr, tidyr, purrr, ggplot2, and other cheat sheets
 
-## Learning communities
+## Learning Communities
 
 Here some online communities and community resources we recommend: 
 
