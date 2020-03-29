@@ -1,4 +1,3 @@
-
 # Foundational Skills {#c06}
 
 ## Chapter Overview
@@ -29,7 +28,7 @@ This means that if you want to share your Project with a colleague they will not
 
 And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future (at least in terms of file path structures).
 
-#### Setting up your Project
+#### Setting Up your Project
 
 Creating a Project is one of the first steps in working on an R-based data science project in RStudio. 
 To create a Project you will need to first open RStudio.
@@ -143,7 +142,9 @@ However if you choose to do this, please make sure to comment out the line(s) of
 
 If you do not want to write code for installing packages, you can also navigate to the Packages pane, click "Install", and then search for and install one or more packages. 
 
-![Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes](./man/figures/packages_pane.png)
+```{r fig6-1, fig.cap = "Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.1.png")
+```
 
 **Loading a package**
 
@@ -194,15 +195,19 @@ Most of the packages we'll be working with in this book are available on CRAN, w
 The process of submitting a package and having it published through CRAN is beyond the scope of this book, but it's important to point out that you - yes, you! - can create a package that you use all for yourself, share with colleagues, or submit to CRAN. 
 Packages do not need to be submit to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub.  
 This is the case with the {dataedu} package we've created.
+
 #### Installing the {dataedu} package
+
 In Chapter 05 we provided the following code for installing the {dataedu} package.
 If you installed the {dataedu} package you can skip to the next section, otherwise go ahead and run the following code:
+
 ```{r, eval = FALSE}
 # install devtools
 install.packages("devtools", repos = "http://cran.us.r-project.org")
 # install the dataedu package
 devtools::install_github("data-edu/dataedu")
 ```
+
 Let's take this code apart a bit.
 The first function, `install.packages("devtools", repos = "http://cran.us.r-project.org")`, has two arguments, `"devtools"` and `repos = "http://cran.us.r-project.org"`.
 The first argument, `"devtools"`, is the name of the package that we want to install.
@@ -214,17 +219,23 @@ What we're doing here is telling R to go to the {devtools} package to find the `
 The `install_github()` function is telling R to go to a specific repository on GitHub to get the code for the {dataedu} package.
 You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to loading the {dataedu} package because the package is not available on CRAN.
+
 #### Loading the {dataedu} package
+
 Now that we've installed the {dataedu} package, we can load it using `library()`.
 You can create an `.R` script in your Project to load and explore the {dataedu} package.
 We'll load the {dataedu} package by running the following code in an `.R` script: 
+
 ```{r}
 # loading the dataedu package
 library(dataedu)
 ```
+
 When we work with packages, we _don't_ include the `install.packages()` function in an `.R` script, but we _do_ include any `library()` functions that we use.
 This ensures that we know what packages we need to load into our RStudio environment, and signals to anyone else using our code which packages they'll need to use to run our code. 
+
 #### Exploring the {dataedu} package
+
 There are some basic functions in the {dataedu} package that are helpful to know. 
 **Installing the packages used throughout this book**
 Type and run `dataedu::install_dataedu()` in your Console to install all of the packages used in this book.
@@ -292,21 +303,32 @@ This means that instead of writing a function to do a common data analysis task,
 One of the functions that can accomplish the task of creating a new variable out of existing variables is called `mutate()`. 
 What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `Enter`?
 We've gotten one of our first error messages!
-!["Error message when running ?mutate reads: No documentation for 'mutate' in specified packages and libraries: you could try '??mutate'"](./man/figures/mutate_error.png)
+
+```{r fig6-2, fig.cap = "Error message when running ?mutate", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.2.png")
+```
+
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
-Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`. 
+Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`.
+
 What do you see?
+
 The Help documentation is a great first-stop when you've got a question about R. 
 The next section will provide you with additional skills for working with new and unfamiliar content!
+
 ## Steps for working through new and unfamiliar content
+
 Great educators have the ability to ask great questions. 
 Asking the right questions at the right time of the learners in your classroom can facilitate understanding, uncover misconceptions, and indicate whether or not learners have mastered the material.
 However when you’re learning on your own you have to simultaneously fill the roles of both learner and educator, and not only know both how and when to ask yourself questions, but also answer your questions, evaluate your answers, and redirect your learning path as you progress.
 This section is intended to give you a series of steps you can use as you encounter new and unfamiliar content both in reading this book as well as in your broader data science learning endeavors.
 For this section we'll use the example of encountering a function for the first time, but you can use these steps with any new piece of information that you encounter!
-We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task. 
+We'll cover functions in greater depth in subsequent chapters, but for now all you need to know about a function is that it's a reusable piece of code that allows us to consistently repeat a programming task.
+
 ### Activate prior knowledge
+
 You've been reading through a tutorial and have come across the `coalesce()` function in the vignette for the [{janitor} function]("https://github.com/sfirke/janitor)("https:[]()//github.com/sfirke/janitor):
+
 ```{r eval = FALSE}
 library(tidyverse)
 library(janitor)
@@ -317,45 +339,68 @@ roster <- roster_raw %>%
            cert = coalesce(certification, certification_1)) %>% 
     select(-certification, -certification_1)
 ```
+
 _Note: you aren't expected to know what the chunk of code that you've just read does, nor are you expected to run it, but by the time you've finished this book you'll be able to run and understand everything in the code example!_
+
 Take a moment to think through the following questions:
+
 * What does the word "coalesce" mean?
 * Have you ever seen the `coalesce()` function before? If so, in what context?
+
 ### Look for context clues
+
 * Read a couple of lines of code both above and below where the `coalesce()` function appears - are there any clues as to what this function might do?
+
 ### Check the Help documentation
+
 * What information is available in the Help documentation?
 * Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
-![Example from the `coalesce()` Help documentation](images/coalesce_help_doc.png)
+
+```{r fig6-3, fig.cap = "Example from the `coalesce()` Help documentation", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.3.png")
+```
+
 ### Find the limits
+
 Work through examples in the Help documentation (or examples that you've found online) and test the limits.
+
 Testing the limits is a way of understanding the code by seeing how it handles different situations.
 Ultimately what you're doing is recognizing a pattern, developing a hypothesis, and testing whether or not that hypothesis is true.
+
 Some methods for testing the limits include:
+
 * Substituting obviously larger (or smaller values)
 * Substituting different data types
 * What happens if you introduce `NA` values?
 * Is the order of values important?
+
 ### Test (and refine) your understanding
+
 Take a moment to think through whether or not you could explain what you've just learned to someone else.
 Imagine the questions that they might ask of you, and try to answer them.
-If you can't answer them, dig deeper into the documentation, online forums, or even in testing your own knowledge, until you feel like you can! 
-You won't necessarily have the time (or interest!) in doing this for each new or unfamiliar piece of content that you come across, but we hope that this provides you with a starting framework for furthering your understanding when you _do_ come across content that you want to explore a bit more in-depth! 
+If you can't answer them, dig deeper into the documentation, online forums, or even in testing your own knowledge, until you feel like you can!
+
+You won't necessarily have the time (or interest!) in doing this for each new or unfamiliar piece of content that you come across, but we hope that this provides you with a starting framework for furthering your understanding when you _do_ come across content that you want to explore a bit more in-depth!
+
 ## Bringing It All Together: Getting Started Coding Walkthrough
-This section is going to take everything we've talked about so far and walkthrough some getting started code.
-This code does not represent a comprehensive data analysis, but does use some exploratory data analysis techniques.
-At this point we are assuming that you've installed the {dataedu} package and also run `dataedu::install_dataedu()` to install the associated packages.
-If you have _not_ installed the {dataedu} package and run `dataedu::install_dataedu()` yet, please do so before continuing. 
+
+This section is going to take everything we've talked about so far and walkthrough some getting started code. This code does not represent a comprehensive data analysis, but does use some exploratory data analysis techniques.
+
+At this point we are assuming that you've installed the {dataedu} package and also run `dataedu::install_dataedu()` to install the associated packages. If you have _not_ installed the {dataedu} package and run `dataedu::install_dataedu()` yet, please do so before continuing. 
+
 ### Creating a Project and an `.R` Script, and Setting Up Our RStudio Environment
+
 If you haven't already, set up a Project in RStudio and create a new `.R` script. 
 Save your `.R` script as "chapter_06_walkthrough" or another similar name.
-Run the following code in the **RStudio Console**: 
+Run the following code in the **RStudio Console**:
+
 ```{r, eval = FALSE}
 # Installing the skimr package, not included in {dataedu}
 install.packages("skimr")
 ```
 
 Now take a few minutes to type out and run each of the following lines of code in an **`.R` script**, one by one, and notice what you see happening in the **Console** after you run each line.  
+
 ```{r eval = FALSE, error = FALSE, message = FALSE}
 # Setting up your environment
 library(tidyverse)
@@ -370,10 +415,13 @@ library(skimr)
 
 In your Console you may have noticed the following message: 
 
-!["List of attached packages and associated conflicts when loading the Tidyverse"](man/figures/tv_conflicts.png) 
+```{r fig6-4, fig.cap = "List of attached packages and associated conflicts when loading the Tidyverse", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.4.png")
+```
 
 This isn't error, but rather some important information that we need to consider!
 When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R along with a handful of pre-installed packages. 
+
 These are packages and functions that exist in R that we have access to without needing to first load the package using `library()`. 
 
 ```{block}
@@ -383,6 +431,7 @@ Additionally, if you would like to see a list of _all_ of the packages that have
 ```
 
 However because of the broad array of packages that have been created for use in R, it's not uncommon for two (or more!) packages to have functions with the same name.
+
 What this message is telling us then is that if we use the `filter()` function, R will use the `filter()` function from the {dplyr} package (a package within the {tidyverse}) rather than the `filter()` function from within the {stats} package (one of the packages that accompanies base R). 
 
 Take a moment to use the Help documentation to explore how these two functions might differ. 
@@ -399,6 +448,7 @@ But this can be tricky for several reasons:
 
 Instead there's an easier way to handle this kind of problem, one that you've seen before.
 When we have conflicting function names from different packages we can tell R which package we'd like to pull a function from by using `::`.
+
 Using the example of the `filter()` function above, coupled with the examples in the Help documentation, we can specify which package to pull the `filter()` function using `::`, as outlined below: 
 
 _Note: we haven't covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation!_
@@ -413,6 +463,7 @@ starwars %>%
 ```
 
 ### Loading Data from {dataedu} into our R Environment
+
 In this section we're going to explore not only how to load a dataset from the {dataedu} package into our R Environment, but also how to assign that dataset to a variable so that we can use it in downstream analyses.
 
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
@@ -423,25 +474,26 @@ dataedu::ma_data_init -> ma_data
 ma_data_init <- dataedu::ma_data_init
 ```
 
-Each of the three code examples above look slightly different, but two of them do almost the exact same thing.
-The first example provided loads the data into our R environment, but not in a format that's immediately useful to us.
-The second and third examples read in the data and assign it to a variable,`ma_data` and `ma_data_init` respectively.
-In our Environment pane we can see that each of the data types has been brought into R, and even click on the table icon to get an interactive table
-(The data set is rather large, so RStudio may lag slightly as you open the table and manipulate it.)
+Each of the three code examples above look slightly different, but two of them do almost the exact same thing. The first example provided loads the data into our R environment, but not in a format that's immediately useful to us. The second and third examples read in the data and assign it to a variable,`ma_data` and `ma_data_init` respectively.
+
+In our Environment pane we can see that each of the data types has been brought into R, and even click on the table icon to get an interactive table (the data set is rather large, so RStudio may lag slightly as you open the table and manipulate it).
+
+```{r fig6-5, fig.cap = "Loading the `ma_data` Dataset", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.5.png")
+```
 
 #### The Assignment Operator
-The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable.
-When we save something to a variable, we do so using what's called an "assignment operator," which in R is either a left- or right-facing arrow (`<-` or `->`).
-Writing the name of your variable followed by a left-facing arrow is currently the most common convention used in R, but it is also perfectly acceptable to use the right-facing arrow.
-Intuitively the right-facing arrow may make more sense for those of us who work predemoninantly in languages that read left to right, as what we're essentially saying is "take this entire chunk of code and save it to this variable name." 
+
+The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable. When we save something to a variable, we do so using what's called an "assignment operator," which in R is either a left- or right-facing arrow (`<-` or `->`).
+
+Writing the name of your variable followed by a left-facing arrow is currently the most common convention used in R, but it is also perfectly acceptable to use the right-facing arrow. Intuitively the right-facing arrow may make more sense for those of us who work predemoninantly in languages that read left to right, as what we're essentially saying is "take this entire chunk of code and save it to this variable name." 
 Regardless of which option you choose, both are different means to the same end.
 
 ### Exploring Our Data and Common Errors
 
 This next chunk of code uses functions that help us explore our data, and also introduces us to some common errors in writing R code.
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
-If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
 
 _Note: we have intentionally included errors in this and subsequent code chunks to help highlight concepts as well as introduce you to error messages early on!_
 
@@ -464,41 +516,34 @@ What changes in the output to the Console with each line of code that you run?
 #### Common Errors: Typos, Spaces, and Parentheses
 
 There were two lines of code that resulted in errors, and both were due to one of the most common sources of error in programming - typos!
+
 The first was `glimpse(ma_dat_init)`. 
+
 This might be a tricky error to spot, because at first glance it might seem like nothing is wrong!
 However we've left off the "a" in "data," which has caused problems with R.
 
-Remember: R will do exactly as you tell it to do.
-This means if you want to run a function on a data set, R will only run the function on the data sets that are available in its environment.
-Looking at our Environment pane we can see that there is no data set called `ma_dat_init`, which is what R is trying to tell us with its error message of `Error in glimpse(ma_dat_init) : object 'ma_dat_init' not found`. 
+Remember: R will do exactly as you tell it to do. This means if you want to run a function on a data set, R will only run the function on the data sets that are available in its environment. Looking at our Environment pane we can see that there is no data set called `ma_dat_init`, which is what R is trying to tell us with its error message of `Error in glimpse(ma_dat_init) : object 'ma_dat_init' not found`. 
 
-The second error was with `glimpse(ma_data_init$AP_Test Takers)`.
-What do you think the error is here? 
+The second error was with `glimpse(ma_data_init$AP_Test Takers)`. What do you think the error is here? 
 
-R is unhappy with the space in the file name, and doesn't know how to read the code. 
-To get around this there are a couple of things we can do.
-First, we could make sure that data column names never have spaces in them.
-This is unlikely to be within our control, so a second option would be to use R to manipulate the column names after we import the data, but before we start doing any exploration. 
-Another method for dealing with it is to leave the column names as they are, but to use single backticks `` `` to surround the column header with spaces in it.
+R is unhappy with the space in the file name, and doesn't know how to read the code. To get around this there are a couple of things we can do. First, we could make sure that data column names never have spaces in them. This is unlikely to be within our control, so a second option would be to use R to manipulate the column names after we import the data, but before we start doing any exploration. Another method for dealing with it is to leave the column names as they are, but to use single backticks `` `` to surround the column header with spaces in it.
 
 _Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `' '` instead of the actual backticks `` ``!_
 
 #### The `$` Operator
 
-There are many ways to isolate and explore a single variable within your data set.
-In this set of examples we used the `$` symbol.
-The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
+There are many ways to isolate and explore a single variable within your data set. In this set of examples we used the `$` symbol. The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
 It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your data set, otherwise R will tell you that it can't find anything! 
 
 ### Exploring Our Data with the Pipe Operator
 
 This next code chunk is going to introduce a funny little operator known as the pipe (`%>%`).
-The pipe operator allows us to link together functions so that we can run our data through multiple sequential functions.
-The keyboard shortcut for typing the pipe operator is `Ctrl` + `Shift` + `M`.
+The pipe operator allows us to link together functions so that we can run our data through multiple sequential functions. The keyboard shortcut for typing the pipe operator is `Ctrl` + `Shift` + `M`.
 
 _Note: You can find additional keyboard shortcuts for RStudio by going to Help and then selecting Keyboard Shortcuts Help._
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
+
 ```{r, eval = FALSE}
 ma_data_init %>% 
     group_by(District Name) %>%  
@@ -519,8 +564,8 @@ ma_data_init %>%
 ```
 
 #### "Reading" Code
-When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis as to what the code is trying to accomplish.
-Doing this will help you not only understand code a bit better, but also help you spot errors more quickly when the code doesn't do what you thought it was going to do. 
+
+When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis as to what the code is trying to accomplish. Doing this will help you not only understand code a bit better, but also help you spot errors more quickly when the code doesn't do what you thought it was going to do. 
 
 The way that we would read the last chunk of code is:
 
@@ -529,14 +574,11 @@ The way that we would read the last chunk of code is:
 > **count** (the number of schools in a district) _and then_ 
 > **filter** for Districts with more than 10 schools _and then_ 
 > **arrange** the list of Districts and the number of schools in each District in descending order, based on the number of schools.
-That's a mouthful! 
-But there are a couple of consistent points to make regarding this paragraph.
-Every time we see the pipe, we say "and then." 
-This is because we're starting with our data set, `ma_data_init`, _and then_ doing one thing after another to it.
-Because we're using the pipe operator between each function, R knows that all of our functions are being applied to the `ma_data_init` data set.
-We do not need to call or refer to the `ma_data_init` data with each function on each line of code.
 
-When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions."
+That's a mouthful! But there are a couple of consistent points to make regarding this paragraph.
+Every time we see the pipe, we say "and then."  This is because we're starting with our data set, `ma_data_init`, _and then_ doing one thing after another to it.
+
+Because we're using the pipe operator between each function, R knows that all of our functions are being applied to the `ma_data_init` data set. We do not need to call or refer to the `ma_data_init` data with each function on each line of code. When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions."
 
 #### The Pipe Operator
 
@@ -546,24 +588,22 @@ We use the pipe operator throughout this text because we also heavily rely on us
 _Note: As you progress in your R learning journey you will likely find that you need to move well beyond the Tidyverse for accomplishing your analytical goals - and that's OK!_
 _We like the Tidyverse for teaching and learning because it relies on the same syntax across packages, so as you learn how to use functions within one package, you're learning the syntax for functions in other Tidyverse packages._  
 
-It's worth taking a few moments to talk about the pipe operator and its package.
-The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images.
-In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
+It's worth taking a few moments to talk about the pipe operator and its package. The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images. In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
 
-<center>
-![](./man/figures/pipe.png)
-</center>
+```{r fig6-6, fig.cap = "The Treachery of Images by Magritte", echo = FALSE}
+knitr::include_graphics("./man/figures/Figure 6.6.png")
+```
 
 At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
+
 In this case, the author of the {magrittr} package created a series of pipe operators, and then collected them in a package named after the artist Magritte.
 
 ### Exploring Assignment vs. Equality
-We've introduced several operators already, namely the assignment operator (`<-` or `->`) and the pipe operator (`%>%`). 
-We're now going to talk a bit more in-depth about `=` and `==`.
 
-Take a few minutes to read through the code before typing or running anything in R.
-Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code.
-Once you've done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+We've introduced several operators already, namely the assignment operator (`<-` or `->`) and the pipe operator (`%>%`). We're now going to talk a bit more in-depth about `=` and `==`.
+
+Take a few minutes to read through the code before typing or running anything in R. Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code. Once you've done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
+
 ```{r, eval = FALSE}
 ma_data_init %>%
     group_by(`District Name`) %>%
@@ -585,19 +625,17 @@ ma_data_init %>%
 ```
 
 #### The Difference Between `=` and `==` 
-We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing.
-When R encounters an equal sign (`=`) it is looking to create an object by assigning a value to a variable.
-So when we saw `filter(n = 10)`, R didn't understand why we were trying to filter something we were naming, and told us so with an error message.
 
-When we are looking to determine whether or not values are equal, we use a double equals sign (`==`), as we did in `filter(n == 10)`. 
-When R sees a double equals sign (`==`) it is evaluating whether or not the value on the left is equivalent to the value on the right. 
+We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing. When R encounters an equal sign (`=`) it is looking to create an object by assigning a value to a variable. So when we saw `filter(n = 10)`, R didn't understand why we were trying to filter something we were naming, and told us so with an error message.
+
+When we are looking to determine whether or not values are equal, we use a double equals sign (`==`), as we did in `filter(n == 10)`. When R sees a double equals sign (`==`) it is evaluating whether or not the value on the left is equivalent to the value on the right. 
 
 ### Basics of Variable Names
 
 Naming things is important! 
-The more you use R the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. 
-But there are some hard and fast rules that R has about naming things, and we'll cover them in this section. 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+
+The more you use R the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. But there are some hard and fast rules that R has about naming things, and we'll cover them in this section.  Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+
 ```{r, eval = FALSE}
 ma_data %>% 
     clean_names()
@@ -611,21 +649,18 @@ MA_data_02 <- ma_data_init %>%
     clean_names()
 ```
 
-As you saw in the above examples, R doesn't like it when you create a name that starts with a number or symbol.
-In addition, R is going to squawk when you give it a name with a space in it.
+As you saw in the above examples, R doesn't like it when you create a name that starts with a number or symbol. In addition, R is going to squawk when you give it a name with a space in it.
 As such, when we create variable names in R, they _must_ start with a letter, although it doesn't matter if the letter is capitalized or in lower case.
 
 ## Conclusion
 
 It would be impossible for us to cover _everything_ you can do with R in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. 
-In this chapter we've covered the concepts of Projects, functions, packages, and data, and also walked through foundational ideas, concepts, and skills related to doing data science in R.
-It is our hope that you feel well-prepared to tackle the subsequent walkthrough chapters, either in sequential order, or the order that appeals to you!
+
+In this chapter we've covered the concepts of Projects, functions, packages, and data, and also walked through foundational ideas, concepts, and skills related to doing data science in R. It is our hope that you feel well-prepared to tackle the subsequent walkthrough chapters, either in sequential order, or the order that appeals to you!
 
 ## Technical Appendix A
 
-This Appendix is provided to serve as a non-exhaustive resource for importing data of different file types into R.
-The bulk of the data that we use in this book is available through the {dataedu} package, although there are cases where you will be importing a `.csv` file or scraping data from the web. 
-
+This Appendix is provided to serve as a non-exhaustive resource for importing data of different file types into R. The bulk of the data that we use in this book is available through the {dataedu} package, although there are cases where you will be importing a `.csv` file or scraping data from the web. 
 
 ### Using Functions to Import Data
 
@@ -633,8 +668,7 @@ You might be thinking that an Excel file is the first type of data that we would
 
 The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
 Additionally, and as its name indicates, a `.csv` file is rows of a spreadsheet with the columns separated by commas, so you can also view it in a text editor, like TextEdit for Macintosh. 
-Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files. 
-However we would be remiss if we didn't point out that there is a package, {googlesheets4}, which can be used to read a Google Sheet directly into R.
+Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files.  However we would be remiss if we didn't point out that there is a package, {googlesheets4}, which can be used to read a Google Sheet directly into R.
 
 For these reasons, we start with - and emphasize - reading `.csv` files. 
 
@@ -715,20 +749,17 @@ Let's load the tidyverse library:
 library(tidyverse) # so tidyverse packages can be used for analysis
 ```
 
-You may have noticed the hash symbol after the code that says `library(tidyverse`)`. 
-It reads `# so tidyverse packages can be used for analysis`. 
-That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). 
-Comments are useful for showing *why* a line of code does what it does. 
-After loading the tidyverse packages, we can now load a file. 
-We are going to call the data `student_responses`:
+You may have noticed the hash symbol after the code that says `library(tidyverse`)`. It reads `# so tidyverse packages can be used for analysis`.  That is a comment and the code after it (but not before it) is not run (the code before it runs just like normal). 
+
+Comments are useful for showing *why* a line of code does what it does.  After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
+
 ```{r, eval = TRUE}
 # readr::write_csv(pisaUSA15::stu_quest, here::here("data", "pisaUSA15", "stu_quest.csv"))
 student_responses <-
     read_csv("./data/student-responses-data.csv")
 ```
 
-Since we loaded the data, we now want to look at it. 
-We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
+Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
 
 ```{r, eval = FALSE}
 glimpse(student_responses)
@@ -751,14 +782,9 @@ That will save a `.csv` file entitled `student-responses.csv` in the working dir
 
 In Technical Appendix A (at the end of this chapter), we show how to access directly data from a few other sources: Excel, SPSS (via `.SAV` files), and Google Sheets.
 
-
 ### Loading Excel Files
 
-You might be thinking that you can open the file in Excel and then save it as a `.csv`. 
-This is generally a good idea. 
-At the same time, sometimes you may need to directly read a file from Excel. 
-Note that, when possible, we recommend the use of `.csv` files. 
-They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
+You might be thinking that you can open the file in Excel and then save it as a `.csv`.  This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel. Note that, when possible, we recommend the use of `.csv` files. They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
 
 The package for loading Excel files, {readxl}, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. Note that the command to install {readxl} is grayed-out below: The `#` symbol before `install.packages("readxl")` indicates that this line should be treated as a comment and not actually run, like the lines of code that are not grayed-out. It is here just as a reminder that the package needs to be installed if it is not already.
 
