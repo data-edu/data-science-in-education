@@ -312,7 +312,7 @@ For the Race/Ethnicity table, we want the totals for each district school as we
 won't be looking at grade-level variation. When analyzing the PDF, we see the
 totals have "Total" in the School Name.
 
-We clean up this dataset by:
+In summary, we clean up this dataset by:
 
 1.  Removing unnecessary or blank columns using `select()`. Negative selections
     means those columns will be removed.
@@ -343,7 +343,7 @@ race_clean <-
 
 We will import the Free Reduced Price Lunch (FRPL) PDF's now.
 
-> FRPL stands for Free/Reduced Price Lunch, often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important in disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)
+FRPL stands for Free/Reduced Price Lunch, often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important in disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)
 
 ```{r, eval = FALSE}
 # if using tabulizer
@@ -379,7 +379,7 @@ frpl_df <-
   )
 ```
 
-To clean it up, we remove the rows that are blank. When looking at the PDF, we
+To clean it up further, we remove the rows that are blank. When looking at the PDF, we
 notice that there are aggregations inserted into the table that are not
 district-level. For example, they have included `ELM K_08`, presumably to
 aggregate FRPL numbers up to the K-8 level. Although this is useful data, we
@@ -421,7 +421,9 @@ joined_df <-
   mutate_at(2:17, as.numeric)
 ```
 
-> **Did you notice?** The total number of students from the Race/Ethnicity table does **not** match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people, who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, when students may have moved around in the meantime. We don't know but it does require us to make strategic decisions about which data we consider the 'truth' for our analysis.
+**Did you notice?** 
+
+The total number of students from the Race/Ethnicity table does **not** match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people, who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, when students may have moved around in the meantime. We don't know but it does require us to make strategic decisions about which data we consider the 'truth' for our analysis.
 
 Now we move on to the fun part of creating new columns based on the merged
 dataset.
@@ -527,10 +529,9 @@ tidy_df %>%
 ```
 
 When we look at these data, the district looks very diverse. Almost **40% of
-students are Black** and around **36% are White.**
+students are Black** and around **36% are White**.
 
-> Note: this matches the percentages provided in the original PDF's. This shows
-> our calculations above were accurate. Hooray!
+> Note: this matches the percentages provided in the original PDF's. This shows our calculations above were accurate. Hooray!
 
 In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 
@@ -545,7 +546,7 @@ tidy_df %>%
 of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
 (https[]()://nces.ed.gov/programs/digest/d17/tables/dt17\_204.10.asp?current=yes)
 
-> This also matches the PDF's. Great!
+This also matches the PDF's. Great!
 
 Now, we dig deeper to see if there is more to the story.
 
@@ -616,7 +617,7 @@ tidy_df %>%
 
 **8% of White students** attend high poverty schools, compared to **43% of Black
 students, 39% of Hispanic students, 28% of Asian students, and 45% of Native
-American students.** We can conclude these students are disproportionally
+American students**. We can infer that these students are disproportionally
 attending high poverty schools.
 
 ### Reveal Relationships
@@ -639,23 +640,24 @@ merged_df %>%
 
 Related to the result above, there is a strong negative correlation between FRPL
 percentage and the percentage of White students in a school. That is, high
-poverty schools have a lower percentage of White students and low poverty
+poverty schools appear to have a lower percentage of White students and low poverty
 schools have a higher percentage of White students.
 
 ## Results
 
 Because of the disaggregated data this district provides, we can go deeper than
 the average of demographics across the district and see what it looks like on
-the school level. These views display that (1) there exists a distribution of
-race/ethnicity within schools that are not representative of the district, (2)
-that students of color are overrepresented in high poverty schools, and (3)
-there is a negative relationship between the percentage of White students in a
-school and the percentage of students eligible for FRPL.
+the school level. These distinct but closely related views demonstrate that:
+
+1. There exists a distribution of
+race/ethnicity within schools that are not representative of the district
+1. students of color are overrepresented in high poverty schools
+1. there is a negative relationship between the percentage of White students in a
+school and the percentage of students eligible for FRPL
 
 ## Conclusion
 
-According to the Urban Institute, the disproportionate percentage of students of
-color attending high poverty schools "is a defining feature of almost all
+This analysis, like all analyses, does not occur in a vacuum.  According to the Urban Institute, the disproportionate percentage of students of color attending high poverty schools "is a defining feature of almost all
 Midwestern and northeastern metropolitan school systems" @urbanpov. Among other
 issues, "high poverty schools tend to lack the educational resources—like highly
 qualified and experienced teachers, low student-teacher ratios, college
@@ -670,4 +672,5 @@ students.
 
 As a data scientist in education, we can use these data to suggest interventions
 for what we can do to improve equity in the district. In addition, we can
-advocate for more datasets such as these, which allow us to dig deep.
+advocate for more datasets such as these, which allow us to dig deep. In the next chapter, we discuss
+aggregate data further, focusing on how we can use them to understand changes over time.
