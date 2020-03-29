@@ -8,6 +8,11 @@ If you have not yet installed R and/or RStudio, please go through the steps outl
 Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. 
 There are many excellent resources available which provide this kind of instruction, and we've listed them for you in Chapter 17.
 
+We will be covering the following topics in this chapter: 
+
+- Help documentation
+- Steps for working through new and unfamiliar content
+
 ## Foundational Skills Framework
 No two data science projects are the same, and rather than be overly prescriptive, we've erred on the side of creating a general framework for you to use as a home base as you work through this text. 
 The four basic concepts we will use to build our framework are:
@@ -28,7 +33,7 @@ This means that if you want to share your Project with a colleague they will not
 
 And even if the only person you ever collaborate with is a future version of yourself, using a Project for each of your analyses will mean that you can move the Project folder around on your computer, or even move it to a new computer, and remain confident that the analysis will run in the future (at least in terms of file path structures).
 
-#### Setting Up your Project
+*Setting Up your Project*
 
 Creating a Project is one of the first steps in working on an R-based data science project in RStudio. 
 To create a Project you will need to first open RStudio.
@@ -71,7 +76,7 @@ Many functions in R packages do not _require_ arguments, and will use a set of d
 There are not any hard and fast rules about when a function needs an argument (or series of arguments), however if you are having trouble running your code, first check for typos, then check the Help documentation to see if you can provide arguments to more clearly direct R as to what to do.
 We'll cover how to access and navigate the Help documentation later in this chapter.
 
-#### Writing Your Own Functions
+*Writing Your Own Functions*
 
 As you work in R more and more, you may find yourself copying and pasting the same lines of code and then making small modifications. 
 This is perfectly fine while you're learning, but eventually you're going to come across a large enough dataset where this approach is going to take a prohibitively large amount of time, not to mention increase the opportunities to accidentally introduce errors. 
@@ -118,9 +123,9 @@ Packages are shareable collections of R code that can contain functions, data, a
 Packages increase the functionality of R by providing access to additional functions to suit a variety of needs.
 While it is entirely possible to do all of your work in R without ever using a package, we do not recommend that approach due to the wealth of packages available, almost all of which help reduce both the learning curve associated with R as well as the amount of time spent on any given analytical project. 
 
-#### Installing and Loading a package
+*Installing and Loading a package*
 
-*Installing a package*
+**Installing a package**
 
 If you read Chapter 05, you might have noticed at the very end that we installed two packages, but didn't talk too much about what we were doing. 
 We'll get into more detail on installing and loading packages now, with a focus on the {dataedu} package!
@@ -173,14 +178,14 @@ We strongly advocate for the use of `library()`, as it forces R to load the pack
 `require()` on the other hand will not give an error if the package is not available or if there are issues with the package. 
 Using `library()` will help to eliminate sources of confusion later on.  
 
-#### How to Find a Package
+*How to Find a Package*
 
 As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or available on CRAN. 
 [CRAN TaskViews](https://cran.r-project.org/web/views/) (https[]()://cran.r-project.org/web/views/) is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
-#### Learning More About a Package
+*Learning More About a Package*
 
 Sometimes when you look up a package you're able to pull the function that you need and continue on your way.
 Other times you may need (or want!) to learn more about a specific package. 
@@ -196,7 +201,7 @@ The process of submitting a package and having it published through CRAN is beyo
 Packages do not need to be submit to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub.  
 This is the case with the {dataedu} package we've created.
 
-#### Installing the {dataedu} package
+*Installing the {dataedu} package*
 
 In Chapter 05 we provided the following code for installing the {dataedu} package.
 If you installed the {dataedu} package you can skip to the next section, otherwise go ahead and run the following code:
@@ -220,7 +225,7 @@ The `install_github()` function is telling R to go to a specific repository on G
 You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to loading the {dataedu} package because the package is not available on CRAN.
 
-#### Loading the {dataedu} package
+*Loading the {dataedu} package*
 
 Now that we've installed the {dataedu} package, we can load it using `library()`.
 You can create an `.R` script in your Project to load and explore the {dataedu} package.
@@ -234,7 +239,7 @@ library(dataedu)
 When we work with packages, we _don't_ include the `install.packages()` function in an `.R` script, but we _do_ include any `library()` functions that we use.
 This ensures that we know what packages we need to load into our RStudio environment, and signals to anyone else using our code which packages they'll need to use to run our code. 
 
-#### Exploring the {dataedu} package
+*Exploring the {dataedu} package*
 
 There are some basic functions in the {dataedu} package that are helpful to know. 
 **Installing the packages used throughout this book**
@@ -411,7 +416,7 @@ library(skimr)
 - What do you think running the above lines of code accomplished?
 - How do you know?
 
-#### Function Conflicts between Packages
+*Function Conflicts between Packages*
 
 In your Console you may have noticed the following message: 
 
@@ -482,7 +487,7 @@ In our Environment pane we can see that each of the data types has been brought 
 knitr::include_graphics("./man/figures/Figure 6.5.png")
 ```
 
-#### The Assignment Operator
+*The Assignment Operator*
 
 The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable. When we save something to a variable, we do so using what's called an "assignment operator," which in R is either a left- or right-facing arrow (`<-` or `->`).
 
@@ -513,7 +518,7 @@ summary(ma_data_init$`AP_Test Takers`)
 What differences do you see between each line of code?
 What changes in the output to the Console with each line of code that you run?
 
-#### Common Errors: Typos, Spaces, and Parentheses
+*Common Errors: Typos, Spaces, and Parentheses*
 
 There were two lines of code that resulted in errors, and both were due to one of the most common sources of error in programming - typos!
 
@@ -530,7 +535,7 @@ R is unhappy with the space in the file name, and doesn't know how to read the c
 
 _Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks `' '` instead of the actual backticks `` ``!_
 
-#### The `$` Operator
+*The `$` Operator*
 
 There are many ways to isolate and explore a single variable within your data set. In this set of examples we used the `$` symbol. The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`.
 It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your data set, otherwise R will tell you that it can't find anything! 
@@ -563,7 +568,7 @@ ma_data_init %>%
     arrange(desc(n)
 ```
 
-#### "Reading" Code
+*"Reading" Code*
 
 When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis as to what the code is trying to accomplish. Doing this will help you not only understand code a bit better, but also help you spot errors more quickly when the code doesn't do what you thought it was going to do. 
 
@@ -580,7 +585,7 @@ Every time we see the pipe, we say "and then."  This is because we're starting w
 
 Because we're using the pipe operator between each function, R knows that all of our functions are being applied to the `ma_data_init` data set. We do not need to call or refer to the `ma_data_init` data with each function on each line of code. When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions."
 
-#### The Pipe Operator
+*The Pipe Operator*
 
 The pipe operator `%>%` can sometimes throw R learners for a loop, until all of a sudden something clicks for them and they decide that they either love it or hate it.
 We use the pipe operator throughout this text because we also heavily rely on use of the {tidyverse}, which is a package of packages designed for most data science workflows. 
@@ -624,7 +629,7 @@ ma_data_init %>%
     select(district_name, grade)
 ```
 
-#### The Difference Between `=` and `==` 
+*The Difference Between `=` and `==`*
 
 We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing. When R encounters an equal sign (`=`) it is looking to create an object by assigning a value to a variable. So when we saw `filter(n = 10)`, R didn't understand why we were trying to filter something we were naming, and told us so with an error message.
 
