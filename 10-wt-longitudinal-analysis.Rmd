@@ -4,6 +4,8 @@
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
+
+
 ## Vocabulary 
 
 - aggregate data
@@ -13,6 +15,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 - tidy format
 - statistical model 
 - student-level data
+- ratio
 - subset
 - vector
 
@@ -39,13 +42,19 @@ https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-doc
 though they are also available in the {dataedu} package that accompanies this
 book.
 
-### Methods 
+### Methods
 
-In this walkthrough, we'll learn how to read multiple datasets in using the `map()` function. Next, we'll prepare our data for analysis by cleaning the variable names. Finally, we'll explore this dataset by visualizing student counts and comparing male to female ratios over time. 
+In this walkthrough, we'll learn how to read multiple datasets in using the
+`map()` function. Next, we'll prepare our data for analysis by cleaning the
+variable names. Finally, we'll explore this dataset by visualizing student
+counts and comparing male to female ratios over time.
 
-## Load Packages 
+## Load Packages
 
-For this walkthrough, we'll be using four packages: {tidyverse}, {here}, {dataedu}, and {lubridate} [@R-lubridate]; of these, {lubridate} is the sole package we have not used previously. You can load those packages by running this code: 
+For this walkthrough, we'll be using four packages: {tidyverse}, {here},
+{dataedu}, and {lubridate} [@R-lubridate]; of these, {lubridate} is the sole
+package we have not used previously. You can load those packages by running this
+code: 
 
 ```{r load packages, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -54,13 +63,24 @@ library(dataedu)
 library(lubridate)
 ```
 
-## Import Data 
+## Import Data
 
-In this analysis we'll be importing and combining six datasets that describe the number of students with disabilities in a given year. Let's spend some time carefully reviewing how to get the `.csv` files we'll need downloaded and stored on your computer. If you want to run the code exactly as written here, you'll need to store the same datasets in the right location. It's possible to use this walkthrough on different datasets or to store them in different locations on your computer, but you'll need to make adjustments to your code based on the datasets you used and where you stored them. We suggest only doing this if you already have some experience using R. 
+In this analysis we'll be importing and combining six datasets that describe the
+number of students with disabilities in a given year. Let's spend some time
+carefully reviewing how to get the `.csv` files we'll need downloaded and stored
+on your computer. If you want to run the code exactly as written here, you'll
+need to store the same datasets in the right location. It's possible to use this
+walkthrough on different datasets or to store them in different locations on
+your computer, but you'll need to make adjustments to your code based on the
+datasets you used and where you stored them. We suggest only doing this if you
+already have some experience using R.
 
 ### What to Download
 
-In this walkthrough, we'll be using six separate datasets of child counts, one for each year between 2012 and 2017. If you're copying and pasting the code in this walkthrough, we recommend downloading the datasets from our GitHub repository for the most reliable results. Here's a link to each file: 
+In this walkthrough, we'll be using six separate datasets of child counts, one
+for each year between 2012 and 2017. If you're copying and pasting the code in
+this walkthrough, we recommend downloading the datasets from our GitHub
+repository for the most reliable results. Here's a link to each file:
 
  - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
  
@@ -74,11 +94,19 @@ In this walkthrough, we'll be using six separate datasets of child counts, one f
  
  - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
 
-You can also find these files on the [United States Department of Education website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html) (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+You can also find these files on the [United States Department of Education
+website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+(https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
 ### A Note on File Paths
 
-When you download these files, be sure to store them in a folder in your working directory. To get to the data in this walkthrough, we'll be using this file path in our working directory: "data/longitudinal_data". We'll be using the {here} package, which convenieniently fills in all the folders in the file path of your working directory all the way up to the folders you specify in the arguments. So when referencing the file path "data/longitudinal_data", we'll use code like this: 
+When you download these files, be sure to store them in a folder in your working
+directory. To get to the data in this walkthrough, we'll be using this file path
+in our working directory: "data/longitudinal\_data". We'll be using the {here}
+package, which convenieniently fills in all the folders in the file path of your
+working directory all the way up to the folders you specify in the arguments. So
+when referencing the file path "data/longitudinal\_data", we'll use code like
+this:
 
 ```{r demo here, eval = FALSE}
 here::here("data",
@@ -86,13 +114,22 @@ here::here("data",
            "bchildcountandedenvironments2012.csv")
 ```
 
-You can use a different file path if you like, just take note of where your downloaded files are so you can use the correct file path when writing your code to import the data. 
+You can use a different file path if you like, just take note of where your
+downloaded files are so you can use the correct file path when writing your code
+to import the data.
 
-### Reading in One Dataset 
+### Reading in One Dataset
 
-We'll be learning how to read in more than one dataset using the `map()` function. Let's try it first with one dataset, then we'll scale our solution up to multiple datasets. When you are analyzing multiple datasets that all have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list. 
+We'll be learning how to read in more than one dataset using the `map()`
+function. Let's try it first with one dataset, then we'll scale our solution up
+to multiple datasets. When you are analyzing multiple datasets that all have the
+same structure, you can read in each dataset using one code chunk. This code
+chunk will store each dataset as an element of a list.
 
-Before doing that, you should explore one of the datasets to see what you can learn about its structure. Clues from this exploration inform how you read in all the datasets at once later on. For example, we can see that the first dataset has some lines at the top that contain no data: 
+Before doing that, you should explore one of the datasets to see what you can
+learn about its structure. Clues from this exploration inform how you read in
+all the datasets at once later on. For example, we can see that the first
+dataset has some lines at the top that contain no data:
 
 ```{r read 2012 data, echo = FALSE, message = F, warning = F}
 read_csv(here::here(
@@ -102,9 +139,17 @@ read_csv(here::here(
 ))
 ```
 
-The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't actually rows. They're notes the authors left at the top of the dataset to show when the dataset was changed. 
+The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't
+actually rows. They're notes the authors left at the top of the dataset to show
+when the dataset was changed.
 
-`read_csv()` uses the first row as the variable names unless told otherwise, so we need to tell `read_csv()` to skip those lines using the `skip` argument. If we don't, `read_csv()` assumes the very first line--the one that says "Extraction Date:"--is the correct row of variable names. That's why calling `read_csv()` without the `skip` argument results in column names like `X4`. When there's no obvious column name to read in, `read_csv()` names them `X[...]` and let's you know in a warning message. 
+`read_csv()` uses the first row as the variable names unless told otherwise, so
+we need to tell `read_csv()` to skip those lines using the `skip` argument. If
+we don't, `read_csv()` assumes the very first line--the one that says
+"Extraction Date:"--is the correct row of variable names. That's why calling
+`read_csv()` without the `skip` argument results in column names like `X4`. When
+there's no obvious column name to read in, `read_csv()` names them `X[...]` and
+let's you know in a warning message.
 
 Try using `skip = 4` in your call to `read_csv()`:
 
@@ -117,24 +162,39 @@ read_csv(here::here(
 skip = 4)
 ```
 
-The `skip` argument told `read_csv()` to make the line containing "Year", "State Name", and so on as the first line. The result is a dataset that has "Year", "State Name", and so on as variable names. 
+The `skip` argument told `read_csv()` to make the line containing "Year", "State
+Name", and so on as the first line. The result is a dataset that has "Year",
+"State Name", and so on as variable names.
 
-### Reading in Many Datasets 
+### Reading in Many Datasets
 
-Will the `read_csv()` and `skip = 4` combination work on all our datasets? To find out, we'll use this strategy: 
+Will the `read_csv()` and `skip = 4` combination work on all our datasets? To
+find out, we'll use this strategy:
 
- - Store a vector of filenames and paths in a list. These paths point to our datasets
- - Pass the list of filenames as arguments to `read_csv()` using `purrr::map()`, including `skip = 4`, in our `read_csv()` call
- - Examine the new list of datasets to see if the variable names are correct
+  - Store a vector of filenames and paths in a list. These paths point to our
+    datasets
+  - Pass the list of filenames as arguments to `read_csv()` using
+    `purrr::map()`, including `skip = 4`, in our `read_csv()` call
+  - Examine the new list of datasets to see if the variable names are correct
 
-Imagine a widget-making machine that works by acting on raw materials it receives on a conveyer belt. This machine executes one set of instructions on each of the raw materials it receives. You are the operator of the machine and you design instructions to get a widget out of the raw materials. Your plan might look something like this: 
+Imagine a widget-making machine that works by acting on raw materials it
+receives on a conveyer belt. This machine executes one set of instructions on
+each of the raw materials it receives. You are the operator of the machine and
+you design instructions to get a widget out of the raw materials. Your plan
+might look something like this:
 
- - *Raw materials*: a list of filenames and their paths 
- - *Widget-making machine*: `purrr:map()`
- - *Widget-making instructions*: `read_csv(path, skip = 4) 
- - *Expected widgets*: a list of datasets
+  - *Raw materials*: a list of filenames and their paths
+  - *Widget-making machine*: `purrr:map()`
+  - *Widget-making instructions*: \`read\_csv(path, skip = 4)
+  - *Expected widgets*: a list of datasets
 
-Let's create the raw materials first. Our raw materials will be file paths to each of the CSVs we want to read. Use `list.files` to make a vector of filename paths and name that vector `filenames`. `list.files` returns a vector of file names in the folder specified in the `path` argument. When we set the `full.names` argument to "TRUE", we get a full path of these filenames. This will be useful later when we need the file names and their paths to read our data in. 
+Let's create the raw materials first. Our raw materials will be file paths to
+each of the CSVs we want to read. Use `list.files` to make a vector of filename
+paths and name that vector `filenames`. `list.files` returns a vector of file
+names in the folder specified in the `path` argument. When we set the
+`full.names` argument to "TRUE", we get a full path of these filenames. This
+will be useful later when we need the file names and their paths to read our
+data in.
 
 ```{r get filenames, results='hide'}
 # Get filenames from the data folder 
@@ -146,7 +206,11 @@ filenames <-
 filenames
 ```
 
-That made a vector of six filenames, one for each year of child count data stored in the data folder. Now pass our raw materials, the vector called `filenames`, to our widget-making machine called `map()` and give the machine the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out `all_files`:
+That made a vector of six filenames, one for each year of child count data
+stored in the data folder. Now pass our raw materials, the vector called
+`filenames`, to our widget-making machine called `map()` and give the machine
+the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out
+`all_files`:
 
 ```{r read list of CSVs, , message=FALSE, warning=FALSE}
 # Pass filenames to map and read_csv
@@ -156,7 +220,10 @@ all_files <-
   map(., ~ read_csv(., skip = 4))
 ```
 
-It is important to think ahead here. The goal is to combine the datasets in `all_files` into one dataset using `bind_rows()`. But that will only work if all the datasets in our list have the same number of columns and the same column names. We can check our column names by using `map()` and `names()`: 
+It is important to think ahead here. The goal is to combine the datasets in
+`all_files` into one dataset using `bind_rows()`. But that will only work if all
+the datasets in our list have the same number of columns and the same column
+names. We can check our column names by using `map()` and `names()`:
 
 ```{r check column names, include=FALSE}
 all_files %>% 
@@ -164,7 +231,9 @@ all_files %>%
   map(names)
 ```
 
-We can use `identical()` to see if the variables from two datasets match. We see that the variable names of the first and second datasets don't match, but the variables from the second and third do. 
+We can use `identical()` to see if the variables from two datasets match. We see
+that the variable names of the first and second datasets don't match, but the
+variables from the second and third do. 
 
 ```{r check names with identical}
 # Variables of first and second dataset don't match
@@ -182,7 +251,11 @@ all_files %>%
   map(ncol)
 ```
 
-Congratulations on finding an extremely common problem in education data! You've discovered that neither the number of columns nor the column names match. This is a problem because we won't be able to combine the datasets into one. When we try, `bind_rows()` returns a dataset with 100 columns instead of the expected 50. 
+Congratulations on finding an extremely common problem in education data!
+You've discovered that neither the number of columns nor the column names match.
+This is a problem because we won't be able to combine the datasets into one.
+When we try, `bind_rows()` returns a dataset with 100 columns instead of the
+expected 50.
 
 ```{r combine datasets 1}
 # combining the datasets at this stage results in the incorrect 
@@ -192,51 +265,77 @@ bind_rows(all_files) %>%
   ncol()
 ```
 
-We'll correct this in the next section by selecting and renaming our variables, but it's good to notice this problem early in the process so you know to work on it later. 
+We'll correct this in the next section by selecting and renaming our variables,
+but it's good to notice this problem early in the process so you know to work on
+it later.
 
-## Process Data 
+## Process Data
 
-Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the {ggplot2} package, work best when datasets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need. Any unused variables can confuse your thought process.
+Transforming your dataset before visualizing it and fitting models is critical.
+It's easier to write code when variable names are concise and informative. Many
+functions in R, especially those in the {ggplot2} package, work best when
+datasets are in a "tidy" format. It's easier to do an analysis when you have
+just the variables you need. Any unused variables can confuse your thought
+process.
 
-Let's preview the steps we'll be taking: 
+Let's preview the steps we'll be taking:
 
-1. Fix the variable names in the 2016 data 
-2. Combine the datasets 
-3. Pick variables 
-4. Filter for the desired categories
-5. Rename the variables 
-6. Standardize the state names
-7. Transform the column formats from wide to long using `pivot_longer`
-8. Change the data types of variables 
-9. Explore NAs
+1.  Fix the variable names in the 2016 data
+2.  Combine the datasets
+3.  Pick variables
+4.  Filter for the desired categories
+5.  Rename the variables
+6.  Standardize the state names
+7.  Transform the column formats from wide to long using `pivot_longer`
+8.  Change the data types of variables
+9.  Explore NAs
 
-In real life, data scientists don't always know the cleaning steps until they dive into the work. Learning what cleaning steps are needed requires exploration, trial and error, and clarity on the analytic questions you want to answer. 
+In real life, data scientists don't always know the cleaning steps until they
+dive into the work. Learning what cleaning steps are needed requires
+exploration, trial and error, and clarity on the analytic questions you want to
+answer.
 
-After a lot of exploring, we settled on these steps for this analysis. When you do your own, you will find different things to transform. As you do more and more data analysis, your instincts for what to transform will improve. 
+After a lot of exploring, we settled on these steps for this analysis. When you
+do your own, you will find different things to transform. As you do more and
+more data analysis, your instincts for what to transform will improve.
 
 ### Fix the Variable Names in the 2016 Data
 
-When we print the 2016 dataset, we notice that the variable names are incorrect. Let's verify that by looking at the first ten variable names of the 2016 dataset, which is the fifth element of `all_files`: 
+When we print the 2016 dataset, we notice that the variable names are incorrect.
+Let's verify that by looking at the first ten variable names of the 2016
+dataset, which is the fifth element of `all_files`: 
 
 ```{r 2016 dataset}
 # Look at the first 10 column names of 2016
 names(all_files[[5]])[1:10]
 ```
 
-We want the variable names to be `Year` and `State Name`, not `2016` and `Alabama`. But first, let's go back and review how to get at the 2016 dataset from `all_files`. We need to identify which element the 2016 dataset was in the list. The order of the list elements was set all the way back when we fed `map()` our list of filenames. If we look at `filenames` again, we see that its fifth element is the 2016 dataset. Try looking at the first and fifth elements of `filenames`: 
+We want the variable names to be `Year` and `State Name`, not `2016` and
+`Alabama`. But first, let's go back and review how to get at the 2016 dataset
+from `all_files`. We need to identify which element the 2016 dataset was in the
+list. The order of the list elements was set all the way back when we fed
+`map()` our list of filenames. If we look at `filenames` again, we see that its
+fifth element is the 2016 dataset. Try looking at the first and fifth elements
+of `filenames`:
 
 ```{r show filenamess, eval=FALSE}
 filenames[[1]]
 filenames[[5]]
 ```
 
-Once we know the 2016 dataset is the fifth element of our list, we can pluck it out by using double brackets: 
+Once we know the 2016 dataset is the fifth element of our list, we can pluck it
+out by using double brackets: 
 
 ```{r pluck 2016 data}
 all_files[[5]]
 ```
 
-We used `skip = 4` when we read in the datasets in the list. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, we'll read the 2016 dataset again using `read_csv()` and the fifth element of `filenames` but this time will use the argument `skip = 3`. We'll assign the newly read dataset to the fifth element of the `all_files` list: 
+We used `skip = 4` when we read in the datasets in the list. That worked for all
+datasets except the fifth one. In that one, skipping four lines left out the
+variable name row. To fix it, we'll read the 2016 dataset again using
+`read_csv()` and the fifth element of `filenames` but this time will use the
+argument `skip = 3`. We'll assign the newly read dataset to the fifth element of
+the `all_files` list:
 
 ```{r fix 2016 colnames, echo = FALSE, , message=FALSE, warning=FALSE}
 all_files[[5]] <-
@@ -244,17 +343,27 @@ all_files[[5]] <-
   read_csv(filenames[[5]], skip = 3)
 ```
 
-Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct. 
+Try printing `all_files` now. You can confirm we fixed the problem by checking
+that the variable names are correct.
 
-### Pick Variables 
+### Pick Variables
 
-Now that we know all our datasets have the correct variable names, we simplify our datasets by picking the variables we need. This is a good place to think carefully about which variables to pick. This usually requires a fair amount of trial and error, but here is what we found we needed: 
+Now that we know all our datasets have the correct variable names, we simplify
+our datasets by picking the variables we need. This is a good place to think
+carefully about which variables to pick. This usually requires a fair amount of
+trial and error, but here is what we found we needed:
 
- - Our analytic questions are about gender, so let's pick the gender variable
- - Later, we'll need to filter our dataset by disability category and program location so we'll want `SEA Education Environment` and `SEA Disability Category`
- - We want to make comparisons by state and reporting year, so we'll also pick `State Name` and `Year`
+  - Our analytic questions are about gender, so let's pick the gender variable
+  - Later, we'll need to filter our dataset by disability category and program
+    location so we'll want `SEA Education Environment` and `SEA Disability
+    Category`
+  - We want to make comparisons by state and reporting year, so we'll also pick
+    `State Name` and `Year`
 
-Combining `select()` and `contains()` is a convenient way to pick these variables without writing a lot of code. Knowing that we want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains()`:
+Combining `select()` and `contains()` is a convenient way to pick these
+variables without writing a lot of code. Knowing that we want variables that
+contain the acronym "SEA" and variables that contain "male" in their names, we
+can pass those characters to `contains()`:
 
 ```{r pick vars}
 all_files[[1]] %>%
@@ -266,7 +375,16 @@ all_files[[1]] %>%
   ) 
 ```
 
-That code chunk verifies that we got the variables we want, so now we will turn the code chunk into a function called `pick_vars()`. We will then use `map()` to apply `pick_vars()` to each dataset of our list, `all_files`, to the function. In this function, we'll use a special version of `select()` called `select_at()`, which conveniently picks variables based on criteria we give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables. 
+That code chunk verifies that we got the variables we want, so now we will turn
+the code chunk into a function called `pick_vars()`. We will then use `map()` to
+apply `pick_vars()` to each dataset of our list, `all_files`, to the function.
+In this function, we'll use a special version of `select()` called
+`select_at()`, which conveniently picks variables based on criteria we give it.
+The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA",
+ignore.case = FALSE), contains("male"))` tells R we want to keep any column
+whose name has "State" in upper or lower case letters, has "SEA" in the title,
+and has "male" in the title. This will result in a newly transformed `all_files`
+list that contains six datasets, all with the desired variables.
 
 ```{r pick vars function}
 # build the function
@@ -289,7 +407,12 @@ all_files <-
 
 ### Combine Six Datasets into One
 
-Now we'll turn our attention to combining the datasets in our list `all_files` into one. We'll use `bind_rows()`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if our datasets have the same number of variables and the same variable names. When we use `names()` on our list of newly changed datasets, we see that each dataset's variable names are the same: 
+Now we'll turn our attention to combining the datasets in our list `all_files`
+into one. We'll use `bind_rows()`, which combines datasets by adding each one to
+the bottom of the one before it. The first step is to check and see if our
+datasets have the same number of variables and the same variable names. When we
+use `names()` on our list of newly changed datasets, we see that each dataset's
+variable names are the same:
 
 ```{r verify var names}
 # check variable names
@@ -297,7 +420,8 @@ all_files %>%
   map(names)
 ```
 
-That means that we can combine all six datasets into one using `bind_rows()`. We'll call this newly combined dataset `child_counts`:
+That means that we can combine all six datasets into one using `bind_rows()`.
+We'll call this newly combined dataset `child_counts`:
 
 ```{r combine datasets 2}
 child_counts <-
@@ -306,7 +430,9 @@ child_counts <-
   bind_rows()
 ```
 
-Since we know that a) each of our six datasets had eight variables and b) our combined dataset also has eight variables, we can conclude that all our rows combined together correctly. But let's use `str()` to verify: 
+Since we know that a) each of our six datasets had eight variables and b) our
+combined dataset also has eight variables, we can conclude that all our rows
+combined together correctly. But let's use `str()` to verify: 
 
 ```{r check structure}
 str(child_counts)
@@ -314,7 +440,10 @@ str(child_counts)
 
 ### Filter for the Desired Disabilities and Age Groups
 
-We want to explore gender related variables, but our dataset has additional aggregate data for other subgroups. For example, we can use `count()` to explore all the different disability groups in the dataset. Here's the number of times an `SEA Disability Category` appears in the dataset: 
+We want to explore gender related variables, but our dataset has additional
+aggregate data for other subgroups. For example, we can use `count()` to explore
+all the different disability groups in the dataset. Here's the number of times
+an `SEA Disability Category` appears in the dataset: 
 
 ```{r count disabilities}
 child_counts %>%
@@ -322,7 +451,9 @@ child_counts %>%
   count(`SEA Disability Category`)
 ```
 
-Since we will be visualizing and modeling gender variables for all students in the dataset, we'll filter out all subgroups except "All Disabilities" and the age totals: 
+Since we will be visualizing and modeling gender variables for all students in
+the dataset, we'll filter out all subgroups except "All Disabilities" and the
+age totals:
 
 ```{r filter child_counts}
 child_counts <-
@@ -337,7 +468,10 @@ child_counts <-
 
 ### Rename the Variables
 
-In the next section we'll prepare the dataset for visualization and modeling by "tidying" it. When we write code to transform datasets, we'll be typing the column names a lot, so it's useful to change them to ones with more convenient names. 
+In the next section we'll prepare the dataset for visualization and modeling by
+"tidying" it. When we write code to transform datasets, we'll be typing the
+column names a lot, so it's useful to change them to ones with more convenient
+names. 
 
 ```{r rename vars}
 child_counts <-
@@ -357,7 +491,8 @@ child_counts <-
 
 ### Clean State Names
 
-You might have noticed that some state names in our dataset are in upper case letters and some are in lower case letters: 
+You might have noticed that some state names in our dataset are in upper case
+letters and some are in lower case letters: 
 
 ```{r count states}
 child_counts %>%
@@ -365,7 +500,9 @@ child_counts %>%
   head()
 ```
 
-If we leave it like this, R will treat state values like "CALIFORNIA" and "California" as two different states. We can use `mutate` and `tolower` to transform all the state names to lowercase letters. 
+If we leave it like this, R will treat state values like "CALIFORNIA" and
+"California" as two different states. We can use `mutate` and `tolower` to
+transform all the state names to lowercase letters. 
 
 ```{r fix caps}
 child_counts <-
@@ -373,19 +510,29 @@ child_counts <-
   mutate(state = tolower(state)) 
 ```
 
-### Tidy the Dataset 
+### Tidy the Dataset
 
-Visualizing and modeling our data will be much easier if our dataset is in a "tidy" format. In his paper *Tidy Data* [@wickham2014], Hadley Wickham defines tidy datasets where:
+Visualizing and modeling our data will be much easier if our dataset is in a
+"tidy" format. In his paper *Tidy Data* [@wickham2014], Hadley Wickham defines
+tidy datasets where:
 
->1. Each variable forms a column.
->2. Each observation forms a row.
->3. Each type of observational unit forms a table.
+> 1.  Each variable forms a column.
+> 2.  Each observation forms a row.
+> 3.  Each type of observational unit forms a table.
 
 *A note on the gender variable in this dataset*
 
-This dataset uses a binary approach to data collection about gender. Students are described as either male or female. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.
+This dataset uses a binary approach to data collection about gender. Students
+are described as either male or female. The need for an inclusive approach to
+documenting gender identity is discussed in a paper by @park2016 of The Williams
+Institute at UCLA.
 
-The gender variables in our dataset are spread across four columns, with each one representing a combination of gender and age range. We can use `pivot_longer()` to bring the gender variable into one column. In this transformation, we create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category.  
+The gender variables in our dataset are spread across four columns, with each
+one representing a combination of gender and age range. We can use
+`pivot_longer()` to bring the gender variable into one column. In this
+transformation, we create two new columns: a `gender` column and a `total`
+column. The `total` column will contain the number of students in each row's
+gender and age category.
 
 ```{r pivot_longer gender col}
 child_counts <-
@@ -395,7 +542,8 @@ child_counts <-
                  values_to = "total")
 ```
 
-To make the values of the `gender` column more intuitive, we'll use `case_when()` to transform the values to either "f" or "m":
+To make the values of the `gender` column more intuitive, we'll use
+`case_when()` to transform the values to either "f" or "m":
 
 ```{r replace gender values}
 child_counts <- 
@@ -413,7 +561,12 @@ child_counts <-
 
 ### Convert Data Types
 
-The values in the `total` column represent the number of students from a specific year, state, gender, and age group. We know from the `chr` under their variable names that R is treating these values like characters instead of numbers. While R does a decent job of treating numbers like numbers when needed, it's much safer to prepare the dataset by changing these character columns to numeric columns. We'll use `mutate()` to change the count columns. 
+The values in the `total` column represent the number of students from a
+specific year, state, gender, and age group. We know from the `chr` under their
+variable names that R is treating these values like characters instead of
+numbers. While R does a decent job of treating numbers like numbers when needed,
+it's much safer to prepare the dataset by changing these character columns to
+numeric columns. We'll use `mutate()` to change the count columns. 
 
 ```{r convert to numeric}
 child_counts <-
@@ -423,7 +576,13 @@ child_counts <-
 child_counts
 ```
 
-Converting these count columns from character classes to number classes resulted in two changes. First, the `chr` under these variable names has now changed to `dbl`, short for "double-precision". This lets us know that R recognizes these values as numbers with decimal points. Second, the blank values changed to `NA`. When R sees a character class value like `"4"`, it knows to change it to numeric class `4`. But there is no obvious number represented by a value like `""` or `-`, so it changes it to `NA`: 
+Converting these count columns from character classes to number classes resulted
+in two changes. First, the `chr` under these variable names has now changed to
+`dbl`, short for "double-precision". This lets us know that R recognizes these
+values as numbers with decimal points. Second, the blank values changed to `NA`.
+When R sees a character class value like `"4"`, it knows to change it to numeric
+class `4`. But there is no obvious number represented by a value like `""` or
+`-`, so it changes it to `NA`: 
 
 ```{r demo as.numeric}
 # Convert a character to a number 
@@ -434,7 +593,11 @@ as.numeric("")
 as.numeric("-")
 ```
 
-Similarly, the variable `year` needs to be changed from the character format to the date format. Doing so will make sure R treats this variable like a point in time when we plot our dataset. The package {lubridate} has a handy function called `ymd` that can help us. We just have to use the `truncated` argument to let R know we don't have a month and date to convert. 
+Similarly, the variable `year` needs to be changed from the character format to
+the date format. Doing so will make sure R treats this variable like a point in
+time when we plot our dataset. The package {lubridate} has a handy function
+called `ymd` that can help us. We just have to use the `truncated` argument to
+let R know we don't have a month and date to convert. 
 
 ```{r convert date}
 child_counts <-
@@ -444,23 +607,38 @@ child_counts <-
 
 ### Explore and Address NAs
 
-You'll notice that some rows in the `total` column contain an `NA`. When we used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is NA . For example, there is no student count for the `age` value "Total, Age 3-5" that also has the `gender` value for female students who were age 6-21. You can see that more clearly by sorting the dataset by year, state, and gender. 
+You'll notice that some rows in the `total` column contain an `NA`. When we used
+`pivot_longer()` to create a `gender` column, R created unique rows for every
+year, state, age, disability, and gender combination. Since the original dataset
+had both gender and age range stored in a column like `Female Age 3 to 5`, R
+made rows where the `total` value is NA . For example, there is no student count
+for the `age` value "Total, Age 3-5" that also has the `gender` value for female
+students who were age 6-21. You can see that more clearly by sorting the dataset
+by year, state, and gender.
 
-In our Foundational Skills chapter, we introduced a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Let's use `arrange()` here to sort the dataset by the `year`, `state` and `gender` columns. When you pass `arrange()` a variable, it will sort by the order of the values in that variable. If you pass it multiple variables, `arrange()` will sort by the first variable, then by the second, and so on. Let's see what it does on `child_counts` when we pass it the `year`, `state`, and `gender` variables:
+In our Foundational Skills chapter, we introduced a {dplyr} function called
+`arrange()` to sort the rows of a dataset by the values in a column. Let's use
+`arrange()` here to sort the dataset by the `year`, `state` and `gender`
+columns. When you pass `arrange()` a variable, it will sort by the order of the
+values in that variable. If you pass it multiple variables, `arrange()` will
+sort by the first variable, then by the second, and so on. Let's see what it
+does on `child_counts` when we pass it the `year`, `state`, and `gender`
+variables:
 
 ```{r show NAs}
 child_counts %>%
   arrange(year, state, gender)
 ```
 
-We can simplify our dataset by removing the rows with NAs, leaving us with one row for each category:
+We can simplify our dataset by removing the rows with NAs, leaving us with one
+row for each category:
 
- - females age 3-5
- - females age 6-21
- - males age 3-5 
- - males age 6-21 
+  - females age 3-5
+  - females age 6-21
+  - males age 3-5
+  - males age 6-21
 
-Each of these categories will be associated with a state and reporting year: 
+Each of these categories will be associated with a state and reporting year:
 
 ```{r remove NAs}
 child_counts <-
@@ -477,11 +655,19 @@ child_counts %>%
 
 ## Analysis
 
-In the last section we focused on importing our dataset. In this section, we will ask: how have child counts changed over time? First, we'll use visualization to explore the number of students in special education over time. In particular, we'll compare the count of male and female students. Next, we'll use what we learn from our visualizations to quantify any differences that we see. 
+In the last section we focused on importing our dataset. In this section, we
+will ask: how have child counts changed over time? First, we'll use
+visualization to explore the number of students in special education over time.
+In particular, we'll compare the count of male and female students. Next, we'll
+use what we learn from our visualizations to quantify any differences that we
+see.
 
-### Visualize the Dataset  
+### Visualize the Dataset
 
-Showing this many states in a plot can be overwhelming, so to start we'll make a subset of the dataset. We can use a function in the {dplyr} package called `top_n()` to help us learn which states have the highest mean count of students with disabilities: 
+Showing this many states in a plot can be overwhelming, so to start we'll make a
+subset of the dataset. We can use a function in the {dplyr} package called
+`top_n()` to help us learn which states have the highest mean count of students
+with disabilities: 
 
 ```{r filter dataset with top_n}
 child_counts %>%
@@ -491,7 +677,12 @@ child_counts %>%
   top_n(6, mean_count)
 ```
 
-These six states have the highest mean count of students in special education over the six years we are examining. For reasons we will see in a later visualization, we are going to exclude outlying areas and freely associated states. That leaves us us with five states: California, Florida, New York, Pennsylvania, and Texas. We can remove all other states but these by using `filter()`. We'll call this new dataset `high_count`:
+These six states have the highest mean count of students in special education
+over the six years we are examining. For reasons we will see in a later
+visualization, we are going to exclude outlying areas and freely associated
+states. That leaves us us with five states: California, Florida, New York,
+Pennsylvania, and Texas. We can remove all other states but these by using
+`filter()`. We'll call this new dataset `high_count`:
 
 ```{r filter most populated}
 high_count <-
@@ -499,11 +690,22 @@ high_count <-
   filter(state %in% c("california", "florida", "new york", "pennsylvania", "texas"))
 ```
 
-Now we can use `high_count` to do some initial exploration. Our analysis is about comparing counts of male and female students in special education, but visualization is also a great way to explore related curiosities. You may surprise yourself with what you find when visualizing your datasets. You might come up with more interesting hypotheses, find that your initial hypothesis requires more data transformation, or find interesting subsets of the data--we saw a little of that in the surprisingly high `mean_count` of freely associated states in the `state` column. Let your curiosity and intuition drive this part of the analysis. It's one of the activities that makes data analysis a creative process. 
+Now we can use `high_count` to do some initial exploration. Our analysis is
+about comparing counts of male and female students in special education, but
+visualization is also a great way to explore related curiosities. You may
+surprise yourself with what you find when visualizing your datasets. You might
+come up with more interesting hypotheses, find that your initial hypothesis
+requires more data transformation, or find interesting subsets of the data--we
+saw a little of that in the surprisingly high `mean_count` of freely associated
+states in the `state` column. Let your curiosity and intuition drive this part
+of the analysis. It's one of the activities that makes data analysis a creative
+process.
 
-In that spirit, we'll start by visualizing specific genders and age groups. Feel free to try these, but also try the other student groups for practice and more exploration. 
+In that spirit, we'll start by visualizing specific genders and age groups. Feel
+free to try these, but also try the other student groups for practice and more
+exploration.
 
-Start by copying and running this code in your console to see what it does: 
+Start by copying and running this code in your console to see what it does:
 
 ```{r, results = 'hide', message = FALSE, warning = F, fig.cap = "Count of Female Students in Special Education Over Time"}
 high_count %>%
@@ -516,13 +718,24 @@ high_count %>%
   theme_dataedu()
 ```
 
-That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
+That gives us a plot that has the years in the x-axis and a count of female
+students in the y-axis. Each line takes a different color based on the state it
+represents.
 
-Let's look at that closer: We used `filter()` to subset our dataset for students who are female and ages 6 to 21. We used `aes` to connect visual elements of our plot to our data. We connected the x-axis to `year`, the y-axis to `total`, and the color of the line to `state`.
+Let's look at that closer: We used `filter()` to subset our dataset for students
+who are female and ages 6 to 21. We used `aes` to connect visual elements of our
+plot to our data. We connected the x-axis to `year`, the y-axis to `total`, and
+the color of the line to `state`.
 
-It's worth calling out one more thing, since it's a technique we'll be using as we explore further. Note here that, instead of storing our new dataset in a new variable, we filter the dataset then use the pipe operator `%>%` to feed it to {ggplot}. Since we're exploring freely, we don't need to create a lot of new variables we probably won't need later.
+It's worth calling out one more thing, since it's a technique we'll be using as
+we explore further. Note here that, instead of storing our new dataset in a new
+variable, we filter the dataset then use the pipe operator `%>%` to feed it to
+{ggplot}. Since we're exploring freely, we don't need to create a lot of new
+variables we probably won't need later.
 
-We can also try the same plot, but subsetting for male students instead. We can use the same code we used for the last plot, but filter for the value "m" in the `gender` field: 
+We can also try the same plot, but subsetting for male students instead. We can
+use the same code we used for the last plot, but filter for the value "m" in the
+`gender` field: 
 
 ```{r, results = 'hide', message = FALSE, fig.cap="Count of Male Students in Special Education Over Time"}
 high_count %>%
@@ -535,7 +748,11 @@ high_count %>%
   theme_dataedu()
 ```
 
-We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
+We've looked at each gender separately. What do these lines look like if we
+visualized the total amount of students each year per state? To do that, we'll
+need to add both gender values together and both age group values together.
+We'll do this using a very common combination of functions: `group_by()` and
+`summarize()`. 
 
 ```{r, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time"}
 high_count %>%
@@ -549,7 +766,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
+So far we've looked at a few ways to count students over time. In each plot, we
+see that while counts have grown overall for all states, each state has
+different sized populations. Let's see if we can summarize that difference by
+looking at the median student count for each state over the years:
 
 ```{r, results = 'hide', message = FALSE, fig.cap="Median Students with Disabilities Count"}
 high_count %>%
@@ -562,21 +782,35 @@ high_count %>%
   theme_dataedu() 
 ```
 
-The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
+The boxplots show us what we might have expected from our `freqpoly` plots
+before it. The highest median student count over time is California and the
+lowest is Pennsylvania.
 
-What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated states) do not have similar counts to each other. The student counts for each state also appear to have grown over time. 
+What have we learned about our data so far? The five states in the US with the
+highest total student counts (not including outlying areas and freely associated
+states) do not have similar counts to each other. The student counts for each
+state also appear to have grown over time.
 
-But how can we start comparing the male student count to the female student count? One way is to use a ratio: 
+But how can we start comparing the male student count to the female student
+count? One way is to use a *ratio*, the number of times the first number contains 
+the second. For example, if Variable A is equal to 14, and Variable B is equal to 7,
+the ratio between Variable A and Variable B is 2.00, indicating that the first number
+contains twice the number of the second.
 
->In mathematics, a ratio is a relationship between two numbers indicating how many times the first number contains the second.
->Wikipedia
+We can use the count of male students in each state and divide it by the count
+of each female student. The result is the number of times male students are in
+special education more or less than the female students in the same state and
+year. Our coding strategy will be to
 
-We can use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and year. Our coding strategy will be to 
-
- - Use `pivot_wider()` to create separate columns for male and female students. 
- - Use `mutate()` to create a new variable called `ratio`. The values in this column will be the result of dividing the count of male students by the count of female students 
+  - Use `pivot_wider()` to create separate columns for male and female students.
+  - Use `mutate()` to create a new variable called `ratio`. The values in this
+    column will be the result of dividing the count of male students by the
+    count of female students
  
-Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students. 
+Note here that we can also accomplish this comparison by dividing the number of
+female students by the number of male students. In this case, the result would
+be the number of times female students are in special education more or less
+than male students.
 
 ```{r, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time"}
 high_count %>%
