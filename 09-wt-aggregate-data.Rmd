@@ -34,19 +34,19 @@ aggregate data: how to access, clean and prepare, and explore and visualize it.
 A common situation encountered when searching for education data, particularly
 by analysts who are not directly working with schools or districts, is the
 prevalence of publicly available, *aggregate data*. Aggregate data refers to
-numerical or non-numerical information that is:
+numerical information (or non-numerical information, such as the names of districts or schools) that has the following characteristics:
 
 1.  collected from multiple sources and/or on multiple measures, variables, or
-    individuals
+    individuals,
 2.  compiled into data summaries or summary reports, typically for the purposes
-    of public reporting or statistical analysis [@greatschools2014].
+    of public reporting or statistical analysis [@greatschools2014]
 
 Example of publicly available aggregate data include school-level graduation
 rates, state test proficiency scores by grade and subject, or mean survey
 responses. In this walkthrough, we explore the role of aggregate data, with a
 focus on educational equity, from a single school district.
 
-Aggregated data are essential both for accountability purposes and for providing
+Aggregate data are essential both for accountability purposes and for providing
 useful information about schools and districts to those who are monitoring them.
 For example, district administrators might aggregate row-level (also known as
 individual-level or student-level) enrollment reports over time. This allows
@@ -54,11 +54,11 @@ them to see how many students enroll in each school, in the district overall,
 and any grade-level variation. Depending on their state, the district
 administrator might submit these aggregate data to their state education agency
 for reporting purposes. These datasets might be posted on the state's department
-of education website for anybody to download and use.
+of education website for anyone to download and use.
 
 Federal and international education datasets provide additional context for
 evaluating education systems. In the US, some federal datasets aim to
-consolidate important metrics from all states. This can be quite useful because
+consolidate important metrics from all states. This can be useful because
 each state has its own repository of data and to go through each state to
 download a particular metric is a significant effort. The federal government
 also funds assessments and surveys which are disseminated to the public.
@@ -66,14 +66,14 @@ However, the federal datasets often have more stringent data requirements than
 the states, so the datasets may be less usable.
 
 For education data practitioners, these reports and datasets can be analyzed to
-answer questions related to their field of interest. However, publicly
-available, aggregate datasets are large and often suppressed to protect privacy.
+answer questions related to their field of interest. However, doing so is not always straightforward.
+Publicly available, aggregate datasets are large and often suppressed to protect privacy.
 Sometimes they are already a couple of years old by the time they're released.
 Because of their coarseness, they can be difficult to interpret and use.
 Generally, aggregated data are generally used to surface of broader trends and
 patterns in education as opposed to diagnosing underlying issues or making
 causal statements. It is very important that we consider the limitations of
-aggregate data before analyzing them.
+aggregate data *first*, and before analyzing them.
 
 Analysis of aggregate data can help us identify patterns that may not have
 previously been known. When we have gained new insight, we can create research
@@ -81,13 +81,14 @@ questions, craft hypotheses around our findings, and make recommendations on how
 to make improvements for the future.
 
 We want to take time to explore using aggregate data since it's so commonly used
-in education. This chapter and chapter 10 provide two different examples of
+in education, but can also be challenging to meaningfully used. This chapter and the [following chapter](#c10) provide two different examples of
 cleaning an aggregate dataset and two different examples of using aggregate
 datasets to compare student experiences. In this chapter, we'll focus on
 educational equity by identifing and comparing patterns in student race groups.
-In the next chapter, we'll compare student counts over time in different states.
 
-*Differences Between Aggregate and Student-Level Data*
+In the next chapter, we'll compare student counts longitudinally (or over time) in different states.
+
+**What is the Difference Between Aggregate and Student-Level Data?**
 
 Let's dig a little deeper into the differences between aggregate and
 student-level data. Publicly available data--like the data we'll use in this
@@ -123,7 +124,7 @@ tibble(
 
 Notice here that this dataset no longer identifies individual students.
 
-*Disaggregating Aggregated Data*
+**Disaggregating Aggregated Data**
 
 Aggregated data can tell us many things, but in order for us to examine
 subgroups and their information, we must have data *disaggregated* by the
@@ -133,7 +134,7 @@ but provides information on smaller components than the grand total
 race/ethnicity, socioeconomic status, English learner designation, and whether
 they are served under the *Individuals with Disabilities Education Act (IDEA)*.
 
-*Disaggregating Data and Equity*
+**Disaggregating Data and Equity**
 
 Disaggregated data is essential to monitor equity in educational resources and
 outcomes. If only aggregate data is provided, we are unable to distinguish how
@@ -147,14 +148,14 @@ are meeting your equity goals.
 ## Data Sources
 
 There are many education-related, publicly available aggregate datasets. On the
-international level, perhaps the most well known is:
+international level, perhaps the most well-known is the following, PISA:
 
   - [Programme for International Student Assessment
     (PISA)](http://www.oecd.org/pisa/) (http[]()://www.oecd.org/pisa/), which
     measures 15-year-old school pupils' scholastic performance on mathematics,
     science, and reading.
 
-On the federal level, examples include:
+On the federal level, well-known examples include the following:
 
   - [Civil Rights Data Collection
     (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html)
@@ -186,7 +187,7 @@ On the federal level, examples include:
     administered to a representative sample of fourth- and eighth-grade students
     in each state every two years.
 
-On the state and district level, examples include:
+At the state and district levels, some examples include the following from two states:
 
   - [California Department of Education](https://www.cde.ca.gov/ds/)
     (https[]()://www.cde.ca.gov/ds/), which is the state department of education
@@ -197,10 +198,12 @@ On the state and district level, examples include:
     (https[]()://mpls.k12.mn.us/reports\_and\_data), which is a district-level
     website with datasets beyond those listed in the state website.
 
-*Selecting Data*
+**Selecting Data**
 
 For the purposes of this walkthrough, we will be looking at a particular school
-district's data. This district reports their student demographics in a robust,
+district's data; in the next, we will "zoom out" to look across states in the United States.
+
+The district we focus upon reports their student demographics in a robust,
 complete way. Not only do they report the percentage of students in a subgroup,
 but they also include the number of students in each subgroup. This allows a
 deep look into their individual school demographics. Their reporting of the
@@ -209,17 +212,16 @@ inequities in a system.
 
 ### Methods
 
-In this chapter, we will walk through how running analyses on a publicly
-available dataset can help education data practitioners understand the landscape
-of needs and opportunities in the field of education. As opposed to causal
-analysis, which aims to assess the root cause of an phenomenon or the effects of
-an intervention, we use analysis on an aggregate dataset to find out whether
-there *is* a phenomenon, *what* it is, and *what* we'd be trying to solve
-through interventions [@descriptive].
+In this chapter, we will walk through how running analyses on data from a single district can help education data practitioners *to understand and describe the landscape
+of needs and opportunities* present there. As opposed to causal
+analyses, which aim to assess the root cause of an phenomenon or the effects of
+an intervention, we use a descriptive analysis on an aggregate dataset to find out whether
+there *is* a phenomenon present, *what* it is, and *what* may be worth trying to address through future
+supports, reforms, or interventions [@descriptive].
 
 ## Load Packages
 
-As usual, we begin our code by calling the libraries we will use.
+As usual, we begin our code by calling the packages we will use.
 
 ```{r, message = F, warning = F}
 library(tidyverse)
@@ -232,7 +234,9 @@ ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer)
 (https[]()://github.com/ropensci/tabulizer) package which provides R bindings to
 the Tabula java library, which can be used to computationally extract tables
 from PDF documents. {rJava} is a required package to load {tabulizer}.
-Unfortunately, installing {rJava} on Macs can be very tedious. If you find
+Unfortunately, installing {rJava} on Macs can be very tedious. 
+
+If you find
 yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip
 to the data processing, the data pulled from the PDFs is available in the
 {dataedu} package. You can decide whether to skip the steps requiring {rJava}
