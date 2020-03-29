@@ -16,6 +16,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 - `list.files()`
 - `lm()`
+- `lubridate::ymd()`
 
 ## Vocabulary 
 
@@ -44,7 +45,7 @@ In this chapter, we'll be learning some ways to explore data over time. In
 addition, we'll be learning some additional techniques for exploring a publicly
 available dataset. Like most public datasets (see [the previous chapter](#c9)),
 this one contains aggregate data. This means that someone totaled up the student
-counts so it doesn't reveal any private information.
+counts so that it doesn't reveal any private information.
 
 You can download the datasets for this walkthrough on the United States
 Department of Education website (see @usdoe2019)^[The documentation for the
@@ -441,9 +442,13 @@ child_counts <-
   bind_rows()
 ```
 
-Since we know that a) each of our six datasets had eight variables and b) our
-combined dataset also has eight variables, we can conclude that all our rows
-combined together correctly. But let's use `str()` to verify: 
+Since we know the following, we can conclude that all our rows
+combined together correctly: 
+
+1. each of our six datasets had eight variables
+1. our combined dataset also has eight variables, 
+
+But, let's use `str()` to verify: 
 
 ```{r check structure}
 str(child_counts)
