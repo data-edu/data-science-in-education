@@ -231,30 +231,35 @@ There is much more you can do with {ggraph} (and {tidygraph}); check out the {gg
 
 In this chapter, we used social media data from the #tidytuesday hashtag to prepare and visualize social network data. This is a powerful technique that can reveal who is interacting with whom in some cases can suggest why.
 
-Behind these visualizations, though, there are also statistical models and methods that can help to understand what is going on with respect to particular relationships in a network in additional ways.
+Behind these visualizations there are also statistical models and methods that help to further understand relationships in a network.
 
-One way to consider these models and methods is in terms of two *processes* at play in our relationships (cite). These two processes are commonly (though not exclusively) the focus of statistical analyses of networks. In addition to not being exclusive, they do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). They are:
+One way to consider these models and methods is by considering selection and influence, two *processes* at play in our relationships. These two processes are commonly the focus of statistical analyses of networks. Selection and influence do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). Let's define these two processes:
 
-- *Selection*: the processes regarding who chooses to have a relationship with whom
-- *Influence*: the processes regarding how who we have relationships with affects our behavior
+- *Selection*: the process of choosing relationships
+- *Influence*: the process of how our social relationships affect behavior
 
-While these are complex, they can be studied with the type of data collected from asking people about their relationships (and possibly asking them about or studying their behavior--or measuring some outcome). Happily, the use of these methods has expanded along with R: many of the best tools for studying social networks are in the form of long-standing R packages. Additionally, while there are many potential nuances to studying selection and influence, these are models that can fundamentally be carried out with regression, or the linear model (or extensions of it). We describe these in the *Technical Appendix* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers only after having mastered preparing and visualizing network data.
+While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in the *Technical Appendix* for this chapter, as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preperation and visualization of network data.
 
 ## Technical Appendix: Influence and Selection Models
 
-As noted above, there is much more to understanding interactions, and network analysis, beyond creating edgelists and visualizing network data (through the use of an edgelist). Two processes that are particularly important (and able to be studied with network data using R) are for influence and selection.
+After getting familiar with using edgelists and visualizations, a good next step is learning about selection and influence. Let's look at some examples: 
 
 ### An Example of Influence
 
-First, let's look at an example of influence. To do so, let's create three different data frames. Here is what they should, at the end of the process, contain:
+First, let's look at an example of influence. To do so, let's create three different data frames. These will include: 
 
-- A data frame indicating who the *nominator* and *nominee* for the relation (i.e., if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee) - as well as an optional variable indicating the weight, or strength, of their relation.
-- This data frame and its type can be considered the basis for many types of social network analysis and is a common structure for network data: it is an *edgelist*.
-- Data frames indicating the values of some behavior - an outcome - at two different time points.
+- An edgelist data frame that contains the *nominator* and *nominee* for a relationship. For example, if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee. Dataframes like this can also contain an optional variable indicating the weight, or strength, of their relation 
+- Data frames indicating the values of some behavior - an outcome - at two different time points
 
-In this example, we create some example data that can be used to explore questions about how influence works.
+In this example, we'll create example data we can use to explore questions about influence. 
 
-Let's take a look at the merged data. What this data now contains is the first data frame, `data1`, with each nominees' outcome at time 1 (`yvar1`). Note that we will find each nominators' outcome at time 2 later on.
+Let's take a look at our three datasets: 
+
+ - `data1`: an edgelist that contains a nominator, nominee, and strength of the relation 
+ - `data2`: a dataset that contains the nominee and the values of some behavior at the first time point  
+ - `data3`: a dataset that contains a nominator and the value of some behavior at the second time point 
+
+Note that we will find each nominators' outcome at time 2 later on. Here's how we can make these example datasets: 
 
 ```{r}
 data1 <-
@@ -274,8 +279,8 @@ data3 <-
 ```
 
 ### Joining the Data
-
-Next, we'll join the data into one data frame. Note that while this is sometimes tedious and time-consuming, especially with large sources of network data, it is a key step for being able to carry out network analysis - often, even for creating visualizations that are informative.
+  
+Next, we'll join the data into one data frame. This step can be time-consuming for large network datasets, but it's important for the visualizations and analysis that follow. The more time you can invest into preparing the data properly, the more confidence you'll have that your resulting analysis is based on a deeper understanding of the data. 
 
 ```{r}
 data <-
@@ -306,7 +311,7 @@ data <-
 
 **Calculating an Exposure Term**
 
-This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
+Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
 
 ```{r}
 # Calculating exposure
@@ -321,18 +326,15 @@ mean_exposure <-
   summarize(exposure_mean = mean(exposure))
 ```
 
-What this data frame - `mean_exposure` - contains is the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
+The data frame `mean_exposure` contains the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
 
-As we need a final data set with `mean_exposure`,`degree`, `yvar1`, and `yvar2` added, we'll process the data a bit more.
+Let's process the data more so we can add the variables `exposure_mean`, `yvar1`, and `yvar2`.
 
 ```{r}
 data2 <-
   data2 %>% 
   # rename nominee as nominator to merge these
   rename("nominator" = "nominee") 
-
-final_data <-
-  left_join(mean_exposure, data2, by = "nominator")
 
 final_data <- 
   # data3 already has nominator, so no need to change
@@ -341,7 +343,7 @@ final_data <-
 
 **Regression (Linear Model)**
 
-Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
+Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 
 ```{r}
 model1 <-
@@ -350,23 +352,26 @@ model1 <-
 summary(model1)
 ```
 
-So, the influence model is used to study a key process for social network analysis, but it is one that is useful, because you can quantify, given what you measure and how you measure it, *the network effect*, something that is sometimes not considered, especially in education (Frank, 2009). It's also fundamentally a regression. That's really it, as the majority of the work goes into calculating the exposure term.
+So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
 
 ### An Example of Selection
 
-Selection models are also commonly used - and are commonly of interest not only to researchers but also to administrators and teachers (and even to youth and students). 
+Let's look at selection models next. Information from selection models can be useful to a wide audeince--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
 
-Here, we briefly describe a few possible approaches for using a selection model.
+In the last section we use da linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
 
-At its core, the selection model is a regression - albeit, one that is a generalization of one, namely, a logistic regression (sometimes termed a generalized linear model, because it is *basically* a regression but is one with an outcome that consists just of 0's and 1's). Thus, the most straight-away way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. But, here is the important and challenging step: all of the *possible relations* (i.e., all of the relations that are possible between all of the individuals in a network) are indicated with a 0 in an edgelist. Note that, again, an edgelist is the preferred data structure for carrying out this analysis. This step involves some data wrangling, especially the idea of widening or lengthening a data frame.
+But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
 
-Once all of the relations are indicated with a 1 or a 0, then a simple linear regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups; same could be created in the data frame based upon knowing which group both nominator and nominee are from:
+Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
 
 ```{r, eval = FALSE}
 m_selection <- 
   glm(relate ~ 1 + same, data = edgelist1)
 ```
 
-While this is a straightforward way to carry out a selection model, there are some limitations to it. Namely, it does not account for individuals who send more (or less) nominations overall--and not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. A few extensions of the linear model - including those that can use data for which relationships are indicated with weights, not just 1's and 0's, have been developed. 
+While this is a straightforward way to carry out a selection model, there are some limitations. First, it doesn't account for the amount of nominations an individual sends. Not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. Some R packages aim to address this by considering other variables like relationship weights. Here are some examples: 
 
-One type of selection model extends the logistic regression. The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed. Another extension is an Exponential Random Graph Model, or ERGM. The {ergm} R package makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet]. These packages collectively begin to illustrate the richness of the packages available within R for using social network analysis models and methods; moreover, as developments in social network analysis methods continue to be made, cutting-edge techniques are likely to continue to be available (through R packages) to those using R for these types of analyses. 
+ - The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed  
+ - The Exponential Random Graph Model, or {ergm} R package, makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet] 
+ 
+These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
