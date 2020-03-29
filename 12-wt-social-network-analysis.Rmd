@@ -99,11 +99,13 @@ In this edgelist, the `sender` column might identify someone who nominates anoth
 
 ### Extracting Mentions
 
-Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with the `mutate()`:
+Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with `mutate()`:
 
 - `mutate(all_mentions = str_extract_all(text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the tweet (*note*: the regex comes from from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
-- `unnest(all_mentions)` this line uses a tidyr function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: https://tidyr.tidyverse.org/reference/unnest.html)).
- 
+- `unnest(all_mentions)` this line uses a {tidyr} function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: [https://tidyr.tidyverse.org/reference/unnest.html](https://tidyr.tidyverse.org/reference/unnest.html))).
+
+Now let's use these functions to extract the mentions from the dataset. Here's how all the code looks in action: 
+
 ```{r}
 regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
@@ -125,13 +127,13 @@ mentions <-
 
 ### Putting the Edgelist Together
 
-An edgelist is a common social network analysis data structure that has columns for the "sender" and "receiver" of interactions, or relations. For example, someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. This will require one last processing step. Let's look at our data as it is now.
+Recall that an edgelist is a data structure that has columns for the "sender" and "receiver" of interactions. Someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. To make the edgelist, we'll need to clean it up a little by removing the "@" symbol. Let's look at our data as it is now.
 
 ```{r}
 mentions
 ```
 
-What needs to happen to these to make them easier to work with in an edgelist? One step is to remove the "@" symbol from the columns we created and to save the results to a new tibble, `edgelist`.
+Let's remove that "@" symbol from the columns we created and save the results to a new tibble, `edgelist`.
 
 ```{r}
 edgelist <- 
@@ -144,11 +146,11 @@ edgelist <-
 
 ## Analysis and Results
 
-Now that we have our edgelist, it is straightforward to plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
+Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
 
 ### Plotting the Network
 
-Because large networks (like this one) can present challenges, it is common to filter them to only include some individuals. Let's explore how many interactions each individual in the network sent.
+Large networks like this one can be hard to work with because of their size. We can get around that problem by only include some individuals. Let's explore how many interactions each individual in the network sent by using `count()`: 
 
 ```{r}
 interactions_sent <- edgelist %>% 
@@ -168,9 +170,9 @@ interactions_sent <-
   filter(n > 1)
 ```
 
-That leaves us with only 349, perhaps a more reasonable number.
+That leaves us with only 349, which will be much easier to work with. 
 
-We now need to filter the edgelist to only include these 349 individuals. The following code simply uses the `filter()` function combined with the `%in%` operator to do this:
+We now need to filter the edgelist to only include these 349 individuals. The following code uses the `filter()` function combined with the `%in%` operator to do this:
 
 ```{r}
 edgelist <- edgelist %>% 
@@ -180,7 +182,7 @@ edgelist <- edgelist %>%
          receiver %in% interactions_sent$sender)
 ```
 
-We'll use the `as_tbl_graph()` function, which (by default) identified the first column as the "sender" and the second as the "receiver." Let's look at the object it creates, too.
+We'll use the `as_tbl_graph()` function, which identifies the first column as the "sender" and the second as the "receiver." Let's look at the object it creates: 
 
 ```{r}
 g <- 
@@ -189,7 +191,7 @@ g <-
 g
 ```
 
-We can see that the network now consists of 267 individuals - the 267 who sent more than one interaction.
+We can see that the network now has 267 individuals, all of which sent more than one interaction.
 
 Next, we'll use the `ggraph()` function:
 
@@ -205,7 +207,7 @@ g %>%
   theme_graph()
 ```
 
-Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
+Finally, let's size the points based on a measure of centrality. A common way to do this is to measure how influential an individual may be based on the interactions observed.
 
 ```{r, echo = FALSE, message=F, warning=F}
 extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
@@ -223,11 +225,11 @@ g %>%
   theme_graph()
 ```
 
-There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
+There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: [https://ggraph.data-imaginist.com/](https://ggraph.data-imaginist.com/)
 
 ## Conclusion
 
-In this chapter, we used social media data (from the #tidytuesday hashtag) to prepare and visualize social network data. This is a powerful technique; one that can reveal who is interacting with whom, and one that can begin to suggest why.
+In this chapter, we used social media data from the #tidytuesday hashtag to prepare and visualize social network data. This is a powerful technique that can reveal who is interacting with whom in some cases can suggest why.
 
 <!-- Wondering if we need to do more with the visualizations do begin so that this can be more warranted. -->
 
