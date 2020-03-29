@@ -830,21 +830,49 @@ high_count %>%
   theme_dataedu()
 ```
 
-By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
+By visually inspecting, we can hypothesize that there was no significant change
+in the male to female ratio between the years 2012 and 2017. But very often we
+want to understand the underlying properties of our education dataset. We can do
+this by quantifying the relationship between two variables. In the next section,
+we'll explore ways to quantify the relationship between male student counts and
+female student counts.
 
-### Model the Dataset 
+### Model the Dataset
 
-When you visualize your datasets, you are exploring possible relationships between variables. But sometimes visualizations can be misleading because of the way we perceive graphics. In his book *Data Visualization: A Practical Introduction*, @healy2019 teaches us that 
+When you visualize your datasets, you are exploring possible relationships
+between variables. But sometimes visualizations can be misleading because of the
+way we perceive graphics. In his book *Data Visualization: A Practical
+Introduction*, @healy2019 teaches us that
 
->Visualizations encode numbers in lines, shapes, and colors. That means that our interpretation of these encodings is partly conditional on how we perceive geometric shapes and relationships generally.
+> Visualizations encode numbers in lines, shapes, and colors. That means that
+> our interpretation of these encodings is partly conditional on how we perceive
+> geometric shapes and relationships generally.
 
-What are some ways we can combat these errors of perception and at the same time draw substantive conclusions about our education dataset? When you spot a possible relationship between variables, the relationship between female and male counts for example, you'll want to quantify that relationship by fitting a statistical model. Practically speaking, this means you are selecting a distribution that represents your dataset reasonably well. This distribution will help you quantify and predict relationships between variables. This is an important step in the analytic process, because it acts as a check on what you saw in your exploratory visualizations. 
+What are some ways we can combat these errors of perception and at the same time
+draw substantive conclusions about our education dataset? When you spot a
+possible relationship between variables, the relationship between female and
+male counts for example, you'll want to quantify that relationship by fitting a
+statistical model. Practically speaking, this means you are selecting a
+distribution that represents your dataset reasonably well. This distribution
+will help you quantify and predict relationships between variables. This is an
+important step in the analytic process, because it acts as a check on what you
+saw in your exploratory visualizations.
 
-In this example, we'll follow our intuition about the relationship between male and female student counts in our special education dataset. In particular, we'll test the hypothesis that this ratio has decreased over the years. Fitting a linear regression model that estimates the year as a predictor of the male to female ratio will help us do just that.
+In this example, we'll follow our intuition about the relationship between male
+and female student counts in our special education dataset. In particular, we'll
+test the hypothesis that this ratio has decreased over the years. Fitting a
+linear regression model that estimates the year as a predictor of the male to
+female ratio will help us do just that.
 
 *Do we have enough information for our model?*
 
-At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere between the values of 250,000 and 1,750,000: 
+At the start of this section, we chose to exclude outlying areas and freely
+associated states. This visualization suggests that there are some states that
+have a child count so high it leaves a gap in the x-axis values. This can be
+problematic when we try to interpret our model later. Here's a plot of female
+students compared to male students. Note that the relationship appears linear,
+but there is a large gap in the distribution of female student counts somewhere
+between the values of 250,000 and 1,750,000:
 
 ```{r, results='hide', message = FALSE, fig.cap="Comparison of Female Students to Male Students in Special Education"}
 child_counts %>%
@@ -864,9 +892,13 @@ child_counts %>%
   theme_dataedu()
 ```
 
-If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
+If you think of each potential point on the linear regression line as a ratio of
+male to female students, you'll notice that we don't know a whole lot about what
+happens in states where there are between 250,000 and 1,750,000 female students
+in any given year.
 
-To learn more about what's happening in our dataset, we can filter it for only states that have more than 500,000 female students in any year: 
+To learn more about what's happening in our dataset, we can filter it for only
+states that have more than 500,000 female students in any year:
 
 ```{r where does the gap start}
 child_counts %>%
@@ -877,7 +909,10 @@ child_counts %>%
   select(year, state, age, f, m)
 ```
 
-This is where we discover that each of the data points in the upper right hand corner of the plot are from the state value "us, us, outlying areas, and freely associated states". If we remove these outliers, we have a distribution of female students that looks more complete.
+This is where we discover that each of the data points in the upper right hand
+corner of the plot are from the state value "us, us, outlying areas, and freely
+associated states". If we remove these outliers, we have a distribution of
+female students that looks more complete.
 
 ```{r, results = 'hide', message = FALSE, fig.cap = "Comparison of Female Students to Male Students with Disabilities"}
 child_counts %>%
@@ -898,13 +933,22 @@ child_counts %>%
   theme_dataedu()
 ```
 
-This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
+This should allow us to fit a better model for the relationship between male and
+female student counts, albeit only the ones where the count of female students
+takes a value between 0 and 500,000.
 
 *Male to Female Ratio Over Time*
 
-Earlier we asked the question Do we have enough data points for the count of female students to learn about the ratio of female to male students? Similarly, we should ask the question Do we have enough data points across our year variable to learn about how this ratio has changed over time?
+Earlier we asked the question Do we have enough data points for the count of
+female students to learn about the ratio of female to male students? Similarly,
+we should ask the question Do we have enough data points across our year
+variable to learn about how this ratio has changed over time?
 
-To answer that question, let's start by making a new dataset that excludes any rows where the `f` variables has a value that is less than or equal to 500000. We'll convert the `year` variable to a factor data type--we'll see how this helps in a bit. We'll also add a column called `ratio` that contains the male to female count ratio.
+To answer that question, let's start by making a new dataset that excludes any
+rows where the `f` variables has a value that is less than or equal to 500000.
+We'll convert the `year` variable to a factor data type--we'll see how this
+helps in a bit. We'll also add a column called `ratio` that contains the male to
+female count ratio.
 
 ```{r make model data}
 model_data <- child_counts %>%
@@ -926,7 +970,9 @@ model_data %>%
   count(year)
 ```
 
-Let's visualize the ratio values across all years as an additional check. Note the use of `geom_jitter()` to spread the points horizontally so we can estimate the quantities better: 
+Let's visualize the ratio values across all years as an additional check. Note
+the use of `geom_jitter()` to spread the points horizontally so we can estimate
+the quantities better: 
 
 ```{r, results = 'hide', message = FALSE, fig.cap="Male to Female Ratio Across Years (Jittered)"}
 ggplot(data = model_data, aes(x = year, y = ratio)) +
@@ -935,24 +981,51 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
   theme_dataedu()
 ```
 
-Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
+Each year seems to have data points that can be considered when we fit the
+model. This means that there are enough data points to help us learn how the
+year variable predicts the ratio variable.
 
-We fit the linear regression model by passing the argument `ratio ~ year` to the function `lm()`. In R, the `~` usually indicates a formula. In this case, the formula is the variable `year` as a predictor of the variable `ratio`. The final argument we pass to `lm` is `data = model_data`, which tells R to look for the variables `ratio` and `year` in the dataset `model_data`. The results of the model are called a "model object." We'll store the model object in `ratio_year`:
+We fit the linear regression model by passing the argument `ratio ~ year` to the
+function `lm()`. In R, the `~` usually indicates a formula. In this case, the
+formula is the variable `year` as a predictor of the variable `ratio`. The final
+argument we pass to `lm` is `data = model_data`, which tells R to look for the
+variables `ratio` and `year` in the dataset `model_data`. The results of the
+model are called a "model object." We'll store the model object in `ratio_year`:
 
 ```{r fit model for year predicting ratio }
 ratio_year <- 
   lm(ratio ~ year, data = model_data)
 ```
 
-Each model object is filled with all sorts of model information. We can look at this information using the function `summary()`: 
+Each model object is filled with all sorts of model information. We can look at
+this information using the function `summary()`: 
 
 ```{r model summary}
 summary(ratio_year)
 ```
 
-Here's how we can interpret the `Estimate` column: The estimate of the `(Intercept)` is 2.03356, which is the estimated value of the `ratio` variable when the `year` variable is "2012". Note that the value `year2012` isn't present in the in the list of rownames. That's because the `(Intercept)` row represents `year2012`. In linear regression models that use factor variables as predictors, the first level of the factor is the intercept. Sometimes this level is called a "dummy variable". The remaining rows of the model output show how much each year differs from the intercept, 2012. For example, `year2013` has an estimate of -0.01205, which suggests that on average the value of `ratio` is .01205 less than 2.03356. On average, the ratio of `year2014` is .02372 less than 2.03356. The `t value` column tells us the size of difference between the estimated value of the ratio for each year and the estimated value of the ratio of the intercept. Generally speaking, the larger the t value, the larger the chance that any difference between the coefficient of a factor level and the intercept are significant. 
+Here's how we can interpret the `Estimate` column: The estimate of the
+`(Intercept)` is 2.03356, which is the estimated value of the `ratio` variable
+when the `year` variable is "2012". Note that the value `year2012` isn't present
+in the in the list of rownames. That's because the `(Intercept)` row represents
+`year2012`. In linear regression models that use factor variables as predictors,
+the first level of the factor is the intercept. Sometimes this level is called a
+"dummy variable". The remaining rows of the model output show how much each year
+differs from the intercept, 2012. For example, `year2013` has an estimate of
+-0.01205, which suggests that on average the value of `ratio` is .01205 less
+than 2.03356. On average, the ratio of `year2014` is .02372 less than 2.03356.
+The `t value` column tells us the size of difference between the estimated value
+of the ratio for each year and the estimated value of the ratio of the
+intercept. Generally speaking, the larger the t value, the larger the chance
+that any difference between the coefficient of a factor level and the intercept
+are significant.
 
-Though the relationship between `year` as a predictor of `ratio` is not linear (recall our previous plot), the linear regression model still gives us useful information. We fit a linear regression model to a factor variable, like `year`, as a predictor of a continuous variable, like`ratio`. In doing so, we got the average `ratio` at every value of `year`. We can verify this by taking the mean `ratio` of ever `year`: 
+Though the relationship between `year` as a predictor of `ratio` is not linear
+(recall our previous plot), the linear regression model still gives us useful
+information. We fit a linear regression model to a factor variable, like `year`,
+as a predictor of a continuous variable, like`ratio`. In doing so, we got the
+average `ratio` at every value of `year`. We can verify this by taking the mean
+`ratio` of ever `year`: 
 
 ```{r mean ratio}
 model_data %>%
@@ -960,9 +1033,18 @@ model_data %>%
   summarize(mean_ratio = mean(ratio))
 ```
 
-This verifies that our intercept, the value of `ratio` during the year 2012, is 2.033563 and the value of `ratio` for 2013 is .01205 less than that of 2012 on average. Fitting the model gives us more details about these mean ratio scores-- namely the coefficient, t value, and p value. These values help us apply judgement when deciding if differences in `ratio` values suggest an underlying difference between years or simply differences you can expect from randomness. In this case, the absence of "*" in all rows except the Intercept row suggest that any differences occurring between years are within the range you'd expect by chance.
+This verifies that our intercept, the value of `ratio` during the year 2012,
+is 2.03 and the value of `ratio` for 2013 is .012 less than that of 2012
+on average. Fitting the model gives us more details about these mean ratio
+scores-- namely the coefficient, t value, and p value. These values help us
+apply judgement when deciding if differences in `ratio` values suggest an
+underlying difference between years or simply differences you can expect from
+randomness. In this case, the absence of "\*" in all rows except the Intercept
+row suggest that any differences occurring between years are within the range
+you'd expect by chance.
 
-If we use `summary()` on our `model_data` dataset, we can verify the intercept again: 
+If we use `summary()` on our `model_data` dataset, we can verify the intercept
+again:
 
 ```{r average female to male ratio}
 model_data %>%
@@ -970,11 +1052,23 @@ model_data %>%
   summary()
 ```
 
-The mean value of the `ratio` column when the `year` column is 2012 is 2.034, just like in the model output's intercept row.
+The mean value of the `ratio` column when the `year` column is 2012 is 2.03,
+just like in the model output's intercept row.
 
-Lastly, we may want to communicate to a larger audience that there were roughly twice amount of male students in this dataset than female students and that this did not change significantly between the years 2012 and 2017. When you are not communicating to an audience of other data scientists, it's helpful to illustrate your point without the technical details of the model output. Think of yourself as an interpreter: since you can speak the language of model outputs and the language of data visualization, your challenge is to take what you learned from the model output and tell that story in a way that is meaningful to your non-data scientist audience. 
+Lastly, we may want to communicate to a larger audience that there were roughly
+twice amount of male students in this dataset than female students and that this
+did not change significantly between the years 2012 and 2017. When you are not
+communicating to an audience of other data scientists, it's helpful to
+illustrate your point without the technical details of the model output. Think
+of yourself as an interpreter: since you can speak the language of model outputs
+and the language of data visualization, your challenge is to take what you
+learned from the model output and tell that story in a way that is meaningful to
+your non-data scientist audience.
 
-There are many ways to do this, but we'll choose boxplots to show our audience that there was roughly twice as many male students in special education than female students between 2012 and 2017. For our purposes, let's verify this by looking at the median male to female ratio for each year: 
+There are many ways to do this, but we'll choose boxplots to show our audience
+that there was roughly twice as many male students in special education than
+female students between 2012 and 2017. For our purposes, let's verify this by
+looking at the median male to female ratio for each year:
 
 ```{r median ratio}
 model_data %>%
@@ -1003,32 +1097,89 @@ model_data %>%
   theme_dataedu()
 ```
 
-Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
+Once we learned from our model that male to female ratios did not change in any
+meaningful way from 2012 to 2017 and that the median ratio across states was
+about 2 male students to every female student, we can present these two ideas
+using this plot. When discussing the plot, it helps to have your model output in
+your notes so you can reference specific coefficient estimates when needed.
 
-## Results 
+## Results
 
-We learned that each state has a different count of students with disabilities–so different that we need to use statistics like ratios or visualizations to compare across states. Even when we narrow our focus to the five states with the highest counts of students with disabilities, we see that there are differences in these counts. 
+We learned that each state has a different count of students with
+disabilities–so different that we need to use statistics like ratios or
+visualizations to compare across states. Even when we narrow our focus to the
+five states with the highest counts of students with disabilities, we see that
+there are differences in these counts.
 
-When we look at these five states over time, we see that despite the differences in total count each year, all five states have increased their student counts. We also learned that though the male to female ratios for students with disabilities appears to have gone down slightly over time, our model suggests that these decreases do not represent a big difference. 
+When we look at these five states over time, we see that despite the differences
+in total count each year, all five states have increased their student counts.
+We also learned that though the male to female ratios for students with
+disabilities appears to have gone down slightly over time, our model suggests
+that these decreases do not represent a big difference.
 
-The comparison of student counts across each state is tricky because there is a lot of variation in total enrollment across all fifty states. While we explored student counts across each state and verified that there is variation in the counts, a good next step would be to combine these data with total enrollment data. This would allow us to compare counts of students with disabilities as a percentage of total enrollment. Comparing proportions like this is a common way to compare subgroups of a population across states when each state's population varies in size. 
+The comparison of student counts across each state is tricky because there is a
+lot of variation in total enrollment across all fifty states. While we explored
+student counts across each state and verified that there is variation in the
+counts, a good next step would be to combine these data with total enrollment
+data. This would allow us to compare counts of students with disabilities as a
+percentage of total enrollment. Comparing proportions like this is a common way
+to compare subgroups of a population across states when each state's population
+varies in size.
 
 ## Conclusion
 
-Education data science is about using data science tools to learn about and improve the lives of our students. So why choose a publicly available aggregate dataset instead of a student-level dataset? We chose to use an aggregate dataset because it reflects an analysis that a data scientist in education would typically do. 
+Education data science is about using data science tools to learn about and
+improve the lives of our students. So why choose a publicly available aggregate
+dataset instead of a student-level dataset? We chose to use an aggregate dataset
+because it reflects an analysis that a data scientist in education would
+typically do.
 
-Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
+Using student-level data requires that the data scientist is either an employee
+of the school agency or that works under a memorandum of understanding (MOU)
+that allows her to access this data. Without either of these conditions, the
+education data scientist learns about the student experience by working on
+publicly available datasets, almost all of which are aggregated student-level
+datasets.
 
-**Student-level Data for Analysis of Local Populations: Aggregate Data for Base Rate and Context.**
+**Student-level Data for Analysis of Local Populations: Aggregate Data for Base
+Rate and Context.**
 
-Longitudinal analysis is typically done with student-level data because educators are interested in what happens to students over time. So if you cannot access student-level data, how do we use aggregate data to offer value to the analytic conversation?
+Longitudinal analysis is typically done with student-level data because
+educators are interested in what happens to students over time. So if you cannot
+access student-level data, how do we use aggregate data to offer value to the
+analytic conversation?
 
-Aggregate data is valuable because it allows us to learn from populations that are larger or different from the local student-level population. Think of it as an opportunity to learn from totaled up student data from other states or the whole country.
+Aggregate data is valuable because it allows us to learn from populations that
+are larger or different from the local student-level population. Think of it as
+an opportunity to learn from totaled up student data from other states or the
+whole country.
 
-In the book *Thinking Fast and Slow*, @kahneman2011 discusses the importance of learning from larger populations, a context he refers to as the base rate. The base rate fallacy is the tendency to only focus on conclusions we can draw from immediately available information. It's the difference between computing how often a student at one school is identified for special education services (student-level data) and how often students are identified for special educations services nationally (base rate data). We can use aggregate data to combat the baserate fallacy by putting what we learn from local student data in the context of surrounding populations. 
+In the book *Thinking Fast and Slow*, @kahneman2011 discusses the importance of
+learning from larger populations, a context he refers to as the base rate. The
+base rate fallacy is the tendency to only focus on conclusions we can draw from
+immediately available information. It's the difference between computing how
+often a student at one school is identified for special education services
+(student-level data) and how often students are identified for special
+educations services nationally (base rate data). We can use aggregate data to
+combat the baserate fallacy by putting what we learn from local student data in
+the context of surrounding populations.
 
-For example, consider an analysis of student-level data in a school district over time. Student-level data allows us to ask questions about our local population: One such question is: Are the rates of special education identification for male students different from other gender identities *in our district*? This style of question looks *inward* at your own educational system. 
+For example, consider an analysis of student-level data in a school district
+over time. Student-level data allows us to ask questions about our local
+population: One such question is: Are the rates of special education
+identification for male students different from other gender identities *in our
+district*? This style of question looks *inward* at your own educational system.
 
-Taking a cue from Daniel Kahneman, we should also ask what this pattern looks like in other states or in the country. Aggregate data allows us to ask questions about a larger population: One such question is Are the rates of special education identification for male students different from other gender identities *in the United States*? This style of question looks for answers *outside* your own educational system. The combination of the two lines of inquiry are powerful way to generate new knowledge about the student experience. 
+Taking a cue from Daniel Kahneman, we should also ask what this pattern looks
+like in other states or in the country. Aggregate data allows us to ask
+questions about a larger population: One such question is Are the rates of
+special education identification for male students different from other gender
+identities *in the United States*? This style of question looks for answers
+*outside* your own educational system. The combination of the two lines of
+inquiry are powerful way to generate new knowledge about the student experience.
 
-So education data scientists should not despair in situations where they cannot access student-level data. Aggregate data is a powerful way to learn from state level or national level data when a data sharing agreement for student-level data is not possible. In situations where student-level data *is* available, including aggregate data is an excellent way to combat the base rate fallacy. 
+So education data scientists should not despair in situations where they cannot
+access student-level data. Aggregate data is a powerful way to learn from state
+level or national level data when a data sharing agreement for student-level
+data is not possible. In situations where student-level data *is* available,
+including aggregate data is an excellent way to combat the base rate fallacy.
