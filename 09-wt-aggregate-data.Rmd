@@ -236,7 +236,7 @@ ROpenSci created the [{tabulizer}](https://github.com/ropensci/tabulizer)
 (https[]()://github.com/ropensci/tabulizer) package which provides R bindings to
 the Tabula java library, which can be used to computationally extract tables
 from PDF documents. {rJava} is a required package to load {tabulizer}.
-Unfortunately, installing {rJava} on Macs can be very tedious. 
+Unfortunately, installing {rJava} can be very tedious. 
 
 If you find
 yourself unable to install {tabulizer} [@R-tabulizer], or would like to skip
@@ -257,9 +257,13 @@ library(tabulizer)
 race_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf")
 
-# if reading in the tabulizer output
+# if reading in the tabulizer output from book repository
 race_pdf <-
-  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
+  readRDS(here("data", "agg_data", "race_pdf.Rds"))
+
+# if using the {dataedu} package
+race_pdf <-
+  dataedu::race_pdf
 ```
 
 It is important to consistently check what we're doing with the actual PDF's to
@@ -352,9 +356,13 @@ FRPL stands for Free/Reduced Price Lunch, often used as a proxy for poverty [@fr
 frpl_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf")
 
-# if reading in the tabulizer output
-race_pdf <-
-  readRDS(here("data", "wt05_agg_data", "race_pdf.Rds"))
+# if reading in the tabulizer output from book repository
+frpl_pdf <-
+  readRDS(here("data", "agg_data", "frpl_pdf.Rds"))
+
+# if using the {dataedu} package
+frpl_pdf <-
+  dataedu::frpl_pdf
 ```
 
 Similar to the Race/Ethnicity PDF, there are rows that we don't need from each
@@ -446,7 +454,7 @@ dataset.
     the total number of students in that race.
 
 ```{r, eval=FALSE}
-merged_df <-
+district_merged_df <-
   joined_df %>%
   # calculate high poverty numbers
   mutate(
@@ -477,11 +485,13 @@ merged_df <-
 To facilitate the creation of plots later on, we put this data in tidy format.
 
 ```{r, eval = FALSE}
-tidy_df <-
-  merged_df %>%
-  pivot_longer(cols = -matches("school_name"),
-               names_to = "category",
-               values_to = "value")
+district_tidy_df <-
+  district_merged_df %>%
+  pivot_longer(
+    cols = -matches("school_name"),
+    names_to = "category",
+    values_to = "value"
+  )
 ```
 
 Running the above code, particularly the download of the PDFs, takes a lot of
@@ -489,11 +499,17 @@ time. We've saved copies of the merged and tidy data in the data folder and can
 be accessed by running the code below.
 
 ```{r, message = FALSE}
-tidy_df <-
-  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_tidy_dat.csv"))
+# if reading in from book repository
+district_tidy_df <-
+  read_csv(here("data", "agg_data", "district_tidy_df.csv"))
 
-merged_df <-
-  read_csv(here("data", "wt05_agg_data", "wt05_aggdat_merged_dat.csv"))
+district_merged_df <-
+  read_csv(here("data", "agg_data", "district_merged_df.csv"))
+
+# if using the {dataedu} package
+dataedu::district_tidy_df
+
+dataedu::district_merged_df
 ```
 
 ## View Data
@@ -504,7 +520,7 @@ What do the racial demographics in this district look like? For this, a barplot
 can quickly visualize the different proportion of subgroups.
 
 ```{r fig9-1, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup"}
-tidy_df %>%
+district_tidy_df %>%
   # filter for Total rows, since we want district-level information
   filter(school_name == "Total",
          str_detect(category, "pct"),
@@ -512,9 +528,9 @@ tidy_df %>%
   # reordering x axis so bars appear by descending value
   ggplot(aes(x = reorder(category, -value), y = value)) +
   geom_bar(stat = "identity", aes(fill = category)) +
-  ggtitle("Percentage of Population by Subgroup") + 
-  xlab("Subgroup") +
-  ylab("Percentage of Population") +
+  labs(title = "Percentage of Population by Subgroup",
+       x = "Subgroup",
+       y = "Percentage of Population") +
   scale_x_discrete(
     labels = c(
       "aa_pct" = "Black",
@@ -526,8 +542,8 @@ tidy_df %>%
   ) +
   scale_y_continuous(labels = scales::percent) + # makes labels present as percentages
   scale_fill_dataedu() +
-  theme(legend.position = "none") +
-  theme_dataedu()
+  theme_dataedu() +
+  theme(legend.position = "none")
 ```
 
 When we look at these data, the district looks very diverse. Almost **40% of
@@ -538,7 +554,7 @@ students are Black** and around **36% are White**.
 In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 
 ```{r}
-tidy_df %>%
+district_tidy_df %>%
   filter(category == "frpl_pct",
          school_name == "Total")
 ```
@@ -558,16 +574,16 @@ different demographics across schools. Here is a histogram for the percentage of
 White students within the schools for which we have data.
 
 ```{r fig9-2, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population"}
-merged_df %>%
+district_merged_df %>%
   # remove district totals
   filter(school_name != "Total") %>%
   # x-axis will be the percentage of white students within schools
   ggplot(aes(x = wh_pct)) +
   geom_histogram(breaks = seq(0, 1, by = .1),
                  fill = dataedu_colors("darkblue"))  +
-  ggtitle("Count of Schools by White Population") +
-  xlab("White Percentage") +
-  ylab("Count") +
+  labs(title = "Count of Schools by White Population",
+       x = "White Percentage",
+       y = "Count") +
   scale_x_continuous(labels = scales::percent) + 
   theme(legend.position = "none") +
   theme_dataedu()
@@ -593,14 +609,14 @@ overrepresented and underrepresented within the high poverty schools. Is this
 the case for this district?
 
 ```{r fig9-3, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Distribution of Subgroups in High Poverty Schools"}
-tidy_df %>%
+district_tidy_df %>%
   filter(school_name == "Total",
          str_detect(category, "povsch")) %>%
   ggplot(aes(x = reorder(category,-value), y = value)) +
   geom_bar(stat = "identity", aes(fill = factor(category))) +
-  ggtitle("Distribution of Subgroups in High Poverty Schools") +
-  xlab("Subgroup") +
-  ylab("Percentage in High Poverty Schools") +
+  labs(title = "Distribution of Subgroups in High Poverty Schools",
+       x = "Subgroup",
+       y = "Percentage in High Poverty Schools") +
   scale_x_discrete(
     labels = c(
       "aa_povsch" = "Black",
@@ -612,8 +628,8 @@ tidy_df %>%
   ) +
   scale_y_continuous(labels = scales::percent) +
   scale_fill_dataedu() +
-  theme(legend.position = "none") +
-  theme_dataedu()
+  theme_dataedu() +
+  theme(legend.position = "none")
 ```
 
 **8% of White students** attend high poverty schools, compared to **43% of Black
@@ -626,17 +642,17 @@ attending high poverty schools.
 Let’s explore what happens when we correlate race and FRPL percentage by school.
 
 ```{r fig9-4, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage"}
-merged_df %>%
+district_merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
   geom_point(color = dataedu_colors("green")) +
-  ggtitle("FRPL Percentage vs. White Percentage") +
-  xlab("White Percentage") +
-  ylab("FRPL Percentage") +
+  labs(title = "FRPL Percentage vs. White Percentage",
+       x = "White Percentage",
+       y = "FRPL Percentage") +
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(labels = scales::percent) +
-  theme(legend.position = "none") +
-  theme_dataedu()
+  theme_dataedu() +
+  theme(legend.position = "none")
 ```
 
 Related to the result above, there is a strong negative correlation between FRPL
