@@ -134,8 +134,8 @@ head(colnames(gradebook))
 ```
 
 ```
-#> [1] "Class"           "Name"            "Race"            "Gender"         
-#> [5] "Age"             "Repeated Grades"
+## [1] "Class"           "Name"            "Race"            "Gender"         
+## [5] "Age"             "Repeated Grades"
 ```
 
 You can look at the full output by removing the call to `head()`.
@@ -159,8 +159,8 @@ head(colnames(gradebook))
 ```
 
 ```
-#> [1] "class"           "name"            "race"            "gender"         
-#> [5] "age"             "repeated_grades"
+## [1] "class"           "name"            "race"            "gender"         
+## [5] "age"             "repeated_grades"
 ```
 
 Review what the `gradebook` data frame looks like now. It shows 25 students and their individual values in various columns like `projects` or `formative_assessments`.
@@ -201,7 +201,7 @@ At last, the formerly untidy Excel sheet has been turned into a useful data fram
 view(gradebook)
 ```
 
-### Create new variables and further process the data
+### Create New Variables and Further Process the Data
 
 R users transform data to facilitate working with the data during later phases of visualization and analysis. A few examples of data transformation include creating new variables, grouping data, and more. This code chunk first creates a new data frame named `classwork_df`, then selects particular variables from our gradebook dataset using `select()`, and finally gathers all the homework data under new variables into new columns.
 
@@ -266,13 +266,13 @@ gradebook %>%
        x = "Letter Grades",
        y = "Count",
        fill = "A or Better") +
-  theme_dataedu() +
-  scale_fill_dataedu()
+  scale_fill_dataedu() +
+  theme_dataedu()
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-13-1.png" alt="Bar Graph of Student Grades" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-13)Bar Graph of Student Grades</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-1-1.png" alt="Bar Graph of Student Grades" width="672" />
+<p class="caption">(\#fig:fig8-1)Bar Graph of Student Grades</p>
 </div>
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
@@ -290,19 +290,19 @@ classwork_df %>%
     x = "Classwork",
     y = "Scores"
   ) +
-  theme_dataedu() +
   scale_fill_dataedu() +
+  theme_dataedu() +
   theme(
     # removes legend
     legend.position = "none",
     # angles the x axis labels
     axis.text.x = element_text(angle = 45, hjust = 1)
-    ) 
+    )
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-14-1.png" alt="Distribution of Classwork Scores" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-14)Distribution of Classwork Scores</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-2-1.png" alt="Distribution of Classwork Scores" width="672" />
+<p class="caption">(\#fig:fig8-2)Distribution of Classwork Scores</p>
 </div>
 
 ### Model Data
@@ -334,8 +334,8 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-15-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-15)Relationship Between Overall Grade and Formative Assessments</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-3-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="672" />
+<p class="caption">(\#fig:fig8-3)Relationship Between Overall Grade and Formative Assessments</p>
 </div>
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
@@ -358,8 +358,8 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-16-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-4-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="672" />
+<p class="caption">(\#fig:fig8-4)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
 </div>
 
 **Outliers**
@@ -381,8 +381,8 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-17-1.png" alt="Distribution of Formative Assessment Scores" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-17)Distribution of Formative Assessment Scores</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-5-1.png" alt="Distribution of Formative Assessment Scores" width="672" />
+<p class="caption">(\#fig:fig8-5)Distribution of Formative Assessment Scores</p>
 </div>
 
 
@@ -400,8 +400,8 @@ gradebook %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="08-wt-gradebook_files/figure-html/unnamed-chunk-18-1.png" alt="Distribution of Overall Grade Scores" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-18)Distribution of Overall Grade Scores</p>
+<img src="08-wt-gradebook_files/figure-html/fig8-6-1.png" alt="Distribution of Overall Grade Scores" width="672" />
+<p class="caption">(\#fig:fig8-6)Distribution of Overall Grade Scores</p>
 </div>
 
 ### Correlation Analysis
@@ -416,7 +416,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 ```
 
 ```
-#> [1] 0.663
+## [1] 0.663
 ```
 
 ## Results
@@ -438,24 +438,24 @@ summary(linear_mod)
 ```
 
 ```
-#> 
-#> Call:
-#> lm(formula = running_average ~ formative_assessments, data = gradebook)
-#> 
-#> Residuals:
-#>    Min     1Q Median     3Q    Max 
-#> -7.281 -2.793 -0.013  3.318  8.535 
-#> 
-#> Coefficients:
-#>                       Estimate Std. Error t value Pr(>|t|)    
-#> (Intercept)            50.1151     8.5477    5.86  5.6e-06 ***
-#> formative_assessments   0.4214     0.0991    4.25    3e-04 ***
-#> ---
-#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 
-#> Residual standard error: 4.66 on 23 degrees of freedom
-#> Multiple R-squared:  0.44,	Adjusted R-squared:  0.416 
-#> F-statistic: 18.1 on 1 and 23 DF,  p-value: 0.000302
+## 
+## Call:
+## lm(formula = running_average ~ formative_assessments, data = gradebook)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.281 -2.793 -0.013  3.318  8.535 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)            50.1151     8.5477    5.86  5.6e-06 ***
+## formative_assessments   0.4214     0.0991    4.25    3e-04 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 4.66 on 23 degrees of freedom
+## Multiple R-squared:  0.44,	Adjusted R-squared:  0.416 
+## F-statistic: 18.1 on 1 and 23 DF,  p-value: 0.000302
 ```
 
 When you fit a model to two variables, you create an equation that describes the relationship between those two variables on average. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is .42136. The equation reads like this: 

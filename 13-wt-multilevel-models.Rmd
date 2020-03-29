@@ -200,13 +200,20 @@ m_linear_dc <-
 ```
 
 The output will be a bit, well, long, because each group will have its own
-intercept. Here it is:
+intercept. We can see it using `tab_model()` from {sjPlot}:
 
 ```{r show results of m_linear_dc}
-sjPlot::tab_model(m_linear_dc)
+tab_model(m_linear_dc,
+          title = "Table 13.1")
 ```
 
-Wow! That is a lot of effects. In addition to the time spent and subject
+```{r, echo = FALSE}
+tab_model(m_linear_dc,
+          file = "man/tables/Table 13.1.doc",
+          title = "Table 13.1")
+```
+
+Wow! Those are a lot of effects. In addition to the time spent and subject
 variables, the model estimated the difference, accounting for the effects of
 being a student in a specific class. Let's count how many classes there are. 
 
@@ -242,7 +249,14 @@ or a predictor: every coefficient in this model is now in reference to it.
 m_linear_dc_1 <- 
   lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 
-sjPlot::tab_model(m_linear_dc_1)
+tab_model(m_linear_dc_1,
+          title = "Table 13.2")
+```
+
+```{r, echo = FALSE}
+tab_model(m_linear_dc_1,
+          file = "man/tables/Table 13.2.doc",
+          title = "Table 13.2")
 ```
 
 Using dummy codes is very common - they are used in nearly every case in which
@@ -267,7 +281,14 @@ after the tilde, as follows:
 m_linear_dc_2 <- 
   lm(final_grade ~ -1 + TimeSpent_std + course_id, data = dat)
 
-sjPlot::tab_model(m_linear_dc_2)
+tab_model(m_linear_dc_2,
+          title = "Table 13.3")
+```
+
+```{r, echo = FALSE}
+tab_model(m_linear_dc_2,
+          file = "man/tables/Table 13.3.doc",
+          title = "Table 13.3")
 ```
 
 This does not work in many cases, and it is much more common to dummy-code
@@ -404,16 +425,20 @@ all of the classes can be interpreted as a *prior* for the group estimates.
 
 ## Results
 
-Let's view the results using the `tab_model()` function from {sjPlot}.
+Let's view the results using the `tab_model()` function from {sjPlot} again.
 
-```{r, eval = FALSE}
-tab_model(m_course)
+```{r}
+tab_model(m_course,
+          title = "Table 13.4")
 ```
 
-There is another part of the above code to mention. The `tab_model()`
-function comparably as it does for `lm()` models, providing output for the
-model, including some fit statistics as well as coefficients and their standard
-errors and estimates. There are two things to note about `lmer()` output:
+```{r, echo = FALSE}
+tab_model(m_course,
+          file = "man/tables/Table 13.4.doc",
+          title = "Table 13.4")
+```
+
+For `lm()` models, `tab_model()` provides the output, including some fit statistics as well as coefficients and their standard errors and estimates. There are two things to note about `lmer()` output:
 
 1.  *p*-values are not automatically provided, due to debates in the wider field
     about how to calculate the degrees of freedom for coefficients^[ Run

@@ -72,6 +72,8 @@ Here are rows in a student-level dataset:
 
 
 ```r
+library(tidyverse)
+
 # student-level data 
 tibble(
   student = letters[1:10],
@@ -81,19 +83,19 @@ tibble(
 ```
 
 ```
-#> # A tibble: 10 x 3
-#>    student school test_score
-#>    <chr>   <chr>       <int>
-#>  1 a       k              85
-#>  2 b       l              90
-#>  3 c       m              82
-#>  4 d       n              31
-#>  5 e       o              91
-#>  6 f       k               8
-#>  7 g       l               5
-#>  8 h       m               5
-#>  9 i       n              11
-#> 10 j       o              66
+## # A tibble: 10 x 3
+##    student school test_score
+##    <chr>   <chr>       <int>
+##  1 a       k              27
+##  2 b       l              86
+##  3 c       m              21
+##  4 d       n              87
+##  5 e       o              64
+##  6 f       k              16
+##  7 g       l              35
+##  8 h       m              41
+##  9 i       n              69
+## 10 j       o              48
 ```
 
 Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
@@ -111,14 +113,14 @@ tibble(
 ```
 
 ```
-#> # A tibble: 5 x 2
-#>   school mean_score
-#>   <chr>       <dbl>
-#> 1 k              34
-#> 2 l              42
-#> 3 m              54
-#> 4 n              24
-#> 5 o              23
+## # A tibble: 5 x 2
+##   school mean_score
+##   <chr>       <dbl>
+## 1 k            76  
+## 2 l            36.5
+## 3 m            53  
+## 4 n            85.5
+## 5 o            15.5
 ```
 
 Notice here that this dataset no longer identifies individual students. 
@@ -446,8 +448,8 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-13-1.png" alt="Percentage of Population by Subgroup" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-13)Percentage of Population by Subgroup</p>
+<img src="09-wt-aggregate-data_files/figure-html/fig9-1-1.png" alt="Percentage of Population by Subgroup" width="672" />
+<p class="caption">(\#fig:fig9-1)Percentage of Population by Subgroup</p>
 </div>
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
@@ -460,15 +462,15 @@ In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
 ```r
 tidy_df %>%
   filter(category == "frpl_pct",
-         school_name == "Total") %>%
-  knitr::kable() # creates a nice looking table
+         school_name == "Total")
 ```
 
-
-
-school_name   category    value
-------------  ---------  ------
-Total         frpl_pct    0.569
+```
+## # A tibble: 1 x 3
+##   school_name category value
+##   <chr>       <chr>    <dbl>
+## 1 Total       frpl_pct 0.569
+```
 
 **56.9% of the students are eligible for FRPL**, compared to [the U.S. average of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes) (https[]()://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
 
@@ -498,8 +500,8 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-15-1.png" alt="Count of Schools by White Population" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-15)Count of Schools by White Population</p>
+<img src="09-wt-aggregate-data_files/figure-html/fig9-2-1.png" alt="Count of Schools by White Population" width="672" />
+<p class="caption">(\#fig:fig9-2)Count of Schools by White Population</p>
 </div>
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
@@ -538,8 +540,8 @@ tidy_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-16-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-16)Distribution of Subgroups in High Poverty Schools</p>
+<img src="09-wt-aggregate-data_files/figure-html/fig9-3-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="672" />
+<p class="caption">(\#fig:fig9-3)Distribution of Subgroups in High Poverty Schools</p>
 </div>
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
@@ -564,8 +566,8 @@ merged_df %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-wt-aggregate-data_files/figure-html/unnamed-chunk-17-1.png" alt="FRPL Percentage vs. White Percentage" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-17)FRPL Percentage vs. White Percentage</p>
+<img src="09-wt-aggregate-data_files/figure-html/fig9-4-1.png" alt="FRPL Percentage vs. White Percentage" width="672" />
+<p class="caption">(\#fig:fig9-4)FRPL Percentage vs. White Percentage</p>
 </div>
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.

@@ -1,9 +1,5 @@
 # Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data {#c10}
 
-```{r load custom themes, echo = FALSE, message = FALSE, eval=FALSE}
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-```
-
 ## Vocabulary 
 
 - aggregate data
@@ -505,7 +501,7 @@ In that spirit, we'll start by visualizing specific genders and age groups. Feel
 
 Start by copying and running this code in your console to see what it does: 
 
-```{r, results = 'hide', message = FALSE, warning = F, fig.cap = "Count of Female Students in Special Education Over Time"}
+```{r fig10-1, results = 'hide', message = FALSE, warning = F, fig.cap = "Count of Female Students in Special Education Over Time"}
 high_count %>%
   filter(gender == "f", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
@@ -524,7 +520,7 @@ It's worth calling out one more thing, since it's a technique we'll be using as 
 
 We can also try the same plot, but subsetting for male students instead. We can use the same code we used for the last plot, but filter for the value "m" in the `gender` field: 
 
-```{r, results = 'hide', message = FALSE, fig.cap="Count of Male Students in Special Education Over Time"}
+```{r fig10-2, results = 'hide', message = FALSE, fig.cap="Count of Male Students in Special Education Over Time"}
 high_count %>%
   filter(gender == "m", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
@@ -537,7 +533,7 @@ high_count %>%
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
 
-```{r, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time"}
+```{r fig10-3, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time"}
 high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
@@ -551,7 +547,7 @@ high_count %>%
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
 
-```{r, results = 'hide', message = FALSE, fig.cap="Median Students with Disabilities Count"}
+```{r fig10-4, results = 'hide', message = FALSE, fig.cap="Median Students with Disabilities Count"}
 high_count %>%
   group_by(year, state) %>%
   summarize(n = sum(total)) %>%
@@ -578,7 +574,7 @@ We can use the count of male students in each state and divide it by the count o
  
 Note here that we can also accomplish this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students. 
 
-```{r, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time"}
+```{r fig10-5, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time"}
 high_count %>%
   group_by(year, state, gender) %>%
   summarize(total = sum(total)) %>%
@@ -612,7 +608,7 @@ In this example, we'll follow our intuition about the relationship between male 
 
 At the start of this section, we chose to exclude outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of female students compared to male students. Note that the relationship appears linear, but there is a large gap in the distribution of female student counts somewhere between the values of 250,000 and 1,750,000: 
 
-```{r, results='hide', message = FALSE, fig.cap="Comparison of Female Students to Male Students in Special Education"}
+```{r fig10-6, results='hide', message = FALSE, fig.cap="Comparison of Female Students to Male Students in Special Education"}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   pivot_wider(names_from = gender, 
@@ -645,7 +641,7 @@ child_counts %>%
 
 This is where we discover that each of the data points in the upper right hand corner of the plot are from the state value "us, us, outlying areas, and freely associated states". If we remove these outliers, we have a distribution of female students that looks more complete.
 
-```{r, results = 'hide', message = FALSE, fig.cap = "Comparison of Female Students to Male Students with Disabilities"}
+```{r fig10-7, results = 'hide', message = FALSE, fig.cap = "Comparison of Female Students to Male Students with Disabilities"}
 child_counts %>%
   filter(age == "Total, Age 6-21") %>%
   pivot_wider(names_from = gender, 
@@ -694,7 +690,7 @@ model_data %>%
 
 Let's visualize the ratio values across all years as an additional check. Note the use of `geom_jitter()` to spread the points horizontally so we can estimate the quantities better: 
 
-```{r, results = 'hide', message = FALSE, fig.cap="Male to Female Ratio Across Years (Jittered)"}
+```{r fig10-8, results = 'hide', message = FALSE, fig.cap="Male to Female Ratio Across Years (Jittered)"}
 ggplot(data = model_data, aes(x = year, y = ratio)) +
   geom_jitter(alpha = .5, color = dataedu_colors("green")) +
   labs(title = "Male to Female Ratio Across Years (Jittered)") +
@@ -750,7 +746,7 @@ model_data %>%
 
 Now let's visualize this using our boxplots: 
 
-```{r, results = 'hide', message = FALSE, fig.cap="Median Male and Female Student Counts in Special Education"}
+```{r fig10-9, results = 'hide', message = FALSE, fig.cap="Median Male and Female Student Counts in Special Education"}
 model_data %>%
   pivot_longer(cols = c(f, m), 
                names_to = "gender", 

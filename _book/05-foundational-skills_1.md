@@ -47,8 +47,8 @@ Now that we've installed both R and RStudio, we will be accessing R _through_ RS
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.1.png" alt="Icons" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-1)Icons</p>
+<img src="./man/figures/Figure 5.1.png" alt="Icons" width="479" />
+<p class="caption">(\#fig:fig5-1)Icons</p>
 </div>
 
 Whenever we want to work with R, we'll open RStudio.
@@ -75,8 +75,8 @@ We have chosen to use RStudio in this text in order to standardize the experienc
 When we open RStudio for the first time, we're should see something similar to this:
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-2)RStudio Layout</p>
+<img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="1184" />
+<p class="caption">(\#fig:fig5-2)RStudio Layout</p>
 </div>
 
 We'll refer to these three "panes" as the **Console** pane, the **Environment** pane, and the **Files** pane. 
@@ -89,8 +89,8 @@ The source pane should show up as a square in the top left.
 We can open up an `.R` script in the source pane by going to File, selecting New File, and then selecting R Script:
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.3.png" alt="Creating a new R Script in RStudio" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)Creating a new R Script in RStudio</p>
+<img src="./man/figures/Figure 5.3.png" alt="Creating a new R Script in RStudio" width="791" />
+<p class="caption">(\#fig:fig5-3)Creating a new R Script in RStudio</p>
 </div>
 
 You do not need to do anything specific with this file, but we encourage you to experiment with it if you would like!  
@@ -102,8 +102,8 @@ A best practice for your _workflow_ is to ensure that you're starting with a bla
 To accomplish this, go to Tools and select Global Options from the dropdown menu.
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-4)Selecting Global Options from the Tool Dropdown Menu</p>
+<img src="./man/figures/Figure 5.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="255" />
+<p class="caption">(\#fig:fig5-4)Selecting Global Options from the Tool Dropdown Menu</p>
 </div>
 
 The General tab will open, with several checkboxes selected and unselected.
@@ -111,8 +111,8 @@ The most important thing you can do is select "Never" next to the **Save workspa
 After selecting "Never", go through and check and uncheck boxes so that your General tab looks like this: 
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.5.png" alt="General tab from Global Options" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-5)General tab from Global Options</p>
+<img src="./man/figures/Figure 5.5.png" alt="General tab from Global Options" width="649" />
+<p class="caption">(\#fig:fig5-5)General tab from Global Options</p>
 </div>
 
 Last, but certainly not least, click on the "Appearance" tab from within the Global Options. 
@@ -130,8 +130,8 @@ Let's look at the Environment pane as an example.
 If the Environment pane has been minimized, we'll see something like this:  
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.6.png" alt="RStudio layout with the Environment Pane Minimized" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-6)RStudio layout with the Environment Pane Minimized</p>
+<img src="./man/figures/Figure 5.6.png" alt="RStudio layout with the Environment Pane Minimized" width="1363" />
+<p class="caption">(\#fig:fig5-6)RStudio layout with the Environment Pane Minimized</p>
 </div>
 
 We know that the Environment pane has been minimized, because we can see the pane headers in the top right, we just can't see the information _within_ the Environment pane.
@@ -141,15 +141,15 @@ If you click on the icon of the large square in the top right of the Environment
 If the Environment pane has somehow been closed, you can recover it by going to the View menu, selecting Panes, and then selecting Pane Layout, like so: 
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-7)Accessing the Pane Layout from the View Dropdown Menu</p>
+<img src="./man/figures/Figure 5.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="456" />
+<p class="caption">(\#fig:fig5-7)Accessing the Pane Layout from the View Dropdown Menu</p>
 </div>
 
 When we select Pane Layout, we'll see this: 
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.8.png" alt="Pane Layout options within RStudio" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-8)Pane Layout options within RStudio</p>
+<img src="./man/figures/Figure 5.8.png" alt="Pane Layout options within RStudio" width="650" />
+<p class="caption">(\#fig:fig5-8)Pane Layout options within RStudio</p>
 </div>
 
 From here you can select which tabs you'd like to appear within each pane, and even change where each pane appears within RStudio. 
@@ -173,8 +173,8 @@ In the Console, type `3 + 4` and hit `Enter`.
 You should see the following:  
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.9.png" alt="Using the Console as a Calculator" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-9)Using the Console as a Calculator</p>
+<img src="./man/figures/Figure 5.9.png" alt="Using the Console as a Calculator" width="208" />
+<p class="caption">(\#fig:fig5-9)Using the Console as a Calculator</p>
 </div>
 
 We've just used R to add the numbers 3 and 4. 
@@ -192,8 +192,8 @@ print("I am learning R")
 We should see this in the Console:
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.10.png" alt="Printing Text to the Console" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-11)Printing Text to the Console</p>
+<img src="./man/figures/Figure 5.10.png" alt="Printing Text to the Console" width="255" />
+<p class="caption">(\#fig:fig5-10)Printing Text to the Console</p>
 </div>
 
 There's one error that you're likely going to come across, both when running code in the Console as well as in an R script. 
@@ -208,8 +208,8 @@ Make sure that you left off the closing parentheses!
 What you'll see in the Console is: 
 
 <div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 5.11.png" alt="Incomplete Parentheses Change what R Expects Next" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-13)Incomplete Parentheses Change what R Expects Next</p>
+<img src="./man/figures/Figure 5.11.png" alt="Incomplete Parentheses Change what R Expects Next" width="407" />
+<p class="caption">(\#fig:fig5-11)Incomplete Parentheses Change what R Expects Next</p>
 </div>
 
 When we're missing a closing parentheses, R is expecting us to provide more code.
@@ -277,7 +277,8 @@ This method is useful when you're writing a description of what you're doing in 
 _Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign (octothorpe) in front of a line of code so that R ignores it._
 _We will also use the phrase "uncomment code," which means you should delete (or omit when typing out) the `#` or `#'` in an example._
     
-## Installing the {dataedu} package 
+## Installing the {dataedu} Package 
+
 This next section will briefly go over installing the {dataedu} package that's used throughout this book.
 We created the {dataedu} package to provide our readers an opportunity to jump into R however they see fit.
 
@@ -304,7 +305,7 @@ One of the walkthroughs uses [tabulizer](https://github.com/ropensci/tabulizer),
 {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. 
 Neither {tabulizer} nor {RJava} are included in `mass_install()` and we recommend reading through the notes on the [{tabulizer} GitHub repository]("https://github.com/ropensci/tabulizer) should you choose to install it.
 
-## Exploring R with the {swirl} package
+## Exploring R with the {swirl} Package
 
 If you were able to install the {dataedu} package without any issues or concerns, and you're eager to get started exploring everything that R can do, you can supplement your learning through [{swirl}](https://swirlstats.com/students.html) (https[]()://swirlstats.com/students.html).  
 

@@ -1,9 +1,5 @@
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
-``` {r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, cache = F)
-```
-
 ## Introduction to the walkthroughs
 
 This chapter is the first of eight walkthroughs included in the book. In it, we
@@ -385,12 +381,12 @@ When we pivoted from wide format to long format in the prior step, we ended up
 with one variable containing all possible question numbers (q1, q2, etc.). Now,
 we want to tell R which question numbers correspond to which categories. To do
 this, we will supply `case_when()` with a list of all the question numbers that
-correspond to each category: interst, utility value, and perceived competence.
+correspond to each category: interest, utility value, and perceived competence.
 We'll introduce a new operator in order to do this: `%in!%`. Practically, this
 operator means that R should look within a list for something. In the code
 below, we tell R to use questions 1, 4, 5, 8, and 10 to create the category
 `int`. We then tell R to use questions 2, 6, and 9 to calculate `uv` and to use
-questions 3 and 7 to calcluate `pc`. We indicate the start of each list with the
+questions 3 and 7 to calculate `pc`. We indicate the start of each list with the
 letter "c" and an open parenthesis, and we indicate the end of each list with a
 close parenthesis.
 
@@ -720,7 +716,7 @@ dat <-
 ```
 
 Note that they're now combined, even though the course data had many more rows.
-The pre\_survey data has been joined for each student-course combination. We
+The pre-survey data has been joined for each student-course combination. We
 have a pretty large data frame! Let's take a quick look.
 
 ``` {r}
@@ -842,7 +838,7 @@ functions that start with `geom_`. {ggplot2} has many graph shapes you can use,
 including points, bars, lines, and boxplots. Here’s a {ggplot2} example using a
 dataset of school mean test scores to graph a bar chart:
 
-```{r ggplot example, warning = FALSE, message = FALSE, results = 'hide'}
+```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.cap = "Example Plot"}
 # make dataset
 students <- 
   tibble(
@@ -873,7 +869,7 @@ One thing we might be wondering is how time spent on course is related to
 students' final grade. Let's make a plot to depict that relationship. Below,
 we'll use `geom_point` instead of `geom_bar`.
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide'}
+``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent"}
 dat %>%
   # aes() tells ggplot2 what variables to map to what feature of a plot
   # Here we map variables to the x- and y-axis
@@ -889,7 +885,7 @@ There appears to be *some* relationship. What if we added a line of best fit - a
 linear model? The code below is the same plot we just made, but it includes the
 addition of another layer called `geom_smooth`. 
 
-``` {r, message = FALSE, warning = FALSE, results = 'hide'}
+``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit"}
 dat %>%
   ggplot(aes(x = TimeSpent, y = final_grade)) +
     geom_point(color = dataedu_colors("green")) + # same as above
@@ -941,7 +937,14 @@ results pop up in the "Viewer" pane of RStudio. If you haven't changed the
 default settings, this will be in the lower right quadrant of your screen.
 
 ``` {r}
-tab_model(m_linear)
+tab_model(m_linear,
+          title = "Table 7.1")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear,
+          file = "./man/tables/Table 7.1.doc",
+          title = "Table 7.1")
 ```
 
 This will work well for R Markdown documents (or simply to interpret the model
@@ -1038,7 +1041,14 @@ m_linear_1 <-
   lm(final_grade ~ TimeSpent_hours, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_1)
+tab_model(m_linear_1,
+          title = "Table 7.2")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_1,
+          file = "./man/tables/Table 7.2.doc",
+          title = "Table 7.2")
 ```
 
 The scale still does not seem quite right. What if we standardized the variable
@@ -1055,7 +1065,14 @@ m_linear_2 <-
   lm(final_grade ~ TimeSpent_std, data = dat)
 
 # viewing the output of the linear model
-tab_model(m_linear_2)
+tab_model(m_linear_2,
+          title = "Table 7.3")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_2,
+          file = "./man/tables/Table 7.3.doc",
+          title = "Table 7.3")
 ```
 
 When we look at this output, it seems to make more sense. However, there is a
@@ -1080,7 +1097,14 @@ m_linear_3 <-
 We can use `tab_model()` once again to view the results:
 
 ``` {r}
-tab_model(m_linear_3)
+tab_model(m_linear_3,
+          title = "Table 7.4")
+```
+
+``` {r, echo = F, results = "hide"}
+tab_model(m_linear_3,
+          file = "./man/tables/Table 7.4.doc",
+          title = "Table 7.4")
 ```
 
 It looks like subject `FrSc` - forensic science - and subject `Ocn` -
