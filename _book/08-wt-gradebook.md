@@ -201,7 +201,7 @@ At last, the formerly untidy Excel sheet has been turned into a useful data fram
 view(gradebook)
 ```
 
-### Create new variables and further process the data
+### Create New Variables and Further Process the Data
 
 R users transform data to facilitate working with the data during later phases of visualization and analysis. A few examples of data transformation include creating new variables, grouping data, and more. This code chunk first creates a new data frame named `classwork_df`, then selects particular variables from our gradebook dataset using `select()`, and finally gathers all the homework data under new variables into new columns.
 
@@ -270,7 +270,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig8-1)Bar Graph of Student Grades](08-wt-gradebook_files/figure-docx/fig8-1-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-1-1.png" alt="Bar Graph of Student Grades" width="672" />
+<p class="caption">(\#fig:fig8-1)Bar Graph of Student Grades</p>
+</div>
 
 Using {ggplot2} we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
 
@@ -297,19 +300,22 @@ classwork_df %>%
     )
 ```
 
-![(\#fig:fig8-2)Distribution of Classwork Scores](08-wt-gradebook_files/figure-docx/fig8-2-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-2-1.png" alt="Distribution of Classwork Scores" width="672" />
+<p class="caption">(\#fig:fig8-2)Distribution of Classwork Scores</p>
+</div>
 
 ### Model Data
 
-#### Deciding on an Analysis
+**Deciding on an Analysis**
 
 Using this spreadsheet, we can start to form hypotheses about the data. For example, we can ask ourselves, "Can we predict overall grade using formative assessment scores?" For this, we will try to predict a response variable Y (overall grade) as a function of a predictor variable Y (formative assessment scores). The goal is to create a mathematical equation for overall grade as a function of formative assessment scores when only formative assessment scores are known.
 
-#### Visualize Data to Check Assumptions
+**Visualize Data to Check Assumptions
 
 It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot2} to understand these variables graphically. 
 
-##### Linearity
+**Linearity**
 
 First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, the overall grade goes up too.
 
@@ -327,7 +333,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig8-3)Relationship Between Overall Grade and Formative Assessments](08-wt-gradebook_files/figure-docx/fig8-3-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-3-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="672" />
+<p class="caption">(\#fig:fig8-3)Relationship Between Overall Grade and Formative Assessments</p>
+</div>
 
 We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
 
@@ -348,9 +357,12 @@ gradebook %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig8-4)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)](08-wt-gradebook_files/figure-docx/fig8-4-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-4-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="672" />
+<p class="caption">(\#fig:fig8-4)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
+</div>
 
-##### Outliers
+**Outliers**
 
 Now we use boxplots to determine if there are any outliers in formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
 
@@ -368,7 +380,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig8-5)Distribution of Formative Assessment Scores](08-wt-gradebook_files/figure-docx/fig8-5-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-5-1.png" alt="Distribution of Formative Assessment Scores" width="672" />
+<p class="caption">(\#fig:fig8-5)Distribution of Formative Assessment Scores</p>
+</div>
 
 
 ```r
@@ -384,7 +399,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig8-6)Distribution of Overall Grade Scores](08-wt-gradebook_files/figure-docx/fig8-6-1.png)
+<div class="figure" style="text-align: center">
+<img src="08-wt-gradebook_files/figure-html/fig8-6-1.png" alt="Distribution of Overall Grade Scores" width="672" />
+<p class="caption">(\#fig:fig8-6)Distribution of Overall Grade Scores</p>
+</div>
 
 ### Correlation Analysis
 

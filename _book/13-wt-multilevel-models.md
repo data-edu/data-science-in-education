@@ -1541,7 +1541,7 @@ districts - you get the picture!). Educational data is complex, and so it is
 not surprising that multi-level models may be encountered in educational data
 science analyses, reports, and articles.
 
-### Multi-level model analysis
+### Multi-level Model Analysis
 
 Fortunately, for all of the complicated details, multi-level models are very
 easy to use in R. This requires a new package. One of the most common for

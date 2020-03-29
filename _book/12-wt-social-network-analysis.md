@@ -311,7 +311,10 @@ g %>%
   theme_graph()
 ```
 
-![(\#fig:fig12-1)Network Graph](12-wt-social-network-analysis_files/figure-docx/fig12-1-1.png)
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-1-1.png" alt="Network Graph" width="672" />
+<p class="caption">(\#fig:fig12-1)Network Graph</p>
+</div>
 
 Finally, let's size the points based on a measure of centrality, typically a measure of how (potentially) influence an individual may be, based on the interactions observed.
 
@@ -330,7 +333,10 @@ g %>%
   theme_graph()
 ```
 
-![(\#fig:fig12-2)Network Graph with Centrality](12-wt-social-network-analysis_files/figure-docx/fig12-2-1.png)
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-2-1.png" alt="Network Graph with Centrality" width="672" />
+<p class="caption">(\#fig:fig12-2)Network Graph with Centrality</p>
+</div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: https://ggraph.data-imaginist.com/
 
@@ -415,7 +421,7 @@ data <-
   left_join(data, tempdata, by = "nominee")
 ```
 
-#### Calculating an Exposure Term
+**Calculating an Exposure Term**
 
 This is the key step that makes this model - a regression, or linear, model - one that is special. It is creating an exposure term. The idea is that the exposure term "captures" how your interactions with someone, over some period of time (between the first and second time points) impact some outcome. This model accounts for an individual's initial report of the outcome, i.e., their time 1 prior value, so it is a model for *change* in some outcome.
 
@@ -452,7 +458,7 @@ final_data <-
   left_join(final_data, data3, by = "nominator") 
 ```
 
-#### Regression (Linear Model)
+**Regression (Linear Model)**
 
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can simply use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 

@@ -16,15 +16,114 @@
 
 ### Background
 
-A common situation encountered when searching for education data, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available, aggregate data. Aggregate data refers to numerical or non-numerical information that is (1) collected from multiple sources and/or on multiple measures, variables, or individuals and (2) compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis [@greatschools2014]. Example of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or mean survey responses.
+A common situation encountered when searching for education data, particularly
+by analysts who are not directly working with schools or districts, is the
+prevalence of publicly available, *aggregate data*. Aggregate data refers to
+numerical or non-numerical information that is (1) collected from multiple
+sources and/or on multiple measures, variables, or individuals and (2) compiled
+into data summaries or summary reports, typically for the purposes of public
+reporting or statistical analysis [@greatschools2014]. Example of publicly
+available aggregate data include school-level graduation rates, state test
+proficiency scores by grade and subject, or mean survey responses. In this
+walkthrough, we explore the role of aggregate data, with a focus on educational
+equity, from a single school district.
 
-Aggregated data are essential both for accountability purposes and for providing useful information about schools and districts to those who are monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and any grade-level variation. Depending on their state, the district administrator might submit these aggregate data to their state education agency for reporting purposes. These datasets might be posted on the state's department of education website for anybody to download and use.
+Aggregated data are essential both for accountability purposes and for providing
+useful information about schools and districts to those who are monitoring them.
+For example, district administrators might aggregate row-level (also known as
+individual-level or student-level) enrollment reports over time. This allows
+them to see how many students enroll in each school, in the district overall,
+and any grade-level variation. Depending on their state, the district
+administrator might submit these aggregate data to their state education agency
+for reporting purposes. These datasets might be posted on the state's department
+of education website for anybody to download and use.
 
-Federal and international education datasets provide additional context for evaluating education systems. In the US, some federal datasets aim to consolidate important metrics from all states. This can be quite useful because each state has its own repository of data and to go through each state to download a particular metric is a significant effort. The federal government also funds assessments and surveys which are disseminated to the public. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less usable. 
+Federal and international education datasets provide additional context for
+evaluating education systems. In the US, some federal datasets aim to
+consolidate important metrics from all states. This can be quite useful because
+each state has its own repository of data and to go through each state to
+download a particular metric is a significant effort. The federal government
+also funds assessments and surveys which are disseminated to the public.
+However, the federal datasets often have more stringent data requirements than
+the states, so the datasets may be less usable.
 
-For education data practitioners, these reports and datasets can be analyzed to answer questions related to their field of interest. However, publicly available, aggregate datasets are large and often suppressed to protect privacy. Sometimes they are already a couple of years old by the time they're released. Because of their coarseness, they can be difficult to interpret and use. Generally, aggregated data are generally used to surface of broader trends and patterns in education as opposed to diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing them.
+For education data practitioners, these reports and datasets can be analyzed to
+answer questions related to their field of interest. However, publicly
+available, aggregate datasets are large and often suppressed to protect privacy.
+Sometimes they are already a couple of years old by the time they're released.
+Because of their coarseness, they can be difficult to interpret and use.
+Generally, aggregated data are generally used to surface of broader trends and
+patterns in education as opposed to diagnosing underlying issues or making
+causal statements. It is very important that we consider the limitations of
+aggregate data before analyzing them.
 
-Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to make improvements for the future. This walkthrough, then, uses and explores aggregate data, with a focus on educational equity, from a single school district.
+Analysis of aggregate data can help us identify patterns that may not have
+previously been known. When we have gained new insight, we can create research
+questions, craft hypotheses around our findings, and make recommendations on how
+to make improvements for the future.
+
+We want to take time to explore using aggregate data since it's so commonly used in education. This chapter and chapter 10 provide two different examples of cleaning an aggregate dataset and two different examples of using aggregate datasets to compare student experiences. In this chapter, we'll focus on educational equity by identifing and comparing patterns in student race groups. In the next chapter, we'll compare student counts over time in different states.
+
+*Differences Between Aggregate and Student-Level Data* 
+
+Let's dig a little deeper into the differences between aggregate and student-level data. Publicly available data--like the data we'll use in this walkthrough--is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept. 
+
+Here are rows in a student-level dataset:
+
+
+```r
+library(tidyverse)
+
+# student-level data 
+tibble(
+  student = letters[1:10],
+  school = rep(letters[11:15], 2),
+  test_score = sample(0:100, 10, replace = TRUE)
+)
+```
+
+```
+## # A tibble: 10 x 3
+##    student school test_score
+##    <chr>   <chr>       <int>
+##  1 a       k              27
+##  2 b       l              86
+##  3 c       m              21
+##  4 d       n              87
+##  5 e       o              64
+##  6 f       k              16
+##  7 g       l              35
+##  8 h       m              41
+##  9 i       n              69
+## 10 j       o              48
+```
+
+Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
+
+
+```r
+tibble(
+  student = letters[1:10],
+  school = rep(letters[11:15], 2),
+  test_score = sample(0:100, 10, replace = TRUE)
+) %>%
+  # Aggregate by school
+  group_by(school) %>%
+  summarize(mean_score = mean(test_score))
+```
+
+```
+## # A tibble: 5 x 2
+##   school mean_score
+##   <chr>       <dbl>
+## 1 k            76  
+## 2 l            36.5
+## 3 m            53  
+## 4 n            85.5
+## 5 o            15.5
+```
+
+Notice here that this dataset no longer identifies individual students. 
 
 *Disaggregating Aggregated Data*
 
@@ -348,7 +447,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig9-1)Percentage of Population by Subgroup](09-wt-aggregate-data_files/figure-docx/fig9-1-1.png)
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/fig9-1-1.png" alt="Percentage of Population by Subgroup" width="672" />
+<p class="caption">(\#fig:fig9-1)Percentage of Population by Subgroup</p>
+</div>
 
 When we look at these data, the district looks very diverse. Almost **40% of students are Black** and around **36% are White.**
 
@@ -397,7 +499,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig9-2)Count of Schools by White Population](09-wt-aggregate-data_files/figure-docx/fig9-2-1.png)
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/fig9-2-1.png" alt="Count of Schools by White Population" width="672" />
+<p class="caption">(\#fig:fig9-2)Count of Schools by White Population</p>
+</div>
 
 **26 of the 74 (35%) of schools have between 0-10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students even though White students make up 35% of the district student population.
 
@@ -434,7 +539,10 @@ tidy_df %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig9-3)Distribution of Subgroups in High Poverty Schools](09-wt-aggregate-data_files/figure-docx/fig9-3-1.png)
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/fig9-3-1.png" alt="Distribution of Subgroups in High Poverty Schools" width="672" />
+<p class="caption">(\#fig:fig9-3)Distribution of Subgroups in High Poverty Schools</p>
+</div>
 
 **8% of White students** attend high poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students.** We can conclude these students are disproportionally attending high poverty schools.
 
@@ -457,7 +565,10 @@ merged_df %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig9-4)FRPL Percentage vs. White Percentage](09-wt-aggregate-data_files/figure-docx/fig9-4-1.png)
+<div class="figure" style="text-align: center">
+<img src="09-wt-aggregate-data_files/figure-html/fig9-4-1.png" alt="FRPL Percentage vs. White Percentage" width="672" />
+<p class="caption">(\#fig:fig9-4)FRPL Percentage vs. White Percentage</p>
+</div>
 
 Related to the result above, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high poverty schools have a lower percentage of White students and low poverty schools have a higher percentage of White students.
 

@@ -12,13 +12,28 @@
 - subset
 - vector
 
-## Chapter Overview 
+## Chapter Overview
 
-### Background 
+Data scientists working in education don't always have access to student level
+data, so knowing how to model publicly available datasets, as in [the previous
+chapter](#c9), is a useful skill. This walkthrough builds upon and extends the
+focus on aggregate data in the last chapter to focus on change over time in
+students with disabilities in each state.
 
-Data scientists working in education don't always have access to student level data, so knowing how to model publicly available datasets is a useful skill. This walkthrough has two goals. First, we'll be learning some ways to explore data over time. Second, we'll be learning how to explore a publicly available dataset. Like most public datasets, this one contains aggregate data. This means that someone totaled up the student counts so it doesn't reveal any private information. 
+### Background
 
-You can download the datasets for this walkthrough on the United States Department of Education website (see @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. This walkthrough uses datasets of student with disabilities counts in each state.
+In this chapter, we'll be learning some ways to explore data over time. In
+addition, we'll be learning some additional techniques for exploring a publicly
+available dataset. Like most public datasets (see [the previous chapter](#c9)),
+this one contains aggregate data. This means that someone totaled up the student
+counts so it doesn't reveal any private information.
+
+You can download the datasets for this walkthrough on the United States
+Department of Education website (see @usdoe2019)^[The documentation for the
+dataset is available here:
+https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf],
+though they are also available in the {dataedu} package that accompanies this
+book.
 
 ### Methods 
 
@@ -811,7 +826,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-1)Count of Female Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-1-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-1-1.png" alt="Count of Female Students in Special Education Over Time" width="672" />
+<p class="caption">(\#fig:fig10-1)Count of Female Students in Special Education Over Time</p>
+</div>
 
 That gives us a plot that has the years in the x-axis and a count of female students in the y-axis. Each line takes a different color based on the state it represents. 
 
@@ -833,7 +851,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-2)Count of Male Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-2-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-2-1.png" alt="Count of Male Students in Special Education Over Time" width="672" />
+<p class="caption">(\#fig:fig10-2)Count of Male Students in Special Education Over Time</p>
+</div>
 
 We've looked at each gender separately. What do these lines look like if we visualized the total amount of students each year per state? To do that, we'll need to add both gender values together and both age group values together. We'll do this using a very common combination of functions: `group_by()` and `summarize()`. 
 
@@ -850,7 +871,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-3)Total Count of Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-3-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-3-1.png" alt="Total Count of Students in Special Education Over Time" width="672" />
+<p class="caption">(\#fig:fig10-3)Total Count of Students in Special Education Over Time</p>
+</div>
 
 So far we've looked at a few ways to count students over time. In each plot, we see that while counts have grown overall for all states, each state has different sized populations. Let's see if we can summarize that difference by looking at the median student count for each state over the years:
 
@@ -866,7 +890,10 @@ high_count %>%
   theme_dataedu() 
 ```
 
-![(\#fig:fig10-4)Median Students with Disabilities Count](10-wt-longitudinal-analysis_files/figure-docx/fig10-4-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-4-1.png" alt="Median Students with Disabilities Count" width="672" />
+<p class="caption">(\#fig:fig10-4)Median Students with Disabilities Count</p>
+</div>
 
 The boxplots show us what we might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania. 
 
@@ -903,7 +930,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-5)Male Student to Female Student Ratio Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-5-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-5-1.png" alt="Male Student to Female Student Ratio Over Time" width="672" />
+<p class="caption">(\#fig:fig10-5)Male Student to Female Student Ratio Over Time</p>
+</div>
 
 By visually inspecting, we can hypothesize that there was no significant change in the male to female ratio between the years 2012 and 2017. But very often we want to understand the underlying properties of our education dataset. We can do this by quantifying the relationship between two variables. In the next section, we'll explore ways to quantify the relationship between male student counts and female student counts. 
 
@@ -940,7 +970,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education](10-wt-longitudinal-analysis_files/figure-docx/fig10-6-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-6-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="672" />
+<p class="caption">(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education</p>
+</div>
 
 If you think of each potential point on the linear regression line as a ratio of male to female students, you'll notice that we don't know a whole lot about what happens in states where there are between 250,000 and 1,750,000 female students in any given year. 
 
@@ -990,7 +1023,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities](10-wt-longitudinal-analysis_files/figure-docx/fig10-7-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-7-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="672" />
+<p class="caption">(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities</p>
+</div>
 
 This should allow us to fit a better model for the relationship between male and female student counts, albeit only the ones where the count of female students takes a value between 0 and 500,000. 
 
@@ -1044,7 +1080,10 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
   theme_dataedu()
 ```
 
-![(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)](10-wt-longitudinal-analysis_files/figure-docx/fig10-8-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-8-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="672" />
+<p class="caption">(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)</p>
+</div>
 
 Each year seems to have data points that can be considered when we fit the model. This means that there are enough data points to help us learn how the year variable predicts the ratio variable. 
 
@@ -1179,7 +1218,10 @@ model_data %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-9)Median Male and Female Student Counts in Special Education](10-wt-longitudinal-analysis_files/figure-docx/fig10-9-1.png)
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-9-1.png" alt="Median Male and Female Student Counts in Special Education" width="672" />
+<p class="caption">(\#fig:fig10-9)Median Male and Female Student Counts in Special Education</p>
+</div>
 
 Once we learned from our model that male to female ratios did not change in any meaningful way from 2012 to 2017 and that the median ratio across states was about 2 male students to every female student, we can present these two ideas using this plot. When discussing the plot, it helps to have your model output in your notes so you can reference specific coefficient estimates when needed. 
 
@@ -1197,64 +1239,7 @@ Education data science is about using data science tools to learn about and impr
 
 Using student-level data requires that the data scientist is either an employee of the school agency or that works under a memorandum of understanding (MOU) that allows her to access this data. Without either of these conditions, the education data scientist learns about the student experience by working on publicly available datasets, almost all of which are aggregated student-level datasets.
 
-Before we discuss the benefits of aggregate data, let's take some time to understand the differences between aggregate and student-level data. Publicly available data--like the US Federal Government special education student count we used in this walkthrough--is a summary of student-level data. That means that student-level data is totaled up to protect the identities of students before making them publicly available. We can use R to demonstrate this concept. 
-
-Here are rows in a student-level dataset:
-
-
-```r
-# student-level data 
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-)
-```
-
-```
-## # A tibble: 10 x 3
-##    student school test_score
-##    <chr>   <chr>       <int>
-##  1 a       k              70
-##  2 b       l              70
-##  3 c       m              22
-##  4 d       n              87
-##  5 e       o              76
-##  6 f       k              31
-##  7 g       l              99
-##  8 h       m              72
-##  9 i       n              92
-## 10 j       o              86
-```
-
-Aggregate data totals up a variable--the variable `test_score` in this case--to "hide" the student-level information. The rows of the resulting dataset represent a group. The group in our example is the `school` variable:
-
-
-```r
-tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
-) %>%
-  # Aggregate by school
-  group_by(school) %>%
-  summarize(mean_score = mean(test_score))
-```
-
-```
-## # A tibble: 5 x 2
-##   school mean_score
-##   <chr>       <dbl>
-## 1 k            65  
-## 2 l            50  
-## 3 m            55.5
-## 4 n            37.5
-## 5 o            75.5
-```
-
-Notice here that this dataset no longer identifies individual students. 
-
-*Student-level data for analysis of local populations. Aggregate data for base rate and context.*
+**Student-level Data for Analysis of Local Populations: Aggregate Data for Base Rate and Context.**
 
 Longitudinal analysis is typically done with student-level data because educators are interested in what happens to students over time. So if you cannot access student-level data, how do we use aggregate data to offer value to the analytic conversation?
 

@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data | Data Science in Education Using R</title>
+  <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data | Data Science in Education Using R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="datascienceineducation.com/" />
+  
+  <meta property="og:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  <meta name="github-repo" content="data-edu/data-science-in-education" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data | Data Science in Education Using R" />
+  
+  <meta name="twitter:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
+  
+
+<meta name="author" content="Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="c06.html"/>
+<link rel="next" href="c08.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-156454511-1');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Data Science in Education Using R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#prologue"><i class="fa fa-check"></i>Prologue</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="introduction-data-science-in-education-youre-invited-to-the-party.html"><a href="introduction-data-science-in-education-youre-invited-to-the-party.html"><i class="fa fa-check"></i><b>1</b> Introduction: Data Science in Education - You’re Invited to the Party!</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction-data-science-in-education-youre-invited-to-the-party.html"><a href="introduction-data-science-in-education-youre-invited-to-the-party.html#c01"><i class="fa fa-check"></i><b>1.1</b> Learning Data Science in Education</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-data-science-in-education-youre-invited-to-the-party.html"><a href="introduction-data-science-in-education-youre-invited-to-the-party.html#making-the-path-a-little-clearer"><i class="fa fa-check"></i><b>1.2</b> Making the Path a Little Clearer</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="c02.html"><a href="c02.html"><i class="fa fa-check"></i><b>2</b> How to Use this Book</a><ul>
+<li class="chapter" data-level="2.1" data-path="c02.html"><a href="c02.html#different-strokes-for-different-data-scientists-in-education"><i class="fa fa-check"></i><b>2.1</b> Different Strokes for Different Data Scientists in Education</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="c02.html"><a href="c02.html#read-the-book-cover-to-cover-and-how-to-keep-going"><i class="fa fa-check"></i><b>2.1.1</b> Read the Book Cover to Cover (and How to Keep Going)</a></li>
+<li class="chapter" data-level="2.1.2" data-path="c02.html"><a href="c02.html#pick-a-chapter-of-interest-and-start-there"><i class="fa fa-check"></i><b>2.1.2</b> Pick a Chapter of Interest and Start There</a></li>
+<li class="chapter" data-level="2.1.3" data-path="c02.html"><a href="c02.html#read-through-the-walkthroughs-and-run-the-code"><i class="fa fa-check"></i><b>2.1.3</b> Read Through the Walkthroughs and Run the Code</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="c02.html"><a href="c02.html#a-note-on-statistics"><i class="fa fa-check"></i><b>2.2</b> A Note on Statistics</a></li>
+<li class="chapter" data-level="2.3" data-path="c02.html"><a href="c02.html#what-this-book-is-not-about"><i class="fa fa-check"></i><b>2.3</b> What This Book Is Not About</a></li>
+<li class="chapter" data-level="2.4" data-path="c02.html"><a href="c02.html#supporting-the-book"><i class="fa fa-check"></i><b>2.4</b> Supporting the Book</a></li>
+<li class="chapter" data-level="2.5" data-path="c02.html"><a href="c02.html#contributing-to-the-book"><i class="fa fa-check"></i><b>2.5</b> Contributing to the Book</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="c03.html"><a href="c03.html"><i class="fa fa-check"></i><b>3</b> What Does Data Science in Education Look Like?</a><ul>
+<li class="chapter" data-level="3.1" data-path="c03.html"><a href="c03.html#data-roles-in-education"><i class="fa fa-check"></i><b>3.1</b> Data Roles in Education</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="c03.html"><a href="c03.html#building-systems-that-get-data-to-the-right-people"><i class="fa fa-check"></i><b>3.1.1</b> Building Systems That Get Data to the Right People</a></li>
+<li class="chapter" data-level="3.1.2" data-path="c03.html"><a href="c03.html#measuring-the-impact-of-our-work-on-the-student-experience"><i class="fa fa-check"></i><b>3.1.2</b> Measuring the Impact of Our Work on the Student Experience</a></li>
+<li class="chapter" data-level="3.1.3" data-path="c03.html"><a href="c03.html#looking-for-patterns-in-student-data"><i class="fa fa-check"></i><b>3.1.3</b> Looking for Patterns in Student Data</a></li>
+<li class="chapter" data-level="3.1.4" data-path="c03.html"><a href="c03.html#improving-how-we-use-statistical-models-in-education"><i class="fa fa-check"></i><b>3.1.4</b> Improving How We Use Statistical Models in Education</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="c03.html"><a href="c03.html#common-activities-of-data-scientists"><i class="fa fa-check"></i><b>3.2</b> Common Activities of Data Scientists</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="c03.html"><a href="c03.html#processing-data"><i class="fa fa-check"></i><b>3.2.1</b> Processing Data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="c03.html"><a href="c03.html#doing-analysis"><i class="fa fa-check"></i><b>3.2.2</b> Doing Analysis</a></li>
+<li class="chapter" data-level="3.2.3" data-path="c03.html"><a href="c03.html#sharing-results"><i class="fa fa-check"></i><b>3.2.3</b> Sharing Results</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="c03.html"><a href="c03.html#who-we-are-and-what-we-do"><i class="fa fa-check"></i><b>3.3</b> Who We Are and What We Do</a></li>
+<li class="chapter" data-level="3.4" data-path="c03.html"><a href="c03.html#next-steps-for-data-science-in-education"><i class="fa fa-check"></i><b>3.4</b> Next Steps for Data Science in Education</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="c04.html"><a href="c04.html"><i class="fa fa-check"></i><b>4</b> Special Considerations</a><ul>
+<li class="chapter" data-level="4.1" data-path="c04.html"><a href="c04.html#things-to-consider-when-doing-data-science-in-any-domain"><i class="fa fa-check"></i><b>4.1</b> Things to Consider when Doing Data Science in any Domain</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="c04.html"><a href="c04.html#learning-to-code"><i class="fa fa-check"></i><b>4.1.1</b> Learning to Code</a></li>
+<li class="chapter" data-level="4.1.2" data-path="c04.html"><a href="c04.html#addressing-ambiguity-a-reproducible-approach"><i class="fa fa-check"></i><b>4.1.2</b> Addressing Ambiguity: A Reproducible Approach</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="c04.html"><a href="c04.html#things-to-consider-when-doing-data-science-in-education"><i class="fa fa-check"></i><b>4.2</b> Things to Consider when Doing Data Science in Education</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="c04.html"><a href="c04.html#addressing-organizational-resistance-a-self-driven-analytic-approach"><i class="fa fa-check"></i><b>4.2.1</b> Addressing Organizational Resistance: A Self-Driven Analytic Approach</a></li>
+<li class="chapter" data-level="4.2.2" data-path="c04.html"><a href="c04.html#lack-of-processes-and-guidelines"><i class="fa fa-check"></i><b>4.2.2</b> Lack of Processes and Guidelines</a></li>
+<li class="chapter" data-level="4.2.3" data-path="c04.html"><a href="c04.html#limited-training-and-educational-opportunities"><i class="fa fa-check"></i><b>4.2.3</b> Limited Training and Educational Opportunities</a></li>
+<li class="chapter" data-level="4.2.4" data-path="c04.html"><a href="c04.html#limited-training-and-educational-opportunities-1"><i class="fa fa-check"></i><b>4.2.4</b> Limited Training and Educational Opportunities</a></li>
+<li class="chapter" data-level="4.2.5" data-path="c04.html"><a href="c04.html#advancing-equity"><i class="fa fa-check"></i><b>4.2.5</b> Advancing Equity</a></li>
+<li class="chapter" data-level="4.2.6" data-path="c04.html"><a href="c04.html#the-complex-nature-of-education-data"><i class="fa fa-check"></i><b>4.2.6</b> The Complex Nature of Education Data</a></li>
+<li class="chapter" data-level="4.2.7" data-path="c04.html"><a href="c04.html#ethical-and-legal-concerns"><i class="fa fa-check"></i><b>4.2.7</b> Ethical and Legal Concerns</a></li>
+<li class="chapter" data-level="4.2.8" data-path="c04.html"><a href="c04.html#analytic-considerations"><i class="fa fa-check"></i><b>4.2.8</b> Analytic Considerations</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="c04.html"><a href="c04.html#conclusion"><i class="fa fa-check"></i><b>4.3</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="c05.html"><a href="c05.html"><i class="fa fa-check"></i><b>5</b> Getting Started with R and RStudio</a><ul>
+<li class="chapter" data-level="5.1" data-path="c05.html"><a href="c05.html#chapter-overview"><i class="fa fa-check"></i><b>5.1</b> Chapter Overview</a></li>
+<li class="chapter" data-level="5.2" data-path="c05.html"><a href="c05.html#downloading-r-and-rstudio"><i class="fa fa-check"></i><b>5.2</b> Downloading R and RStudio</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="c05.html"><a href="c05.html#to-download-r"><i class="fa fa-check"></i><b>5.2.1</b> To Download R:</a></li>
+<li class="chapter" data-level="5.2.2" data-path="c05.html"><a href="c05.html#to-download-rstudio"><i class="fa fa-check"></i><b>5.2.2</b> To Download RStudio:</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="c05.html"><a href="c05.html#rstudio-layout-and-customization-getting-to-know-r-through-rstudio"><i class="fa fa-check"></i><b>5.3</b> RStudio Layout and Customization: Getting to Know R through RStudio</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="c05.html"><a href="c05.html#rstudio-layout"><i class="fa fa-check"></i><b>5.3.1</b> RStudio layout</a></li>
+<li class="chapter" data-level="5.3.2" data-path="c05.html"><a href="c05.html#customizing-rstudio"><i class="fa fa-check"></i><b>5.3.2</b> Customizing RStudio</a></li>
+<li class="chapter" data-level="5.3.3" data-path="c05.html"><a href="c05.html#minimized-and-missing-panes"><i class="fa fa-check"></i><b>5.3.3</b> Minimized and Missing Panes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="c05.html"><a href="c05.html#writing-and-running-code-in-rstudio"><i class="fa fa-check"></i><b>5.4</b> Writing and Running Code in RStudio</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="c05.html"><a href="c05.html#writing-code-in-the-console"><i class="fa fa-check"></i><b>5.4.1</b> Writing Code in the Console</a></li>
+<li class="chapter" data-level="5.4.2" data-path="c05.html"><a href="c05.html#writing-code-in-an-r-script"><i class="fa fa-check"></i><b>5.4.2</b> Writing Code in an R Script</a></li>
+<li class="chapter" data-level="5.4.3" data-path="c05.html"><a href="c05.html#commenting-your-code-in-r"><i class="fa fa-check"></i><b>5.4.3</b> Commenting Your Code in R</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="c05.html"><a href="c05.html#installing-the-dataedu-package"><i class="fa fa-check"></i><b>5.5</b> Installing the {dataedu} Package</a></li>
+<li class="chapter" data-level="5.6" data-path="c05.html"><a href="c05.html#exploring-r-with-the-swirl-package"><i class="fa fa-check"></i><b>5.6</b> Exploring R with the {swirl} Package</a></li>
+<li class="chapter" data-level="5.7" data-path="c05.html"><a href="c05.html#conclusion-1"><i class="fa fa-check"></i><b>5.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="c06.html"><a href="c06.html"><i class="fa fa-check"></i><b>6</b> Foundational Skills</a><ul>
+<li class="chapter" data-level="6.1" data-path="c06.html"><a href="c06.html#chapter-overview-1"><i class="fa fa-check"></i><b>6.1</b> Chapter Overview</a></li>
+<li class="chapter" data-level="6.2" data-path="c06.html"><a href="c06.html#foundational-skills-framework"><i class="fa fa-check"></i><b>6.2</b> Foundational Skills Framework</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="c06.html"><a href="c06.html#projects"><i class="fa fa-check"></i><b>6.2.1</b> Projects</a></li>
+<li class="chapter" data-level="6.2.2" data-path="c06.html"><a href="c06.html#functions"><i class="fa fa-check"></i><b>6.2.2</b> Functions</a></li>
+<li class="chapter" data-level="6.2.3" data-path="c06.html"><a href="c06.html#packages"><i class="fa fa-check"></i><b>6.2.3</b> Packages</a></li>
+<li class="chapter" data-level="6.2.4" data-path="c06.html"><a href="c06.html#the-relationship-between-packages-and-functions"><i class="fa fa-check"></i><b>6.2.4</b> The Relationship Between Packages and Functions</a></li>
+<li class="chapter" data-level="6.2.5" data-path="c06.html"><a href="c06.html#data"><i class="fa fa-check"></i><b>6.2.5</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="c06.html"><a href="c06.html#introduction-to-help-documentation"><i class="fa fa-check"></i><b>6.3</b> Introduction to Help Documentation</a></li>
+<li class="chapter" data-level="6.4" data-path="c06.html"><a href="c06.html#steps-for-working-through-new-and-unfamiliar-content"><i class="fa fa-check"></i><b>6.4</b> Steps for working through new and unfamiliar content</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="c06.html"><a href="c06.html#activate-prior-knowledge"><i class="fa fa-check"></i><b>6.4.1</b> Activate prior knowledge</a></li>
+<li class="chapter" data-level="6.4.2" data-path="c06.html"><a href="c06.html#look-for-context-clues"><i class="fa fa-check"></i><b>6.4.2</b> Look for context clues</a></li>
+<li class="chapter" data-level="6.4.3" data-path="c06.html"><a href="c06.html#check-the-help-documentation"><i class="fa fa-check"></i><b>6.4.3</b> Check the Help documentation</a></li>
+<li class="chapter" data-level="6.4.4" data-path="c06.html"><a href="c06.html#find-the-limits"><i class="fa fa-check"></i><b>6.4.4</b> Find the limits</a></li>
+<li class="chapter" data-level="6.4.5" data-path="c06.html"><a href="c06.html#test-and-refine-your-understanding"><i class="fa fa-check"></i><b>6.4.5</b> Test (and refine) your understanding</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="c06.html"><a href="c06.html#bringing-it-all-together-getting-started-coding-walkthrough"><i class="fa fa-check"></i><b>6.5</b> Bringing It All Together: Getting Started Coding Walkthrough</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="c06.html"><a href="c06.html#creating-a-project-and-an-.r-script-and-setting-up-our-rstudio-environment"><i class="fa fa-check"></i><b>6.5.1</b> Creating a Project and an <code>.R</code> Script, and Setting Up Our RStudio Environment</a></li>
+<li class="chapter" data-level="6.5.2" data-path="c06.html"><a href="c06.html#loading-data-from-dataedu-into-our-r-environment"><i class="fa fa-check"></i><b>6.5.2</b> Loading Data from {dataedu} into our R Environment</a></li>
+<li class="chapter" data-level="6.5.3" data-path="c06.html"><a href="c06.html#exploring-our-data-and-common-errors"><i class="fa fa-check"></i><b>6.5.3</b> Exploring Our Data and Common Errors</a></li>
+<li class="chapter" data-level="6.5.4" data-path="c06.html"><a href="c06.html#exploring-our-data-with-the-pipe-operator"><i class="fa fa-check"></i><b>6.5.4</b> Exploring Our Data with the Pipe Operator</a></li>
+<li class="chapter" data-level="6.5.5" data-path="c06.html"><a href="c06.html#exploring-assignment-vs.-equality"><i class="fa fa-check"></i><b>6.5.5</b> Exploring Assignment vs. Equality</a></li>
+<li class="chapter" data-level="6.5.6" data-path="c06.html"><a href="c06.html#basics-of-variable-names"><i class="fa fa-check"></i><b>6.5.6</b> Basics of Variable Names</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="c06.html"><a href="c06.html#conclusion-2"><i class="fa fa-check"></i><b>6.6</b> Conclusion</a></li>
+<li class="chapter" data-level="6.7" data-path="c06.html"><a href="c06.html#technical-appendix-a"><i class="fa fa-check"></i><b>6.7</b> Technical Appendix A</a><ul>
+<li class="chapter" data-level="6.7.1" data-path="c06.html"><a href="c06.html#using-functions-to-import-data"><i class="fa fa-check"></i><b>6.7.1</b> Using Functions to Import Data</a></li>
+<li class="chapter" data-level="6.7.2" data-path="c06.html"><a href="c06.html#saving-a-file-from-the-web"><i class="fa fa-check"></i><b>6.7.2</b> Saving a File from the Web</a></li>
+<li class="chapter" data-level="6.7.3" data-path="c06.html"><a href="c06.html#loading-a-.csv-file"><i class="fa fa-check"></i><b>6.7.3</b> Loading a <code>.csv</code> File</a></li>
+<li class="chapter" data-level="6.7.4" data-path="c06.html"><a href="c06.html#saving-files"><i class="fa fa-check"></i><b>6.7.4</b> Saving Files</a></li>
+<li class="chapter" data-level="6.7.5" data-path="c06.html"><a href="c06.html#loading-excel-files"><i class="fa fa-check"></i><b>6.7.5</b> Loading Excel Files</a></li>
+<li class="chapter" data-level="6.7.6" data-path="c06.html"><a href="c06.html#loading-sav-files"><i class="fa fa-check"></i><b>6.7.6</b> Loading SAV Files</a></li>
+<li class="chapter" data-level="6.7.7" data-path="c06.html"><a href="c06.html#google-sheets"><i class="fa fa-check"></i><b>6.7.7</b> Google Sheets</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="c07.html"><a href="c07.html"><i class="fa fa-check"></i><b>7</b> Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data</a><ul>
+<li class="chapter" data-level="7.1" data-path="c07.html"><a href="c07.html#introduction-to-the-walkthroughs"><i class="fa fa-check"></i><b>7.1</b> Introduction to the walkthroughs</a></li>
+<li class="chapter" data-level="7.2" data-path="c07.html"><a href="c07.html#vocabulary"><i class="fa fa-check"></i><b>7.2</b> Vocabulary</a></li>
+<li class="chapter" data-level="7.3" data-path="c07.html"><a href="c07.html#chapter-overview-2"><i class="fa fa-check"></i><b>7.3</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="c07.html"><a href="c07.html#background"><i class="fa fa-check"></i><b>7.3.1</b> Background</a></li>
+<li class="chapter" data-level="7.3.2" data-path="c07.html"><a href="c07.html#data-sources"><i class="fa fa-check"></i><b>7.3.2</b> Data Sources</a></li>
+<li class="chapter" data-level="7.3.3" data-path="c07.html"><a href="c07.html#data-source-2-log-trace-data"><i class="fa fa-check"></i><b>7.3.3</b> Data Source #2: Log-Trace Data</a></li>
+<li class="chapter" data-level="7.3.4" data-path="c07.html"><a href="c07.html#data-source-3-academic-achievement-and-gradebook-data"><i class="fa fa-check"></i><b>7.3.4</b> Data Source #3: Academic Achievement and Gradebook Data</a></li>
+<li class="chapter" data-level="7.3.5" data-path="c07.html"><a href="c07.html#data-source-4-discussion-board-data"><i class="fa fa-check"></i><b>7.3.5</b> Data Source #4: Discussion Board Data</a></li>
+<li class="chapter" data-level="7.3.6" data-path="c07.html"><a href="c07.html#methods"><i class="fa fa-check"></i><b>7.3.6</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="c07.html"><a href="c07.html#load-packages"><i class="fa fa-check"></i><b>7.4</b> Load Packages</a></li>
+<li class="chapter" data-level="7.5" data-path="c07.html"><a href="c07.html#import-data"><i class="fa fa-check"></i><b>7.5</b> Import Data</a></li>
+<li class="chapter" data-level="7.6" data-path="c07.html"><a href="c07.html#view-data"><i class="fa fa-check"></i><b>7.6</b> View Data</a></li>
+<li class="chapter" data-level="7.7" data-path="c07.html"><a href="c07.html#process-data"><i class="fa fa-check"></i><b>7.7</b> Process Data</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="c07.html"><a href="c07.html#processing-the-course-data"><i class="fa fa-check"></i><b>7.7.1</b> Processing the Course Data</a></li>
+<li class="chapter" data-level="7.7.2" data-path="c07.html"><a href="c07.html#joining-the-data"><i class="fa fa-check"></i><b>7.7.2</b> Joining the Data</a></li>
+<li class="chapter" data-level="7.7.3" data-path="c07.html"><a href="c07.html#finding-distinct-cases-at-the-student-level"><i class="fa fa-check"></i><b>7.7.3</b> Finding Distinct Cases at the Student-Level</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="c07.html"><a href="c07.html#analysis"><i class="fa fa-check"></i><b>7.8</b> Analysis</a><ul>
+<li class="chapter" data-level="7.8.1" data-path="c07.html"><a href="c07.html#about-ggplot2"><i class="fa fa-check"></i><b>7.8.1</b> About {ggplot2}</a></li>
+<li class="chapter" data-level="7.8.2" data-path="c07.html"><a href="c07.html#the-relationship-between-time-spent-on-course-and-final-grade"><i class="fa fa-check"></i><b>7.8.2</b> The Relationship between Time Spent on Course and Final Grade</a></li>
+<li class="chapter" data-level="7.8.3" data-path="c07.html"><a href="c07.html#linear-model-regression"><i class="fa fa-check"></i><b>7.8.3</b> Linear Model (Regression)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="c07.html"><a href="c07.html#results"><i class="fa fa-check"></i><b>7.9</b> Results</a></li>
+<li class="chapter" data-level="7.10" data-path="c07.html"><a href="c07.html#conclusion-3"><i class="fa fa-check"></i><b>7.10</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="c08.html"><a href="c08.html"><i class="fa fa-check"></i><b>8</b> Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective</a><ul>
+<li class="chapter" data-level="8.1" data-path="c08.html"><a href="c08.html#vocabulary-1"><i class="fa fa-check"></i><b>8.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="8.2" data-path="c08.html"><a href="c08.html#chapter-overview-3"><i class="fa fa-check"></i><b>8.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="c08.html"><a href="c08.html#background-1"><i class="fa fa-check"></i><b>8.2.1</b> Background</a></li>
+<li class="chapter" data-level="8.2.2" data-path="c08.html"><a href="c08.html#data-sources-1"><i class="fa fa-check"></i><b>8.2.2</b> Data Sources</a></li>
+<li class="chapter" data-level="8.2.3" data-path="c08.html"><a href="c08.html#methods-1"><i class="fa fa-check"></i><b>8.2.3</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="c08.html"><a href="c08.html#load-packages-1"><i class="fa fa-check"></i><b>8.3</b> Load Packages</a></li>
+<li class="chapter" data-level="8.4" data-path="c08.html"><a href="c08.html#import-data-1"><i class="fa fa-check"></i><b>8.4</b> Import Data</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="c08.html"><a href="c08.html#import-using-a-file-path"><i class="fa fa-check"></i><b>8.4.1</b> Import Using a File Path</a></li>
+<li class="chapter" data-level="8.4.2" data-path="c08.html"><a href="c08.html#import-using-here"><i class="fa fa-check"></i><b>8.4.2</b> Import Using <code>here()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="c08.html"><a href="c08.html#process-data-1"><i class="fa fa-check"></i><b>8.5</b> Process Data</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="c08.html"><a href="c08.html#tidy-data"><i class="fa fa-check"></i><b>8.5.1</b> Tidy Data</a></li>
+<li class="chapter" data-level="8.5.2" data-path="c08.html"><a href="c08.html#about-janitor"><i class="fa fa-check"></i><b>8.5.2</b> About {janitor}</a></li>
+<li class="chapter" data-level="8.5.3" data-path="c08.html"><a href="c08.html#create-new-variables-and-further-process-the-data"><i class="fa fa-check"></i><b>8.5.3</b> Create New Variables and Further Process the Data</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="c08.html"><a href="c08.html#analysis-1"><i class="fa fa-check"></i><b>8.6</b> Analysis</a><ul>
+<li class="chapter" data-level="8.6.1" data-path="c08.html"><a href="c08.html#visualize-data"><i class="fa fa-check"></i><b>8.6.1</b> Visualize Data</a></li>
+<li class="chapter" data-level="8.6.2" data-path="c08.html"><a href="c08.html#model-data"><i class="fa fa-check"></i><b>8.6.2</b> Model Data</a></li>
+<li class="chapter" data-level="8.6.3" data-path="c08.html"><a href="c08.html#correlation-analysis"><i class="fa fa-check"></i><b>8.6.3</b> Correlation Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="c08.html"><a href="c08.html#results-1"><i class="fa fa-check"></i><b>8.7</b> Results</a></li>
+<li class="chapter" data-level="8.8" data-path="c08.html"><a href="c08.html#conclusion-4"><i class="fa fa-check"></i><b>8.8</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="c09.html"><a href="c09.html"><i class="fa fa-check"></i><b>9</b> Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities</a><ul>
+<li class="chapter" data-level="9.1" data-path="c09.html"><a href="c09.html#vocabulary-2"><i class="fa fa-check"></i><b>9.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="9.2" data-path="c09.html"><a href="c09.html#chapter-overview-4"><i class="fa fa-check"></i><b>9.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="c09.html"><a href="c09.html#background-2"><i class="fa fa-check"></i><b>9.2.1</b> Background</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="c09.html"><a href="c09.html#data-sources-2"><i class="fa fa-check"></i><b>9.3</b> Data Sources</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="c09.html"><a href="c09.html#methods-2"><i class="fa fa-check"></i><b>9.3.1</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="c09.html"><a href="c09.html#load-packages-2"><i class="fa fa-check"></i><b>9.4</b> Load Packages</a></li>
+<li class="chapter" data-level="9.5" data-path="c09.html"><a href="c09.html#import-data-2"><i class="fa fa-check"></i><b>9.5</b> Import Data</a></li>
+<li class="chapter" data-level="9.6" data-path="c09.html"><a href="c09.html#view-data-1"><i class="fa fa-check"></i><b>9.6</b> View Data</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="c09.html"><a href="c09.html#discovering-distributions"><i class="fa fa-check"></i><b>9.6.1</b> Discovering Distributions</a></li>
+<li class="chapter" data-level="9.6.2" data-path="c09.html"><a href="c09.html#analyzing-spread"><i class="fa fa-check"></i><b>9.6.2</b> Analyzing Spread</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="c09.html"><a href="c09.html#analysis-2"><i class="fa fa-check"></i><b>9.7</b> Analysis</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="c09.html"><a href="c09.html#creating-categories"><i class="fa fa-check"></i><b>9.7.1</b> Creating Categories</a></li>
+<li class="chapter" data-level="9.7.2" data-path="c09.html"><a href="c09.html#reveal-relationships"><i class="fa fa-check"></i><b>9.7.2</b> Reveal Relationships</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="c09.html"><a href="c09.html#results-2"><i class="fa fa-check"></i><b>9.8</b> Results</a></li>
+<li class="chapter" data-level="9.9" data-path="c09.html"><a href="c09.html#conclusion-5"><i class="fa fa-check"></i><b>9.9</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="c10.html"><a href="c10.html"><i class="fa fa-check"></i><b>10</b> Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="c10.html"><a href="c10.html#vocabulary-3"><i class="fa fa-check"></i><b>10.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="10.2" data-path="c10.html"><a href="c10.html#chapter-overview-5"><i class="fa fa-check"></i><b>10.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="c10.html"><a href="c10.html#background-3"><i class="fa fa-check"></i><b>10.2.1</b> Background</a></li>
+<li class="chapter" data-level="10.2.2" data-path="c10.html"><a href="c10.html#methods-3"><i class="fa fa-check"></i><b>10.2.2</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="c10.html"><a href="c10.html#load-packages-3"><i class="fa fa-check"></i><b>10.3</b> Load Packages</a></li>
+<li class="chapter" data-level="10.4" data-path="c10.html"><a href="c10.html#import-data-3"><i class="fa fa-check"></i><b>10.4</b> Import Data</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="c10.html"><a href="c10.html#what-to-download"><i class="fa fa-check"></i><b>10.4.1</b> What to Download</a></li>
+<li class="chapter" data-level="10.4.2" data-path="c10.html"><a href="c10.html#a-note-on-file-paths"><i class="fa fa-check"></i><b>10.4.2</b> A Note on File Paths</a></li>
+<li class="chapter" data-level="10.4.3" data-path="c10.html"><a href="c10.html#reading-in-one-dataset"><i class="fa fa-check"></i><b>10.4.3</b> Reading in One Dataset</a></li>
+<li class="chapter" data-level="10.4.4" data-path="c10.html"><a href="c10.html#reading-in-many-datasets"><i class="fa fa-check"></i><b>10.4.4</b> Reading in Many Datasets</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="c10.html"><a href="c10.html#process-data-2"><i class="fa fa-check"></i><b>10.5</b> Process Data</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="c10.html"><a href="c10.html#fix-the-variable-names-in-the-2016-data"><i class="fa fa-check"></i><b>10.5.1</b> Fix the Variable Names in the 2016 Data</a></li>
+<li class="chapter" data-level="10.5.2" data-path="c10.html"><a href="c10.html#pick-variables"><i class="fa fa-check"></i><b>10.5.2</b> Pick Variables</a></li>
+<li class="chapter" data-level="10.5.3" data-path="c10.html"><a href="c10.html#combine-six-datasets-into-one"><i class="fa fa-check"></i><b>10.5.3</b> Combine Six Datasets into One</a></li>
+<li class="chapter" data-level="10.5.4" data-path="c10.html"><a href="c10.html#filter-for-the-desired-disabilities-and-age-groups"><i class="fa fa-check"></i><b>10.5.4</b> Filter for the Desired Disabilities and Age Groups</a></li>
+<li class="chapter" data-level="10.5.5" data-path="c10.html"><a href="c10.html#rename-the-variables"><i class="fa fa-check"></i><b>10.5.5</b> Rename the Variables</a></li>
+<li class="chapter" data-level="10.5.6" data-path="c10.html"><a href="c10.html#clean-state-names"><i class="fa fa-check"></i><b>10.5.6</b> Clean State Names</a></li>
+<li class="chapter" data-level="10.5.7" data-path="c10.html"><a href="c10.html#tidy-the-dataset"><i class="fa fa-check"></i><b>10.5.7</b> Tidy the Dataset</a></li>
+<li class="chapter" data-level="10.5.8" data-path="c10.html"><a href="c10.html#convert-data-types"><i class="fa fa-check"></i><b>10.5.8</b> Convert Data Types</a></li>
+<li class="chapter" data-level="10.5.9" data-path="c10.html"><a href="c10.html#explore-and-address-nas"><i class="fa fa-check"></i><b>10.5.9</b> Explore and Address NAs</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="c10.html"><a href="c10.html#analysis-3"><i class="fa fa-check"></i><b>10.6</b> Analysis</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="c10.html"><a href="c10.html#visualize-the-dataset"><i class="fa fa-check"></i><b>10.6.1</b> Visualize the Dataset</a></li>
+<li class="chapter" data-level="10.6.2" data-path="c10.html"><a href="c10.html#model-the-dataset"><i class="fa fa-check"></i><b>10.6.2</b> Model the Dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="c10.html"><a href="c10.html#results-3"><i class="fa fa-check"></i><b>10.7</b> Results</a></li>
+<li class="chapter" data-level="10.8" data-path="c10.html"><a href="c10.html#conclusion-6"><i class="fa fa-check"></i><b>10.8</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="c11.html"><a href="c11.html"><i class="fa fa-check"></i><b>11</b> Walkthrough 5: Text Analysis With Social Media Data</a><ul>
+<li class="chapter" data-level="11.1" data-path="c11.html"><a href="c11.html#vocabulary-4"><i class="fa fa-check"></i><b>11.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="11.2" data-path="c11.html"><a href="c11.html#chapter-overview-6"><i class="fa fa-check"></i><b>11.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="c11.html"><a href="c11.html#background-4"><i class="fa fa-check"></i><b>11.2.1</b> Background</a></li>
+<li class="chapter" data-level="11.2.2" data-path="c11.html"><a href="c11.html#data-source"><i class="fa fa-check"></i><b>11.2.2</b> Data Source</a></li>
+<li class="chapter" data-level="11.2.3" data-path="c11.html"><a href="c11.html#methods-4"><i class="fa fa-check"></i><b>11.2.3</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="c11.html"><a href="c11.html#load-packages-4"><i class="fa fa-check"></i><b>11.3</b> Load Packages</a></li>
+<li class="chapter" data-level="11.4" data-path="c11.html"><a href="c11.html#import-data-4"><i class="fa fa-check"></i><b>11.4</b> Import Data</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="c11.html"><a href="c11.html#using-an-api"><i class="fa fa-check"></i><b>11.4.1</b> Using an API</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="c11.html"><a href="c11.html#view-data-2"><i class="fa fa-check"></i><b>11.5</b> View Data</a></li>
+<li class="chapter" data-level="11.6" data-path="c11.html"><a href="c11.html#process-data-3"><i class="fa fa-check"></i><b>11.6</b> Process Data</a></li>
+<li class="chapter" data-level="11.7" data-path="c11.html"><a href="c11.html#analysis-counting-words"><i class="fa fa-check"></i><b>11.7</b> Analysis: Counting Words</a></li>
+<li class="chapter" data-level="11.8" data-path="c11.html"><a href="c11.html#analysis-sentiment-analysis"><i class="fa fa-check"></i><b>11.8</b> Analysis: Sentiment analysis</a><ul>
+<li class="chapter" data-level="11.8.1" data-path="c11.html"><a href="c11.html#count-positive-words"><i class="fa fa-check"></i><b>11.8.1</b> Count Positive Words</a></li>
+<li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> Dataviz and Other Positive Words</a></li>
+<li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Close Read of Randomly Selected Tweets</a></li>
+</ul></li>
+<li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-7"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
+<li class="chapter" data-level="11.10" data-path="c11.html"><a href="c11.html#technical-appendix-accessing-twitter-data"><i class="fa fa-check"></i><b>11.10</b> Technical Appendix: Accessing Twitter data</a><ul>
+<li class="chapter" data-level="11.10.1" data-path="c11.html"><a href="c11.html#accessing-historical-twitter-data-using-already-collected-status-urls"><i class="fa fa-check"></i><b>11.10.1</b> Accessing Historical Twitter Data Using Already-Collected Status URLs</a></li>
+<li class="chapter" data-level="11.10.2" data-path="c11.html"><a href="c11.html#accessing-historical-data-when-you-do-not-have-access-to-status-urls"><i class="fa fa-check"></i><b>11.10.2</b> Accessing Historical Data When You Do Not Have Access to Status URLs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="c12.html"><a href="c12.html"><i class="fa fa-check"></i><b>12</b> Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data</a><ul>
+<li class="chapter" data-level="12.1" data-path="c12.html"><a href="c12.html#vocabulary-5"><i class="fa fa-check"></i><b>12.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="12.2" data-path="c12.html"><a href="c12.html#chapter-overview-7"><i class="fa fa-check"></i><b>12.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="c12.html"><a href="c12.html#background-5"><i class="fa fa-check"></i><b>12.2.1</b> Background</a></li>
+<li class="chapter" data-level="12.2.2" data-path="c12.html"><a href="c12.html#packages-data-sources-and-import-and-methods"><i class="fa fa-check"></i><b>12.2.2</b> Packages, Data Sources and Import, and Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="c12.html"><a href="c12.html#view-data-3"><i class="fa fa-check"></i><b>12.3</b> View Data</a></li>
+<li class="chapter" data-level="12.4" data-path="c12.html"><a href="c12.html#process-data-4"><i class="fa fa-check"></i><b>12.4</b> Process Data</a><ul>
+<li class="chapter" data-level="12.4.1" data-path="c12.html"><a href="c12.html#extracting-mentions"><i class="fa fa-check"></i><b>12.4.1</b> Extracting Mentions</a></li>
+<li class="chapter" data-level="12.4.2" data-path="c12.html"><a href="c12.html#putting-the-edgelist-together"><i class="fa fa-check"></i><b>12.4.2</b> Putting the Edgelist Together</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="c12.html"><a href="c12.html#analysis-and-results"><i class="fa fa-check"></i><b>12.5</b> Analysis and Results</a><ul>
+<li class="chapter" data-level="12.5.1" data-path="c12.html"><a href="c12.html#plotting-the-network"><i class="fa fa-check"></i><b>12.5.1</b> Plotting the Network</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="c12.html"><a href="c12.html#conclusion-8"><i class="fa fa-check"></i><b>12.6</b> Conclusion</a></li>
+<li class="chapter" data-level="12.7" data-path="c12.html"><a href="c12.html#technical-appendix-influence-and-selection-models"><i class="fa fa-check"></i><b>12.7</b> Technical Appendix: Influence and Selection Models</a><ul>
+<li class="chapter" data-level="12.7.1" data-path="c12.html"><a href="c12.html#an-example-of-influence"><i class="fa fa-check"></i><b>12.7.1</b> An Example of Influence</a></li>
+<li class="chapter" data-level="12.7.2" data-path="c12.html"><a href="c12.html#joining-the-data-1"><i class="fa fa-check"></i><b>12.7.2</b> Joining the Data</a></li>
+<li class="chapter" data-level="12.7.3" data-path="c12.html"><a href="c12.html#an-example-of-selection"><i class="fa fa-check"></i><b>12.7.3</b> An Example of Selection</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="c13.html"><a href="c13.html"><i class="fa fa-check"></i><b>13</b> Walkthrough 7: The Role (and Usefulness) of Multi-Level Models</a><ul>
+<li class="chapter" data-level="13.1" data-path="c13.html"><a href="c13.html#vocabulary-6"><i class="fa fa-check"></i><b>13.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="13.2" data-path="c13.html"><a href="c13.html#chapter-overview-8"><i class="fa fa-check"></i><b>13.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="c13.html"><a href="c13.html#background-6"><i class="fa fa-check"></i><b>13.2.1</b> Background</a></li>
+<li class="chapter" data-level="13.2.2" data-path="c13.html"><a href="c13.html#data-source-1"><i class="fa fa-check"></i><b>13.2.2</b> Data Source</a></li>
+<li class="chapter" data-level="13.2.3" data-path="c13.html"><a href="c13.html#methods-5"><i class="fa fa-check"></i><b>13.2.3</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="c13.html"><a href="c13.html#load-packages-5"><i class="fa fa-check"></i><b>13.3</b> Load Packages</a></li>
+<li class="chapter" data-level="13.4" data-path="c13.html"><a href="c13.html#import-data-5"><i class="fa fa-check"></i><b>13.4</b> Import Data</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="c13.html"><a href="c13.html#the-role-of-dummy-codes"><i class="fa fa-check"></i><b>13.4.1</b> The Role of Dummy Codes</a></li>
+<li class="chapter" data-level="13.4.2" data-path="c13.html"><a href="c13.html#using-dummy-codes"><i class="fa fa-check"></i><b>13.4.2</b> Using Dummy Codes</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="c13.html"><a href="c13.html#analysis-4"><i class="fa fa-check"></i><b>13.5</b> Analysis</a><ul>
+<li class="chapter" data-level="13.5.1" data-path="c13.html"><a href="c13.html#regression-linear-model-analysis-with-dummy-codes"><i class="fa fa-check"></i><b>13.5.1</b> Regression (Linear Model) Analysis with Dummy Codes</a></li>
+<li class="chapter" data-level="13.5.2" data-path="c13.html"><a href="c13.html#a-deep-dive-into-multi-level-models"><i class="fa fa-check"></i><b>13.5.2</b> A Deep-Dive into Multi-Level Models</a></li>
+<li class="chapter" data-level="13.5.3" data-path="c13.html"><a href="c13.html#multi-level-model-analysis"><i class="fa fa-check"></i><b>13.5.3</b> Multi-level Model Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="13.6" data-path="c13.html"><a href="c13.html#results-4"><i class="fa fa-check"></i><b>13.6</b> Results</a></li>
+<li class="chapter" data-level="13.7" data-path="c13.html"><a href="c13.html#conclusion-9"><i class="fa fa-check"></i><b>13.7</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="c14.html"><a href="c14.html"><i class="fa fa-check"></i><b>14</b> Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data</a><ul>
+<li class="chapter" data-level="14.1" data-path="c14.html"><a href="c14.html#vocabulary-7"><i class="fa fa-check"></i><b>14.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="14.2" data-path="c14.html"><a href="c14.html#chapter-overview-9"><i class="fa fa-check"></i><b>14.2</b> Chapter Overview</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="c14.html"><a href="c14.html#background-7"><i class="fa fa-check"></i><b>14.2.1</b> Background</a></li>
+<li class="chapter" data-level="14.2.2" data-path="c14.html"><a href="c14.html#data-sources-3"><i class="fa fa-check"></i><b>14.2.2</b> Data Sources</a></li>
+<li class="chapter" data-level="14.2.3" data-path="c14.html"><a href="c14.html#methods-6"><i class="fa fa-check"></i><b>14.2.3</b> Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="c14.html"><a href="c14.html#load-packages-6"><i class="fa fa-check"></i><b>14.3</b> Load Packages</a></li>
+<li class="chapter" data-level="14.4" data-path="c14.html"><a href="c14.html#import-and-view-data"><i class="fa fa-check"></i><b>14.4</b> Import and View Data</a></li>
+<li class="chapter" data-level="14.5" data-path="c14.html"><a href="c14.html#process-data-5"><i class="fa fa-check"></i><b>14.5</b> Process Data</a></li>
+<li class="chapter" data-level="14.6" data-path="c14.html"><a href="c14.html#analysis-5"><i class="fa fa-check"></i><b>14.6</b> Analysis</a><ul>
+<li class="chapter" data-level="14.6.1" data-path="c14.html"><a href="c14.html#use-of-caret"><i class="fa fa-check"></i><b>14.6.1</b> Use of {caret}</a></li>
+<li class="chapter" data-level="14.6.2" data-path="c14.html"><a href="c14.html#tuning-the-random-forest-model"><i class="fa fa-check"></i><b>14.6.2</b> Tuning the Random Forest Model</a></li>
+<li class="chapter" data-level="14.6.3" data-path="c14.html"><a href="c14.html#examining-predictive-accuracy-on-the-test-data-set"><i class="fa fa-check"></i><b>14.6.3</b> Examining Predictive Accuracy on the Test Data Set</a></li>
+</ul></li>
+<li class="chapter" data-level="14.7" data-path="c14.html"><a href="c14.html#results-5"><i class="fa fa-check"></i><b>14.7</b> Results</a><ul>
+<li class="chapter" data-level="14.7.1" data-path="c14.html"><a href="c14.html#variable-importance-measures"><i class="fa fa-check"></i><b>14.7.1</b> Variable Importance Measures</a></li>
+<li class="chapter" data-level="14.7.2" data-path="c14.html"><a href="c14.html#comparing-random-forest-to-regression"><i class="fa fa-check"></i><b>14.7.2</b> Comparing Random Forest to Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="c14.html"><a href="c14.html#conclusion-10"><i class="fa fa-check"></i><b>14.8</b> Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="c15.html"><a href="c15.html"><i class="fa fa-check"></i><b>15</b> Introducing Data Science Tools To Your Education Job</a><ul>
+<li class="chapter" data-level="15.1" data-path="c15.html"><a href="c15.html#chapter-overview-10"><i class="fa fa-check"></i><b>15.1</b> Chapter Overview</a></li>
+<li class="chapter" data-level="15.2" data-path="c15.html"><a href="c15.html#the-gift-of-speed-and-scale"><i class="fa fa-check"></i><b>15.2</b> The Gift of Speed and Scale</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="c15.html"><a href="c15.html#working-with-data-faster"><i class="fa fa-check"></i><b>15.2.1</b> Working With Data Faster</a></li>
+<li class="chapter" data-level="15.2.2" data-path="c15.html"><a href="c15.html#working-with-more-data"><i class="fa fa-check"></i><b>15.2.2</b> Working With More Data</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="c15.html"><a href="c15.html#other-ways-to-reimagine-the-scale-of-your-work"><i class="fa fa-check"></i><b>15.3</b> Other Ways to Reimagine the Scale of Your Work</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="c15.html"><a href="c15.html#reflect-on-your-current-scale-then-push-to-the-next-llevel"><i class="fa fa-check"></i><b>15.3.1</b> Reflect on your Current Scale, Then Push to the Next lLevel</a></li>
+<li class="chapter" data-level="15.3.2" data-path="c15.html"><a href="c15.html#look-for-lots-of-similarly-structured-data"><i class="fa fa-check"></i><b>15.3.2</b> Look for Lots of Similarly Structured Data</a></li>
+<li class="chapter" data-level="15.3.3" data-path="c15.html"><a href="c15.html#cleaning-data"><i class="fa fa-check"></i><b>15.3.3</b> Cleaning Data</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="c15.html"><a href="c15.html#solving-problems-together"><i class="fa fa-check"></i><b>15.4</b> Solving Problems Together</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="c15.html"><a href="c15.html#data-science-in-education-and-empathy"><i class="fa fa-check"></i><b>15.4.1</b> Data Science in Education and Empathy</a></li>
+<li class="chapter" data-level="15.4.2" data-path="c15.html"><a href="c15.html#create-a-daily-practice-commitment-that-answers-someone-elses-question"><i class="fa fa-check"></i><b>15.4.2</b> Create a Daily Practice Commitment That Answers Someone Else’s Question</a></li>
+<li class="chapter" data-level="15.4.3" data-path="c15.html"><a href="c15.html#build-your-network"><i class="fa fa-check"></i><b>15.4.3</b> Build Your Network</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="c15.html"><a href="c15.html#for-k-12-teachers"><i class="fa fa-check"></i><b>15.5</b> For K-12 Teachers</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="c16.html"><a href="c16.html"><i class="fa fa-check"></i><b>16</b> Teaching Data Science</a><ul>
+<li class="chapter" data-level="16.1" data-path="c16.html"><a href="c16.html#chapter-overview-11"><i class="fa fa-check"></i><b>16.1</b> Chapter Overview</a></li>
+<li class="chapter" data-level="16.2" data-path="c16.html"><a href="c16.html#the-pedagogical-principles-this-book-is-based-upon"><i class="fa fa-check"></i><b>16.2</b> 1. The Pedagogical Principles This Book is Based Upon</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="c16.html"><a href="c16.html#problem-based-learning"><i class="fa fa-check"></i><b>16.2.1</b> Problem-based learning</a></li>
+<li class="chapter" data-level="16.2.2" data-path="c16.html"><a href="c16.html#differentiation"><i class="fa fa-check"></i><b>16.2.2</b> Differentiation</a></li>
+<li class="chapter" data-level="16.2.3" data-path="c16.html"><a href="c16.html#working-in-the-open"><i class="fa fa-check"></i><b>16.2.3</b> Working in the Open</a></li>
+<li class="chapter" data-level="16.2.4" data-path="c16.html"><a href="c16.html#universal-design"><i class="fa fa-check"></i><b>16.2.4</b> Universal Design</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="c16.html"><a href="c16.html#strategies-for-teaching-data-science"><i class="fa fa-check"></i><b>16.3</b> 2. Strategies for Teaching Data Science</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="c16.html"><a href="c16.html#provide-a-home-base-for-learners-to-access-resources-and-to-learn-more"><i class="fa fa-check"></i><b>16.3.1</b> Provide a Home Base for Learners to Access Resources (and to Learn More)</a></li>
+<li class="chapter" data-level="16.3.2" data-path="c16.html"><a href="c16.html#when-it-comes-to-writing-code-think-early-and-often"><i class="fa fa-check"></i><b>16.3.2</b> When it Comes to Writing Code, Think Early and Often</a></li>
+<li class="chapter" data-level="16.3.3" data-path="c16.html"><a href="c16.html#dont-touch-that-keyboard"><i class="fa fa-check"></i><b>16.3.3</b> Don’t Touch That Keyboard!</a></li>
+<li class="chapter" data-level="16.3.4" data-path="c16.html"><a href="c16.html#anticipate-ussues-and-sacrifice-accuracy-for-clarity"><i class="fa fa-check"></i><b>16.3.4</b> Anticipate Ussues (and Sacrifice Accuracy for Clarity)</a></li>
+<li class="chapter" data-level="16.3.5" data-path="c16.html"><a href="c16.html#start-lessons-or-activities-with-visualizing-data"><i class="fa fa-check"></i><b>16.3.5</b> Start Lessons or Activities With Visualizing Data</a></li>
+<li class="chapter" data-level="16.3.6" data-path="c16.html"><a href="c16.html#consider-representation-and-inclusivity-in-the-data-and-examples-you-use"><i class="fa fa-check"></i><b>16.3.6</b> Consider Representation and Inclusivity in the Data and Examples You Use</a></li>
+<li class="chapter" data-level="16.3.7" data-path="c16.html"><a href="c16.html#draw-on-other-resources"><i class="fa fa-check"></i><b>16.3.7</b> Draw on Other Resources</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="c16.html"><a href="c16.html#general-strategies-related-to-teaching-and-learning"><i class="fa fa-check"></i><b>16.4</b> 3. General Strategies Related to Teaching and Learning</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="c16.html"><a href="c16.html#teaching-and-learning-are-complex"><i class="fa fa-check"></i><b>16.4.1</b> Teaching and Learning are Complex</a></li>
+<li class="chapter" data-level="16.4.2" data-path="c16.html"><a href="c16.html#learners-learn-many-different-things-consciously-and-unconsciously"><i class="fa fa-check"></i><b>16.4.2</b> Learners Learn Many Different Things (Consciously and Unconsciously)</a></li>
+<li class="chapter" data-level="16.4.3" data-path="c16.html"><a href="c16.html#meta-cognition-is-important-even-though-it-sounds-more-sophisticated-than-it-is"><i class="fa fa-check"></i><b>16.4.3</b> Meta-cognition is Important (Even Though it Sounds More Sophisticated Than it is!)</a></li>
+<li class="chapter" data-level="16.4.4" data-path="c16.html"><a href="c16.html#learning-strategies-matter"><i class="fa fa-check"></i><b>16.4.4</b> Learning Strategies Matter</a></li>
+<li class="chapter" data-level="16.4.5" data-path="c16.html"><a href="c16.html#educators-can-help-students-learn"><i class="fa fa-check"></i><b>16.4.5</b> Educators Can Help Students Learn</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="c16.html"><a href="c16.html#summary"><i class="fa fa-check"></i><b>16.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="c17.html"><a href="c17.html"><i class="fa fa-check"></i><b>17</b> Learning More</a><ul>
+<li class="chapter" data-level="17.1" data-path="c17.html"><a href="c17.html#introduction"><i class="fa fa-check"></i><b>17.1</b> Introduction</a></li>
+<li class="chapter" data-level="17.2" data-path="c17.html"><a href="c17.html#adopt-a-growth-mindset"><i class="fa fa-check"></i><b>17.2</b> Adopt a Growth Mindset</a></li>
+<li class="chapter" data-level="17.3" data-path="c17.html"><a href="c17.html#discover-new-information"><i class="fa fa-check"></i><b>17.3</b> Discover New Information</a></li>
+<li class="chapter" data-level="17.4" data-path="c17.html"><a href="c17.html#ask-for-help"><i class="fa fa-check"></i><b>17.4</b> Ask for Help</a><ul>
+<li class="chapter" data-level="17.4.1" data-path="c17.html"><a href="c17.html#discussion-forums"><i class="fa fa-check"></i><b>17.4.1</b> Discussion Forums</a></li>
+<li class="chapter" data-level="17.4.2" data-path="c17.html"><a href="c17.html#github-repositories"><i class="fa fa-check"></i><b>17.4.2</b> GitHub Repositories</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="c17.html"><a href="c17.html#share-what-youve-learned"><i class="fa fa-check"></i><b>17.5</b> Share What You’ve Learned</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="c17.html"><a href="c17.html#where-to-share"><i class="fa fa-check"></i><b>17.5.1</b> Where to Share</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="c17.html"><a href="c17.html#welcome-others"><i class="fa fa-check"></i><b>17.6</b> Welcome Others</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="c18.html"><a href="c18.html"><i class="fa fa-check"></i><b>18</b> Additional Resources</a><ul>
+<li class="chapter" data-level="18.1" data-path="c18.html"><a href="c18.html#chapter-overview-12"><i class="fa fa-check"></i><b>18.1</b> Chapter Overview</a></li>
+<li class="chapter" data-level="18.2" data-path="c18.html"><a href="c18.html#data-science-courses"><i class="fa fa-check"></i><b>18.2</b> Data Science Courses</a></li>
+<li class="chapter" data-level="18.3" data-path="c18.html"><a href="c18.html#workshop-materials"><i class="fa fa-check"></i><b>18.3</b> Workshop Materials</a></li>
+<li class="chapter" data-level="18.4" data-path="c18.html"><a href="c18.html#data-visualization"><i class="fa fa-check"></i><b>18.4</b> Data Visualization</a></li>
+<li class="chapter" data-level="18.5" data-path="c18.html"><a href="c18.html#books-related-to-data-science-in-education"><i class="fa fa-check"></i><b>18.5</b> Books Related to Data Science in Education</a></li>
+<li class="chapter" data-level="18.6" data-path="c18.html"><a href="c18.html#articles-related-to-data-science-in-education"><i class="fa fa-check"></i><b>18.6</b> Articles Related to Data Science in Education</a></li>
+<li class="chapter" data-level="18.7" data-path="c18.html"><a href="c18.html#programming-with-r"><i class="fa fa-check"></i><b>18.7</b> Programming with R</a></li>
+<li class="chapter" data-level="18.8" data-path="c18.html"><a href="c18.html#package-vignettes-and-descriptions-of-packages"><i class="fa fa-check"></i><b>18.8</b> Package vignettes and descriptions of packages</a></li>
+<li class="chapter" data-level="18.9" data-path="c18.html"><a href="c18.html#statistics"><i class="fa fa-check"></i><b>18.9</b> Statistics</a><ul>
+<li class="chapter" data-level="18.9.1" data-path="c18.html"><a href="c18.html#introductory-statistics"><i class="fa fa-check"></i><b>18.9.1</b> Introductory Statistics</a></li>
+<li class="chapter" data-level="18.9.2" data-path="c18.html"><a href="c18.html#advanced-statistics"><i class="fa fa-check"></i><b>18.9.2</b> Advanced Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="18.10" data-path="c18.html"><a href="c18.html#r-packages-and-statistical-software-development"><i class="fa fa-check"></i><b>18.10</b> R packages and Statistical Software Development</a></li>
+<li class="chapter" data-level="18.11" data-path="c18.html"><a href="c18.html#a-career-in-data-science"><i class="fa fa-check"></i><b>18.11</b> A Career in Data Science</a></li>
+<li class="chapter" data-level="18.12" data-path="c18.html"><a href="c18.html#places-to-share-your-work"><i class="fa fa-check"></i><b>18.12</b> Places to Share Your Work</a></li>
+<li class="chapter" data-level="18.13" data-path="c18.html"><a href="c18.html#cheat-sheets"><i class="fa fa-check"></i><b>18.13</b> Cheat Sheets</a></li>
+<li class="chapter" data-level="18.14" data-path="c18.html"><a href="c18.html#learning-communities"><i class="fa fa-check"></i><b>18.14</b> Learning Communities</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="c19.html"><a href="c19.html"><i class="fa fa-check"></i><b>19</b> Conclusion: Where to Next?</a><ul>
+<li class="chapter" data-level="19.1" data-path="c19.html"><a href="c19.html#learn-in-the-context-of-education"><i class="fa fa-check"></i><b>19.1</b> Learn in the Context of Education</a></li>
+<li class="chapter" data-level="19.2" data-path="c19.html"><a href="c19.html#learn-to-collaborate-with-others"><i class="fa fa-check"></i><b>19.2</b> Learn to Collaborate With Others</a></li>
+<li class="chapter" data-level="19.3" data-path="c19.html"><a href="c19.html#learn-every-time-you-code"><i class="fa fa-check"></i><b>19.3</b> Learn Every Time You Code</a></li>
+<li class="chapter" data-level="19.4" data-path="c19.html"><a href="c19.html#learn-to-take-strategic-breaks-to-help-solve-problems"><i class="fa fa-check"></i><b>19.4</b> Learn to Take Strategic Breaks to Help Solve Problems</a></li>
+<li class="chapter" data-level="19.5" data-path="c19.html"><a href="c19.html#learn-more-meaningfully-by-knowing-your-why"><i class="fa fa-check"></i><b>19.5</b> Learn More Meaningfully By Knowing Your Why</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.emilybovee.com/">Emily A. Bovee</a></li>
+<li><a href="https://ryanestrellado.netlify.com/">Ryan A. Estrellado</a></li>
+<li><a href="https://www.jessemaegan.com/">Jesse Mostipak</a></li>
+<li><a href="https://joshuamrosenberg.com/">Joshua M. Rosenberg</a></li>
+<li><a href="https://ivelasq.rbind.io/">Isabella C. Velásquez</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science in Education Using R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="c07" class="section level1">
+<h1><span class="header-section-number">7</span> Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data</h1>
+<div id="introduction-to-the-walkthroughs" class="section level2">
+<h2><span class="header-section-number">7.1</span> Introduction to the walkthroughs</h2>
+<p>This chapter is the first of eight walkthroughs included in the book. In it, we
+present <em>one approach</em> to analyzing a specific dataset. In this chapter, the
+approach is what we call the “education data science pipeline.” Here, we will be
+using data from a number of online science classes and will show the process of
+working with an education dataset from start to finish. While the walkthroughs
+are very different, the structure and section headings will be consistent
+throughout the walkthroughs. For example, every walkthrough will begin with a
+vocabulary section, followed by an introduction to the dataset and an
+introduction to the question or problem explored in the walkthrough.</p>
+</div>
+<div id="vocabulary" class="section level2">
+<h2><span class="header-section-number">7.2</span> Vocabulary</h2>
+<ul>
+<li>item</li>
+<li>joins</li>
+<li>keys</li>
+<li>log-trace data</li>
+<li>pass</li>
+<li>reverse scale</li>
+<li>regression</li>
+<li>survey</li>
+<li>tibble</li>
+<li>vectorize</li>
+</ul>
+</div>
+<div id="chapter-overview-2" class="section level2">
+<h2><span class="header-section-number">7.3</span> Chapter Overview</h2>
+<p>In this walkthrough, we explore some of the key steps that are a part of many
+data science in education projects. In particular, we explore how to process and
+prepare data. These steps are sometimes referred to as “data wrangling”. To do
+so, we rely heavily on a set of tools that we use throughout <em>all</em> of the
+walkthroughs, those associated with the {tidyverse}.</p>
+<p>The {tidyverse} is a set of packages for data manipulation, exploration, and
+visualization. that uses the design philosophy of ‘tidy’ data <span class="citation">(Wickham, <a href="references.html#ref-wickham2014">2014</a>)</span>.
+Tidy data has a specific structure: each variable is a column, each observation
+is a row, and each type of observational unit is a table. We’ll discuss both the
+{tidyverse} and tidy data much more throughout the book. For more information,
+see the Foundational Skills chapters or <a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a>.</p>
+<div id="background" class="section level3">
+<h3><span class="header-section-number">7.3.1</span> Background</h3>
+<p>The online science classes we explore in this chapter were designed and taught
+by instructors through a statewide online course provider designed to supplement
+- but not replace - students’ enrollment in their local school. For example,
+students may have chosen to enroll in an online physics class because one was
+not offered at their school. The data were originally collected for a research
+study, which utilized a number of different data sources to understand students’
+course-related motivation. These datasets included:</p>
+<ol style="list-style-type: decimal">
+<li>A self-report survey assessing three aspects of students’ motivation</li>
+<li>Log-trace data, such as data output from the learning management system</li>
+<li>Discussion board data</li>
+<li>Academic achievement data</li>
+</ol>
+<p>Our high-level <em>purpose</em> for this walkthrough is to conduct an analysis that
+helps explain students’ performance in these online courses. The <em>problem</em> we
+are facing is a very common one when it comes to data science in education: the
+data are complex and in need of further processing before we can get to the step
+of running analyses.</p>
+<p>To understand students’ performance, we will focus on a learning management
+system (LMS) variable that indicates the amount of time students spent within
+the course LMS. We will also explore the effects of the type of science course
+and the section in which students are enrolled on student performance.</p>
+<p>First, these different data sources will be described in terms of how they were
+provided by the school.</p>
+</div>
+<div id="data-sources" class="section level3">
+<h3><span class="header-section-number">7.3.2</span> Data Sources</h3>
+<div id="data-source-1-self-report-survey-about-students-motivation" class="section level4">
+<h4><span class="header-section-number">7.3.2.1</span> Data Source #1: Self-Report Survey about Students’ Motivation</h4>
+<p>The first data source is a self-report survey. This was data collected before
+the start of the course. The survey included ten items, each corresponding to
+one of three motivation <em>measures</em>: interest, utility value, and perceived
+competence. A <em>measure</em> is a concept that we try to make concrete and assess
+using survey questions. The three motivation measures we explore here come from
+Expectancy-Value Theory, which states that students are motivated to learn when
+they both believe that they can achieve something (expectancy, also known as
+perceived competence) and believe that the concept they are trying to learn is
+important (value) <span class="citation">(<span class="citeproc-not-found" data-reference-id="eccles1983"><strong>???</strong></span>)</span>. There are multiple types of value, but we
+explore two of them here: interest and utility value. Utility value is the
+degree to which a person is able to connect the concept being learned with
+something they will utilize in their future life. This survey included the
+following ten items:</p>
+<ol style="list-style-type: decimal">
+<li>I think this course is an interesting subject. (Interest)</li>
+<li>What I am learning in this class is relevant to my life. (Utility value)</li>
+<li>I consider this topic to be one of my best subjects. (Perceived competence)</li>
+<li>I am not interested in this course. (Interest - reverse coded)</li>
+<li>I think I will like learning about this topic. (Interest)</li>
+<li>I think what we are studying in this course is useful for me to know.
+(Utility value)</li>
+<li>I don’t feel comfortable when it comes to answering questions in this area.
+(Perceived competence - reverse coded)</li>
+<li>I think this subject is interesting. (Interest)</li>
+<li>I find the content of this course to be personally meaningful. (Utility
+value)</li>
+<li>I’ve always wanted to learn more about this subject. (Interest)</li>
+</ol>
+</div>
+</div>
+<div id="data-source-2-log-trace-data" class="section level3">
+<h3><span class="header-section-number">7.3.3</span> Data Source #2: Log-Trace Data</h3>
+<p><em>Log-trace data</em> is data generated from our interactions with digital
+technologies, such as archived data from social media postings (see
+<a href="c11.html#c11">Chapter 11</a> and <a href="c12.html#c12">Chapter 12</a>). In education, an increasingly common
+source of log-trace data is that generated from interactions with learning
+management systems and other digital tools <span class="citation">(Siemens &amp; d Baker, <a href="references.html#ref-siemens2012">2012</a>)</span>. The data for this
+walk-through is a summary type of log-trace data: the number of minutes students
+spent on the course. While this data type is fairly straightforward, there are
+even more complex sources of log-trace data out there (e.g. time stamps
+associated with when students started and stopped accessing the course!).</p>
+</div>
+<div id="data-source-3-academic-achievement-and-gradebook-data" class="section level3">
+<h3><span class="header-section-number">7.3.4</span> Data Source #3: Academic Achievement and Gradebook Data</h3>
+<p>This is a common source of data in the education realm: the graded assignments
+students completed. In this walkthrough, we examine only students’ final grade
+for the course.</p>
+</div>
+<div id="data-source-4-discussion-board-data" class="section level3">
+<h3><span class="header-section-number">7.3.5</span> Data Source #4: Discussion Board Data</h3>
+<p>Discussion board data is both rich and unstructured because it is made up of
+large chunks of text that the students wrote. While discussion board data was
+collected for this research project, but we do not examine it in this
+walkthrough. More information about analyzing text data can be found in
+<a href="c11.html#c11">Chapter 11</a>.</p>
+</div>
+<div id="methods" class="section level3">
+<h3><span class="header-section-number">7.3.6</span> Methods</h3>
+<p>In this walkthrough, we will concentrate on merging different datasets together
+by using the different “joins” available in the {dplyr} package. We will also
+start exploring how to run linear models in R.</p>
+</div>
+</div>
+<div id="load-packages" class="section level2">
+<h2><span class="header-section-number">7.4</span> Load Packages</h2>
+<p>This analysis uses R packages, which are collections of R code that help users
+code more efficiently, as you will recall from <a href="#c1">Chapter 1</a>. We load these
+packages with the function <code>library()</code>. The specific packages we’ll use here
+will help us organize the structure of the data using the {tidyverse}
+<span class="citation">(Wickham, <a href="references.html#ref-R-tidyverse">2019</a><a href="references.html#ref-R-tidyverse">b</a>)</span>, work with dates in the data using {lubridate}
+<span class="citation">(Spinu et al., <a href="references.html#ref-R-lubridate">2018</a>)</span>, create formatted tables using {apaTables} <span class="citation">(Stanley, <a href="references.html#ref-R-apaTables">2018</a>)</span> and
+{sjPlot} <span class="citation">(Lüdecke, <a href="references.html#ref-R-sjPlot">2020</a>)</span>, and export datasets using {readxl} <span class="citation">(Wickham &amp; Bryan, <a href="references.html#ref-R-readxl">2019</a>)</span>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">library</span>(dataedu)</a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb42-3" title="3"><span class="kw">library</span>(lubridate)</a>
+<a class="sourceLine" id="cb42-4" title="4"><span class="kw">library</span>(apaTables)</a>
+<a class="sourceLine" id="cb42-5" title="5"><span class="kw">library</span>(sjPlot)</a>
+<a class="sourceLine" id="cb42-6" title="6"><span class="kw">library</span>(readxl)</a></code></pre></div>
+</div>
+<div id="import-data" class="section level2">
+<h2><span class="header-section-number">7.5</span> Import Data</h2>
+<p>This code chunk loads the log-trace data and self-report survey data from the
+{dataedu} package. Note that we assign a dataset to an object three different
+times, once for each of the three different datasets. We assign each of the
+datasets a name using <code>&lt;-</code>.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="co"># Pre-survey for the F15 and S16 semesters</span></a>
+<a class="sourceLine" id="cb43-2" title="2"></a>
+<a class="sourceLine" id="cb43-3" title="3">pre_survey &lt;-<span class="st"> </span>dataedu<span class="op">::</span>pre_survey</a>
+<a class="sourceLine" id="cb43-4" title="4"></a>
+<a class="sourceLine" id="cb43-5" title="5"><span class="co"># Gradebook and log-trace data for F15 and S16 semesters</span></a>
+<a class="sourceLine" id="cb43-6" title="6"></a>
+<a class="sourceLine" id="cb43-7" title="7">course_data &lt;-<span class="st"> </span>dataedu<span class="op">::</span>course_data</a>
+<a class="sourceLine" id="cb43-8" title="8"></a>
+<a class="sourceLine" id="cb43-9" title="9"><span class="co"># Log-trace data for F15 and S16 semesters - this is for time spent</span></a>
+<a class="sourceLine" id="cb43-10" title="10"></a>
+<a class="sourceLine" id="cb43-11" title="11">course_minutes &lt;-<span class="st"> </span>dataedu<span class="op">::</span>course_minutes</a></code></pre></div>
+</div>
+<div id="view-data" class="section level2">
+<h2><span class="header-section-number">7.6</span> View Data</h2>
+<p>Now that we’ve successfully loaded all three log-trace datasets, we can visually
+inspect the data by typing the names that we assigned to each dataset. Running
+each line, one at a time, will show the first several rows of each dataset.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">pre_survey</a></code></pre></div>
+<pre><code>## # A tibble: 1,102 x 12
+##    opdata_username opdata_CourseID Q1Maincellgroup… Q1Maincellgroup…
+##    &lt;chr&gt;           &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;
+##  1 _80624_1        FrScA-S116-01                  4                4
+##  2 _80623_1        BioA-S116-01                   4                4
+##  3 _82588_1        OcnA-S116-03                  NA               NA
+##  4 _80623_1        AnPhA-S116-01                  4                3
+##  5 _80624_1        AnPhA-S116-01                 NA               NA
+##  6 _80624_1        AnPhA-S116-02                  4                2
+##  7 _80624_1        AnPhA-T116-01                 NA               NA
+##  8 _80624_1        BioA-S116-01                   5                3
+##  9 _80624_1        BioA-T116-01                  NA               NA
+## 10 _80624_1        PhysA-S116-01                  4                4
+## # … with 1,092 more rows, and 8 more variables: Q1MaincellgroupRow3 &lt;dbl&gt;,
+## #   Q1MaincellgroupRow4 &lt;dbl&gt;, Q1MaincellgroupRow5 &lt;dbl&gt;,
+## #   Q1MaincellgroupRow6 &lt;dbl&gt;, Q1MaincellgroupRow7 &lt;dbl&gt;,
+## #   Q1MaincellgroupRow8 &lt;dbl&gt;, Q1MaincellgroupRow9 &lt;dbl&gt;,
+## #   Q1MaincellgroupRow10 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1">course_data</a></code></pre></div>
+<pre><code>## # A tibble: 29,711 x 8
+##    CourseSectionOr… Bb_UserPK Gradebook_Item Grade_Category FinalGradeCEMS
+##    &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;                   &lt;dbl&gt;
+##  1 AnPhA-S116-01        60186 POINTS EARNED… &lt;NA&gt;                     86.3
+##  2 AnPhA-S116-01        60186 WORK ATTEMPTED &lt;NA&gt;                     86.3
+##  3 AnPhA-S116-01        60186 0.1: Message … &lt;NA&gt;                     86.3
+##  4 AnPhA-S116-01        60186 0.2: Intro As… Hw                       86.3
+##  5 AnPhA-S116-01        60186 0.3: Intro As… Hw                       86.3
+##  6 AnPhA-S116-01        60186 1.1: Quiz      Qz                       86.3
+##  7 AnPhA-S116-01        60186 1.2: Quiz      Qz                       86.3
+##  8 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
+##  9 AnPhA-S116-01        60186 1.3: Create a… Hw                       86.3
+## 10 AnPhA-S116-01        60186 1.4: Negative… Hw                       86.3
+## # … with 29,701 more rows, and 3 more variables: Points_Possible &lt;dbl&gt;,
+## #   Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">course_minutes</a></code></pre></div>
+<pre><code>## # A tibble: 598 x 3
+##    Bb_UserPK CourseSectionOrigID TimeSpent
+##        &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;
+##  1     44638 OcnA-S116-01            1383.
+##  2     54346 OcnA-S116-01            1191.
+##  3     57981 OcnA-S116-01            3343.
+##  4     66740 OcnA-S116-01             965.
+##  5     67920 OcnA-S116-01            4095.
+##  6     85355 OcnA-S116-01             595.
+##  7     85644 OcnA-S116-01            1632.
+##  8     86349 OcnA-S116-01            1601.
+##  9     86460 OcnA-S116-01            1891.
+## 10     87970 OcnA-S116-01            3123.
+## # … with 588 more rows</code></pre>
+</div>
+<div id="process-data" class="section level2">
+<h2><span class="header-section-number">7.7</span> Process Data</h2>
+<p>Often, survey data needs to be processed in order to be most useful. We are
+going to start with one of the three datasets we just saved as objects into our
+environment: the dataset with the pre-survey items. Here, we process the
+self-report items into three scales for 1) interest, 2) perceived competence,
+and 3) utility value. We do this by:</p>
+<ul>
+<li>Renaming the question variables to something more manageable</li>
+<li>Reversing the response scales on questions 4 and 7</li>
+<li>Categorizing each question into a measure</li>
+<li>Computing the mean of each measure</li>
+</ul>
+<p>Let’s take these steps in order:</p>
+<ol style="list-style-type: decimal">
+<li>Take the pre-survey data and save it as a new object with the same name
+“pre_survey.” Rename the question columns to something much simpler. To do
+this, we will use the <code>rename()</code> function and will input first the new
+variable name, then the “=” sign, and then the old variable name. You’ll
+notice another function at the bottom called <code>mutate_at()</code>. We’ll explain
+that below this code chunk.</li>
+</ol>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">pre_survey  &lt;-</a>
+<a class="sourceLine" id="cb50-2" title="2"><span class="st">  </span>pre_survey  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb50-3" title="3"><span class="st">  </span><span class="co"># Rename the qustions something easier to work with because R is case sensitive</span></a>
+<a class="sourceLine" id="cb50-4" title="4"><span class="st">  </span><span class="co"># and working with variable names in mix case is prone to error</span></a>
+<a class="sourceLine" id="cb50-5" title="5"><span class="st">  </span><span class="kw">rename</span>(</a>
+<a class="sourceLine" id="cb50-6" title="6">    <span class="dt">q1 =</span> Q1MaincellgroupRow1,</a>
+<a class="sourceLine" id="cb50-7" title="7">    <span class="dt">q2 =</span> Q1MaincellgroupRow2,</a>
+<a class="sourceLine" id="cb50-8" title="8">    <span class="dt">q3 =</span> Q1MaincellgroupRow3,</a>
+<a class="sourceLine" id="cb50-9" title="9">    <span class="dt">q4 =</span> Q1MaincellgroupRow4,</a>
+<a class="sourceLine" id="cb50-10" title="10">    <span class="dt">q5 =</span> Q1MaincellgroupRow5,</a>
+<a class="sourceLine" id="cb50-11" title="11">    <span class="dt">q6 =</span> Q1MaincellgroupRow6,</a>
+<a class="sourceLine" id="cb50-12" title="12">    <span class="dt">q7 =</span> Q1MaincellgroupRow7,</a>
+<a class="sourceLine" id="cb50-13" title="13">    <span class="dt">q8 =</span> Q1MaincellgroupRow8,</a>
+<a class="sourceLine" id="cb50-14" title="14">    <span class="dt">q9 =</span> Q1MaincellgroupRow9,</a>
+<a class="sourceLine" id="cb50-15" title="15">    <span class="dt">q10 =</span> Q1MaincellgroupRow10</a>
+<a class="sourceLine" id="cb50-16" title="16">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb50-17" title="17"><span class="st">  </span><span class="co"># Convert all question responses to numeric</span></a>
+<a class="sourceLine" id="cb50-18" title="18"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(q1<span class="op">:</span>q10), <span class="kw">list</span>( <span class="op">~</span><span class="st"> </span><span class="kw">as.numeric</span>(.)))</a></code></pre></div>
+<p>Let’s take a moment to discuss the {dplyr} function <code>mutate_at()</code>. <code>mutate_at()</code>
+is a version of <code>mutate()</code>, which changes the values in an existing column or
+creates new columns. It’s useful in education datasets because you’ll often need
+to transform your data before analyzing it. In the code chunk we just ran, we
+used <code>mutate_at()</code> to convert the data in all ten variables into a numeric
+format.</p>
+<p>To learn a little more about <code>mutate()</code>, try the example below, where we create
+a new dataset called “df”. We fill this dataset with two columns: “male” and
+“female.” Each column has only one value, and that value is 5. In the second
+part of the code, we add a <code>total_students</code> column by adding the number of
+<code>male</code> students and <code>female</code> students.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="co"># Dataset of students</span></a>
+<a class="sourceLine" id="cb51-2" title="2">df &lt;-<span class="st"> </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb51-3" title="3">  <span class="dt">male =</span> <span class="dv">5</span>, </a>
+<a class="sourceLine" id="cb51-4" title="4">  <span class="dt">female =</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb51-5" title="5">)</a>
+<a class="sourceLine" id="cb51-6" title="6"></a>
+<a class="sourceLine" id="cb51-7" title="7"><span class="co"># Use mutate to create a new column called &quot;total_students&quot; </span></a>
+<a class="sourceLine" id="cb51-8" title="8">  <span class="co"># populate that column with the sum of the &quot;male&quot; and &quot;female&quot; variables</span></a>
+<a class="sourceLine" id="cb51-9" title="9">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">total_students =</span> male <span class="op">+</span><span class="st"> </span>female)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 3
+##    male female total_students
+##   &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;
+## 1     5      5             10</code></pre>
+<p>To return to our original data, we used <code>mutate_at()</code>, a special version of
+<code>mutate()</code> which conveniently changes the values of multiple columns. In our
+dataset <code>pre_survey</code>, we let <code>mutate_at()</code> know we want to change the variables
+<code>q1</code> through <code>q10</code>. We do this with the argument <code>vars(q1:q10)</code>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Next we’ll reverse the scale of the survey responses on questions 4 and 7 so
+the responses for all questions can be interpreted in the same way. As you
+can see from the survey questions we listed earlier in the chapter, the
+phrasing of questions 4 and 7 is opposite the phrasing of the other
+questions. Rather than write a lot of code once to reverse the scales for
+question 4 then writing it again to reverse the scales on question 7, we’ll
+build a function that does that job for us. Then we’ll use the same function
+that we wrote to recode both question 4 and question 7. This will result in
+much less code, and it will make it easier for us to change in the future.</li>
+</ol>
+<p>We’ll use the function <code>case_when()</code> within our function to reverse the scale of
+the item responses. <code>case_when()</code> is useful when you need to replace the values
+in a column with other values based on some criteria. Education datasets use a
+lot of codes to describe demographics, like numerical codes for disability
+categories, race groups, or proficiency in a test. When you work with codes like
+this, you’ll often want to change the codes to values that are easier to
+understand. For a example, a consultant analyzing how students did on state
+testing might use <code>case_when()</code> to replace proficiency codes like 1, 2, or 3 to
+more descriptive words like “below proficiency”, “proficient”, or “advanced.”</p>
+<p><code>case_when()</code> lets you vectorize the rules you want to use to change values in a
+column. When a sequence of criteria is vectorized, R will evaluate a value in a
+column against each criteria in your <code>case_when()</code> sequence. <code>case_when()</code> is
+helpful because it does this without requiring you to write complicated code
+loops. Instead, you can systematically evaluate your criteria using code that is
+compact and readable (once you understand how all the arguments work).</p>
+<p>The left hand side of each <code>case_when()</code> argument will be a formula that returns
+either a <code>TRUE</code> or a <code>FALSE</code>. In the function below, we’ll use logical operators
+in the left hand side of the formula like this: <code>question == 1 ~ 5</code>. Here are
+some logical operators you can use in the future:</p>
+<ul>
+<li><code>==</code>: equal to</li>
+<li><code>&gt;</code>: greater than</li>
+<li><code>&lt;</code>: lesser than</li>
+<li><code>&gt;=</code>: greater than or equal to</li>
+<li><code>&lt;=</code>: lesser than or equal to</li>
+<li><code>!=</code>: not equal to</li>
+<li><code>!</code>: not</li>
+<li><code>&amp;</code>: and</li>
+<li><code>|</code>: or</li>
+</ul>
+<p>Let’s make this all concrete and use it here in our function that reverses the
+scale of the survey responses. In the first part of the code chunk below, we
+will write our function. Note that by running the first bit of code here, we
+won’t be changing anything in our data. Instead, we are creating a reusable,
+general-purpose code chunk that we will then apply to the specific survey
+questions we want to recode.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="co"># This part of the code is where we write the function:</span></a>
+<a class="sourceLine" id="cb53-2" title="2"><span class="co"># Function for reversing scales </span></a>
+<a class="sourceLine" id="cb53-3" title="3">reverse_scale &lt;-<span class="st"> </span><span class="cf">function</span>(question) {</a>
+<a class="sourceLine" id="cb53-4" title="4">  <span class="co"># Reverses the response scales for consistency</span></a>
+<a class="sourceLine" id="cb53-5" title="5">  <span class="co">#   Arguments:</span></a>
+<a class="sourceLine" id="cb53-6" title="6">  <span class="co">#     question - survey question</span></a>
+<a class="sourceLine" id="cb53-7" title="7">  <span class="co">#   Returns: </span></a>
+<a class="sourceLine" id="cb53-8" title="8">  <span class="co">#    a numeric converted response</span></a>
+<a class="sourceLine" id="cb53-9" title="9">  <span class="co"># Note: even though 3 is not transformed, case_when expects a match for all</span></a>
+<a class="sourceLine" id="cb53-10" title="10">  <span class="co"># possible conditions, so it&#39;s best practice to label each possible input</span></a>
+<a class="sourceLine" id="cb53-11" title="11">  <span class="co"># and use TRUE ~ as the final statement returning NA for unexpected inputs</span></a>
+<a class="sourceLine" id="cb53-12" title="12">  x &lt;-<span class="st"> </span><span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb53-13" title="13">    question <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb53-14" title="14">    question <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">~</span><span class="st"> </span><span class="dv">4</span>,</a>
+<a class="sourceLine" id="cb53-15" title="15">    question <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb53-16" title="16">    question <span class="op">==</span><span class="st"> </span><span class="dv">4</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb53-17" title="17">    question <span class="op">==</span><span class="st"> </span><span class="dv">5</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb53-18" title="18">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span></a>
+<a class="sourceLine" id="cb53-19" title="19">  )</a>
+<a class="sourceLine" id="cb53-20" title="20">  x</a>
+<a class="sourceLine" id="cb53-21" title="21">}</a>
+<a class="sourceLine" id="cb53-22" title="22"></a>
+<a class="sourceLine" id="cb53-23" title="23"><span class="co"># And here&#39;s where we use that function to reverse the scales</span></a>
+<a class="sourceLine" id="cb53-24" title="24"><span class="co"># We use the pipe operator %&gt;% here</span></a>
+<a class="sourceLine" id="cb53-25" title="25"><span class="co"># Reverse scale for questions 4 and 7</span></a>
+<a class="sourceLine" id="cb53-26" title="26">pre_survey &lt;-</a>
+<a class="sourceLine" id="cb53-27" title="27"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb53-28" title="28"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">q4 =</span> <span class="kw">reverse_scale</span>(q4),</a>
+<a class="sourceLine" id="cb53-29" title="29">         <span class="dt">q7 =</span> <span class="kw">reverse_scale</span>(q7))</a></code></pre></div>
+<p>You’ll notice that we call the <code>reverse_scale()</code> function we wrote, but we call
+it within the <code>mutate()</code> function. By doing things this way, we are overwriting
+the previous data in the columns for questions 4 and 7 with our newly recoded
+values for questions 4 and 7.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Next, we’ll use a function called <code>pivot_longer()</code> in order to transform our
+<code>pre_survey</code> dataset from wide format to long format. That means instead of
+having 1,102 observations of 12 variables, we will now have 11,020
+observations of 4 variables. By using <code>pivot_longer()</code>, we make it so that
+each question &amp; response pair has its own line in the data. Therefore, since
+we have 10 question variables (columns) in the <code>pre_survey</code> dataset, after
+we use <code>pivot_longer()</code>, we will end up with 10 times as many observations
+(rows) as before. Additionally, we no longer need a separate column for each
+individual question, since each question-response pair is now on its own
+line. What was previously one row of data now takes up ten rows of data. so
+<code>pivot_longer()</code> automatically deletes those empty columns after condensing
+all the data. We’ll save this new dataset as an object called <code>measure_mean</code>
+in order to represent new variables we will create in future data processing
+steps.</li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="co"># Pivot the dataset from wide to long format</span></a>
+<a class="sourceLine" id="cb54-2" title="2">measure_mean &lt;-</a>
+<a class="sourceLine" id="cb54-3" title="3"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb54-4" title="4"><span class="st">  </span><span class="co"># Gather questions and responses</span></a>
+<a class="sourceLine" id="cb54-5" title="5"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> q1<span class="op">:</span>q10,</a>
+<a class="sourceLine" id="cb54-6" title="6">               <span class="dt">names_to =</span> <span class="st">&quot;question&quot;</span>,</a>
+<a class="sourceLine" id="cb54-7" title="7">               <span class="dt">values_to =</span> <span class="st">&quot;response&quot;</span>)</a></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Next, we’ll take our new <code>measure_mean</code> dataset and create a column called
+<code>measure</code>. We’ll fill that column with one of three question categories:</li>
+</ol>
+<ul>
+<li><code>int</code>: interest</li>
+<li><code>uv</code>: utility value</li>
+<li><code>pc</code>: perceived competence .</li>
+</ul>
+<p>We will use the <code>case_when()</code> function we learned earlier in order to do this.
+When we pivoted from wide format to long format in the prior step, we ended up
+with one variable containing all possible question numbers (q1, q2, etc.). Now,
+we want to tell R which question numbers correspond to which categories. To do
+this, we will supply <code>case_when()</code> with a list of all the question numbers that
+correspond to each category: interest, utility value, and perceived competence.
+We’ll introduce a new operator in order to do this: <code>%in!%</code>. Practically, this
+operator means that R should look within a list for something. In the code
+below, we tell R to use questions 1, 4, 5, 8, and 10 to create the category
+<code>int</code>. We then tell R to use questions 2, 6, and 9 to calculate <code>uv</code> and to use
+questions 3 and 7 to calculate <code>pc</code>. We indicate the start of each list with the
+letter “c” and an open parenthesis, and we indicate the end of each list with a
+close parenthesis.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="co"># Add measure variable </span></a>
+<a class="sourceLine" id="cb55-2" title="2">measure_mean &lt;-<span class="st"> </span>measure_mean <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb55-3" title="3"><span class="st">  </span><span class="co"># Here&#39;s where we make the column of question categories called &quot;measure&quot;</span></a>
+<a class="sourceLine" id="cb55-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb55-5" title="5">    <span class="dt">measure =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb55-6" title="6">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q1&quot;</span>, <span class="st">&quot;q4&quot;</span>, <span class="st">&quot;q5&quot;</span>, <span class="st">&quot;q8&quot;</span>, <span class="st">&quot;q10&quot;</span>) <span class="op">~</span><span class="st"> &quot;int&quot;</span>,</a>
+<a class="sourceLine" id="cb55-7" title="7">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q2&quot;</span>, <span class="st">&quot;q6&quot;</span>, <span class="st">&quot;q9&quot;</span>) <span class="op">~</span><span class="st"> &quot;uv&quot;</span>,</a>
+<a class="sourceLine" id="cb55-8" title="8">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q3&quot;</span>, <span class="st">&quot;q7&quot;</span>) <span class="op">~</span><span class="st"> &quot;pc&quot;</span>,</a>
+<a class="sourceLine" id="cb55-9" title="9">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span>)</a>
+<a class="sourceLine" id="cb55-10" title="10">  )</a></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li>Last, we’ll take that same <code>measure_mean</code> dataset and create a new variable
+called <code>mean_response.</code> Since we are calculating the mean by category, we
+will need to first group the responses together using a function called
+<code>group_by()</code>. This function helps us get set up to calculate new columns
+with grouped data. Next, we’ll use the function <code>summarize()</code> to create two
+new variables: <code>mean_response</code> and <code>percent_NA.</code> We’ll find the mean
+response of each category using the <code>mean()</code> function.</li>
+</ol>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="co"># Add measure variable </span></a>
+<a class="sourceLine" id="cb56-2" title="2">measure_mean &lt;-<span class="st"> </span>measure_mean <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-3" title="3"><span class="st">  </span><span class="co"># First, we group by the new variable &quot;measure&quot;</span></a>
+<a class="sourceLine" id="cb56-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(measure) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb56-5" title="5"><span class="st">  </span><span class="co"># Here&#39;s where we compute the mean of the responses</span></a>
+<a class="sourceLine" id="cb56-6" title="6"><span class="st">  </span><span class="kw">summarize</span>(</a>
+<a class="sourceLine" id="cb56-7" title="7">    <span class="co"># Creating a new variable to indicate the mean response for each measure</span></a>
+<a class="sourceLine" id="cb56-8" title="8">    <span class="dt">mean_response =</span> <span class="kw">mean</span>(response, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb56-9" title="9">    <span class="co"># Creating a new variable to indicate the percent of each measure that </span></a>
+<a class="sourceLine" id="cb56-10" title="10">    <span class="co"># had NAs in the response field</span></a>
+<a class="sourceLine" id="cb56-11" title="11">    <span class="dt">percent_NA =</span> <span class="kw">mean</span>(<span class="kw">is.na</span>(response))</a>
+<a class="sourceLine" id="cb56-12" title="12">    )</a>
+<a class="sourceLine" id="cb56-13" title="13"></a>
+<a class="sourceLine" id="cb56-14" title="14">measure_mean</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   measure mean_response percent_NA
+##   &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
+## 1 int              4.25      0.178
+## 2 pc               3.65      0.178
+## 3 uv               3.74      0.178</code></pre>
+<p>With that last step, we have finished processing the <code>pre_survey</code> dataset. We
+have renamed the relevant variables and computed some means that we can use
+later.</p>
+<div id="processing-the-course-data" class="section level3">
+<h3><span class="header-section-number">7.7.1</span> Processing the Course Data</h3>
+<p>When we loaded the data earlier in the chapter, we loaded three datasets:
+<code>pre_survey</code>, <code>course_data</code>, and <code>course_minutes.</code> Next, we can process the
+course data that we already loaded into the environment in order to create new
+variables which we can use in analyses.</p>
+<p>Information about the course subject, semester, and section are stored in a
+single column, <code>CourseSectionOrigID</code>. This format of data storage is not ideal.
+If we instead give each piece of information its own column, we’ll have more
+opportunities for later analysis. We’ll use a function called <code>separate()</code> to do
+this. Below, we will load <code>course_data</code> and run the <code>separate()</code> function to
+split up the subject, semester, and section so we can use them later on.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="co"># split course section into components</span></a>
+<a class="sourceLine" id="cb58-2" title="2">course_data &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb58-3" title="3"><span class="st">  </span>course_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-4" title="4"><span class="st">  </span><span class="co"># Give course subject, semester, and section their own columns</span></a>
+<a class="sourceLine" id="cb58-5" title="5"><span class="st">  </span><span class="kw">separate</span>(</a>
+<a class="sourceLine" id="cb58-6" title="6">    <span class="dt">col =</span> CourseSectionOrigID,</a>
+<a class="sourceLine" id="cb58-7" title="7">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;subject&quot;</span>, <span class="st">&quot;semester&quot;</span>, <span class="st">&quot;section&quot;</span>),</a>
+<a class="sourceLine" id="cb58-8" title="8">    <span class="dt">sep =</span> <span class="st">&quot;-&quot;</span>,</a>
+<a class="sourceLine" id="cb58-9" title="9">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb58-10" title="10">  )</a></code></pre></div>
+<p>After running the code chunk above, take a look at the dataset <code>course_data</code> to
+make sure it looks the way you’d expect it to look. In this case, we are
+expecting that we will add 3 new variables, taking the total number of variables
+in this dataset from 8 to 11. We will still see the original variable
+<code>CourseSectionOrigID</code> in the data as well.</p>
+</div>
+<div id="joining-the-data" class="section level3">
+<h3><span class="header-section-number">7.7.2</span> Joining the Data</h3>
+<p>In this chapter, we are looking at two datasets that are derived from the same
+courses. In order for these datasets to be most useful to us, we’d like all that
+data to be in one place.</p>
+<p>To join the course data and pre-survey data, we need to create similar <em>keys</em>.
+Our goal here is to have one variable that matches across both datasets. Once we
+have that common variable in both datasets, we can merge the datasets on the
+basis of that variable.</p>
+<p>When we look at the <code>course_data</code> and <code>pre_survey</code> datasets in our environment,
+we see that both have variables for the course and the student. However, this
+information is captured in different variable names in each dataset. Our first
+goal will be to rename two variables in each of our datasets so that they will
+match. One variable will correspond to the course, and the other will correspond
+to the student. We are not changing anything in the data itself at this step -
+instead, we are just cleaning the column headers up so that we can look at the
+data all in one place.</p>
+<p>Let’s start with the pre-survey data. We will rename <code>RespondentID</code> and
+<code>opdata_CourseID</code> to be <code>student_id</code> and <code>course_id</code>, respectively. Here, we are
+going to use the same <code>rename()</code> function we learned earlier in this chapter.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1">pre_survey &lt;-</a>
+<a class="sourceLine" id="cb59-2" title="2"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb59-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">student_id =</span> opdata_username,</a>
+<a class="sourceLine" id="cb59-4" title="4">         <span class="dt">course_id =</span> opdata_CourseID)</a>
+<a class="sourceLine" id="cb59-5" title="5"></a>
+<a class="sourceLine" id="cb59-6" title="6">pre_survey</a></code></pre></div>
+<pre><code>## # A tibble: 1,102 x 12
+##    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
+##    &lt;chr&gt;      &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 _80624_1   FrScA-S1…     4     4     4     5     5     4     5     5     5
+##  2 _80623_1   BioA-S11…     4     4     3     4     4     4     4     3     4
+##  3 _82588_1   OcnA-S11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  4 _80623_1   AnPhA-S1…     4     3     3     4     3     3     3     4     2
+##  5 _80624_1   AnPhA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  6 _80624_1   AnPhA-S1…     4     2     2     4     4     4     5     4     4
+##  7 _80624_1   AnPhA-T1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  8 _80624_1   BioA-S11…     5     3     3     5     5     4     5     5     3
+##  9 _80624_1   BioA-T11…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+## 10 _80624_1   PhysA-S1…     4     4     3     4     4     4     4     4     3
+## # … with 1,092 more rows, and 1 more variable: q10 &lt;dbl&gt;</code></pre>
+<p>Those variable names look better now!</p>
+<p>When we look at the data more closely, though, we will notice that the
+<code>student_id</code> variable has another issue - the variable has some additional
+characters before and after <em>the actual ID</em> that we will need to be able to join
+this data with the other data sources we have. Why does this variable have these
+additional characters? Why is there a “1” at the end of every 5-digit ID number?
+We are not sure! Sometimes, educational data from different systems (used for
+different purposes) may have additional “meta”-data added on. In any event, here
+is what the variables look like before processing:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">head</span>(pre_survey<span class="op">$</span>student_id)</a></code></pre></div>
+<pre><code>## [1] &quot;_80624_1&quot; &quot;_80623_1&quot; &quot;_82588_1&quot; &quot;_80623_1&quot; &quot;_80624_1&quot; &quot;_80624_1&quot;</code></pre>
+<p>What we need is the five characters in between the underscore symbols - these:
+<code>_</code>.</p>
+<p>One way to do this is to use the <code>str_sub()</code> function from the {stringr}
+package. This function lets us subset <em>string</em> variables: variables that store
+text data. You can specify the indices of the variables you want the string to
+<em>start</em> and <em>end</em> with.</p>
+<p>Here, for example, is how we can select only the content starting with the
+second character, skipping the first underscore in the process. This next chunk
+of code will not change our data, but will show you how the <code>str_sub()</code> function
+works by supplying a number-and-underscore combination to the function that is
+in the same format as our data.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_99888_1&quot;</span>, <span class="dt">start =</span> <span class="dv">2</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;99888_1&quot;</code></pre>
+<p>We can apply the same thinking to delete characters from the end of a string. We
+will use a <code>-</code> to indicate that we want to start from the right side of the
+string of characters. Interestingly, when we specify the argument <code>end</code> below,
+we will tell it the placement of the first character we want to INCLUDE. When we
+type <code>end = -3</code>, we end up deleting only the last 2 characters. Our new
+rightmost character will be the final 8.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_99888_1&quot;</span>, <span class="dt">end =</span> <span class="dv">-3</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;_99888&quot;</code></pre>
+<p>Putting the pieces together, the following should return what we want. Try
+running the code below to see if it yields the 5-digit ID number we are shooting
+to extract.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_99888_1&quot;</span>, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">-3</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;99888&quot;</code></pre>
+<p>We can apply this process to our data using <code>mutate()</code>. We convert the string
+into a number using <code>as.numeric()</code> in the next portion of the code. This step is
+important so the data can be joined to the other, numeric <code>student_id</code> variables
+(in the other datasets):</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1"><span class="co"># Re-create the variable &quot;student_id&quot; so that it excludes the extraneous characters</span></a>
+<a class="sourceLine" id="cb69-2" title="2">pre_survey &lt;-<span class="st"> </span>pre_survey <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb69-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">student_id =</span> <span class="kw">str_sub</span>(student_id, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">-3</span>))</a>
+<a class="sourceLine" id="cb69-4" title="4"></a>
+<a class="sourceLine" id="cb69-5" title="5"><span class="co"># Save the new variable as numeric so that R no longer thinks it is text </span></a>
+<a class="sourceLine" id="cb69-6" title="6">pre_survey &lt;-<span class="st"> </span>pre_survey <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb69-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">student_id =</span> <span class="kw">as.numeric</span>(student_id))</a></code></pre></div>
+<p>Now that the <code>student_id</code> and <code>course_id</code> variables are ready to go in the
+<code>pre_survey</code> dataset, let’s proceed to the course data. Our goal is to rename
+two variables that correspond to the course and the student so that we can match
+with the other variables we just created for the pre-survey data. In the code
+chunk below, we will rename both those variables.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1">course_data &lt;-</a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="st">  </span>course_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb70-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">student_id =</span> Bb_UserPK,</a>
+<a class="sourceLine" id="cb70-4" title="4">         <span class="dt">course_id =</span> CourseSectionOrigID)</a></code></pre></div>
+<p>Now that we have two variables that are consistent across both datasets - we
+have called them <code>course_id</code> and <code>student_id</code> - we can join the two datasets
+using the {dplyr} function, <code>left_join()</code>.</p>
+<p><code>left_join()</code> is named based on the ‘direction’ that the data is being joined.
+Note the order of the data frames passed to our “left” join. Left joins retain
+all of the rows in the data frame on the “left”, and joins every matching row in
+the right data frame to it. We will use two variables as keys for joining the
+datasets, and we will specify those after the word <code>by</code>.</p>
+<p>Let’s save our joined data as a new object called <code>dat</code>.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">dat &lt;-</a>
+<a class="sourceLine" id="cb71-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(course_data, pre_survey,</a>
+<a class="sourceLine" id="cb71-3" title="3">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb71-4" title="4">dat</a></code></pre></div>
+<pre><code>## # A tibble: 40,348 x 21
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… &lt;NA&gt;          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED &lt;NA&gt;          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … &lt;NA&gt;          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 40,338 more rows, and 14 more variables: FinalGradeCEMS &lt;dbl&gt;,
+## #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;, q1 &lt;dbl&gt;,
+## #   q2 &lt;dbl&gt;, q3 &lt;dbl&gt;, q4 &lt;dbl&gt;, q5 &lt;dbl&gt;, q6 &lt;dbl&gt;, q7 &lt;dbl&gt;, q8 &lt;dbl&gt;,
+## #   q9 &lt;dbl&gt;, q10 &lt;dbl&gt;</code></pre>
+<p>Let’s hone in on how this code is structured. After <code>left_join()</code>, we see
+<code>course_data</code> and then <code>pre_survey</code>. In this case, <code>course_data</code> is the “left”
+data frame (passed as the <em>first</em> argument), while <code>pre_survey</code> is the “right”
+data frame (passed as the <em>second</em> argument). So, in the above code, what
+happens? You can run the code yourself to check.</p>
+<p>Our aim with that code is that all of the rows in <code>course_data</code> are retained in
+our new data frame, <code>dat</code>, with matching rows of <code>pre_survey</code> joined to it. An
+important note is that there are not multiple matching rows of <code>pre_survey</code>;
+otherwise, you would end up with more rows in <code>dat</code> than expected. There is a
+lot packed into this one function. Joins are extremely powerful - and common -
+in many data analysis processing pipelines, both in education and in any field.
+Think of all of the times you have data in more than one data frame, but you
+want everything to be in a single data frame! As a result, we think that joins
+are well worth investing the time to be able to use.</p>
+<p>With most types of data, <code>left_join()</code> is helpful for carrying out most tasks
+related to joining datasets. However, there are functions for other types of
+joins that we want to make sure you know how to use. They may be less frequently
+used than <code>left_join()</code>, but they are still worth mentioning. Note that for all
+of these, the “left” data frame is always the first argument, and the “right”
+data frame is always the second. When running the code chunks below, it can be
+helpful to pay attention to the number of observations and variables in the
+datasets before and after the joining. Eventually, the obscure names of these
+types of joins will start to become more intuitive as you use them more often.</p>
+<div id="semi_join" class="section level4">
+<h4><span class="header-section-number">7.7.2.1</span> <code>semi_join()</code></h4>
+<p><code>semi_join()</code>: joins and retains all of the <em>matching</em> rows in the “left” and
+“right” data frame. This is useful when you are only interested in keeping the
+rows (or cases/observations) that are able to be joined. <code>semi_join()</code> will not
+create duplicate rows of the left data frame, even when it finds multiple
+matches on the right data frame. It will also keep only the columns from the
+left data frame.</p>
+<p>For example, the following returns only the rows that are present in both
+<code>course_data</code> and <code>pre_survey</code>:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1">dat_semi &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb73-2" title="2"><span class="st">  </span><span class="kw">semi_join</span>(course_data,</a>
+<a class="sourceLine" id="cb73-3" title="3">            pre_survey,</a>
+<a class="sourceLine" id="cb73-4" title="4">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb73-5" title="5"></a>
+<a class="sourceLine" id="cb73-6" title="6">dat_semi</a></code></pre></div>
+<pre><code>## # A tibble: 28,655 x 11
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… &lt;NA&gt;          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED &lt;NA&gt;          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … &lt;NA&gt;          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 28,645 more rows, and 4 more variables: FinalGradeCEMS &lt;dbl&gt;,
+## #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;</code></pre>
+</div>
+<div id="anti_join" class="section level4">
+<h4><span class="header-section-number">7.7.2.2</span> <code>anti_join()</code></h4>
+<p><code>anti_join()</code>: <em>removes</em> all of the rows in the “left” data frame that can be
+joined with those in the “right” data frame.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1">dat_anti &lt;-</a>
+<a class="sourceLine" id="cb75-2" title="2"><span class="st">  </span><span class="kw">anti_join</span>(course_data,</a>
+<a class="sourceLine" id="cb75-3" title="3">            pre_survey,</a>
+<a class="sourceLine" id="cb75-4" title="4">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb75-5" title="5"></a>
+<a class="sourceLine" id="cb75-6" title="6">dat_anti</a></code></pre></div>
+<pre><code>## # A tibble: 1,056 x 11
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
+##  1 AnPhA-S1… AnPhA   S116     01           85865 POINTS EARNED… &lt;NA&gt;          
+##  2 AnPhA-S1… AnPhA   S116     01           85865 WORK ATTEMPTED &lt;NA&gt;          
+##  3 AnPhA-S1… AnPhA   S116     01           85865 0.1: Message … &lt;NA&gt;          
+##  4 AnPhA-S1… AnPhA   S116     01           85865 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           85865 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           85865 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           85865 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           85865 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           85865 1.4: Negative… Hw            
+## # … with 1,046 more rows, and 4 more variables: FinalGradeCEMS &lt;dbl&gt;,
+## #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;</code></pre>
+</div>
+<div id="right_join" class="section level4">
+<h4><span class="header-section-number">7.7.2.3</span> <code>right_join()</code></h4>
+<p><code>right_join()</code>: perhaps the least helpful of the three, <code>right_join()</code> works the
+same as <code>left_join()</code>, but by retaining all of the rows in the “right” data
+frame, and joining matching rows in the “left” data frame (so, the opposite of
+<code>left_join()</code>).</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1">dat_right &lt;-</a>
+<a class="sourceLine" id="cb77-2" title="2"><span class="st">  </span><span class="kw">right_join</span>(course_data,</a>
+<a class="sourceLine" id="cb77-3" title="3">             pre_survey,</a>
+<a class="sourceLine" id="cb77-4" title="4">             <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb77-5" title="5"></a>
+<a class="sourceLine" id="cb77-6" title="6">dat_right</a></code></pre></div>
+<pre><code>## # A tibble: 39,593 x 21
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
+##  1 FrScA-S1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+##  2 BioA-S11… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80623 &lt;NA&gt;           &lt;NA&gt;          
+##  3 OcnA-S11… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         82588 &lt;NA&gt;           &lt;NA&gt;          
+##  4 AnPhA-S1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80623 &lt;NA&gt;           &lt;NA&gt;          
+##  5 AnPhA-S1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+##  6 AnPhA-S1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+##  7 AnPhA-T1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+##  8 BioA-S11… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+##  9 BioA-T11… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+## 10 PhysA-S1… &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;         80624 &lt;NA&gt;           &lt;NA&gt;          
+## # … with 39,583 more rows, and 14 more variables: FinalGradeCEMS &lt;dbl&gt;,
+## #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;, q1 &lt;dbl&gt;,
+## #   q2 &lt;dbl&gt;, q3 &lt;dbl&gt;, q4 &lt;dbl&gt;, q5 &lt;dbl&gt;, q6 &lt;dbl&gt;, q7 &lt;dbl&gt;, q8 &lt;dbl&gt;,
+## #   q9 &lt;dbl&gt;, q10 &lt;dbl&gt;</code></pre>
+<p>If we wanted this to return exactly the same output as <code>left_join()</code> (and so to
+create a data frame that is identical to the <code>dat</code> data frame we created above), we could
+simply switch the order of the two data frames to be the opposite of those used
+for the <code>left_join()</code> above:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">dat_right &lt;-</a>
+<a class="sourceLine" id="cb79-2" title="2"><span class="st">  </span><span class="kw">semi_join</span>(pre_survey,</a>
+<a class="sourceLine" id="cb79-3" title="3">            course_data,</a>
+<a class="sourceLine" id="cb79-4" title="4">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a>
+<a class="sourceLine" id="cb79-5" title="5"></a>
+<a class="sourceLine" id="cb79-6" title="6">dat_right</a></code></pre></div>
+<pre><code>## # A tibble: 801 x 12
+##    student_id course_id    q1    q2    q3    q4    q5    q6    q7    q8    q9
+##         &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1      85791 FrScA-S1…     3     3     3     3     4     3     3     3     2
+##  2      87010 FrScA-S1…     5     3     3     5     4     4     3     5     2
+##  3      87027 FrScA-S1…     5     5     4     4     4     5     4     5     4
+##  4      85649 FrScA-S1…    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  5      86216 BioA-S11…     5     3     4     4     5     4     3     5     4
+##  6      68476 OcnA-S11…     4     4     2     2     3     4     4     4     4
+##  7      68476 OcnA-S11…     4     4     4     4     4     4     4     4     4
+##  8      87866 FrScA-T1…     5     4     3     5     4     4     3     3     3
+##  9      64930 FrScA-T1…     4     3     3     4     4     4     3     4     4
+## 10      86280 FrScA-S1…     4     3     2     4     4     4     4     4     3
+## # … with 791 more rows, and 1 more variable: q10 &lt;dbl&gt;</code></pre>
+<p>Now that we’ve gone through the different types of joins available, we will
+return to our main focus: joining our course datasets together. While we didn’t
+do any data processing steps on it, we still have the <code>course_minutes</code> dataset
+in our environment from when we loaded it there earlier in the chapter. In the
+code chunk below, we will rename the necessary variables in that dataset so that
+it is ready to merge. Then, we will merge the <code>course_minutes</code> dataset, with its
+newly renamed variables <code>student_id</code> and <code>course_id</code>, with our <code>dat</code> dataset.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1">course_minutes &lt;-</a>
+<a class="sourceLine" id="cb81-2" title="2"><span class="st">  </span>course_minutes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb81-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">student_id =</span> Bb_UserPK,</a>
+<a class="sourceLine" id="cb81-4" title="4">         <span class="dt">course_id =</span> CourseSectionOrigID)</a>
+<a class="sourceLine" id="cb81-5" title="5"></a>
+<a class="sourceLine" id="cb81-6" title="6">course_minutes &lt;-</a>
+<a class="sourceLine" id="cb81-7" title="7"><span class="st">  </span>course_minutes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb81-8" title="8"><span class="st">  </span><span class="co"># Change the data type for student_id in course_minutes so we can match to </span></a>
+<a class="sourceLine" id="cb81-9" title="9"><span class="st">  </span><span class="co"># student_id in dat</span></a>
+<a class="sourceLine" id="cb81-10" title="10"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">student_id =</span> <span class="kw">as.integer</span>(student_id))</a>
+<a class="sourceLine" id="cb81-11" title="11"></a>
+<a class="sourceLine" id="cb81-12" title="12">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb81-13" title="13"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb81-14" title="14"><span class="st">  </span><span class="kw">left_join</span>(course_minutes, </a>
+<a class="sourceLine" id="cb81-15" title="15">            <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;student_id&quot;</span>, <span class="st">&quot;course_id&quot;</span>))</a></code></pre></div>
+<p>Note that they’re now combined, even though the course data had many more rows.
+The pre-survey data has been joined for each student-course combination. We
+have a pretty large data frame! Let’s take a quick look.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1">dat</a></code></pre></div>
+<pre><code>## # A tibble: 40,348 x 22
+##    course_id subject semester section student_id Gradebook_Item Grade_Category
+##    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;         
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… &lt;NA&gt;          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED &lt;NA&gt;          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … &lt;NA&gt;          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
+## # … with 40,338 more rows, and 15 more variables: FinalGradeCEMS &lt;dbl&gt;,
+## #   Points_Possible &lt;dbl&gt;, Points_Earned &lt;dbl&gt;, Gender &lt;chr&gt;, q1 &lt;dbl&gt;,
+## #   q2 &lt;dbl&gt;, q3 &lt;dbl&gt;, q4 &lt;dbl&gt;, q5 &lt;dbl&gt;, q6 &lt;dbl&gt;, q7 &lt;dbl&gt;, q8 &lt;dbl&gt;,
+## #   q9 &lt;dbl&gt;, q10 &lt;dbl&gt;, TimeSpent &lt;dbl&gt;</code></pre>
+<p>It looks like we have 40348 observations from 22 variables.</p>
+</div>
+</div>
+<div id="finding-distinct-cases-at-the-student-level" class="section level3">
+<h3><span class="header-section-number">7.7.3</span> Finding Distinct Cases at the Student-Level</h3>
+<p>If a student was enrolled in two courses, she will have a different final grade for each of
+those two courses. However, our data in
+its current form has many rows representing *each course. An easy way we can visually inspect to make sure every row
+is the same for the same student, by course is to use the <code>glimpse()</code> function.
+Try it below.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" title="1"><span class="kw">glimpse</span>(dat)</a></code></pre></div>
+<pre><code>## Observations: 40,348
+## Variables: 22
+## $ course_id       &lt;chr&gt; &quot;AnPhA-S116-01&quot;, &quot;AnPhA-S116-01&quot;, &quot;AnPhA-S116-01&quot;, &quot;A…
+## $ subject         &lt;chr&gt; &quot;AnPhA&quot;, &quot;AnPhA&quot;, &quot;AnPhA&quot;, &quot;AnPhA&quot;, &quot;AnPhA&quot;, &quot;AnPhA&quot;,…
+## $ semester        &lt;chr&gt; &quot;S116&quot;, &quot;S116&quot;, &quot;S116&quot;, &quot;S116&quot;, &quot;S116&quot;, &quot;S116&quot;, &quot;S116…
+## $ section         &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;,…
+## $ student_id      &lt;dbl&gt; 60186, 60186, 60186, 60186, 60186, 60186, 60186, 6018…
+## $ Gradebook_Item  &lt;chr&gt; &quot;POINTS EARNED &amp; TOTAL COURSE POINTS&quot;, &quot;WORK ATTEMPTE…
+## $ Grade_Category  &lt;chr&gt; NA, NA, NA, &quot;Hw&quot;, &quot;Hw&quot;, &quot;Qz&quot;, &quot;Qz&quot;, &quot;Hw&quot;, &quot;Hw&quot;, &quot;Hw&quot;,…
+## $ FinalGradeCEMS  &lt;dbl&gt; 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3,…
+## $ Points_Possible &lt;dbl&gt; 5, 30, 105, 140, 5, 5, 20, 50, 10, 50, 5, 5, 24, 10, …
+## $ Points_Earned   &lt;dbl&gt; 4.05, 24.00, 71.67, 140.97, 5.00, 4.00, NA, 50.00, NA…
+## $ Gender          &lt;chr&gt; &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;…
+## $ q1              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q2              &lt;dbl&gt; 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…
+## $ q3              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q4              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q5              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q6              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q7              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q8              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q9              &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ q10             &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
+## $ TimeSpent       &lt;dbl&gt; 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087,…</code></pre>
+<p>You can also use <code>View(dat)</code> in order to view the data in RStudio’s viewer.</p>
+<p>Visually inspecting the first several rows of data, we see that they all
+correspond to the same student for the same course. As we expected, the
+<code>FinalGradeCEMs</code> variable (representing students’ final grade) is also consistent across these rows.</p>
+<p>Since we are not carrying out a finer-grained analysis using the <code>Gradebook_Item</code>, these
+duplicate rows are not necessary. We only want variables at the student level,
+and not at the level of different gradebook items. We can extract only the
+unique student-level data using the <code>distinct()</code> function. This function takes
+as arguments the name of the data frame and the name of the variables used to
+determine what counts as a unique case.</p>
+<p>Imagine having a bucket of Halloween candy that has 100 pieces of candy. You
+know that these 100 pieces are really just a bunch of duplicate pieces from a
+relatively short list of candy brands. <code>distinct()</code> takes that bucket of 100
+pieces and returns a bucket containing only one of each distinct piece.</p>
+<p>Another thing to note about <code>distinct()</code> is that it will only return the
+variable(s) (it is possible to pass more than one variable to <code>distinct()</code>) you
+used to determine uniqueness, <em>unless</em> you include the argument <code>.keep_all = TRUE</code>. For the sake of making it simple to view the output, we will omit this
+argument for now.</p>
+<p>Were we to run <code>distinct(dat, Gradebook_Item)</code>, what do you think would be
+returned? Running the following code returns a one-column dataframe that lists the names of
+every distinct gradebook item.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1"><span class="kw">distinct</span>(dat, Gradebook_Item)</a></code></pre></div>
+<pre><code>## # A tibble: 222 x 1
+##    Gradebook_Item                                  
+##    &lt;chr&gt;                                           
+##  1 POINTS EARNED &amp; TOTAL COURSE POINTS             
+##  2 WORK ATTEMPTED                                  
+##  3 0.1: Message Your Instructor                    
+##  4 0.2: Intro Assignment - Discussion Board        
+##  5 0.3: Intro Assignment - Submitting Files        
+##  6 1.1: Quiz                                       
+##  7 1.2: Quiz                                       
+##  8 1.3: Create a Living Creature                   
+##  9 1.3: Create a Living Creature - Discussion Board
+## 10 1.4: Negative Feedback Loop Flowchart           
+## # … with 212 more rows</code></pre>
+<p>You might be wondering whether some gradebook
+items have the same names across courses. We can return the unique <em>combination</em>
+of courses and gradebook items by simply adding another variable to
+<code>distinct()</code>:</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1"><span class="kw">distinct</span>(dat, course_id, Gradebook_Item)</a></code></pre></div>
+<pre><code>## # A tibble: 1,269 x 2
+##    course_id     Gradebook_Item                                  
+##    &lt;chr&gt;         &lt;chr&gt;                                           
+##  1 AnPhA-S116-01 POINTS EARNED &amp; TOTAL COURSE POINTS             
+##  2 AnPhA-S116-01 WORK ATTEMPTED                                  
+##  3 AnPhA-S116-01 0.1: Message Your Instructor                    
+##  4 AnPhA-S116-01 0.2: Intro Assignment - Discussion Board        
+##  5 AnPhA-S116-01 0.3: Intro Assignment - Submitting Files        
+##  6 AnPhA-S116-01 1.1: Quiz                                       
+##  7 AnPhA-S116-01 1.2: Quiz                                       
+##  8 AnPhA-S116-01 1.3: Create a Living Creature                   
+##  9 AnPhA-S116-01 1.3: Create a Living Creature - Discussion Board
+## 10 AnPhA-S116-01 1.4: Negative Feedback Loop Flowchart           
+## # … with 1,259 more rows</code></pre>
+<p>The dataframe we get when we run the code chunk above yields a much longer (more
+observations) dataset. Thus, it looks like <em>a lot</em> of gradebook items were
+repeated across courses - likely across the different sections of the same
+course. If you’d like, you can continue to investigate this: we would be curious
+to hear what you find if you do!</p>
+<p>Next, let’s use a similar process to find the unique values at the student
+level. Thus, instead of exploring unique gradebook items, we will explore unique
+students (still accounting for the course, as students could enroll in more than
+one course.) This time, we will add the <code>keep_all = TRUE</code> argument.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" title="1">dat &lt;-</a>
+<a class="sourceLine" id="cb90-2" title="2"><span class="st">  </span><span class="kw">distinct</span>(dat, course_id, student_id, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>This is a much smaller data frame - with one row for each student in the course.
+Whereas our prior version of the <code>dat</code> dataset had over 40,000 rows, that prior
+version is only helpful if we wanted to do an analysis at the level of specific
+students’ grades for specific gradebook items. Our new dataset keeps only the
+unique combinations of student and course, leaving us with a more manageable
+number of observations: 603. Now that our data are ready to go, we can
+start to ask some questions of the data.</p>
+<p>Let’s take one last step. Since we will be using the final grade variable in
+many of the figures and analyses that follow, let’s rename it using the {dplyr}
+<code>rename()</code> function to something that is a bit easier to type and remember than
+<code>FinalGradeCEMS</code>:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">rename</span>(dat, <span class="dt">final_grade =</span> FinalGradeCEMS)</a></code></pre></div>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2><span class="header-section-number">7.8</span> Analysis</h2>
+<p>In this section, we focus on some initial analyses in the form of visualizations
+and some models. We expand on these in <a href="c13.html#c13">Chapter 13</a>. Before we start
+visualizing relationships between variables in our survey dataset, let’s
+introduce {ggplot2}, a visualization package we’ll be using in our walkthroughs.</p>
+<div id="about-ggplot2" class="section level3">
+<h3><span class="header-section-number">7.8.1</span> About {ggplot2}</h3>
+<p>{ggplot2} is a package we’ll be using a lot for graphing our education datasets.
+{ggplot2} is designed to build graphs layer by layer, where each layer is a
+building block for your graph. Making graphs in layers is useful because we can
+think of building up our graphs in separate parts: the data comes first, then
+the x-axis and y-axis, and finally other components like text labels and graph
+shapes. When something goes wrong and your ggplot2 code returns an error, you
+can learn about what’s happening by removing one layer at a time and running it
+again until the code works properly. Once you know which line is causing the
+problem, you can focus on fixing it.</p>
+<p>The first two lines of {ggplot2} code look similar for most graphs. The first
+line tells R which dataset to graph and which columns the x-axis and y-axis will
+represent. The second line tells R which shape to use when drawing the graph.
+You can tell R which shape to use in your graphs with a family of {ggplot2}
+functions that start with <code>geom_</code>. {ggplot2} has many graph shapes you can use,
+including points, bars, lines, and boxplots. Here’s a {ggplot2} example using a
+dataset of school mean test scores to graph a bar chart:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" title="1"><span class="co"># make dataset</span></a>
+<a class="sourceLine" id="cb92-2" title="2">students &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb92-3" title="3"><span class="st">  </span><span class="kw">tibble</span>(</a>
+<a class="sourceLine" id="cb92-4" title="4">    <span class="dt">school_id =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), </a>
+<a class="sourceLine" id="cb92-5" title="5">    <span class="dt">mean_score =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</a>
+<a class="sourceLine" id="cb92-6" title="6">  )</a>
+<a class="sourceLine" id="cb92-7" title="7"></a>
+<a class="sourceLine" id="cb92-8" title="8"><span class="co"># tell R which dataset to plot and which columns the x-axis and y-axis will represent</span></a>
+<a class="sourceLine" id="cb92-9" title="9">students <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-10" title="10"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> school_id, <span class="dt">y =</span> mean_score)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb92-11" title="11"><span class="st">  </span><span class="co"># draw the plot</span></a>
+<a class="sourceLine" id="cb92-12" title="12"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</a>
+<a class="sourceLine" id="cb92-13" title="13">           <span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb92-14" title="14"><span class="st">  </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig7-1"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-1-1.png" alt="Example Plot" width="672" />
+<p class="caption">
+Figure 7.1: Example Plot
+</p>
+</div>
+<p>The <code>data</code> argument in the first line tells R we’ll be using the dataset called
+<code>students</code>. The <code>aes</code> argument tells R we’ll be using values from the
+<code>school_id</code> column for the x-axis and values from the <code>mean_score</code> column for
+the y-axis. In the second line, the <code>geom_bar</code> function tells R we’ll drawing
+the graph using the bar chart format. Each line of ggplot code is connected by a
+<code>+</code> at the end to tell R the next line of code is an additional ggplot layer to
+add.</p>
+</div>
+<div id="the-relationship-between-time-spent-on-course-and-final-grade" class="section level3">
+<h3><span class="header-section-number">7.8.2</span> The Relationship between Time Spent on Course and Final Grade</h3>
+<p>One thing we might be wondering is how time spent on course is related to
+students’ final grade. Let’s make a plot to depict that relationship. Below,
+we’ll use <code>geom_point</code> instead of <code>geom_bar</code>.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1">dat <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb93-2" title="2"><span class="st">  </span><span class="co"># aes() tells ggplot2 what variables to map to what feature of a plot</span></a>
+<a class="sourceLine" id="cb93-3" title="3"><span class="st">  </span><span class="co"># Here we map variables to the x- and y-axis</span></a>
+<a class="sourceLine" id="cb93-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> TimeSpent, <span class="dt">y =</span> final_grade)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb93-5" title="5"><span class="st">  </span><span class="co"># Creates a point with x- and y-axis coordinates specified above</span></a>
+<a class="sourceLine" id="cb93-6" title="6"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb93-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb93-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb93-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Final Grade&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig7-2"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="672" />
+<p class="caption">
+Figure 7.2: Percentage Earned vs. Time Spent
+</p>
+</div>
+<p>There appears to be <em>some</em> relationship. What if we added a line of best fit - a
+linear model? The code below is the same plot we just made, but it includes the
+addition of another layer called <code>geom_smooth</code>.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" title="1">dat <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb94-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> TimeSpent, <span class="dt">y =</span> final_grade)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-3" title="3"><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">color =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;green&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># same as above</span></a>
+<a class="sourceLine" id="cb94-4" title="4"><span class="st">  </span><span class="co"># this adds a line of best fit</span></a>
+<a class="sourceLine" id="cb94-5" title="5"><span class="st">  </span><span class="co"># method = &quot;lm&quot; tells ggplot2 to fit the line using linear regression</span></a>
+<a class="sourceLine" id="cb94-6" title="6"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-7" title="7"><span class="st">  </span><span class="kw">theme_dataedu</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-8" title="8"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Time Spent&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb94-9" title="9"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Final Grade&quot;</span>)</a></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig7-3"></span>
+<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-3-1.png" alt="Adding a Line of Best Fit" width="672" />
+<p class="caption">
+Figure 7.3: Adding a Line of Best Fit
+</p>
+</div>
+<p>Looking at this plot, it appears that the more time students spent on the
+course, the higher that there final grade is.</p>
+<p>What is the line doing in the upper right part of the graph? Based upon the trend
+that is observable in the data, the line of best fit predicts that students who spend
+a particular amount of time on the course <em>earn greater than 100</em> for their final grade!
+Of course, this is not possible, and highlights the importance of understanding your
+data and carefully interpreting lines of best fit (and other, more sophisticated analyses)
+carefully, keeping that understanding and knowledge in mind as you present and make sense
+of the results.</p>
+</div>
+<div id="linear-model-regression" class="section level3">
+<h3><span class="header-section-number">7.8.3</span> Linear Model (Regression)</h3>
+<p>We can find out exactly what the relationship between these two variables is
+using a linear model. We discuss linear models in more detail in
+<a href="c10.html#c10">Chapter 10</a>.</p>
+<p>Let’s use this technique to model the relationship between the time spent on the
+course and students’ final grade. Here, we predict
+<code>final_grade</code>. Students’ final, reported grade is the dependent, or <em>y</em>-variable, and so
+we enter it first, after the <code>lm()</code> command and before the tilde (<code>~</code>) symbol.
+To the right of the tilde is one independent variable, <code>TimeSpent</code>, or the time
+that students spent on the course. We also pass, or provide, the data frame,
+<code>dat</code>. At this point, we’re ready to run the model. Let’s run this line of code
+and save the results to an object - we chose <code>m_linear</code>, but any name will work.
+We will then run the <code>summary()</code> function on the output.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1">m_linear &lt;-</a>
+<a class="sourceLine" id="cb95-2" title="2"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb95-3" title="3"></a>
+<a class="sourceLine" id="cb95-4" title="4"><span class="kw">summary</span>(m_linear)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = final_grade ~ TimeSpent, data = dat)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -67.14  -7.80   4.72  14.47  30.32 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 6.58e+01   1.49e+00   44.13   &lt;2e-16 ***
+## TimeSpent   6.08e-03   6.48e-04    9.38   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 20.7 on 571 degrees of freedom
+##   (30 observations deleted due to missingness)
+## Multiple R-squared:  0.134,  Adjusted R-squared:  0.132 
+## F-statistic:   88 on 1 and 571 DF,  p-value: &lt;2e-16</code></pre>
+<p>Another way that we can generate table output is with a function from the
+{sjPlot} package, <code>tab_model()</code>. When you run this code, you should see the
+results pop up in the “Viewer” pane of RStudio. If you haven’t changed the
+default settings, this will be in the lower right quadrant of your screen.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="kw">tab_model</span>(m_linear,</a>
+<a class="sourceLine" id="cb97-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 7.1&quot;</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.1
+</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+final grade
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+65.81
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+62.88 – 68.74
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+TimeSpent
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.00 – 0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+573
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.134 / 0.132
+</td>
+</tr>
+</table>
+<p>This will work well for R Markdown documents (or simply to interpret the model
+in R). If you want to save the model for use in a Word document, the
+<a href="https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html">{apaTables}</a>
+(https<a href=""></a>://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
+package may be helpful. To save a table in Word format, just pass the name of
+the regression model to a function from the <code>apaTables</code> package, like we did
+with the <code>tab_model()</code> function. Then, you can save the output to a Word
+document, simply by adding a <code>filename</code> argument:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" title="1"><span class="kw">apa.reg.table</span>(m_linear, <span class="dt">filename =</span> <span class="st">&quot;regression-table-output.doc&quot;</span>)</a></code></pre></div>
+<p>You might be wondering what else the {apaTables} package does. We encourage you
+to read more about the package here:
+<a href="https://cran.r-project.org/web/packages/apaTables/index.html" class="uri">https://cran.r-project.org/web/packages/apaTables/index.html</a>. The vignette is
+especially helpful. One function that may be useful for writing manuscripts is
+the following function for creating correlation tables. This function takes, as
+an input, a data frame with the variables for which you wish to calculate
+correlations.</p>
+<p>Before we proceed to the next code chunk, let’s talk about some functions we’ll
+be using a lot in this book. <code>filter()</code>, <code>group_by()</code>, and <code>summarize()</code> are
+functions in the {dplyr} package that you will see a lot in upcoming chapters.
+You got a preview of these functions earlier in this chapter, and now that
+you’ve seen how they are used, we want to provide clear definitions for each of
+these functions.</p>
+<ul>
+<li><code>filter()</code> removes rows from the dataset that don’t match a criteria. Use it
+for tasks like only keeping records for students in the fifth grade</li>
+<li><code>group_by()</code> groups records together so you can perform operations on those
+groups instead of on the entire dataset. Use it for tasks like getting the
+mean test score of each school instead of a whole school district</li>
+<li><code>summarize()</code> and <code>summarise()</code> reduce your dataset down to a summary
+statistic. Use it for tasks like turning a dataset of student test scores
+into a dataset of grade levels and their mean test score</li>
+</ul>
+<p>Now let’s use these {dplyr} functions on our survey analysis. We will create the
+same measures (based on the survey items) that we used earlier to understand how
+they relate to one another.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1">survey_responses &lt;-</a>
+<a class="sourceLine" id="cb99-2" title="2"><span class="st">  </span>pre_survey <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-3" title="3"><span class="st">  </span><span class="co"># Gather questions and responses</span></a>
+<a class="sourceLine" id="cb99-4" title="4"><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> q1<span class="op">:</span>q10,</a>
+<a class="sourceLine" id="cb99-5" title="5">               <span class="dt">names_to =</span> <span class="st">&quot;question&quot;</span>,</a>
+<a class="sourceLine" id="cb99-6" title="6">               <span class="dt">values_to =</span> <span class="st">&quot;response&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb99-8" title="8">    <span class="co"># Here&#39;s where we make the column of question categories</span></a>
+<a class="sourceLine" id="cb99-9" title="9">    <span class="dt">measure =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb99-10" title="10">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q1&quot;</span>, <span class="st">&quot;q4&quot;</span>, <span class="st">&quot;q5&quot;</span>, <span class="st">&quot;q8&quot;</span>, <span class="st">&quot;q10&quot;</span>) <span class="op">~</span><span class="st"> &quot;int&quot;</span>,</a>
+<a class="sourceLine" id="cb99-11" title="11">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q2&quot;</span>, <span class="st">&quot;q6&quot;</span>, <span class="st">&quot;q9&quot;</span>) <span class="op">~</span><span class="st"> &quot;uv&quot;</span>,</a>
+<a class="sourceLine" id="cb99-12" title="12">      question <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;q3&quot;</span>, <span class="st">&quot;q7&quot;</span>) <span class="op">~</span><span class="st"> &quot;pc&quot;</span>,</a>
+<a class="sourceLine" id="cb99-13" title="13">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span></a>
+<a class="sourceLine" id="cb99-14" title="14">    )</a>
+<a class="sourceLine" id="cb99-15" title="15">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-16" title="16"><span class="st">  </span><span class="kw">group_by</span>(student_id, measure) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-17" title="17"><span class="st">  </span><span class="co"># Here&#39;s where we compute the mean of the responses</span></a>
+<a class="sourceLine" id="cb99-18" title="18"><span class="st">  </span><span class="kw">summarize</span>(</a>
+<a class="sourceLine" id="cb99-19" title="19">    <span class="co"># Mean response for each measure</span></a>
+<a class="sourceLine" id="cb99-20" title="20">    <span class="dt">mean_response =</span> <span class="kw">mean</span>(response, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb99-21" title="21">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-22" title="22"><span class="st">    </span><span class="co"># Filter NA (missing) responses</span></a>
+<a class="sourceLine" id="cb99-23" title="23"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(mean_response)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb99-24" title="24"><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> measure, </a>
+<a class="sourceLine" id="cb99-25" title="25">              <span class="dt">values_from =</span> mean_response)</a>
+<a class="sourceLine" id="cb99-26" title="26"></a>
+<a class="sourceLine" id="cb99-27" title="27">survey_responses</a></code></pre></div>
+<pre><code>## # A tibble: 515 x 4
+## # Groups:   student_id [515]
+##    student_id   int    pc    uv
+##         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1      43146  5     4.5   4.33
+##  2      44638  4.2   3.5   4   
+##  3      47448  5     4     3.67
+##  4      47979  5     3.5   5   
+##  5      48797  3.8   3.5   3.5 
+##  6      49147  4.25  3.73  3.71
+##  7      51943  4.6   4     4   
+##  8      52326  5     3.5   5   
+##  9      52446  3     3     3.33
+## 10      53248  4     3     3.33
+## # … with 505 more rows</code></pre>
+<p>Now that we’ve prepared the survey responses, we can use the <code>apa.cor.table()</code> function:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1">survey_responses <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb101-2" title="2"><span class="st">  </span><span class="kw">apa.cor.table</span>()</a></code></pre></div>
+<pre><code>## 
+## 
+## Means, standard deviations, and correlations with confidence intervals
+##  
+## 
+##   Variable      M        SD       1           2          3         
+##   1. student_id 85966.07 10809.12                                  
+##                                                                    
+##   2. int        4.22     0.59     .00                              
+##                                   [-.08, .09]                      
+##                                                                    
+##   3. pc         3.60     0.64     .04         .59**                
+##                                   [-.05, .13] [.53, .64]           
+##                                                                    
+##   4. uv         3.71     0.71     .02         .57**      .50**     
+##                                   [-.06, .11] [.51, .62] [.43, .56]
+##                                                                    
+## 
+## Note. M and SD are used to represent mean and standard deviation, respectively.
+## Values in square brackets indicate the 95% confidence interval.
+## The confidence interval is a plausible range of population correlations 
+## that could have caused the sample correlation (Cumming, 2014).
+## * indicates p &lt; .05. ** indicates p &lt; .01.
+## </code></pre>
+<p>The time spent variable is on a very large scale (minutes); what if we
+transformed it to represent the number of <em>hours</em> that students spent on the
+course? Let’s use the <code>mutate()</code> function we used earlier. We’ll end the
+variable name in <code>_hours</code>, to represent what this variable means.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1"><span class="co"># creating a new variable for the amount of time spent in hours</span></a>
+<a class="sourceLine" id="cb103-2" title="2">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb103-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb103-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_hours =</span> TimeSpent <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
+<a class="sourceLine" id="cb103-5" title="5"></a>
+<a class="sourceLine" id="cb103-6" title="6"><span class="co"># the same linear model as above, but with the TimeSpent variable in hours</span></a>
+<a class="sourceLine" id="cb103-7" title="7">m_linear_<span class="dv">1</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb103-8" title="8"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_hours, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb103-9" title="9"></a>
+<a class="sourceLine" id="cb103-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
+<a class="sourceLine" id="cb103-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb103-12" title="12">          <span class="dt">title =</span> <span class="st">&quot;Table 7.2&quot;</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.2
+</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+final grade
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+65.81
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+62.88 – 68.74
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+TimeSpent_hours
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.36
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.29 – 0.44
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+573
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.134 / 0.132
+</td>
+</tr>
+</table>
+<p>The scale still does not seem quite right. What if we standardized the variable
+to have a mean of zero and a standard deviation of one?</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" title="1"><span class="co"># this is to standardize the TimeSpent variable to have a mean of 0 and a standard deviation of 1</span></a>
+<a class="sourceLine" id="cb104-2" title="2">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb104-3" title="3"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb104-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">TimeSpent_std =</span> <span class="kw">scale</span>(TimeSpent))</a>
+<a class="sourceLine" id="cb104-5" title="5"></a>
+<a class="sourceLine" id="cb104-6" title="6"><span class="co"># the same linear model as above, but with the TimeSpent variable standardized</span></a>
+<a class="sourceLine" id="cb104-7" title="7">m_linear_<span class="dv">2</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb104-8" title="8"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb104-9" title="9"></a>
+<a class="sourceLine" id="cb104-10" title="10"><span class="co"># viewing the output of the linear model</span></a>
+<a class="sourceLine" id="cb104-11" title="11"><span class="kw">tab_model</span>(m_linear_<span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb104-12" title="12">          <span class="dt">title =</span> <span class="st">&quot;Table 7.3&quot;</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.3
+</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+final grade
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+76.75
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+75.05 – 78.45
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+TimeSpent_std
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+8.24
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+6.51 – 9.96
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+573
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.134 / 0.132
+</td>
+</tr>
+</table>
+<p>When we look at this output, it seems to make more sense. However, there is a
+different interpretation now for the time spent variable: for every one standard
+deviation increase in the amount of time spent on the course, students’ final
+grades increases by 8.24, or around eight percentage points.</p>
+</div>
+</div>
+<div id="results" class="section level2">
+<h2><span class="header-section-number">7.9</span> Results</h2>
+<p>Let’s extend our regression model and consider the following to be the final
+model in this sequence of models: What other variables may matter? Perhaps there
+are differences based on the subject of the course. We can add subject as a
+variable easily, as follows:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="co"># a linear model with the subject added </span></a>
+<a class="sourceLine" id="cb105-2" title="2"><span class="co"># independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:</span></a>
+<a class="sourceLine" id="cb105-3" title="3">m_linear_<span class="dv">3</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb105-4" title="4"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>subject, <span class="dt">data =</span> dat)</a></code></pre></div>
+<p>We can use <code>tab_model()</code> once again to view the results:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" title="1"><span class="kw">tab_model</span>(m_linear_<span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb106-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 7.4&quot;</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Table 7.4
+</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+final grade
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+70.19
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+66.76 – 73.61
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+TimeSpent_std
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+9.63
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+7.90 – 11.37
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+subject [BioA]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-1.56
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-8.64 – 5.52
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.665
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+subject [FrScA]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+11.73
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+7.38 – 16.08
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+subject [OcnA]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.10
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-3.96 – 6.16
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.670
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+subject [PhysA]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+16.04
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+10.00 – 22.07
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+573
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / R<sup>2</sup> adjusted
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.213 / 0.206
+</td>
+</tr>
+</table>
+<p>It looks like subject <code>FrSc</code> - forensic science - and subject <code>Ocn</code> -
+oceanography - are associated with a higher final grade. This indicates that students in those two classes earned higher grades
+than students in other science classes in this dataset.</p>
+</div>
+<div id="conclusion-3" class="section level2">
+<h2><span class="header-section-number">7.10</span> Conclusion</h2>
+<p>In this walkthrough, we focused on taking unprocessed, or raw data, and loading,
+viewing, and then processing it through a series of steps. The result was a data
+set which we could use to create visualizations and a simple (but powerful!)
+linear model, also known as a regression model. We found that the time that
+students spent on the course was positively (and statistically significantly)
+related to students’ final grades, and that there appeared to be differences by
+subject. While we focused on using this model in a traditional, explanatory
+sense, it could also potentially be used for predictive analytics, in that
+knowing how long students spent on the course and what subject their course is
+could be used to estimate what that students’ final grade might be. We focus on
+uses of predictive models further in <a href="c14.html#c14">Chapter 14</a>.</p>
+<p>In the follow-up to this walkthrough (see <a href="c13.html#c13">Chapter 13</a>), we will focus on
+visualizing and then modeling the data using an advanced methodological
+technique, multi-level models, using the data we prepared as a part of this data
+processing pipeline used in this chapter.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="c06.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="c08.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/data-edu/data-science-in-education/edit/master/07-wt-ed-ds-pipeline.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+},
+"fig_height": 5.3,
+"fig_width": 8.5
+});
+});
+</script>
+
+</body>
+
+</html>

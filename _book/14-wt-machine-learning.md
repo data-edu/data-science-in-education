@@ -55,13 +55,13 @@ In this walkthrough, we used the R package {caret} to carry out the analyses.
 
 ### Methods
 
-#### Defining a Research Question
+**Defining a Research Question**
 
 When you begin a new project, there are often many approaches to analyzing data and answering questions you might have about it. Some projects have a clearly defined scope and question to answer. This type of project is characterized by 1) a defined number of variables (data inputs) and 2) specific directional hypotheses. For example, if we are studying the effect of drinking coffee after dinner on ability to quickly fall asleep, we might have a very specific directional hypothesis: we expect that drinking coffee after dinner would decrease the ability to fall asleep quickly. In this case, we might collect data by having some people drink coffee and having other people drink nothing or an herbal tea before bed. We could monitor how quickly people from each group fall asleep. Since we collected data from two clearly defined groups, we can then do a statistical analysis that compares the amount of time it takes to fall asleep for each group. One option would be a test called a t-test, which we could use to see if there is a significant difference in the average amount of minutes to fall asleep for the group. This approach works very well in controlled experimental situations, especially when we can change only one thing at a time (in our coffee example, the only thing we changed was the coffee-drinking behavior of our participants - all other life conditions were held equal for both groups). Rarely are educational data projects as clear-cut and simple.
 
 For this walkthrough, we have many sources of data - survey data, learning management system data, discussion forum data, and academic achievement data as measured by final course grades. Luckily, having too much data is what we call a "good problem." In our coffee example above, we had one really specific idea that we wanted to investigate - does coffee affect time taken to fall asleep? In this walkthrough we have many ideas we are curious to explore: the relationships among motivation, engagement in the course (discussion boards, time spent online in the course site), and academic achievement. If we wanted to tackle a simpler problem, we could choose just one of these relationships. For example, we could measure whether students with high motivation earn higher grades than students with low motivation. However, we are being a bit more ambitious than that here - we are interested in understanding the complex relationships among the different types of motivation. Rather than simply exploring whether A affects B, we are interested in the nuances: we suspect that *many* factors affect B, and we would like to see which of those factors has most relative importance. To explore this idea, we will use a machine learning approach.
 
-#### Predictive Analytics and Machine Learning
+**Predictive Analytics and Machine Learning**
 
 A buzzword in education software spheres these days is "predictive analytics." Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to try to determine what a person will want, need, or do next. "Predictive analytics" is a blanket term that can be used to describe any statistical approach that yields a prediction. We could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could give you a probability of that computer-sitting happening today. Under the hood, some predictive models are not very complex. If we have an outcome with two possibilities, a logistic regression model could be fit to the data in order to help us answer the cat-keyboard question. In this chapter, we'll compare a machine learning model to another type of regression: multiple regression. We want to make sure to fit the simplest model as possible to our data. After all, the effectiveness in predicting the outcome is really the most important thing: not the fanciness of the model.
     
@@ -69,7 +69,7 @@ Data collection is an essential first step in any type of machine learning or pr
     
 When people talk about "machine learning," you might get the image in your head of a desktop computer learning how to spell. You might picture your favorite social media site showing you advertisements that are just a little too accurate. At its core, what machine learning really is is the process of "showing" your statistical model only some of the data at once, and training the model to predict accurately on that training dataset (this is the "learning" part of machine learning). Then, the model as developed on the training data is shown new data - data you had all along, but hid from your computer initially - and you see how well the model that you developed on the training data performs on this new testing data. Eventually, you might use the model on entirely new data.  
 
-#### Random Forest
+**Random Forest**
 
 For our analyses, we used Random Forest modeling [@breiman2001]. Random forest is an extension of decision tree modeling, whereby a collection of decision trees are simultaneously "grown" and are evaluated based on out-of-sample predictive accuracy [@breiman2001].  Random forest is random in two main ways: first, each tree is only allowed to "see" and split on a limited number of predictors instead of all the predictors in the parameter space; second, a random subsample of the data is used to grow each individual tree, such that no individual case is weighted too heavily in the final prediction. 
 
@@ -443,7 +443,7 @@ The predictor variables include three indicators of motivation: interest in the 
 
 We also have a number of variables associated with the discussion board posts from the course. Specifically, the variables include the average level of cognitive processing in the discussion board posts (`cogproc`), the average level of social (rather than academic) content in the discussion board posts (`social`), the positive and negative emotions evident in the discussion board posts (`posemo` and `negemo`), and finally, the number of discussion board posts in total (`n`). We are using all those variables discussed in this paragraph to predict the outcome of the final grade in the course (`final_grade`).
 
-Note that you can read more about the specific random forest implementation chosen [in the {caret} bookdown page](http://topepo.github.io/caret/train-models-by-tag.html#random-forest) (http://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation `outcome ~ .`. R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the `~`, and the `.` that we see after the `~` means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the `~` and precedes the comma is treated as predictors of the outcome.
+Note that you can read more about the specific random forest implementation chosen [in the {caret} bookdown page](http://topepo.github.io/caret/train-models-by-tag.html#random-forest) (http[]()://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation `outcome ~ .`. R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the `~`, and the `.` that we see after the `~` means that we want to use all the rest of the variables. An alternative specification of this model would be to write (outcome ~ predictor1, predictor2). Anything that follows the `~` and precedes the comma is treated as predictors of the outcome.
 
 Here, we set the seed again, to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the "random" elements of random forest, because it's likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are "growing"!
 
@@ -539,7 +539,7 @@ rf_fit1
 ##  and min.node.size = 5.
 ```
 
-### Tuning the random forest model
+### Tuning the Random Forest Model
 
 When we look at this output, we are looking to see which values of the various tuning parameters were selected. We see at the bottom of the output above that the value of `mtry` was 19, the split rule was "extratrees," and the minimum node size is 5. We let this model explore which value of `mtry` was best and to explore whether extra trees or variance was a better split rule, but we forced all iterations of the model to a minimum node size of five (so that minimum node size value in the output shouldn't be a surprise to us). When we look at the bottom row of the output, it shows the final values selected for the model. We see also that this row has the lowest RMSE and highest Rsquared value, which means it has the lowest error and highest predictive power. 
 
@@ -674,7 +674,7 @@ In looking at this output, we see the same parameters we noted above: `mtry` is 
 
 Now that we understand how to develop a basic machine learning model, and how to use different tuning parameters (such as node size and the splitting rule), we can explore some other related themes. We might wonder about how we could examine the predictive accuracy of the random forest model we just developed.
 
-### Examining predictive accuracy on the test data set
+### Examining Predictive Accuracy on the Test Data Set
 
 What if we use the test data set - data not used to train the model? Below, we'll create a new object that uses the rf_fit2 model we developed above. We will put our testing data through the model, and assign the predicted values to a row called "pred." At the same, time, we'll make a row called "obs" that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
 
@@ -719,7 +719,7 @@ One helpful characteristic of random forest models is that we can learn about wh
 
 We can examine two different variable importance measures using the **ranger** method in {caret}.
 
-Note that importance values are not calculated automatically, but that "impurity" or "permutation" can be passed to the `importance` argument in `train()`. See more [here](https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).
+Note that importance values are not calculated automatically, but that "impurity" or "permutation" can be passed to the `importance` argument in `train()`. See more [at this website](https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html) (https[]()://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).
 
 We'll re-run the `rf_fit2` model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
 
@@ -782,7 +782,10 @@ varImp(rf_fit2_imp) %>%
     theme_dataedu()
 ```
 
-![(\#fig:fig14-1)Variable Importance](14-wt-machine-learning_files/figure-docx/fig14-1-1.png)
+<div class="figure" style="text-align: center">
+<img src="14-wt-machine-learning_files/figure-html/fig14-1-1.png" alt="Variable Importance" width="672" />
+<p class="caption">(\#fig:fig14-1)Variable Importance</p>
+</div>
 
 Cool! We can now visualize which variables are most important in predicting final grade. 
 
@@ -792,7 +795,7 @@ Overall, there are some subject level differences in terms of how predictive sub
 
 As a quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the {caret} package if you would like to explore those in your analyses.
 
-### Comparing a random forest to a regression
+### Comparing Random Forest to Regression
 
 You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (`rf_fit2`). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the `rf_fit2` model predicted as well as the actual `rf_fit2` values.
 
