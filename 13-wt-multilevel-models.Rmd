@@ -19,17 +19,13 @@ Though these conceptual details are complex,fitting them is fortunately straight
 
 ### Data Source
 
-We use the same data source on students' motivation in online science classes
-that we processed in [Walkthrough 1](#c07).
+We'll use the same data source on students' motivation in online science classes that we processed in [Walkthrough 1](#c07).
 
 ### Methods
 
-Are there course-specific differences in how much time students spend on the
-course as well as in how time spent is related to the percentage of points
-students earned? There are a number of ways to approach this question. Let's use
-our linear model.
+Does the amount of time students spend on a course depend on the specific course they're in? Does the amount of time students spend on a course affect the points they earn in? There are a number of ways to approach these questions. Let's use our linear model.
 
-Specifically, we can dummy-code the groups. Dummy coding means transforming a variable with multiple categories into multiple, new variables, where each variable indicates the presence and absence of only one of the categories.
+To do this, we'll assign codes to the groups so we can include them in our model. We'll use a technique called "dummy-coding". Dummy coding means transforming a variable with multiple categories into new variables, where each variable indicates the presence and absence of each category.
 
 ## Load Packages
 
@@ -49,54 +45,42 @@ library(dataedu)
 
 ### The Role of Dummy Codes
 
-We can see how dummy coding works through using the {dummies} package, though,
-as we will see, you often do not need to manually dummy code variables like
-this.
+We can see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this.
 
-Let's consider the `iris` data that comes built into R. Since we are fans
-of the {tidyverse}, we will first change it into a tibble.
+Let's consider the `iris` data that comes built into R. To make the dataset work nicely with {tidyverse} functions we'll be using, we will first change it into a tibble: 
 
 ``` {r iris as tibble}
 iris <- as_tibble(iris)
 iris
 ```
 
-As we can see above, the `Species` variable is a factor. If we consider how we could
-include a variable such as this in a linear model, things may become a little
-confusing. `Species` seems to be made up of, well, words, such as "setosa." The
-common way to approach this is through dummy coding, where you create new
-variables for each of the possible values of `Species` (such as "setosa"). Then,
-these new variables have a value of 1 when the row is associated with that level
+As we can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a specific category, or level, of that variable. So how do we consider factor variables in our model? `Species` seems to be made up of, well, words, such as "setosa."
+
+A common way to approach this is through dummy coding, where you create new
+variables for each of the possible values of `Species` (such as "setosa").These new variables will have a value of 1 when the row is associated with that level
 (i.e., the first row in the data frame above would have a 1 for a column named
 `setosa`).
 
-Let's return to {dummies}.
-
-How many possible values are there for `Species`? We can check with the `levels`
-function.
+Let's put the {dummies} package to work on this task. How many possible values are there for `Species`? We can check with the `levels` function: 
 
 ``` {r iris levels}
 levels(iris$Species)
 ```
 
-When we run the `dummy()` function on the `Species` variable, we can see that it
-returns *three* variables, one for each of the three levels of Species -
-`setosa`, `versicolor`, and `virginica`.
+When we run the `dummy()` function on the `Species` variable, it
+returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
 
 ``` {r run dummy on species}
 dummies::dummy(iris$Species) %>%
   head()
 ```
 
-We can confirm that every row associated with a specific species has a 1 in the
+Let's confirm that every row associated with a specific species has a 1 in the
 column it corresponds to. We can do this by binding together the dummy codes and
-the `iris` data and then counting, for each of the three species, how many of
-the rows for each dummy code were coded with a "1".
+the `iris` data and then counting how many rows were coded with a "1" for each dummy code. For example, when the `Species` is "setosa", the variable `Speciessetosa` always
+equals 1 - as is the case for the other species. 
 
-For example, when the `Species` is "setosa", the variable `Speciessetosa` always
-equals 1 - as is the case for the other species (for their respective
-variables). `bind_cols()` is a useful tidyverse function for binding together 
-data frames by column.
+Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful tidyverse function for binding together data frames by column.           
 
 ```{r add dummy coded variables to iris}
 # create matrix of dummy-coded variables
@@ -111,43 +95,25 @@ iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
 
 Let's look at the results.
 
-<!-- I can't figure out why the following won't run - it runs when I run it code chunk-by-chunk, but not when I render! -->
-
-```{r count species, eval = FALSE}
+```{r count species}
 iris_with_dummy_codes %>% 
-    count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
+    dplyr::count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
-Okay, this covers how dummy codes work. How do they work when used in a
-model, like with the linear model we have been using (through `lm()`)?
+Now that we have a basic understanding of how dummy codes work, let's now explore how we use them in our model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
 
-In the context of using `lm()` (and many other functions in R) is that the
-number of levels to be created is always the number of different possible values
-minus one, because each group will be modeled in comparison to the group without
-a column, or what is commonly called the reference group.
+So why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used to facilitate comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations that are in one group. Let's go back to our `iris` example. Consider all the flowers that are in the "setosa" group. To represent how different those flowers are, they have to be compared to another group of flowers. In R, we would compare all the flowers in the "setosa" group to the reference group of flowers. Recall that the reference group of flowers would be the group that is not explicitly named in the model output.
 
-Why can every group not simply have their own dummy-coded column? The reason has
-to do with how the dummy codes are used. The purpose of the dummy code is to
-show how different the dependent variable is for all of the observations that
-are in one group (i.e., all of the flowers that are setosa specimens). In
-order to represent how different those flowers are, they have to be compared to
-something else - and the intercept of the model usually represents this
-"something else." However, if every level of a factor (such as `Species`) is
-dummy-coded, then there would be no cases available to estimate an intercept -
-in short, the dummy code would not be compared to anything else. For this
-reason, one group is typically selected as the reference group, to which every 
-other group is compared.
-
-We will load a built-in dataset from the {dataedu} package. 
-
-``` {r, message = F, warning = F}
-dat <- dataedu::sci_mo_processed
-```
+However, if every level of flower groups is dummy-coded, there would be no single group to compare to. For this reason, one group is typically selected as the reference group, to which every other group is compared.
 
 ### Using Dummy Codes
 
 Let's return use online science class data and consider the effect (for a
-student) of being in a specific class in the data set.
+student) of being in a specific class in the data set. We will load a built-in dataset from the {dataedu} package. 
+
+``` {r, message = F, warning = F}
+dat <- dataedu::sci_mo_processed
+```
 
 First, let's determine how many classes there are. We can use the `count()`
 function to see how many courses there are.
