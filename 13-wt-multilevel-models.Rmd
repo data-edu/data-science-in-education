@@ -41,9 +41,7 @@ library(performance)
 library(dataedu)
 ```
 
-## Import Data
-
-### The Role of Dummy Codes
+## The Role of Dummy Codes
 
 Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this.
 
@@ -106,17 +104,15 @@ So why can't R explicitly name every level of a dummy-coded column? It has to do
 
 However, if every level of flower groups is dummy-coded, there would be no single group to compare to. For this reason, one group is typically selected as the reference group, to which every other group is compared.
 
-Now that we have some background on dummy codes, let's return to the online science class data. Let's use what we learned about multilevel models and dummy codes to learn about the effect of being in a specific class on a student's grade. 
+## Import Data 
 
-### Importing the Data 
-
-First we'll load the built-in dataset from the {dataedu} package. 
+Now that we have some background on dummy codes, let's return to the online science class data. We'll be using the same dataset that we used in chapter 7. Let's load that dataset now from the {dataedu} package. 
 
 ``` {r, message = F, warning = F}
 dat <- dataedu::sci_mo_processed
 ```
 
-Next, let's look at how many classes there are. These classes will be our factor levels that we'll be using in our model soon. We can use the `count()` function to see how many courses there are: 
+To wrap up our discussion about factor variables, levels, and dummy codes, let's look at how many classes are represented in the `course_id` variable. These classes will be our factor levels that we'll be using in our model soon. We can use the `count()` function to see how many courses there are: 
 
 ```{r count classes}
 dat %>% 
