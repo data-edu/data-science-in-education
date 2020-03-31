@@ -123,14 +123,9 @@ dat %>%
 
 ### Regression (Linear Model) Analysis with Dummy Codes
 
-We will save this output to `m_linear_dc`, where the `dc` stands for dummy
-code. We will keep the variables we used in our last set of models - `TimeSpent`
-and `course_id` - as independent variables, but will predict students' final grade 
-(a variable in the dataset), rather than the `percentage_earned` variable that we 
-created in (chapter 7)[#c07].
+Before we fit our model, let's talk about our dataset. We will keep the variables we used in our last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in (chapter 7)[#c07].
 
-Since we will be using the final grade variable a lot, we can rename it to make 
-it quicker (and easier) to type.
+Since we will be using the final grade variable a lot let's rename it to make it easier to type.
 
 ```{r}
 dat <- 
@@ -138,13 +133,14 @@ dat <-
   rename(final_grade = FinalGradeCEMS)
 ```
 
+Now we can fit our model. We will save the model object to `m_linear_dc`, where the `dc` stands for dummy code. Later we'll be working with `course_id` as a factor variable, so we can expect to see `lm()` treat it as a dummy coded variable. This means that the model output will include a reference variable for `course_id` that all other levels of `course_id` will be compared against. 
+
 ```{r fit model for course on time spent}
 m_linear_dc <- 
   lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 ```
 
-The output will be a bit, well, long, because each group will have its own
-intercept. We can see it using `tab_model()` from {sjPlot}:
+The output from the model will be long. This is because each course in the `course_id` variable will get its own line in the model output. We can see that using `tab_model()` from {sjPlot}:
 
 ```{r show results of m_linear_dc}
 tab_model(m_linear_dc,
@@ -157,26 +153,17 @@ tab_model(m_linear_dc,
           title = "Table 13.1")
 ```
 
-Wow! Those are a lot of effects. In addition to the time spent and subject
-variables, the model estimated the difference, accounting for the effects of
-being a student in a specific class. Let's count how many classes there are. 
+Wow! Those are a lot of effects. The model estimates the effects of being in each class, accounting for the time students spent on a course and the class they were in. We know this because the model output includes the time spent (`TimeSpent_std`) variable and subject variables (like `course_id[AnPhA-S116-02]`). 
 
 If we count the number of classes, we see that there are 25 - and not 26! One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 0.74 represents the percentage of points that students in the reference
-group class, which is automatically the first level of the `course_id` variable
-when it is converted to a factor, `course_idAnPhA-S116-01` (which represents an anatomy 
-and physiology course from semester `S1` (for the fall) of 20`16` in the first
-section `01`).
+group class have. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference variable.
 
-We can choose another class to serve as a reference group. For
-example, say that we want `course\_idPhysA-S116-01` (the first section of the
-physics class offered during this semester and year) to be the reference group.
-The `fct_relevel()` function (which is a part of the {tidyverse} suite of
-packages) makes it easy to do this. This function allows us to re-order the
-levels within a factor, so that the "first" level will change. We'll also use
-`mutate()` again here, which we introduced in the previous chapter. 
+What if we want to pick another class as the reference variable? For example, say that we want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. 
+
+Now let's use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level will change:
 
 ``` {r relevel course_id}
 dat <-
@@ -184,12 +171,11 @@ dat <-
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
 ```
 
-We can now see that *that* group is no longer listed as an independent variable,
-or a predictor: every coefficient in this model is now in reference to it. 
+We can now see that "PhysA-S116-01" the group is no longer listed as an independent variable. Now every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". We also see that `course_id` is now recognized as a factor data type. 
+
+Now let's fit our model again with the newly releveled `course_id` variable. We'll give it a different name, `m_linear_dc_1`: 
 
 ``` {r fit model with new course level}
-# Here we run a linear model again, predicting percentage earned in the course
-# The predictor variables are the (standardized) amount of time spent and the subject of the course (course_id)
 m_linear_dc_1 <- 
   lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 
@@ -203,22 +189,12 @@ tab_model(m_linear_dc_1,
           title = "Table 13.2")
 ```
 
-Using dummy codes is very common - they are used in nearly every case in which
-you are using a model (such as a linear model, through `lm()`) and you have
-variables that are factors. A benefit of using `lm()` (and many other functions)
-in R for modeling, such as the `lme4::lmer()` function we discuss later, is that
-if you have variables which are not factors, but simply character strings, they
-will be automatically changed to factors when used in a model. This means, for
-instance, that if you have a variable for the subject matter of courses labeled
-"mathematics", "science", "english language" (typed like that!), "social
-studies", and "art", and you include this variable in an `lm()` model, then the
-function will automatically dummy-code these for you. The only essential step
-that is not taken for you is choosing which is the reference group.
+Using dummy codes is very common - they are used in nearly every case where
+you need to fit a model with variables that are factors. We've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function we discuss later. These functions automatically convert character data types into factor data types. 
 
-We note that there are cases in which *not having a reference group* that the
-other, dummy-coded groups are compared to is desired. In such cases, no
-intercept is estimated. This can be done by passing a -1 as the first value
-after the tilde, as follows:
+For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. You'll just need to decide if you want to use the default reference group or if you should use `fct_revel()` to pick a different one. 
+
+Lastly, there it's worthing noting that there may be some situations where you do not want to dummy code a factor variable. These are situations where you don't want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:
 
 ``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
@@ -235,14 +211,11 @@ tab_model(m_linear_dc_2,
           title = "Table 13.3")
 ```
 
-This does not work in many cases, and it is much more common to dummy-code
-factors, and so we emphasized that in this walkthrough. However, we want you to be
-aware that it is possible (though uncommon) to estimate a model without an
-intercept.
+In the vast majority of cases, you'll want to dummy code your factor variables so you probably won't be using it very often.
 
 ### A Deep-Dive into Multi-Level Models
 
-Dummy-coding is a very helpful strategy. It is particularly useful with a small
+Dummy-coding is a very helpful strategy,  It is particularly useful with a small
 number of groups (i.e., for estimating the effects of being in one of the five
 subjects in the online science data set, as in this walkthrough; we note that in
 addition to these five subjects, we also have multiple sections, or classes, for
