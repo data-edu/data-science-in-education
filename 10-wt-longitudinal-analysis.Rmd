@@ -42,7 +42,7 @@ students with disabilities in each state.
 ### Background
 
 In this chapter, we'll be learning some ways to explore data over time. In
-addition, we'll be learning some additional techniques for exploring a publicly
+addition, we'll be learning some techniques for exploring a publicly
 available dataset. Like most public datasets (see [the previous chapter](#c9)),
 this one contains aggregate data. This means that someone totaled up the student
 counts so that it doesn't reveal any private information.
@@ -52,7 +52,7 @@ Department of Education website (see @usdoe2019)^[The documentation for the
 dataset is available here:
 https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf],
 though they are also available in the {dataedu} package that accompanies this
-book, as we describe in the Import Data section.
+book, as we describe in the Importing the Data From the {dataedu} Package section below.
 
 ### Methods
 
@@ -92,19 +92,20 @@ already have some experience using R.
 In this walkthrough, we'll be using six separate datasets of child counts, one
 for each year between 2012 and 2017. If you're copying and pasting the code in
 this walkthrough, we recommend downloading the datasets from our GitHub
-repository for the most reliable results. Here's a link to each file:
+repository for the most reliable results. As we note above, you can also access these data after they have been merged together via the {dataedu} package; see the Importing the Data From the {dataedu} Package section of this chapter. Here's a link to each file; we also include a short URL via the URL-shortener website 
+bit.ly:
 
- - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) 
+ - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https://bit.ly/3dCtVtf)
  
- - [2013 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) 
+ - [2013 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv) (https://bit.ly/33WXnFX)
  
- - [2014 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) 
+ - [2014 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv) (https://bit.ly/2UvSwbx)
  
- - [2015 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) 
+ - [2015 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv) (https://bit.ly/39wQAUg)
  
- - [2016 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) 
+ - [2016 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv) (https://bit.ly/2JubWHC)
  
- - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) 
+ - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https://bit.ly/2wPLu8w)
 
 You can also find these files on the [United States Department of Education
 website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
@@ -440,6 +441,15 @@ child_counts <-
   all_files %>%
   # combine all datasets in `all_files`
   bind_rows()
+```
+
+### Importing the data from the {dataedu} package
+
+If you skipped the above steps and would like to load this processed dataset (`child_counts`), then
+you can run the following code to load it directly from the {dataedu} package:
+
+```{r, eval = FALSE}
+longitudinal_data <- dataedu::longitudinal_data
 ```
 
 Since we know the following, we can conclude that all our rows
