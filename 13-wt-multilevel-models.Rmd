@@ -219,16 +219,16 @@ Let's discuss multilevel models a little more by exploring some of the nuances o
 
 *Dummy-coding variables and ease of interpretation* 
 
-First, analyzing the effect of multiple levels is a trade off between considering more than one variable and how easy it is to interpret your model's output. A technique like dummy-coding is a very helpful strategy for working with a small number of groups as predictors. In this walkthrough, we estimated the effects of being in one of the five online science courses. Dummy-coding can help us analyze even further by accounting for multiple course sections or classes for each subject. But consider the challenge of interpreting the effect of being a student in a particular class, where each class and section becomes its own line of the model output. It can get complicated interpreting the effects in comparison to the intercept. 
+Analyzing the effect of multiple levels is a trade off between considering more than one variable and how easy it is to interpret your model's output. A technique like dummy-coding is a very helpful strategy for working with a small number of groups as predictors. In this walkthrough, we estimated the effects of being in one of the five online science courses. Dummy-coding can help us analyze even further by accounting for multiple course sections or classes for each subject. But consider the challenge of interpreting the effect of being a student in a particular class, where each class and section becomes its own line of the model output. It can get complicated interpreting the effects in comparison to the intercept. 
 
 *Multilevel models and the assumption of independent data points* 
 
-Second, including a group in our model can help us meet the assumption of independent data points. Linear regression models assume that each data point is not correlated with another data point. This is what is meant by the "assumption of independence" or of "independently and identically distributed" (*i.i.d.*) residuals (Field, Miles, & Field, 2012).
+Including a group in our model can help us meet the assumption of independent data points. Linear regression models assume that each data point is not correlated with another data point. This is what is meant by the "assumption of independence" or of "independently and identically distributed" (*i.i.d.*) residuals (Field, Miles, & Field, 2012).
 A linear regression model that considers students in different sections (i.e., for an introductory life science class, different laboratory sections) as a single sample will assume that the outcome of each of those students is not correlated with the outcome of any other student in their section. This is a tough assumption when you consider that students who are in the same section may perform similarly (because of what the instructor of the section does, when the section happened to be scheduled, or the fact that students in a section helped one another to study) when it comes to the outcome being assessed. Adding a section group to the model helps us meet the assumption of independent data points by considering the effect of being in a particular section. Generally speaking, analysts often have the goal of accounting for the fact that students share a class. This is very different from determining the effect of any one particular class on the outcome.
 
 *Regularization* 
 
-Third, it's helpful to introduce more vocabulary you're likely to see if you explore multilevel modeling more. So far we've learned that multilevel models help us meet the assumption of independent data points by considering groups in the model. Multilevel models do this by estimating the effect of being a student in each group, but with a key distinction from linear models: instead of determining how different the observations in a group are
+It's helpful to introduce more vocabulary you're likely to see if you explore multilevel modeling more. So far we've learned that multilevel models help us meet the assumption of independent data points by considering groups in the model. Multilevel models do this by estimating the effect of being a student in each group, but with a key distinction from linear models: instead of determining how different the observations in a group are
 from those in the reference group, the multilevel model "regularizes" the difference based on how systematically different the groups are. You may also see the the term "shrink" to describe this. The term "shrinkage" is occasionally used because the group-level estimates (e.g., for classes) obtained through multilevel modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of all of the others.
 
 Through regularization, groups that comprise individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated difference may be close to the estimate from a multilevel model. Whereas groups with only a few individuals or lot of variability within individuals, would be regularized a lot. The way that a multilevel model does this "regularizing" is by considering the groups to be samples from a larger population of classes. By considering the effects of groups to be samples from a larger population, the model not only uses information particular to each group, but also information across all of the data. 
@@ -246,12 +246,9 @@ We wanted to include this as multilevel models *are* common. Consider how often 
 
 ### Multilevel Model Analysis
 
-Fortunately, for all of the complicated details, multilevel models are very
-easy to use in R. This requires a new package. One of the most common for
-estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*
-in the data are. This model is often referred to as a "varying intercepts"
-multilevel model. What is different between the groups is the effect of
-being a student in a class: the intercepts between groups vary.
+Fortunately, for all of the complicated details, multilevel models are relatively
+easy to use in R. We'll need a new package for this next example. One of the most common for
+estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument for the *groups* we want to include in the model. This model is often referred to as a "varying intercepts" multilevel model. The difference between the groups is the effect of being a student in a class: the intercepts between the groups vary.
 
 You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
 
@@ -259,40 +256,19 @@ You'll only need to install {lme4} once to do the rest of this walkthrough. To i
 install.packages("lme4") 
 ```
 
-Now we can fit our multilevel model:
+Now we can fit our multilevel model uisng the `lmer()` function:
 
 ``` {r fit multilevel model}
 m_course <- 
   lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
-<!-- Preferable to add this as a footnote -->
-To say *just* a bit more, there is a connection between multilevel models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
+You'll notice something here that we didn't see when we used `lm()`. We use a new term (`(1|course_id)`). We use this new term to model the group (in this case, courses)
+in the data. With `lmer()`, these group terms are in parentheses and to the right of the bar. That is what the `|course_id` part means - it is telling `lmer()` that courses are groups in the data that we want to include in the model. The `1` on the left side of the bar tells `lmer()` that we want varying intercepts for each group (1 is used to denote the intercept).
 
-In a way, what is going on above is straightforward (and similar to what we have
-seen with `lm()`), but, it is also different and potentially confusing.
-Parentheses are not commonly used with `lm()`; there is a term (`(1|course_id)`)
-in parentheses. Also, the bar symbol - `|` - is not commonly used with `lm()`.
+If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian *prior* for the group estimates.
 
-As different as these (the parentheses and bar) are, they are used for a
-relatively straightforward purpose: to model the group (in this case, courses)
-in the data. With `lmer()`, these group terms are specified in parentheses -
-specifically, to the right of the bar. That is what the `|course_id` part means
-- it is telling lmer that courses are groups in the data. The left side of the
-bar tells lmer that what we want to be specified are varying intercepts for each
-group (1 is used to denote the intercept).
-
-There is potentially more to the story: in addition to
-the 1, variables which can be specified to have a different effect for each
-group can also be specified. These variables are referred to not as varying
-intercepts, but as varying slopes. We will not cover these in this walkthrough,
-but want you to be aware of them (we recommend the book by West, Welch, and
-Galecki [2014] provide an excellent walkthrough on how to specify varying
-slopes using `lmer()`). To say *just* a bit more, there is a connection between
-multilevel models and Bayesian methods (@gelman2006data); one way to think
-about the "regularizing" going on is that estimates for each group (class) are
-made taking account of the data across all of the groups (classes). The data for
-all of the classes can be interpreted as a *prior* for the group estimates.
+There's more you can do with `lmer()`. For example, you can include different effects for each group in your model output, so each as its own slope. To explore techniques like this and more, we recommend the book by West, Welch, and Galecki [2014], which provides an excellent walkthrough on how to specify varying slopes using `lmer()`. 
 
 ## Results
 
