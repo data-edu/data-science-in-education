@@ -1,6 +1,6 @@
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
-## Introduction to the walkthroughs
+## Introduction to the Walkthroughs
 
 This chapter is the first of eight walkthroughs included in the book. In it, we
 present *one approach* to analyzing a specific dataset. In this chapter, the
@@ -14,6 +14,7 @@ introduction to the question or problem explored in the walkthrough.
 
 ## Vocabulary
 
+  - data frame
   - item
   - joins
   - keys
@@ -302,10 +303,14 @@ used `mutate_at()` to convert the data in all ten variables into a numeric
 format.
 
 To learn a little more about `mutate()`, try the example below, where we create
-a new dataset called "df". We fill this dataset with two columns: "male" and
+a new dataframe called "df". A data frame is a two-dimensional structure that stores tables with a header and data rows. Each cell in a data frame stores values. 
+
+We fill this dataframe with two columns: "male" and
 "female." Each column has only one value, and that value is 5. In the second
 part of the code, we add a `total_students` column by adding the number of
 `male` students and `female` students.
+
+Note that we create the dataset with "tibble." A tibble is a special type of data frame that makes working with the {tidyverse} a little easier. More information is available in R for Data Science [@grolemund2018].
 
 
 ```r
@@ -1197,8 +1202,8 @@ dat %>%
   # Creates a point with x- and y-axis coordinates specified above
   geom_point(color = dataedu_colors("green")) + 
   theme_dataedu() +
-  xlab("Time Spent") +
-  ylab("Final Grade")
+  labs(x = "Time Spent",
+       y = "Final Grade")
 ```
 
 <div class="figure" style="text-align: center">
@@ -1219,8 +1224,8 @@ dat %>%
   # method = "lm" tells ggplot2 to fit the line using linear regression
   geom_smooth(method = "lm") +
   theme_dataedu() +
-  xlab("Time Spent") +
-  ylab("Final Grade")
+  labs(x = "Time Spent",
+       y = "Final Grade")
 ```
 
 <div class="figure" style="text-align: center">
