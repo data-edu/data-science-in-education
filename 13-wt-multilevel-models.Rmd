@@ -1,19 +1,19 @@
-# Walkthrough 7: The Role (and Usefulness) of Multi-Level Models {#c13}
+# Walkthrough 7: The Role (and Usefulness) of Multilevel Models {#c13}
 
 ## Vocabulary
 
 - dummy coding
 - hierarchical linear model  
 - intra-class correlation
-- multi-level model  
+- multilevel model  
 
 ## Chapter Overview
 
-The *purpose* of this walkthrough is to explore students' performance in these online courses. While this and the analysis in [Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, this walkthrough focuses on the effects of being in a particular course. To do that, we'll use of *multi-level models*, which can help us consider that the students in our dataset shared classes. While the conceptual details underlying multi-level models can be complex, they do address a basic problem that is relatable to educators: how can we include variables like cases and student grouping levels like classes or schools in our model? 
+The *purpose* of this walkthrough is to explore students' performance in these online courses. While this and the analysis in [Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, this walkthrough focuses on the effects of being in a particular course. To do that, we'll use of *multilevel models*, which can help us consider that the students in our dataset shared classes. While the conceptual details underlying multilevel models can be complex, they do address a basic problem that is relatable to educators: how can we include variables like cases and student grouping levels like classes or schools in our model? 
 
 ### Background
 
-Using multi-level models help us account for the way that individual students are "grouped" together into higher-level units, like classes. Multi-level models do something different than a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10): they estimate the effect of being a student in a particular group. A multi-level model uses a different way to standardize the estimates for each group based on how systematically different the groups are from the other groups, relative to the effect on the dependent variable.
+Using multilevel models help us account for the way that individual students are "grouped" together into higher-level units, like classes. Multilevel models do something different than a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10): they estimate the effect of being a student in a particular group. A multilevel model uses a different way to standardize the estimates for each group based on how systematically different the groups are from the other groups, relative to the effect on the dependent variable.
 
 Though these conceptual details are complex,fitting them is fortunately straightforward and should be familiar if you have used R's `lm()` function before. So, let's get started!
 
@@ -29,7 +29,7 @@ To do this, we'll assign codes to the groups so we can include them in our model
 
 ## Load Packages
 
-We will load the tidyverse and a few other packages specific to using multi-level models: 
+We will load the tidyverse and a few other packages specific to using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
 
 ```{r load packages, message = F, warning = F}
@@ -213,9 +213,9 @@ tab_model(m_linear_dc_2,
 
 In the vast majority of cases, you'll want to dummy code your factor variables so you probably won't be using it very often.
 
-### A Deep-Dive into Multi-Level Models
+### A Deep-Dive into Multilevel Models
 
-Let's discuss multi-level models a little more by exploring some of the nuances of using them with education data. 
+Let's discuss multilevel models a little more by exploring some of the nuances of using them with education data. 
 
 *Dummy-coding variables and ease of interpretation* 
 
@@ -229,28 +229,28 @@ A linear regression model that considers students in different sections (i.e., f
 *Regularization* 
 
 Third, it's helpful to introduce more vocabulary you're likely to see if you explore multilevel modeling more. So far we've learned that multilevel models help us meet the assumption of independent data points by considering groups in the model. Multilevel models do this by estimating the effect of being a student in each group, but with a key distinction from linear models: instead of determining how different the observations in a group are
-from those in the reference group, the multi-level model "regularizes" the difference based on how systematically different the groups are. You may also see the the term "shrink" to describe this. The term "shrinkage" is occasionally used because the group-level estimates (e.g., for classes) obtained through multi-level modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of all of the others.
+from those in the reference group, the multilevel model "regularizes" the difference based on how systematically different the groups are. You may also see the the term "shrink" to describe this. The term "shrinkage" is occasionally used because the group-level estimates (e.g., for classes) obtained through multilevel modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of all of the others.
 
-Through regularization, groups that comprise individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated difference may be close to the estimate from a multi-level model. Whereas groups with only a few individuals or lot of variability within individuals, would be regularized a lot. The way that a multi-level model does this "regularizing" is by considering the groups to be samples from a larger population of classes. By considering the effects of groups to be samples from a larger population, the model not only uses information particular to each group, but also information across all of the data. 
+Through regularization, groups that comprise individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated difference may be close to the estimate from a multilevel model. Whereas groups with only a few individuals or lot of variability within individuals, would be regularized a lot. The way that a multilevel model does this "regularizing" is by considering the groups to be samples from a larger population of classes. By considering the effects of groups to be samples from a larger population, the model not only uses information particular to each group, but also information across all of the data. 
 
 *Intra-class correlation coefficient*
 
-Multi-level models are very common in educational research because they help account for the way in which students take the same classes, or even go to the same school (see Raudenbush & Bryk, 2002). Using multi-level models means that the assumption of independence can
+Multilevel models are very common in educational research because they help account for the way in which students take the same classes, or even go to the same school (see Raudenbush & Bryk, 2002). Using multilevel models means that the assumption of independence can
 be addressed. Their use also means that individual coefficients for classes do
 not need to be included (or interpreted, thankfully!), though they are still
 included in and accounted for in the model. 
 
 So what's the most useful way to report the importance of groups in a model? The way that information about the groups is reported is usually in the form of the *intra-class correlation coefficient* (ICC), which explains the proportion of variation in the dependent variable that the groups explain. Smaller ICCs (such as ICCs with values of 0.05, representing 5% of the variation in the dependent variable) mean that the groups are not very important; larger ICCs, such as ICCs with values of 0.10 or larger (values as high as 0.50 are not uncommon!) suggest that groups are indeed important. When groups are important, not including them in the model may ignore the assumption of independence. 
 
-We wanted to include this as multi-level models *are* common. Consider how often the data you collect involves students are grouped in classes, or classes grouped in schools. Educational data is complex, and so it is not surprising that multi-level models may be encountered in educational data science analyses, reports, and articles.
+We wanted to include this as multilevel models *are* common. Consider how often the data you collect involves students are grouped in classes, or classes grouped in schools. Educational data is complex, and so it is not surprising that multilevel models may be encountered in educational data science analyses, reports, and articles.
 
-### Multi-level Model Analysis
+### Multilevel Model Analysis
 
-Fortunately, for all of the complicated details, multi-level models are very
+Fortunately, for all of the complicated details, multilevel models are very
 easy to use in R. This requires a new package. One of the most common for
 estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument about what the *groups*
 in the data are. This model is often referred to as a "varying intercepts"
-multi-level model. What is different between the groups is the effect of
+multilevel model. What is different between the groups is the effect of
 being a student in a class: the intercepts between groups vary.
 
 You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
@@ -259,15 +259,15 @@ You'll only need to install {lme4} once to do the rest of this walkthrough. To i
 install.packages("lme4") 
 ```
 
-Now we can fit our multi-level model:
+Now we can fit our multilevel model:
 
-``` {r fit multi-level model}
+``` {r fit multilevel model}
 m_course <- 
   lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
 <!-- Preferable to add this as a footnote -->
-To say *just* a bit more, there is a connection between multi-level models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
+To say *just* a bit more, there is a connection between multilevel models and Bayesian methods (@gelman2006data); one way to think about the "regularizing" going on is that estimates for each group (class) are made taking account of the data across all of the groups (classes). The data for all of the classes can be interpreted as a *prior* for the group estimates.
 
 In a way, what is going on above is straightforward (and similar to what we have
 seen with `lm()`), but, it is also different and potentially confusing.
@@ -289,7 +289,7 @@ intercepts, but as varying slopes. We will not cover these in this walkthrough,
 but want you to be aware of them (we recommend the book by West, Welch, and
 Galecki [2014] provide an excellent walkthrough on how to specify varying
 slopes using `lmer()`). To say *just* a bit more, there is a connection between
-multi-level models and Bayesian methods (@gelman2006data); one way to think
+multilevel models and Bayesian methods (@gelman2006data); one way to think
 about the "regularizing" going on is that estimates for each group (class) are
 made taking account of the data across all of the groups (classes). The data for
 all of the classes can be interpreted as a *prior* for the group estimates.
@@ -342,7 +342,7 @@ icc(m_course)
 This shows that nearly 17% of the variability in the percentage of points
 students earned can be explained simply by knowing what class they are in.
 
-There is much more to do with multi-level models. We briefly discuss a common
+There is much more to do with multilevel models. We briefly discuss a common
 extension to the model we just used, adding additional levels.
 
 The data that we are using is all from one school, and so we cannot estimate a
@@ -369,35 +369,35 @@ school. A common question those using {lme4} have is whether it is necessary to
 explicitly nest the courses within schools; as long as the courses are unique labelled, this is not necessary to do.
 
 You can add further still levels to the model, as the {lme4} package was
-designed for complex multi-level models (and even those with not nested, but
+designed for complex multilevel models (and even those with not nested, but
 crossed random effects; a topic beyond the scope of this walkthrough, but which
 is described in West, Welch, & Galecki, 2015).
 
 ## Conclusion
 
 In this example (and in many examples in educational research), the groups are
-classes. But, multi-level models can be used for other cases in which data is
+classes. But, multilevel models can be used for other cases in which data is
 associated with a common group. For example, if students respond to repeated
 measures (such as quizzes) over time, then the multiple quiz responses for each
 student could be considered to be "grouped" within students. In such a case,
 instead of specifying the model with the course as the "grouping factor",
 students could be.
 
-Moreover, multi-level models can include multiple groups (as noted above), even
+Moreover, multilevel models can include multiple groups (as noted above), even
 if the groups are of very different kinds (i.e., if students from multiple
 classes responded to multiple quizzes).
 
-We note that the groups in multi-level models do not need to be nested: they can
+We note that the groups in multilevel models do not need to be nested: they can
 also be "crossed", as may be the case for data from, for example, teachers in
 different schools who attended different teacher preparation programs: not every
 teacher in a school necessarily (or even likely) attended the same teacher
 preparation program, and graduates from every teacher preparation program are
 highly unlikely to all teach in the same school!
 
-There is much more that can be done with multi-level models; we have more
+There is much more that can be done with multilevel models; we have more
 recommendations in the [Additional Resources](#c18) chapter.
 
-Finally, as noted earlier, multi-level models have similarities to the Bayesian
+Finally, as noted earlier, multilevel models have similarities to the Bayesian
 methods which are becoming more common among some R users - and educational data
 scientists. There are also references to recommended books on Bayesian methods
 in the additional resources chapter.
