@@ -215,80 +215,34 @@ In the vast majority of cases, you'll want to dummy code your factor variables s
 
 ### A Deep-Dive into Multi-Level Models
 
-Dummy-coding is a very helpful strategy,  It is particularly useful with a small
-number of groups (i.e., for estimating the effects of being in one of the five
-subjects in the online science data set, as in this walkthrough; we note that in
-addition to these five subjects, we also have multiple sections, or classes, for
-each subject). With effects such as being a student in a particular class,
-though, the output seems to be less useful: it is hard to interpret the 25
-different effects (and to compare them to the intercept).
+Let's discuss multi-level models a little more by exploring some of the nuances of using them with education data. 
 
-Additionally, analysts often have the goal not of determining the effect of
-being in a specific class, *per se*, but rather of accounting for the fact that
-students share a class. This is important because linear models (i.e., those 
-estiated using `lm()`) have an assumption that the data points are - apart
-from sharing levels of the variables that are used in the model - independent,
-or not correlated. This is what is meant by the "assumption of independence" or
-of "independently and identically distributed" (*i.i.d.*) residuals (Field,
-Miles, & Field, 2012).
+*Dummy-coding variables and ease of interpretation* 
 
-As we noted in the chapter overview, multi-level models are a way to deal 
-with the difficulty of interpreting the
-estimated effects for each of many groups, like classes, and to address the
-assumption of independence. Multi-level models do this by (still) estimating the
-effect of being a student in each group, but with a key distinction from linear
-models: Instead of determining how different the observations in a group are
-from those in the reference group, the multi-level model "regularizes" (sometimes the term "shrinks" is used) the difference based on how
-systematically different the groups are. The reason why "shrinkage" is
-occasionally used is that the group-level estimates (e.g., for classes) that are
-obtained through multi-level modeling can never be larger than those from a
-linear model (regression). As described earlier, when there are groups included
-in the model, a regression effectively estimates the effect for each group
-independent of all of the others.
+First, analyzing the effect of multiple levels is a trade off between considering more than one variable and how easy it is to interpret your model's output. A technique like dummy-coding is a very helpful strategy for working with a small number of groups as predictors. In this walkthrough, we estimated the effects of being in one of the five online science courses. Dummy-coding can help us analyze even further by accounting for multiple course sections or classes for each subject. But consider the challenge of interpreting the effect of being a student in a particular class, where each class and section becomes its own line of the model output. It can get complicated interpreting the effects in comparison to the intercept. 
 
-Through regularization, groups that comprise individuals who are
-consistently different (higher or lower) than individuals on average are not
-regularized very much - their estimated difference may be close to the estimate
-from a multi-level model - whereas groups with only a few individuals, or with a
-lot of variability within individuals, would be regularized a lot~ The way that
-a multi-level model does this "regularizing" is by considering the groups (and
-not the data points, in this case) to be samples from a larger population of
-classes. By considering the effects of groups to be samples from a larger
-population, the model is able to use information not only particular to each
-group (as the models created using `lm()`), but also information across all of
-the data. 
+*Multilevel models and the assumption of independent data points* 
 
-Using multi-level models, then, means that the assumption of independence can
-be addressed; their use also means that individual coefficients for classes do
+Second, including a group in our model can help us meet the assumption of independent data points. Linear regression models assume that each data point is not correlated with another data point. This is what is meant by the "assumption of independence" or of "independently and identically distributed" (*i.i.d.*) residuals (Field, Miles, & Field, 2012).
+A linear regression model that considers students in different sections (i.e., for an introductory life science class, different laboratory sections) as a single sample will assume that the outcome of each of those students is not correlated with the outcome of any other student in their section. This is a tough assumption when you consider that students who are in the same section may perform similarly (because of what the instructor of the section does, when the section happened to be scheduled, or the fact that students in a section helped one another to study) when it comes to the outcome being assessed. Adding a section group to the model helps us meet the assumption of independent data points by considering the effect of being in a particular section. Generally speaking, analysts often have the goal of accounting for the fact that students share a class. This is very different from determining the effect of any one particular class on the outcome.
+
+*Regularization* 
+
+Third, it's helpful to introduce more vocabulary you're likely to see if you explore multilevel modeling more. So far we've learned that multilevel models help us meet the assumption of independent data points by considering groups in the model. Multilevel models do this by estimating the effect of being a student in each group, but with a key distinction from linear models: instead of determining how different the observations in a group are
+from those in the reference group, the multi-level model "regularizes" the difference based on how systematically different the groups are. You may also see the the term "shrink" to describe this. The term "shrinkage" is occasionally used because the group-level estimates (e.g., for classes) obtained through multi-level modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of all of the others.
+
+Through regularization, groups that comprise individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated difference may be close to the estimate from a multi-level model. Whereas groups with only a few individuals or lot of variability within individuals, would be regularized a lot. The way that a multi-level model does this "regularizing" is by considering the groups to be samples from a larger population of classes. By considering the effects of groups to be samples from a larger population, the model not only uses information particular to each group, but also information across all of the data. 
+
+*Intra-class correlation coefficient*
+
+Multi-level models are very common in educational research because they help account for the way in which students take the same classes, or even go to the same school (see Raudenbush & Bryk, 2002). Using multi-level models means that the assumption of independence can
+be addressed. Their use also means that individual coefficients for classes do
 not need to be included (or interpreted, thankfully!), though they are still
-included in and accounted for in the model. As we describe, the way that
-information about the groups is reported is usually in the form of the
-*intra-class correlation coefficient* (ICC), which explains the proportion of
-variation in the dependent variable that the groups explain. Smaller ICCs (such
-as ICCs with values of 0.05, representing 5% of the variation in the dependent
-variable) mean that the groups are not very important; larger ICCs, such as ICCs
-with values of 0.10 or larger (values as high as 0.50 are not uncommon!). ICCs
-that are larger would indicate that groups are important and that they have to
-do with a lot of the differences observed in the dependent variable (and that
-not including them may potentially ignore the assumption of independence in a
-case in which it may be important to recognize it - and lead to bias in the
-results).] In the former case, the multi-level model considers there to be
-strong evidence for a group effect, whereas in the latter, the model recognizes
-that there is less certainty about a group (class) effect for that particular
-group, in part because that group is small. Multi-level models are very common
-in educational research for cases such as this: accounting for the way in which
-students take the same classes, or even go to the same school (see Raudenbush &
-Bryk, 2002).
+included in and accounted for in the model. 
 
-That was a lot of technical information about multi-level models; thank you for
-sticking with us through it!
+So what's the most useful way to report the importance of groups in a model? The way that information about the groups is reported is usually in the form of the *intra-class correlation coefficient* (ICC), which explains the proportion of variation in the dependent variable that the groups explain. Smaller ICCs (such as ICCs with values of 0.05, representing 5% of the variation in the dependent variable) mean that the groups are not very important; larger ICCs, such as ICCs with values of 0.10 or larger (values as high as 0.50 are not uncommon!) suggest that groups are indeed important. When groups are important, not including them in the model may ignore the assumption of independence. 
 
-We wanted to include this as multi-level models
-*are* common (and, we think, could usefully be even more common!).Consider how often the data you collect involves students nested (or
-grouped) in classes, or classes nested in schools (or even schools nested in
-districts - you get the picture!). Educational data is complex, and so it is
-not surprising that multi-level models may be encountered in educational data
-science analyses, reports, and articles.
+We wanted to include this as multi-level models *are* common. Consider how often the data you collect involves students are grouped in classes, or classes grouped in schools. Educational data is complex, and so it is not surprising that multi-level models may be encountered in educational data science analyses, reports, and articles.
 
 ### Multi-level Model Analysis
 
