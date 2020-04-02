@@ -45,7 +45,7 @@ time can go by a number of names, such as longitudinal analyses or time series
 analyses, or - less formally - analyses or studies of change over time. 
 
 Here, we primarily use the term longitudinal analysis to refer to analyses of
-data at mutiple time points. While data from two time points would be included in 
+data at multiple time points. While data from two time points would be included in 
 this definition, our emphasis is on data from a greater number of time points, which
 can reveal more nuance in how change over time is happening.
 
@@ -92,7 +92,7 @@ number of students with disabilities in a given year. Let's spend some time
 carefully reviewing how to get the `.csv` files we'll need downloaded and stored
 on your computer. If you want to run the code exactly as written here, you'll
 need to store the same datasets in the right location. As an alternate, we make these data files that are used in the walkthrough - like those in other walkthroughs - 
-available through the {dataedu} package. Last, we note that while t's possible to use this
+available through the {dataedu} package. Last, we note that while it's possible to use this
 walkthrough on different datasets or to store them in different locations on
 your computer, you'll need to make adjustments to your code based on the
 datasets you used and where you stored them. We suggest only doing this if you
@@ -195,7 +195,8 @@ download.file(
 ```
 
 Now that the files are downloaded (either through the above code or by downloading them from GitHub), we're
-ready to proceed to reading the data into R.
+ready to proceed to reading the data into R. If you were unable to download these files for any reason, they
+are also available through the {dataedu} package, as we describe after the "Reading in Many Datasets" section.
 
 ### Reading in One Dataset
 
@@ -347,6 +348,15 @@ bind_rows(all_files) %>%
 We'll correct this in the next section by selecting and renaming our variables,
 but it's good to notice this problem early in the process so you know to work on
 it later.
+
+### Loading the data from {dataedu}
+
+After all of the hard work we've done above, it may seem painful to simply read in the final result! But, 
+if you were unable to download the files because you do not have Internet access (or for any other reason!), you can read in the `all_files` list of six data frames through the {dataedu} package with the following line of code:
+
+```{r, eval = FALSE}
+all_files <- dataedu::all_files
+```
 
 ## Process Data
 
@@ -509,15 +519,6 @@ child_counts <-
   bind_rows()
 ```
 
-### Importing the data from the {dataedu} package
-
-If you did not (or could not, if you did not have Internet access) access and process the datasets and would like to load this processed dataset (`child_counts`), then
-you can run the following code to load it directly from the {dataedu} package:
-
-```{r, eval = FALSE}
-longitudinal_data <- dataedu::longitudinal_data
-```
-
 Since we know the following, we can conclude that all our rows
 combined together correctly: 
 
@@ -528,6 +529,15 @@ But, let's use `str()` to verify:
 
 ```{r check structure}
 str(child_counts)
+```
+
+### Importing the data from the {dataedu} package
+
+If you would like to load this processed dataset (`child_counts`), then
+you can run the following code to load it directly from the {dataedu} package:
+
+```{r, eval = FALSE}
+longitudinal_data <- dataedu::longitudinal_data
 ```
 
 ### Filter for the Desired Disabilities and Age Groups
