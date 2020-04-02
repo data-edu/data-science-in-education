@@ -148,12 +148,12 @@ One way to download the files is to manually download them, saving them to a wor
 Another way to download the files is to read them directly into R, using the `download.file()` function,
 and the same file path described in the previous section. This functionality works for any CSV files that you can download from webpages; the key is that the URL must be to the CSV file itself (one way to check is to ensure that the URL ends in `.csv`).
 
-Here is how we would do it for the first dataset (from the year 2012).
+Here is how we would do it for the first dataset (from the year 2012), using the shortened URLs included along with the full URLs above.
 
 ```{r, eval = FALSE}
 download.file(
   # the url argument takes a URL for a CSV file
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv', 
+  url = 'https://bit.ly/3dCtVtf', 
   # destfile specifies where the file should be saved
   destfile = here("data",
            "longitudinal_data",
@@ -164,31 +164,31 @@ We can do this for the remaining five datasets.
 
 ```{r, eval = FALSE}
 download.file(
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv', 
+  url = 'https://bit.ly/33WXnFX', 
   destfile = here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2013.csv"))
 
 download.file(
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv', 
+  url = 'https://bit.ly/2UvSwbx', 
   destfile = here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2014.csv"))
 
 download.file(
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv', 
+  url = 'https://bit.ly/39wQAUg', 
   destfile = here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2015.csv"))
 
 download.file(
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv', 
+  url = 'https://bit.ly/2JubWHC', 
   destfile = here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2016.csv"))
 
 download.file(
-  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv', 
+  url = 'https://bit.ly/2wPLu8w',
   destfile = here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2017-18.csv"))
@@ -964,7 +964,13 @@ In this example, we'll follow our intuition about the relationship between male
 and female student counts in our special education dataset. In particular, we'll
 test the hypothesis that this ratio has decreased over the years. Fitting a
 linear regression model that estimates the year as a predictor of the male to
-female ratio will help us do just that.
+female ratio will help us do just that. 
+
+In the context of modeling the dataset, we note that there are other techniques
+for longitudinal analyses that are helpful for accounting for the way that individual
+data points over time can be modeled as grouped within units (such as individual students). 
+Such approaches, , such as those involving structural equation models [@grimm2016growth] 
+and multi-level models [@west2014linear], are especially helpful for testing hypotheses about change over time--and what predicts it. Both of the references cited above include R code for carrying out such analyses.
 
 *Do we have enough information for our model?*
 
