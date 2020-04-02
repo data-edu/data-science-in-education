@@ -18,7 +18,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 - `lubridate::ymd()`
 - `identical()`
 - `top_n()`
-- `ggplot2::geom_jitter()`
+- `geom_jitter()`
 
 ## Vocabulary 
 
@@ -122,15 +122,10 @@ You can also find these files on the [United States Department of Education
 website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
-```{r}
-download.file("https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/longitudinal_data/bchildcountandedenvironments2013.csv",
-              destfile = "bchildcountandedenvironments2012.csv")
-```
-
 ### A Note on File Paths
 
 When you download these files, be sure to store them in a folder in your working
-directory. To get to the data in this walkthrough, we'll be using this file path
+directory. To get to the data in this walkthrough, we can use this file path
 in our working directory: "data/longitudinal\_data". We'll be using the here *function* from the {here}
 *package*, which convenieniently fills in all the folders in the file path of your
 working directory all the way up to the folders you specify in the arguments. So,
@@ -146,6 +141,61 @@ here("data",
 You can use a different file path if you like, just take note of where your
 downloaded files are so you can use the correct file path when writing your code
 to import the data.
+
+### How to Download the Files
+
+One way to download the files is to manually download them, saving them to a working directory. 
+Another way to download the files is to read them directly into R, using the `download.file()` function,
+and the same file path described in the previous section. This functionality works for any CSV files that you can download from webpages; the key is that the URL must be to the CSV file itself (one way to check is to ensure that the URL ends in `.csv`).
+
+Here is how we would do it for the first dataset (from the year 2012).
+
+```{r, eval = FALSE}
+download.file(
+  # the url argument takes a URL for a CSV file
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv', 
+  # destfile specifies where the file should be saved
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2012.csv"))
+```
+
+We can do this for the remaining five datasets.
+
+```{r, eval = FALSE}
+download.file(
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2013.csv', 
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2013.csv"))
+
+download.file(
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2014.csv', 
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2014.csv"))
+
+download.file(
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2015.csv', 
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2015.csv"))
+
+download.file(
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2016.csv', 
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2016.csv"))
+
+download.file(
+  url = 'https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv', 
+  destfile = here("data",
+           "longitudinal_data",
+           "bchildcountandedenvironments2017-18.csv"))
+```
+
+Now that the files are downloaded (either through the above code or by downloading them from GitHub), we're
+ready to proceed to reading the data into R.
 
 ### Reading in One Dataset
 
