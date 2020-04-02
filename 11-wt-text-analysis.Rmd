@@ -1,12 +1,5 @@
 # Walkthrough 5: Text Analysis With Social Media Data {#c11}
 
-```{r load custom themes, echo = FALSE, message = FALSE, eval=FALSE}
-source("r/theme_dataedu.R")
-source("r/palette_dataedu.R")
-
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-```
-
 ## Vocabulary 
 
 - anti_join 
@@ -215,7 +208,7 @@ pos_tokens_count
 
 We can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
 
-```{r, results='hide', message = FALSE, fig.cap="Count of Words Associated with Positivity"}
+```{r fig11-1, results='hide', message = FALSE, fig.cap="Count of Words Associated with Positivity"}
 pos_tokens_count %>%
   # only words that appear 75 times or more
   filter(n >= 75) %>%
@@ -277,7 +270,7 @@ The result is a dataset that has status_ids in one column and a positive word fr
 head(pos_tokens$status_id) 
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct()` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct()` to get a data frame of `status_id`s, where each `status_id` only appears once: 
 
 ```{r using distinct}
 pos_tokens <-
@@ -285,7 +278,7 @@ pos_tokens <-
   distinct(status_id)
 ```
 
-Note that `distinct()` drops all variables except for `status_id`. For good measure, let's use `distinct()` on our `dv_tokens` dataframe too: 
+Note that `distinct()` drops all variables except for `status_id`. For good measure, let's use `distinct()` on our `dv_tokens` data frame too: 
 
 ```{r using distinct 2}
 dv_tokens <-
@@ -293,7 +286,7 @@ dv_tokens <-
   distinct(status_id)
 ```
 
-Now we have a dataframe of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
+Now we have a data frame of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
 
 ```{r dataviz tweets with positive variable}
 dv_pos <-
@@ -359,12 +352,13 @@ Passing `sample()` a vector of numbers and the size of the sample you want retur
 {dplyr} has a version of this called `sample_n()` that we can use to randomly select rows in our tweets dataset. Using `sample_n()` looks like this:
 
 ```{r randomly review}
-set.seed(369)
+set.seed(2020)
 
-pos_tweets %>% sample_n(., size = 10)
+pos_tweets %>% 
+  sample_n(., size = 10)
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion 
 

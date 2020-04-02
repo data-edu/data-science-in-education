@@ -1,7 +1,5 @@
 # Walkthrough 5: Text Analysis With Social Media Data {#c11}
 
-
-
 ## Vocabulary 
 
 - anti_join 
@@ -131,20 +129,20 @@ tokens
 ```
 
 ```
-#> # A tibble: 131,233 x 2
-#>    status_id           word       
-#>    <chr>               <chr>      
-#>  1 1163154266065735680 first      
-#>  2 1163154266065735680 tidytuesday
-#>  3 1163154266065735680 submission 
-#>  4 1163154266065735680 roman      
-#>  5 1163154266065735680 emperors   
-#>  6 1163154266065735680 and        
-#>  7 1163154266065735680 their      
-#>  8 1163154266065735680 rise       
-#>  9 1163154266065735680 to         
-#> 10 1163154266065735680 power      
-#> # … with 131,223 more rows
+## # A tibble: 131,233 x 2
+##    status_id           word       
+##    <chr>               <chr>      
+##  1 1163154266065735680 first      
+##  2 1163154266065735680 tidytuesday
+##  3 1163154266065735680 submission 
+##  4 1163154266065735680 roman      
+##  5 1163154266065735680 emperors   
+##  6 1163154266065735680 and        
+##  7 1163154266065735680 their      
+##  8 1163154266065735680 rise       
+##  9 1163154266065735680 to         
+## 10 1163154266065735680 power      
+## # … with 131,223 more rows
 ```
 
 We use `output = word` to tell `unnest_tokens()` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens()` to tokenize the tweets in the `text` column of our `tweets` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `status_id` column that tells us which tweet the word appears in. 
@@ -177,20 +175,20 @@ tokens %>%
 ```
 
 ```
-#> # A tibble: 15,335 x 2
-#>    word            n
-#>    <chr>       <int>
-#>  1 t.co         5432
-#>  2 https        5406
-#>  3 tidytuesday  4316
-#>  4 rstats       1748
-#>  5 data         1105
-#>  6 code          988
-#>  7 week          868
-#>  8 r4ds          675
-#>  9 dataviz       607
-#> 10 time          494
-#> # … with 15,325 more rows
+## # A tibble: 15,335 x 2
+##    word            n
+##    <chr>       <int>
+##  1 t.co         5432
+##  2 https        5406
+##  3 tidytuesday  4316
+##  4 rstats       1748
+##  5 data         1105
+##  6 code          988
+##  7 week          868
+##  8 r4ds          675
+##  9 dataviz       607
+## 10 time          494
+## # … with 15,325 more rows
 ```
 
 We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
@@ -208,20 +206,20 @@ tokens %>%
 ```
 
 ```
-#> # A tibble: 15,335 x 3
-#>    word            n percent
-#>    <chr>       <int>   <dbl>
-#>  1 t.co         5432   7.39 
-#>  2 https        5406   7.36 
-#>  3 tidytuesday  4316   5.87 
-#>  4 rstats       1748   2.38 
-#>  5 data         1105   1.50 
-#>  6 code          988   1.34 
-#>  7 week          868   1.18 
-#>  8 r4ds          675   0.919
-#>  9 dataviz       607   0.826
-#> 10 time          494   0.672
-#> # … with 15,325 more rows
+## # A tibble: 15,335 x 3
+##    word            n percent
+##    <chr>       <int>   <dbl>
+##  1 t.co         5432   7.39 
+##  2 https        5406   7.36 
+##  3 tidytuesday  4316   5.87 
+##  4 rstats       1748   2.38 
+##  5 data         1105   1.50 
+##  6 code          988   1.34 
+##  7 week          868   1.18 
+##  8 r4ds          675   0.919
+##  9 dataviz       607   0.826
+## 10 time          494   0.672
+## # … with 15,325 more rows
 ```
 
 Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
@@ -249,20 +247,20 @@ get_sentiments("nrc")
 ```
 
 ```
-#> # A tibble: 13,901 x 2
-#>    word        sentiment
-#>    <chr>       <chr>    
-#>  1 abacus      trust    
-#>  2 abandon     fear     
-#>  3 abandon     negative 
-#>  4 abandon     sadness  
-#>  5 abandoned   anger    
-#>  6 abandoned   fear     
-#>  7 abandoned   negative 
-#>  8 abandoned   sadness  
-#>  9 abandonment anger    
-#> 10 abandonment fear     
-#> # … with 13,891 more rows
+## # A tibble: 13,901 x 2
+##    word        sentiment
+##    <chr>       <chr>    
+##  1 abacus      trust    
+##  2 abandon     fear     
+##  3 abandon     negative 
+##  4 abandon     sadness  
+##  5 abandoned   anger    
+##  6 abandoned   fear     
+##  7 abandoned   negative 
+##  8 abandoned   sadness  
+##  9 abandonment anger    
+## 10 abandonment fear     
+## # … with 13,891 more rows
 ```
 
 This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
@@ -289,20 +287,20 @@ pos_tokens_count
 ```
 
 ```
-#> # A tibble: 644 x 2
-#>    word          n
-#>    <chr>     <int>
-#>  1 fun         173
-#>  2 top         162
-#>  3 learn       131
-#>  4 found       128
-#>  5 love        113
-#>  6 community   110
-#>  7 learning     97
-#>  8 happy        95
-#>  9 share        90
-#> 10 inspired     85
-#> # … with 634 more rows
+## # A tibble: 644 x 2
+##    word          n
+##    <chr>     <int>
+##  1 fun         173
+##  2 top         162
+##  3 learn       131
+##  4 found       128
+##  5 love        113
+##  6 community   110
+##  7 learning     97
+##  8 happy        95
+##  9 share        90
+## 10 inspired     85
+## # … with 634 more rows
 ```
 
 We can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
@@ -325,8 +323,8 @@ pos_tokens_count %>%
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-wt-text-analysis_files/figure-html/unnamed-chunk-1-1.png" alt="Count of Words Associated with Positivity" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-1)Count of Words Associated with Positivity</p>
+<img src="11-wt-text-analysis_files/figure-html/fig11-1-1.png" alt="Count of Words Associated with Positivity" width="672" />
+<p class="caption">(\#fig:fig11-1)Count of Words Associated with Positivity</p>
 </div>
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
@@ -353,20 +351,20 @@ dv_tokens
 ```
 
 ```
-#> # A tibble: 607 x 2
-#>    status_id           word   
-#>    <chr>               <chr>  
-#>  1 1116518351147360257 dataviz
-#>  2 1098025772554612738 dataviz
-#>  3 1161454327296339968 dataviz
-#>  4 1110711892086001665 dataviz
-#>  5 1151926405162291200 dataviz
-#>  6 1095854400004853765 dataviz
-#>  7 1157111441419395074 dataviz
-#>  8 1154958378764046336 dataviz
-#>  9 1105642831413239808 dataviz
-#> 10 1108196618464047105 dataviz
-#> # … with 597 more rows
+## # A tibble: 607 x 2
+##    status_id           word   
+##    <chr>               <chr>  
+##  1 1116518351147360257 dataviz
+##  2 1098025772554612738 dataviz
+##  3 1161454327296339968 dataviz
+##  4 1110711892086001665 dataviz
+##  5 1151926405162291200 dataviz
+##  6 1095854400004853765 dataviz
+##  7 1157111441419395074 dataviz
+##  8 1154958378764046336 dataviz
+##  9 1105642831413239808 dataviz
+## 10 1108196618464047105 dataviz
+## # … with 597 more rows
 ```
 
 The result is a dataset that has status_ids in one column and the word "dataviz" in the other column. We can use `$` to extract a vector of status_ids for tweets that have "dataviz" in the text. This vector has hundreds of values, so we'll use `head` to view just the first ten. 
@@ -378,8 +376,8 @@ head(dv_tokens$status_id)
 ```
 
 ```
-#> [1] "1116518351147360257" "1098025772554612738" "1161454327296339968"
-#> [4] "1110711892086001665" "1151926405162291200" "1095854400004853765"
+## [1] "1116518351147360257" "1098025772554612738" "1161454327296339968"
+## [4] "1110711892086001665" "1151926405162291200" "1095854400004853765"
 ```
 
 Now let's do this again, but this time we'll we'll make a vector of `status_id`s for tweets that have positive words in them. This will be used later to identify tweets that contain a positive word in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter()` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
@@ -394,20 +392,20 @@ pos_tokens
 ```
 
 ```
-#> # A tibble: 4,925 x 2
-#>    status_id           word      
-#>    <chr>               <chr>     
-#>  1 1163154266065735680 throne    
-#>  2 1001412196247666688 honey     
-#>  3 1001412196247666688 production
-#>  4 1001412196247666688 increase  
-#>  5 1001412196247666688 production
-#>  6 1161638973808287746 found     
-#>  7 991073965899644928  community 
-#>  8 991073965899644928  community 
-#>  9 991073965899644928  trend     
-#> 10 991073965899644928  white     
-#> # … with 4,915 more rows
+## # A tibble: 4,925 x 2
+##    status_id           word      
+##    <chr>               <chr>     
+##  1 1163154266065735680 throne    
+##  2 1001412196247666688 honey     
+##  3 1001412196247666688 production
+##  4 1001412196247666688 increase  
+##  5 1001412196247666688 production
+##  6 1161638973808287746 found     
+##  7 991073965899644928  community 
+##  8 991073965899644928  community 
+##  9 991073965899644928  trend     
+## 10 991073965899644928  white     
+## # … with 4,915 more rows
 ```
 
 The result is a dataset that has status_ids in one column and a positive word from `tokens` in the other column. We'll again use `$` to extract a vector of status_ids for these tweets. 
@@ -419,11 +417,11 @@ head(pos_tokens$status_id)
 ```
 
 ```
-#> [1] "1163154266065735680" "1001412196247666688" "1001412196247666688"
-#> [4] "1001412196247666688" "1001412196247666688" "1161638973808287746"
+## [1] "1163154266065735680" "1001412196247666688" "1001412196247666688"
+## [4] "1001412196247666688" "1001412196247666688" "1161638973808287746"
 ```
 
-That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct()` to get a dataframe of `status_id`s, where each `status_id` only appears once: 
+That's a lot of `status_id`s, many of which are duplicates. Let's try and make the vector of `status_id`s a little shorter. We can use `distinct()` to get a data frame of `status_id`s, where each `status_id` only appears once: 
 
 
 ```r
@@ -432,7 +430,7 @@ pos_tokens <-
   distinct(status_id)
 ```
 
-Note that `distinct()` drops all variables except for `status_id`. For good measure, let's use `distinct()` on our `dv_tokens` dataframe too: 
+Note that `distinct()` drops all variables except for `status_id`. For good measure, let's use `distinct()` on our `dv_tokens` data frame too: 
 
 
 ```r
@@ -441,7 +439,7 @@ dv_tokens <-
   distinct(status_id)
 ```
 
-Now we have a dataframe of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
+Now we have a data frame of `status_id` for tweets containing "dataviz" and another for tweets containing a positive word. Let's use these to transform our `tweets` dataset. First we'll filter `tweets` for rows that have the "dataviz" `status_id`. Then we'll create a new column called `positive` that will tell us if the `status_id` is from our vector of positive word `status_id`s. We'll name this filtered dataset `dv_pos`. 
 
 
 ```r
@@ -471,11 +469,11 @@ dv_pos %>%
 ```
 
 ```
-#> # A tibble: 2 x 3
-#>   positive     n  perc
-#>      <dbl> <int> <dbl>
-#> 1        0   272 0.450
-#> 2        1   333 0.550
+## # A tibble: 2 x 3
+##   positive     n  perc
+##      <dbl> <int> <dbl>
+## 1        0   272 0.450
+## 2        1   333 0.550
 ```
 
 About 55 percent of tweets that have "dataviz" in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 45 percent of the "dataviz" tweets. We can't know precisely why some tweets had positive words and some didn't, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words. 
@@ -507,11 +505,11 @@ tweets %>%
 ```
 
 ```
-#> # A tibble: 2 x 2
-#>   status_id         text                                                        
-#>   <chr>             <chr>                                                       
-#> 1 1163154266065735… "First #TidyTuesday submission! Roman emperors and their ri…
-#> 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
+## # A tibble: 2 x 2
+##   status_id         text                                                        
+##   <chr>             <chr>                                                       
+## 1 1163154266065735… "First #TidyTuesday submission! Roman emperors and their ri…
+## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
 ```
 
 Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. 
@@ -524,7 +522,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-#> [1]  7  8 10  4  2
+## [1]  7  6  8  1 10
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -533,28 +531,29 @@ Passing `sample()` a vector of numbers and the size of the sample you want retur
 
 
 ```r
-set.seed(369)
+set.seed(2020)
 
-pos_tweets %>% sample_n(., size = 10)
+pos_tweets %>% 
+  sample_n(., size = 10)
 ```
 
 ```
-#> # A tibble: 10 x 3
-#>    status_id        text                                                positive
-#>    <chr>            <chr>                                                  <dbl>
-#>  1 100038669024092… "A few more maps, this time at the county level, f…        1
-#>  2 109913022775261… "Unpivotr::behead() &amp; tidyxl can recognize ind…        1
-#>  3 106138333884440… "First time working with maps in #ggplot2\nNothing…        1
-#>  4 106757191930893… "I explored data on bridges in Maryland for this w…        1
-#>  5 106525318257251… "I was trying to do some practice last night in R …        1
-#>  6 108770602257839… "For my first #tidytuesday, I look at the distribu…        1
-#>  7 108888393956397… "In this week's #tidytuesday screencast, I analyze…        1
-#>  8 105291401296128… "#TidyTuesday week 2. Took a look at the relations…        1
-#>  9 989114304619302… "@dylanjm_ds And let's not forget that the primary…        1
-#> 10 996466149641482… "Is there a way to combine specific values from a …        1
+## # A tibble: 10 x 3
+##    status_id        text                                                positive
+##    <chr>            <chr>                                                  <dbl>
+##  1 113347244173969… "Today is the day - excited to be leading this Bos…        1
+##  2 114436276456938… "UFO sightings with gganimate - need to tidy up so…        1
+##  3 996745975124430… "This week's #TidyTuesday dataset looks too fun to…        1
+##  4 108681181347857… "This week: 2019-01-15 #TidyTuesday #rstats my foc…        1
+##  5 103451450126419… "#TidyTuesday week 22.\nInteresting patterns in ho…        1
+##  6 113597645318988… ".@broadwym is kicking off the #TidyTuesday colear…        1
+##  7 114881375394674… "Night everyone i am heading to bed now i love you…        1
+##  8 107466544430342… "@sebastianhwells @jspairani Hi Sebastian - every …        1
+##  9 115468388823039… "Have you signed up for our next #rladies event? \…        1
+## 10 112789066770597… "Better late than never. My first #TidyTuesday plo…        1
 ```
 
-That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(369)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(369)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `369` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion 
 
@@ -586,15 +585,15 @@ raw_tidytuesday_tweets <-
 ```
 
 ```
-#> Parsed with column specification:
-#> cols(
-#>   status_url = col_character(),
-#>   screen_name = col_character(),
-#>   created_at = col_datetime(format = ""),
-#>   favorite_count = col_double(),
-#>   retweet_count = col_double(),
-#>   dataset_id = col_character()
-#> )
+## Parsed with column specification:
+## cols(
+##   status_url = col_character(),
+##   screen_name = col_character(),
+##   created_at = col_datetime(format = ""),
+##   favorite_count = col_double(),
+##   retweet_count = col_double(),
+##   dataset_id = col_character()
+## )
 ```
 
 Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
