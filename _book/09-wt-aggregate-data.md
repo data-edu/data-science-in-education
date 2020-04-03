@@ -265,9 +265,7 @@ the Tabula java library, which can be used to computationally extract tables
 from PDF documents. {rJava} [@R-rJava] is a required package to load {tabulizer}.
 Unfortunately, installing {rJava} can be very tedious. 
 
-If you find
-yourself unable to install {tabulizer}, or would like to skip
-to the data processing, you can decide whether to skip the steps requiring {rJava}. We provide the raw and processed data in the {dataedu} package below.
+If you find yourself unable to install {rJava}, or would like to go straight to the data processing, you can skip the steps requiring {tabulizer}. We provide the raw and processed data in the {dataedu} package below.
 
 
 ```r
@@ -276,7 +274,7 @@ library(tabulizer)
 
 ## Import Data
 
-{tabulizer} pulls the PDF data into lists using `extract_tables()`.
+We have three options of getting the data: 1) We can use {tabulizer}, which pulls the PDF data into lists using `extract_tables()`. 2) We can get the data from the book's [Github repository ](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data)(https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). If you set up the folders in your working directory in the same way they are in the book, where there's a folder called `data`, then a folder called `agg_data` inside of `data`, then the file `race_pdf.Rds` in `agg_data`, then you can run the code below and load the data using `here()`. Otherwise, you will have to change the file path inside of `here()` to match where the data is stored on your working directory. 3) Finally, you can get the data from the {dataedu} package.
 
 
 ```r
@@ -285,6 +283,7 @@ race_pdf <-
   extract_tables("https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf")
 
 # Get data from book repository
+# The code below assumes you have set up folders data and agg_data within your working directory
 race_pdf <-
   readRDS(here("data", "agg_data", "race_pdf.Rds"))
 
@@ -294,18 +293,14 @@ race_pdf <-
 ```
 
 It is important to consistently check what we're doing with the original PDF's to
-ensure we're getting the data that we need.
-
-  - We then transform the list to a data frame with `map(as_tibble)`.
-  - The `slice()` in `map_df()` removes unnecessary rows from the PDF.
-  - Now we create readable column names using `set_names()`.
+make sure we're getting the data that we expect. We then transform the list to a data frame with `map(as_data_frame)`.  The `slice()` in `map_df()` removes unnecessary rows from the PDF. Finally, we create readable column names using `set_names()`.
 
 
 ```r
 race_df <-
   race_pdf %>%
   # Turn each page into a tibble
-  map(as_tibble) %>% 
+  map(as_data_frame) %>% 
   # Remove unnecessary rows
   map_df( ~ slice(.,-1:-2)) %>%
   # Use descriptive column names
@@ -350,7 +345,7 @@ We clean up this dataset by:
 
 
 ```r
-race_clean <-
+race_df2 <-
   race_df %>%
   # Remove unnecessary columns
   select(-school_group,-grade,-pi_pct,-blank_col) %>%
@@ -365,7 +360,7 @@ race_clean <-
   mutate_at(vars(contains("pct")), list( ~ as.numeric(str_replace(., "%", "")) / 100))
 ```
 
-We will import the Free Reduced Price Lunch (FRPL) PDF's now.
+Now, we will import the Free Reduced Price Lunch (FRPL) PDF's.
 
 FRPL stands for Free/Reduced Price Lunch, often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important for disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)
 
@@ -384,14 +379,13 @@ frpl_pdf <-
   dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, there are rows that we don't need from each
-page, which we remove using `slice()`.
+Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
 
 
 ```r
 frpl_df <-
   frpl_pdf %>%
-  map(as_tibble) %>%
+  map(as_data_frame) %>%
   map_df( ~ slice(.,-1)) %>%
   set_names(
     c(
@@ -405,22 +399,22 @@ frpl_df <-
   )
 ```
 
-To clean it up further, we remove the rows that are blank. When looking at the PDF, we
+To clean the dataset up further, we remove the rows that are blank. When looking at the PDF, we
 notice that there are aggregations inserted into the table that are not
-district-level. For example, they have included `ELM K_08`, presumably to
+district-level. For example, the district included `ELM K_08`, presumably to
 aggregate FRPL numbers up to the K-8 level. Although this is useful data, we
 don't need it for this district-level analysis. There are different ways we can
-remove these rows but we will just filter them out.
+remove these rows but we will just filter them out by using `!` before the variable name.
 
 
 ```r
-frpl_clean <-
+frpl_df2 <-
   frpl_df %>%
   filter(
     # Remove blanks
     school_name != "",
     # Filter out the rows in this list
-    school_name %in% c(
+    !school_name %in% c(
       "ELM K_08",
       "Mid Schl",
       "High Schl",
@@ -445,7 +439,7 @@ price lunch percentage, we join the two datasets by the name of the school.
 ```r
 # create full dataset, joined by school name
 joined_df <-
-  left_join(race_clean, frpl_clean, by = c("school_name")) %>%
+  left_join(race_df2, frpl_df2, by = c("school_name")) %>%
   mutate_at(2:17, as.numeric)
 ```
 
@@ -527,49 +521,9 @@ district_merged_df <-
   read_csv(here("data", "agg_data", "district_merged_df.csv"))
 
 # if using the {dataedu} package
-dataedu::district_tidy_df
-```
+district_tidy_df <- dataedu::district_tidy_df
 
-```
-## # A tibble: 1,924 x 3
-##    school_name        category value
-##    <chr>              <chr>    <dbl>
-##  1 ARMATAGE           na_num       5
-##  2 BANCROFT           na_num      49
-##  3 BETHUNE            na_num       3
-##  4 BRYN MAWR          na_num      11
-##  5 BURROUGHS          na_num       6
-##  6 CITYVIEW COMMUNITY na_num      12
-##  7 DOWLING            na_num      11
-##  8 EMERSON SILC       na_num       8
-##  9 GREEN              na_num       6
-## 10 HALE               na_num       4
-## # … with 1,914 more rows
-```
-
-```r
-dataedu::district_merged_df
-```
-
-```
-## # A tibble: 74 x 27
-##    school_name na_num  na_pct aa_num aa_pct as_num as_pct hi_num hi_pct wh_num
-##    <chr>        <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-##  1 ARMATAGE         5 0.00826    119 0.197      33 0.0545     29 0.0479    416
-##  2 BANCROFT        49 0.0974     238 0.473      20 0.0398     93 0.185     103
-##  3 BETHUNE          3 0.0109     232 0.847       8 0.0292      9 0.0328     22
-##  4 BRYN MAWR       11 0.0368     148 0.495      77 0.258      32 0.107      31
-##  5 BURROUGHS        6 0.00811     71 0.0959     51 0.0689     41 0.0554    567
-##  6 CITYVIEW C…     12 0.0451     206 0.774      13 0.0489      9 0.0338     26
-##  7 DOWLING         11 0.0231     187 0.392       9 0.0189     28 0.0587    242
-##  8 EMERSON SI…      8 0.0165      60 0.123       6 0.0123    344 0.708      68
-##  9 GREEN            6 0.0219      85 0.310       7 0.0255    160 0.584      16
-## 10 HALE             4 0.00620     84 0.130      34 0.0527     35 0.0543    486
-## # … with 64 more rows, and 17 more variables: wh_pct <dbl>, tot <dbl>,
-## #   not_eligible_num <dbl>, reduce_num <dbl>, free_num <dbl>, frpl_num <dbl>,
-## #   frpl_pct <dbl>, hi_povnum <dbl>, aa_povnum <dbl>, wh_povnum <dbl>,
-## #   as_povnum <dbl>, na_povnum <dbl>, hi_povsch <dbl>, aa_povsch <dbl>,
-## #   as_povsch <dbl>, wh_povsch <dbl>, na_povsch <dbl>
+district_merged_df <- dataedu::district_merged_df
 ```
 
 ## View Data

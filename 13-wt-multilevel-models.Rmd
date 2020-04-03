@@ -48,7 +48,9 @@ Before we import our data, let's spend some time learning about a process called
 Let's consider the `iris` data that comes built into R. To make the dataset work nicely with {tidyverse} functions we'll be using, we will first change it into a tibble: 
 
 ``` {r iris as tibble}
-iris <- as_tibble(iris)
+iris <- 
+  as_tibble(iris,
+            .name_repair = "unique")
 iris
 ```
 
@@ -82,20 +84,24 @@ Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_
 
 ```{r add dummy coded variables to iris}
 # create matrix of dummy-coded variables
-species_dummy_coded <- dummies::dummy(iris$Species)
+species_dummy_coded <- 
+  dummies::dummy(iris$Species)
 
 # convert matrix to tibble so we can use tidyverse functions
-species_dummy_coded <- as_tibble(species_dummy_coded)
+species_dummy_coded <- 
+  species_dummy_coded %>% 
+  as_tibble(.name_repair = "unique")
 
 # add dummy coded variables to iris
-iris_with_dummy_codes <- bind_cols(iris, species_dummy_coded)
+iris_with_dummy_codes <- 
+  bind_cols(iris, species_dummy_coded)
 ```
 
 Let's look at the results.
 
-```{r count species}
+```{r count species, eval = F}
 iris_with_dummy_codes %>% 
-    dplyr::count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
+  count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
 Now that we have a basic understanding of how dummy codes work, let's now explore how we use them in our model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
