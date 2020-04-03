@@ -243,7 +243,7 @@ library(tabulizer)
 
 ## Import Data
 
-We have three options of getting the data: 1) We can use {tabulizer}, which pulls the PDF data into lists using `extract_tables()`. 2) We can get the data from the [book repository ](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data)(https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). If you set up the folders in your working directory in the same way they are in the book, where there's a folder called `data`, then a folder called `agg_data` inside of `data`, then the file `race_pdf.Rds` in `agg_data`, then you can run the code below and load the data using `here()`. Otherwise, you will have to change the file path inside of `here()` to match where the data is stored on your working directory. 3) Finally, you can get the data from the {dataedu} package.
+We have three options of getting the data: 1) We can use {tabulizer}, which pulls the PDF data into lists using `extract_tables()`. 2) We can get the data from the book's [Github repository ](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data)(https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). If you set up the folders in your working directory in the same way they are in the book, where there's a folder called `data`, then a folder called `agg_data` inside of `data`, then the file `race_pdf.Rds` in `agg_data`, then you can run the code below and load the data using `here()`. Otherwise, you will have to change the file path inside of `here()` to match where the data is stored on your working directory. 3) Finally, you can get the data from the {dataedu} package.
 
 ```{r, eval = FALSE}
 # Get data using {tabulizer}
@@ -261,13 +261,13 @@ race_pdf <-
 ```
 
 It is important to consistently check what we're doing with the original PDF's to
-make sure we're getting the data that we expect. We then transform the list to a data frame with `map(as_tibble)`.  The `slice()` in `map_df()` removes unnecessary rows from the PDF. Finally, we create readable column names using `set_names()`.
+make sure we're getting the data that we expect. We then transform the list to a data frame with `map(as_data_frame)`.  The `slice()` in `map_df()` removes unnecessary rows from the PDF. Finally, we create readable column names using `set_names()`.
 
 ```{r, eval = FALSE}
 race_df <-
   race_pdf %>%
   # Turn each page into a tibble
-  map(as_tibble) %>% 
+  map(as_data_frame) %>% 
   # Remove unnecessary rows
   map_df( ~ slice(.,-1:-2)) %>%
   # Use descriptive column names
@@ -344,13 +344,12 @@ frpl_pdf <-
   dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, there are rows that we don't need from each
-page, which we remove using `slice()`.
+Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
 
 ```{r, eval=FALSE}
 frpl_df <-
   frpl_pdf %>%
-  map(as_tibble) %>%
+  map(as_data_frame) %>%
   map_df( ~ slice(.,-1)) %>%
   set_names(
     c(
