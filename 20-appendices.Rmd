@@ -195,6 +195,8 @@ df <- gs_read(df)
 
 ## Appendix B: Accessing Twitter Data {c20b}
 
+The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag. As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+
 ### Accessing Historical Twitter Data Using Already-Collected Status URLs
 
 Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
@@ -234,3 +236,142 @@ In the above case, we had access to the URLs for tweets because they were saved 
 First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
 
 A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+
+## Appendix C: Social Network Influence and Selection Models {#c20c}
+
+After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
+
+### An Example of Influence
+
+First, let's look at an example of influence. To do so, let's create three different data frames. These will include: 
+
+- An edgelist data frame that contains the *nominator* and *nominee* for a relationship. For example, if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee. Dataframes like this can also contain an optional variable indicating the weight, or strength, of their relation 
+- Data frames indicating the values of some behavior - an outcome - at two different time points
+
+In this example, we'll create example data we can use to explore questions about influence. 
+
+Let's take a look at our three datasets: 
+
+ - `data1`: an edgelist that contains a nominator, nominee, and strength of the relation 
+ - `data2`: a dataset that contains the nominee and the values of some behavior at the first time point  
+ - `data3`: a dataset that contains a nominator and the value of some behavior at the second time point 
+
+Note that we will find each nominators' outcome at time 2 later on. Here's how we can make these example datasets: 
+
+```{r}
+data1 <-
+  data.frame(
+    nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
+    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6),
+    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+  )
+
+data2 <-
+  data.frame(nominee = c(1, 2, 3, 4, 5, 6),
+             yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+
+data3 <-
+  data.frame(nominator = c(1, 2, 3, 4, 5, 6),
+             yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+```
+
+### Joining the Data
+  
+Next, we'll join the data into one data frame. This step can be time-consuming for large network datasets, but it's important for the visualizations and analysis that follow. The more time you can invest into preparing the data properly, the more confidence you'll have that your resulting analysis is based on a deeper understanding of the data. 
+
+```{r}
+data <-
+  left_join(data1, data2, by = "nominee")
+
+data <-
+  data %>% 
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
+
+# calculate indegree in tempdata and merge with data
+tempdata <- data.frame(table(data$nominee))
+
+tempdata <-
+  tempdata %>%
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
+
+data <- 
+  left_join(data, tempdata, by = "nominee")
+```
+
+**Calculating an Exposure Term**
+
+Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
+
+```{r}
+# Calculating exposure
+data <-
+  data %>% 
+  mutate(exposure = relate * yvar1)
+
+# Calculating mean exposure
+mean_exposure <-
+  data %>%
+  group_by(nominator) %>%
+  summarize(exposure_mean = mean(exposure))
+```
+
+The data frame `mean_exposure` contains the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
+
+Let's process the data more so we can add the variables `exposure_mean`, `yvar1`, and `yvar2`.
+
+```{r}
+data2 <-
+  data2 %>% 
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
+
+final_data <-
+  left_join(mean_exposure, data2, by = "nominator")
+
+final_data <- 
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
+```
+
+**Regression (Linear Model)**
+
+Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
+
+```{r}
+model1 <-
+  lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+
+summary(model1)
+```
+
+So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
+
+### An Example of Selection
+
+Let's look at selection models next. Information from selection models can be useful to a wide audeince--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
+
+In the last section we use da linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
+
+But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
+
+Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
+
+```{r, eval = FALSE}
+m_selection <- 
+  glm(relate ~ 1 + same, data = edgelist1)
+```
+
+While this is a straightforward way to carry out a selection model, there are some limitations. First, it doesn't account for the amount of nominations an individual sends. Not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. Some R packages aim to address this by considering other variables like relationship weights. Here are some examples: 
+
+ - The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed  
+ - The Exponential Random Graph Model, or {ergm} R package, makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet] 
+ 
+These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
