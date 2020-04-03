@@ -74,16 +74,15 @@ counts and comparing male to female ratios over time.
 
 ## Load Packages
 
-For this walkthrough, we'll be using four packages: {tidyverse}, {here},
-{dataedu}, and {lubridate} [@R-lubridate]; of these, {lubridate} is the sole
-package we have not used previously. You can load those packages by running this
-code: 
+The function `here()` from the {here} package can cause conflicts with other functions called `here()`. We can prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace."
+
+You can load those packages by running this code: 
 
 ```{r load packages, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(here)
 library(dataedu)
 library(lubridate)
+library(here)
 ```
 
 ## Import Data
@@ -134,7 +133,7 @@ when referencing the file path "data/longitudinal\_data", we'll use code like
 this:
 
 ```{r demo here, eval = FALSE}
-here("data",
+here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2012.csv")
 ```
@@ -156,7 +155,7 @@ download.file(
   # the url argument takes a URL for a CSV file
   url = 'https://bit.ly/3dCtVtf', 
   # destfile specifies where the file should be saved
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2012.csv"))
 ```
@@ -166,31 +165,31 @@ We can do this for the remaining five datasets.
 ```{r, eval = FALSE}
 download.file(
   url = 'https://bit.ly/33WXnFX', 
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2013.csv"))
 
 download.file(
   url = 'https://bit.ly/2UvSwbx', 
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2014.csv"))
 
 download.file(
   url = 'https://bit.ly/39wQAUg', 
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2015.csv"))
 
 download.file(
   url = 'https://bit.ly/2JubWHC', 
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2016.csv"))
 
 download.file(
   url = 'https://bit.ly/2wPLu8w',
-  destfile = here("data",
+  destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2017-18.csv"))
 ```
@@ -213,7 +212,7 @@ all the datasets at once later on. For example, we can see that the first
 dataset has some lines at the top that contain no data:
 
 ```{r read 2012 data, echo = FALSE, message = F, warning = F}
-read_csv(here(
+read_csv(here::here(
   "data",
   "longitudinal_data",
   "bchildcountandedenvironments2012.csv"
@@ -235,7 +234,7 @@ let's you know in a warning message.
 Try using `skip = 4` in your call to `read_csv()`:
 
 ```{r read 2012 data with skip, warning = FALSE, message = FALSE}
-read_csv(here(
+read_csv(here::here(
   "data",
   "longitudinal_data",
   "bchildcountandedenvironments2012.csv"
@@ -280,7 +279,7 @@ data in.
 ```{r get filenames, results='hide'}
 # Get filenames from the data folder 
 filenames <-
-  list.files(path = here("data", "longitudinal_data"),
+  list.files(path = here::here("data", "longitudinal_data"),
              full.names = TRUE)
 
 # A list of filenames and paths
