@@ -1,4 +1,4 @@
-# Introduction: Data Science in Education - You're Invited to the Party!
+# Introduction: Data Science in Education - You're Invited to the Party! {#c01}
 
 Dear Data Scientists, Educators, and Data Scientists who are Educators: 
 
@@ -43,3 +43,11 @@ Get value from publicly available data
 We'll end the book by discussing how to bring data science skills into your education job.
 
 We hope after reading this book you'll feel like you're not alone in learning to do data science in education. We hope your experience with this book is the right balance of challenging and fun. Finally, we hope you'll take what you learned and share it with others who are looking to start this journey.
+
+## Conventions Used in the Book
+
+The following typographical conventions are used in this book:
+
+* Package names are surrounded by curly brackets: {caret}
+* Function names are in `constant width` and then parentheses: `clean_names()`
+* Variable names are in `constant width`: `var1`

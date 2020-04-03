@@ -24,14 +24,34 @@ Users of data science techniques in education have wonderful opportunities to co
 
 The trick here is to use statistics, programming, and knowledge about education to raise and answer the right questions quickly so the process feels like a conversation. When there's too much time between analytic questions and their answers, educators lose the momentum required to follow the logical and exploratory path towards understanding the needs of their students. 
 
-**Example: Preparing quiz data to compute average scores**
+**Example: Preparing Quiz Data to cCompute Average Scores**
 
 Let's take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
 
 ```r
 library(tidyverse)
-set.seed(45)
+```
+
+```
+## ── Attaching packages ──────────── tidyverse 1.3.0 ──
+```
+
+```
+## ✓ ggplot2 3.3.0     ✓ purrr   0.3.3
+## ✓ tibble  3.0.0     ✓ dplyr   0.8.5
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.4.0
+```
+
+```
+## ── Conflicts ─────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
+set.seed(2020)
 
 quizzes_1 <- tibble(
     teacher_id = 1, 
@@ -45,12 +65,12 @@ quizzes_1
 ```
 
 ```
-#> # A tibble: 3 x 5
-#>   teacher_id student_id quiz_1 quiz_2 quiz_3
-#>        <dbl>      <int>  <int>  <int>  <int>
-#> 1          1          1     36     95     82
-#> 2          1          2     74     38     10
-#> 3          1          3     45     57     63
+## # A tibble: 3 x 5
+##   teacher_id student_id quiz_1 quiz_2 quiz_3
+##        <dbl>      <int>  <int>  <int>  <int>
+## 1          1          1     27     87     35
+## 2          1          2     86     64     41
+## 3          1          3     21     16     69
 ```
 
 Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `pivot_longer()` to separate the quiz number and its score for each student will get us a long way: 
@@ -62,18 +82,18 @@ quizzes_1 %>%
 ```
 
 ```
-#> # A tibble: 9 x 4
-#>   teacher_id student_id quiz_number score
-#>        <dbl>      <int> <chr>       <int>
-#> 1          1          1 quiz_1         36
-#> 2          1          1 quiz_2         95
-#> 3          1          1 quiz_3         82
-#> 4          1          2 quiz_1         74
-#> 5          1          2 quiz_2         38
-#> 6          1          2 quiz_3         10
-#> 7          1          3 quiz_1         45
-#> 8          1          3 quiz_2         57
-#> 9          1          3 quiz_3         63
+## # A tibble: 9 x 4
+##   teacher_id student_id quiz_number score
+##        <dbl>      <int> <chr>       <int>
+## 1          1          1 quiz_1         27
+## 2          1          1 quiz_2         87
+## 3          1          1 quiz_3         35
+## 4          1          2 quiz_1         86
+## 5          1          2 quiz_2         64
+## 6          1          2 quiz_3         41
+## 7          1          3 quiz_1         21
+## 8          1          3 quiz_2         16
+## 9          1          3 quiz_3         69
 ```
 
 Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `pivot_longer()`, each row is now a unique combination of teacher, student and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
@@ -87,12 +107,12 @@ quizzes_1 %>%
 ```
 
 ```
-#> # A tibble: 3 x 2
-#>   student_id quiz_mean
-#>        <int>     <dbl>
-#> 1          1      71  
-#> 2          2      40.7
-#> 3          3      55
+## # A tibble: 3 x 2
+##   student_id quiz_mean
+##        <int>     <dbl>
+## 1          1      49.7
+## 2          2      63.7
+## 3          3      35.3
 ```
 
 Again, for one dataset this computation is fairly straight forward and can be done with a number of software tools. But what if the education consultant in our example wants to do this repeatedly for twenty five teacher quiz exports? Let's look at one way we can do this fairly quickly using R. We'll start by creating two additional datasets as an example. To make things feel authentic, we'll also add a column to show if the students participated in a new intervention. 
@@ -144,18 +164,18 @@ all_quizzes
 ```
 
 ```
-#> # A tibble: 9 x 6
-#>   teacher_id student_id quiz_1 quiz_2 quiz_3 intervention
-#>        <dbl>      <int>  <int>  <int>  <int>        <dbl>
-#> 1          1          1     36     95     82            0
-#> 2          1          2     74     38     10            1
-#> 3          1          3     45     57     63            0
-#> 4          2          4     92     27     15            0
-#> 5          2          5     37     80     99            1
-#> 6          2          6     67     52     99            1
-#> 7          3          7     60     78     13            0
-#> 8          3          8     29      1     89            0
-#> 9          3          9     93     52     25            1
+## # A tibble: 9 x 6
+##   teacher_id student_id quiz_1 quiz_2 quiz_3 intervention
+##        <dbl>      <int>  <int>  <int>  <int>        <dbl>
+## 1          1          1     27     87     35            0
+## 2          1          2     86     64     41            0
+## 3          1          3     21     16     69            1
+## 4          2          4     55     79      2            1
+## 5          2          5     71     28     65            1
+## 6          2          6     41     97     92            1
+## 7          3          7     77     47      6            1
+## 8          3          8     77     46     83            0
+## 9          3          9     75     77     17            1
 ```
 
 We'll combine the cleaning and computation of the mean steps neatly into one this chunk of code:
@@ -172,19 +192,19 @@ all_quizzes %>%
 ```
 
 ```
-#> # A tibble: 9 x 3
-#> # Groups:   student_id [9]
-#>   student_id intervention quiz_mean
-#>        <int>        <dbl>     <dbl>
-#> 1          1            0      71  
-#> 2          2            1      40.7
-#> 3          3            0      55  
-#> 4          4            0      44.7
-#> 5          5            1      72  
-#> 6          6            1      72.7
-#> 7          7            0      50.3
-#> 8          8            0      39.7
-#> 9          9            1      56.7
+## # A tibble: 9 x 3
+## # Groups:   student_id [9]
+##   student_id intervention quiz_mean
+##        <int>        <dbl>     <dbl>
+## 1          1            0      49.7
+## 2          2            0      63.7
+## 3          3            1      35.3
+## 4          4            1      45.3
+## 5          5            1      54.7
+## 6          6            1      76.7
+## 7          7            1      43.3
+## 8          8            0      68.7
+## 9          9            1      56.3
 ```
 
 Note here that our imaginary education consultant from the example is thinking ahead by including the `intervention` column. By doing so she's opened the possibility of collaboratively exploring any possible differences in the scores between the students who had the intervention and the students who did not when she reviews and discusses these results with the school staff. Adding these types of details ahead of time is one way to build conversation starters into your collaborations. It is also a way to get faster at responding to curiosities by anticipating useful questions from your clients. 
@@ -231,7 +251,7 @@ With some initial investment into thoughtful coding on the front end of this pro
 
 ##  Other Ways to Reimagine the Scale of Your Work
 
-### Reflect on your current scale, then push to the next level
+### Reflect on your Current Scale, Then Push to the Next lLevel
 
 When you've been using the same data analysis tools and routines for a long time, it's easy to forget to reflect on how you work. The analytic questions we ask, the datasets we use, and the scale of the analytic questions become automatic because for the most part they've delivered results. When you introduce data science techniques and R into your education analysis workflow, you also introduce an opportunity to ask yourself: How can I put this analytic question in context by analyzing on a larger scale? 
 
@@ -242,11 +262,11 @@ When an education client or coworker asks for help answering an analytic questio
 
 If a teacher asks you to analyze the attendance pattern of one student, see what you learn by comparing to the the attendance pattern of the whole classroom or the whole school. If a superintendent of a school district asks you to analyze the behavior referrals of a school, analyze the behavior referrals of every school in the district. One of the many benefits of using programming languages like R to analyze data is that once you write code for one dataset, it can be used with many datasets with a relatively small amount of additional work. 
 
-### Look for lots of similarly structured data 
+### Look for Lots of Similarly Structured Data 
 
 Train your eyes to be alert to repositories that contain many datasets that have the exact same structure, then design ways to act on all those datasets at once. Data systems in education generate standardized data tables all the time. It's one of the side effects of automation. Software developers design data systems to automatically generate many datasets for many people. The result is many datasets that contain different data, but all have the same number of columns and the same column names. This uniformity creates the perfect condition for R scripts to automatically act on these datasets in a way that is predictable and repeatable. Imagine a student information system that exports a list of students, their teacher, their grade level, and the number of school days attended to date. School administrator's that have a weekly routine of exporting this data and storing it in a folder on their laptop will generate many uniformly structured datasets. When you train your eyes to see this as an opportunity to act on a lot of data at once, you will find an abundance of chances to transform data on a large scale so school staff can freely explore and ask questions aimed at improving the student experience. 
 
-### Cleaning data
+### Cleaning Data
 
 Folks who work in education want to look at data about their students with tools like Excel, but the data is frequently not ready for analysis. You can empower these folks to explore data and ask more questions by being alert to opportunities to prepare lots of data for analysis. Offer to clean a dataset! Then do it again and do it fast. When you get into this habit, you not only train your data cleaning skills but you also train your education client's expectations for how quickly you can prepare data for them. 
 
