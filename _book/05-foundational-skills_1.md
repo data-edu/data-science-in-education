@@ -2,7 +2,7 @@
 
 ## Chapter Overview
 
-This chapter is designed to take you from installing R and RStudio all the way through the very basics of data loading and manipulation using the {tidyverse} [@wickham2019]. 
+This chapter is designed to help you to get started using R and RStudio, assuming no prior use of either. 
 
 We will be covering the following topics in this chapter: 
 
@@ -11,6 +11,8 @@ We will be covering the following topics in this chapter:
 - Writing and running code in RStudio
 - Installing the {dataedu} package
 - Exploring R with the {swirl} package
+
+*If* you already have experience using R and RStudio, you may find some of the contents of this chapter to be a refresher - or as a chance to learn a few new things about setting up and using them. If you are looking to get started with the very basics of data loading and manipulation using the {tidyverse} [@wickham2019] right now, consider reading this chapter quickly and then startin with the next (foundational skills) chapter, [Chapter 6](#c06).
 
 ## Downloading R and RStudio
 
@@ -44,7 +46,7 @@ If you do have issues, consider [the Data Carpentry page](https://datacarpentry.
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.1.png" alt="Icons" width="479" />
 <p class="caption">(\#fig:fig5-1)Icons</p>
 </div>
@@ -68,7 +70,7 @@ However we bring up alternative IDEs -- particularly ESS -- because RStudio, as 
 
 When we open RStudio for the first time, we should see something similar to this:
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.2.png" alt="RStudio Layout" width="1184" />
 <p class="caption">(\#fig:fig5-2)RStudio Layout</p>
 </div>
@@ -80,7 +82,7 @@ As you work with R more, you'll find yourself using the tabs within each of the 
 
 When we create a new file, such as an R script, an R Markdown file, or a Shiny app, RStudio will open a fourth pane, known as the **source** pane. The source pane should show up as a square in the top left. We can open up an `.R` script in the source pane by going to File, selecting New File, and then selecting R Script:
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.3.png" alt="Creating a new R Script in RStudio" width="791" />
 <p class="caption">(\#fig:fig5-3)Creating a new R Script in RStudio</p>
 </div>
@@ -91,14 +93,14 @@ You do not need to do anything specific with this file, but we encourage you to 
 
 One of the balances we've tried to strike in this text is a balance between best practices in your _workflow_ (how you'll use R in your projects) and your _R code_. A best practice for your _workflow_ is to ensure that you're starting with a blank slate every time you open R (through RStudio).  To accomplish this, go to Tools and select Global Options from the dropdown menu.
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.4.png" alt="Selecting Global Options from the Tool Dropdown Menu" width="255" />
 <p class="caption">(\#fig:fig5-4)Selecting Global Options from the Tool Dropdown Menu</p>
 </div>
 
 The General tab will open, with several checkboxes selected and unselected. The most important thing you can do is select "Never" next to the **Save workspace to .RData on exit:** prompt. After selecting "Never", go through and check and uncheck boxes so that your General tab looks like this: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.5.png" alt="General tab from Global Options" width="649" />
 <p class="caption">(\#fig:fig5-5)General tab from Global Options</p>
 </div>
@@ -115,7 +117,7 @@ If at any point you find that one of your panes seems to have "disappeared," one
 Let's look at the Environment pane as an example.
 If the Environment pane has been minimized, we'll see something like this:  
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.6.png" alt="RStudio layout with the Environment Pane Minimized" width="1363" />
 <p class="caption">(\#fig:fig5-6)RStudio layout with the Environment Pane Minimized</p>
 </div>
@@ -124,14 +126,14 @@ We know that the Environment pane has been minimized because although we can see
 
 If the Environment pane has somehow been closed, you can recover it by going to the View menu, selecting Panes, and then selecting Pane Layout, like so: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.7.png" alt="Accessing the Pane Layout from the View Dropdown Menu" width="456" />
 <p class="caption">(\#fig:fig5-7)Accessing the Pane Layout from the View Dropdown Menu</p>
 </div>
 
 When we select Pane Layout, we'll see this: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.8.png" alt="Pane Layout options within RStudio" width="650" />
 <p class="caption">(\#fig:fig5-8)Pane Layout options within RStudio</p>
 </div>
@@ -154,7 +156,7 @@ We'll spend a little time practicing running code in the Console by exploring so
 In the Console, type `3 + 4` and hit `Enter`. 
 You should see the following:  
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.9.png" alt="Using the Console as a Calculator" width="208" />
 <p class="caption">(\#fig:fig5-9)Using the Console as a Calculator</p>
 </div>
@@ -173,7 +175,7 @@ print("I am learning R")
 
 We should see this in the Console:
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.10.png" alt="Printing Text to the Console" width="255" />
 <p class="caption">(\#fig:fig5-10)Printing Text to the Console</p>
 </div>
@@ -189,7 +191,7 @@ print("This is going to cause a problem"
 Make sure that you left off the closing parenthesis! 
 What you'll see in the Console is: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 5.11.png" alt="Incomplete Parentheses Change what R Expects Next" width="407" />
 <p class="caption">(\#fig:fig5-11)Incomplete Parentheses Change what R Expects Next</p>
 </div>
@@ -270,14 +272,14 @@ The package serves four main functions:
 3. Access to the data used in each of the walkthroughs  
 4. The dataedu theme and color palette for reuse
 
-If you feel that you need more information before you're ready to install the package, you can skip this section and rest assured that we'll cover packages, their installation, and how to load them into R in more depth in Chapter 6.
-However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below:
+If you feel that you need more information before you're ready to install the package, you can skip this section and rest assured that we'll cover packages, their installation, and how to load them into R in more depth in [Chapter 6](#c06).
+However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below. **Please note that the {dataedu} package requires R version 3.6 or higher to run.** 
 
 
 ```r
 # install devtools
 install.packages("devtools", repos = "http://cran.us.r-project.org")
-# install the dataedu package
+# install the dataedu package (requires R version 3.6 or higher)
 devtools::install_github("data-edu/dataedu")
 ```
 
@@ -296,7 +298,7 @@ You can install {swirl} by running the following code:
 install.packages("swirl")
 ```
 
-{swirl} is set of packages (more on packages in Chapter 6!) that you can download, providing an interactive method for learning R by using R in the RStudio Console.  
+{swirl} is set of packages (see more on packages in [Chapter 6](#c06)) that you can download, providing an interactive method for learning R by using R in the RStudio Console.  
 Since you've already installed R, RStudio, and the {swirl} package, you can follow the instructions on the {swirl} webpage or run the following code _in your console pane_ to get started with a beginner-level course in {swirl}:
 
 
@@ -312,5 +314,5 @@ We are not affiliated with {swirl} in any way, nor is it required to use {swirl}
 ## Conclusion
 
 Congratulations! At this point in the book you've installed R and RStudio, explored the RStudio IDE, and even written some basic code. 
-At this point you're set up to either move on to Chapter 6, where we'll do a deeper dive into projects, packages, and functions, and how those relate to your future data tasks. We will also introduce help documentation and some skills for when you're working with new or unfamiliar information. 
+At this point you're set up to either move on to [Chapter 6](#c06), where we'll do a deeper dive into projects, packages, and functions, and how those relate to your future data tasks. We will also introduce help documentation and some skills for when you're working with new or unfamiliar information. 
 If that all sounds familiar to you already, you can jump ahead to a walkthrough of your choosing! 
