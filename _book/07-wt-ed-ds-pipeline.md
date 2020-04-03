@@ -1,6 +1,14 @@
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
-## Introduction to the Walkthroughs
+## Topics Covered
+
+- 
+
+## Functions Introduced
+
+- `lm()`
+
+## Introduction to the walkthroughs
 
 This chapter is the first of eight walkthroughs included in the book. In it, we
 present *one approach* to analyzing a specific dataset. In this chapter, the
@@ -303,14 +311,14 @@ used `mutate_at()` to convert the data in all ten variables into a numeric
 format.
 
 To learn a little more about `mutate()`, try the example below, where we create
-a new dataframe called "df". A data frame is a two-dimensional structure that stores tables with a header and data rows. Each cell in a data frame stores values. 
+a new dataframe called "df". A data frame is a two-dimensional structure that stores tables. The table has a header and data rows and each cell stores values. 
 
 We fill this dataframe with two columns: "male" and
 "female." Each column has only one value, and that value is 5. In the second
 part of the code, we add a `total_students` column by adding the number of
 `male` students and `female` students.
 
-Note that we create the dataset with "tibble." A tibble is a special type of data frame that makes working with the {tidyverse} a little easier. More information is available in R for Data Science [@grolemund2018].
+Note that we create the dataset with `tibble()`, which is from the {tibble} package included in the tidyverse. A tibble is a special type of data frame that makes working with the tidy data a little easier. More information is available in R for Data Science [@grolemund2018].
 
 
 ```r
@@ -991,8 +999,8 @@ glimpse(dat)
 ```
 
 ```
-## Observations: 40,348
-## Variables: 22
+## Rows: 40,348
+## Columns: 22
 ## $ course_id       <chr> "AnPhA-S116-01", "AnPhA-S116-01", "AnPhA-S116-01", "A…
 ## $ subject         <chr> "AnPhA", "AnPhA", "AnPhA", "AnPhA", "AnPhA", "AnPhA",…
 ## $ semester        <chr> "S116", "S116", "S116", "S116", "S116", "S116", "S116…
@@ -1186,6 +1194,14 @@ the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing
 the graph using the bar chart format. Each line of ggplot code is connected by a
 `+` at the end to tell R the next line of code is an additional ggplot layer to
 add.
+
+Writing code is like writing essays. There's a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you'll see variations in {ggplot} style, but all within what we believe is the range of acceptable conventions. Here are some examples: 
+
+ - Piping data to `ggplot()` using `%>%` vs including it as an argument in `ggplot()` 
+ - Using `ggtitle()` for labels vs using `labs()` 
+ - Order of `ggplot()` levels 
+
+It's ok if those terms are new to you. The main point is there are multiple ways to make the plot you want. You'll see that in this book and in other peoples' code. As you learn, we encourage you to practice empathy and think about how well your code conveys your ideas to other people, including yourself when you look at it many weeks from when you wrote it. 
 
 ### The Relationship between Time Spent on Course and Final Grade
 

@@ -214,7 +214,7 @@ If you have some experience with git and want to contribute that way, here's how
     book to the education setting
   - Share an anonymized dataset
 
-If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:datascienceineducation@gmail.com) (datascienceineducation@gmail.com). 
+If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com) (authors@datascienceineducation.com). 
 
 We hope that as the book evolves, it grows to reflect the
 changing needs of data scientists in education.
