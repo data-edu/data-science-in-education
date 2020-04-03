@@ -29,7 +29,8 @@ Run this to download it so in the next step you can read it into R.
 As a note: there are ways to read the file directory (from the web) into R. 
 Also, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
 
-```{r, eval = FALSE}
+
+```r
 student_responses_url <-
     "https://goo.gl/bUeMhV"
 
@@ -48,7 +49,8 @@ We will walk through them step-by-step.
 
 1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
 
-```{r}
+
+```r
 student_responses_url <-
     "https://goo.gl/bUeMhV"
 ```
@@ -57,7 +59,8 @@ student_responses_url <-
 This is stored in another *object* called `student_reponses_file_name`. 
 This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
 
-```{r}
+
+```r
 student_responses_file_name <-
     paste0(getwd(), "/data/student-responses-data.csv")
 ```
@@ -68,7 +71,8 @@ student_responses_file_name <-
 
 The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()`. The `student_responses_file_name` *object* is passed to the `destfile` argument.
 
-```{r}
+
+```r
 download.file(
     url = student_responses_url,
     destfile = student_responses_file_name)
@@ -89,7 +93,8 @@ The easiest way to read a `.csv` file is with the function `read_csv()` from the
 
 Let's load the tidyverse library:
 
-```{r, message = FALSE}
+
+```r
 library(tidyverse) # so tidyverse packages can be used for analysis
 ```
 
@@ -97,14 +102,48 @@ You may have noticed the hash symbol after the code that says `library(tidyverse
 
 After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
 
-```{r, eval = TRUE}
+
+```r
 student_responses <-
     read_csv("./data/student-responses-data.csv")
 ```
 
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   CNT = col_character(),
+##   CYC = col_character(),
+##   NatCen = col_character(),
+##   STRATUM = col_character(),
+##   Option_Read = col_character(),
+##   Option_Math = col_character(),
+##   ST011D17TA = col_character(),
+##   ST011D18TA = col_character(),
+##   ST011D19TA = col_character(),
+##   ST124Q01TA = col_logical(),
+##   IC001Q01TA = col_logical(),
+##   IC001Q02TA = col_logical(),
+##   IC001Q03TA = col_logical(),
+##   IC001Q04TA = col_logical(),
+##   IC001Q05TA = col_logical(),
+##   IC001Q06TA = col_logical(),
+##   IC001Q07TA = col_logical(),
+##   IC001Q08TA = col_logical(),
+##   IC001Q09TA = col_logical(),
+##   IC001Q10TA = col_logical()
+##   # ... with 420 more columns
+## )
+```
+
+```
+## See spec(...) for full column specifications.
+```
+
 Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
 
-```{r, eval = FALSE}
+
+```r
 glimpse(student_responses)
 ```
 
@@ -119,7 +158,8 @@ We just practiced loading a file *into* R from an external data source. Just as 
 
 Using our data frame `student_responses`, we can save it as a `.csv` with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
 
-```{r, eval = FALSE}
+
+```r
 write_csv(student_responses, "student-responses.csv")
 ```
 
@@ -133,13 +173,15 @@ The package for loading Excel files, {readxl}, is not a part of the tidyverse, s
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 
-```{r}
+
+```r
 library(readxl)
 ```
 
 We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located:
 
-```{r, eval = FALSE}
+
+```r
 my_data <-
     read_excel("path/to/file.xlsx")
 ```
@@ -156,13 +198,15 @@ _You can also read `.csv` file directly into SPSS. Because of this and because o
 
 To load an SPSS file, first, install the package `haven`. 
     
-    ```{r, eval = FALSE}
-#install.packages("haven")
-```
+    
+    ```r
+    #install.packages("haven")
+    ```
 
 Then, load the data by using the function `read_sav()`:
 
-```{r, eval = FALSE}
+
+```r
 library(haven)
 my_data <-
     read_sav("path/to/file.xlsx")
@@ -172,26 +216,30 @@ my_data <-
 
 Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
 
-```{r, eval = FALSE}
+
+```r
 install.packages("googlesheets4")
 ```
 
-```{r, eval = FALSE}
+
+```r
 library(googlesheets4)
 ```
 
 When you run the command below, a link to authenticate with your Google account will open in your browser. 
 
-```{r, eval = FALSE}
+
+```r
 my_sheets <- gs_ls()
 ```
 
 You can then use the `gs_title()` function in conjunction with the `gs_read()` function to work with your data frame. We provide a brief example below; the package's documentation provides more details.
 
-    ```{r, eval = FALSE}
-df <- gs_title('title')
-df <- gs_read(df)
-```
+    
+    ```r
+    df <- gs_title('title')
+    df <- gs_read(df)
+    ```
 
 ## Appendix B: Accessing Twitter Data {c20b}
 
@@ -201,7 +249,8 @@ The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets
 
 Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
-```{r}
+
+```r
 raw_tidytuesday_tweets <-
   read_delim(
     "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
@@ -211,9 +260,22 @@ raw_tidytuesday_tweets <-
   )
 ```
 
+```
+## Parsed with column specification:
+## cols(
+##   status_url = col_character(),
+##   screen_name = col_character(),
+##   created_at = col_datetime(format = ""),
+##   favorite_count = col_double(),
+##   retweet_count = col_double(),
+##   dataset_id = col_character()
+## )
+```
+
 Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
 
-```{r, eval = FALSE}
+
+```r
 token <-
   create_token(
     consumer_key = < add - your - key - here > ,
@@ -258,7 +320,8 @@ Let's take a look at our three datasets:
 
 Note that we will find each nominators' outcome at time 2 later on. Here's how we can make these example datasets: 
 
-```{r}
+
+```r
 data1 <-
   data.frame(
     nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
@@ -279,7 +342,8 @@ data3 <-
   
 Next, we'll join the data into one data frame. This step can be time-consuming for large network datasets, but it's important for the visualizations and analysis that follow. The more time you can invest into preparing the data properly, the more confidence you'll have that your resulting analysis is based on a deeper understanding of the data. 
 
-```{r}
+
+```r
 data <-
   left_join(data1, data2, by = "nominee")
 
@@ -310,7 +374,8 @@ data <-
 
 Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
 
-```{r}
+
+```r
 # Calculating exposure
 data <-
   data %>% 
@@ -327,7 +392,8 @@ The data frame `mean_exposure` contains the mean of the outcome (in this case, `
 
 Let's process the data more so we can add the variables `exposure_mean`, `yvar1`, and `yvar2`.
 
-```{r}
+
+```r
 data2 <-
   data2 %>% 
   # rename nominee as nominator to merge these
@@ -345,11 +411,34 @@ final_data <-
 
 Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
 
-```{r}
+
+```r
 model1 <-
   lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 
 summary(model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = yvar2 ~ yvar1 + exposure_mean, data = final_data)
+## 
+## Residuals:
+##        1        2        3        4        5        6 
+##  0.02946 -0.09319  0.09429 -0.02730 -0.02548  0.02222 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    0.11614    0.03445   3.371   0.0434 *  
+## yvar1          0.67598    0.02406  28.092  9.9e-05 ***
+## exposure_mean  0.12542    0.03615   3.470   0.0403 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.08232 on 3 degrees of freedom
+## Multiple R-squared:  0.9984,	Adjusted R-squared:  0.9974 
+## F-statistic: 945.3 on 2 and 3 DF,  p-value: 6.306e-05
 ```
 
 So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
@@ -364,7 +453,8 @@ But, here is the important and challenging step: all of the *possible relations*
 
 Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
 
-```{r, eval = FALSE}
+
+```r
 m_selection <- 
   glm(relate ~ 1 + same, data = edgelist1)
 ```
@@ -382,6 +472,43 @@ This book was written using [bookdown](https://bookdown.org/home/) [@bookdown201
 
 This version of the book was built with:
 
-```{r}
+
+```r
 sessionInfo()
+```
+
+```
+## R version 3.6.3 (2020-02-29)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Catalina 10.15.4
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] readxl_1.3.1    forcats_0.4.0   stringr_1.4.0   dplyr_0.8.5    
+##  [5] purrr_0.3.3     readr_1.3.1     tidyr_1.0.2     tibble_3.0.0   
+##  [9] ggplot2_3.3.0   tidyverse_1.3.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_1.0.0 xfun_0.12        haven_2.2.0      lattice_0.20-38 
+##  [5] colorspace_1.4-1 vctrs_0.2.4      generics_0.0.2   htmltools_0.4.0 
+##  [9] yaml_2.2.1       rlang_0.4.5      pillar_1.4.3     withr_2.1.2     
+## [13] glue_1.3.2       DBI_1.1.0        dbplyr_1.4.2     modelr_0.1.5    
+## [17] lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0     cellranger_1.1.0
+## [21] rvest_0.3.5      evaluate_0.14    knitr_1.28       curl_4.3        
+## [25] fansi_0.4.1      broom_0.5.4      Rcpp_1.0.3       backports_1.1.5 
+## [29] scales_1.1.0     jsonlite_1.6.1   fs_1.3.2         hms_0.5.3       
+## [33] digest_0.6.25    stringi_1.4.6    bookdown_0.18    grid_3.6.3      
+## [37] cli_2.0.2        tools_3.6.3      magrittr_1.5     crayon_1.3.4    
+## [41] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.2.5       reprex_0.3.0    
+## [45] lubridate_1.7.4  assertthat_0.2.1 rmarkdown_2.1    httr_1.4.1      
+## [49] rstudioapi_0.11  R6_2.4.1         nlme_3.1-144     compiler_3.6.3
 ```

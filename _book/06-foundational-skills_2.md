@@ -1,21 +1,33 @@
 # Foundational Skills {#c06}
+No edits in text here. Adding PR to note the following dataedu package issue:
+- Tried
+ 
+ ```r
+ # install devtools
+ install.packages("devtools", repos = "http://cran.us.r-project.org")
+ 
+ # install the dataedu package
+ devtools::install_github("data-edu/dataedu")
+ ```
+However, had to also install RTools, fs, and glue. When installing dataedu, there is a prompt to select for which packages to update that may also need to be included in the installing packages section.
 
 ## Chapter Overview
 
 This chapter is designed to give you the skills and knowledge necessary to *get started* in any of the walkthrough chapters. 
 Our goal in this chapter is to give you insights into key areas of working with R, help you develop mental models for working with R, and ultimately to get you working with R using the RStudio *I*ntegrated *D*evelopment *E*nvironment (IDE) through a series of introductory applied examples. 
-If you have not yet installed R and/or RStudio, please go through the steps outlined in Chapter 05 before beginning this chapter.
+If you have not yet installed R and/or RStudio, please go through the steps outlined in the previous chapter (on getting started with R and RStudio), [Chapter 5](#c05) before beginning this chapter.
 Please note that this chapter is not intended to be a full and complete introduction to programming with R, nor for using R for data science. 
-There are many excellent resources available which provide this kind of instruction, and we've listed them for you in Chapter 17.
+There are many excellent resources available which provide this kind of instruction, and we've listed them for you in [Chapter 17](#c17).
 
 We will be covering the following topics in this chapter: 
-- Foundational skills framework
-- Help documentation
+
+- The foundational skills framework (understanding projects, functions, packages, and data)
+- Using R's help documentation
 - Steps for working through new and unfamiliar content
 - Getting started with a coding walkthrough
 
 ## Foundational Skills Framework
-No two data science projects are the same. Even so, we've created a general framework for you to use as a home base as you work through this text. The four basic concepts we will use to build our framework are:
+No two data science projects are the same. Even so, we've created a general framework for you to use as a foundation and as a set of concepts to help to to work through the walkthroughs in this book. The four core concepts we will use to build our framework are:
 
   - **Projects**
   - **Functions**
@@ -40,25 +52,25 @@ To create a Project you will need to first open RStudio.
 
 From within RStudio, follow these steps:
 
-1.  Click on File
-2.  Select New Project
-3.  Choose New Directory
-4.  Click on New Project
-5.  Enter your Project's name in the box that says "Directory name." We
+1. Click on File
+1. Select New Project
+1. Choose New Directory
+1. Click on New Project
+1. Enter your Project's name in the box that says "Directory name." We
     recommend choosing a Project name that helps you to remember that this is a
     project that involves data science in education. Avoid using spaces in your
     Project name, and instead separate words with hyphens or underscore
     characters.
-6.  Choose where to save your Project by clicking on "Browse" next to the box
+1. Choose where to save your Project by clicking on "Browse" next to the box
     labeled "Create project as a subdirectory of: " If you are just using this
     to learn and to test out creating a Project, consider placing it in your
     downloads or another temporary directory so that you remember to remove it
     later.
-7.  Click "Create Project"
+1. Click "Create Project"
 
 At this point, you should have a Project that will serve as a place to store any `.R` scripts that you create as you work through this text. If you'd like more practice, take a few moments to set up a couple of additional Projects by following the steps listed above. Within each Project, add and save `.R` scripts. Since this is just for practice, feel free to delete these Projects once you have the hang of the procedure.
 
-We should point out that it is not *necessary* to create a Project for your work, although we _strongly_ recommend it. When you utilize Projects in tandem with the {here} package, you will be set up with an easy-to-use workflow. For more on using Projects with the {here} package, read Jenny Bryan's article, titled [Project-oriented Workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)(https:[]()//www.tidyverse.org/blog/2017/12/workflow-vs-script/). We will also explain more about the {here} package later in this text. If you choose not to create a Project, you will still be able to navigate the walkthroughs in this text - and even carry out future analyses - relatively easily. However, be aware that at some point you will run into issues with how the files are structured on your computer. 
+We should point out that it is not *necessary* to create a Project for your work, although we _strongly_ recommend it. When you utilize Projects in tandem with the {here} package, you will be set up with an easy-to-use workflow. For more on using Projects with the {here} package, read @bryan2017's article, titled [Project-oriented Workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)(https:[]()//www.tidyverse.org/blog/2017/12/workflow-vs-script/). We will also explain more about the {here} package later in this text. If you choose not to create a Project, you will still be able to navigate the walkthroughs in this text - and even carry out future analyses - relatively easily. However, be aware that at some point you will run into issues with how the files are structured on your computer. 
 
 While we cannot emphasize enough how Projects and the {here} package streamline this process, you can always check where your computer is looking for your `.R` scripts by checking the working directory. To do that, you can run this code: `getwd()`. That code will let you know what file path R is currently pointing towards. If that is not what you wanted, you can then change your working directory manually by running `setwd()` and providing your file path name as an argument. The reason we do not advocate for this `getwd()` and `setwd()` workflow is that if you use it, it becomes impossible for someone on another computer (or you on a future computer) to run your code. The `getwd()` and `setwd()` commands point to a specific location on your own device.
 
@@ -153,7 +165,7 @@ You can run the `install.packages()` functions within an `.R` script! However if
 
 If you do not want to write code for installing packages, you can also navigate to the Packages tab of the Files pane, click "Install", and then search for and install one or more packages. 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.1.png" alt="Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes" width="468" />
 <p class="caption">(\#fig:fig6-1)Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes</p>
 </div>
@@ -200,7 +212,7 @@ Packages do not need to be submitted to CRAN to be used by the public, and many 
 *Installing the {dataedu} package*
 
 In Chapter 5, we provided the following code for installing the {dataedu} package. There are related packages that {dataedu} will install for you when you install the {dataedu} package. If you run into difficulties, a good place to start is reinstalling the package to make sure you have the most updated version.
-If you installed the {dataedu} package already, you can skip to the next section. Otherwise, go ahead and run the following code:
+If you installed the {dataedu} package already, you can skip to the next section. Otherwise, go ahead and run the following code. **Please note that the {dataedu} package requires R version 3.6 or higher to run.**
 
 
 ```r
@@ -289,7 +301,7 @@ We have **data** that we bring into a Project within RStudio, and you're likely 
 Throughout this book, you'll see data accessed in a multitude of ways.
 Sometimes, we've pulled the data directly from a website, while other times we ask you to load the data from a `.csv` or `.xls` file.
 We've also provided each of the datasets used in this book as `.rda` files that are accessible via the {dataedu} package [@R-dataedu].
-We've provided additional resources for loading data from Excel, SAV, and Google Sheets in the [Technical Appendix A] at the end of this chapter.
+We've provided additional resources for loading data from Excel, SAV, and Google Sheets in [Appendix A](#c20a).
 
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
 For those curious as to how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) (https[]()://db.rstudio.com/) resource from RStudio.
@@ -312,7 +324,7 @@ One of the functions that can accomplish the task of creating a new variable out
 What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `Enter`?
 We've gotten one of our first error messages!
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.2.png" alt="Error message when running ?mutate" width="550" />
 <p class="caption">(\#fig:fig6-2)Error message when running ?mutate</p>
 </div>
@@ -366,7 +378,7 @@ Take a moment to think through the following questions:
 * What information is available in the Help documentation?
 * Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.3.png" alt="Example from the `coalesce()` Help documentation" width="530" />
 <p class="caption">(\#fig:fig6-3)Example from the `coalesce()` Help documentation</p>
 </div>
@@ -430,7 +442,7 @@ library(skimr)
 
 In your Console, you may have noticed the following message: 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.4.png" alt="List of attached packages and associated conflicts when loading the Tidyverse" width="722" />
 <p class="caption">(\#fig:fig6-4)List of attached packages and associated conflicts when loading the Tidyverse</p>
 </div>
@@ -483,7 +495,7 @@ starwars %>%
 
 In this section, we're going to explore not only how to load a dataset from the {dataedu} package into our R Environment, but also how to assign that dataset to an object so that we can use it in downstream analyses.
 
-In Technical Appendix A (at the end of this chapter), we show how to access directly data from a few other sources: Excel, SPSS (via `.SAV` files), and Google Sheets. For now, we will be loading datasets that are already stored in the {dataedu} package.
+In [Appendix A](#c20a), we show how to access directly data from a few other sources: Excel, SPSS (via `.SAV` files), and Google Sheets. For now, we will be loading datasets that are already stored in the {dataedu} package.
 
 Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
 
@@ -500,7 +512,7 @@ Each of the three code examples above differs slighlty, but two lines of code do
 
 In our Environment pane, we can see the data that has been brought into R. We can even click on the table icon on the far right of the row that describes the data to get an interactive table (the data set is rather large, so RStudio may lag slightly as you open the table and manipulate it).
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.5.png" alt="Loading the `ma_data` Dataset" width="830" />
 <p class="caption">(\#fig:fig6-5)Loading the `ma_data` Dataset</p>
 </div>
@@ -634,7 +646,7 @@ _We like the Tidyverse for teaching and learning because it relies on the same s
 
 It's worth taking a few moments to talk about the context for the pipe operator and its package. The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images. In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 6.6.png" alt="The Treachery of Images by Magritte" width="960" />
 <p class="caption">(\#fig:fig6-6)The Treachery of Images by Magritte</p>
 </div>
@@ -707,252 +719,6 @@ As such, when we create variable names in R, they _must_ start with a letter, al
 
 ## Conclusion
 
-It would be impossible for us to cover _everything_ you can do with R in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. 
+It would be impossible for us to cover _everything_ you can do with R in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. [Appendix A](#c20a)^[We note that we will have a few, other appendies such as this one to expand on some of the content in the walkthrough chapters that follow.] extends some of the techniques introduced in the foundational skills chapter, particularly, reading data from various sources (not only CSV files, but also SAV and XLSX files and spreadsheets from Googlesheets).
 
 In this chapter, we've covered the concepts of Projects, functions, packages, and data. We have also walked through foundational ideas, concepts, and skills related to doing data science in R. It is our hope that you feel well prepared to tackle the subsequent walkthrough chapters, either in sequential order, or in the order that appeals to you!
-
-## Technical Appendix A
-
-This Appendix is provided to serve as a non-exhaustive resource for importing data of different file types into R. The bulk of the data that we use in this book is available through the {dataedu} package, although there are cases where you will be importing a `.csv` file or scraping data from the web. 
-
-### Using Functions to Import Data
-
-You might be thinking that an Excel file is the first type of data that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R. This format is also supported by SPSS and other statistical software (like MPlus) and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
-
-The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
-A `.csv` file contains rows of a spreadsheet with the columns separated by commas, so you can also view it in a text editor, like TextEdit for Macintosh. 
-Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files.  However we would be remiss if we didn't point out that there is a package, {googlesheets4}, which can be used to read a Google Sheet directly into R.
-
-For these reasons, we start with - and emphasize - reading `.csv` files. To get there, we will download a file from the internet.
-
-### Saving a File from the Internet
-
-You'll need to copy this URL:
-
-`https://goo.gl/bUeMhV`
-
-Here's what it resolves to (it's a `.csv` file):
-
-`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/stu-quest.csv`
-
-This next chunk of code downloads the file to your working directory. 
-Run this to download it so in the next step you can read it into R. 
-As a note: there are ways to read the file directory (from the web) into R. 
-Also, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
-
-
-```r
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-It may take a few seconds to download as it's around 20 MB.
-
-The process above involves many core data science ideas and ideas from programming/coding. 
-We will walk through them step-by-step.
-
-1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
-
-
-```r
-student_responses_url <-
-    "https://goo.gl/bUeMhV"
-```
-
-2. We concatenate your working directory file path to the desired file name for the `.csv` using a *function* called `paste0`. 
-This is stored in another *object* called `student_reponses_file_name`. 
-This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
-
-
-```r
-student_responses_file_name <-
-    paste0(getwd(), "/data/student-responses-data.csv")
-```
-
-3. In short, the `download.file()` function needs to know
-- where the file is coming from (which you tell it through the `url`) argument and
-- where the file will be saved (which you tell it through the `destfile` argument).
-
-The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()`. The `student_responses_file_name` *object* is passed to the `destfile` argument.
-
-
-```r
-download.file(
-    url = student_responses_url,
-    destfile = student_responses_file_name)
-```
-
-Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help. 
-It also helps you to use functions that you have never used before.
-
-Now, in RStudio, you should see the downloaded file in the Files tab. 
-This should be the case if you created a project with RStudio; if not, it should be whatever your working directory is set to. 
-If the file is there, great. 
-If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it.
-
-### Loading a `.csv` File
-
-Okay, we're ready to go. 
-The easiest way to read a `.csv` file is with the function `read_csv()` from the package `readr`, which is contained within the Tidyverse.
-
-Let's load the tidyverse library:
-
-
-```r
-library(tidyverse) # so tidyverse packages can be used for analysis
-```
-
-You may have noticed the hash symbol after the code that says `library(tidyverse)`. It reads `# so tidyverse packages can be used for analysis`.  That is a comment, and the code after it (but not before it) is not run. The code before it runs normally. 
-
-After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
-
-
-```r
-student_responses <-
-    read_csv("./data/student-responses-data.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   CNT = col_character(),
-##   CYC = col_character(),
-##   NatCen = col_character(),
-##   STRATUM = col_character(),
-##   Option_Read = col_character(),
-##   Option_Math = col_character(),
-##   ST011D17TA = col_character(),
-##   ST011D18TA = col_character(),
-##   ST011D19TA = col_character(),
-##   ST124Q01TA = col_logical(),
-##   IC001Q01TA = col_logical(),
-##   IC001Q02TA = col_logical(),
-##   IC001Q03TA = col_logical(),
-##   IC001Q04TA = col_logical(),
-##   IC001Q05TA = col_logical(),
-##   IC001Q06TA = col_logical(),
-##   IC001Q07TA = col_logical(),
-##   IC001Q08TA = col_logical(),
-##   IC001Q09TA = col_logical(),
-##   IC001Q10TA = col_logical()
-##   # ... with 420 more columns
-## )
-```
-
-```
-## See spec(...) for full column specifications.
-```
-
-Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
-
-
-```r
-glimpse(student_responses)
-```
-
-Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
-
-Great job loading a file and printing it! 
-We are now well on our way to carrying out analysis of our data.
-
-### Saving Files
-
-We just practiced loading a file *into* R from an external data source. Just as often, you might need to save a file *out of* R into an external software.
-
-Using our data frame `student_responses`, we can save it as a `.csv` with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
-
-
-```r
-write_csv(student_responses, "student-responses.csv")
-```
-
-That will save a `.csv` file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a `.csv` and directly load it in Excel.
-
-### Loading Excel Files
-
-If you want to load data from an Excel workbook, you might be thinking that you can open the file in Excel and then save it as a `.csv`.  This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel. Note that, when possible, we recommend the use of `.csv` files. They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
-
-The package for loading Excel files, {readxl}, is not a part of the tidyverse, so we will have to install it first (remember, we only need to do this once), and then load it using `library(readxl)`. The command to install {readxl} is commented out below so that the computer will not automatically run that line. It is here just as a reminder that the package needs to be installed on your computer before you use it for the first time.
-
-Once we have installed readxl, we have to load it (just like tidyverse):
-
-
-```r
-#install.packages("readxl")
-```
-
-
-```r
-library(readxl)
-```
-
-We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located:
-
-
-```r
-my_data <-
-    read_excel("path/to/file.xlsx")
-```
-
-Of course, if you were to run this, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
-
-Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
-
-### Loading SAV Files
-
-The same considerations that apply to reading Excel files apply to reading `SAV` files (from SPSS). 
-
-_You can also read `.csv` file directly into SPSS. Because of this and because of the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible._
-
-To load an SPSS file, first, install the package `haven`. 
-    
-    
-    ```r
-    #install.packages("haven")
-    ```
-
-Then, load the data by using the function `read_sav()`:
-
-
-```r
-library(haven)
-my_data <-
-    read_sav("path/to/file.xlsx")
-```
-
-### Google Sheets
-
-Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
-
-
-```r
-install.packages("googlesheets4")
-```
-
-
-```r
-library(googlesheets4)
-```
-
-When you run the command below, a link to authenticate with your Google account will open in your browser. 
-
-
-```r
-my_sheets <- gs_ls()
-```
-
-You can then use the `gs_title()` function in conjunction with the `gs_read()` function to work with your dataframe. We provide a brief example below; the package's documentation provides more details.
-
-    
-    ```r
-    df <- gs_title('title')
-    df <- gs_read(df)
-    ```

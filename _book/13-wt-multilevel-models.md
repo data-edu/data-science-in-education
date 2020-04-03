@@ -101,6 +101,11 @@ dummies::dummy(iris$Species) %>%
 ```
 
 ```
+## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
+## non-list contrasts argument ignored
+```
+
+```
 ##      {\n    args = commandArgs(TRUE)\n    bookdown:::source_utf8(args[4])\n    out = do.call(rmarkdown::render, c(args[1], readRDS(args[2]), list(run_pandoc = FALSE, encoding = "UTF-8")))\n    bookdown:::source_utf8(args[5])\n    out_expected = xfun::with_ext(args[1], ".md")\n    if (out != out_expected) {\n        file.rename(out, out_expected)\n        attributes(out_expected) = attributes(out)\n        out = out_expected\n    }\n    if (file.exists(args[3])) {\n        res = readRDS(args[3])\n        res[[args[1]]] = out\n        saveRDS(res, args[3])\n    }\n    else saveRDS(setNames(list(out), args[1]), args[3])\n}setosa
 ## [1,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    1
 ## [2,]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    1
@@ -136,7 +141,14 @@ Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_
 # create matrix of dummy-coded variables
 species_dummy_coded <- 
   dummies::dummy(iris$Species)
+```
 
+```
+## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
+## non-list contrasts argument ignored
+```
+
+```r
 # convert matrix to tibble so we can use tidyverse functions
 species_dummy_coded <- 
   species_dummy_coded %>% 

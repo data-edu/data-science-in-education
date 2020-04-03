@@ -273,7 +273,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-1-1.png" alt="Bar Graph of Student Grades" width="672" />
 <p class="caption">(\#fig:fig8-1)Bar Graph of Student Grades</p>
 </div>
@@ -301,7 +301,7 @@ classwork_df %>%
     )
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-2-1.png" alt="Distribution of Classwork Scores" width="672" />
 <p class="caption">(\#fig:fig8-2)Distribution of Classwork Scores</p>
 </div>
@@ -334,7 +334,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-3-1.png" alt="Relationship Between Overall Grade and Formative Assessments" width="672" />
 <p class="caption">(\#fig:fig8-3)Relationship Between Overall Grade and Formative Assessments</p>
 </div>
@@ -358,7 +358,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-4-1.png" alt="Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)" width="672" />
 <p class="caption">(\#fig:fig8-4)Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)</p>
 </div>
@@ -381,7 +381,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-5-1.png" alt="Distribution of Formative Assessment Scores" width="672" />
 <p class="caption">(\#fig:fig8-5)Distribution of Formative Assessment Scores</p>
 </div>
@@ -400,7 +400,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="08-wt-gradebook_files/figure-html/fig8-6-1.png" alt="Distribution of Overall Grade Scores" width="672" />
 <p class="caption">(\#fig:fig8-6)Distribution of Overall Grade Scores</p>
 </div>
@@ -417,7 +417,7 @@ cor(gradebook$formative_assessments, gradebook$running_average)
 ```
 
 ```
-## [1] 0.663
+## [1] 0.6632553
 ```
 
 ## Results
@@ -444,19 +444,19 @@ summary(linear_mod)
 ## lm(formula = running_average ~ formative_assessments, data = gradebook)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -7.281 -2.793 -0.013  3.318  8.535 
+##     Min      1Q  Median      3Q     Max 
+## -7.2814 -2.7925 -0.0129  3.3179  8.5353 
 ## 
 ## Coefficients:
 ##                       Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)            50.1151     8.5477    5.86  5.6e-06 ***
-## formative_assessments   0.4214     0.0991    4.25    3e-04 ***
+## (Intercept)           50.11511    8.54774   5.863 5.64e-06 ***
+## formative_assessments  0.42136    0.09914   4.250 0.000302 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 4.66 on 23 degrees of freedom
-## Multiple R-squared:  0.44,	Adjusted R-squared:  0.416 
-## F-statistic: 18.1 on 1 and 23 DF,  p-value: 0.000302
+## Residual standard error: 4.657 on 23 degrees of freedom
+## Multiple R-squared:  0.4399,	Adjusted R-squared:  0.4156 
+## F-statistic: 18.06 on 1 and 23 DF,  p-value: 0.0003018
 ```
 
 When you fit a model to two variables, you create an equation that describes the relationship between those two variables based on their averages. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is .42136. The equation reads like this: 

@@ -17,7 +17,7 @@ The ability to work with many kinds of datasets is one of the great features of 
 
 In this chapter, we focus on analyzing data from a data visualization-focused learning community on Twitter, #tidytuesday. That community, #tidytuesday is one sparked by the work of one of the Data Science in Education Using R co-authors, Jesse Mostipak, who created the #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks).
 
-We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. Relatedly, this chapter includes a technical appendix which is not necessary to read to understand text analysis, but which describes a number of techniques for accessing data from Twitter, such as the data from the #tidytuesday explored in this and the subsequent chapter.
+We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. Relatedly, this chapter also references [Appendix B](#c20b), which is not necessary to read to understand text analysis, but which elaborates on a number of techniques for accessing data from Twitter, such as the data from the #tidytuesday explored in this and the subsequent chapter.
 
 ### Background 
 
@@ -58,6 +58,15 @@ For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} package
 devtools::install_github("data-edu/dataedu")
 ```
 
+We'll be using the {tidytext} package to work with vectors of words. If you don't already have {tidytext} installed, let's do that now: 
+
+
+```r
+install.packages("tidytext")
+```
+
+Finally, let's load our packages before moving on to import the data: 
+
 
 ```r
 library(tidyverse)
@@ -83,7 +92,7 @@ Think of an API as a special door a home builder made for a house that has a lot
 
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
 
-A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in this chapter's *Technical Appendix*, along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in [Appendix B](#c20b), along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
 
 ## View Data 
 
@@ -110,14 +119,7 @@ Now the dataset has a column to identify each tweet and a column that shows the 
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
-The {tidytext} package has a convenient function called `unnest_tokens()` that tokenizes vectors of words. Let's install the {tidytext} package so we can use it: 
-
-
-```r
-install.packages("tidytext")
-```
-
-Let's use `unnest_tokens()` to take our dataset of tweets and transform it into a dataset of words. 
+Let's use `unnest_tokens()` from the {tidytext} package to take our dataset of tweets and transform it into a dataset of words. 
 
 
 ```r
@@ -230,16 +232,18 @@ Now that we have a sense of the most frequently appearing words, it's time to ex
 
 We'll need to use a technique called sentiment analysis to get at the "positivity" of words in these tweets. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
 
-The functions we'll be using for our sentiment analysis are in a package called {textdata}. Let's start by installing that. 
+Earlier we used `anti_join()` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
+
+We need to install a package called {textdata} to make sure we have the NRC Word-Emotion Association Lexicon dataset available to us. Note that you only need to have this package installed. You do not need to load it with the `library(textdata)` command. 
+
+If you don't already have it, let's install {textdata}: 
 
 
 ```r
 install.packages("textdata")
 ```
 
-Earlier we used `anti_join()` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the NRC Word-Emotion Association Lexicon to help us identify words with a positive association. This dataset was published in a work called Crowdsourcing a Word-Emotion Association Lexicon [@mohammad2013]
-
-To explore this dataset more, we'll use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon in the {tidytext} package, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
+To explore this dataset more, we'll use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 
 ```r
@@ -322,7 +326,7 @@ pos_tokens_count %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="11-wt-text-analysis_files/figure-html/fig11-1-1.png" alt="Count of Words Associated with Positivity" width="672" />
 <p class="caption">(\#fig:fig11-1)Count of Words Associated with Positivity</p>
 </div>
@@ -522,7 +526,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  7  6  8  1 10
+## [1] 8 2 1 9 7
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -563,62 +567,6 @@ The purpose of this walkthrough is to share code with you so you can practice so
  - Procedure manuals  
  - Open ended responses in surveys  
 
-There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html), both from Julia Silge's and David Robinson's book.
+There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html), both describd in [@silge2017text].
 
-We use this data set further in the next chapter [on social network analysis](#c12).
-
-## Technical Appendix: Accessing Twitter data
-
-### Accessing Historical Twitter Data Using Already-Collected Status URLs
-
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
-
-
-```r
-raw_tidytuesday_tweets <-
-  read_delim(
-    "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
-    "\t",
-    escape_double = FALSE,
-    trim_ws = TRUE
-  )
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   status_url = col_character(),
-##   screen_name = col_character(),
-##   created_at = col_datetime(format = ""),
-##   favorite_count = col_double(),
-##   retweet_count = col_double(),
-##   dataset_id = col_character()
-## )
-```
-
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
-
-
-```r
-token <-
-  create_token(
-    consumer_key = < add - your - key - here > ,
-    consumer_secret = < add - your - secret - here >
-  )
-
-# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
-
-tidytuesday_tweets <-
-  lookup_statuses(raw_tidytuesday_tweets$status_url,
-                  token = token)
-```
-
-The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
-
-### Accessing Historical Data When You Do Not Have Access to Status URLs
-
-In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
-
-First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
-
-A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+Finally, if you feel like there is more to analyze where it comes to this particular hashtag, we agree! We use this data set further in the next chapter [on social network analysis](#c12). Moreover, if you want to collect our own Twitter data, head to [Appendix B](#c20b) to read about and consider some potential strategies.

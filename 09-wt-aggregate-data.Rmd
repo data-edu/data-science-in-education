@@ -55,10 +55,9 @@ administrator might submit these aggregate data to their state education agency 
 for reporting purposes. These datasets might be posted on the state's department
 of education website for anyone to download and use.
 
-Federal and international education datasets provide additional context for
-evaluating education systems. In the US, some federal datasets aim to
+Federal and international education datasets provide additional information. In the US, some federal datasets aim to
 consolidate important metrics from all states. This can be useful because
-each state has its own repository of data and to go through each state to
+each state has its own repository of data and to go through each state website to
 download a particular metric is a significant effort. The federal government
 also funds assessments and surveys which are disseminated to the public.
 However, federal datasets often have more stringent data requirements than
@@ -69,7 +68,7 @@ answer questions related to their field of interest. However, doing so is not al
 Publicly available, aggregate datasets are large and often suppressed to protect privacy.
 Sometimes they are already a couple of years old by the time they're released.
 Because of their coarseness, they can be difficult to interpret and use.
-Generally, aggregate data is generally used to surface of broader trends and
+Generally, aggregate data is used to surface broader trends and
 patterns in education as opposed to diagnosing underlying issues or making
 causal statements. It is very important that we consider the limitations of
 aggregate data *first* before analyzing it.
@@ -80,7 +79,7 @@ questions, craft hypotheses around our findings, and make recommendations on how
 to improve for the future.
 
 We want to take time to explore aggregate data since it's so common
-in education, but can also be challenging to meaningfully used. This chapter and the [following chapter](#c10) provide two different examples of
+in education but can also be challenging to meaningfully used. This chapter and the [following chapter](#c10) provide two different examples of
 cleaning an aggregate dataset and of using aggregate
 datasets to compare student experiences. In this chapter, we'll focus on
 educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, we'll compare student counts longitudinally (or over time) in different states.
@@ -126,12 +125,12 @@ Notice here that this dataset no longer identifies individual students.
 **Disaggregating Aggregated Data**
 
 Aggregated data can tell us many things, but in order for us to better examine
-subgroups and their information, we must have data *disaggregated* by the
+subgroups (groups that share similar characteristics), we must have data *disaggregated* by the
 subgroups we hope to analyze. This data is still aggregated from row-level data
 but provides information on smaller components than the grand total
 [@disaggregate]. Common disaggregations for students include gender,
 race/ethnicity, socioeconomic status, English learner designation, and whether
-they are served under the Individuals with Disabilities Education Act (IDEA).
+they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
 
 **Disaggregating Data and Equity**
 
@@ -202,7 +201,7 @@ At the state and district levels, two examples include:
 For the purposes of this walkthrough, we will be looking at a particular school
 district's data; in the next, we will "zoom out" to look across states in the United States.
 
-The district we focus upon reports their student demographics in a robust,
+The district we focus on here reports their student demographics in a robust,
 complete way. Not only do they report the percentage of students in a subgroup,
 but they also include the number of students in each subgroup. This allows a
 deep look into their individual school demographics. Their reporting of the
@@ -243,7 +242,11 @@ library(tabulizer)
 
 ## Import Data
 
-We have three options of getting the data: 1) We can use {tabulizer}, which pulls the PDF data into lists using `extract_tables()`. 2) We can get the data from the book's [Github repository ](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data)(https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). If you set up the folders in your working directory in the same way they are in the book, where there's a folder called `data`, then a folder called `agg_data` inside of `data`, then the file `race_pdf.Rds` in `agg_data`, then you can run the code below and load the data using `here()`. Otherwise, you will have to change the file path inside of `here()` to match where the data is stored on your working directory. 3) Finally, you can get the data from the {dataedu} package.
+We have three options of getting the data:
+
+1. We can use {tabulizer}, which pulls the PDF data into lists using `extract_tables()`.
+2. We can get the data from the book's [Github repository ](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data)(https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). If you set up the folders in your working directory in the same way they are in the book, where there's a folder called `data`, then a folder called `agg_data` inside of `data`, then the file `race_pdf.Rds` in `agg_data`, then you can run the code below and load the data using `here()`. Otherwise, you will have to change the file path inside of `here()` to match where the data is stored on your working directory.
+3. Finally, you can get the data from the {dataedu} package.
 
 ```{r, eval = FALSE}
 # Get data using {tabulizer}
@@ -260,16 +263,15 @@ race_pdf <-
   dataedu::race_pdf
 ```
 
-It is important to consistently check what we're doing with the original PDF's to
-make sure we're getting the data that we expect. We then transform the list to a data frame with `map(as_data_frame)`.  The `slice()` in `map_df()` removes unnecessary rows from the PDF. Finally, we create readable column names using `set_names()`.
+We then transform the list to a data frame by first making the matrix version of the PDF's into a tibble by using `map(as_tibble())`. Then, we use the `map_df()` function then turns these tibbles into a single data frame. The `slice()` inside of `map_df()` removes unnecessary rows from the tibbles. Finally, we create readable column names using `set_names()` (otherwise, they look like `...1`, `...2`, etc.).
 
 ```{r, eval = FALSE}
 race_df <-
   race_pdf %>%
   # Turn each page into a tibble
-  map(as_data_frame) %>% 
-  # Remove unnecessary rows
-  map_df( ~ slice(.,-1:-2)) %>%
+  map(~ as_tibble(.x, .name_repair = "unique")) %>% 
+  # Make data frame and remove unnecessary rows
+  map_df(~ slice(.,-1:-2)) %>%
   # Use descriptive column names
   set_names(
     c(
@@ -295,7 +297,7 @@ race_df <-
 
 For the Race/Ethnicity table, we want the totals for each district school as we
 won't be looking at grade-level variation. When analyzing the PDF, we see the
-totals have "Total" in the School Name.
+school totals have "Total" in `school_name`.
 
 We clean up this dataset by:
 
@@ -304,17 +306,14 @@ We clean up this dataset by:
 2.  Removing all Grand Total rows (otherwise they'll show up in our data when
     we just want district-level data) using `filter()`. We keep schools that
     have "Total" in the name but remove any rows that are Grand Total.
-3.  Then we trim white space from strings.
-4.  The data in the "percentage" columns are provided with a percentage sign.
-    This means we will have to remove all of the non-numeric characters to be able to do math with these
-    columns (for example, adding them together). Also, we want to divide the
-    numbers by 100 so they are true percentages.
+3.  Then we trim white space from strings using `trimws()`.
+4.  The data in the `percentage` columns are provided with a percentage sign. This means `percentage` was read in as a character. We will have to remove all of the non-numeric characters to be able to do math with these columns (for example, to add them together). Also, we want to divide the numbers by 100 so they are in decimal format.
 
 ```{r, eval = FALSE}
 race_df2 <-
   race_df %>%
   # Remove unnecessary columns
-  select(-school_group,-grade,-pi_pct,-blank_col) %>%
+  select(-school_group, -grade, -pi_pct, -blank_col) %>%
   # Filter to get grade-level numbers
   filter(str_detect(school_name, "Total"),
          school_name != "Grand Total") %>%
@@ -322,13 +321,13 @@ race_df2 <-
   mutate(school_name = str_replace(school_name, "Total", "")) %>%
   # Remove white space
   mutate_if(is.character, trimws) %>%
-  # Turn percentage columns into numerics and decimal format
+  # Turn percentage columns into numeric and decimal format
   mutate_at(vars(contains("pct")), list( ~ as.numeric(str_replace(., "%", "")) / 100))
 ```
 
 Now, we will import the Free Reduced Price Lunch (FRPL) PDF's.
 
-FRPL stands for Free/Reduced Price Lunch, often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: Definitions are very important for disaggregated data. FRPL is used because it’s ubiquitous and reporting is mandated but there is debate as to whether it actually reflects the level of poverty among students.)
+FRPL stands for Free/Reduced Price Lunch and is often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185 percent of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: definitions are very important for disaggregated data. FRPL is used because it’s ubiquitous but there is debate as to whether it actually reflects the level of poverty among students.)
 
 ```{r, eval = FALSE}
 # Get data using {tabulizer}
@@ -344,13 +343,16 @@ frpl_pdf <-
   dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, there are rows that we don't need from each page, which we remove using `slice()`.
+Similar to the Race/Ethnicity PDF, we take the PDF matrix output, turn it into tibbles, then create a single data frame. There are rows that we don't need from each page, which we remove using `slice()`. Then, we create column names that can be easily understood.
 
 ```{r, eval=FALSE}
 frpl_df <-
   frpl_pdf %>%
-  map(as_data_frame) %>%
+  # Turn each page into a tibble
+  map(~ as_tibble(.x, .name_repair = "unique")) %>% 
+  # Make data frame and remove unnecessary rows
   map_df( ~ slice(.,-1)) %>%
+  # Use descriptive column names
   set_names(
     c(
       "school_name",
@@ -365,7 +367,7 @@ frpl_df <-
 
 To clean the dataset up further, we remove the rows that are blank. When looking at the PDF, we
 notice that there are aggregations inserted into the table that are not
-district-level. For example, the district included `ELM K_08`, presumably to
+district-level. For example, the report includes `ELM K_08`, presumably to
 aggregate FRPL numbers up to the K-8 level. Although this is useful data, we
 don't need it for this district-level analysis. There are different ways we can
 remove these rows but we will just filter them out by using `!` before the variable name.
@@ -388,15 +390,12 @@ frpl_df2 <-
       "Dist Total"
     )
   ) %>%
-  # Turn percentage columns into numerics and decimal format
+  # Turn percentage columns into numeric and decimal format
   mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
 Because we want to look at race/ethnicity data in conjunction with free/reduced
-price lunch percentage, we join the two datasets by the name of the school.
-
-  - Use `mutate_at()` to specify the columns to which to apply a function (in this
-    case, `as.numeric`).xs
+price lunch percentage, we join the two datasets by the name of the school. We want our student counts and percentages to be numeric, so apply `as.numeric` to multiple columns using `mutate_at()`.
 
 ```{r, eval = FALSE}
 # create full dataset, joined by school name
@@ -405,24 +404,22 @@ joined_df <-
   mutate_at(2:17, as.numeric)
 ```
 
-**Did you notice?** 
-
-The total number of students from the Race/Ethnicity table does **not** match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people, who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students may have moved around in the meantime. We don't know but it does require us to make strategic decisions about which data we consider the 'truth' for our analysis.
+**Did you notice?** The total number of students from the Race/Ethnicity table does **not** match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people, who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students may have moved around in the meantime. We don't know but it does require us to make strategic decisions about which data we consider the 'truth' for our analysis.
 
 Now we move on to the fun part of creating new columns based on the merged
-dataset.
+dataset using `mutate()`.
 
 1.  We want to calculate, for each race, the number of students in 'high
     poverty' schools. This is defined by NCES as schools that are over 75% FRPL
     [@ncesfrpl]. When a school is over 75% FRPL, we count the number of students
     for that particular race under the variable `[racename]_povnum`.
-2.  The {janitor} package has a handy `adorn_totals()` function that sums the
+2.  The {janitor} package has a handy `adorn_totals()` function that sums
     columns for you. This is important because we want a weighted average of
     students in each category, so we need the total number of students in each
     group.
 3.  We create the weighted average of the percentage of each race by dividing
     the number of students by race by the total number of students.
-4.  To get FRPL percentage for all schools, we have to recalculate `frpl_pct.`
+4.  To get FRPL percentage for all schools, we have to recalculate `frpl_pct` (otherwise, it would not be a weighted average).
 5.  To calculate the percentage of students by race who are in high poverty
     schools, we must divide the number of students in high poverty schools by
     the total number of students in that race.
@@ -456,7 +453,7 @@ district_merged_df <-
   )
 ```
 
-To facilitate the creation of plots later on, we put this data in tidy format.
+To facilitate the creation of plots later on, we also put this data in tidy format using `pivot_longer()`.
 
 ```{r, eval = FALSE}
 district_tidy_df <-
@@ -469,17 +466,17 @@ district_tidy_df <-
 ```
 
 Running the code above, particularly the download of the PDFs, takes a lot of
-time. We've saved copies of the merged and tidy data in the book's data folder and {dataedu}. To access them, you can run the code below.
+time. We've saved copies of the merged and tidy data in the book's Github repository and {dataedu}. To access them, you can run the code below.
 
 ```{r, message = FALSE}
-# if reading in from book repository
+# If reading in from book repository
 district_tidy_df <-
   read_csv(here("data", "agg_data", "district_tidy_df.csv"))
 
 district_merged_df <-
   read_csv(here("data", "agg_data", "district_merged_df.csv"))
 
-# if using the {dataedu} package
+# If using the {dataedu} package
 district_tidy_df <- dataedu::district_tidy_df
 
 district_merged_df <- dataedu::district_merged_df
@@ -524,7 +521,7 @@ district_tidy_df %>%
 When we look at these data, the district looks very diverse. Almost **40% of
 students are Black** and around **36% are White**. Note that this matches the percentages provided in the original PDF's. This shows our calculations above were accurate. Hooray!
 
-In terms of free/reduced price lunch, we have that calculated under `frpl_pct`:
+`frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
 
 ```{r}
 district_tidy_df %>%
@@ -532,11 +529,8 @@ district_tidy_df %>%
          school_name == "Total")
 ```
 
-**56.9% of the students are eligible for FRPL**, compared to [the U.S. average
-of 52.1%.](https://nces.ed.gov/programs/digest/d17/tables/dt17_204.10.asp?current=yes)
-(https[]()://nces.ed.gov/programs/digest/d17/tables/dt17\_204.10.asp?current=yes).
-
-This also matches the PDF's. Great!
+**56.9% of the students are eligible for FRPL**, compared to the U.S. average
+of 52.1% [@avgfrpl]. This also matches the PDF's. Great!
 
 Now, we dig deeper to see if there is more to the story.
 
@@ -607,7 +601,7 @@ district_tidy_df %>%
 
 **8% of White students** attend high poverty schools, compared to **43% of Black
 students, 39% of Hispanic students, 28% of Asian students, and 45% of Native
-American students**. We can infer that non-White students are disproportionally
+American students**. We can conclude that non-White students are disproportionally
 attending high poverty schools.
 
 ### Reveal Relationships
@@ -628,7 +622,7 @@ district_merged_df %>%
   theme(legend.position = "none")
 ```
 
-Related to the result in Creating Categories, there is a strong negative correlation between FRPL
+Similar to the result in Creating Categories, there is a strong negative correlation between FRPL
 percentage and the percentage of White students in a school. That is, high
 poverty schools appear to have a lower percentage of White students and low poverty
 schools have a higher percentage of White students.

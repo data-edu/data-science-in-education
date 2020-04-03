@@ -37,14 +37,14 @@ We started talking about data science in education online because we wanted to b
 
 So give your chicken family a big hug, open up your laptop, and let’s start learning together. Turns out, there are a lot more hatchlings wanting to be eagles and chickens at the same time.
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="598" />
 <p class="caption">(\#fig:unnamed-chunk-2)The Tweet That Started It All</p>
 </div>
 
 ## Acknowledgements {-}
 
-This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Ludmila Janda, Jake Kaupp, Nathan Kenner, David Ranzolin, Kris Stevens,  Gustavo Velásquez, and Bret Staudt Willet.
+This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Daniel Anderson, Abi Aryan, Jason Becker, William Bork, Jon Duan, Erin Grand, Ludmila Janda, Jake Kaupp, Nathan Kenner, David Ranzolin, Kris Stevens, Bret Staudt Willet, and Gustavo Velásquez.
 
 Thank you to the data scientists in education that took time share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
 

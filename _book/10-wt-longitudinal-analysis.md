@@ -902,7 +902,13 @@ numeric columns. We'll use `mutate()` to change the count columns.
 child_counts <-
   child_counts %>%
   mutate(total = as.numeric(total))
+```
 
+```
+## Warning: NAs introduced by coercion
+```
+
+```r
 child_counts
 ```
 
@@ -952,6 +958,10 @@ as.numeric("")
 
 ```r
 as.numeric("-")
+```
+
+```
+## Warning: NAs introduced by coercion
 ```
 
 ```
@@ -1136,7 +1146,7 @@ high_count %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-1-1.png" alt="Count of Female Students in Special Education Over Time" width="672" />
 <p class="caption">(\#fig:fig10-1)Count of Female Students in Special Education Over Time</p>
 </div>
@@ -1172,7 +1182,7 @@ high_count %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-2-1.png" alt="Count of Male Students in Special Education Over Time" width="672" />
 <p class="caption">(\#fig:fig10-2)Count of Male Students in Special Education Over Time</p>
 </div>
@@ -1196,7 +1206,7 @@ high_count %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-3-1.png" alt="Total Count of Students in Special Education Over Time" width="672" />
 <p class="caption">(\#fig:fig10-3)Total Count of Students in Special Education Over Time</p>
 </div>
@@ -1218,7 +1228,7 @@ high_count %>%
   theme_dataedu() 
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-4-1.png" alt="Median Students with Disabilities Count" width="672" />
 <p class="caption">(\#fig:fig10-4)Median Students with Disabilities Count</p>
 </div>
@@ -1272,7 +1282,7 @@ high_count %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-5-1.png" alt="Male Student to Female Student Ratio Over Time" width="672" />
 <p class="caption">(\#fig:fig10-5)Male Student to Female Student Ratio Over Time</p>
 </div>
@@ -1346,7 +1356,7 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-6-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="672" />
 <p class="caption">(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education</p>
 </div>
@@ -1406,7 +1416,7 @@ child_counts %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-7-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="672" />
 <p class="caption">(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities</p>
 </div>
@@ -1474,7 +1484,7 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-8-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="672" />
 <p class="caption">(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)</p>
 </div>
@@ -1510,23 +1520,23 @@ summary(ratio_year)
 ## lm(formula = ratio ~ year, data = model_data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -0.4402 -0.1014 -0.0281  0.0534  0.7574 
+##      Min       1Q   Median       3Q      Max 
+## -0.44025 -0.10138 -0.02810  0.05343  0.75737 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   2.0336     0.0220   92.42   <2e-16 ***
-## year2013     -0.0120     0.0315   -0.38     0.70    
-## year2014     -0.0237     0.0315   -0.75     0.45    
-## year2015     -0.0310     0.0313   -0.99     0.32    
-## year2016     -0.0396     0.0314   -1.26     0.21    
-## year2017     -0.0576     0.0317   -1.82     0.07 .  
+## (Intercept)  2.03356    0.02200  92.418   <2e-16 ***
+## year2013    -0.01205    0.03153  -0.382   0.7027    
+## year2014    -0.02372    0.03153  -0.752   0.4524    
+## year2015    -0.03104    0.03125  -0.993   0.3213    
+## year2016    -0.03964    0.03139  -1.263   0.2075    
+## year2017    -0.05760    0.03168  -1.818   0.0699 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.169 on 335 degrees of freedom
-## Multiple R-squared:  0.0122,	Adjusted R-squared:  -0.00259 
-## F-statistic: 0.824 on 5 and 335 DF,  p-value: 0.533
+## Multiple R-squared:  0.01215,	Adjusted R-squared:  -0.002594 
+## F-statistic: 0.8241 on 5 and 335 DF,  p-value: 0.5332
 ```
 
 Here's how we can interpret the `Estimate` column: The estimate of the
@@ -1592,13 +1602,13 @@ model_data %>%
 ```
 
 ```
-##    year       state                 f                m              ratio     
-##  2012:59   Length:59          Min.   :   208   Min.   :   443   Min.   :1.71  
-##  2013: 0   Class :character   1st Qu.:  5606   1st Qu.: 11467   1st Qu.:1.93  
-##  2014: 0   Mode  :character   Median : 22350   Median : 44110   Median :1.99  
-##  2015: 0                      Mean   : 32773   Mean   : 65934   Mean   :2.03  
-##  2016: 0                      3rd Qu.: 38552   3rd Qu.: 77950   3rd Qu.:2.09  
-##  2017: 0                      Max.   :198595   Max.   :414466   Max.   :2.69
+##    year       state                 f                m              ratio      
+##  2012:59   Length:59          Min.   :   208   Min.   :   443   Min.   :1.710  
+##  2013: 0   Class :character   1st Qu.:  5606   1st Qu.: 11467   1st Qu.:1.927  
+##  2014: 0   Mode  :character   Median : 22350   Median : 44110   Median :1.994  
+##  2015: 0                      Mean   : 32773   Mean   : 65934   Mean   :2.034  
+##  2016: 0                      3rd Qu.: 38552   3rd Qu.: 77950   3rd Qu.:2.093  
+##  2017: 0                      Max.   :198595   Max.   :414466   Max.   :2.692
 ```
 
 The mean value of the `ratio` column when the `year` column is 2012 is 2.03,
@@ -1660,7 +1670,7 @@ model_data %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="10-wt-longitudinal-analysis_files/figure-html/fig10-9-1.png" alt="Median Male and Female Student Counts in Special Education" width="672" />
 <p class="caption">(\#fig:fig10-9)Median Male and Female Student Counts in Special Education</p>
 </div>

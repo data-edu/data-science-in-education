@@ -18,7 +18,12 @@ working with an education dataset from start to finish. While the walkthroughs
 are very different, the structure and section headings will be consistent
 throughout the walkthroughs. For example, every walkthrough will begin with a
 vocabulary section, followed by an introduction to the dataset and an
-introduction to the question or problem explored in the walkthrough.
+introduction to the question or problem explored in the walkthrough. 
+
+We note that this chapter assumes familiarity with the four core concepts that 
+comprise the foundational skills framework: projects, functions, packages, and data. If you would 
+like a refresher about (or an introduction to) any of those, the foundational skills chapter, 
+then reading and writing and running some of the code in the previous chapter [Chapter 6](#06) may be helpful to you.
 
 ## Vocabulary
 
@@ -90,7 +95,7 @@ using survey questions. The three motivation measures we explore here come from
 Expectancy-Value Theory, which states that students are motivated to learn when
 they both believe that they can achieve something (expectancy, also known as
 perceived competence) and believe that the concept they are trying to learn is
-important (value) [@eccles1983]. There are multiple types of value, but we
+important (value) [@wigfield2000]. There are multiple types of value, but we
 explore two of them here: interest and utility value. Utility value is the
 degree to which a person is able to connect the concept being learned with
 something they will utilize in their future life. This survey included the
@@ -311,9 +316,9 @@ used `mutate_at()` to convert the data in all ten variables into a numeric
 format.
 
 To learn a little more about `mutate()`, try the example below, where we create
-a new dataframe called "df". A data frame is a two-dimensional structure that stores tables. The table has a header and data rows and each cell stores values. 
+a new data frame called "df". A data frame is a two-dimensional structure that stores tables. The table has a header and data rows and each cell stores values. 
 
-We fill this dataframe with two columns: "male" and
+We fill this data frame with two columns: "male" and
 "female." Each column has only one value, and that value is 5. In the second
 part of the code, we add a `total_students` column by adding the number of
 `male` students and `female` students.
@@ -705,6 +710,10 @@ pre_survey <- pre_survey %>%
   mutate(student_id = as.numeric(student_id))
 ```
 
+```
+## Warning: NAs introduced by coercion
+```
+
 Now that the `student_id` and `course_id` variables are ready to go in the
 `pre_survey` dataset, let's proceed to the course data. Our goal is to rename
 two variables that correspond to the course and the student so that we can match
@@ -1008,9 +1017,9 @@ glimpse(dat)
 ## $ student_id      <dbl> 60186, 60186, 60186, 60186, 60186, 60186, 60186, 6018…
 ## $ Gradebook_Item  <chr> "POINTS EARNED & TOTAL COURSE POINTS", "WORK ATTEMPTE…
 ## $ Grade_Category  <chr> NA, NA, NA, "Hw", "Hw", "Qz", "Qz", "Hw", "Hw", "Hw",…
-## $ FinalGradeCEMS  <dbl> 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3,…
+## $ FinalGradeCEMS  <dbl> 86.272, 86.272, 86.272, 86.272, 86.272, 86.272, 86.27…
 ## $ Points_Possible <dbl> 5, 30, 105, 140, 5, 5, 20, 50, 10, 50, 5, 5, 24, 10, …
-## $ Points_Earned   <dbl> 4.05, 24.00, 71.67, 140.97, 5.00, 4.00, NA, 50.00, NA…
+## $ Points_Earned   <dbl> 4.050, 24.000, 71.675, 140.970, 5.000, 4.000, NA, 50.…
 ## $ Gender          <chr> "F", "F", "F", "F", "M", "F", "F", "F", "F", "F", "M"…
 ## $ q1              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q2              <dbl> 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…
@@ -1022,7 +1031,7 @@ glimpse(dat)
 ## $ q8              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q9              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q10             <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
-## $ TimeSpent       <dbl> 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087,…
+## $ TimeSpent       <dbl> 2087.05, 2087.05, 2087.05, 2087.05, 2087.05, 2087.05,…
 ```
 
 You can also use `View(dat)` in order to view the data in RStudio's viewer.
@@ -1050,7 +1059,7 @@ TRUE`. For the sake of making it simple to view the output, we will omit this
 argument for now.
 
 Were we to run `distinct(dat, Gradebook_Item)`, what do you think would be
-returned? Running the following code returns a one-column dataframe that lists the names of
+returned? Running the following code returns a one-column data frame that lists the names of
 every distinct gradebook item.
  
 
@@ -1102,7 +1111,7 @@ distinct(dat, course_id, Gradebook_Item)
 ## # … with 1,259 more rows
 ```
 
-The dataframe we get when we run the code chunk above yields a much longer (more
+The data frame we get when we run the code chunk above yields a much longer (more
 observations) dataset. Thus, it looks like *a lot* of gradebook items were
 repeated across courses - likely across the different sections of the same
 course. If you'd like, you can continue to investigate this: we would be curious
@@ -1182,7 +1191,7 @@ students %>%
   theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-1-1.png" alt="Example Plot" width="672" />
 <p class="caption">(\#fig:fig7-1)Example Plot</p>
 </div>
@@ -1222,7 +1231,7 @@ dat %>%
        y = "Final Grade")
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="672" />
 <p class="caption">(\#fig:fig7-2)Percentage Earned vs. Time Spent</p>
 </div>
@@ -1244,7 +1253,7 @@ dat %>%
        y = "Final Grade")
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-3-1.png" alt="Adding a Line of Best Fit" width="672" />
 <p class="caption">(\#fig:fig7-3)Adding a Line of Best Fit</p>
 </div>
@@ -1290,20 +1299,20 @@ summary(m_linear)
 ## lm(formula = final_grade ~ TimeSpent, data = dat)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -67.14  -7.80   4.72  14.47  30.32 
+##     Min      1Q  Median      3Q     Max 
+## -67.136  -7.805   4.723  14.471  30.317 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) 6.58e+01   1.49e+00   44.13   <2e-16 ***
-## TimeSpent   6.08e-03   6.48e-04    9.38   <2e-16 ***
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 6.581e+01  1.491e+00   44.13   <2e-16 ***
+## TimeSpent   6.081e-03  6.482e-04    9.38   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 20.7 on 571 degrees of freedom
+## Residual standard error: 20.71 on 571 degrees of freedom
 ##   (30 observations deleted due to missingness)
-## Multiple R-squared:  0.134,	Adjusted R-squared:  0.132 
-## F-statistic:   88 on 1 and 571 DF,  p-value: <2e-16
+## Multiple R-squared:  0.1335,	Adjusted R-squared:  0.132 
+## F-statistic: 87.99 on 1 and 571 DF,  p-value: < 2.2e-16
 ```
 
 Another way that we can generate table output is with a function from the

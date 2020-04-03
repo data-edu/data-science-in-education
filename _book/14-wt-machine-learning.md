@@ -119,15 +119,15 @@ glimpse(df)
 ## $ course_id             <chr> "FrScA-S216-02", "OcnA-S116-01", "FrScA-S216-01…
 ## $ total_points_possible <dbl> 3280, 3531, 2870, 4562, 2207, 4208, 4325, 2086,…
 ## $ total_points_earned   <dbl> 2220, 2672, 1897, 3090, 1910, 3596, 2255, 1719,…
-## $ percentage_earned     <dbl> 0.677, 0.757, 0.661, 0.677, 0.865, 0.855, 0.521…
+## $ percentage_earned     <dbl> 0.6768293, 0.7567261, 0.6609756, 0.6773345, 0.8…
 ## $ subject               <chr> "FrScA", "OcnA", "FrScA", "OcnA", "PhysA", "FrS…
 ## $ semester              <chr> "S216", "S116", "S216", "S216", "S116", "S216",…
 ## $ section               <chr> "02", "01", "01", "01", "01", "03", "01", "01",…
 ## $ Gradebook_Item        <chr> "POINTS EARNED & TOTAL COURSE POINTS", "ATTEMPT…
 ## $ Grade_Category        <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-## $ final_grade           <dbl> 93.5, 81.7, 88.5, 81.9, 84.0, NA, 83.6, 97.8, 9…
+## $ final_grade           <dbl> 93.45372, 81.70184, 88.48758, 81.85260, 84.0000…
 ## $ Points_Possible       <dbl> 5, 10, 10, 5, 438, 5, 10, 10, 443, 5, 12, 10, 5…
-## $ Points_Earned         <dbl> NA, 10.0, NA, 4.0, 399.0, NA, NA, 10.0, 425.0, …
+## $ Points_Earned         <dbl> NA, 10.00, NA, 4.00, 399.00, NA, NA, 10.00, 425…
 ## $ Gender                <chr> "M", "F", "M", "M", "F", "F", "M", "F", "F", "M…
 ## $ q1                    <dbl> 5, 4, 5, 5, 4, NA, 5, 3, 4, NA, NA, 4, 3, 5, NA…
 ## $ q2                    <dbl> 4, 4, 4, 5, 3, NA, 5, 3, 3, NA, NA, 5, 3, 3, NA…
@@ -139,55 +139,55 @@ glimpse(df)
 ## $ q8                    <dbl> 5, 5, 5, 5, 4, NA, 5, 3, 4, NA, NA, 4, 3, 5, NA…
 ## $ q9                    <dbl> 4, 4, 3, 5, NA, NA, 5, 3, 2, NA, NA, 5, 2, 2, N…
 ## $ q10                   <dbl> 5, 4, 5, 5, 3, NA, 5, 3, 5, NA, NA, 4, 4, 5, NA…
-## $ time_spent            <dbl> 1555.17, 1382.70, 860.43, 1598.62, 1481.80, 3.4…
-## $ TimeSpent_hours       <dbl> 25.9194, 23.0450, 14.3406, 26.6436, 24.6967, 0.…
-## $ TimeSpent_std         <dbl> -0.1805, -0.3078, -0.6933, -0.1484, -0.2347, -1…
+## $ time_spent            <dbl> 1555.1667, 1382.7001, 860.4335, 1598.6166, 1481…
+## $ TimeSpent_hours       <dbl> 25.91944500, 23.04500167, 14.34055833, 26.64361…
+## $ TimeSpent_std         <dbl> -0.18051496, -0.30780313, -0.69325954, -0.14844…
 ## $ int                   <dbl> 5.0, 4.2, 5.0, 5.0, 3.8, 4.6, 5.0, 3.0, 4.2, NA…
 ## $ pc                    <dbl> 4.50, 3.50, 4.00, 3.50, 3.50, 4.00, 3.50, 3.00,…
-## $ uv                    <dbl> 4.33, 4.00, 3.67, 5.00, 3.50, 4.00, 5.00, 3.33,…
+## $ uv                    <dbl> 4.333333, 4.000000, 3.666667, 5.000000, 3.50000…
 ## $ enrollment_status     <chr> "Approved/Enrolled", "Approved/Enrolled", "Appr…
 ## $ enrollment_reason     <chr> "Course Unavailable at Local School", "Course U…
-## $ cogproc               <dbl> 15.07, 7.11, 15.17, 14.51, 16.69, 11.98, 14.93,…
-## $ male                  <dbl> 0.5121, 0.0000, 0.1112, 0.0000, 0.0000, 0.5450,…
-## $ female                <dbl> 0.1666, 0.0000, 0.1522, 0.0000, 0.4260, 0.0000,…
-## $ friend                <dbl> 0.0000, 0.0000, 0.0127, 0.0000, 0.0000, 0.6600,…
-## $ family                <dbl> 0.00605, 0.00000, 0.08488, 0.00000, 0.00000, 0.…
-## $ social                <dbl> 6.20, 6.14, 5.05, 6.13, 7.53, 6.89, 7.37, 5.69,…
-## $ sad                   <dbl> 0.1808, 0.0000, 0.0910, 0.0000, 0.4350, 0.0000,…
-## $ anger                 <dbl> 0.4187, 0.0000, 0.1410, 0.1080, 0.1060, 0.0000,…
-## $ anx                   <dbl> 0.08000, 0.00000, 0.27537, 0.78800, 0.54500, 0.…
-## $ negemo                <dbl> 1.136, 0.000, 1.419, 1.152, 1.282, 0.000, 0.562…
-## $ posemo                <dbl> 3.56, 19.01, 2.91, 5.59, 3.79, 4.92, 5.69, 5.14…
-## $ affect                <dbl> 4.76, 19.01, 4.33, 6.74, 5.08, 4.92, 6.25, 5.68…
-## $ quant                 <dbl> 2.05, 2.74, 3.25, 3.21, 2.55, 1.08, 1.92, 2.59,…
-## $ number                <dbl> 0.913, 3.473, 2.307, 0.257, 0.213, 0.000, 1.508…
-## $ interrog              <dbl> 1.286, 0.443, 1.787, 1.103, 1.715, 2.400, 1.729…
-## $ compare               <dbl> 2.421, 4.147, 3.902, 2.699, 3.944, 1.085, 2.242…
-## $ adj                   <dbl> 5.11, 5.48, 5.61, 5.21, 4.62, 3.81, 4.79, 4.55,…
-## $ verb                  <dbl> 18.1, 11.0, 16.3, 16.3, 17.1, 17.9, 16.3, 18.0,…
-## $ negate                <dbl> 1.206, 0.000, 1.681, 1.130, 0.748, 0.660, 0.684…
-## $ conj                  <dbl> 5.57, 6.66, 5.37, 6.20, 7.24, 6.44, 7.58, 5.17,…
-## $ adverb                <dbl> 6.24, 6.66, 5.82, 5.31, 6.49, 5.34, 6.86, 7.25,…
-## $ auxverb               <dbl> 11.30, 9.25, 10.23, 8.89, 9.49, 11.36, 9.71, 8.…
-## $ prep                  <dbl> 12.30, 11.85, 12.13, 13.63, 12.82, 14.19, 10.73…
-## $ article               <dbl> 7.83, 2.22, 6.77, 9.12, 9.83, 5.66, 7.01, 7.66,…
-## $ ipron                 <dbl> 6.94, 2.74, 5.15, 4.33, 7.84, 4.49, 7.78, 5.30,…
-## $ they                  <dbl> 1.0103, 0.0000, 0.8434, 1.8630, 0.0980, 2.5200,…
-## $ shehe                 <dbl> 0.5434, 0.0000, 0.1695, 0.0000, 0.4260, 0.0000,…
-## $ you                   <dbl> 1.744, 3.473, 1.149, 2.049, 2.623, 0.000, 3.274…
-## $ we                    <dbl> 0.0658, 0.0000, 0.0332, 0.3020, 0.4910, 0.0000,…
-## $ i                     <dbl> 3.65, 7.99, 4.69, 3.45, 3.14, 7.00, 5.10, 3.83,…
-## $ ppron                 <dbl> 7.01, 11.47, 6.88, 7.66, 6.78, 9.52, 9.34, 6.60…
-## $ pronoun               <dbl> 13.99, 14.21, 12.03, 12.22, 14.62, 14.02, 17.12…
-## $ `function`            <dbl> 55.2, 44.6, 49.4, 53.1, 57.5, 55.4, 55.2, 51.7,…
-## $ Dic                   <dbl> 86.3, 86.3, 80.7, 86.5, 90.5, 83.0, 87.3, 83.3,…
-## $ Sixltr                <dbl> 20.9, 22.2, 20.8, 21.8, 15.3, 25.0, 16.3, 20.5,…
-## $ WPS                   <dbl> 17.41, 9.83, 17.92, 18.82, 15.66, 16.80, 13.54,…
-## $ Tone                  <dbl> 56.6, 96.4, 49.4, 78.4, 55.4, 91.3, 59.4, 78.7,…
-## $ Authentic             <dbl> 44.1, 70.3, 41.2, 49.0, 42.2, 34.1, 39.9, 35.1,…
-## $ Clout                 <dbl> 49.5, 53.6, 40.1, 53.1, 54.1, 40.0, 55.5, 52.5,…
-## $ Analytic              <dbl> 55.7, 56.0, 59.0, 70.0, 55.8, 54.5, 41.8, 70.4,…
-## $ WC                    <dbl> 88.3, 34.7, 69.3, 61.2, 47.1, 84.0, 80.5, 59.2,…
+## $ cogproc               <dbl> 15.069737, 7.106667, 15.165854, 14.508000, 16.6…
+## $ male                  <dbl> 0.51210526, 0.00000000, 0.11121951, 0.00000000,…
+## $ female                <dbl> 0.16657895, 0.00000000, 0.15219512, 0.00000000,…
+## $ friend                <dbl> 0.00000000, 0.00000000, 0.01268293, 0.00000000,…
+## $ family                <dbl> 0.006052632, 0.000000000, 0.084878049, 0.000000…
+## $ social                <dbl> 6.200526, 6.140000, 5.052927, 6.133000, 7.53400…
+## $ sad                   <dbl> 0.18078947, 0.00000000, 0.09097561, 0.00000000,…
+## $ anger                 <dbl> 0.41868421, 0.00000000, 0.14097561, 0.10800000,…
+## $ anx                   <dbl> 0.080000000, 0.000000000, 0.275365854, 0.788000…
+## $ negemo                <dbl> 1.1363158, 0.0000000, 1.4187805, 1.1520000, 1.2…
+## $ posemo                <dbl> 3.555526, 19.010000, 2.906098, 5.591000, 3.7940…
+## $ affect                <dbl> 4.756053, 19.010000, 4.330732, 6.743000, 5.0750…
+## $ quant                 <dbl> 2.046842, 2.743333, 3.245366, 3.214000, 2.55100…
+## $ number                <dbl> 0.9131579, 3.4733333, 2.3065854, 0.2570000, 0.2…
+## $ interrog              <dbl> 1.2857895, 0.4433333, 1.7868293, 1.1030000, 1.7…
+## $ compare               <dbl> 2.4213158, 4.1466667, 3.9021951, 2.6990000, 3.9…
+## $ adj                   <dbl> 5.106842, 5.480000, 5.614390, 5.213000, 4.61800…
+## $ verb                  <dbl> 18.11368, 11.02333, 16.34366, 16.31100, 17.1170…
+## $ negate                <dbl> 1.2060526, 0.0000000, 1.6809756, 1.1300000, 0.7…
+## $ conj                  <dbl> 5.565526, 6.660000, 5.370244, 6.203000, 7.24400…
+## $ adverb                <dbl> 6.243421, 6.660000, 5.824878, 5.314000, 6.49200…
+## $ auxverb               <dbl> 11.298421, 9.246667, 10.226341, 8.890000, 9.494…
+## $ prep                  <dbl> 12.301579, 11.850000, 12.132927, 13.626000, 12.…
+## $ article               <dbl> 7.828947, 2.223333, 6.767805, 9.119000, 9.83000…
+## $ ipron                 <dbl> 6.936316, 2.743333, 5.145122, 4.335000, 7.84100…
+## $ they                  <dbl> 1.01026316, 0.00000000, 0.84341463, 1.86300000,…
+## $ shehe                 <dbl> 0.54342105, 0.00000000, 0.16951220, 0.00000000,…
+## $ you                   <dbl> 1.7442105, 3.4733333, 1.1487805, 2.0490000, 2.6…
+## $ we                    <dbl> 0.06578947, 0.00000000, 0.03317073, 0.30200000,…
+## $ i                     <dbl> 3.646579, 7.993333, 4.689268, 3.449000, 3.14200…
+## $ ppron                 <dbl> 7.010000, 11.470000, 6.882927, 7.662000, 6.7790…
+## $ pronoun               <dbl> 13.98868, 14.20667, 12.02756, 12.21900, 14.6190…
+## $ `function`            <dbl> 55.15447, 44.63000, 49.40293, 53.12700, 57.5090…
+## $ Dic                   <dbl> 86.27895, 86.31000, 80.72220, 86.49700, 90.4870…
+## $ Sixltr                <dbl> 20.89316, 22.20333, 20.80780, 21.80200, 15.3060…
+## $ WPS                   <dbl> 17.413947, 9.833333, 17.922439, 18.824000, 15.6…
+## $ Tone                  <dbl> 56.62395, 96.38000, 49.41610, 78.36900, 55.3840…
+## $ Authentic             <dbl> 44.13079, 70.25333, 41.22366, 49.03800, 42.2500…
+## $ Clout                 <dbl> 49.52079, 53.58333, 40.11024, 53.08800, 54.0850…
+## $ Analytic              <dbl> 55.70316, 56.04000, 58.98098, 69.95700, 55.8200…
+## $ WC                    <dbl> 88.31579, 34.66667, 69.34146, 61.20000, 47.1000…
 ## $ n                     <dbl> 38, 3, 41, 10, 10, 2, 21, 18, 31, 37, 37, 18, 1…
 ```
 Scanning the data we glimpsed, we see that we have 606 observations and 74 variables. Many of these variables - everything below `WC` except the variable `n` -  are related to the text content of the discussion board posts. Our analysis here is not focused on the specifics of the discussion board posts, so we will select just a few variables from the LIWC analysis. If you're interested in learning more about analyzing text, the text analysis walkthrough in [Chapter 11](#c11) would be a good place to start. 
@@ -284,20 +284,20 @@ nearZeroVar(df, saveMetrics = TRUE)
 
 ```
 ##                   freqRatio percentUnique zeroVar   nzv
-## int                    1.31         9.052   FALSE FALSE
-## uv                     1.53         6.466   FALSE FALSE
-## pc                     1.49         3.879   FALSE FALSE
-## time_spent             1.00        98.707   FALSE FALSE
-## final_grade            1.33        92.241   FALSE FALSE
-## subject                1.65         1.078   FALSE FALSE
-## enrollment_reason      3.15         1.078   FALSE FALSE
-## semester               1.23         0.647   FALSE FALSE
-## enrollment_status      0.00         0.216    TRUE  TRUE
-## cogproc                1.33        83.190   FALSE FALSE
-## social                 1.00        70.690   FALSE FALSE
-## posemo                 1.00        66.164   FALSE FALSE
-## negemo                 8.67        89.655   FALSE FALSE
-## n                      1.33        10.129   FALSE FALSE
+## int                1.314815     9.0517241   FALSE FALSE
+## uv                 1.533333     6.4655172   FALSE FALSE
+## pc                 1.488372     3.8793103   FALSE FALSE
+## time_spent         1.000000   100.0000000   FALSE FALSE
+## final_grade        1.333333    93.1034483   FALSE FALSE
+## subject            1.648649     1.0775862   FALSE FALSE
+## enrollment_reason  3.154762     1.0775862   FALSE FALSE
+## semester           1.226601     0.6465517   FALSE FALSE
+## enrollment_status  0.000000     0.2155172    TRUE  TRUE
+## cogproc            1.000000    96.9827586   FALSE FALSE
+## social             1.500000    96.1206897   FALSE FALSE
+## posemo             1.000000    96.7672414   FALSE FALSE
+## negemo            13.000000    90.7327586   FALSE FALSE
+## n                  1.333333    10.1293103   FALSE FALSE
 ```
 After conducting our zero variance check, we want to scan the `zeroVar` column to see if any of our variables failed this check. If we see any `TRUE` values for `zeroVar`, that means we should look more closely at that variable.
 
@@ -474,13 +474,13 @@ rf_fit
 ## Summary of sample sizes: 372, 372, 372, 372, 372, 372, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   RMSE  Rsquared  MAE  
-##    2    variance    15.3  0.565     11.18
-##    2    extratrees  17.0  0.523     12.06
-##   10    variance    14.0  0.593     10.14
-##   10    extratrees  13.9  0.621     10.07
-##   19    variance    14.1  0.589     10.02
-##   19    extratrees  13.4  0.632      9.77
+##   mtry  splitrule   RMSE      Rsquared   MAE      
+##    2    variance    15.26965  0.5646105  11.182943
+##    2    extratrees  16.99412  0.5228177  12.064817
+##   10    variance    13.96625  0.5926815  10.144724
+##   10    extratrees  13.87205  0.6205291  10.068379
+##   19    variance    14.05020  0.5886314  10.023326
+##   19    extratrees  13.41310  0.6319288   9.766645
 ## 
 ## Tuning parameter 'min.node.size' was held constant at a value of 5
 ## RMSE was used to select the optimal model using the smallest value.
@@ -527,13 +527,13 @@ rf_fit1
 ## Summary of sample sizes: 335, 334, 334, 336, 334, 334, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   RMSE  Rsquared  MAE  
-##    2    variance    14.6  0.590     10.97
-##    2    extratrees  16.2  0.585     11.79
-##   10    variance    13.3  0.618      9.83
-##   10    extratrees  13.0  0.660      9.66
-##   19    variance    13.3  0.617      9.68
-##   19    extratrees  12.6  0.664      9.36
+##   mtry  splitrule   RMSE      Rsquared   MAE      
+##    2    variance    14.64664  0.5896743  10.965898
+##    2    extratrees  16.24513  0.5854833  11.787050
+##   10    variance    13.29633  0.6181503   9.829458
+##   10    extratrees  13.00986  0.6599769   9.655362
+##   19    variance    13.25465  0.6167849   9.683722
+##   19    extratrees  12.59520  0.6635394   9.363926
 ## 
 ## Tuning parameter 'min.node.size' was held constant at a value of 5
 ## RMSE was used to select the optimal model using the smallest value.
@@ -585,57 +585,57 @@ rf_fit2
 ## Summary of sample sizes: 372, 372, 372, 372, 372, 372, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   mtry  splitrule   min.node.size  RMSE  Rsquared  MAE  
-##    2    variance     1             15.2  0.564     11.12
-##    2    variance     5             15.3  0.564     11.18
-##    2    variance    10             15.5  0.554     11.35
-##    2    variance    15             15.6  0.550     11.45
-##    2    variance    20             15.7  0.543     11.57
-##    2    extratrees   1             16.9  0.522     11.96
-##    2    extratrees   5             17.0  0.518     12.08
-##    2    extratrees  10             17.3  0.506     12.27
-##    2    extratrees  15             17.4  0.502     12.39
-##    2    extratrees  20             17.7  0.489     12.56
-##    3    variance     1             14.7  0.574     10.73
-##    3    variance     5             14.7  0.572     10.80
-##    3    variance    10             14.8  0.567     10.94
-##    3    variance    15             15.0  0.557     11.08
-##    3    variance    20             15.2  0.550     11.22
-##    3    extratrees   1             15.7  0.560     11.20
-##    3    extratrees   5             15.9  0.556     11.31
-##    3    extratrees  10             16.2  0.545     11.58
-##    3    extratrees  15             16.4  0.539     11.75
-##    3    extratrees  20             16.6  0.530     11.90
-##    7    variance     1             14.1  0.589     10.27
-##    7    variance     5             14.1  0.590     10.26
-##    7    variance    10             14.2  0.584     10.37
-##    7    variance    15             14.2  0.581     10.46
-##    7    variance    20             14.4  0.576     10.56
-##    7    extratrees   1             14.3  0.607     10.31
-##    7    extratrees   5             14.4  0.603     10.37
-##    7    extratrees  10             14.5  0.600     10.54
-##    7    extratrees  15             14.7  0.596     10.68
-##    7    extratrees  20             15.0  0.586     10.87
-##   10    variance     1             13.9  0.593     10.12
-##   10    variance     5             14.0  0.593     10.13
-##   10    variance    10             14.0  0.591     10.18
-##   10    variance    15             14.1  0.587     10.26
-##   10    variance    20             14.1  0.585     10.33
-##   10    extratrees   1             13.8  0.623     10.00
-##   10    extratrees   5             13.9  0.619     10.08
-##   10    extratrees  10             14.1  0.613     10.22
-##   10    extratrees  15             14.3  0.606     10.38
-##   10    extratrees  20             14.4  0.603     10.49
-##   19    variance     1             14.0  0.590      9.99
-##   19    variance     5             14.0  0.588     10.01
-##   19    variance    10             14.1  0.588     10.03
-##   19    variance    15             14.1  0.588     10.07
-##   19    variance    20             14.1  0.587     10.08
-##   19    extratrees   1             13.4  0.634      9.73
-##   19    extratrees   5             13.4  0.633      9.75
-##   19    extratrees  10             13.5  0.629      9.83
-##   19    extratrees  15             13.6  0.626      9.90
-##   19    extratrees  20             13.7  0.621     10.01
+##   mtry  splitrule   min.node.size  RMSE      Rsquared   MAE      
+##    2    variance     1             15.21257  0.5640999  11.115597
+##    2    variance     5             15.26810  0.5638393  11.181907
+##    2    variance    10             15.45130  0.5541338  11.348051
+##    2    variance    15             15.56036  0.5497028  11.445290
+##    2    variance    20             15.72194  0.5426742  11.573521
+##    2    extratrees   1             16.92739  0.5217704  11.959970
+##    2    extratrees   5             17.02815  0.5177077  12.076823
+##    2    extratrees  10             17.28776  0.5060890  12.265775
+##    2    extratrees  15             17.44764  0.5016608  12.390719
+##    2    extratrees  20             17.67751  0.4891901  12.556140
+##    3    variance     1             14.65669  0.5738730  10.730009
+##    3    variance     5             14.71055  0.5718560  10.796714
+##    3    variance    10             14.84534  0.5667383  10.938649
+##    3    variance    15             15.01766  0.5573860  11.077530
+##    3    variance    20             15.17448  0.5497694  11.222043
+##    3    extratrees   1             15.73859  0.5602534  11.197195
+##    3    extratrees   5             15.87463  0.5561978  11.312669
+##    3    extratrees  10             16.18226  0.5450388  11.578177
+##    3    extratrees  15             16.41014  0.5386357  11.749329
+##    3    extratrees  20             16.64769  0.5297996  11.902915
+##    7    variance     1             14.06354  0.5891298  10.265146
+##    7    variance     5             14.05089  0.5901984  10.256999
+##    7    variance    10             14.17334  0.5839552  10.372204
+##    7    variance    15             14.24620  0.5806848  10.456265
+##    7    variance    20             14.36375  0.5755600  10.560296
+##    7    extratrees   1             14.27671  0.6067836  10.306448
+##    7    extratrees   5             14.37512  0.6034048  10.371551
+##    7    extratrees  10             14.54903  0.6000708  10.539154
+##    7    extratrees  15             14.73613  0.5956554  10.679249
+##    7    extratrees  20             14.99862  0.5858391  10.874959
+##   10    variance     1             13.94020  0.5933172  10.118910
+##   10    variance     5             13.95884  0.5925954  10.130894
+##   10    variance    10             13.99612  0.5912951  10.177994
+##   10    variance    15             14.06937  0.5871199  10.264013
+##   10    variance    20             14.12505  0.5849011  10.326244
+##   10    extratrees   1             13.81434  0.6225194  10.002114
+##   10    extratrees   5             13.87943  0.6192667  10.082908
+##   10    extratrees  10             14.07823  0.6131080  10.220691
+##   10    extratrees  15             14.29597  0.6060346  10.383784
+##   10    extratrees  20             14.42182  0.6028746  10.489607
+##   19    variance     1             14.01330  0.5904613   9.988716
+##   19    variance     5             14.04655  0.5882967  10.010647
+##   19    variance    10             14.05683  0.5881496  10.029118
+##   19    variance    15             14.07198  0.5876164  10.069665
+##   19    variance    20             14.09864  0.5865583  10.079718
+##   19    extratrees   1             13.35989  0.6335635   9.729254
+##   19    extratrees   5             13.39873  0.6325685   9.746579
+##   19    extratrees  10             13.51532  0.6285967   9.834457
+##   19    extratrees  15             13.59740  0.6260692   9.903994
+##   19    extratrees  20             13.74330  0.6213098  10.014353
 ## 
 ## RMSE was used to select the optimal model using the smallest value.
 ## The final values used for the model were mtry = 19, splitrule = extratrees
@@ -669,8 +669,8 @@ rf_fit2$finalModel
 ## Variable importance mode:         none 
 ## Splitrule:                        extratrees 
 ## Number of random splits:          1 
-## OOB prediction error (MSE):       160 
-## R squared (OOB):                  0.66
+## OOB prediction error (MSE):       159.8603 
+## R squared (OOB):                  0.6599865
 ```
 In looking at this output, we see the same parameters we noted above: `mtry` is 19, the node size is 1, and the split rule is extra trees. We can also note the *OOB prediction error (MSE)*, of 159.86, and the proportion of the variance explained, or R squared, of 0.66. As before, we want the error to be low and the variance explained to be high.
 
@@ -706,8 +706,8 @@ defaultSummary(as.data.frame(df_test_augmented))
 ```
 
 ```
-##     RMSE Rsquared      MAE 
-##   12.982    0.552    9.974
+##       RMSE   Rsquared        MAE 
+## 12.9821088  0.5517269  9.9735400
 ```
 
 We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 12.98 on the test data here, and it was 13.36 on the training data. The Rsquared value is 0.55 here, as compared to the 0.63 we got when we passed the training data through `rf_fit2` earlier. 
@@ -748,26 +748,26 @@ varImp(rf_fit2_imp)
 ```
 ## ranger variable importance
 ## 
-##                                                     Overall
-## n                                                   100.000
-## subjectFrScA                                         20.827
-## time_spent                                           13.680
-## subjectPhysA                                          5.288
-## semesterS216                                          4.063
-## negemo                                                3.137
-## pc                                                    2.558
-## social                                                2.360
-## posemo                                                1.724
-## int                                                   0.933
-## cogproc                                               0.729
-## enrollment_reasonScheduling Conflict                  0.516
-## enrollment_reasonLearning Preference of the Student   0.466
-## enrollment_reasonOther                                0.412
-## uv                                                    0.387
-## enrollment_reasonCredit Recovery                      0.233
-## semesterT116                                          0.212
-## subjectOcnA                                           0.180
-## subjectBioA                                           0.000
+##                                                      Overall
+## n                                                   100.0000
+## subjectFrScA                                         20.8268
+## time_spent                                           13.6802
+## subjectPhysA                                          5.2882
+## semesterS216                                          4.0628
+## negemo                                                3.1369
+## pc                                                    2.5582
+## social                                                2.3604
+## posemo                                                1.7236
+## int                                                   0.9332
+## cogproc                                               0.7290
+## enrollment_reasonScheduling Conflict                  0.5157
+## enrollment_reasonLearning Preference of the Student   0.4661
+## enrollment_reasonOther                                0.4123
+## uv                                                    0.3871
+## enrollment_reasonCredit Recovery                      0.2332
+## semesterT116                                          0.2124
+## subjectOcnA                                           0.1797
+## subjectBioA                                           0.0000
 ```
 
 Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
@@ -785,7 +785,7 @@ varImp(rf_fit2_imp) %>%
     theme_dataedu()
 ```
 
-<div class="figure" style="text-align: center">
+<div class="figure">
 <img src="14-wt-machine-learning_files/figure-html/fig14-1-1.png" alt="Variable Importance" width="672" />
 <p class="caption">(\#fig:fig14-1)Variable Importance</p>
 </div>
@@ -861,8 +861,8 @@ defaultSummary(as.data.frame(df_train_lm))
 ```
 
 ```
-##     RMSE Rsquared      MAE 
-##   14.434    0.556   10.848
+##       RMSE   Rsquared        MAE 
+## 14.4343171  0.5556582 10.8476760
 ```
 
 ```r
@@ -871,8 +871,8 @@ defaultSummary(as.data.frame(df_train_randomfor))
 ```
 
 ```
-##     RMSE Rsquared      MAE 
-##    4.602    0.968    3.393
+##      RMSE  Rsquared       MAE 
+## 4.6020505 0.9678801 3.3933523
 ```
 Our output will come in the order we wrote the code, so the linear model output is displayed above the random forest output.
 
