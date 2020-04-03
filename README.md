@@ -106,7 +106,7 @@ To help contributors participate, we're using labels so community members can id
 
 ## Contact Us 
 
-If you have questions, comments, or ideas you can reach the authors by email at [datascienceineducation@gmail.com](mailto:datascienceineducation@gmail.com) or on Twitter: 
+If you have questions, comments, or ideas you can reach the authors by email at [authors@datascienceineducation.com](mailto:authors@datascienceineducation.com) or on Twitter: 
 
  - Emily [@ebovee09](https://twitter.com/ebovee09)  
 
