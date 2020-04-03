@@ -113,8 +113,8 @@ glimpse(df)
 ```
 
 ```
-## Observations: 606
-## Variables: 74
+## Rows: 606
+## Columns: 74
 ## $ student_id            <dbl> 43146, 44638, 47448, 47979, 48797, 51943, 52326…
 ## $ course_id             <chr> "FrScA-S216-02", "OcnA-S116-01", "FrScA-S216-01…
 ## $ total_points_possible <dbl> 3280, 3531, 2870, 4562, 2207, 4208, 4325, 2086,…
