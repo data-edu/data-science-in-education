@@ -1,7 +1,6 @@
 # Data Science in Education Using R <img src='man/figures/logo.png' align="right" height="120" />
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/data-edu/data-science-in-education.svg?branch=master)](https://travis-ci.org/data-edu/data-science-in-education)
 <!-- badges: end -->
  
 * [How to Contribute](#Contributing)
@@ -118,3 +117,7 @@ If you have questions, comments, or ideas you can reach the authors by email at 
  - Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
 
  - Ryan [@RyanEs](https://twitter.com/RyanEs) 
+ 
+ ## Citation
+ 
+> Bovee, E. A., Estrellado, R. A., Motsipak, J., Rosenberg, J. M., & Velásquez, I. C. (under contract). Data science in education using R. London, England: Routledge. Nb. All authors contributed equally. http://www.datascienceineducation.com/

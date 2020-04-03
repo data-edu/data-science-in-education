@@ -4,7 +4,7 @@ author: "Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg
 site: bookdown::bookdown_site
 output:
     bookdown::gitbook:
-        fig_caption: yes
+        number_sections: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: "apalike"
@@ -17,9 +17,25 @@ url: "datascienceineducation.com/"
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+# for packages
+
+knitr::write_bib(c("bookdown", "tidyverse", "dplyr", "tidyr", 
+                 "ggplot2", "sjPlot", "lme4", "ggraph", "tidygraph", 
+                 "caret", "readxl", "here", "lubridate", "dummies",
+                 "janitor", "dataedu", "tidyverse", 
+                 "statnet", "amen", "ergm", "rJava", "tabulizer", 
+                 dataedu:::dataedu_packages), "packages.bib")
+
+library(RefManageR)
+
+b <- ReadBib('book.bib')
+b_packages <- ReadBib('packages.bib')
+
+b <- sort(b)
+b_packages <- sort(b_packages)
+
+WriteBib(b, "book.bib")
+WriteBib(b_packages, "packages.bib")
 ```
 
 # Welcome {-}
