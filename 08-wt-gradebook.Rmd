@@ -1,5 +1,12 @@
 # Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective {#c08}
 
+## Topics Covered
+
+- 
+## Functions Introduced
+
+- `pivot_longer()`
+
 ## Vocabulary
 
 - correlation  
@@ -9,7 +16,6 @@
 - linearity  
 - missing values/ NA
 - outliers  
-- pivot  
 - string
 
 ## Chapter Overview
