@@ -57,6 +57,14 @@ For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} package
 devtools::install_github("data-edu/dataedu")
 ```
 
+We'll be using the {tidytext} package to work with vectors of words. If you don't already have {tidytext} installed, let's do that now: 
+
+```{r install tidytext, eval=FALSE}
+install.packages("tidytext")
+```
+
+Finally, let's load our packages before moving on to import the data: 
+
 ```{r load packages, message = F, warning = F}
 library(tidyverse)
 library(here)
@@ -106,13 +114,7 @@ Now the dataset has a column to identify each tweet and a column that shows the 
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
-The {tidytext} package has a convenient function called `unnest_tokens()` that tokenizes vectors of words. Let's install the {tidytext} package so we can use it: 
-
-```{r install tidytext, eval=FALSE}
-install.packages("tidytext")
-```
-
-Let's use `unnest_tokens()` to take our dataset of tweets and transform it into a dataset of words. 
+Let's use `unnest_tokens()` from the {tidytext} package to take our dataset of tweets and transform it into a dataset of words. 
 
 ```{r tokenize data}
 tokens <- 
