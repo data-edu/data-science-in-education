@@ -1,15 +1,19 @@
 # Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities {#c09}
 
-## Topics Covered
+## Topics Emphasized
 
-- Cleaning data
-- Tidying data
-- Exploring data
+- Importing data
+- Tidying data 
+- Transforming data
 - Visualizing data
 
 ## Functions Introduced
 
-* `race_pdf()`
+- `dplyr::mutate_at() `
+- `readRDS()`
+- `purrr::map and `purrr::map_df()`
+- `purrr::set_names()`
+- `dplyr::slice()`
 
 ## Vocabulary
 
@@ -27,7 +31,7 @@
 
 Data scientists working in education don't always have access to student level
 data, so knowing how to model aggregate datasets is very valuable. This chapter explores what aggregate data is, and how to access, clean, and explore it. It is a "companion" to the 
-following chapter, [Chapter 10]{#c10}, which also explores aggregate data, but does so with an emphasis on longitudinal analyses, or analyses that involve data at more than one time point.
+following chapter, [Chapter 10](#c10), which also explores aggregate data, but does so with an emphasis on longitudinal analyses, or analyses that involve data at more than one time point.
 
 ### Background
 
@@ -111,16 +115,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              14
-##  2 b       l              77
-##  3 c       m              38
-##  4 d       n              17
-##  5 e       o              69
-##  6 f       k              81
-##  7 g       l              84
-##  8 h       m              85
-##  9 i       n              93
-## 10 j       o               7
+##  1 a       k              49
+##  2 b       l              62
+##  3 c       m              23
+##  4 d       n              38
+##  5 e       o              63
+##  6 f       k              99
+##  7 g       l              32
+##  8 h       m              60
+##  9 i       n              83
+## 10 j       o              21
 ```
 
 Aggregate data totals up a variable - the variable `test_score` in this case - to
@@ -143,11 +147,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            40  
-## 2 l            56  
-## 3 m            79.5
-## 4 n            45  
-## 5 o            48
+## 1 k            83  
+## 2 l            31.5
+## 3 m            27  
+## 4 n            44.5
+## 5 o            38
 ```
 
 Notice here that this dataset no longer identifies individual students.
@@ -249,7 +253,7 @@ supports, reforms, or interventions [@descriptive].
 
 ## Load Packages
 
-As usual, we begin our code by calling the packages we will use.
+As usual, we begin our code by calling the packages we will use. If you have not installed any of these packages yet, see the [Packages section](#c06p) of the [Foundational Skills](#c06) chapter). Load the libraries, as they must be loaded each time we start a new project.
 
 
 ```r

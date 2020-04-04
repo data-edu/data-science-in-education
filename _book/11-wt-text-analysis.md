@@ -1,27 +1,42 @@
 # Walkthrough 5: Text Analysis With Social Media Data {#c11}
 
+## Topics Emphasized
+
+- Tidying data 
+- Transforming data
+- Visualizing data
+
+## Functions Introduced
+
+- `sample_n()`
+- `set.seed()`
+- `tidytext::unnest_tokens()`
+- `nrc::get_sentiments()`
+- `tidytext::inner_join()`
+
+## Functions Introduced in the Appendix
+
+- `readr::read_delim()`
+- `rtweet::lookup_statuses()`
+
 ## Vocabulary 
 
-- anti_join 
 - RDS files 
-- sample_n()
-- set.seed
+- text analyssi
 - stop words
-- slice
-- token 
 - tokenize 
 
 ## Chapter Overview
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
-In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis.
+In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis, which is broadly part of a group of techniques involving the analysis of text as data, Natural Language Processing (often abbreviated NLP).
 
-We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. Related, this chapter also contains [Appendix B](#c20b), which is not necessary to read to understand text analysis, but which elaborates on a number of techniques for accessing data from Twitter, such as the data from the #tidytuesday explored in this and the subsequent chapter.
+We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. While this chapter dives deeply into the analysis of the *text* of tweets, [Appendix B](#c20b) elaborates on a number of techniques for accessing data from Twitter - including data from #tidytuesday - and [Chapter 12](#c12) explores the nature of the interactions that take place between individuals through #tidytuesday.
 
 ### Background 
 
-When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
+When we think about data science in education, our minds tends to go data stored in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
@@ -33,7 +48,7 @@ We'll show these techniques using a dataset of tweets. We encourage you to compl
 
 ### Data Source
 
-It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
+It's useful to learn text analysis techniques from datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of Twitter datasets available. Since there's so much, it's useful to narrow the tweets to only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
 >RT \@CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
 
@@ -41,9 +56,7 @@ Twitter recognizes any words that start with a "#" as a hashtag. The hashtags "#
 
 In this example, we'll be analyzing a dataset of tweets that have the hashtag #tidytuesday (https://twitter.com/hashtag/tidytuesday). #tidytuesday is a community sparked by the work of one of the *Data Science in Education Using R* co-authors, Jesse Mostipak, who created the (related) #r4ds community from which #tidytuesday was created. #tidytuesday is a weekly data visualization challenge. A great place to see examples from past #tidytuesday challenges is an interactive Shiny application (https://github.com/nsgrantham/tidytuesdayrocks). 
 
-The #tidytuesday hashtag (search Twitter for the hashtag, or see the results here: http://bit.ly/tidytuesday-search) returns tweets about the weekly TidyTuesday ritual, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
-
-You can view the TidyTuesday tweets dataset here: http://bit.ly/tidytuesday-dataset
+The #tidytuesday hashtag (search Twitter for the hashtag, or see the results here: http://bit.ly/tidytuesday-search) returns tweets about the weekly TidyTuesday practice, where folks learning R create and tweet data visualizations they made while learning to use tidyverse R packages. 
 
 ### Methods 
 
@@ -51,21 +64,10 @@ In this walkthrough, we'll be learning how to count words in a text dataset. We'
 
 ## Load Packages 
 
-For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. Just a reminder, if you haven't already installed the {dataedu} package, you can do so by typing this code: 
+For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. As it has not been used previously in the book, you may need to install the {tidytext} package (and - if you haven't just yet - the other packages), first. 
+For instructions on and an overview about installing packages, see the [Packages section](#c06p) of the [Foundational Skills](#c06) chapter. 
 
-
-```r
-devtools::install_github("data-edu/dataedu")
-```
-
-We'll be using the {tidytext} package to work with vectors of words. If you don't already have {tidytext} installed, let's do that now: 
-
-
-```r
-install.packages("tidytext")
-```
-
-Finally, let's load our packages before moving on to import the data: 
+Let's load our packages before moving on to import the data: 
 
 
 ```r
@@ -77,22 +79,14 @@ library(tidytext)
 
 ## Import Data
 
-Let's start by getting the data into our programming environment so we can start analyzing it. We've conveniently included the raw dataset of TidyTuesday tweets in the {dataedu} package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
+Let's start by getting the data into our environment so we can start analyzing it. In [Chapter 12](#c12) and in [Appendix B](#c20b), we describe how we accessed this data through Twitter's Application Programming Interface, or API (and how you can access data from Twitter on other hashtags or terms, too). 
+
+We've included the raw dataset of TidyTuesday tweets in the {dataedu} package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 
 ```r
 raw_tweets <- dataedu::tt_tweets
 ```
-
-### Using an Application Programming Interface (or API)
-
-It's worth taking a short detour to talk about another way you can get a dataset like this. A more advanced but common way to import data from a social media website is to use something called an application programming interface (API). A full discussion and walkthrough of using an API is outside the scope of this book, but it’s worth introducing the idea so you have a sense of the possibilities. Once you learn how to do it, using an API offers some advantages over downloading the dataset. 
-
-Think of an API as a special door a home builder made for a house that has a lot of cool stuff in it. The home builder doesn’t want everyone to be able to walk right in and use a bunch of stuff in the house. But they also don’t want to make it too hard because, after all, sharing is caring! So imagine the home builder made a door just for folks who know how to use doors. In order to get through this door, users need to know where to find it along the outside of the house. Once they’re there, they have to know the code to open. And once they’re through the door, they have to know how to use the stuff inside. An API for social media platforms like Twitter and Facebook are the same way. You can download datasets of social media information, like tweets, using some code and authentication credentials organized by the website.
-
-There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
-
-A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in [Appendix B](#c20b), along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt-tweets` dataset. We describe how to process and model this data, and conclude with a description of two powerful social network analysis models, for selection (to explore who interacts with whom) and influence (to determine how interactions relate to changes in what an individual knows or believes).
 
 ## View Data 
 
@@ -226,7 +220,7 @@ tokens %>%
 
 Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
 
-## Analysis: Sentiment analysis
+## Analysis: Sentiment Analysis
 
 Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
 
@@ -526,7 +520,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  6 10  7  2  5
+## [1]  4  2  9  3 10
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

@@ -2,13 +2,14 @@
 
 
 
-## Topics Covered
+## Topics Emphasized
 
-- Cleaning data
-- Tidying data
-- Exploring data
+- Importing data
+- Tidying data 
+- Transforming data
 - Visualizing data
 - Modeling data
+- Communicating results
 
 ## Functions Introduced
 
@@ -16,8 +17,9 @@
 - `download.file()`
 - `lubridate::ymd()`
 - `identical()`
-- `top_n()`
-- `geom_jitter()`
+- `dplyr::top_n()`
+- `ggplot2::geom_jitter()`
+- `dplyr::arrange()`
 
 ## Vocabulary 
 
@@ -74,7 +76,9 @@ counts and comparing male to female ratios over time.
 
 The function `here()` from the {here} package can cause conflicts with other functions called `here()`. We can prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace."
 
-You can load those packages by running this code: 
+If you have not installed any of these packages, then you will need to do so, first, using the `install.packages()` function; see the [Packages section](#c06p) of the [Foundational Skills](#c06) chapter for instructions (and an overview of what packages are and how they work). 
+
+You can load the packages needed in this walkthrough by running this code: 
 
 
 ```r
@@ -158,7 +162,8 @@ download.file(
   # destfile specifies where the file should be saved
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2012.csv"))
+           "bchildcountandedenvironments2012.csv"), 
+  mode = "wb")
 ```
 
 We can do this for the remaining five datasets.
@@ -169,31 +174,36 @@ download.file(
   url = 'https://bit.ly/33WXnFX', 
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2013.csv"))
+           "bchildcountandedenvironments2013.csv"), 
+  mode = "wb")
 
 download.file(
   url = 'https://bit.ly/2UvSwbx', 
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2014.csv"))
+           "bchildcountandedenvironments2014.csv"), 
+  mode = "wb")
 
 download.file(
   url = 'https://bit.ly/39wQAUg', 
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2015.csv"))
+           "bchildcountandedenvironments2015.csv"), 
+  mode = "wb")
 
 download.file(
   url = 'https://bit.ly/2JubWHC', 
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2016.csv"))
+           "bchildcountandedenvironments2016.csv"), 
+  mode = "wb")
 
 download.file(
   url = 'https://bit.ly/2wPLu8w',
   destfile = here::here("data",
            "longitudinal_data",
-           "bchildcountandedenvironments2017-18.csv"))
+           "bchildcountandedenvironments2017-18.csv"), 
+  mode = "wb")
 ```
 
 Now that the files are downloaded (either through the above code or by downloading them from GitHub), we're
@@ -613,7 +623,7 @@ pick_vars <-
   function(df) {
     df %>%
       select_at(vars(
-        "Year",
+        Year,
         contains("State", ignore.case = FALSE),
         contains("SEA", ignore.case = FALSE),
         contains("male")

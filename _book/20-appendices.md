@@ -243,11 +243,25 @@ You can then use the `gs_title()` function in conjunction with the `gs_read()` f
 
 ## Appendix B: Accessing Twitter Data {c20b}
 
-The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag. As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag, while [Chapter 12](#c12) explores the relationships between individuals evidenced through their interactions through the #tidytuesday hashtag. 
 
-### Accessing Historical Twitter Data Using Already-Collected Status URLs
+As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
 
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
+### Accessing Twitter Data from the Last Seven Days
+
+As we describe in [Chapter 12](#c12), the {rtweet} package can be used to access Twitter data, with a key limitation: Only tweets from (approximately) the past seven days are able to be accessed. As a reminder, here is code to access data from a hashtag (in this case, #statschat, used by statistics educators), much like we did in [Chapter 12](#c12), but for the #tidytuesday hashtag:
+
+
+```r
+library(rtweet)
+
+rstats_tweets <- 
+  search_tweets("#statschat")
+```
+
+### Accessing Historical Twitter Data When You Have Access to Already-Collected Status URLs
+
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
 
 ```r
@@ -300,6 +314,15 @@ First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TA
 A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
 
 ## Appendix C: Social Network Influence and Selection Models {#c20c}
+
+Behind the social network visualizations explored in the chapter on social network analysis, [Chapter 12](#c12), there are also statistical *models* that can be used to further understand relationships in a network.
+
+One way to consider these models and methods is by considering selection and influence, two *processes* at play in our relationships. These two processes are commonly the focus of statistical analyses of networks. Selection and influence do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). Let's define these two processes:
+
+- *Selection*: the process of choosing relationships
+- *Influence*: the process of how our social relationships affect behavior
+
+While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preperation and visualization of network data.
 
 After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
 
@@ -451,7 +474,7 @@ In the last section we use da linear regression model. In this example we'll use
 
 But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
 
-Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
+Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code (which is not run, but is included as an example of the code for this kind of selection model) like this:
 
 
 ```r

@@ -1,21 +1,39 @@
 # Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
 
-## Topics Covered
+## Topics Emphasized
 
-- 
+For this and the remaining walkthroughs, we refer to the topics emphasized in terms of distinct but related 
+steps involved in the process of data science. In this book, we use the six steps - described in detail 
+in [Chapter 3](#c03) - from @grolemund2018's depiction of the proces.
+
+As mentioned in [Chapter 5](#c05), then, the topics emphasized are those that are the *particular* focus of each chapter; most of the walkthroughs contain some element of all of the five aspects, but all have specific emphases.
+
+For this chapter on the educaton data science pipeline, those emphases are:
+
+- Tidying data 
+- Transforming data
 
 ## Functions Introduced
 
+- `data.frame()`
+- `dplyr::summarize()`
+- `tidyr::pivot_longer() and tidyr::pivot_wider()`
+- `tidyr::left_join()`, `tidyr::right_join()`, `tidyr::semi_join()`, and `tidyr::anti_join()`
 - `lm()`
+- `ggplot2::ggplot()`
+- `apaTables::apa.cor.table()`
+- `sjPlot::tab_model()`
 
 ## Vocabulary
+
+In this section (here and in the other walkthrough sections), we include key terms that are introduced and used in the chapter.
 
   - data frame
   - item
   - joins
   - keys
   - log-trace data
-  - pass
+  - passed arguments
   - reverse scale
   - regression
   - survey
@@ -158,14 +176,42 @@ will help us organize the structure of the data using the {tidyverse}
 [@R-lubridate], create formatted tables using {apaTables} [@R-apaTables] and
 {sjPlot} [@R-sjPlot], and export datasets using {readxl} [@R-readxl].
 
+***Install packages (if necessary)***
+
+If you have not installed any of these packages before, you will need to do so 
+before loading them (if you run the code below *prior* to installing the packages, you 
+should see a message indicating that the package is not available). If you have installed 
+these before, then you can skip this step.
+
+You can install a single 
+package, such as the {tidyverse} package, as follows:
+
 
 ```r
-library(dataedu)
+install.packages("tidyverse")
+```
+
+If you must install two or more packages, you can do so in a single call to the `install.packages()` 
+function; the names of the packages must be provided to the function as follows:
+
+
+```r
+install.packages(c("tidyverse", "lubridate"))
+```
+
+When you're installing a package for the first time (which may be needed for the other walkthrough chapters, as well), you will need to take these same steps, first. 
+The good news is that you only need to install a package *once*, after which you can simply load it using `library()` (as below).
+
+More on the installation of packages is included in the [Packages section](#c06p) of [Chapter 6](#c06). 
+
+
+```r
 library(tidyverse)
 library(lubridate)
 library(apaTables)
 library(sjPlot)
 library(readxl)
+library(dataedu)
 ```
 
 ## Import Data

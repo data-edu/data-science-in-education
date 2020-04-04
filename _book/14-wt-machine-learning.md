@@ -1,5 +1,18 @@
 # Walkthrough 8: Predicting Students' Final Grades Using Machine Learning Methods with Online Course Data {#c14}
 
+## Topics Emphasized
+
+- Transforming data
+- Modeling data
+
+## Functions Introduced
+
+- `caret::nearZeroVar()`
+- `caret::createDataPartition()`
+- `caret::train()`
+- `caret::trainControl()`
+- `caret::varImp()`
+
 ## Vocabulary
 
 - listwise deletion
@@ -93,12 +106,10 @@ To interpret our findings, we will consider three main factors: (1) predictive a
 
 ## Load Packages
 
+As always, if you have not installed any of these packages before, do so first using the `install.packages()` function. For a description of packages and their installation, review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
+
 
 ```r
-# install the new packages that will be used in this walkthrogh
-# skip this if you have already installed these on your computer
-# install.packages(c("caret", "tidylog"))
-
 # load the packages
 library(tidyverse)
 library(caret)
@@ -339,7 +350,7 @@ df <-
 
 Now we will prepare the **train** and **test** datasets, using the {caret} function for creating data partitions. Here, the **p** argument specifies what proportion of the data we want to be in the **training** partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don't have either a training or testing dataset that has too many good grades *or* too many bad grades. Note the `times = 1` argument. This parameter can be used to create *multiple* train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to "set the seed" (introduced in [Chapter 11](#c11)). Setting the seed ensures that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that when you open the same code file again to run in the future, you do not change the number you selected for your seed. This enables your code to be reproducible. If anyone runs the same code file on any computer, anywhere, they will get the same result. 
 
-Now try running the code chunk below. Be sure to read the messages that R gives you to see what is happening with each step!
+Now try running the code chunk below. Be sure to read the messages that R gives you to see what is happening with each step! One important note here: the numbers will differ slightly if you are running this on a Windows machine.
     
 
 ```r
@@ -480,7 +491,7 @@ We have some results! First, we see that we have 372 samples, or 372 observation
 
 As we interpret these findings, we are looking to minimize the Root Mean Square Error (RMSE) and maximize the variance explained (rsquared).
 
-It appears that the model with the value of the `mtry` tuning parameter equal to 19 seemed to explain the data best, the `splitrule` being "extratrees", and `min.node.size` held constant at a value of 5. We know this model fits best because the RMSE is the lowest of the options (12.76) and the Rsquared is the highest of the options (0.65).
+It appears that the model with the value of the `mtry` tuning parameter equal to 19 seemed to explain the data best, the `splitrule` being "extratrees", and `min.node.size` held constant at a value of 5. We know this model fits best because the RMSE is the lowest of the options (13.41) and the Rsquared is the highest of the options (0.63).
 
 The value of resampling here is that it allows for higher accuracy of the model [@james2013]. Without resampling (bootstrapping or cross-validation), the variance would be higher and the predictive accuracy of the model would be lower.
 

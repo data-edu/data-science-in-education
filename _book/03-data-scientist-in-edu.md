@@ -1,6 +1,10 @@
 # What Does Data Science in Education Look Like? {#c03}
 
-You can think of a data scientist as someone who combines three skills to do data analysis: programming, statistics, and content knowledge [@conway2010data]. However, if you Google "what is a data scientist," you won't find a simple answer. In reality, "data scientist" is not a clear description of a single job functionality: it's sort of like saying you are a "business person." Data science as a field describes a wide array of job functionalities: some data scientists work on database architecture, while others focus on data analysis and interpretation. Despite this heterogeneity, in this chapter we'll provide a working definition of data science in education by sharing some of the roles that professionals occupy in this line of work. We'll also share some common day-to-day tasks for a data scientist in education. 
+You can think of a data scientist as someone who combines three skills to do data analysis: programming, statistics, and content knowledge [@conway2010data]. However, if you Google "what is a data scientist," you won't find a simple answer. In reality, "data scientist" is not a clear description of a single job functionality: it's sort of like saying you are a "business person." Data science as a field describes a wide array of job functions: some data scientists work on database architecture, while others focus on data analysis and interpretation. Moreover, data science describes a wide variety of job skills.
+
+Some of the time, for instance, data science in education refers to *the application of data science methods*, while other times it refers to *data science as a context for teaching and learning* [@rosenberg2020mdsc]. In the former case, data science in education is seen more as a set of techniques for making sense from data about teaching, learning, and educational systems; in the latter, it is seen more as a content area, like science or mathematics education. Our emphasis in this book is *primarily* (although, not exclusively) on the former case - applying data science methods to ask and answer questions and identify and solve problems related to education.
+
+This wide variety can make it difficult to know what data science in education really is, and how one could start to learn how to do it. Despite the heterogeneity in roles and capabilities involves, in this chapter we'll provide a working definition of data science in education by sharing some of the roles that professionals occupy in this line of work. We'll also share some common day-to-day tasks for a data scientist in education. Last, we'll provide a definition of the process of doing data science, one that we use to help categorize the aspects emphasized in each of the walkthroughs included later in the book.
 
 ## Data Roles in Education 
 
@@ -24,13 +28,37 @@ School systems that learn to use this data as it is generated get a lot of value
 
 There are many tried and true methods for data analysis in schools; even so, there is plenty of room for innovation. Data scientists in education take techniques that are commonly found in other industries, like business, and explore how these techniques can improve the state of analytics in education. In particular, the data scientists we spoke to talked about going beyond exploratory data analysis by introducing more advanced techniques like inferential statistics and predictive modeling to the data culture of the schools where they work. This work is not only about improving how well schools implement their current practices, but is also about exploring how we might apply new techniques improve the learning experience of our students. 
 
+## Defining The Process of Data Science
+
+While there is not wholesale agreement on the process of what doing data science entails, there
+are some aspects that most data scientists agree upon.
+
+For example, @peng2015's representation of the process emphasizes its cyclical, iterative nature (and the critical importance of starting with a question), and includes data exploration and model building as steps of the process. @grolemund2018's depiction emphasizes the specific, technical steps involved with doing data science; in addition to including modeling, it highlights the importance of preparing and transforming data so that it can be used in the analyses that follow these steps. In this book, we use @grolemund2018's depiction to define the process of doing data science.
+
+These are:
+
+1. *Importing data*: Accessing data from a number of sources (including Excel and Comma Separate Value [CSV] files, databases, and Application Programming Interfaces [or APIs]), which is then (typically) stored in a data frame in R.
+2. *Tidying data*: Storing data in a "tidy" form [@wickham2014], which may involve pivoting data from "long" to "wide" form and joining or combining two or more data frames in order to facilitate data visualization or modeling.
+3. *Transforming data*: Selecting and naming columns and filtering, recoding incomplete cases of data, and calculating summary statistics based on other variables in a dataset.
+4. *Visualizing data*: Creating visualizations to understand data and to present output from analyses.
+5. *Modeling data*: Using statistical models, from simple to complex, to understand trends and patterns in the data.
+6. *Communicating results*: Sharing the results of the analysis through visualizations, the output from models, or other products related to what you learned from the data.
+
+In @grolemund2018's depiction, steps three, four, and five are grouped together as "understanding data": We can see how transforming, visualizing, and modeling data are each different ways to make sense of the trends and patterns among variables in a dataset.
+
+Later, in the first walkthrough chapter, [Chapter 7](#c07), we'll introduce these six steps in the context of describing the areas of emphasis for the walkthrough; we then use these in the remaining walkthroughs to do the same. While we use these aspects to categorize the topics emphasized in the walkthroughs, we do not think that these are necessarily the *only* important aspects of doing data science. Nevertheless, particularly given our use of many R packages and techniques that work well with tidy data (see *tidying data* above; @wickham2019), we think these aspects satisfactorily describe the process of doing data science for us to use them for our purposes.
+
 ## Common Activities of Data Scientists 
 
-Now let's explore the tasks and techniques a data scientist in education uses on a daily basis. We'll learn and practice these and other similar techniques later in the book. 
+Now let's explore the tasks and techniques a data scientist in education uses on a daily basis. 
 
-### Processing Data 
+We'll learn and practice these and other similar techniques later in the book; for now, we introduce the common activities.
 
-Processing data, or cleaning data, is the act of taking data in its raw form and preparing it for analysis. When you start a data analysis, the data you have is in the same state as when it was generated and stored. Often, it isn’t designed to support the specific analysis that that you’re tasked with performing. 
+### Processing (Preparing and Tidying) Data 
+
+Processing data, or cleaning data, is the act of taking data in its raw form and preparing it for analysis. It begins with *importing data*, which is often followed by *transforming* (e.g., selecting and renaming variables, or filtering or recoding incomplete cases) and *tidying* (e.g., joining or pivoting) data in order to facilitate data visualization or modeling.
+
+When you start a data analysis, the data you have is in the same state as when it was generated and stored. Often, it isn’t designed to support the specific analysis that that you’re tasked with performing. 
 
 Here are some examples of common things you’ll need to do to prepare your data: 
 
@@ -40,9 +68,9 @@ Datasets also have to be filtered to the subset that you're interested in analyz
 
 Sometimes, your stakeholders will ask you to generate summary figures. Imagine that the director of curriculum and instruction asks you to report the percentage of students at each school that have scored in the "proficient" range on a statewide assessment. The datasets you're given are (1) a list of students, (2) a list of the schools they attend, and (3) a list of their test scores. To produce the requested report, you'll need to merge these lists so that all the data for each student is in one place: student, school, and test score. Next, you'll need to identify the number of students who scored above the "proficient" threshold on the test at each school. Finally, you'll be able to calculate the percentage of students who met that threshold at each school. 
 
-### Doing Analysis 
+### Doing Analysis (Exploring, Visualizing, and Modeling Data) 
 
-This is the part of our workflow that most people associate with data science. Analysis is the application of statistical techniques to identify the *underlying structure* of the dataset, or the relationships among the variables in it.. This means that you are making educated guesses about the real life conditions that generated the dataset.
+This is the part of our workflow that most people associate with data science. Analysis is the application of techniques to identify the nature and underlying structure of the dataset, or the relationships among the variables in it. This means that you are making educated guesses about the real life conditions that generated the dataset. This process involves a number of steps, including *visualizing data* and *modeling data* (with techniques that range from the relatively simple to the highly complex).
 
 We realize this may be the first time you’ve heard data analysis described this way. We choose to describe it this way because, in the end, data analysis in education is about understanding what the data tells us about the student experience. If we can understand the underlying structure of a dataset, we can improve our understanding of the students whose academic behaviors generated the numbers. 
 
@@ -54,7 +82,7 @@ As you can see, when we try to describe human behavior, things tend to get compl
 
 ### Sharing Results
 
-So far, we’ve discussed processing data and analyzing data. At these stages, the audiences for your output are usually you, other data scientists, or stakeholders who are in a position to give feedback about the process so far. But when you’ve sorted through your findings and have selected conclusions you want to share, your audience becomes much wider. Now you’re tasked with communicating with leadership, staff, parents, the community, or some combination of those audiences. 
+So far, we’ve discussed processing data and analyzing data. At these stages, the audiences for your output are usually you, other data scientists, or stakeholders who are in a position to give feedback about the process so far. But when you’ve sorted through your findings and have selected conclusions you want to share, your audience becomes much wider. Now you’re tasked with *communicating* your findings with leadership, staff, parents, the community, or some combination of those audiences. 
 
 The strategy and techniques for sharing with a wider audience are different from the ones you use when processing and analyzing data. Sharing your results includes developing visualizations that clearly communicate a finding, writing narratives that give context and story to your analysis, and developing presentations that spark conversations about the student experience. 
 
@@ -78,7 +106,7 @@ Ryan, a special education administrator in California, uses data science to repr
 
 *Doing and Empowering Research On Data Scientists in Education*
 
-Joshua, Assistant Professor of STEM Education at University of Tennessee in Knoxville, researches how students do data science and helps teachers teach the next generation of data-informed citizens. He makes this work possible by building R packages - self-contained groups of data tools - that he and other researchers use to analyze datasets efficiently. 
+Joshua, an Assistant Professor of STEM Education at University of Tennessee in Knoxville, researches how students do data science and helps teachers teach the next generation of data-informed citizens. In addition, he uses R - and develops packages in R - self-contained groups of related functions to solve a problem - that he and other researchers use to analyze datasets efficiently. 
 
 *Supporting Student Success with Data*
 
