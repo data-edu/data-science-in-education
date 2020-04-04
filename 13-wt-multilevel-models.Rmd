@@ -43,15 +43,12 @@ library(dataedu)
 
 ## The Role of Dummy Codes
 
-Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this.
+Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this. A note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, we will use base R and data.frame instead of the {tidyverse} and tibbles.
 
-Let's consider the `iris` data that comes built into R. To make the dataset work nicely with {tidyverse} functions we'll be using, we will first change it into a tibble: 
+Let's look at the `iris` data that comes built into R.
 
-``` {r iris as tibble}
-iris <- 
-  as_tibble(iris,
-            .name_repair = "unique")
-iris
+``` {r iris}
+str(iris)
 ```
 
 As we can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a specific category, or level, of that variable. So how do we consider factor variables in our model? `Species` seems to be made up of, well, words, such as "setosa."
@@ -67,11 +64,13 @@ Let's put the {dummies} package to work on this task. How many possible values a
 levels(iris$Species)
 ```
 
-When we run the `dummy()` function on the `Species` variable, it
-returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+The function `dummy.data.frame()` takes a data frame and creates a `data.frame` where all the specified columns are given dummy attributes. We use it to turn `iris` into a dummy data frame. Then we run the `get.dummy()` function specifically on the `Species` variable. It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
 
 ``` {r run dummy on species}
-dummies::dummy(iris$Species) %>%
+d_iris <-
+  dummy.data.frame(iris)
+
+get.dummy(d_iris, name = "Species") %>% 
   head()
 ```
 
@@ -80,17 +79,12 @@ column it corresponds to. We can do this by binding together the dummy codes and
 the `iris` data and then counting how many rows were coded with a "1" for each dummy code. For example, when the `Species` is "setosa", the variable `Speciessetosa` always
 equals 1 - as is the case for the other species. 
 
-Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful tidyverse function for binding together data frames by column.           
+Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
 
 ```{r add dummy coded variables to iris}
 # create matrix of dummy-coded variables
 species_dummy_coded <- 
-  dummies::dummy(iris$Species)
-
-# convert matrix to tibble so we can use tidyverse functions
-species_dummy_coded <- 
-  species_dummy_coded %>% 
-  as_tibble(.name_repair = "unique")
+  get.dummy(d_iris, name = "Species")
 
 # add dummy coded variables to iris
 iris_with_dummy_codes <- 
@@ -99,7 +93,7 @@ iris_with_dummy_codes <-
 
 Let's look at the results.
 
-```{r count species, eval = F}
+```{r count species}
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -112,7 +106,7 @@ However, if every level of flower groups is dummy-coded, there would be no singl
 
 ## Import Data 
 
-Now that we have some background on dummy codes, let's return to the online science class data. We'll be using the same dataset that we used in chapter 7. Let's load that dataset now from the {dataedu} package. 
+Now that we have some background on dummy codes, let's return to the online science class data. We'll be using the same dataset that we used in [Chapter 7](#c07). Let's load that dataset now from the {dataedu} package. 
 
 ``` {r, message = F, warning = F}
 dat <- dataedu::sci_mo_processed
@@ -129,7 +123,7 @@ dat %>%
 
 ### Regression (Linear Model) Analysis with Dummy Codes
 
-Before we fit our model, let's talk about our dataset. We will keep the variables we used in our last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in (chapter 7)[#c07].
+Before we fit our model, let's talk about our dataset. We will keep the variables we used in our last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in [Chapter 7](#c07).
 
 Since we will be using the final grade variable a lot let's rename it to make it easier to type.
 
@@ -153,7 +147,7 @@ tab_model(m_linear_dc,
           title = "Table 13.1")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc,
           file = "man/tables/Table 13.1.doc",
           title = "Table 13.1")
@@ -189,7 +183,7 @@ tab_model(m_linear_dc_1,
           title = "Table 13.2")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc_1,
           file = "man/tables/Table 13.2.doc",
           title = "Table 13.2")
@@ -211,7 +205,7 @@ tab_model(m_linear_dc_2,
           title = "Table 13.3")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc_2,
           file = "man/tables/Table 13.3.doc",
           title = "Table 13.3")
@@ -285,7 +279,7 @@ tab_model(m_course,
           title = "Table 13.4")
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "hide"}
 tab_model(m_course,
           file = "man/tables/Table 13.4.doc",
           title = "Table 13.4")

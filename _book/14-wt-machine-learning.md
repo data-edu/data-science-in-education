@@ -101,7 +101,7 @@ First, we will load the data. Our data is stored in the {dataedu} package that i
 
 
 ```r
-#l oading the data from the .rda file and storing it as an object named 'data'
+# Loading the data from the .rda file and storing it as an object named 'data'
 df <- dataedu::sci_mo_with_text
 ```
 

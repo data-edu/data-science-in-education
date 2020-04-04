@@ -694,6 +694,8 @@ str_sub("_99888_1", start = 2, end = -3)
 ## [1] "99888"
 ```
 
+_Note: you may receive a warning telling you that `NA` values were introduced by coercion. This happens when we change data types, and we will overlook this warning message for the purposes of this walkthrough._
+
 We can apply this process to our data using `mutate()`. We convert the string
 into a number using `as.numeric()` in the next portion of the code. This step is
 important so the data can be joined to the other, numeric `student_id` variables
@@ -1200,11 +1202,11 @@ The `data` argument in the first line tells R we’ll be using the dataset calle
 `students`. The `aes` argument tells R we’ll be using values from the
 `school_id` column for the x-axis and values from the `mean_score` column for
 the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing
-the graph using the bar chart format. Each line of ggplot code is connected by a
-`+` at the end to tell R the next line of code is an additional ggplot layer to
+the graph using the bar chart format. Each line of {ggplot2} code is connected by a
+`+` at the end to tell R the next line of code is an additional {ggplot2} layer to
 add.
 
-Writing code is like writing essays. There's a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you'll see variations in {ggplot} style, but all within what we believe is the range of acceptable conventions. Here are some examples: 
+Writing code is like writing essays. There's a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you'll see variations in {ggplot2} style, but all within what we believe is the range of acceptable conventions. Here are some examples: 
 
  - Piping data to `ggplot()` using `%>%` vs including it as an argument in `ggplot()` 
  - Using `ggtitle()` for labels vs using `labs()` 
@@ -1235,6 +1237,8 @@ dat %>%
 <img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="672" />
 <p class="caption">(\#fig:fig7-2)Percentage Earned vs. Time Spent</p>
 </div>
+
+_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced through coercion earlier in this walkthrough, and are not a cause for alarm!_
 
 There appears to be *some* relationship. What if we added a line of best fit - a
 linear model? The code below is the same plot we just made, but it includes the

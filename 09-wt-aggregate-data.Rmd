@@ -309,6 +309,13 @@ We clean up this dataset by:
 3.  Then we trim white space from strings using `trimws()`.
 4.  The data in the `percentage` columns are provided with a percentage sign. This means `percentage` was read in as a character. We will have to remove all of the non-numeric characters to be able to do math with these columns (for example, to add them together). Also, we want to divide the numbers by 100 so they are in decimal format.
 
+Let's break this line down: `mutate_at(vars(contains("pct")), list( ~ as.numeric(str_replace(., "%", "")) / 100))`. We are telling `mutate_at()` to:
+
+* Select the columns whose names contain the string "pct" by using `vars(contains("pct"))`.
+* For the rows in those columns, replace the character "%" with blanks "" by using `str_replace(., "%", "")`.
+* After doing that, make those rows numeric by using `as.numeric()`.
+* Then, divide those numbers by 100 using `/100`.
+
 ```{r, eval = FALSE}
 race_df2 <-
   race_df %>%

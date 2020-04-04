@@ -52,7 +52,7 @@ Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ:
 
 Chang, W. (2013). *R graphics cookbook*. Sebastopol, CA: O'Reilly. https://r-graphics.org/
 
-> This book is a great reference and how-to for executing many visualization techniques using {ggplot}. 
+> This book is a great reference and how-to for executing many visualization techniques using {ggplot2}. 
 
 Wilke, C. (2019). *Fundamentals of data visualization*. O'Reilly. https://serialmentor.com/dataviz/
 
@@ -198,4 +198,4 @@ LinkedIn: [linkedin.com](linkedin.com)
 
 [R Studio Cheat Sheets](https://rstudio.com/resources/cheatsheets/) (https[]()://rstudio.com/resources/cheatsheets/)
 
-> See especially the dplyr, tidyr, purrr, ggplot2, and other cheat sheets.
+> See especially the {dplyr}, {tidyr}, {purrr}, {ggplot2}, and other cheat sheets.
