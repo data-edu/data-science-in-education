@@ -239,6 +239,15 @@ A second option is the Premium API through Twitter. This is an expensive option,
 
 ## Appendix C: Social Network Influence and Selection Models {#c20c}
 
+Behind the social network visualizations explored in the chapter on social network analysis, [Chapter 12](#c12), there are also statistical *models* that can be used to further understand relationships in a network.
+
+One way to consider these models and methods is by considering selection and influence, two *processes* at play in our relationships. These two processes are commonly the focus of statistical analyses of networks. Selection and influence do not interact independently: they affect each other reciprocally (Xu, Frank, & Penuel, 2018). Let's define these two processes:
+
+- *Selection*: the process of choosing relationships
+- *Influence*: the process of how our social relationships affect behavior
+
+While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preperation and visualization of network data.
+
 After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
 
 ### An Example of Influence
@@ -362,7 +371,7 @@ In the last section we use da linear regression model. In this example we'll use
 
 But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
 
-Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
+Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code (which is not run, but is included as an example of the code for this kind of selection model) like this:
 
 ```{r, eval = FALSE}
 m_selection <- 
