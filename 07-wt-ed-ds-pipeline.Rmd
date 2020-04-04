@@ -568,6 +568,8 @@ to extract.
 str_sub("_99888_1", start = 2, end = -3)
 ```
 
+_Note: you may receive a warning telling you that `NA` values were introduced by coercion. This happens when we change data types, and we will overlook this warning message for the purposes of this walkthrough._
+
 We can apply this process to our data using `mutate()`. We convert the string
 into a number using `as.numeric()` in the next portion of the code. This step is
 important so the data can be joined to the other, numeric `student_id` variables
@@ -906,6 +908,8 @@ dat %>%
   labs(x = "Time Spent",
        y = "Final Grade")
 ```
+
+_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced through coercion earlier in this walkthrough, and are not a cause for alarm!_
 
 There appears to be *some* relationship. What if we added a line of best fit - a
 linear model? The code below is the same plot we just made, but it includes the
