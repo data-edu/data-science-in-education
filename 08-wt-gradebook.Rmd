@@ -31,7 +31,13 @@ This walkthrough goes through a series of analyses using the data science framew
 
 ### Data Sources
 
-We use an Excel gradebook template, [*Assessment Types Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html) (https[]()://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first pass through this section, try using our simulated dataset found in this book's `data/` folder.
+We use an Excel gradebook template, [*Assessment Types Points*](https://web.mit.edu/jabbott/www/excelgradetracker.html) (https[]()://web.mit.edu/jabbott/www/excelgradetracker.html), coupled with simulated student data. On your first pass through this section, try using our simulated dataset found in this book's `data` folder.  
+
+You can access the `data` folder by navigating to the book's [GitHub repository](https://github.com/data-edu/data-science-in-education)(https[]()://github.com/data-edu/data-science-in-education) and clicking on the `data` folder.
+From inside the `data` folder click ong `gradebooks`.
+The file with simulated gradebook data is named `ExcelGradeBook.xlsx`.
+When you click on the file name you will see two buttons, one that says Download and another that says History.
+Click on the Download button to download the `ExcelGradeBook.xlsx` file to your computer.
 
 ### Methods
 
