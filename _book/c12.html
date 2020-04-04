@@ -243,8 +243,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="c07.html"><a href="c07.html"><i class="fa fa-check"></i><b>7</b> Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data</a><ul>
 <li class="chapter" data-level="7.1" data-path="c07.html"><a href="c07.html#topics-covered"><i class="fa fa-check"></i><b>7.1</b> Topics Covered</a></li>
 <li class="chapter" data-level="7.2" data-path="c07.html"><a href="c07.html#functions-introduced"><i class="fa fa-check"></i><b>7.2</b> Functions Introduced</a></li>
-<li class="chapter" data-level="7.3" data-path="c07.html"><a href="c07.html#introduction-to-the-walkthroughs"><i class="fa fa-check"></i><b>7.3</b> Introduction to the walkthroughs</a></li>
-<li class="chapter" data-level="7.4" data-path="c07.html"><a href="c07.html#vocabulary"><i class="fa fa-check"></i><b>7.4</b> Vocabulary</a></li>
+<li class="chapter" data-level="7.3" data-path="c07.html"><a href="c07.html#vocabulary"><i class="fa fa-check"></i><b>7.3</b> Vocabulary</a></li>
+<li class="chapter" data-level="7.4" data-path="c07.html"><a href="c07.html#introduction-to-the-walkthroughs"><i class="fa fa-check"></i><b>7.4</b> Introduction to the Walkthroughs</a></li>
 <li class="chapter" data-level="7.5" data-path="c07.html"><a href="c07.html#chapter-overview-2"><i class="fa fa-check"></i><b>7.5</b> Chapter Overview</a><ul>
 <li class="chapter" data-level="7.5.1" data-path="c07.html"><a href="c07.html#background"><i class="fa fa-check"></i><b>7.5.1</b> Background</a></li>
 <li class="chapter" data-level="7.5.2" data-path="c07.html"><a href="c07.html#data-sources"><i class="fa fa-check"></i><b>7.5.2</b> Data Sources</a></li>
@@ -318,8 +318,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.10" data-path="c09.html"><a href="c09.html#results-2"><i class="fa fa-check"></i><b>9.10</b> Results</a></li>
 <li class="chapter" data-level="9.11" data-path="c09.html"><a href="c09.html#conclusion-5"><i class="fa fa-check"></i><b>9.11</b> Conclusion</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="c10.html"><a href="c10.html"><i class="fa fa-check"></i><b>10</b> Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data</a><ul>
-<li class="chapter" data-level="10.1" data-path="c10.html"><a href="c10.html#topics-covered-3"><i class="fa fa-check"></i><b>10.1</b> Topics Covered</a></li>
+<li class="chapter" data-level="10" data-path="c09.html"><a href="c09.html#c10"><i class="fa fa-check"></i><b>10</b> Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data</a><ul>
+<li class="chapter" data-level="10.1" data-path="c10.html"><a href="c10.html"><i class="fa fa-check"></i><b>10.1</b> Topics Covered</a></li>
 <li class="chapter" data-level="10.2" data-path="c10.html"><a href="c10.html#functions-introduced-3"><i class="fa fa-check"></i><b>10.2</b> Functions Introduced</a></li>
 <li class="chapter" data-level="10.3" data-path="c10.html"><a href="c10.html#vocabulary-3"><i class="fa fa-check"></i><b>10.3</b> Vocabulary</a></li>
 <li class="chapter" data-level="10.4" data-path="c10.html"><a href="c10.html#chapter-overview-5"><i class="fa fa-check"></i><b>10.4</b> Chapter Overview</a><ul>
@@ -580,7 +580,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="chapter-overview-7" class="section level2">
 <h2><span class="header-section-number">12.2</span> Chapter Overview</h2>
-<p>This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the <em>content</em> of tweets. In this, we chapter focus on the <em>interactions</em> between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we’ve also included an appendix (<a href="c20.html#c20c">Appendix C</a>) to introduce some social network-related ideas for further exploration.</p>
+<p>This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the <em>content</em> of tweets. In this, we chapter focus on the <em>interactions</em> between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.</p>
+<p>While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources, as net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.</p>
+<p>Like the previous chapter, we’ve also included an appendix (<a href="c20.html#c20c">Appendix C</a>) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals’ behaviors.</p>
 <p>You will need a Twitter account to complete the code outlined in this chapter.
 If you do not have a Twitter account, you can create one and keep it private, and even delete the account once you’re done with this walkthrough!
 You’ll need the Twitter account in order to interact with the Twitter API.</p>
@@ -618,20 +620,20 @@ You’ll need the Twitter account in order to interact with the Twitter API.</p>
 <p>Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant’s role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an “edgelist”. An edgelist is a dataset where each row is a unique interaction between two parties.</p>
 <p>An edgelist looks like the following, where the <code>sender</code> (sometimes called the “nominator”) column identifies who is initiating the interaction and the <code>receiver</code> (sometimes called the “nominee”) column identifies who is receiving the interaction:</p>
 <pre><code>## # A tibble: 12 x 2
-##    sender            receiver         
-##    &lt;chr&gt;             &lt;chr&gt;            
-##  1 Casares, Lesly    Rogakis, Fzelle  
-##  2 Hickman, Molly    el-Habeeb, Awda  
-##  3 Hickman, Molly    al-Ghani, Jumaana
-##  4 Walker, Haden     el-Habeeb, Awda  
-##  5 Walker, Haden     Rogakis, Fzelle  
-##  6 Walker, Haden     Sebben, Janet    
-##  7 Trang, Anisa      al-Ghani, Jumaana
-##  8 Trang, Anisa      Lopez, Monica    
-##  9 Trang, Anisa      Sebben, Janet    
-## 10 Aguirre, Cindy    Robinson, Aldale 
-## 11 el-Salim, Layaali al-Ghani, Jumaana
-## 12 el-Salim, Layaali Robinson, Aldale</code></pre>
+##    sender               receiver                
+##    &lt;chr&gt;                &lt;chr&gt;                   
+##  1 Landry, Tyler        Posey, Nicole           
+##  2 el-Ghazi, Mawhiba    al-Hashmi, Tawfeeq      
+##  3 el-Ghazi, Mawhiba    Montano Maldonado, Isaac
+##  4 Covarrubias, Enrique al-Hashmi, Tawfeeq      
+##  5 Covarrubias, Enrique Posey, Nicole           
+##  6 Covarrubias, Enrique al-Nazir, Hilaal        
+##  7 al-Reza, Naafoora    Montano Maldonado, Isaac
+##  8 al-Reza, Naafoora    al-Saladin, Haibaa      
+##  9 al-Reza, Naafoora    al-Nazir, Hilaal        
+## 10 Huizar, Sadan        Tarrant, Jevon          
+## 11 Dawson, Hannah       Montano Maldonado, Isaac
+## 12 Dawson, Hannah       Tarrant, Jevon</code></pre>
 <p>In this edgelist, the <code>sender</code> column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like “liking” or “mentioning” their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.</p>
 <div id="extracting-mentions" class="section level3">
 <h3><span class="header-section-number">12.4.1</span> Extracting Mentions</h3>

@@ -61,7 +61,9 @@ library(dataedu)
 
 ## Import Data
 
-Recall how the Foundational Skills chapter recommended `.csv` files, or comma-separated values files, when working with datasets in R? This is because `.csv` files, with the .csv file extension, are common in the digital world. They are "plain text" - they tend to be faster when imported, do not have formatting, and generally easier to deal with than Excel files. However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the `.xlsx` or `.xls` extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
+In [Appendix A](#c20a) (associated with the [Foundational Skills chapter](#c06)), we recommended the use of `.csv` files, or comma-separated values files, when working with datasets in R. This is because `.csv` files, with the .csv file extension, are common in the digital world. They are "plain text" - they tend to be faster when imported, do not have formatting, and generally easier to deal with than Excel files. 
+
+However, data won't always come in the preferred file format. Fortunately, R can import a variety of data file types. This walkthrough imports an Excel file because these file types, with the `.xlsx` or `.xls` extensions, are very likely to be encountered in the K-12 education world. We'll show you two ways to import the gradebook dataset: The first is uses a file path. The second uses the `here()` function from the {here} package. We recommend using `here()`, but it's worthwhile to review both methods. 
 
 ### Import Using a File Path 
 

@@ -9,7 +9,7 @@
 
 ## Chapter Overview
 
-The *purpose* of this walkthrough is to explore students' performance in these online courses. While this and the analysis in [Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, this walkthrough focuses on the effects of being in a particular course. To do that, we'll use of *multilevel models*, which can help us consider that the students in our dataset shared classes. While the conceptual details underlying multilevel models can be complex, they do address a basic problem that is relatable to educators: how can we include variables like cases and student grouping levels like classes or schools in our model? 
+The *purpose* of this walkthrough is to explore students' performance in these online courses. While this and the analysis in [Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, this walkthrough focuses on the effects of being in a particular course. To do that, we'll use of *multilevel models*, which can help us consider that the students in our dataset shared classes. While the conceptual details underlying multilevel models can be complex, they do address a basic problem that is relatable to educators: How can we include variables like cases and student grouping levels like classes or schools in our model? We note that while carrying out multi-level models is very accessible through R, some of the concepts remain challenging, and, in such cases, we think it can be helpful to try to run such a model with data that you have collected; later, the technical details (described here and in other, recommended resources) can help you to go deeper with analyses and to further your understanding of multi-level models.
 
 ### Background
 
@@ -69,6 +69,8 @@ levels(iris$Species)
 ```
 
 The function `dummy.data.frame()` takes a data frame and creates a `data.frame` where all the specified columns are given dummy attributes. We use it to turn `iris` into a dummy data frame. Then we run the `get.dummy()` function specifically on the `Species` variable. It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+
+Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't) and you have to be aware of any changes when using them for analysis.
 
 ``` {r run dummy on species}
 d_iris <-
