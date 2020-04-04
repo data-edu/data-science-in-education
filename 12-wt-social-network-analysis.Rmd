@@ -14,7 +14,7 @@
 
 ## Chapter Overview
 
-This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration.
+This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis techniques. And, like for the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration.
 
 You will need a Twitter account to complete the code outlined in this chapter. 
 If you do not have a Twitter account, you can create one and keep it private, and even delete the account once you're done with this walkthrough! 
@@ -65,7 +65,7 @@ nrow(tt_tweets)
 
 ## Process Data
 
-Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist". An edgelist is a dataset where each row is a unique interaction between two parties. 
+Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an *edgelist*. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an *edge*. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as *ties* or *relations*, but these generally refer to the same thing, though they may be used in different contexts.
 
 An edgelist looks like the following, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
 
@@ -150,7 +150,7 @@ edgelist <-
 
 ## Analysis and Results
 
-Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data.
+Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data. We note that network visualizations are often referred to as *sociograms*, or a representation of the relationships between individuals in a network. We use this term and the term network visualiation interchangably in this chapter.
 
 ### Plotting the Network
 
@@ -195,7 +195,7 @@ g <-
 g
 ```
 
-We can see that the network now has 267 individuals, all of which sent more than one interaction.
+We can see that the network now has 267 individuals, all of which sent more than one interaction. The individuals in a network are often referred to as *nodes* (and, this terminology is used in the {ggraph} functions for plotting the individuals - the nodes - in a network). We note that nodes are sometimes referred to as *vertices* or *actors*; like the different names for edges, these generally mean the same thing. 
 
 Next, we'll use the `ggraph()` function:
 
@@ -233,4 +233,6 @@ There is much more you can do with {ggraph} (and {tidygraph}); check out the {gg
 
 ## Conclusion
 
-In this chapter, we used social media data from the #tidytuesday hashtag to prepare and visualize social network data. This is a powerful technique that can reveal who is interacting with whom in some cases can suggest why. Social network analysis is a broad (and growing) domain. Fortunately for R users, many recent developments are implemented first in R (e.g., @R-amen). If you are interested in some of the additional steps that you can take to model and analyze network data, consider the appendix on two types of models (for selection and influence processes), [Appendix C](#c20c).
+In this chapter, we used social media data from the #tidytuesday hashtag to prepare and visualize social network data. Sociograms are a useful visualization tool to  reveal who is interacting with whom--and, in some cases, to suggest why. In our applications of data science, we have found that the individuals (such as teachers or students) who are represented in a network often like to see what the network (and the relationships in it) *look like*. It can be compelling to think about why networks are the way they are, and how changes could be made to - for example - foster more connections between individuals who have few opportunities to interact. In this way, social network analysis can be useful to the data scientist in education because it provides a technique to communicate with other educational stakeholders in a compelling way.
+
+Social network analysis is a broad (and growing) domain, and this chapter was intended to present some of its foundation. Fortunately for R users, many recent developments are implemented first in R (e.g., @R-amen). If you are interested in some of the additional steps that you can take to model and analyze network data, consider the appendix on two types of models (for selection and influence processes), [Appendix C](#c20c).
