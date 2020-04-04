@@ -8,23 +8,6 @@
 
 - `lm()`
 
-## Introduction to the walkthroughs
-
-This chapter is the first of eight walkthroughs included in the book. In it, we
-present *one approach* to analyzing a specific dataset. In this chapter, the
-approach is what we call the "education data science pipeline." Here, we will be
-using data from a number of online science classes and will show the process of
-working with an education dataset from start to finish. While the walkthroughs
-are very different, the structure and section headings will be consistent
-throughout the walkthroughs. For example, every walkthrough will begin with a
-vocabulary section, followed by an introduction to the dataset and an
-introduction to the question or problem explored in the walkthrough. 
-
-We note that this chapter assumes familiarity with the four core concepts that 
-comprise the foundational skills framework: projects, functions, packages, and data. If you would 
-like a refresher about (or an introduction to) any of those, the foundational skills chapter, 
-then reading and writing and running some of the code in the previous chapter [Chapter 6](#06) may be helpful to you.
-
 ## Vocabulary
 
   - data frame
@@ -38,6 +21,24 @@ then reading and writing and running some of the code in the previous chapter [C
   - survey
   - tibble
   - vectorize
+
+## Introduction to the Walkthroughs
+
+This chapter is the first of eight walkthroughs included in the book. In it, we
+present *one approach* to analyzing a specific dataset. In this chapter, the
+approach is what we refer to as the *education data science pipeline*, orsome  the steps taken in many data science projects, including cleaning and tidying data as well as exploring and visualizing or modeling it.
+
+Here, we will be using data from a number of online science classes and will show the process of
+working with an education dataset from start to finish. While the walkthroughs
+are very different, the structure and section headings will be consistent
+throughout the walkthroughs. For example, every walkthrough will begin with a
+vocabulary section, followed by an introduction to the dataset and an
+introduction to the question or problem explored in the walkthrough. 
+
+We note that this chapter assumes familiarity with the four core concepts that 
+comprise the foundational skills framework: projects, functions, packages, and data. If you would 
+like a refresher about (or an introduction to) any of those, the foundational skills chapter, 
+then reading and writing and running some of the code in the previous chapter [Chapter 6](#06) may be helpful to you.
 
 ## Chapter Overview
 
@@ -73,7 +74,7 @@ Our high-level *purpose* for this walkthrough is to conduct an analysis that
 helps explain students' performance in these online courses. The *problem* we
 are facing is a very common one when it comes to data science in education: the
 data are complex and in need of further processing before we can get to the step
-of running analyses.
+of running analyses. We will use this same dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), and we will provide more details there about the dataset and the context. 
 
 To understand students' performance, we will focus on a learning management
 system (LMS) variable that indicates the amount of time students spent within
@@ -145,7 +146,7 @@ walkthrough. More information about analyzing text data can be found in
 
 In this walkthrough, we will concentrate on merging different datasets together
 by using the different "joins" available in the {dplyr} package. We will also
-start exploring how to run linear models in R.
+start exploring how to run linear models in R. 
 
 ## Load Packages
 

@@ -58,7 +58,7 @@ Emily:
 
 Ryan:
 
->
+> To my wife, Lucy, and my sons, Dylan and Adam, for enduring so much typing during dinner. And to Dan Winters, for enduring so many plots over coffee.
 
 Jesse:
 

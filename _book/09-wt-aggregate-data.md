@@ -26,7 +26,8 @@
 ## Chapter Overview
 
 Data scientists working in education don't always have access to student level
-data, so knowing how to model aggregate datasets is very valuable. This chapter explores what aggregate data is, and how to access, clean, and explore it.
+data, so knowing how to model aggregate datasets is very valuable. This chapter explores what aggregate data is, and how to access, clean, and explore it. It is a "companion" to the 
+following chapter, [Chapter 10]{#c10}, which also explores aggregate data, but does so with an emphasis on longitudinal analyses, or analyses that involve data at more than one time point.
 
 ### Background
 
@@ -110,16 +111,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              71
-##  2 b       l              45
-##  3 c       m              29
-##  4 d       n               2
-##  5 e       o              87
-##  6 f       k              71
-##  7 g       l               9
-##  8 h       m              75
-##  9 i       n              46
-## 10 j       o              85
+##  1 a       k              14
+##  2 b       l              77
+##  3 c       m              38
+##  4 d       n              17
+##  5 e       o              69
+##  6 f       k              81
+##  7 g       l              84
+##  8 h       m              85
+##  9 i       n              93
+## 10 j       o               7
 ```
 
 Aggregate data totals up a variable - the variable `test_score` in this case - to
@@ -142,11 +143,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            47.5
-## 2 l            66  
-## 3 m            29  
-## 4 n            22.5
-## 5 o            75
+## 1 k            40  
+## 2 l            56  
+## 3 m            79.5
+## 4 n            45  
+## 5 o            48
 ```
 
 Notice here that this dataset no longer identifies individual students.
