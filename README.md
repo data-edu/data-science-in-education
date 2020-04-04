@@ -32,49 +32,51 @@ By the end of this book the reader will understand:
 And, the reader will be able to:
 
 * Reflect on and define their role as a data analyst and educator
-* Identify and apply solutions to education data’s unique challenges, such as cleaning datasets and working with private student data 
+* Identify and apply solutions to education data’s unique challenges, such as cleaning datasets and working with aggregate student data 
 * Apply a basic analytic workflow through practice with education datasets
 * Be thoughtful, empathetic, and effective when introducing data science techniques in their education jobs
 
 ## Chapters 
 
-1. Introduction: Data Science in Education
+1. [Introduction: Data Science in Education - You’re Invited to the Party!](https://datascienceineducation.com/c01.html)
 
-2. How to Use This Book 
+2. [How to Use This Book](https://datascienceineducation.com/c02.html)
 
-3. What is a Data Scientist in Education?
+3. [What Does Data Science in Education Look Like?](https://datascienceineducation.com/c03.html)
 
-4. Special Considerations
+4. [Special Considerations](https://datascienceineducation.com/c04.html)
 
-5. Getting Started with R and R Studio
+5. [Getting Started with R and R Studio](https://datascienceineducation.com/c05.html)
 
-6. Foundational Skills
+6. [Foundational Skills](https://datascienceineducation.com/c06.html)
 
-7. Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data
+7. [Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data](https://datascienceineducation.com/c07.html)
 
-8. Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective
+8. [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective](https://datascienceineducation.com/c08.html)
 
-9. Walkthrough 3: Introduction to Aggregate Data
+9. [Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities](https://datascienceineducation.com/c09.html)
 
-10. Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data
+10. [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](https://datascienceineducation.com/c10.html)
 
-11. Walkthrough 5: Text Analysis With Social Media Data
+11. [Walkthrough 5: Text Analysis With Social Media Data](https://datascienceineducation.com/c11.html)
 
-12. Walkthrough 6: Exploring Relationships Using Social Network Analysis Models and Methods
+12. [Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data](https://datascienceineducation.com/c12.html)
 
-13. Walkthrough 7: The Role (and Usefulness) of Multi-Level Models
+13. [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](https://datascienceineducation.com/c13.html)
 
-14. Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods
+14. [Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data](https://datascienceineducation.com/c14.html)
 
-15. Introducing Data Science Tools To Your Education Job
+15. [Introducing Data Science Tools To Your Education Job](https://datascienceineducation.com/c15.html)
 
-16. Teaching Data Science
+16. [Teaching Data Science](https://datascienceineducation.com/c16.html)
 
-17. Learning More
+17. [Learning More](https://datascienceineducation.com/c17.html)
 
-18. Additional Resources 
+18. [Additional Resources](https://datascienceineducation.com/c18.html)
 
-19. Conclusion 
+19. [Conclusion: Where to Next?](https://datascienceineducation.com/c19.html) 
+
+20. [Appendices](https://datascienceineducation.com/c20.html) 
 
 ## Contributing
 
