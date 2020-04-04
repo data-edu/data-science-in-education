@@ -15,13 +15,13 @@
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
-In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis. 
+In this chapter, we focus on analyzing text data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. Twitter data is complex and includes not only information about who posted a tweet and when, it also includes the text of the tweet (and a great deal of additional information, see [@R-rtweet]). This makes it especially well-suited for exploring the uses of text analysis. 
 
 We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. While this chapter dives deeply into the analysis of the *text* of tweets, [Appendix B](#c20b) elaborates on a number of techniques for accessing data from Twitter - including data from #tidytuesday - and [Chapter 12](#c12) explores the nature of the interactions that take place between individuals through #tidytuesday.
 
 ### Background 
 
-When we think about data science in education, our minds tends to go data in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
+When we think about data science in education, our minds tends to go data stored in spreadsheets. But what can we learn about the student experience from text data? Take a moment to mentally review all the moments in your work day that you generated or consumed text data. In education, we're surrounded by it. We do our lessons in word processor documents, our students submit assignments online, and the school community expresses themselves on public social media platforms. The text we generate can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open ended survey responses. You can analyze word patterns in student responses or message board posts. 
 
@@ -33,7 +33,7 @@ We'll show these techniques using a dataset of tweets. We encourage you to compl
 
 ### Data Source
 
-It's useful to learn these techniques from text datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of tweet datasets available. Since there's so much, it's useful to narrow the tweets to a only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
+It's useful to learn text analysis techniques from datasets that are available for download. Take a moment to do an online search for "download tweet dataset" and note the abundance of Twitter datasets available. Since there's so much, it's useful to narrow the tweets to only those that help you answer your analytic questions. Hashtags are text within a tweet that act as a way to categorize content. Here's an example: 
 
 >RT \@CKVanPay: I'm trying to recreate some Stata code in R, anyone have a good resource for what certain functions in Stata are doing? #RStats #Stata 
 
@@ -147,7 +147,7 @@ tokens %>%
 
 Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
 
-## Analysis: Sentiment analysis
+## Analysis: Sentiment Analysis
 
 Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our tweets dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a tweet is associated with other positive words. 
 
