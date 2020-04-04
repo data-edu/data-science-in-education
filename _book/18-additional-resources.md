@@ -1,7 +1,22 @@
-
 # Additional Resources {#c18}
 
-## Data science courses
+## Chapter Overview
+
+In this chapter, we provide references and links to additional resources related to data science in education. They are organized around the following headings:
+
+- Data science courses
+- Workshop materials
+- Data visualization
+- Books on data science in education
+- Articles on data science in education
+- Programming with R
+- Statistics
+- R package and statistical software development
+- A career in data science
+- Places to share your work
+- Cheat sheets
+
+## Data Science Courses
 
 Anderson, D. J. (2019). University of Oregon Data Science Specialization for the College of Education. https://github.com/uo-datasci-specialization
 
@@ -15,7 +30,7 @@ R Studio. (2019). Data Science in a Box. https://datasciencebox.org/hello/
 
 > A complete course, including a curriculum and teaching materials, for data science. 
 
-## Workshop materials
+## Workshop Materials
 
 Staudt Willet, B., Greenhalgh, S., & Rosenberg, J. M. (2019, October). Workshop on using R at the Association for Educational Communications and Technology. https://github.com/bretsw/aect19-workshop
 
@@ -25,63 +40,71 @@ Anderson, D. J., and Rosenberg, J. M. (2019, April). Transparent and reproducibl
 
 > Slides and code for another workshop carried out at an educational research conference, focused on reproducible research and R Markdown.
 
-## Education resources 
+## Data Visualization
 
-Bryk et al (2015). *Learning to improve: How America's schools can get better at getting better*. Cambridge, MA: Harvard Education Press.
-
-> A general educational text related to systemic improvement.
-
-Penuel et al (2016, April). *Findings from a national study on research use among school and district leaders*. http://ncrpp.org/assets/documents/NCRPP_Technical-Report-1_National-Survey-of-Research-Use.pdf
-
-> Findings on how stakeholders use educational research.
-
-Geller et al (2019, October). *Education data done right: lessons from the trenches of applied data science*. Independently published. 
-
-> A text on applying data science in education. 
-
-## Data visualization 
-
-Tufte, E. (2006). *Beautiful evidence*. Cheshire, CT: Graphics Press LLC.
+Tufte, E. (2006). *Beautiful evidence*. Cheshire, CT: Graphics Press LLC. https://www.edwardtufte.com/tufte/books_be
 
 > A classic text on data visualization.
 
-Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ: Princeton University Press. 
+Healy, K. (2018). *Data visualization: A practical introduction*. Princeton, NJ: Princeton University Press. http://socviz.co/
 
 > A programming- (and R-) based introduction to data visualization. 
 
-Chang, W. (2013). *R graphics cookbook*. Sebastopol, CA: O'Reilly.
+Chang, W. (2013). *R graphics cookbook*. Sebastopol, CA: O'Reilly. https://r-graphics.org/
 
-> 
+> This book is a great reference and how-to for executing many visualization techniques using {ggplot2}. 
 
 Wilke, C. (2019). *Fundamentals of data visualization*. O'Reilly. https://serialmentor.com/dataviz/
 
-> A fantastic (though more conceptual than practical, i.e., there is no R code or other software implementation ror creating the plots) introduction to data visualization.
+> A fantastic (though more *conceptual* than practical, i.e., there is no R code or other software implementation ror creating the plots) introduction to data visualization.
 
-## Books related to data science in education
+## Books Related to Data Science in Education
 
-Krumm, A., Means, B., & Bienkowski, M. (2018). Learning analytics goes to school: A collaborative approach to improving education. Routledge.
+Geller, W., Cratty, D., & Knowles, J. (2020). *Education data done right: Lessons from the trenches of applied data science.* Leanpub. https://leanpub.com/eddatadoneright
 
-Powers, K., & Henderson, A. E. (Eds.). (2018). Cultivating a data culture in higher education. Routledge.
+> This book explores best practices in education data work. It includes chapters on data governance, working with IT, and managing data requests. This book will help you apply your data science skills effectively in an education system. 
 
-Williamson, B. (2017). Big data in education: The digital future of learning, policy and practice.  Sage.
+Krumm, A., Means, B., & Bienkowski, M. (2018). *Learning analytics goes to school: A collaborative approach to improving education.* Routledge. https://www.routledge.com/Learning-Analytics-Goes-to-School-A-Collaborative-Approach-to-Improving/Krumm-Means-Bienkowski/p/book/9781315650722
 
-Lawson, J. (2015). Data Science in Higher Education: A Step-by-Step Introduction to Machine Learning for Institutional Researchers. CreateSpace.
+> This book emphasizes data-driven improvement using new sources of data and learning analytics and data mining techniques.
 
-Swing, R. L. (2018). The Analytics Revolution in Higher Education: Big Data, Organizational Learning, and Student Success. Stylus Publishing, LLC.
+## Articles Related to Data Science in Education
 
-## Articles related to data science in education
+Dutt, A., Ismail, M. A., & Herawan, T. (2017). A systematic review on educational data mining. *IEEE Access, 5*, 15991-16005. https://ieeexplore.ieee.org/abstract/document/7820050
 
-Williamson, B. (2017). Who owns educational theory? Big data, algorithms and the expert power of education data science. E-Learning and Digital Media, 14(3), 105-122.
+> A comprehensive review of past research on educational data mining, with an emphasis on methods used in past research.
 
-Liu, M. C., & Huang, Y. M. (2017). The use of data science for education: The case of social-emotional learning. Smart Learning Environments, 4(1), 1.
+Lee, V. R., & Wilkerson, M. (2018). *Data use by middle and secondary students in the digital age: A status report and future prospects.* Commissioned Paper for the National Academies of Sciences, Engineering, and Medicine, Board on Science Education, Committee on Science Investigations and Engineering Design for Grades 6-12. Washington, D.C. https://digitalcommons.usu.edu/itls_facpub/634/
 
-Rosenberg, J. M., Lawson, M. A., Anderson, D. J., Rutherford, T., & Jones, R. S. (accepted pending minor revisions). Making Data Science “Count”: Data Science and Learning, Design, and Technology Research. In E. Romero-Hall (Ed.), Research Methods in Learning Design & Technology. Routledge: New York, NY.
+> A comprehensive and incisive review of both recent and foundational research on what is known about how learners at the K-12 level analyze data.
 
-Dutt, A., Ismail, M. A., & Herawan, T. (2017). A systematic review on educational data mining. IEEE Access, 5, 15991-16005.
+Lehrer, R. & Schauble, L. (2015). *Developing scientific thinking*. In L. S. Liben & U. Müller (Eds.), Cognitive processes. Handbook of child psychology and developmental science (Vol. 2, 7th ed., pp. 671-174). Hoboken, NJ: Wiley. https://www.wiley.com/en-us/Handbook+of+Child+Psychology+and+Developmental+Science%2C+7th+Edition-p-9781118136850
+
+> Describes the "data modeling" approach which has been used to support learners at the K-12 level to develop data analysis-related capabilities.
+
+Rosenberg, J. M., Edwards, A., & Chen, B. (2020). Getting messy with data: Tools and strategies to help students analyze and interpret complex data sources. *The Science Teacher, 87*(5). https://search.proquest.com/openview/efbd11290f17b5dd9ff27c9c491ca25b/1?pq-origsite=gscholar&cbl=40590
+
+> An overview of digital tools (including R) and strategies for teaching data analysis to K-12 students (particularly in science education settings).
+
+Rosenberg, J. M., Lawson, M. A., Anderson, D. J., Jones, R. S., & Rutherford, T. (2020). Making data science count in and for education. In E. Romero-Hall (Ed.), *Research Methods in Learning Design & Technology*. Routledge. https://edarxiv.org/hc2dw/ 
+
+> Defines data science in education (as the use of data science methods) and data science for education (as a context for teaching and learning).
+
+Schneider, B., Reilly, J., & Radu, I. (2020). Lowering barriers for accessing sensor data in education: Lessons learned from teaching multimodal learning analytics to educators. *Journal for STEM Education Research*, 1-34. https://link.springer.com/article/10.1007/s41979-020-00027-x
+
+> A study of the effects of a course designed to teach graduate students in educational graduate programs to analyze data using learning analytics techniques.
+
+Wise, A. F. (2020). Educating data scientists and data literate citizens for a new generation of data. *Journal of the Learning Sciences, 29*(1), 165-181. https://doi.org/10.1080/10508406.2019.1705678
+
+> A description of some of the opportunities and challenges of learning to analyze data in light of new data sources and data analysis (and data science) techniques. 
+
+Wilkerson, M. H., & Polman, J. L. (2020). Situating data science: Exploring how relationships to data shape learning. *Journal of the Learning Sciences, 29*(1), 1-10. https://doi.org/10.1080/10508406.2019.1705664
+
+> An introduction to a special issue of the *Journal of the Learning Sciences* on data science education.
 
 ## Programming with R
 
-Wickham, H. & Grolemund, G. (2017). *R for data science*. Sebastopol, CA: O'Reilly.
+Wickham, H. & Grolemund, G. (2017). *R for data science*. O'Reilly.
 
 > "You have data but have no idea on how to make sense off it?". If this statement resonates to you, then look no further. Introducing `R` for data analysis. At it's core, R is a statistical programming language. It helps to derive useful information from the data deluge. This book assumes your a novice at data analytics and will subtly introduce you to the nuances of R, RStudio, and the tidyverse (which is a collection of R packages designed to ensure your learning curve is minimal).
 
@@ -93,59 +116,41 @@ Bryan, J. & Hestor, J. *Happy git and github for the useR*. Retrieved from [http
 
 > A fantastic and accessible introduction to using git and GitHub. 
 
-## Helpful package vignettes and descriptions of packages
+## Statistics
 
-*Introduction to dplyr*. Retreived from [https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
-
-> `dplyr` is a R package that helps to manipulate and understand data. It provides simple “verbs”, functions that correspond to the most common data manipulation tasks, to help you translate your thoughts into code. Anyone with no programming experience can easily understand the verbs and use them for data analytics with ease.
-
-*A short introduction to the caret package*. Retrieved from [https://cran.r-project.org/web/packages/caret/vignettes/caret.html]([https://cran.r-project.org/web/packages/caret/vignettes/caret.html)
-
-> The `caret` package is an abbreviated form of `Classification And REgression Trees`. It consist of methods that solve regression and classification problems. It also consist of methods related to the initial data preprocessing activities like data cleaning, feature selection and model tuning for predictive analytics.
-
-*tidy data*. Retrieved from [https://tidyr.tidyverse.org/articles/tidy-data.html](https://tidyr.tidyverse.org/articles/tidy-data.html)
-
-Wickham et al. (2019). Welcome to the Tidyverse. *Journal of Open Source Software, 4*(43). 1686-1691. https://joss.theoj.org/papers/10.21105/joss.01686
-
-> The philosophy of ensuring data is clean such that each column contains data of just one type (or atomicity) and each row is an observation (made up of several atomic columns) is made possible in this paper. An atomic data type simply means that the data type cannot be broken down further. For example, consider a person address to be like, "127, Napier Street, Kuala Lumpur 50603". Suppose we save this address to a variable called `house-address`. If you look at this variable, it contains mixed-type data with both numeric and text values. So its important to break down the `house-address` variable such that it will contain data of just one type only. So it can be broken down into sub-variables like, `street-number`, `street-name`, `city-name`, `post-code`. This is known as data atomicity. Such atomicity leads to ensuring data is tidy and clean. For more details on this subject, please read this wonderful paper by Hadley Wickham (Wickham, H. (2014). Tidy data. Journal of Statistical Software, 59(10), 1-23.).
-
-## Statistics 
-
-### Introductory
+### Introductory Statistics
 
 Open Intro. (2019). Textbooks. https://www.openintro.org/
 
 > Three open-source textbooks for statistics, one for high school students.
 
-Bruce, P. & Bruce, A. (2017). *Practical statistics for data scientists*. Sebastopol, CA: O'Reilly.
-
-> 
-
 Navarro, D. (2019). *Learning Statistics With R*. https://learningstatisticswithr.com/
 
-> 
+> An introductory textbook with a focus on applications to psychological research.
 
 Field, A., Miles, J., & Field, Z. (2012). *Discovering statistics using R*. Sage publications.
 
+> Emphasizes many of the most common statistical tests, especially those used in psychology and educational psychology.
+
 > Covers the foundations thoroughly and in an entertaining way.
 
-Ismay, C., & Kim, A. Y. (2019). *ModernDice: Statistical inference via data science.* CRC Press. https://moderndive.com/
+Ismay, C., & Kim, A. Y. (2019). *ModernDive: Statistical inference via data science.* CRC Press. https://moderndive.com/
 
-> 
+> An introductory statistics textbook with an emphasis on developing an intuition for the processes underlying modeling data (and hypothesis testing).
 
-James, G., Witten, D., Hastie, T., & Tibshirani, R. (2015). *An introduction to statistical learning with applications in R*. New York, NY: Springer.
+James, G., Witten, D., Hastie, T., & Tibshirani, R. (2015). *An introduction to statistical learning with applications in R*. Springer.
 
 > This is an introductory (and R-based) version of a classic book on machine learning by @hastie2009.
 
 Peng, R. D. (2019). *R programming for data science*. Leanpub. https://leanpub.com/rprogramming
 
-> 
+> Emphasizes R as a programming language and writing R functions and packages.
 
 Peng, R. D., & Matsui, E. (2018). *The art of data science*. Leanpub. https://leanpub.com/artofdatascience
 
-> 
+> This book is a wonderful teaching tool and reference for R users. It describes underlying concepts of R as a programming language and provides practical guides for commonly-used functions. 
 
-### Advanced
+### Advanced Statistics
 
 Gelman, A., & Hill, J. (2006). *Data analysis using regression and multilevel/hierarchical models*. Cambridge University Press.
 
@@ -159,57 +164,38 @@ West, B. T., Welch, K. B., & Galecki, A. T. (2014). Linear mixed models: a pract
 
 > A solid introduction to multi-level/hierarchical linear models, including code in R (with an emphasis on the lme4 R package).
 
-McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC. [see also https://bookdown.org/ajkurz/Statistical_Rethinking_recoded/]
+McElreath, R. (2018). Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC. 
 
 > A new classic, accessible introduction to Bayesian methods. We note that this book has been "translated" into tidyverse code by @kurz2019.
 
-## Software and R Packages
+## R packages and Statistical Software Development
 
 Peng, R. D. (2019). *Mastering software development in R*. Leanpub. https://leanpub.com/msdr
 
->
+> Developing packages in R, including a description of an example package for data visualization.
 
 Wickham, H. (2015). *R packages: Organize, test, document, and share your code*. O'Reilly. http://r-pkgs.had.co.nz/
 
 > A comprehensive introduction to (and walkthrough for) creating your own R packages. 
 
-## A career in data science
+## A Career in Data Science
 
 Robinson, E., & Nolis, J. (2020). *Building a career in data science*. Manning.  https://www.manning.com/books/build-a-career-in-data-science?a_aid=buildcareer&a_bid=76784b6a
 
-> 
+> Advice on the technical and practical requirements to work in a data science role.
 
-## Places to share your work
+## Places to Share Your Work
 
-Twitter: [twitter.com](twitter.com)
+Twitter: [twitter.com](twitter.com) 
 
 > Especially through the hashtags we mentioned below.
 
-LinkedIn: [linkedin.com](linkedin.com)
+LinkedIn: [linkedin.com](linkedin.com) 
 
 > Can be a place not only to share career updates, but also data science-related works-in-progress.
 
-Medium : [medium.com](medium.com)
-
-<-- !Say more here about how to share here? -->
-
 ## Cheat Sheets
 
-R Studio Cheat Sheets. https://rstudio.com/resources/cheatsheets/
+[R Studio Cheat Sheets](https://rstudio.com/resources/cheatsheets/) (https[]()://rstudio.com/resources/cheatsheets/)
 
-> See especially the dplyr, tidyr, purrr, ggplot2, and other cheat sheets
-
-## Learning communities
-
-Here some online communities and community resources we recommend: 
-
- - #rstats
- - #tidyverse
- - #RLadies
- - #tidytuesday
- 
- Here are two resources by co-author Mostipak related to the #r4ds community (from which #tidytuesday came):
- 
-Mostipak, J. (2017). *R4DS: the next iteration*. Retrieved from [https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82](https://medium.com/@kierisi/r4ds-the-next-iteration-d51e0a1b0b82)
- 
-Mostipak, J. (2019). *R4DS online learning community Improvements to self-taught data science & the critical need for diversity, equity, and inclusion*. Retrieved from [https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education](https://resources.rstudio.com/rstudio-conf-2019/r4ds-online-learning-community-improvements-to-self-taught-data-science-and-the-critical-need-for-diversity-equity-and-inclusion-in-data-science-education)
+> See especially the {dplyr}, {tidyr}, {purrr}, {ggplot2}, and other cheat sheets.

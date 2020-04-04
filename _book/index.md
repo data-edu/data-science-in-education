@@ -1,11 +1,10 @@
-
 --- 
 title: "Data Science in Education Using R"
 author: "Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez"
 site: bookdown::bookdown_site
 output:
     bookdown::gitbook:
-        fig_caption: yes
+        number_sections: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: "apalike"
@@ -38,14 +37,40 @@ We started talking about data science in education online because we wanted to b
 
 So give your chicken family a big hug, open up your laptop, and let’s start learning together. Turns out, there are a lot more hatchlings wanting to be eagles and chickens at the same time.
 
-<div class="figure" style="text-align: center">
-<img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-3)The Tweet That Started It All</p>
+<div class="figure">
+<img src="./man/figures/Figure 0.1.png" alt="The Tweet That Started It All" width="598" />
+<p class="caption">(\#fig:unnamed-chunk-2)The Tweet That Started It All</p>
 </div>
 
 ## Acknowledgements {-}
 
-This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Jake Kaupp, Ludmila Janda, Kris Stevens, David Ranzolin, Gustavo Velásquez, and Bret Staudt Willet.
+This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Daniel Anderson, Abi Aryan, Jason Becker, William Bork, Jon Duan, Erin Grand, Ludmila Janda, Jake Kaupp, Nathan Kenner, David Ranzolin, Kris Stevens, Bret Staudt Willet, and Gustavo Velásquez.
+
+Thank you to the data scientists in education that took time share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
+
+Thank you to the editor of this book at Routledge, Hannah Shakespeare. We appreciated Hannah’s incisive, constructive feedback, interest, and support for the book and our unique approach to writing it - one which involved writing the book "in the open" (through GitHub) and sharing it on a freely-available website.
+
+## Dedications {-}
+
+Emily:
+
+> 
+
+Ryan:
+
+> To my wife, Lucy, and my sons, Dylan and Adam, for enduring so much typing during dinner. And to Dan Winters, for enduring so many plots over coffee.
+
+Jesse:
+
+> To Mara and Sharla, for supporting me and cheering me on and reminding me that no matter how challenging it seemed, I could do the thing. To Hadley, for the retweet that changed my life and made this book possible. To Miriam, for the compassion and guidance and inspiration. And to Leo, Miles, Abby, and Jinx, who have all been a part of this journey with me.
+
+Josh: 
+
+> I dedicate this book to Katie and Jonah. I also dedicate this to Teri, Joel, Aaron, and Jess, who took an interest in it from its beginning through its completion. 
+
+Isabella:
+
+> I dedicate this book to my family, in particular my older brother Gustavo E., who never tells me to go read the manual.
 
 ## Citation {-}
 

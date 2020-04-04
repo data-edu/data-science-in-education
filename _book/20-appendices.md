@@ -1,0 +1,514 @@
+# Appendices {#c20}
+
+## Appendix A: Importing Data {#c20a}
+
+This Appendix is provided to serve as a non-exhaustive resource for importing data of different file types into R; it extends some of the techniques introduced in the foundational skills chapter, [Chapter 6](#c06). We note that while the bulk of the data that we use in this book is available through the {dataedu} package, although there are cases where you will be importing a `.csv` file or scraping data from the web. 
+
+### Using Functions to Import Data
+
+You might be thinking that an Excel file is the first type of data that we would load, but there happens to be a format which you can open and edit in Excel that is even easier to use between Excel and R. This format is also supported by SPSS and other statistical software (like MPlus) and even other programming languages, like Python. That format is `.csv`, or a comma-separated-values file. 
+
+The `.csv` file is useful because you can open it with Excel and save Excel files as `.csv` files. 
+A `.csv` file contains rows of a spreadsheet with the columns separated by commas, so you can also view it in a text editor, like TextEdit for Macintosh. 
+Not surprisingly, Google Sheets easily converts `.csv` files into a Sheet, and also easily saves Sheets as `.csv` files.  However we would be remiss if we didn't point out that there is a package, {googlesheets4}, which can be used to read a Google Sheet directly into R.
+
+For these reasons, we start with - and emphasize - reading `.csv` files. To get there, we will download a file from the internet.
+
+### Saving a File from the Internet
+
+You'll need to copy this URL:
+
+`https://goo.gl/bUeMhV`
+
+Here's what it resolves to (it's a `.csv` file):
+
+`https://raw.githubusercontent.com/data-edu/data-science-in-education/master/data/pisaUSA15/stu-quest.csv`
+
+This next chunk of code downloads the file to your working directory. 
+Run this to download it so in the next step you can read it into R. 
+As a note: there are ways to read the file directory (from the web) into R. 
+Also, you could do what the next (two) lines of code do manually: Feel free to open the file in your browser and to save it to your computer (you should be able to 'right' or 'control' click the page to save it as a text file with a `.csv` extension).
+
+
+```r
+student_responses_url <-
+    "https://goo.gl/bUeMhV"
+
+student_responses_file_name <-
+    paste0(getwd(), "/data/student-responses-data.csv")
+
+download.file(
+    url = student_responses_url,
+    destfile = student_responses_file_name)
+```
+
+It may take a few seconds to download as it's around 20 MB.
+
+The process above involves many core data science ideas and ideas from programming/coding. 
+We will walk through them step-by-step.
+
+1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
+
+
+```r
+student_responses_url <-
+    "https://goo.gl/bUeMhV"
+```
+
+2. We concatenate your working directory file path to the desired file name for the `.csv` using a *function* called `paste0`. 
+This is stored in another *object* called `student_reponses_file_name`. 
+This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
+
+
+```r
+student_responses_file_name <-
+    paste0(getwd(), "/data/student-responses-data.csv")
+```
+
+3. In short, the `download.file()` function needs to know
+- where the file is coming from (which you tell it through the `url`) argument and
+- where the file will be saved (which you tell it through the `destfile` argument).
+
+The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()`. The `student_responses_file_name` *object* is passed to the `destfile` argument.
+
+
+```r
+download.file(
+    url = student_responses_url,
+    destfile = student_responses_file_name)
+```
+
+Understanding how R is working in these terms can be helpful for troubleshooting and reaching out for help. 
+It also helps you to use functions that you have never used before.
+
+Now, in RStudio, you should see the downloaded file in the Files tab. 
+This should be the case if you created a project with RStudio; if not, it should be whatever your working directory is set to. 
+If the file is there, great. 
+If things are *not* working, consider downloading the file in the manual way and then move it into the directory that the R Project you created it.
+
+### Loading a `.csv` File
+
+Okay, we're ready to go. 
+The easiest way to read a `.csv` file is with the function `read_csv()` from the package `readr`, which is contained within the Tidyverse.
+
+Let's load the tidyverse library:
+
+
+```r
+library(tidyverse) # so tidyverse packages can be used for analysis
+```
+
+You may have noticed the hash symbol after the code that says `library(tidyverse)`. It reads `# so tidyverse packages can be used for analysis`.  That is a comment, and the code after it (but not before it) is not run. The code before it runs normally. 
+
+After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
+
+
+```r
+student_responses <-
+    read_csv("./data/student-responses-data.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   CNT = col_character(),
+##   CYC = col_character(),
+##   NatCen = col_character(),
+##   STRATUM = col_character(),
+##   Option_Read = col_character(),
+##   Option_Math = col_character(),
+##   ST011D17TA = col_character(),
+##   ST011D18TA = col_character(),
+##   ST011D19TA = col_character(),
+##   ST124Q01TA = col_logical(),
+##   IC001Q01TA = col_logical(),
+##   IC001Q02TA = col_logical(),
+##   IC001Q03TA = col_logical(),
+##   IC001Q04TA = col_logical(),
+##   IC001Q05TA = col_logical(),
+##   IC001Q06TA = col_logical(),
+##   IC001Q07TA = col_logical(),
+##   IC001Q08TA = col_logical(),
+##   IC001Q09TA = col_logical(),
+##   IC001Q10TA = col_logical()
+##   # ... with 420 more columns
+## )
+```
+
+```
+## See spec(...) for full column specifications.
+```
+
+Since we loaded the data, we now want to look at it. We can type its name in the function `glimpse()` to print some information on the dataset (this code is not run here).
+
+
+```r
+glimpse(student_responses)
+```
+
+Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
+
+Great job loading a file and printing it! 
+We are now well on our way to carrying out analysis of our data.
+
+### Saving Files
+
+We just practiced loading a file *into* R from an external data source. Just as often, you might need to save a file *out of* R into an external software.
+
+Using our data frame `student_responses`, we can save it as a `.csv` with the following function. The first argument, `student_reponses`, is the name of the object that you want to save. The second argument, `student-responses.csv`, what you want to call the saved dataset.
+
+
+```r
+write_csv(student_responses, "student-responses.csv")
+```
+
+That will save a `.csv` file entitled `student-responses.csv` in the working directory. If you want to save it to another directory, simply add the file path to the file, i.e. `path/to/student-responses.csv`. To save a file for SPSS, load the haven package and use `write_sav()`. There is not a function to save an Excel file, but you can save as a `.csv` and directly load it in Excel.
+
+### Loading Excel Files
+
+If you want to load data from an Excel workbook, you might be thinking that you can open the file in Excel and then save it as a `.csv`.  This is generally a good idea. At the same time, sometimes you may need to directly read a file from Excel. Note that, when possible, we recommend the use of `.csv` files. They work well across platforms and software (i.e., even if you need to load the file with some other software, such as Python).
+
+The package for loading Excel files, {readxl}, is not a part of the tidyverse, so we will have to install it first using `install.packages()` (remember, we only need to do this once), and then load it using `library(readxl)`. The command to install {readxl} is commented out below so that the computer will not automatically run that line. It is here just as a reminder that the package needs to be installed on your computer before you use it for the first time.
+
+Once we have installed readxl, we have to load it (just like tidyverse):
+
+
+```r
+library(readxl)
+```
+
+We can then use the function `read_excel()` in the same way as `read_csv()`, where "path/to/file.xlsx" is where an Excel file you want to load is located:
+
+
+```r
+my_data <-
+    read_excel("path/to/file.xlsx")
+```
+
+Of course, if you were to run this, you can replace `my_data` with a name you like. Generally, it's best to use short and easy-to-type names for data as you will be typing and using it a lot. 
+
+Note that one easy way to find the path to a file is to use the "Import Dataset" menu. It is in the Environment window of RStudio. Click on that menu bar option, select the option corresponding to the type of file you are trying to load (e.g., "From Excel"), and then click The "Browse" button beside the File/URL field. Once you click on the, RStudio will automatically generate the file path - and the code to read the file, too - for you. You can copy this code or click Import to load the data.
+
+### Loading SAV Files
+
+The same considerations that apply to reading Excel files apply to reading `SAV` files (from SPSS). 
+
+_You can also read `.csv` file directly into SPSS. Because of this and because of the benefits of using CSVs (they are simple files that work across platforms and software), we recommend using CSVs when possible._
+
+To load an SPSS file, first, install the package `haven`. 
+    
+    
+    ```r
+    #install.packages("haven")
+    ```
+
+Then, load the data by using the function `read_sav()`:
+
+
+```r
+library(haven)
+my_data <-
+    read_sav("path/to/file.xlsx")
+```
+
+### Google Sheets
+
+Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
+
+
+```r
+install.packages("googlesheets4")
+```
+
+
+```r
+library(googlesheets4)
+```
+
+When you run the command below, a link to authenticate with your Google account will open in your browser. 
+
+
+```r
+my_sheets <- gs_ls()
+```
+
+You can then use the `gs_title()` function in conjunction with the `gs_read()` function to work with your data frame. We provide a brief example below; the package's documentation provides more details.
+
+    
+    ```r
+    df <- gs_title('title')
+    df <- gs_read(df)
+    ```
+
+## Appendix B: Accessing Twitter Data {c20b}
+
+The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag. As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+
+### Accessing Historical Twitter Data Using Already-Collected Status URLs
+
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
+
+
+```r
+raw_tidytuesday_tweets <-
+  read_delim(
+    "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
+    "\t",
+    escape_double = FALSE,
+    trim_ws = TRUE
+  )
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   status_url = col_character(),
+##   screen_name = col_character(),
+##   created_at = col_datetime(format = ""),
+##   favorite_count = col_double(),
+##   retweet_count = col_double(),
+##   dataset_id = col_character()
+## )
+```
+
+Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
+
+
+```r
+token <-
+  create_token(
+    consumer_key = < add - your - key - here > ,
+    consumer_secret = < add - your - secret - here >
+  )
+
+# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
+
+tidytuesday_tweets <-
+  lookup_statuses(raw_tidytuesday_tweets$status_url,
+                  token = token)
+```
+
+The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
+
+### Accessing Historical Data When You Do Not Have Access to Status URLs
+
+In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
+
+First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time - even a long period of time The only catch is that you need to setup and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year; or, you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
+
+A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you haven not started a TAGS sheet and do not otherwise have access to the status URLs.
+
+## Appendix C: Social Network Influence and Selection Models {#c20c}
+
+After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
+
+### An Example of Influence
+
+First, let's look at an example of influence. To do so, let's create three different data frames. These will include: 
+
+- An edgelist data frame that contains the *nominator* and *nominee* for a relationship. For example, if Stefanie says that José is her friend, then Stefanie is the nominator and José the nominee. data frames like this can also contain an optional variable indicating the weight, or strength, of their relation 
+- Data frames indicating the values of some behavior - an outcome - at two different time points
+
+In this example, we'll create example data we can use to explore questions about influence. 
+
+Let's take a look at our three datasets: 
+
+ - `data1`: an edgelist that contains a nominator, nominee, and strength of the relation 
+ - `data2`: a dataset that contains the nominee and the values of some behavior at the first time point  
+ - `data3`: a dataset that contains a nominator and the value of some behavior at the second time point 
+
+Note that we will find each nominators' outcome at time 2 later on. Here's how we can make these example datasets: 
+
+
+```r
+data1 <-
+  data.frame(
+    nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
+    nominee = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6),
+    relate = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+  )
+
+data2 <-
+  data.frame(nominee = c(1, 2, 3, 4, 5, 6),
+             yvar1 = c(2.4, 2.6, 1.1, -0.5, -3, -1))
+
+data3 <-
+  data.frame(nominator = c(1, 2, 3, 4, 5, 6),
+             yvar2 = c(2, 2, 1, -0.5, -2, -0.5))
+```
+
+### Joining the Data
+  
+Next, we'll join the data into one data frame. This step can be time-consuming for large network datasets, but it's important for the visualizations and analysis that follow. The more time you can invest into preparing the data properly, the more confidence you'll have that your resulting analysis is based on a deeper understanding of the data. 
+
+
+```r
+data <-
+  left_join(data1, data2, by = "nominee")
+
+data <-
+  data %>% 
+  # this makes merging later easier
+  mutate(nominee = as.character(nominee)) 
+
+# calculate indegree in tempdata and merge with data
+tempdata <- data.frame(table(data$nominee))
+
+tempdata <-
+  tempdata %>%
+  rename(
+    # rename the column "Var1" to "nominee" 
+    "nominee" = "Var1", 
+    # rename the column "Freq" to "indegree"
+    "indegree" = "Freq"
+    ) %>% 
+  # makes nominee a character data type, instead of a factor, which can cause problems
+  mutate(nominee = as.character(nominee))
+
+data <- 
+  left_join(data, tempdata, by = "nominee")
+```
+
+**Calculating an Exposure Term**
+
+Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
+
+
+```r
+# Calculating exposure
+data <-
+  data %>% 
+  mutate(exposure = relate * yvar1)
+
+# Calculating mean exposure
+mean_exposure <-
+  data %>%
+  group_by(nominator) %>%
+  summarize(exposure_mean = mean(exposure))
+```
+
+The data frame `mean_exposure` contains the mean of the outcome (in this case, `yvar1`) for all of the individuals the nominator had a relation with.
+
+Let's process the data more so we can add the variables `exposure_mean`, `yvar1`, and `yvar2`.
+
+
+```r
+data2 <-
+  data2 %>% 
+  # rename nominee as nominator to merge these
+  rename("nominator" = "nominee") 
+
+final_data <-
+  left_join(mean_exposure, data2, by = "nominator")
+
+final_data <- 
+  # data3 already has nominator, so no need to change
+  left_join(final_data, data3, by = "nominator") 
+```
+
+**Regression (Linear Model)**
+
+Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
+
+
+```r
+model1 <-
+  lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
+
+summary(model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = yvar2 ~ yvar1 + exposure_mean, data = final_data)
+## 
+## Residuals:
+##        1        2        3        4        5        6 
+##  0.02946 -0.09319  0.09429 -0.02730 -0.02548  0.02222 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    0.11614    0.03445   3.371   0.0434 *  
+## yvar1          0.67598    0.02406  28.092  9.9e-05 ***
+## exposure_mean  0.12542    0.03615   3.470   0.0403 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.08232 on 3 degrees of freedom
+## Multiple R-squared:  0.9984,	Adjusted R-squared:  0.9974 
+## F-statistic: 945.3 on 2 and 3 DF,  p-value: 6.306e-05
+```
+
+So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
+
+### An Example of Selection
+
+Let's look at selection models next. Information from selection models can be useful to a wide audeince--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
+
+In the last section we use da linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
+
+But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
+
+Once all of the relations are given a value of either a 1 or a 0, then a  logistic regression can be used. Imagine that we are interested in whether individuals from the *same* group are more or less likely to interact than those from different groups. To answer this question, one could create a new variable called `same` and then fit the model using code like this:
+
+
+```r
+m_selection <- 
+  glm(relate ~ 1 + same, data = edgelist1)
+```
+
+While this is a straightforward way to carry out a selection model, there are some limitations. First, it doesn't account for the amount of nominations an individual sends. Not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. Some R packages aim to address this by considering other variables like relationship weights. Here are some examples: 
+
+ - The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed  
+ - The Exponential Random Graph Model, or {ergm} R package, makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet] 
+ 
+These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
+
+## Appendix D: Colophon
+
+This book was written using [bookdown](https://bookdown.org/home/) [@bookdown2016] using [RStudio](https://rstudio.com/) [@rstudio]. The website (https://datascienceineducation.com) is hosted with [Netlify](https://www.netlify.com/).
+
+This version of the book was built with:
+
+
+```r
+sessionInfo()
+```
+
+```
+## R version 3.6.3 (2020-02-29)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Catalina 10.15.4
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] readxl_1.3.1    forcats_0.4.0   stringr_1.4.0   dplyr_0.8.5    
+##  [5] purrr_0.3.3     readr_1.3.1     tidyr_1.0.2     tibble_3.0.0   
+##  [9] ggplot2_3.3.0   tidyverse_1.3.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_1.0.0 xfun_0.12        haven_2.2.0      lattice_0.20-38 
+##  [5] colorspace_1.4-1 vctrs_0.2.4      generics_0.0.2   htmltools_0.4.0 
+##  [9] yaml_2.2.1       rlang_0.4.5      pillar_1.4.3     withr_2.1.2     
+## [13] glue_1.3.2       DBI_1.1.0        dbplyr_1.4.2     modelr_0.1.5    
+## [17] lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0     cellranger_1.1.0
+## [21] rvest_0.3.5      evaluate_0.14    knitr_1.28       curl_4.3        
+## [25] fansi_0.4.1      broom_0.5.4      Rcpp_1.0.3       backports_1.1.5 
+## [29] scales_1.1.0     jsonlite_1.6.1   fs_1.3.2         hms_0.5.3       
+## [33] digest_0.6.25    stringi_1.4.6    bookdown_0.18    grid_3.6.3      
+## [37] cli_2.0.2        tools_3.6.3      magrittr_1.5     crayon_1.3.4    
+## [41] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.2.5       reprex_0.3.0    
+## [45] lubridate_1.7.4  assertthat_0.2.1 rmarkdown_2.1    httr_1.4.1      
+## [49] rstudioapi_0.11  R6_2.4.1         nlme_3.1-144     compiler_3.6.3
+```

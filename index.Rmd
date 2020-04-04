@@ -4,7 +4,7 @@ author: "Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg
 site: bookdown::bookdown_site
 output:
     bookdown::gitbook:
-        fig_caption: yes
+        number_sections: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: "apalike"
@@ -15,11 +15,27 @@ favicon: "favicon.ico"
 url: "datascienceineducation.com/"
 ---
 
-```{r include=FALSE}
+```{r include = FALSE, eval = TRUE}
 # automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+# for packages
+
+knitr::write_bib(c("bookdown", "tidyverse", "dplyr", "tidyr", 
+                 "ggplot2", "sjPlot", "lme4", "ggraph", "tidygraph", 
+                 "caret", "readxl", "here", "lubridate", "dummies",
+                 "janitor", "dataedu", "tidyverse", 
+                 "statnet", "amen", "ergm", "rJava", "tabulizer", 
+                 dataedu:::dataedu_packages), "packages.bib")
+
+library(RefManageR)
+
+b <- ReadBib('book.bib')
+b_packages <- ReadBib('packages.bib')
+
+b <- sort(b)
+b_packages <- sort(b_packages)
+
+WriteBib(b, "book.bib")
+WriteBib(b_packages, "packages.bib")
 ```
 
 # Welcome {-}
@@ -32,7 +48,7 @@ There’s this story going around the internet about an eagle egg that hatches i
 
 One day, while strutting around the chicken farm, the young eagle sees something soaring through the sky. The flying creature has long wings, which it stretches wide before tucking them back in and angling itself downward for a dive towards the earth. The sight of this other-worldly bird stirs something in the young eagle. 
 
-Over the next few weeks the eagle finds it can’t shake the vision of the soaring eagle from its mind. It tests the conversational waters during feeding time. It wonders out loud, “What if we tried to fly more than two feet off the ground?” The other chickens stare back. The young eagle, uncertain if these stares are ambivalence or the default chicken eye position, begins to ponder the only way forward. It must learn to fly high while living with the chicken family he loves.
+Over the next few weeks the eagle finds it can’t shake the vision of the soaring eagle from its mind. It tests the conversational waters during feeding time. It wonders out loud, “What if we tried to fly more than two feet off the ground?” The other chickens stare back. The young eagle, uncertain if these stares are ambivalence or the default chicken eye position, begins to ponder the only way forward. It must learn to fly high while living with the chicken family it loves.
 
 This is a book about learning to program in R while working in education. It’s for folks who feel at home in the education community but are looking out into the world and wondering how to use data better. It’s about being a great educator and wondering if it’s too late to learn to code. It’s about being an educator who’s learning to code and wondering if there are others you can learn with. 
 
@@ -48,7 +64,33 @@ knitr::include_graphics("./man/figures/Figure 0.1.png")
 
 ## Acknowledgements {-}
 
-This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Abi Aryan, Jason Becker, William Bork, Erin Grand, Jake Kaupp, Ludmila Janda, Kris Stevens, David Ranzolin, Gustavo Velásquez, and Bret Staudt Willet.
+This work was supported by many individuals from the [DataEdu Slack channel](https://dataedu.slack.com/) (https://dataedu.slack.com/). Thank you to everyone who contributed code, suggested changes, asked questions, filed issues, and even designed a logo for us: Daniel Anderson, Abi Aryan, Jason Becker, William Bork, Jon Duan, Erin Grand, Ellis Hughes, Ludmila Janda, Jake Kaupp, Nathan Kenner, Zuhaib Mahmood, David Ranzolin, Kris Stevens, Bret Staudt Willet, and Gustavo Velásquez.
+
+Thank you to the data scientists in education that took time to share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
+
+Thank you to the editor of this book at Routledge, Hannah Shakespeare. We appreciated Hannah’s incisive, constructive feedback, interest, and support for the book and our unique approach to writing it - one which involved writing the book "in the open" (through GitHub) and sharing it on a freely-available website.
+
+## Dedications {-}
+
+Emily:
+
+> To my husband, Dan, who supports me every day and has believed in this book from day one. To my family and to Gus, who accompanied me on the journey.
+
+Ryan:
+
+> To my wife, Lucy, and my sons, Dylan and Adam, for enduring so much typing during dinner. And to Dan Winters, for enduring so many plots over coffee.
+
+Jesse:
+
+> To Mara and Sharla, for supporting me and cheering me on and reminding me that no matter how challenging it seemed, I could do the thing. To Hadley, for the retweet that changed my life and made this book possible. To Miriam, for the compassion and guidance and inspiration. And to Leo, Miles, Abby, and Jinx, who have all been a part of this journey with me.
+
+Josh: 
+
+> I dedicate this book to Katie and Jonah. I also dedicate this to Teri, Joel, Aaron, and Jess, who took an interest in it from its beginning through its completion. 
+
+Isabella:
+
+> To my loving family, in particular my older brother Gustavo E., who never tells me to go read the manual.
 
 ## Citation {-}
 
