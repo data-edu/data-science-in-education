@@ -30,7 +30,7 @@ There are a few reasons to be interested in social media. For example, if you wo
 
 In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would turn to a trusted peer in their building or district [@spillane2012]. Today they are as likely to turn to someone in a social media network. Social media interactions like the ones tagged with the #tidytuesday hashtag are increasingly common in education. Using data science tools to learn from these interactions is valuable for improving the student experience. 
 
-### Packages, Data Sources and Import, and Methods
+### Packages
 
 In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet} and a Twitter account, it is easy to access data from Twitter. We will load the {tidyverse} and {rtweet} packages to get started. 
 
@@ -47,6 +47,8 @@ library(tidygraph)
 library(ggraph)
 ```
 
+### Data Sources and Import
+
 Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
 
 ```{r, eval = FALSE}
@@ -61,7 +63,22 @@ tt_tweets  <-
   search_tweets("#tidytuesday")
 ```
 
-Some more information on accessing Twitter data, including historical data, is described in [Appendix B](#c20b).
+You can find a greater number of tweets by adding a greater value to the `n` argument of the `search_tweets()` function, as follows, to collect the most recent 500 tweets:
+
+```{r, eval = FALSE}
+tt_tweets  <- 
+  search_tweets("#tidytuesday", n = 500)
+```
+
+### Using an Application Programming Interface (or API)
+
+It's worth taking a short detour to talk about another way you can get a dataset like this. A more advanced but common way to import data from a social media website is to use something called an application programming interface (API). A full discussion and walkthrough of using an API is outside the scope of this book, but it’s worth introducing the idea so you have a sense of the possibilities. Once you learn how to do it, using an API offers some advantages over downloading the dataset. 
+
+Think of an API as a special door a home builder made for a house that has a lot of cool stuff in it. The home builder doesn’t want everyone to be able to walk right in and use a bunch of stuff in the house. But they also don’t want to make it too hard because, after all, sharing is caring! So imagine the home builder made a door just for folks who know how to use doors. In order to get through this door, users need to know where to find it along the outside of the house. Once they’re there, they have to know the code to open. And once they’re through the door, they have to know how to use the stuff inside. An API for social media platforms like Twitter and Facebook are the same way. You can download datasets of social media information, like tweets, using some code and authentication credentials organized by the website.
+
+There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product. By using an API to import new data every time you run your code, you create an analysis that can be run again and again on future datasets.
+
+A key point - and limitation - for how Twitter allows access to their data for the seven most recent days. There are a number of ways to access older data, which we discuss at the end of this chapter, though we focus on one way here: having access to the URLs to (or the status IDs for) tweets. We used this technique, which we describe in [Appendix B](#c20b), along with other strategies for collecting historical data from Twitter. The data that we processed is available in the {dataedu} R package as the `tt_tweets` dataset, as we show in the next section. More information on accessing Twitter data, including historical data, is described in [Appendix B](#c20b).
 
 **Accessing the data from {dataedu}***
 
@@ -79,7 +96,7 @@ We can see that there are *many* rows for the data:
 nrow(tt_tweets)
 ```
 
-## Process Data
+## Methods: Process Data
 
 Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an *edgelist*. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an *edge*. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as *ties* or *relations*, but these generally refer to the same thing, though they may be used in different contexts.
 
