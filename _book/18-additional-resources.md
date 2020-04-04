@@ -9,6 +9,7 @@ In this chapter, we provide references and links to additional resources related
 - Data visualization
 - Books on data science in education
 - Articles on data science in education
+- Equity resources
 - Programming with R
 - Statistics
 - R package and statistical software development
@@ -102,6 +103,14 @@ Wilkerson, M. H., & Polman, J. L. (2020). Situating data science: Exploring how 
 
 > An introduction to a special issue of the *Journal of the Learning Sciences* on data science education.
 
+## Equity Resources
+
+O'Neil, Cathy. Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy. First edition. New York: Crown, 2016.
+
+We All Count: [https://weallcount.com/](https://weallcount.com/)
+
+Data for Black Lives: [http://d4bl.org/](http://d4bl.org/)
+
 ## Programming with R
 
 Wickham, H. & Grolemund, G. (2017). *R for data science*. O'Reilly.
@@ -193,6 +202,7 @@ Twitter: [twitter.com](twitter.com)
 LinkedIn: [linkedin.com](linkedin.com) 
 
 > Can be a place not only to share career updates, but also data science-related works-in-progress.
+
 
 ## Cheat Sheets
 

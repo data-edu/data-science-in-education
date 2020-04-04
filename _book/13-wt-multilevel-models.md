@@ -1,5 +1,18 @@
 # Walkthrough 7: The Role (and Usefulness) of Multilevel Models {#c13}
 
+## Topics Emphasized
+
+- Transforming data
+- Modeling data
+- Communicating results
+
+## Functions Introduced
+
+- `dummies::dummy()`
+- `dplyr::bind_cols()`
+- `lme4::lmer()`
+- `performance::icc()`
+
 ## Vocabulary
 
 - dummy coding
@@ -31,6 +44,10 @@ To do this, we'll assign codes to the groups so we can include them in our model
 
 We will load the tidyverse and a few other packages specific to using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
+
+If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {dummies} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
+
+The remaining packages ({tidyverse}, {sjPlot}, and {dataedu}) are used in other chapters, but, if you have not installed these before, you will to install these, too, using the `install.packages()` function, with the name of the package included (in quotations), just like for the previous three packages.
 
 
 ```r
@@ -864,13 +881,6 @@ We wanted to include this as multilevel models *are* common. Consider how often 
 Fortunately, for all of the complicated details, multilevel models are relatively
 easy to use in R. We'll need a new package for this next example. One of the most common for
 estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument for the *groups* we want to include in the model. This model is often referred to as a "varying intercepts" multilevel model. The difference between the groups is the effect of being a student in a class: the intercepts between the groups vary.
-
-You'll only need to install {lme4} once to do the rest of this walkthrough. To install {lme4}, type this code in your console: 
-
-
-```r
-install.packages("lme4") 
-```
 
 Now we can fit our multilevel model uisng the `lmer()` function:
 
