@@ -33,7 +33,7 @@ No two data science projects are the same. Even so, we've created a general fram
   - **Packages**
   - **Data**
 
-### Projects
+## Projects
 
 One of the first steps of every workflow should be to set up a **Project** within RStudio. 
 A Project is the home for all of the files, images, reports, and code that are used in any given project.
@@ -73,7 +73,7 @@ We should point out that it is not *necessary* to create a Project for your work
 
 While we cannot emphasize enough how Projects and the {here} package streamline this process, you can always check where your computer is looking for your `.R` scripts by checking the working directory. To do that, you can run this code: `getwd()`. That code will let you know what file path R is currently pointing towards. If that is not what you wanted, you can then change your working directory manually by running `setwd()` and providing your file path name as an argument. The reason we do not advocate for this `getwd()` and `setwd()` workflow is that if you use it, it becomes impossible for someone on another computer (or you on a future computer) to run your code. The `getwd()` and `setwd()` commands point to a specific location on your own device.
 
-### Functions
+## Functions
 
 A function is a reusable piece of code that allows us to consistently repeat a programming task. Functions in R can be identified by a word followed by a set of parentheses, like so: `word()`.
 More often than not, the word is a verb, such as `filter()`, suggesting that we're about to perform an action. Indeed, functions act like verbs: they tell R what to do with our data. 
@@ -128,13 +128,13 @@ addition(62, 34)
 - For our newly written function "addition," what happens if we only provide one argument?
 - What happens if we provide more than two arguments?
 
-### Packages
+## Packages
 
 Packages are shareable collections of R code that can contain functions, data, and/or documentation. 
 Packages increase the functionality of R by providing access to additional functions to suit a variety of needs.
 While it is entirely possible to do all of your work in R without ever using a package, we do not recommend that approach. There are a wealth of packages available, almost all of which help reduce both the learning curve associated with R and the amount of time spent on any given analytical project. 
 
-*Installing and Loading a package*
+### Installing and Loading a package
 
 **Installing a package**
 
@@ -165,7 +165,7 @@ If you do not want to write code for installing packages, you can also navigate 
 knitr::include_graphics("./man/figures/Figure 6.1.png")
 ```
 
-**Loading a package**
+### Loading a package
 
 Once a package is installed on your computer, you do not have to re-install it in order to use the functions in the package. However, every time you open RStudio and want to use the package, you will need to load the package into your RStudio environment. In this way, R will know where to look for the functions. We can accomplish loading the package into our R environment using the `library()` function.
 
@@ -189,21 +189,20 @@ We only have to install a package once, but to use it, we have to load it each t
 Sometimes you'll see `require()` used instead of `library()`. We strongly advocate for the use of `library()`, as it forces R to load the package. If the package is not installed or if there are issues with the package, RStudio will print out an error message. `require()`, on the other hand, will not give an error if the package is not available or if there are issues with the package. 
 Using `library()` will help to eliminate sources of confusion later.  
 
-*How to Find a Package*
+### How to Find Packages
 
 As you begin your R learning journey, the bulk of the packages that you will need to use are either already included when you install R, or are available on CRAN. 
 [CRAN TaskViews](https://cran.r-project.org/web/views/) (https[]()://cran.r-project.org/web/views/) is one of the best resources for seeing what packages are available and might be relevant to your work.
 Other great resources to learn about various R packages are through Twitter (following the #rstats hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
-*Learning More About a Package*
+### Learning More About a Package
 
 Sometimes when you look up a package, you're able to identify the function that you need and continue on your way. Other times, you may need (or want!) to learn more about a specific package. Packages on CRAN all come with something called a "vignette," which is a worked example using various functions from within the package. You can access a package's vignette(s) on CRAN TaskViews.
 
+Packages do not need to be submitted to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub. Package authors may publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package. If you find yourself on GitHub looking at information for a package, more often than not, the README file will have good information for getting started with a package. The {dataedu} package we have created is available only through GitHub (but not yet through CRAN) at the time of publication.
 
-Packages do not need to be submitted to CRAN to be used by the public, and many packages are available directly from their respective developers via GitHub. Package authors may publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package. If you find yourself on GitHub looking at information for a package, more often than not, the README file will have good information for getting started with a package. The {dataedu} package we've created is available through GitHub at the time of this publication.
-
-*Installing the {dataedu} package*
+### Installing the {dataedu} package
 
 In Chapter 5, we provided the following code for installing the {dataedu} package. There are related packages that {dataedu} will install for you when you install the {dataedu} package. If you run into difficulties, a good place to start is reinstalling the package to make sure you have the most updated version.
 If you installed the {dataedu} package already, you can skip to the next section. Otherwise, go ahead and run the following code. **Please note that the {dataedu} package requires R version 3.6 or higher to run.**
@@ -230,7 +229,7 @@ The `install_github()` function is telling R to go to a specific repository on G
 You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to loading the {dataedu} package because the package is not available on CRAN yet.
 
-*Loading the {dataedu} package*
+### Loading the {dataedu} package
 
 Now that we've installed the {dataedu} package, we can load it using `library()`.
 You can create an `.R` script in your Project to load and explore the {dataedu} package.
@@ -244,7 +243,7 @@ library(dataedu)
 When we work with packages, we _don't_ include the `install.packages()` function in an `.R` script, but we _do_ include any `library()` functions that we use.
 This ensures that we know what packages we need to load into our RStudio environment, and signals to anyone else using our code which packages they'll need to use to run our code. 
 
-*Exploring the {dataedu} package*
+### Using the {dataedu} package
 
 There are some basic functions in the {dataedu} package that are helpful to know. 
 
@@ -288,7 +287,7 @@ To put it another way, an R user might write a series of functions that they fin
 Instead of re-writing (or copying and pasting) the functions each time they need to use them, an R user can collect all of these individual functions inside a package. 
 The R user can then load the package any time that they want to use the functions, using a single line of code instead of tens to tens of thousands of lines of code.  
 
-### Data
+## Data
 
 We have **data** that we bring into a Project within RStudio, and you're likely using R because you have some data that you would like to explore.
 Throughout this book, you'll see data accessed in a multitude of ways.
@@ -299,7 +298,7 @@ We've provided additional resources for loading data from Excel, SAV, and Google
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
 For those curious as to how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) (https[]()://db.rstudio.com/) resource from RStudio.
 
-## Introduction to Help Documentation
+## Help Documentation
 
 Very few - if any - people in the world know everything there is to know about R. 
 This means that we all need to look things up, sometimes every few minutes!
