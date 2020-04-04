@@ -48,6 +48,30 @@ This work was supported by many individuals from the [DataEdu Slack channel](htt
 
 Thank you to the data scientists in education that took time share their stories with us: Isabella Fante, LaCole Foots, Tobie Irvine, Arpi Karapetyan, John LaPlante, and Andrew Morozov. 
 
+Thank you to the editor of this book at Routledge, Hannah Shakespeare. We appreciated Hannah’s incisive, constructive feedback, interest, and support for the book and our unique approach to writing it - one which involved writing the book "in the open" (through GitHub) and sharing it on a freely-available website.
+
+## Dedications {-}
+
+Emily:
+
+> 
+
+Ryan:
+
+>
+
+Jesse:
+
+> To Mara and Sharla, for supporting me and cheering me on and reminding me that no matter how challenging it seemed, I could do the thing. To Hadley, for the retweet that changed my life and made this book possible. To Miriam, for the compassion and guidance and inspiration. And to Leo, Miles, Abby, and Jinx, who have all been a part of this journey with me.
+
+Josh: 
+
+> I dedicate this book to Katie and Jonah. I also dedicate this to Teri, Joel, Aaron, and Jess, who took an interest in it from its beginning through its completion. 
+
+Isabella:
+
+> I dedicate this book to my family, in particular my older brother Gustavo E., who never tells me to go read the manual.
+
 ## Citation {-}
 
 If you would like to cite this book, please use the below:

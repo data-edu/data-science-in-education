@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#prologue"><i class="fa fa-check"></i>Prologue</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dedications"><i class="fa fa-check"></i>Dedications</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="c01.html"><a href="c01.html"><i class="fa fa-check"></i><b>1</b> Introduction: Data Science in Education - You’re Invited to the Party!</a><ul>
@@ -362,15 +363,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.3" data-path="c11.html"><a href="c11.html#load-packages-4"><i class="fa fa-check"></i><b>11.3</b> Load Packages</a></li>
 <li class="chapter" data-level="11.4" data-path="c11.html"><a href="c11.html#import-data-4"><i class="fa fa-check"></i><b>11.4</b> Import Data</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="c11.html"><a href="c11.html#using-an-api"><i class="fa fa-check"></i><b>11.4.1</b> Using an API</a></li>
+<li class="chapter" data-level="11.4.1" data-path="c11.html"><a href="c11.html#using-an-application-programming-interface-or-api"><i class="fa fa-check"></i><b>11.4.1</b> Using an Application Programming Interface (or API)</a></li>
 </ul></li>
 <li class="chapter" data-level="11.5" data-path="c11.html"><a href="c11.html#view-data-2"><i class="fa fa-check"></i><b>11.5</b> View Data</a></li>
 <li class="chapter" data-level="11.6" data-path="c11.html"><a href="c11.html#process-data-3"><i class="fa fa-check"></i><b>11.6</b> Process Data</a></li>
 <li class="chapter" data-level="11.7" data-path="c11.html"><a href="c11.html#analysis-counting-words"><i class="fa fa-check"></i><b>11.7</b> Analysis: Counting Words</a></li>
 <li class="chapter" data-level="11.8" data-path="c11.html"><a href="c11.html#analysis-sentiment-analysis"><i class="fa fa-check"></i><b>11.8</b> Analysis: Sentiment analysis</a><ul>
 <li class="chapter" data-level="11.8.1" data-path="c11.html"><a href="c11.html#count-positive-words"><i class="fa fa-check"></i><b>11.8.1</b> Count Positive Words</a></li>
-<li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> Dataviz and Other Positive Words</a></li>
-<li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Close Read of Randomly Selected Tweets</a></li>
+<li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> “Dataviz” and Other Positive Words</a></li>
+<li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#taking-a-close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Taking A Close Read of Randomly Selected Tweets</a></li>
 </ul></li>
 <li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-7"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
 </ul></li>
@@ -580,6 +581,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="chapter-overview-7" class="section level2">
 <h2><span class="header-section-number">12.2</span> Chapter Overview</h2>
 <p>This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the <em>content</em> of tweets. In this, we chapter focus on the <em>interactions</em> between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we’ve also included an appendix (<a href="c20.html#c20c">Appendix C</a>) to introduce some social network-related ideas for further exploration.</p>
+<p>You will need a Twitter account to complete the code outlined in this chapter.
+If you do not have a Twitter account, you can create one and keep it private, and even delete the account once you’re done with this walkthrough!
+You’ll need the Twitter account in order to interact with the Twitter API.</p>
 <div id="background-5" class="section level3">
 <h3><span class="header-section-number">12.2.1</span> Background</h3>
 <p>There are a few reasons to be interested in social media. For example, if you work in a school district, you may want to know who is interacting with the content you share. If you are a researcher, you may want to investigate what teachers, administrators, and others do through state-based hashtags (e.g., <span class="citation">Rosenberg et al. (<a href="references.html#ref-rosenberg2016">2016</a>)</span>). Social media-based data also provides new contexts for learning to take place, like in professional learning networks <span class="citation">(Trust et al., <a href="references.html#ref-trust2016">2016</a>)</span>.</p>
@@ -614,20 +618,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant’s role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an “edgelist”. An edgelist is a dataset where each row is a unique interaction between two parties.</p>
 <p>An edgelist looks like the following, where the <code>sender</code> (sometimes called the “nominator”) column identifies who is initiating the interaction and the <code>receiver</code> (sometimes called the “nominee”) column identifies who is receiving the interaction:</p>
 <pre><code>## # A tibble: 12 x 2
-##    sender              receiver            
-##    &lt;chr&gt;               &lt;chr&gt;               
-##  1 al-Bangura, Waseema al-Jabbour, Hamda   
-##  2 Taylor, Morgan      Gardner, Latasha    
-##  3 Taylor, Morgan      Bekerman, Hannah    
-##  4 Duran, Austin       Gardner, Latasha    
-##  5 Duran, Austin       al-Jabbour, Hamda   
-##  6 Duran, Austin       Ramirez, Joshua     
-##  7 Garcia, Kaitlyn     Bekerman, Hannah    
-##  8 Garcia, Kaitlyn     Oviedo, Maximilliano
-##  9 Garcia, Kaitlyn     Ramirez, Joshua     
-## 10 Ramos, Jeremiah     Larkin, Stephanie   
-## 11 Payne, Brantley     Bekerman, Hannah    
-## 12 Payne, Brantley     Larkin, Stephanie</code></pre>
+##    sender            receiver         
+##    &lt;chr&gt;             &lt;chr&gt;            
+##  1 Casares, Lesly    Rogakis, Fzelle  
+##  2 Hickman, Molly    el-Habeeb, Awda  
+##  3 Hickman, Molly    al-Ghani, Jumaana
+##  4 Walker, Haden     el-Habeeb, Awda  
+##  5 Walker, Haden     Rogakis, Fzelle  
+##  6 Walker, Haden     Sebben, Janet    
+##  7 Trang, Anisa      al-Ghani, Jumaana
+##  8 Trang, Anisa      Lopez, Monica    
+##  9 Trang, Anisa      Sebben, Janet    
+## 10 Aguirre, Cindy    Robinson, Aldale 
+## 11 el-Salim, Layaali al-Ghani, Jumaana
+## 12 el-Salim, Layaali Robinson, Aldale</code></pre>
 <p>In this edgelist, the <code>sender</code> column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like “liking” or “mentioning” their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.</p>
 <div id="extracting-mentions" class="section level3">
 <h3><span class="header-section-number">12.4.1</span> Extracting Mentions</h3>

@@ -16,6 +16,10 @@
 
 This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration.
 
+You will need a Twitter account to complete the code outlined in this chapter. 
+If you do not have a Twitter account, you can create one and keep it private, and even delete the account once you're done with this walkthrough! 
+You'll need the Twitter account in order to interact with the Twitter API.   
+
 ### Background
 
 There are a few reasons to be interested in social media. For example, if you work in a school district, you may want to know who is interacting with the content you share. If you are a researcher, you may want to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data also provides new contexts for learning to take place, like in professional learning networks [@trust2016]. 
@@ -68,13 +72,13 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 ```{r, include = FALSE}
 names_d1 <-
   randomNames(6) %>%
-  as_tibble() %>%
+  enframe(name = NULL) %>%
   mutate(sender = 1:6) %>%
   set_names(c("sender2", "sender"))
 
 names_d2 <-
   randomNames(6) %>%
-  as_tibble() %>%
+  enframe(name = NULL) %>%
   mutate(receiver = 1:6) %>%
   set_names(c("receiver2", "receiver"))
 

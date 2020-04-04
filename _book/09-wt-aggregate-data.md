@@ -110,16 +110,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              84
-##  2 b       l              64
-##  3 c       m              61
-##  4 d       n              46
-##  5 e       o              42
-##  6 f       k              76
-##  7 g       l              79
-##  8 h       m              94
-##  9 i       n              56
-## 10 j       o              96
+##  1 a       k              71
+##  2 b       l              45
+##  3 c       m              29
+##  4 d       n               2
+##  5 e       o              87
+##  6 f       k              71
+##  7 g       l               9
+##  8 h       m              75
+##  9 i       n              46
+## 10 j       o              85
 ```
 
 Aggregate data totals up a variable - the variable `test_score` in this case - to
@@ -142,11 +142,11 @@ tibble(
 ## # A tibble: 5 x 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            25.5
-## 2 l            30.5
-## 3 m            48  
-## 4 n            65.5
-## 5 o            15
+## 1 k            47.5
+## 2 l            66  
+## 3 m            29  
+## 4 n            22.5
+## 5 o            75
 ```
 
 Notice here that this dataset no longer identifies individual students.
@@ -154,7 +154,7 @@ Notice here that this dataset no longer identifies individual students.
 **Disaggregating Aggregated Data**
 
 Aggregated data can tell us many things, but in order for us to better examine
-subgroups (groups that share similar characterstics), we must have data *disaggregated* by the
+subgroups (groups that share similar characteristics), we must have data *disaggregated* by the
 subgroups we hope to analyze. This data is still aggregated from row-level data
 but provides information on smaller components than the grand total
 [@disaggregate]. Common disaggregations for students include gender,
@@ -295,7 +295,7 @@ race_pdf <-
   dataedu::race_pdf
 ```
 
-We then transform the list to a data frame by first making the matrix version of the PDF's into a tibble by using `map(as_tibble())`. Then, we use the `map_df()` function then turns these tibbles into a single data frame. The `slice()` inside of `map_df()` removes unnecessary rows from the PDF. Finally, we create readable column names using `set_names()` (otherwise, they look like `...1`, `...2`, etc.).
+We then transform the list to a data frame by first making the matrix version of the PDF's into a tibble by using `map(as_tibble())`. Then, we use the `map_df()` function then turns these tibbles into a single data frame. The `slice()` inside of `map_df()` removes unnecessary rows from the tibbles. Finally, we create readable column names using `set_names()` (otherwise, they look like `...1`, `...2`, etc.).
 
 
 ```r
@@ -303,8 +303,8 @@ race_df <-
   race_pdf %>%
   # Turn each page into a tibble
   map(~ as_tibble(.x, .name_repair = "unique")) %>% 
-  # Remove unnecessary rows
-  map_df( ~ slice(.,-1:-2)) %>%
+  # Make data frame and remove unnecessary rows
+  map_df(~ slice(.,-1:-2)) %>%
   # Use descriptive column names
   set_names(
     c(
@@ -342,12 +342,19 @@ We clean up this dataset by:
 3.  Then we trim white space from strings using `trimws()`.
 4.  The data in the `percentage` columns are provided with a percentage sign. This means `percentage` was read in as a character. We will have to remove all of the non-numeric characters to be able to do math with these columns (for example, to add them together). Also, we want to divide the numbers by 100 so they are in decimal format.
 
+Let's break this line down: `mutate_at(vars(contains("pct")), list( ~ as.numeric(str_replace(., "%", "")) / 100))`. We are telling `mutate_at()` to:
+
+* Select the columns whose names contain the string "pct" by using `vars(contains("pct"))`.
+* For the rows in those columns, replace the character "%" with blanks "" by using `str_replace(., "%", "")`.
+* After doing that, make those rows numeric by using `as.numeric()`.
+* Then, divide those numbers by 100 using `/100`.
+
 
 ```r
 race_df2 <-
   race_df %>%
   # Remove unnecessary columns
-  select(-school_group,-grade,-pi_pct,-blank_col) %>%
+  select(-school_group, -grade, -pi_pct, -blank_col) %>%
   # Filter to get grade-level numbers
   filter(str_detect(school_name, "Total"),
          school_name != "Grand Total") %>%
@@ -378,14 +385,17 @@ frpl_pdf <-
   dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, we take the matrix output, turn it into tibbles, then create a signle dataframe. There are rows that we don't need from each page, which we remove using `slice()`. Then, we create column names that can be easily understood.
+Similar to the Race/Ethnicity PDF, we take the PDF matrix output, turn it into tibbles, then create a single data frame. There are rows that we don't need from each page, which we remove using `slice()`. Then, we create column names that can be easily understood.
 
 
 ```r
 frpl_df <-
   frpl_pdf %>%
+  # Turn each page into a tibble
   map(~ as_tibble(.x, .name_repair = "unique")) %>% 
+  # Make data frame and remove unnecessary rows
   map_df( ~ slice(.,-1)) %>%
+  # Use descriptive column names
   set_names(
     c(
       "school_name",

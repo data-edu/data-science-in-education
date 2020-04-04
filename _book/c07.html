@@ -142,6 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#prologue"><i class="fa fa-check"></i>Prologue</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dedications"><i class="fa fa-check"></i>Dedications</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#citation"><i class="fa fa-check"></i>Citation</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="c01.html"><a href="c01.html"><i class="fa fa-check"></i><b>1</b> Introduction: Data Science in Education - You’re Invited to the Party!</a><ul>
@@ -362,15 +363,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11.3" data-path="c11.html"><a href="c11.html#load-packages-4"><i class="fa fa-check"></i><b>11.3</b> Load Packages</a></li>
 <li class="chapter" data-level="11.4" data-path="c11.html"><a href="c11.html#import-data-4"><i class="fa fa-check"></i><b>11.4</b> Import Data</a><ul>
-<li class="chapter" data-level="11.4.1" data-path="c11.html"><a href="c11.html#using-an-api"><i class="fa fa-check"></i><b>11.4.1</b> Using an API</a></li>
+<li class="chapter" data-level="11.4.1" data-path="c11.html"><a href="c11.html#using-an-application-programming-interface-or-api"><i class="fa fa-check"></i><b>11.4.1</b> Using an Application Programming Interface (or API)</a></li>
 </ul></li>
 <li class="chapter" data-level="11.5" data-path="c11.html"><a href="c11.html#view-data-2"><i class="fa fa-check"></i><b>11.5</b> View Data</a></li>
 <li class="chapter" data-level="11.6" data-path="c11.html"><a href="c11.html#process-data-3"><i class="fa fa-check"></i><b>11.6</b> Process Data</a></li>
 <li class="chapter" data-level="11.7" data-path="c11.html"><a href="c11.html#analysis-counting-words"><i class="fa fa-check"></i><b>11.7</b> Analysis: Counting Words</a></li>
 <li class="chapter" data-level="11.8" data-path="c11.html"><a href="c11.html#analysis-sentiment-analysis"><i class="fa fa-check"></i><b>11.8</b> Analysis: Sentiment analysis</a><ul>
 <li class="chapter" data-level="11.8.1" data-path="c11.html"><a href="c11.html#count-positive-words"><i class="fa fa-check"></i><b>11.8.1</b> Count Positive Words</a></li>
-<li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> Dataviz and Other Positive Words</a></li>
-<li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Close Read of Randomly Selected Tweets</a></li>
+<li class="chapter" data-level="11.8.2" data-path="c11.html"><a href="c11.html#dataviz-and-other-positive-words"><i class="fa fa-check"></i><b>11.8.2</b> “Dataviz” and Other Positive Words</a></li>
+<li class="chapter" data-level="11.8.3" data-path="c11.html"><a href="c11.html#taking-a-close-read-of-randomly-selected-tweets"><i class="fa fa-check"></i><b>11.8.3</b> Taking A Close Read of Randomly Selected Tweets</a></li>
 </ul></li>
 <li class="chapter" data-level="11.9" data-path="c11.html"><a href="c11.html#conclusion-7"><i class="fa fa-check"></i><b>11.9</b> Conclusion</a></li>
 </ul></li>
@@ -1146,6 +1147,7 @@ running the code below to see if it yields the 5-digit ID number we are shooting
 to extract.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">str_sub</span>(<span class="st">&quot;_99888_1&quot;</span>, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">-3</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;99888&quot;</code></pre>
+<p><em>Note: you may receive a warning telling you that <code>NA</code> values were introduced by coercion. This happens when we change data types, and we will overlook this warning message for the purposes of this walkthrough.</em></p>
 <p>We can apply this process to our data using <code>mutate()</code>. We convert the string
 into a number using <code>as.numeric()</code> in the next portion of the code. This step is
 important so the data can be joined to the other, numeric <code>student_id</code> variables
@@ -1537,10 +1539,10 @@ Figure 7.1: Example Plot
 <code>students</code>. The <code>aes</code> argument tells R we’ll be using values from the
 <code>school_id</code> column for the x-axis and values from the <code>mean_score</code> column for
 the y-axis. In the second line, the <code>geom_bar</code> function tells R we’ll drawing
-the graph using the bar chart format. Each line of ggplot code is connected by a
-<code>+</code> at the end to tell R the next line of code is an additional ggplot layer to
+the graph using the bar chart format. Each line of {ggplot2} code is connected by a
+<code>+</code> at the end to tell R the next line of code is an additional {ggplot2} layer to
 add.</p>
-<p>Writing code is like writing essays. There’s a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you’ll see variations in {ggplot} style, but all within what we believe is the range of acceptable conventions. Here are some examples:</p>
+<p>Writing code is like writing essays. There’s a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you’ll see variations in {ggplot2} style, but all within what we believe is the range of acceptable conventions. Here are some examples:</p>
 <ul>
 <li>Piping data to <code>ggplot()</code> using <code>%&gt;%</code> vs including it as an argument in <code>ggplot()</code></li>
 <li>Using <code>ggtitle()</code> for labels vs using <code>labs()</code></li>
@@ -1568,6 +1570,7 @@ we’ll use <code>geom_point</code> instead of <code>geom_bar</code>.</p>
 Figure 7.2: Percentage Earned vs. Time Spent
 </p>
 </div>
+<p><em>Note: you may receive a warning that reads <code>Warning message: Removed 5 rows containing missing values (geom_point).</code> This is due to the <code>NA</code> values that were introduced through coercion earlier in this walkthrough, and are not a cause for alarm!</em></p>
 <p>There appears to be <em>some</em> relationship. What if we added a line of best fit - a
 linear model? The code below is the same plot we just made, but it includes the
 addition of another layer called <code>geom_smooth</code>.</p>
