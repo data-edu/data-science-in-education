@@ -15,9 +15,9 @@
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
-In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis.
+In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis. 
 
-We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. Related, this chapter also contains [Appendix B](#c20b), which is not necessary to read to understand text analysis, but which elaborates on a number of techniques for accessing data from Twitter, such as the data from the #tidytuesday explored in this and the subsequent chapter.
+We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. While this chapter dives deeply into the analysis of the *text* of tweets, [Appendix B](#c20b) elaborates on a number of techniques for accessing data from Twitter - including data from #tidytuesday - and [Chapter 12](#c12) explores the nature of the interactions that take place between individuals through #tidytuesday.
 
 ### Background 
 
@@ -49,7 +49,7 @@ In this walkthrough, we'll be learning how to count words in a text dataset. We'
 
 ## Load Packages 
 
-For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. As it has not been used previously in the book, you may nneed to install the {tidytext} package (and - if you haven't just yet - the other packages), first. 
+For this analysis, we'll be using the {tidyverse}, {here}, and {dataedu} packages. We will also use the {tidytext} package for working with textual data [@R-tidytext]. As it has not been used previously in the book, you may need to install the {tidytext} package (and - if you haven't just yet - the other packages), first. 
 For instructions on and an overview about installing packages, see the [Packages section](#c06p) of the [Foundational Skills](#c06) chapter. 
 
 Let's load our packages before moving on to import the data: 
@@ -63,7 +63,7 @@ library(tidytext)
 
 ## Import Data
 
-Let's start by getting the data into our programming environment so we can start analyzing it. In [Chapter 12](#c12), we describe how to access this data through Twitter Application Programming Interface, or API. We've included the raw dataset of TidyTuesday tweets in the {dataedu} package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
+Let's start by getting the data into our programming environment so we can start analyzing it. In [Chapter 12](#c12) and in [Appendix B](#c20b), we describe how to access this data through Twitter's Application Programming Interface, or API. We've included the raw dataset of TidyTuesday tweets in the {dataedu} package. You can see the dataset by typing `tt_tweets`. Let's start by assigning the name `raw_tweets` to this dataset:
 
 ```{r read data}
 raw_tweets <- dataedu::tt_tweets
