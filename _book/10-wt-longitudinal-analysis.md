@@ -613,7 +613,7 @@ pick_vars <-
   function(df) {
     df %>%
       select_at(vars(
-        Year,
+        "Year",
         contains("State", ignore.case = FALSE),
         contains("SEA", ignore.case = FALSE),
         contains("male")

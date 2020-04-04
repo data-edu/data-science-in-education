@@ -14,7 +14,11 @@
 
 ## Chapter Overview
 
-This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis techniques. And like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration.
+This chapter builds on [Walkthrough 5/Chapter 11]](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques. 
+
+While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources, as net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.
+
+Like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
 
 You will need a Twitter account to complete the code outlined in this chapter. 
 If you do not have a Twitter account, you can create one and keep it private, and even delete the account once you're done with this walkthrough! 
@@ -82,20 +86,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 x 2
-##    sender            receiver         
-##    <chr>             <chr>            
-##  1 Casares, Lesly    Rogakis, Fzelle  
-##  2 Hickman, Molly    el-Habeeb, Awda  
-##  3 Hickman, Molly    al-Ghani, Jumaana
-##  4 Walker, Haden     el-Habeeb, Awda  
-##  5 Walker, Haden     Rogakis, Fzelle  
-##  6 Walker, Haden     Sebben, Janet    
-##  7 Trang, Anisa      al-Ghani, Jumaana
-##  8 Trang, Anisa      Lopez, Monica    
-##  9 Trang, Anisa      Sebben, Janet    
-## 10 Aguirre, Cindy    Robinson, Aldale 
-## 11 el-Salim, Layaali al-Ghani, Jumaana
-## 12 el-Salim, Layaali Robinson, Aldale
+##    sender               receiver                
+##    <chr>                <chr>                   
+##  1 Landry, Tyler        Posey, Nicole           
+##  2 el-Ghazi, Mawhiba    al-Hashmi, Tawfeeq      
+##  3 el-Ghazi, Mawhiba    Montano Maldonado, Isaac
+##  4 Covarrubias, Enrique al-Hashmi, Tawfeeq      
+##  5 Covarrubias, Enrique Posey, Nicole           
+##  6 Covarrubias, Enrique al-Nazir, Hilaal        
+##  7 al-Reza, Naafoora    Montano Maldonado, Isaac
+##  8 al-Reza, Naafoora    al-Saladin, Haibaa      
+##  9 al-Reza, Naafoora    al-Nazir, Hilaal        
+## 10 Huizar, Sadan        Tarrant, Jevon          
+## 11 Dawson, Hannah       Montano Maldonado, Isaac
+## 12 Dawson, Hannah       Tarrant, Jevon
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
