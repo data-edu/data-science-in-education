@@ -195,11 +195,22 @@ df <- gs_read(df)
 
 ## Appendix B: Accessing Twitter Data {c20b}
 
-The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag. As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag, while [Chapter 12](#c12) explores the relationships between individuals evidenced through their interactions through the #tidytuesday hashtag. 
 
-### Accessing Historical Twitter Data Using Already-Collected Status URLs
+As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
 
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks)  (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
+### Accessing Twitter Data from the Last Seven Days
+
+As we describe in [Chapter 12](#c12), the {rtweet} package can be used to access Twitter data, with a key limitation: Only tweets from (approximately) the past seven days are able to be accessed. As a reminder, here is code to access data from a hashtag (in this case, #statschat, used by statistics educators), much like we did in [Chapter 12](#c12), but for the #tidytuesday hashtag:
+
+```{r}
+rstats_tweets <- 
+  search_tweets("#statschat")
+```
+
+### Accessing Historical Twitter Data When You Have Access to Already-Collected Status URLs
+
+Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
 ```{r}
 raw_tidytuesday_tweets <-
