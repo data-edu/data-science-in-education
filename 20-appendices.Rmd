@@ -1,5 +1,12 @@
 # Appendices {#c20}
 
+This chapter includes four appendices:
+
+- Appendix A: Importing Data (associated with [Chapter 6](#c06))
+- Appendix B: Accessing Twitter Data (associated with [Chapter 11](#c11) and [Chapter 12](#c12))
+- Appendix C: Social Network Influence and Selection Models (associated with [Chapter 12](#c12))
+- Appendix D: Colophon
+
 ## Appendix A: Importing Data {#c20a}
 
 This Appendix is provided to serve as a non-exhaustive resource for importing data of different file types into R; it extends some of the techniques introduced in the foundational skills chapter, [Chapter 6](#c06). We note that while the bulk of the data that we use in this book is available through the {dataedu} package, although there are cases where you will be importing a `.csv` file or scraping data from the web. 
@@ -48,7 +55,7 @@ We will walk through them step-by-step.
 
 1. The *character string* `"https://goo.gl/wPmujv"` is being saved to an *object* called `student_responses_url`.
 
-```{r}
+```{r, eval = FALSE}
 student_responses_url <-
     "https://goo.gl/bUeMhV"
 ```
@@ -57,7 +64,7 @@ student_responses_url <-
 This is stored in another *object* called `student_reponses_file_name`. 
 This creates a file name with a *file path* in your working directory and it saves the file in the folder that you are working in. 
 
-```{r}
+```{r, eval = FALSE}
 student_responses_file_name <-
     paste0(getwd(), "/data/student-responses-data.csv")
 ```
@@ -68,7 +75,7 @@ student_responses_file_name <-
 
 The `student_responses_url` *object* is passed to the `url` argument of the *function* called `download.file()`. The `student_responses_file_name` *object* is passed to the `destfile` argument.
 
-```{r}
+```{r, eval = FALSE}
 download.file(
     url = student_responses_url,
     destfile = student_responses_file_name)
@@ -97,7 +104,7 @@ You may have noticed the hash symbol after the code that says `library(tidyverse
 
 After loading the tidyverse packages, we can now load a file. We are going to call the data `student_responses`:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 student_responses <-
     read_csv("./data/student-responses-data.csv")
 ```
@@ -108,7 +115,7 @@ Since we loaded the data, we now want to look at it. We can type its name in the
 glimpse(student_responses)
 ```
 
-Woah, that's a big data frame (with a lot of variables with confusing names, to boot)!
+If you ran that code, you will see that `students_responses` is a *very* big data frame (with a lot of variables with confusing names, to boot)!
 
 Great job loading a file and printing it! 
 We are now well on our way to carrying out analysis of our data.
@@ -133,7 +140,7 @@ The package for loading Excel files, {readxl}, is not a part of the tidyverse, s
 
 Once we have installed readxl, we have to load it (just like tidyverse):
 
-```{r}
+```{r eval = FALSE}
 library(readxl)
 ```
 
@@ -156,7 +163,7 @@ _You can also read `.csv` file directly into SPSS. Because of this and because o
 
 To load an SPSS file, first, install the package `haven`. 
     
-    ```{r, eval = FALSE}
+```{r, eval = FALSE}
 #install.packages("haven")
 ```
 
@@ -188,7 +195,7 @@ my_sheets <- gs_ls()
 
 You can then use the `gs_title()` function in conjunction with the `gs_read()` function to work with your data frame. We provide a brief example below; the package's documentation provides more details.
 
-    ```{r, eval = FALSE}
+```{r, eval = FALSE}
 df <- gs_title('title')
 df <- gs_read(df)
 ```
@@ -197,7 +204,7 @@ df <- gs_read(df)
 
 The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag, while [Chapter 12](#c12) explores the relationships between individuals evidenced through their interactions through the #tidytuesday hashtag. 
 
-As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter data.
 
 ### Accessing Twitter Data from the Last Seven Days
 
@@ -214,7 +221,7 @@ rstats_tweets <-
 
 Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large data set from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
 
-```{r}
+```{r, eval = FALSE}
 raw_tidytuesday_tweets <-
   read_delim(
     "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
@@ -259,7 +266,7 @@ One way to consider these models and methods is by considering selection and inf
 - *Selection*: the process of choosing relationships
 - *Influence*: the process of how our social relationships affect behavior
 
-While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preperation and visualization of network data.
+While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preparation and visualization of network data.
 
 After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
 
@@ -280,7 +287,7 @@ Let's take a look at our three datasets:
 
 Note that we will find each nominators' outcome at time 2 later on. Here's how we can make these example datasets: 
 
-```{r}
+```{r, eval = FALSE}
 data1 <-
   data.frame(
     nominator = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
@@ -301,7 +308,7 @@ data3 <-
   
 Next, we'll join the data into one data frame. This step can be time-consuming for large network datasets, but it's important for the visualizations and analysis that follow. The more time you can invest into preparing the data properly, the more confidence you'll have that your resulting analysis is based on a deeper understanding of the data. 
 
-```{r}
+```{r, eval = FALSE}
 data <-
   left_join(data1, data2, by = "nominee")
 
@@ -330,9 +337,9 @@ data <-
 
 **Calculating an Exposure Term**
 
-Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
+Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this outcome because it takes the first and second time points into account.
 
-```{r}
+```{r, eval = FALSE}
 # Calculating exposure
 data <-
   data %>% 
@@ -349,7 +356,7 @@ The data frame `mean_exposure` contains the mean of the outcome (in this case, `
 
 Let's process the data more so we can add the variables `exposure_mean`, `yvar1`, and `yvar2`.
 
-```{r}
+```{r, eval = FALSE}
 data2 <-
   data2 %>% 
   # rename nominee as nominator to merge these
@@ -365,22 +372,22 @@ final_data <-
 
 **Regression (Linear Model)**
 
-Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome.
+Calculating the exposure term is the most distinctive and important step in carrying out influence models. Now, we can use a linear model to find out how much relations - as captured by the influence term - affect some outcome. While this code is not run here, you could run the code in this appendix to see the results (and how changes in how the exposure term is calculated, such as by finding the sum, instead of the mean, of each individual's exposures, impact the results.)
 
-```{r}
+```{r, eval = FALSE}
 model1 <-
   lm(yvar2 ~ yvar1 + exposure_mean, data = final_data)
 
 summary(model1)
 ```
 
-So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
+So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done with a relatively straight forward regression model. 
 
 ### An Example of Selection
 
-Let's look at selection models next. Information from selection models can be useful to a wide audeince--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
+Let's look at selection models next. Information from selection models can be useful to a wide audience--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
 
-In the last section we use da linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
+In the last section we used a linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
 
 But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
 
@@ -393,7 +400,7 @@ m_selection <-
 
 While this is a straightforward way to carry out a selection model, there are some limitations. First, it doesn't account for the amount of nominations an individual sends. Not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. Some R packages aim to address this by considering other variables like relationship weights. Here are some examples: 
 
- - The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed  
+ - The {amen} [@R-amen] package can be used for data that is not only 1s and 0s - like a logistic regression - but also data that is normally distributed  
  - The Exponential Random Graph Model, or {ergm} R package, makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet] 
  
 These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
@@ -404,6 +411,6 @@ This book was written using [bookdown](https://bookdown.org/home/) [@bookdown201
 
 This version of the book was built with:
 
-```{r}
+```{r, eval = TRUE}
 sessionInfo()
 ```
