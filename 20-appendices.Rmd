@@ -204,7 +204,7 @@ df <- gs_read(df)
 
 The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag, while [Chapter 12](#c12) explores the relationships between individuals evidenced through their interactions through the #tidytuesday hashtag. 
 
-As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter datda.
+As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter data.
 
 ### Accessing Twitter Data from the Last Seven Days
 
@@ -266,7 +266,7 @@ One way to consider these models and methods is by considering selection and inf
 - *Selection*: the process of choosing relationships
 - *Influence*: the process of how our social relationships affect behavior
 
-While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preperation and visualization of network data.
+While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preparation and visualization of network data.
 
 After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
 
@@ -337,7 +337,7 @@ data <-
 
 **Calculating an Exposure Term**
 
-Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this otucome because it takes the first and second time points into account.
+Next we'll create an exposure term. This is the key step that makes this linear regression model special. The idea is that the exposure term "captures" how your interactions with someone over the first and second time points impact an outcome. The model describes a *change* in this outcome because it takes the first and second time points into account.
 
 ```{r, eval = FALSE}
 # Calculating exposure
@@ -381,13 +381,13 @@ model1 <-
 summary(model1)
 ```
 
-So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done wiht a relatively straight forward regression model. 
+So, the influence model is used to study a key process for social network analysis. It's useful because it's one way you can quantify *the network effect*. This is a metric that's not always considered in education, but we hope to see  more of it (Frank, 2009). It also helps that it can be done with a relatively straight forward regression model. 
 
 ### An Example of Selection
 
-Let's look at selection models next. Information from selection models can be useful to a wide audeince--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
+Let's look at selection models next. Information from selection models can be useful to a wide audience--administrators, teachers, and students--because it describes how members of a network choose who to interact with. Here, we briefly describe a few possible approaches for using a selection model to learn more about a social network.
 
-In the last section we use da linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
+In the last section we used a linear regression model. In this example we'll use a logistic regression model. Logistic regressions model outcomes that are either a 0 or a 1. Thus, the most straightforward way to use a selection model is to use a logistic regression where all of the relations (note the `relate` variable in `data1` above) are indicated with a 1. 
 
 But, here is the important and challenging step: all of the *possible relations* between members of a network are indicated with a 0 in an edgelist. Recall that an edgelist is the preferred data structure for carrying out this analysis. This step requires that we prepare the data by lengthening and widening it.
 
@@ -400,7 +400,7 @@ m_selection <-
 
 While this is a straightforward way to carry out a selection model, there are some limitations. First, it doesn't account for the amount of nominations an individual sends. Not considering this may mean other effects, like the one associated with being from the *same* group, are not accurate. Some R packages aim to address this by considering other variables like relationship weights. Here are some examples: 
 
- - The {amen} [@R-amen] package can be used for data that is not only 1ss and 0s - like a logistic regression - but also data that is normally distributed  
+ - The {amen} [@R-amen] package can be used for data that is not only 1s and 0s - like a logistic regression - but also data that is normally distributed  
  - The Exponential Random Graph Model, or {ergm} R package, makes it easy to use these kinds of selection models. {ergm} [@R-ergm] is itself a part of a powerful and often-used collection of packages for social network analysis, {statnet} [@R-statnet] 
  
 These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
