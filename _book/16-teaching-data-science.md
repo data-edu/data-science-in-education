@@ -11,7 +11,7 @@ focused on *applying data science methods*. However, for a book on data science
 in education, it is important to not only discuss the application of
 data science methods, but also to consider what we know about *how to teach
 data science*. In recognition of these dual meanings of data science in
-education, we've referred to the application ofdata science methods as 
+education, we've referred to the application of data science methods as 
 "data science *in* education\*, and the teaching and
 learning of data science as "data science \*for" education
 [@rosenberg2020mdsc].
@@ -26,7 +26,7 @@ This chapter is organized around three topics:
 2.  Strategies for teaching data science
 3.  General strategies related to teaching and learning
 
-## 1\. The Pedagogical Principles This Book is Based Upon
+## The Pedagogical Principles This Book is Based Upon
 
 As the authors of a book about data science in education - and readers of books
 that taught us about data science - we considered what would make it effective
@@ -82,7 +82,7 @@ RStudio](#c05) and [Chapter 6/Foundational Skills](#c06)--that are annotated and
 reflective of the content in the text to help show readers how to use what they 
 are reading about.
 
-Lastly, we considered inclusivity and accssibility when differentiating this book. 
+Lastly, we considered inclusivity and accessibility when differentiating this book. 
 For inclusivity, we considered who makes up the audience for this text and how a 
 broader view of who participates in data science informs the types of challenges, 
 topics, and data that we included. and accessibility (technically, in terms of how a wide audience of readers
@@ -117,7 +117,7 @@ and how R and RStudio work as software programs can make it easier to troublesho
 ### Universal Design
 
 In our original proposal for this book (see @dsieurproposal), we noted that
-Universal Design [@mctighe2019upgrade, @wiggins2005understanding] was a part
+Universal Design [@mctighe2019upgrade; @wiggins2005understanding] was a part
 of our pedagogical framework. As we worked toward completing the book, we
 recognized that we did not fully meet the aims we had laid out. Here is what we
 wrote in the proposal:
@@ -137,7 +137,7 @@ wrote in the proposal:
 While we did not adequately address these in the book, they remain important to
 us, and we hope to address them in a future edition of the book.
 
-## 2\. Strategies for Teaching Data Science
+## Strategies for Teaching Data Science
 
 You may be interested in teaching others data science. You may be doing this
 informally (such as by teaching a colleague in your school
@@ -234,7 +234,7 @@ be quoted).
 ### Start Lessons or Activities With Visualizing Data
 
 There are examples from data science books @grolemund2018 and past research
-(e.g. @lehrer2015) that suggest that starting with visualizing data can be
+(e.g., @lehrer2015) that suggest that starting with visualizing data can be
 beneficial in terms of learners' ability to work with data. @grolemund2018 write
 that they begin their book, *Data Science Using R*, with a chapter on
 visualization, because doing so allows learners to create something they
@@ -259,7 +259,7 @@ to analyze.
 
 It is important to consider and question what data is collected and why, even with variables that we consider to be objective. For example, some variables are constructed to be dichotomous (e.g. gender) or categorical (e.g. race), but the data that is collected is based on decisions by the observer and may not be inherently objective. 
 
-This braoder consideration of data is also important when it comes to which data is used for teaching
+This broader consideration of data is also important when it comes to which data is used for teaching
 and learning. For example, if a dataset only includes names of individuals from a
 majority racial or ethnic group, some learners may perceive the content being taught 
 to be designed for others. While we may think that such issues are better left up 
@@ -291,12 +291,12 @@ which may be helpful:
 
 Last, there are also books that emphasize the importance--for teachers--of
 understanding their students--every student. These books include
-@paris2017culturally, @kozol2012savage, and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
+@paris2017culturallya and @kozol2012savage and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
 students. @moore2017guide and @emdin2016 may be helpful for data science
 educators who aim to be aware and intentional about teaching students from
 backgrounds other than their own.
 
-## 3\. General Strategies Related to Teaching and Learning
+## General Strategies Related to Teaching and Learning
 
 The National Academy of Science commissioned a report, *How People Learn*
 [@nrc2000], that aimed to summarize research on teaching and learning from educational psychology
@@ -309,7 +309,6 @@ In addition to these reports, there are some books that are more
 practical, including @hattie2012visible, @lemov2015teach, and
 @bambrick2010driven. These may provide some answers to questions of how to teach
 data science and how to mitigate some of the anxiety that teachers may feel. 
-Don't feel like you must recreate the wheel!
 
 Below, we highlight some general teaching and learning strategies
 with an emphasis on strategies applicable to teaching and learning data science. These general strategies
@@ -358,9 +357,7 @@ can save hours of work.
 While teachers are responsible for designing learning opportunities, learners
 also play an important role in their own learning! According to the authors of
 *How People Learn II*, learning strategies matter, including those that help students
-retrieve, summarize, and explain what they have learned to themselves and others.
-There are many more specific strategies documented in
-[chapter four](https://www.nap.edu/read/24783/chapter/6#72) (https[]()://www.nap.edu/read/24783/chapter/6#72) of *How People Learn II*. 
+retrieve, summarize, and explain what they have learned to themselves and others (see @nrc2018 for an elaboration on these).
 
 Teaching strategies, such as how content is spaced and sequenced, also help learners.
 @dirksen2015's *Design for How People Learn* presents these strategies, based largely on instructional
@@ -369,21 +366,7 @@ design research, that may be helpful to those teaching data science.
 What is most important for teachers of data science is less the specific strategies,
 and more the commitment to teaching their students how to learn.
 
-### Educators can help students to learn
-
-Educators know that motivation matters, and according to the authors
-of *How People Learn II*, teachers can impact their students' motivation. 
-They can do this by helping learners set and work toward goals, selecting content that is valuable
-and interesting to learners, and giving learners choices and showing them
-how they are in control of their learning. Motivation matters and it is
-especially important when teaching learners who do not see the value of
-data science.
-
 ## Summary
 
-In this section, we described the pedagogical principles for this book and
-strategies for teaching data science. We also looked at more general
-strategies for teaching and learning. Data science educators are not alone, 
-and we do not need to reinvent the wheel. There are many resources available 
-and many more that can be adapted from other disciplines and the wider body
-of educational research.
+Data science educators do not need to reinvent the wheel when it comes to teaching about data science. Insights from other, related educational domains (such as statistics education and computer science education) may prove helpful to those seeking to teach data science to others, whether in a one-on-one setting, a workshop, or through a formal class. In this chapter, we sought to describe both the pedagogical principles for this book and some 
+strategies for teaching data science. As scholarship and practice where it comes to teaching and learning data science continues to develop, we hope that those teaching (and producing scholarship about) teaching data science not only draw upon the findings of those in other domains, but carve out a domain of their own - one with findings that may have implications for how statistics, computer science, or even subject matters such as science and mathematics are learned.

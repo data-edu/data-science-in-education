@@ -132,20 +132,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 x 2
-##    sender           receiver           
-##    <chr>            <chr>              
-##  1 el-Zia, Tareef   Cannon, Brian      
-##  2 Mcghee, Du Shawn Alger, Alexandra   
-##  3 Mcghee, Du Shawn Coop, Chantra      
-##  4 Hubbard, Classie Alger, Alexandra   
-##  5 Hubbard, Classie Cannon, Brian      
-##  6 Hubbard, Classie Snyder, Abigale    
-##  7 Green, Zachary   Coop, Chantra      
-##  8 Green, Zachary   Scarborough, Chelsi
-##  9 Green, Zachary   Snyder, Abigale    
-## 10 Holland, Sydney  al-Hariri, Shafeeq 
-## 11 Garcia, Ariyelle Coop, Chantra      
-## 12 Garcia, Ariyelle al-Hariri, Shafeeq
+##    sender                     receiver          
+##    <chr>                      <chr>             
+##  1 Shigaya, Ivy               Warren, Alexandria
+##  2 Davila Rodriguez, Santiago Meyer, Amy        
+##  3 Davila Rodriguez, Santiago Steinbach, Ashlie 
+##  4 Chea, Paige                Meyer, Amy        
+##  5 Chea, Paige                Warren, Alexandria
+##  6 Chea, Paige                Comcowich, Bret   
+##  7 Sanchez, Jazmin            Steinbach, Ashlie 
+##  8 Sanchez, Jazmin            Fuhr, Gilberto    
+##  9 Sanchez, Jazmin            Comcowich, Bret   
+## 10 Gradeless, Laura           Parton, Alisha    
+## 11 Iron Cloud, Kristopher     Steinbach, Ashlie 
+## 12 Iron Cloud, Kristopher     Parton, Alisha
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -328,10 +328,7 @@ g %>%
   theme_graph()
 ```
 
-<div class="figure">
-<img src="12-wt-social-network-analysis_files/figure-html/fig12-1-1.png" alt="Network Graph" width="672" />
-<p class="caption">(\#fig:fig12-1)Network Graph</p>
-</div>
+![(\#fig:fig12-1)Network Graph](12-wt-social-network-analysis_files/figure-docx/fig12-1-1.png){width=100%}
 
 Finally, let's size the points based on a measure of centrality. A common way to do this is to measure how influential an individual may be based on the interactions observed.
 
@@ -350,10 +347,7 @@ g %>%
   theme_graph()
 ```
 
-<div class="figure">
-<img src="12-wt-social-network-analysis_files/figure-html/fig12-2-1.png" alt="Network Graph with Centrality" width="672" />
-<p class="caption">(\#fig:fig12-2)Network Graph with Centrality</p>
-</div>
+![(\#fig:fig12-2)Network Graph with Centrality](12-wt-social-network-analysis_files/figure-docx/fig12-2-1.png){width=100%}
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: [https://ggraph.data-imaginist.com/](https://ggraph.data-imaginist.com/)
 

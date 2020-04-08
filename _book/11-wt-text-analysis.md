@@ -30,7 +30,7 @@
 
 The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far we've analyzed data in `.csv` files, but that's not the only way data is stored. If we can learn some basic techniques for analyzing text, we increase the number of places we can find information to learn about the student experience.
 
-In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis, which is broadly part of a group of techniques involving the analysis of text as data, Natural Language Processing (often abbreviated NLP).
+In this chapter, we focus on analyzing textual data from Twitter. We focus on this particular data *source* because we think it is relevant to a number of educational topics and questions, including how newcomers learn to visualize data. In addition, Twitter data is complex, and includes not only information about who posted a tweet (and when - and a great deal of additional information (see [@R-rtweet]), it also includes the text of the tweet). This makes it especially well-suited for exploring the uses of text analysis, which is broadly part of a group of techniques involving the analysis of text as data, Natural Language Processing (often abbreviated NLP) [@hirschberg2015].
 
 We note that while we focused on #tidytuesday because we think it exemplifies the new kinds of learning-related data that a data science toolkit allows an analyst to try to understand, we also chose this because it is straightforward to access data from Twitter, and - due to the presence of an interactive Shiny application - because it is particularly easy to access data on #tidytuesday. While this chapter dives deeply into the analysis of the *text* of tweets, [Appendix B](#c20b) elaborates on a number of techniques for accessing data from Twitter - including data from #tidytuesday - and [Chapter 12](#c12) explores the nature of the interactions that take place between individuals through #tidytuesday.
 
@@ -320,10 +320,7 @@ pos_tokens_count %>%
   theme_dataedu()
 ```
 
-<div class="figure">
-<img src="11-wt-text-analysis_files/figure-html/fig11-1-1.png" alt="Count of Words Associated with Positivity" width="672" />
-<p class="caption">(\#fig:fig11-1)Count of Words Associated with Positivity</p>
-</div>
+![(\#fig:fig11-1)Count of Words Associated with Positivity](11-wt-text-analysis_files/figure-docx/fig11-1-1.png){width=100%}
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
@@ -520,7 +517,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  4  2  9  3 10
+## [1] 3 6 1 2 4
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

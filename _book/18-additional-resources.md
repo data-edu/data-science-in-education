@@ -2,20 +2,7 @@
 
 ## Chapter Overview
 
-In this chapter, we provide references and links to additional resources related to data science in education. They are organized around the following headings:
-
-- Data science courses
-- Workshop materials
-- Data visualization
-- Books on data science in education
-- Articles on data science in education
-- Equity resources
-- Programming with R
-- Statistics
-- R package and statistical software development
-- A career in data science
-- Places to share your work
-- Cheat sheets
+In this chapter, we provide links and references to additional, recommended resources relevant to data science in education.
 
 ## Data Science Courses
 
@@ -119,7 +106,7 @@ Wickham, H. & Grolemund, G. (2017). *R for data science*. O'Reilly.
 
 Teetor, P. (2011). *R cookbook*. Sebastopol, CA: O'Reilly.
 
-> This book provides over 200 practical solutions for analysing data using R. 
+> This book provides over 200 practical solutions for analyzing data using R. 
 
 Bryan, J. & Hestor, J. *Happy git and github for the useR*. Retrieved from [https://happygitwithr.com](https://happygitwithr.com) 
 

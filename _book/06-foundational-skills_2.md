@@ -188,10 +188,7 @@ You can run the `install.packages()` functions within an `.R` script! However if
 
 If you do not want to write code for installing packages, you can also navigate to the Packages tab of the Files pane, click "Install", and then search for and install one or more packages. 
 
-<div class="figure">
-<img src="./man/figures/Figure 6.1.png" alt="Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes" width="468" />
-<p class="caption">(\#fig:fig6-1)Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes</p>
-</div>
+![(\#fig:fig6-1)Image of the Packages pane, which is found in the bottom right corner of the RStudio IDE, along with the Files, Plots, Help, and Viewer panes](./man/figures/Figure 6.1.png){width=100%}
 
 ### Loading a package
 
@@ -346,10 +343,7 @@ One of the functions that can accomplish the task of creating a new variable out
 What happens when you type `?mutate` (or `?mutate()`) into the Console and hit `Enter`?
 We've gotten one of our first error messages!
 
-<div class="figure">
-<img src="./man/figures/Figure 6.2.png" alt="Error message when running ?mutate" width="550" />
-<p class="caption">(\#fig:fig6-2)Error message when running ?mutate</p>
-</div>
+![(\#fig:fig6-2)Error message when running ?mutate](./man/figures/Figure 6.2.png){width=100%}
 
 This is a fantastic error message because not only has it told us that something is wrong (there is no documentation for `mutate`), it tells us what we should try to do to solve the error. 
 Let's see what happens when we follow the error message instructions by typing `??mutate` (or `??mutate()`) into the Console and hitting `Enter`.
@@ -400,10 +394,7 @@ Take a moment to think through the following questions:
 * What information is available in the Help documentation?
 * Are there any examples from the Help documentation that seem similar to what you're trying to accomplish? For example, this seems somewhat related to what we're trying to do:
 
-<div class="figure">
-<img src="./man/figures/Figure 6.3.png" alt="Example from the `coalesce()` Help documentation" width="530" />
-<p class="caption">(\#fig:fig6-3)Example from the `coalesce()` Help documentation</p>
-</div>
+![(\#fig:fig6-3)Example from the `coalesce()` Help documentation](./man/figures/Figure 6.3.png){width=100%}
 
 ### Find the Limits
 
@@ -464,10 +455,7 @@ library(skimr)
 
 In your Console, you may have noticed the following message: 
 
-<div class="figure">
-<img src="./man/figures/Figure 6.4.png" alt="List of attached packages and associated conflicts when loading the Tidyverse" width="722" />
-<p class="caption">(\#fig:fig6-4)List of attached packages and associated conflicts when loading the Tidyverse</p>
-</div>
+![(\#fig:fig6-4)List of attached packages and associated conflicts when loading the Tidyverse](./man/figures/Figure 6.4.png){width=100%}
 
 This isn't an error, but it is some important information that we need to consider!
 When we first open R (via RStudio) we are working with base R -- that is, everything that comes with R and a handful of pre-installed packages. 
@@ -534,10 +522,7 @@ Each of the three code examples above differs slighlty, but two lines of code do
 
 In our Environment pane, we can see the data that has been brought into R. We can even click on the table icon on the far right of the row that describes the data to get an interactive table (the data set is rather large, so RStudio may lag slightly as you open the table and manipulate it).
 
-<div class="figure">
-<img src="./man/figures/Figure 6.5.png" alt="Loading the `ma_data` Dataset" width="830" />
-<p class="caption">(\#fig:fig6-5)Loading the `ma_data` Dataset</p>
-</div>
+![(\#fig:fig6-5)Loading the `ma_data` Dataset](./man/figures/Figure 6.5.png){width=100%}
 
 *The Assignment Operator*
 
@@ -668,10 +653,7 @@ _We like the Tidyverse for teaching and learning because it relies on the same s
 
 It's worth taking a few moments to talk about the context for the pipe operator and its package. The pipe operator first appeared in the {magrittr} package, and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images. In these images he would paint an object, such as a pipe, and accompany it with the text "Ceci n'est pas une pipe," which is French for "This is not a pipe." 
 
-<div class="figure">
-<img src="./man/figures/Figure 6.6.png" alt="The Treachery of Images by Magritte" width="960" />
-<p class="caption">(\#fig:fig6-6)The Treachery of Images by Magritte</p>
-</div>
+![(\#fig:fig6-6)The Treachery of Images by Magritte](./man/figures/Figure 6.6.png){width=100%}
 
 At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name, or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
 

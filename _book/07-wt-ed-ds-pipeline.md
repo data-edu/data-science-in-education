@@ -4,11 +4,11 @@
 
 For this and the remaining walkthroughs, we refer to the topics emphasized in terms of distinct but related 
 steps involved in the process of data science. In this book, we use the six steps - described in detail 
-in [Chapter 3](#c03) - from @grolemund2018's depiction of the proces.
+in [Chapter 3](#c03) - from @grolemund2018's depiction of the process.
 
 As mentioned in [Chapter 5](#c05), then, the topics emphasized are those that are the *particular* focus of each chapter; most of the walkthroughs contain some element of all of the five aspects, but all have specific emphases.
 
-For this chapter on the educaton data science pipeline, those emphases are:
+For this chapter on the education data science pipeline, those emphases are:
 
 - Tidying data 
 - Transforming data
@@ -172,8 +172,7 @@ This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you will recall from [Chapter 1](#c1). We load these
 packages with the function `library()`. The specific packages we'll use here
 will help us organize the structure of the data using the {tidyverse}
-[@R-tidyverse], work with dates in the data using {lubridate}
-[@R-lubridate], create formatted tables using {apaTables} [@R-apaTables] and
+[@R-tidyverse],create formatted tables using {apaTables} [@R-apaTables] and
 {sjPlot} [@R-sjPlot], and export datasets using {readxl} [@R-readxl].
 
 ***Install packages (if necessary)***
@@ -196,7 +195,7 @@ function; the names of the packages must be provided to the function as follows:
 
 
 ```r
-install.packages(c("tidyverse", "lubridate"))
+install.packages(c("tidyverse", "apaTables))
 ```
 
 When you're installing a package for the first time (which may be needed for the other walkthrough chapters, as well), you will need to take these same steps, first. 
@@ -207,7 +206,6 @@ More on the installation of packages is included in the [Packages section](#c06p
 
 ```r
 library(tidyverse)
-library(lubridate)
 library(apaTables)
 library(sjPlot)
 library(readxl)
@@ -1066,9 +1064,9 @@ glimpse(dat)
 ## $ student_id      <dbl> 60186, 60186, 60186, 60186, 60186, 60186, 60186, 6018…
 ## $ Gradebook_Item  <chr> "POINTS EARNED & TOTAL COURSE POINTS", "WORK ATTEMPTE…
 ## $ Grade_Category  <chr> NA, NA, NA, "Hw", "Hw", "Qz", "Qz", "Hw", "Hw", "Hw",…
-## $ FinalGradeCEMS  <dbl> 86.272, 86.272, 86.272, 86.272, 86.272, 86.272, 86.27…
+## $ FinalGradeCEMS  <dbl> 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3, 86.3,…
 ## $ Points_Possible <dbl> 5, 30, 105, 140, 5, 5, 20, 50, 10, 50, 5, 5, 24, 10, …
-## $ Points_Earned   <dbl> 4.050, 24.000, 71.675, 140.970, 5.000, 4.000, NA, 50.…
+## $ Points_Earned   <dbl> 4.05, 24.00, 71.67, 140.97, 5.00, 4.00, NA, 50.00, NA…
 ## $ Gender          <chr> "F", "F", "F", "F", "M", "F", "F", "F", "F", "F", "M"…
 ## $ q1              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q2              <dbl> 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,…
@@ -1080,7 +1078,7 @@ glimpse(dat)
 ## $ q8              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q9              <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
 ## $ q10             <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,…
-## $ TimeSpent       <dbl> 2087.05, 2087.05, 2087.05, 2087.05, 2087.05, 2087.05,…
+## $ TimeSpent       <dbl> 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087, 2087,…
 ```
 
 You can also use `View(dat)` in order to view the data in RStudio's viewer.
@@ -1240,10 +1238,7 @@ students %>%
   theme_dataedu()
 ```
 
-<div class="figure">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-1-1.png" alt="Example Plot" width="672" />
-<p class="caption">(\#fig:fig7-1)Example Plot</p>
-</div>
+![(\#fig:fig7-1)Example Plot](07-wt-ed-ds-pipeline_files/figure-docx/fig7-1-1.png){width=100%}
 
 The `data` argument in the first line tells R we’ll be using the dataset called
 `students`. The `aes` argument tells R we’ll be using values from the
@@ -1280,10 +1275,7 @@ dat %>%
        y = "Final Grade")
 ```
 
-<div class="figure">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-2-1.png" alt="Percentage Earned vs. Time Spent" width="672" />
-<p class="caption">(\#fig:fig7-2)Percentage Earned vs. Time Spent</p>
-</div>
+![(\#fig:fig7-2)Percentage Earned vs. Time Spent](07-wt-ed-ds-pipeline_files/figure-docx/fig7-2-1.png){width=100%}
 
 _Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced through coercion earlier in this walkthrough, and are not a cause for alarm!_
 
@@ -1304,10 +1296,7 @@ dat %>%
        y = "Final Grade")
 ```
 
-<div class="figure">
-<img src="07-wt-ed-ds-pipeline_files/figure-html/fig7-3-1.png" alt="Adding a Line of Best Fit" width="672" />
-<p class="caption">(\#fig:fig7-3)Adding a Line of Best Fit</p>
-</div>
+![(\#fig:fig7-3)Adding a Line of Best Fit](07-wt-ed-ds-pipeline_files/figure-docx/fig7-3-1.png){width=100%}
 
 Looking at this plot, it appears that the more time students spent on the
 course, the higher that there final grade is. 
@@ -1350,20 +1339,20 @@ summary(m_linear)
 ## lm(formula = final_grade ~ TimeSpent, data = dat)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -67.136  -7.805   4.723  14.471  30.317 
+##    Min     1Q Median     3Q    Max 
+## -67.14  -7.80   4.72  14.47  30.32 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) 6.581e+01  1.491e+00   44.13   <2e-16 ***
-## TimeSpent   6.081e-03  6.482e-04    9.38   <2e-16 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 6.58e+01   1.49e+00   44.13   <2e-16 ***
+## TimeSpent   6.08e-03   6.48e-04    9.38   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 20.71 on 571 degrees of freedom
+## Residual standard error: 20.7 on 571 degrees of freedom
 ##   (30 observations deleted due to missingness)
-## Multiple R-squared:  0.1335,	Adjusted R-squared:  0.132 
-## F-statistic: 87.99 on 1 and 571 DF,  p-value: < 2.2e-16
+## Multiple R-squared:  0.134,	Adjusted R-squared:  0.132 
+## F-statistic:   88 on 1 and 571 DF,  p-value: <2e-16
 ```
 
 Another way that we can generate table output is with a function from the
