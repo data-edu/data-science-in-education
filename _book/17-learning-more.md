@@ -17,7 +17,7 @@ First, developing technical skills is a continuous process. The learning mindset
 
 Second, education and data science are like most industries--they are constantly evolving. That means today's tools and best practices might be tomorrow's outdated techniques. To keep up with changes, it is important to develop a learning routine that exposes you to the pulse of these two fields. Sometimes this means learning a new technique, sometimes it means deepening expertise in a technique you haven't mastered, and other times it means revisiting a skill you've mastered long ago. 
 
-And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In Chase Javis' book [Creative Calling](@jarvis2019) touches on this very point: 
+And last, when you surround yourself with learning experiences, you inevitably surround yourself with others who are learning. Along your journey, you'll interact with folks who are struggling through the same concepts as you, folks who are struggling through more complex concepts, and folks who are struggling with concepts you've already mastered. Participating in a community of learners has magical properties--it's a place to learn, teach, inspire, and get inspired all at once. In *Creative Calling*, @jarvis2019 touches on this very point: 
 
 > Whether online or in person, connecting with a community will support your learning efforts. It will also expose you to a diverse set of ideas that will dramatically enrich your perspective on what you're learning. If you weren't in love with your new skill before, this step can tip the balance. Passion is infectious.
 
@@ -67,7 +67,7 @@ Sharing isn't always about the output of your work, it can also be about *how* y
 
 What you share doesn't have to be perfect. You can decide when you're ready to share. Some data scientist's blogs are polished and others are ideas-in-progress or shorter posts. You never know when someone will find value in your work, regardless of whether your work is in a refined state or not. 
 
-Laslty, you can select your best work from all your sharing and use it as an online work portfolio.
+Lasl, you can select your best work from all your sharing and use it as an online work portfolio.
 
 ### Where to Share 
 

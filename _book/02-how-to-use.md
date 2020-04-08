@@ -185,12 +185,13 @@ statistics. While we do discuss basic and advanced statistical methods, this is 
 
 If you find this book useful, please support it by:
 
-* Letting people about it!
-* Communicating about the book on social media e.g. via the #dataedu hashtag on Twitter
+* Communicating about the book on social media 
 * Citing or linking to it
-* Starring the GitHub repository for either the book (https://github.com/data-edu/data-science-in-education) or the package (https://github.com/data-edu/dataedu)
-* Reviewing it, e.g. on Amazon or Goodreads
-* Buying a copy
+* Starring the GitHub repository for the book (https://github.com/data-edu/data-science-in-education)
+* Starring the GitHub repository for the {dataedu} package (https://github.com/data-edu/dataedu)
+* Reviewing it (e.g., on Amazon or Goodreads)
+* Buying a copy, especially
+* Letting others in education and data science know about it!
 
 ## Contributing to the Book
 
@@ -204,7 +205,7 @@ evolve the work, even after it is formally published.
 We want this to be the book new data scientists in education have with them as
 they grow their craft. To achieve that goal, it's important to us that the stories and
 examples in the book are based on **your** stories and examples. Therefore, we've
-built ways for you to share with us. 
+built ways for you to share with us.
 
 If you have some experience with git and want to contribute that way, here's how you can can contribute:
 
@@ -212,9 +213,9 @@ If you have some experience with git and want to contribute that way, here's how
     a data science problem that is unique to the education setting 
   - Submit a pull request to share a solution for the problems discussed in the
     book to the education setting
-  - Share an anonymized dataset
+  - Share an anonymized dataset for use in the book (or a future version of it)
 
-If you are new to data science in education, welcome!! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com) (authors@datascienceineducation.com). 
+If you are new to data science in education, welcome! We would love to have your feedback by [email](mailto:authors@datascienceineducation.com) (authors@datascienceineducation.com). 
 
 We hope that as the book evolves, it grows to reflect the
 changing needs of data scientists in education.
