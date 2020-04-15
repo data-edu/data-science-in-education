@@ -214,7 +214,7 @@ Consider taking the additional time needed to help learners navigate
 minor issues and errors in their code: it can pay off in increased motivation on
 their part in the long-term.
 
-### Anticipate Ussues (and Sacrifice Accuracy for Clarity)
+### Anticipate Issues (and Sacrifice Accuracy for Clarity)
 
 Don't worry about being perfectly accurate early on, especially if doing so
 would lead to learners who are less interested in the topic you are teaching.
