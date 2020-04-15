@@ -21,7 +21,7 @@
   <meta name="twitter:description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
   
 
-<meta name="author" content="Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez" />
+<meta name="author" content="Ryan A. Estrellado, Emily A. Bovee, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez" />
 
 
 
@@ -486,7 +486,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.4.1" data-path="c16.html"><a href="c16.html#provide-a-home-base-for-learners-to-access-resources-and-to-learn-more"><i class="fa fa-check"></i><b>16.4.1</b> Provide a Home Base for Learners to Access Resources (and to Learn More)</a></li>
 <li class="chapter" data-level="16.4.2" data-path="c16.html"><a href="c16.html#when-it-comes-to-writing-code-think-early-and-often"><i class="fa fa-check"></i><b>16.4.2</b> When it Comes to Writing Code, Think Early and Often</a></li>
 <li class="chapter" data-level="16.4.3" data-path="c16.html"><a href="c16.html#dont-touch-that-keyboard"><i class="fa fa-check"></i><b>16.4.3</b> Don’t Touch That Keyboard!</a></li>
-<li class="chapter" data-level="16.4.4" data-path="c16.html"><a href="c16.html#anticipate-ussues-and-sacrifice-accuracy-for-clarity"><i class="fa fa-check"></i><b>16.4.4</b> Anticipate Ussues (and Sacrifice Accuracy for Clarity)</a></li>
+<li class="chapter" data-level="16.4.4" data-path="c16.html"><a href="c16.html#anticipate-issues-and-sacrifice-accuracy-for-clarity"><i class="fa fa-check"></i><b>16.4.4</b> Anticipate Issues (and Sacrifice Accuracy for Clarity)</a></li>
 <li class="chapter" data-level="16.4.5" data-path="c16.html"><a href="c16.html#start-lessons-or-activities-with-visualizing-data"><i class="fa fa-check"></i><b>16.4.5</b> Start Lessons or Activities With Visualizing Data</a></li>
 <li class="chapter" data-level="16.4.6" data-path="c16.html"><a href="c16.html#consider-representation-and-inclusion-in-the-data-and-examples-you-use"><i class="fa fa-check"></i><b>16.4.6</b> Consider Representation and Inclusion in the Data and Examples You Use</a></li>
 <li class="chapter" data-level="16.4.7" data-path="c16.html"><a href="c16.html#draw-on-other-resources"><i class="fa fa-check"></i><b>16.4.7</b> Draw on Other Resources</a></li>
@@ -677,20 +677,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant’s role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an <em>edgelist</em>. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an <em>edge</em>. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as <em>ties</em> or <em>relations</em>, but these generally refer to the same thing, though they may be used in different contexts.</p>
 <p>An edgelist looks like the following, where the <code>sender</code> (sometimes called the “nominator”) column identifies who is initiating the interaction and the <code>receiver</code> (sometimes called the “nominee”) column identifies who is receiving the interaction:</p>
 <pre><code>## # A tibble: 12 x 2
-##    sender             receiver              
-##    &lt;chr&gt;              &lt;chr&gt;                 
-##  1 al-Zafar, Shafeeqa Moua, Annegelica-Faith
-##  2 Kumar, Krishnan    al-Ayoob, Hamdaan     
-##  3 Kumar, Krishnan    Venters, Rico         
-##  4 Brozovich, Cory    al-Ayoob, Hamdaan     
-##  5 Brozovich, Cory    Moua, Annegelica-Faith
-##  6 Brozovich, Cory    Krishnan, Andrew      
-##  7 Huegerich, Olivia  Venters, Rico         
-##  8 Huegerich, Olivia  Stevenson, Terrance   
-##  9 Huegerich, Olivia  Krishnan, Andrew      
-## 10 Owen, Casey        Gonzales, Alma        
-## 11 Martel, Joshua     Venters, Rico         
-## 12 Martel, Joshua     Gonzales, Alma</code></pre>
+##    sender              receiver            
+##    &lt;chr&gt;               &lt;chr&gt;               
+##  1 Nguyen, Alexander   Roberts, Alexandrea 
+##  2 el-Ali, Zufar       Medina, Lorenzo     
+##  3 el-Ali, Zufar       Carr, Daiveante     
+##  4 Saltar, Makenna     Medina, Lorenzo     
+##  5 Saltar, Makenna     Roberts, Alexandrea 
+##  6 Saltar, Makenna     Pena, Maryann       
+##  7 al-Rabbani, Fareeda Carr, Daiveante     
+##  8 al-Rabbani, Fareeda Sanchez, David      
+##  9 al-Rabbani, Fareeda Pena, Maryann       
+## 10 Haberland, Gursev   Matthews III, Trevon
+## 11 Gonzales, Clifford  Carr, Daiveante     
+## 12 Gonzales, Clifford  Matthews III, Trevon</code></pre>
 <p>In this edgelist, the <code>sender</code> column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like “liking” or “mentioning” their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.</p>
 <div id="extracting-mentions" class="section level3">
 <h3><span class="header-section-number">12.6.1</span> Extracting Mentions</h3>

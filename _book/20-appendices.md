@@ -468,11 +468,11 @@ sessionInfo()
 ## [13] glue_1.4.0       DBI_1.1.0        dbplyr_1.4.2     modelr_0.1.6    
 ## [17] readxl_1.3.1     lifecycle_0.2.0  munsell_0.5.0    gtable_0.3.0    
 ## [21] cellranger_1.1.0 rvest_0.3.5      evaluate_0.14    knitr_1.28      
-## [25] fansi_0.4.1      broom_0.5.5      Rcpp_1.0.4       backports_1.1.6 
+## [25] fansi_0.4.1      broom_0.5.5      Rcpp_1.0.4.6     backports_1.1.6 
 ## [29] scales_1.1.0     jsonlite_1.6.1   fs_1.4.1         hms_0.5.3       
 ## [33] digest_0.6.25    stringi_1.4.6    bookdown_0.18    grid_3.6.3      
 ## [37] cli_2.0.2        tools_3.6.3      magrittr_1.5     crayon_1.3.4    
-## [41] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.3.0       reprex_0.3.0    
-## [45] lubridate_1.7.4  rstudioapi_0.11  assertthat_0.2.1 rmarkdown_2.1   
+## [41] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.3.1       reprex_0.3.0    
+## [45] lubridate_1.7.8  rstudioapi_0.11  assertthat_0.2.1 rmarkdown_2.1   
 ## [49] httr_1.4.1       R6_2.4.1         nlme_3.1-145     compiler_3.6.3
 ```
