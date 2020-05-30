@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>14 Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="14 Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -677,19 +677,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="load-packages-6" class="section level2">
 <h2><span class="header-section-number">14.5</span> Load Packages</h2>
 <p>As always, if you have not installed any of these packages before, do so first using the <code>install.packages()</code> function. For a description of packages and their installation, review the <a href="c06.html#c06p">Packages</a> section of the <a href="c06.html#c06">Foundational Skills</a> chapter.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" title="1"><span class="co"># load the packages</span></a>
-<a class="sourceLine" id="cb309-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb309-3" title="3"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb309-4" title="4"><span class="kw">library</span>(tidylog)</a>
-<a class="sourceLine" id="cb309-5" title="5"><span class="kw">library</span>(dataedu)</a></code></pre></div>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" title="1"><span class="co"># load the packages</span></a>
+<a class="sourceLine" id="cb322-2" title="2"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb322-3" title="3"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb322-4" title="4"><span class="kw">library</span>(tidylog)</a>
+<a class="sourceLine" id="cb322-5" title="5"><span class="kw">library</span>(dataedu)</a></code></pre></div>
 <p>First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an <code>.rda</code> file. We note that this data is augmented to have some other - and additional - variables that the <code>sci_mo_processed</code> data used in <a href="#c7">Chapter 7</a> does not.</p>
 </div>
 <div id="import-and-view-data" class="section level2">
 <h2><span class="header-section-number">14.6</span> Import and View Data</h2>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1"><span class="co"># Loading the data from the .rda file and storing it as an object named &#39;data&#39;</span></a>
-<a class="sourceLine" id="cb310-2" title="2">df &lt;-<span class="st"> </span>dataedu<span class="op">::</span>sci_mo_with_text</a></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" title="1"><span class="co"># Loading the data from the .rda file and storing it as an object named &#39;data&#39;</span></a>
+<a class="sourceLine" id="cb323-2" title="2">df &lt;-<span class="st"> </span>dataedu<span class="op">::</span>sci_mo_with_text</a></code></pre></div>
 <p>It’s a good practice to take a look at the data and make sure it looks the way you expect it to look. R is pretty smart, but sometimes we run into issues like column headers being read as datapoints. By using the <code>glimpse()</code> function from the {dplyr} package, we can quickly skim our data and see whether we have all the right variables and values. Remember that the {dplyr} package loads automatically when we load the {tidyverse} library, so there is no need to call the {dplyr} package separately. Now, we’ll glimpse the data.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" title="1"><span class="kw">glimpse</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" title="1"><span class="kw">glimpse</span>(df)</a></code></pre></div>
 <p>Scanning the data we glimpsed, we see that we have 606 observations and 74 variables. Many of these variables - everything below <code>WC</code> except the variable <code>n</code> - are related to the text content of the discussion board posts. Our analysis here is not focused on the specifics of the discussion board posts, so we will select just a few variables from the LIWC analysis. If you’re interested in learning more about analyzing text, the text analysis walkthrough in <a href="c11.html#c11">Chapter 11</a> would be a good place to start.</p>
 <p>As is the case with many datasets you’ll work with in education contexts, there is lots of great information in this dataset - but we won’t need all of it. Even if your dataset has many variables, for most analyses you will find that you are only interested in some of them. There are statistical reasons not to include twenty or more variables in a data analysis as well. At a certain point, adding more variables will <em>appear</em> to make your analysis more accurate, but will in fact obscure the truth from you. It’s generally a good practice to select a few variables you are interested in and go from there. As we discussed above, the way to do this is to start with the research questions you are trying to answer.</p>
 </div>
@@ -697,25 +697,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">14.7</span> Process Data</h2>
 <p>Since we are interested in data from one specific semester, we’ll need to narrow down the data to make sure that we only include datapoints relevant to that semester. For each step, we save over the previous version of the “df” object so that our working environment doesn’t get cluttered with each new version of the dataset. Keep in mind that the original data will stay intact, and that any changes we make to it within R will not overwrite that original data (unless we tell R to specifically save out a new file with exactly the same name as the original file). Changes we make within our working environment are all totally reversible.</p>
 <p>Below, we will <em>select</em> only the variables we are interested in: motivation, time spent in the course, grade in the course, subject, enrollment information, positive and negative emotions, cognitive processing, and the number of discussion board posts. After this step, we see that 60 variables have been removed from the dataset.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1"><span class="co"># selecting only the variables we are interested in: </span></a>
-<a class="sourceLine" id="cb312-2" title="2">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb312-3" title="3"><span class="st">    </span>df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb312-4" title="4"><span class="st">    </span><span class="kw">select</span>(</a>
-<a class="sourceLine" id="cb312-5" title="5">        int,</a>
-<a class="sourceLine" id="cb312-6" title="6">        uv,</a>
-<a class="sourceLine" id="cb312-7" title="7">        pc,</a>
-<a class="sourceLine" id="cb312-8" title="8">        time_spent,</a>
-<a class="sourceLine" id="cb312-9" title="9">        final_grade,</a>
-<a class="sourceLine" id="cb312-10" title="10">        subject,</a>
-<a class="sourceLine" id="cb312-11" title="11">        enrollment_reason,</a>
-<a class="sourceLine" id="cb312-12" title="12">        semester,</a>
-<a class="sourceLine" id="cb312-13" title="13">        enrollment_status,</a>
-<a class="sourceLine" id="cb312-14" title="14">        cogproc,</a>
-<a class="sourceLine" id="cb312-15" title="15">        social,</a>
-<a class="sourceLine" id="cb312-16" title="16">        posemo,</a>
-<a class="sourceLine" id="cb312-17" title="17">        negemo,</a>
-<a class="sourceLine" id="cb312-18" title="18">        n</a>
-<a class="sourceLine" id="cb312-19" title="19">    )</a></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" title="1"><span class="co"># selecting only the variables we are interested in: </span></a>
+<a class="sourceLine" id="cb325-2" title="2">df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb325-3" title="3"><span class="st">    </span>df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb325-4" title="4"><span class="st">    </span><span class="kw">select</span>(</a>
+<a class="sourceLine" id="cb325-5" title="5">        int,</a>
+<a class="sourceLine" id="cb325-6" title="6">        uv,</a>
+<a class="sourceLine" id="cb325-7" title="7">        pc,</a>
+<a class="sourceLine" id="cb325-8" title="8">        time_spent,</a>
+<a class="sourceLine" id="cb325-9" title="9">        final_grade,</a>
+<a class="sourceLine" id="cb325-10" title="10">        subject,</a>
+<a class="sourceLine" id="cb325-11" title="11">        enrollment_reason,</a>
+<a class="sourceLine" id="cb325-12" title="12">        semester,</a>
+<a class="sourceLine" id="cb325-13" title="13">        enrollment_status,</a>
+<a class="sourceLine" id="cb325-14" title="14">        cogproc,</a>
+<a class="sourceLine" id="cb325-15" title="15">        social,</a>
+<a class="sourceLine" id="cb325-16" title="16">        posemo,</a>
+<a class="sourceLine" id="cb325-17" title="17">        negemo,</a>
+<a class="sourceLine" id="cb325-18" title="18">        n</a>
+<a class="sourceLine" id="cb325-19" title="19">    )</a></code></pre></div>
 <pre><code>## select: dropped 60 variables (student_id, course_id, total_points_possible, total_points_earned, percentage_earned, …)</code></pre>
 </div>
 <div id="analysis-5" class="section level2">
@@ -723,20 +723,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="use-of-caret" class="section level3">
 <h3><span class="header-section-number">14.8.1</span> Use of {caret}</h3>
 <p>Here, we remove observations with missing data (per our note above about random forests requiring complete cases).</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" title="1"><span class="co"># Checking how many rows are in our dataset</span></a>
-<a class="sourceLine" id="cb314-2" title="2"><span class="co"># We see that we have 606 rows</span></a>
-<a class="sourceLine" id="cb314-3" title="3"><span class="kw">nrow</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" title="1"><span class="co"># Checking how many rows are in our dataset</span></a>
+<a class="sourceLine" id="cb327-2" title="2"><span class="co"># We see that we have 606 rows</span></a>
+<a class="sourceLine" id="cb327-3" title="3"><span class="kw">nrow</span>(df)</a></code></pre></div>
 <pre><code>## [1] 606</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" title="1"><span class="co"># calling the na.omit function to eliminate ANY rows that have ANY missing data</span></a>
-<a class="sourceLine" id="cb316-2" title="2">df &lt;-<span class="st"> </span><span class="kw">na.omit</span>(df)</a></code></pre></div>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" title="1"><span class="co"># checking whether our na.omit call worked as expected</span></a>
-<a class="sourceLine" id="cb317-2" title="2"><span class="co"># after running the code above, we see that we now have 464 rows</span></a>
-<a class="sourceLine" id="cb317-3" title="3"><span class="kw">nrow</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" title="1"><span class="co"># calling the na.omit function to eliminate ANY rows that have ANY missing data</span></a>
+<a class="sourceLine" id="cb329-2" title="2">df &lt;-<span class="st"> </span><span class="kw">na.omit</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" title="1"><span class="co"># checking whether our na.omit call worked as expected</span></a>
+<a class="sourceLine" id="cb330-2" title="2"><span class="co"># after running the code above, we see that we now have 464 rows</span></a>
+<a class="sourceLine" id="cb330-3" title="3"><span class="kw">nrow</span>(df)</a></code></pre></div>
 <pre><code>## [1] 464</code></pre>
 <p>Machine learning methods often involve using a large number of variables. Some of these variables will not be suitable to use: they may be highly correlated with other variables or may have very little - or no - variability. For the data set used in this study, one variable has the same (character string) value for all of the observations. We can detect this variable and any others using the following function:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" title="1"><span class="co"># run the nearZeroVar function to determine </span></a>
-<a class="sourceLine" id="cb319-2" title="2"><span class="co"># if there are variables with NO variability</span></a>
-<a class="sourceLine" id="cb319-3" title="3"><span class="kw">nearZeroVar</span>(df, <span class="dt">saveMetrics =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" title="1"><span class="co"># run the nearZeroVar function to determine </span></a>
+<a class="sourceLine" id="cb332-2" title="2"><span class="co"># if there are variables with NO variability</span></a>
+<a class="sourceLine" id="cb332-3" title="3"><span class="kw">nearZeroVar</span>(df, <span class="dt">saveMetrics =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##                   freqRatio percentUnique zeroVar   nzv
 ## int                    1.31         9.052   FALSE FALSE
 ## uv                     1.53         6.466   FALSE FALSE
@@ -754,86 +754,86 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## n                      1.33        10.129   FALSE FALSE</code></pre>
 <p>After conducting our zero variance check, we want to scan the <code>zeroVar</code> column to see if any of our variables failed this check. If we see any <code>TRUE</code> values for <code>zeroVar</code>, that means we should look more closely at that variable.</p>
 <p>In the nearZeroVar() function we just ran, we see a result in the ZeroVar column of <code>TRUE</code> for the <code>enrollment_status</code> variable. If we look at <code>enrollment_status</code>, we will see that it is “Approved/Enrolled” for <em>all</em> of the students. Using variables with no variability in certain models may cause problems, and so we remove them first.</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" title="1"><span class="co"># taking the dataset and re-saving it as the same dataset, </span></a>
-<a class="sourceLine" id="cb321-2" title="2"><span class="co"># but without the enrollment status variable</span></a>
-<a class="sourceLine" id="cb321-3" title="3">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb321-4" title="4"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb321-5" title="5"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>enrollment_status)</a></code></pre></div>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" title="1"><span class="co"># taking the dataset and re-saving it as the same dataset, </span></a>
+<a class="sourceLine" id="cb334-2" title="2"><span class="co"># but without the enrollment status variable</span></a>
+<a class="sourceLine" id="cb334-3" title="3">df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb334-4" title="4"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb334-5" title="5"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>enrollment_status)</a></code></pre></div>
 <pre><code>## select: dropped one variable (enrollment_status)</code></pre>
 <p>As we have discussed elsewhere in the book, the data will often come to you in a format that is not ready for immediate analysis. You may wish to pre-process the variables, such as by centering or scaling them. For our current dataset, we can work on pre-processing with code below. We want to make sure our text data is in a format that we can then evaluate. To facilitate that, we change character string variables into factors. Factors store data as categorical variables, each with its own levels. Because categorical variables are used in statistical models differently than continuous variables, storing data as factors ensures that the modeling functions will treat them correctly.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" title="1"><span class="co"># converting the text (character) variables in our dataset into factors</span></a>
-<a class="sourceLine" id="cb323-2" title="2">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb323-3" title="3"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb323-4" title="4"><span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor)</a></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" title="1"><span class="co"># converting the text (character) variables in our dataset into factors</span></a>
+<a class="sourceLine" id="cb336-2" title="2">df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb336-3" title="3"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb336-4" title="4"><span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor)</a></code></pre></div>
 <pre><code>## mutate_if: converted &#39;subject&#39; from character to factor (0 new NA)</code></pre>
 <pre><code>##            converted &#39;enrollment_reason&#39; from character to factor (0 new NA)</code></pre>
 <pre><code>##            converted &#39;semester&#39; from character to factor (0 new NA)</code></pre>
 <p>Now we will prepare the <strong>train</strong> and <strong>test</strong> datasets, using the {caret} function for creating data partitions. Here, the <strong>p</strong> argument specifies what proportion of the data we want to be in the <strong>training</strong> partition. Note that this function splits the data based upon the outcome, so that the training and test data sets will both have comparable values for the outcome. This means that since our outcome is final grade, we are making sure that we don’t have either a training or testing dataset that has too many good grades <em>or</em> too many bad grades. Note the <code>times = 1</code> argument. This parameter can be used to create <em>multiple</em> train and test sets, something we will describe in more detail later. Before we create our training and testing datasets, we want to “set the seed” (introduced in <a href="c11.html#c11">Chapter 11</a>). Setting the seed ensures that if we run this same code again, we will get the same results in terms of the data partition. The seed can be any number that you like - some people choose their birthday or another meaningful number. The only constraint is that when you open the same code file again to run in the future, you do not change the number you selected for your seed. This enables your code to be reproducible. If anyone runs the same code file on any computer, anywhere, they will get the same result.</p>
 <p>Now try running the code chunk below. Be sure to read the messages that R gives you to see what is happening with each step! One important note here: the numbers will differ slightly if you are running this on a Windows machine.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" title="1"><span class="co"># First, we set a seed to ensure the reproducibility of our data partition.</span></a>
-<a class="sourceLine" id="cb327-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb327-3" title="3"></a>
-<a class="sourceLine" id="cb327-4" title="4"><span class="co"># we create a new object called trainIndex that will take 80 percent of the data</span></a>
-<a class="sourceLine" id="cb327-5" title="5">trainIndex &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(df<span class="op">$</span>final_grade,</a>
-<a class="sourceLine" id="cb327-6" title="6">                                  <span class="dt">p =</span> <span class="fl">.8</span>, </a>
-<a class="sourceLine" id="cb327-7" title="7">                                  <span class="dt">list =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb327-8" title="8">                                  <span class="dt">times =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb327-9" title="9"></a>
-<a class="sourceLine" id="cb327-10" title="10"><span class="co"># We add a new variable to our dataset, temporarily:</span></a>
-<a class="sourceLine" id="cb327-11" title="11"><span class="co"># this will let us select our rows according to their row number</span></a>
-<a class="sourceLine" id="cb327-12" title="12"><span class="co"># we populate the rows with the numbers 1:464, in order</span></a>
-<a class="sourceLine" id="cb327-13" title="13"></a>
-<a class="sourceLine" id="cb327-14" title="14">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb327-15" title="15"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb327-16" title="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">temp_id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">464</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" title="1"><span class="co"># First, we set a seed to ensure the reproducibility of our data partition.</span></a>
+<a class="sourceLine" id="cb340-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb340-3" title="3"></a>
+<a class="sourceLine" id="cb340-4" title="4"><span class="co"># we create a new object called trainIndex that will take 80 percent of the data</span></a>
+<a class="sourceLine" id="cb340-5" title="5">trainIndex &lt;-<span class="st"> </span><span class="kw">createDataPartition</span>(df<span class="op">$</span>final_grade,</a>
+<a class="sourceLine" id="cb340-6" title="6">                                  <span class="dt">p =</span> <span class="fl">.8</span>, </a>
+<a class="sourceLine" id="cb340-7" title="7">                                  <span class="dt">list =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb340-8" title="8">                                  <span class="dt">times =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb340-9" title="9"></a>
+<a class="sourceLine" id="cb340-10" title="10"><span class="co"># We add a new variable to our dataset, temporarily:</span></a>
+<a class="sourceLine" id="cb340-11" title="11"><span class="co"># this will let us select our rows according to their row number</span></a>
+<a class="sourceLine" id="cb340-12" title="12"><span class="co"># we populate the rows with the numbers 1:464, in order</span></a>
+<a class="sourceLine" id="cb340-13" title="13"></a>
+<a class="sourceLine" id="cb340-14" title="14">df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb340-15" title="15"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb340-16" title="16"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">temp_id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">464</span>)</a></code></pre></div>
 <pre><code>## mutate: new variable &#39;temp_id&#39; with 464 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" title="1"><span class="co"># we filter our dataset so that we get only the </span></a>
-<a class="sourceLine" id="cb329-2" title="2"><span class="co"># rows indicated by our &quot;trainIndex&quot; vector</span></a>
-<a class="sourceLine" id="cb329-3" title="3">df_train &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb329-4" title="4"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb329-5" title="5"><span class="st">    </span><span class="kw">filter</span>(temp_id <span class="op">%in%</span><span class="st"> </span>trainIndex)</a></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" title="1"><span class="co"># we filter our dataset so that we get only the </span></a>
+<a class="sourceLine" id="cb342-2" title="2"><span class="co"># rows indicated by our &quot;trainIndex&quot; vector</span></a>
+<a class="sourceLine" id="cb342-3" title="3">df_train &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb342-4" title="4"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb342-5" title="5"><span class="st">    </span><span class="kw">filter</span>(temp_id <span class="op">%in%</span><span class="st"> </span>trainIndex)</a></code></pre></div>
 <pre><code>## filter: removed 92 rows (20%), 372 rows remaining</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" title="1"><span class="co"># we filter our dataset in a different way so that we get only the rows </span></a>
-<a class="sourceLine" id="cb331-2" title="2"><span class="co"># NOT in our &quot;trainIndex&quot; vector </span></a>
-<a class="sourceLine" id="cb331-3" title="3"><span class="co"># adding the ! before the temp_id variable achieves the opposite of </span></a>
-<a class="sourceLine" id="cb331-4" title="4"><span class="co"># what we did in the line of code above</span></a>
-<a class="sourceLine" id="cb331-5" title="5"></a>
-<a class="sourceLine" id="cb331-6" title="6">df_test &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb331-7" title="7"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb331-8" title="8"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span>temp_id <span class="op">%in%</span><span class="st"> </span>trainIndex)</a></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" title="1"><span class="co"># we filter our dataset in a different way so that we get only the rows </span></a>
+<a class="sourceLine" id="cb344-2" title="2"><span class="co"># NOT in our &quot;trainIndex&quot; vector </span></a>
+<a class="sourceLine" id="cb344-3" title="3"><span class="co"># adding the ! before the temp_id variable achieves the opposite of </span></a>
+<a class="sourceLine" id="cb344-4" title="4"><span class="co"># what we did in the line of code above</span></a>
+<a class="sourceLine" id="cb344-5" title="5"></a>
+<a class="sourceLine" id="cb344-6" title="6">df_test &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb344-7" title="7"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb344-8" title="8"><span class="st">    </span><span class="kw">filter</span>(<span class="op">!</span>temp_id <span class="op">%in%</span><span class="st"> </span>trainIndex)</a></code></pre></div>
 <pre><code>## filter: removed 372 rows (80%), 92 rows remaining</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" title="1"><span class="co"># We delete the temp_id variable from (1) the original data, </span></a>
-<a class="sourceLine" id="cb333-2" title="2"><span class="co"># (2) the portion of the original data we marked as training, and </span></a>
-<a class="sourceLine" id="cb333-3" title="3"><span class="co"># (3) the portion of the original data we marked as testing, </span></a>
-<a class="sourceLine" id="cb333-4" title="4"><span class="co"># as we no longer need that variable</span></a>
-<a class="sourceLine" id="cb333-5" title="5"></a>
-<a class="sourceLine" id="cb333-6" title="6">df &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb333-7" title="7"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb333-8" title="8"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" title="1"><span class="co"># We delete the temp_id variable from (1) the original data, </span></a>
+<a class="sourceLine" id="cb346-2" title="2"><span class="co"># (2) the portion of the original data we marked as training, and </span></a>
+<a class="sourceLine" id="cb346-3" title="3"><span class="co"># (3) the portion of the original data we marked as testing, </span></a>
+<a class="sourceLine" id="cb346-4" title="4"><span class="co"># as we no longer need that variable</span></a>
+<a class="sourceLine" id="cb346-5" title="5"></a>
+<a class="sourceLine" id="cb346-6" title="6">df &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb346-7" title="7"><span class="st">    </span>df <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb346-8" title="8"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
 <pre><code>## select: dropped one variable (temp_id)</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" title="1">df_train &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb335-2" title="2"><span class="st">    </span>df_train <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb335-3" title="3"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" title="1">df_train &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb348-2" title="2"><span class="st">    </span>df_train <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb348-3" title="3"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
 <pre><code>## select: dropped one variable (temp_id)</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" title="1">df_test &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb337-2" title="2"><span class="st">    </span>df_test <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb337-3" title="3"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" title="1">df_test &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb350-2" title="2"><span class="st">    </span>df_test <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb350-3" title="3"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>temp_id)</a></code></pre></div>
 <pre><code>## select: dropped one variable (temp_id)</code></pre>
 <p>Finally, we will estimate the models. We will use the train function, passing <em>all</em> of the variables in the data frame (except for the outcome, or dependent variable, <code>final_grade</code>) as predictors.</p>
 <p>The predictor variables include three indicators of motivation: interest in the course (<code>int</code>), perceived utility value of the course (<code>uv</code>), and perceived competence for the subject matter (<code>pc</code>). There are a few predictor variables that help differentiate between the different courses in the dataset: subject matter of the course (<code>subject</code>), reason the student enrolled in the course (<code>enrollment_reason</code>), and semester in which the course took place (<code>semester</code>). We have a predictor variable that indicates the amount of time each student spent engaging with the online learning platform of the course (<code>time_spent</code>).</p>
 <p>We also have a number of variables associated with the discussion board posts from the course. Specifically, the variables include the average level of cognitive processing in the discussion board posts (<code>cogproc</code>), the average level of social (rather than academic) content in the discussion board posts (<code>social</code>), the positive and negative emotions evident in the discussion board posts (<code>posemo</code> and <code>negemo</code>), and finally, the number of discussion board posts in total (<code>n</code>). We are using all those variables discussed in this paragraph to predict the outcome of the final grade in the course (<code>final_grade</code>).</p>
 <p>Note that you can read more about the specific random forest implementation chosen in <a href="http://topepo.github.io/caret/train-models-by-tag.html#random-forest">the {caret} bookdown page</a> (http<a href=""></a>://topepo.github.io/caret/train-models-by-tag.html#random-forest). To specify that we want to predict the outcome using every variable except the outcome itself, we use the formulation <code>outcome ~ .</code>. R interprets this code as: predict the outcome using all the variables except outcome itself. The outcome always comes before the <code>~</code>, and the <code>.</code> that we see after the <code>~</code> means that we want to use all the rest of the variables. An alternative specification of this model would be to write <code>outcome ~ predictor1, predictor2</code>. Anything that follows the <code>~</code> and precedes the comma is treated as predictors of the outcome.</p>
 <p>We set the seed again to ensure that our analysis is reproducible. This step of setting the seed is especially important due to the “random” elements of random forest, because it’s likely that the findings would change (just slightly) if the seed were not set. As we get into random forest modeling, you might notice that the code takes a bit longer to run. This is normal - just think of the number of decision trees that are “growing”!</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
-<a class="sourceLine" id="cb339-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb339-3" title="3"></a>
-<a class="sourceLine" id="cb339-4" title="4"><span class="co"># we run the model here</span></a>
-<a class="sourceLine" id="cb339-5" title="5">rf_fit &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb339-6" title="6">                <span class="dt">data =</span> df_train,</a>
-<a class="sourceLine" id="cb339-7" title="7">                <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>)</a>
-<a class="sourceLine" id="cb339-8" title="8"></a>
-<a class="sourceLine" id="cb339-9" title="9"><span class="co"># here, we get a summary of the model we just built</span></a>
-<a class="sourceLine" id="cb339-10" title="10">rf_fit</a></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
+<a class="sourceLine" id="cb352-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb352-3" title="3"></a>
+<a class="sourceLine" id="cb352-4" title="4"><span class="co"># we run the model here</span></a>
+<a class="sourceLine" id="cb352-5" title="5">rf_fit &lt;-<span class="st"> </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb352-6" title="6">                <span class="dt">data =</span> df_train,</a>
+<a class="sourceLine" id="cb352-7" title="7">                <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>)</a>
+<a class="sourceLine" id="cb352-8" title="8"></a>
+<a class="sourceLine" id="cb352-9" title="9"><span class="co"># here, we get a summary of the model we just built</span></a>
+<a class="sourceLine" id="cb352-10" title="10">rf_fit</a></code></pre></div>
 <pre><code>## Random Forest 
 ## 
 ## 372 samples
@@ -861,20 +861,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It appears that the model with the value of the <code>mtry</code> tuning parameter equal to 19 seemed to explain the data best, the <code>splitrule</code> being “extratrees”, and <code>min.node.size</code> held constant at a value of 5. We know this model fits best because the RMSE is the lowest of the options (13.41) and the Rsquared is the highest of the options (0.63).</p>
 <p>The value of resampling here is that it allows for higher accuracy of the model <span class="citation">(James et al., <a href="references.html#ref-james2013">2013</a>)</span>. Without resampling (bootstrapping or cross-validation), the variance would be higher and the predictive accuracy of the model would be lower.</p>
 <p>Let’s see if we end up with slightly different values if we change the resampling technique to cross-validation, instead of bootstrap resampling. We set a seed again here, for reproducibility.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb341-2" title="2"></a>
-<a class="sourceLine" id="cb341-3" title="3">train_control &lt;-</a>
-<a class="sourceLine" id="cb341-4" title="4"><span class="st">    </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>,</a>
-<a class="sourceLine" id="cb341-5" title="5">                 <span class="dt">number =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb341-6" title="6">                 <span class="dt">repeats =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb341-7" title="7"></a>
-<a class="sourceLine" id="cb341-8" title="8">rf_fit1 &lt;-</a>
-<a class="sourceLine" id="cb341-9" title="9"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb341-10" title="10">          <span class="dt">data =</span> df_train,</a>
-<a class="sourceLine" id="cb341-11" title="11">          <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb341-12" title="12">          <span class="dt">trControl =</span> train_control)</a>
-<a class="sourceLine" id="cb341-13" title="13"></a>
-<a class="sourceLine" id="cb341-14" title="14">rf_fit1</a></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb354-2" title="2"></a>
+<a class="sourceLine" id="cb354-3" title="3">train_control &lt;-</a>
+<a class="sourceLine" id="cb354-4" title="4"><span class="st">    </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>,</a>
+<a class="sourceLine" id="cb354-5" title="5">                 <span class="dt">number =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb354-6" title="6">                 <span class="dt">repeats =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb354-7" title="7"></a>
+<a class="sourceLine" id="cb354-8" title="8">rf_fit1 &lt;-</a>
+<a class="sourceLine" id="cb354-9" title="9"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb354-10" title="10">          <span class="dt">data =</span> df_train,</a>
+<a class="sourceLine" id="cb354-11" title="11">          <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb354-12" title="12">          <span class="dt">trControl =</span> train_control)</a>
+<a class="sourceLine" id="cb354-13" title="13"></a>
+<a class="sourceLine" id="cb354-14" title="14">rf_fit1</a></code></pre></div>
 <pre><code>## Random Forest 
 ## 
 ## 372 samples
@@ -904,25 +904,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We won’t dive into the specifics of the statistics behind these decisions right now, but next we will try adjusting a few different parts of the model to see whether our performance improves. For a detailed statistical explanation of random forest modeling, including more about <code>mtry</code> and tuning a model, please see Chapter 8 in the book “An Introduction to Statistical Learning with Applications in R” <span class="citation">(James et al., <a href="references.html#ref-james2013">2013</a>)</span>.</p>
 <p>What would happen if we do not fix <code>min.node.size</code> to five? We’re going to let <code>min.node.size</code> change and let <code>mtry</code> change as well.</p>
 <p>Let’s create our own grid of values to test for <code>mtry</code> and <code>min.node.size</code>. We’ll stick with the default bootstrap resampling method to choose the best model. We will randomly choose some values to use for <code>mtry</code>, including the three that were used previously (2, 10, and 19). Let’s try 2, 3, 7, 10, and 19.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
-<a class="sourceLine" id="cb343-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb343-3" title="3"></a>
-<a class="sourceLine" id="cb343-4" title="4"><span class="co"># Create a grid of different values of mtry, different splitrules, and different minimum node sizes to test</span></a>
-<a class="sourceLine" id="cb343-5" title="5">tune_grid &lt;-</a>
-<a class="sourceLine" id="cb343-6" title="6"><span class="st">    </span><span class="kw">expand.grid</span>(</a>
-<a class="sourceLine" id="cb343-7" title="7">        <span class="dt">mtry =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">19</span>),</a>
-<a class="sourceLine" id="cb343-8" title="8">        <span class="dt">splitrule =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>),</a>
-<a class="sourceLine" id="cb343-9" title="9">        <span class="dt">min.node.size =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb343-10" title="10">    )</a>
-<a class="sourceLine" id="cb343-11" title="11"></a>
-<a class="sourceLine" id="cb343-12" title="12"><span class="co"># Fit a new model, using the tuning grid we created above</span></a>
-<a class="sourceLine" id="cb343-13" title="13">rf_fit2 &lt;-</a>
-<a class="sourceLine" id="cb343-14" title="14"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb343-15" title="15">          <span class="dt">data =</span> df_train,</a>
-<a class="sourceLine" id="cb343-16" title="16">          <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb343-17" title="17">          <span class="dt">tuneGrid =</span> tune_grid)</a>
-<a class="sourceLine" id="cb343-18" title="18"></a>
-<a class="sourceLine" id="cb343-19" title="19">rf_fit2</a></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
+<a class="sourceLine" id="cb356-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb356-3" title="3"></a>
+<a class="sourceLine" id="cb356-4" title="4"><span class="co"># Create a grid of different values of mtry, different splitrules, and different minimum node sizes to test</span></a>
+<a class="sourceLine" id="cb356-5" title="5">tune_grid &lt;-</a>
+<a class="sourceLine" id="cb356-6" title="6"><span class="st">    </span><span class="kw">expand.grid</span>(</a>
+<a class="sourceLine" id="cb356-7" title="7">        <span class="dt">mtry =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">19</span>),</a>
+<a class="sourceLine" id="cb356-8" title="8">        <span class="dt">splitrule =</span> <span class="kw">c</span>(<span class="st">&quot;variance&quot;</span>, <span class="st">&quot;extratrees&quot;</span>),</a>
+<a class="sourceLine" id="cb356-9" title="9">        <span class="dt">min.node.size =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb356-10" title="10">    )</a>
+<a class="sourceLine" id="cb356-11" title="11"></a>
+<a class="sourceLine" id="cb356-12" title="12"><span class="co"># Fit a new model, using the tuning grid we created above</span></a>
+<a class="sourceLine" id="cb356-13" title="13">rf_fit2 &lt;-</a>
+<a class="sourceLine" id="cb356-14" title="14"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb356-15" title="15">          <span class="dt">data =</span> df_train,</a>
+<a class="sourceLine" id="cb356-16" title="16">          <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb356-17" title="17">          <span class="dt">tuneGrid =</span> tune_grid)</a>
+<a class="sourceLine" id="cb356-18" title="18"></a>
+<a class="sourceLine" id="cb356-19" title="19">rf_fit2</a></code></pre></div>
 <pre><code>## Random Forest 
 ## 
 ## 372 samples
@@ -991,8 +991,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The model with the same values as identified before for <code>mtry</code> (19) and <code>splitrule</code> (extratrees), but with <code>min.node.size</code> equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.36) and the variance explained is highest (0.63) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make.</p>
 <p>While the output above gives us a good summary of the model, we might want to look more closely at what we found with our <code>rf_fit2</code> model. The code below is a way for us to zoom in and look specifically at the <em>final</em> random forest model generated by our <code>rf_fit2.</code></p>
 <p>In the code chunk below, you’ll notice we are selecting the “finalModel” output using a <code>$</code> operator rather than the familiar <code>select</code>. We cannot use {dplyr} and the tidyverse here because of the structure of the <code>rf_fit2</code> object - we have stored a random forest model as a model, so it’s not a normal data frame. So, we extract with a <code>$</code>. We want to select only the final model used and not worry about the prior iterations of the model.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" title="1"><span class="co">#Here, we select the &quot;finalModel&quot; output from the rf_fit2 model</span></a>
-<a class="sourceLine" id="cb345-2" title="2">rf_fit2<span class="op">$</span>finalModel</a></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" title="1"><span class="co">#Here, we select the &quot;finalModel&quot; output from the rf_fit2 model</span></a>
+<a class="sourceLine" id="cb358-2" title="2">rf_fit2<span class="op">$</span>finalModel</a></code></pre></div>
 <pre><code>## Ranger result
 ## 
 ## Call:
@@ -1015,18 +1015,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="examining-predictive-accuracy-on-the-test-data-set" class="section level3">
 <h3><span class="header-section-number">14.8.3</span> Examining Predictive Accuracy on the Test Data Set</h3>
 <p>What if we use the test data set - data not used to train the model? Below, we’ll create a new object that uses the <code>rf_fit2</code> model we developed above. We will put our testing data through the model, and assign the predicted values to a column called <code>pred</code>. At the same, time, we’ll make a column called <code>obs</code> that includes the real final grades that students earned. Later, we’ll compare these predicted and observed values to see how well our model did.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
-<a class="sourceLine" id="cb347-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb347-3" title="3"></a>
-<a class="sourceLine" id="cb347-4" title="4"><span class="co"># Create a new object for the testing data including predicted values </span></a>
-<a class="sourceLine" id="cb347-5" title="5">df_test_augmented &lt;-</a>
-<a class="sourceLine" id="cb347-6" title="6"><span class="st">    </span>df_test <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb347-7" title="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, df_test),</a>
-<a class="sourceLine" id="cb347-8" title="8">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
+<a class="sourceLine" id="cb360-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb360-3" title="3"></a>
+<a class="sourceLine" id="cb360-4" title="4"><span class="co"># Create a new object for the testing data including predicted values </span></a>
+<a class="sourceLine" id="cb360-5" title="5">df_test_augmented &lt;-</a>
+<a class="sourceLine" id="cb360-6" title="6"><span class="st">    </span>df_test <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb360-7" title="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, df_test),</a>
+<a class="sourceLine" id="cb360-8" title="8">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
 <pre><code>## mutate: new variable &#39;pred&#39; with 92 unique values and 0% NA</code></pre>
 <pre><code>##         new variable &#39;obs&#39; with 90 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" title="1"><span class="co"># Transform this new object into a data frame</span></a>
-<a class="sourceLine" id="cb350-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_test_augmented))</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1"><span class="co"># Transform this new object into a data frame</span></a>
+<a class="sourceLine" id="cb363-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_test_augmented))</a></code></pre></div>
 <pre><code>##     RMSE Rsquared      MAE 
 ##   12.982    0.552    9.974</code></pre>
 <p>We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 12.98 on the test data here, and it was 13.36 on the training data. The Rsquared value is 0.55 here, as compared to the 0.63 we got when we passed the training data through <code>rf_fit2</code> earlier.</p>
@@ -1041,21 +1041,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can examine two different variable importance measures using the <strong>ranger</strong> method in {caret}.</p>
 <p>Note that importance values are not calculated automatically, but that “impurity” or “permutation” can be passed to the <code>importance</code> argument in <code>train()</code>. See more on <a href="https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html">this website</a> (https<a href=""></a>://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).</p>
 <p>We’ll re-run the <code>rf_fit2</code> model with the same specifications as before, but this time we will add an argument to call the variable importance metric.</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
-<a class="sourceLine" id="cb352-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
-<a class="sourceLine" id="cb352-3" title="3"></a>
-<a class="sourceLine" id="cb352-4" title="4"><span class="co"># Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric</span></a>
-<a class="sourceLine" id="cb352-5" title="5">rf_fit2_imp &lt;-</a>
-<a class="sourceLine" id="cb352-6" title="6"><span class="st">    </span><span class="kw">train</span>(</a>
-<a class="sourceLine" id="cb352-7" title="7">        final_grade <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb352-8" title="8">        <span class="dt">data =</span> df_train,</a>
-<a class="sourceLine" id="cb352-9" title="9">        <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
-<a class="sourceLine" id="cb352-10" title="10">        <span class="dt">tuneGrid =</span> tune_grid,</a>
-<a class="sourceLine" id="cb352-11" title="11">        <span class="dt">importance =</span> <span class="st">&quot;permutation&quot;</span></a>
-<a class="sourceLine" id="cb352-12" title="12">    )</a>
-<a class="sourceLine" id="cb352-13" title="13"></a>
-<a class="sourceLine" id="cb352-14" title="14"><span class="co"># Extract the variable importance from this new model</span></a>
-<a class="sourceLine" id="cb352-15" title="15"><span class="kw">varImp</span>(rf_fit2_imp)</a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="co"># setting a seed for reproducibility</span></a>
+<a class="sourceLine" id="cb365-2" title="2"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb365-3" title="3"></a>
+<a class="sourceLine" id="cb365-4" title="4"><span class="co"># Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric</span></a>
+<a class="sourceLine" id="cb365-5" title="5">rf_fit2_imp &lt;-</a>
+<a class="sourceLine" id="cb365-6" title="6"><span class="st">    </span><span class="kw">train</span>(</a>
+<a class="sourceLine" id="cb365-7" title="7">        final_grade <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb365-8" title="8">        <span class="dt">data =</span> df_train,</a>
+<a class="sourceLine" id="cb365-9" title="9">        <span class="dt">method =</span> <span class="st">&quot;ranger&quot;</span>,</a>
+<a class="sourceLine" id="cb365-10" title="10">        <span class="dt">tuneGrid =</span> tune_grid,</a>
+<a class="sourceLine" id="cb365-11" title="11">        <span class="dt">importance =</span> <span class="st">&quot;permutation&quot;</span></a>
+<a class="sourceLine" id="cb365-12" title="12">    )</a>
+<a class="sourceLine" id="cb365-13" title="13"></a>
+<a class="sourceLine" id="cb365-14" title="14"><span class="co"># Extract the variable importance from this new model</span></a>
+<a class="sourceLine" id="cb365-15" title="15"><span class="kw">varImp</span>(rf_fit2_imp)</a></code></pre></div>
 <pre><code>## ranger variable importance
 ## 
 ##                                                     Overall
@@ -1080,13 +1080,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## subjectBioA                                           0.000</code></pre>
 <p>Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.</p>
 <p>We can visualize this variable importance list with {ggplot2}.</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" title="1"><span class="kw">varImp</span>(rf_fit2_imp) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb354-2" title="2"><span class="st">    </span><span class="kw">pluck</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb354-3" title="3"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;var&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb354-4" title="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(var, Overall), <span class="dt">y =</span> Overall)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb354-5" title="5"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb354-6" title="6"><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb354-7" title="7"><span class="st">    </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" title="1"><span class="kw">varImp</span>(rf_fit2_imp) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-2" title="2"><span class="st">    </span><span class="kw">pluck</span>(<span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-3" title="3"><span class="st">    </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;var&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb367-4" title="4"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">reorder</span>(var, Overall), <span class="dt">y =</span> Overall)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb367-5" title="5"><span class="st">    </span><span class="kw">geom_col</span>(<span class="dt">fill =</span> <span class="kw">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb367-6" title="6"><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb367-7" title="7"><span class="st">    </span><span class="kw">theme_dataedu</span>()</a></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:fig14-1"></span>
 <img src="14-wt-machine-learning_files/figure-html/fig14-1-1.png" alt="Variable Importance" width="100%" />
 <p class="caption">
@@ -1101,40 +1101,40 @@ Figure 14.1: Variable Importance
 <div id="comparing-random-forest-to-regression" class="section level3">
 <h3><span class="header-section-number">14.9.2</span> Comparing Random Forest to Regression</h3>
 <p>You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we’ll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We’ll compare this with the random forest model’s performance (<code>rf_fit2</code>). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the <code>rf_fit2</code> model predicted as well as the actual <code>rf_fit2</code> values.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" title="1"><span class="co"># Make sure all variables stored as characters are converted to factors</span></a>
-<a class="sourceLine" id="cb355-2" title="2">df_train_lm &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb355-3" title="3"><span class="st">    </span>df_train <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb355-4" title="4"><span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor) </a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" title="1"><span class="co"># Make sure all variables stored as characters are converted to factors</span></a>
+<a class="sourceLine" id="cb368-2" title="2">df_train_lm &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb368-3" title="3"><span class="st">    </span>df_train <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb368-4" title="4"><span class="st">    </span><span class="kw">mutate_if</span>(is.character, as.factor) </a></code></pre></div>
 <pre><code>## mutate_if: no changes</code></pre>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" title="1"><span class="co"># Create a linear regression model, </span></a>
-<a class="sourceLine" id="cb357-2" title="2"><span class="co"># using the same formula approach as in the random forest: ~ .</span></a>
-<a class="sourceLine" id="cb357-3" title="3">lm_fit &lt;-</a>
-<a class="sourceLine" id="cb357-4" title="4"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
-<a class="sourceLine" id="cb357-5" title="5">          <span class="dt">data =</span> df_train_lm,</a>
-<a class="sourceLine" id="cb357-6" title="6">          <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a>
-<a class="sourceLine" id="cb357-7" title="7"></a>
-<a class="sourceLine" id="cb357-8" title="8"><span class="co"># Append the predicted values to the training dataset for the linear model, </span></a>
-<a class="sourceLine" id="cb357-9" title="9"><span class="co"># so we can see both the predicted and the actual values</span></a>
-<a class="sourceLine" id="cb357-10" title="10">df_train_lm &lt;-</a>
-<a class="sourceLine" id="cb357-11" title="11"><span class="st">    </span>df_train <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb357-12" title="12"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">obs =</span> final_grade,</a>
-<a class="sourceLine" id="cb357-13" title="13">           <span class="dt">pred =</span> <span class="kw">predict</span>(lm_fit, df_train_lm))</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" title="1"><span class="co"># Create a linear regression model, </span></a>
+<a class="sourceLine" id="cb370-2" title="2"><span class="co"># using the same formula approach as in the random forest: ~ .</span></a>
+<a class="sourceLine" id="cb370-3" title="3">lm_fit &lt;-</a>
+<a class="sourceLine" id="cb370-4" title="4"><span class="st">    </span><span class="kw">train</span>(final_grade <span class="op">~</span><span class="st"> </span>.,</a>
+<a class="sourceLine" id="cb370-5" title="5">          <span class="dt">data =</span> df_train_lm,</a>
+<a class="sourceLine" id="cb370-6" title="6">          <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a>
+<a class="sourceLine" id="cb370-7" title="7"></a>
+<a class="sourceLine" id="cb370-8" title="8"><span class="co"># Append the predicted values to the training dataset for the linear model, </span></a>
+<a class="sourceLine" id="cb370-9" title="9"><span class="co"># so we can see both the predicted and the actual values</span></a>
+<a class="sourceLine" id="cb370-10" title="10">df_train_lm &lt;-</a>
+<a class="sourceLine" id="cb370-11" title="11"><span class="st">    </span>df_train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb370-12" title="12"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">obs =</span> final_grade,</a>
+<a class="sourceLine" id="cb370-13" title="13">           <span class="dt">pred =</span> <span class="kw">predict</span>(lm_fit, df_train_lm))</a></code></pre></div>
 <pre><code>## mutate: new variable &#39;obs&#39; with 354 unique values and 0% NA</code></pre>
 <pre><code>##         new variable &#39;pred&#39; with 372 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" title="1"><span class="co"># Append the predicted values to the training dataset for the random forest</span></a>
-<a class="sourceLine" id="cb360-2" title="2">df_train_randomfor &lt;-</a>
-<a class="sourceLine" id="cb360-3" title="3"><span class="st">    </span>df_train <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb360-4" title="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, df_train),</a>
-<a class="sourceLine" id="cb360-5" title="5">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" title="1"><span class="co"># Append the predicted values to the training dataset for the random forest</span></a>
+<a class="sourceLine" id="cb373-2" title="2">df_train_randomfor &lt;-</a>
+<a class="sourceLine" id="cb373-3" title="3"><span class="st">    </span>df_train <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb373-4" title="4"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">pred =</span> <span class="kw">predict</span>(rf_fit2, df_train),</a>
+<a class="sourceLine" id="cb373-5" title="5">           <span class="dt">obs =</span> final_grade)</a></code></pre></div>
 <pre><code>## mutate: new variable &#39;pred&#39; with 372 unique values and 0% NA</code></pre>
 <pre><code>##         new variable &#39;obs&#39; with 354 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" title="1"><span class="co"># Summarize, as data frames, the training data with the predicted </span></a>
-<a class="sourceLine" id="cb363-2" title="2"><span class="co"># and the actual values for both the linear model</span></a>
-<a class="sourceLine" id="cb363-3" title="3"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_train_lm))</a></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" title="1"><span class="co"># Summarize, as data frames, the training data with the predicted </span></a>
+<a class="sourceLine" id="cb376-2" title="2"><span class="co"># and the actual values for both the linear model</span></a>
+<a class="sourceLine" id="cb376-3" title="3"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_train_lm))</a></code></pre></div>
 <pre><code>##     RMSE Rsquared      MAE 
 ##   14.434    0.556   10.848</code></pre>
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" title="1"><span class="co"># and the random forest</span></a>
-<a class="sourceLine" id="cb365-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_train_randomfor))</a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" title="1"><span class="co"># and the random forest</span></a>
+<a class="sourceLine" id="cb378-2" title="2"><span class="kw">defaultSummary</span>(<span class="kw">as.data.frame</span>(df_train_randomfor))</a></code></pre></div>
 <pre><code>##     RMSE Rsquared      MAE 
 ##    4.602    0.968    3.393</code></pre>
 <p>Our output will come in the order we wrote the code, so the linear model output is displayed above the random forest output.</p>

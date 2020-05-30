@@ -132,20 +132,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 x 2
-##    sender            receiver              
-##    <chr>             <chr>                 
-##  1 Topaha, Draven    Brown, Issac          
-##  2 el-Munir, Dhaafir Lopez Almeida, Roxanna
-##  3 el-Munir, Dhaafir Mann, Jonathan        
-##  4 Hayes, Sky        Lopez Almeida, Roxanna
-##  5 Hayes, Sky        Brown, Issac          
-##  6 Hayes, Sky        el-Saadeh, Waleed     
-##  7 Warren, Amanda    Mann, Jonathan        
-##  8 Warren, Amanda    Barksdale, Eli        
-##  9 Warren, Amanda    el-Saadeh, Waleed     
-## 10 Gurung, Aysha     el-Naqvi, Labeeb      
-## 11 Meltzer, Cheyenne Mann, Jonathan        
-## 12 Meltzer, Cheyenne el-Naqvi, Labeeb
+##    sender                    receiver              
+##    <chr>                     <chr>                 
+##  1 Garcia-Benavides, Jessica Finch, Coleman        
+##  2 el-Vaziri, Hameeda        Gebre Kidane, Tatyanne
+##  3 el-Vaziri, Hameeda        Davis, Royce          
+##  4 Kiick, Julianna           Gebre Kidane, Tatyanne
+##  5 Kiick, Julianna           Finch, Coleman        
+##  6 Kiick, Julianna           Evans, Camille        
+##  7 Lynn, Bowen               Davis, Royce          
+##  8 Lynn, Bowen               Truong, Brandon       
+##  9 Lynn, Bowen               Evans, Camille        
+## 10 Gutierrez-Matias, Anthony Juel, Erik            
+## 11 Marley, Jake              Davis, Royce          
+## 12 Marley, Jake              Juel, Erik
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -345,6 +345,527 @@ g %>%
   scale_color_continuous(guide = 'legend') + 
   geom_edge_link(alpha = .2) +
   theme_graph()
+```
+
+```
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family
+## 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+## family 'Arial Narrow' not found, will use 'sans' instead
+```
+
+```
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
+
+## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+## font family 'Arial Narrow' not found, will use 'sans' instead
 ```
 
 ![(\#fig:fig12-2)Network Graph with Centrality](12-wt-social-network-analysis_files/figure-docx/fig12-2-1.png){width=100%}
