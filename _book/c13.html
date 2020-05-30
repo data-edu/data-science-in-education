@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>13 Walkthrough 7: The Role (and Usefulness) of Multilevel Models | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="13 Walkthrough 7: The Role (and Usefulness) of Multilevel Models | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -638,18 +638,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 {lme4} <span class="citation">(Bates et al., <a href="references.html#ref-R-lme4">2020</a>)</span> and {performance} <span class="citation">(Lüdecke et al., <a href="references.html#ref-R-performance">2020</a>)</span>.</p>
 <p>If you have not before - as for other packages used for the first time - you’ll need to install {lme4}, {performance}, and {dummies} once to do the rest of this walkthrough. If helpful, head to the <a href="c06.html#c06p">Packages</a> section of the <a href="c06.html#c06">Foundational Skills</a> chapter for an overview of installing packages.</p>
 <p>The remaining packages ({tidyverse}, {sjPlot}, and {dataedu}) are used in other chapters, but, if you have not installed these before, you will to install these, too, using the <code>install.packages()</code> function, with the name of the package included (in quotations), just like for the previous three packages.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb282-2" title="2"><span class="kw">library</span>(dummies)</a>
-<a class="sourceLine" id="cb282-3" title="3"><span class="kw">library</span>(sjPlot)</a>
-<a class="sourceLine" id="cb282-4" title="4"><span class="kw">library</span>(lme4)</a>
-<a class="sourceLine" id="cb282-5" title="5"><span class="kw">library</span>(performance)</a>
-<a class="sourceLine" id="cb282-6" title="6"><span class="kw">library</span>(dataedu)</a></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb295-2" title="2"><span class="kw">library</span>(dummies)</a>
+<a class="sourceLine" id="cb295-3" title="3"><span class="kw">library</span>(sjPlot)</a>
+<a class="sourceLine" id="cb295-4" title="4"><span class="kw">library</span>(lme4)</a>
+<a class="sourceLine" id="cb295-5" title="5"><span class="kw">library</span>(performance)</a>
+<a class="sourceLine" id="cb295-6" title="6"><span class="kw">library</span>(dataedu)</a></code></pre></div>
 </div>
 <div id="the-role-of-dummy-codes" class="section level2">
 <h2><span class="header-section-number">13.6</span> The Role of Dummy Codes</h2>
 <p>Before we import our data, let’s spend some time learning about a process called dummy-coding. In this discussion, we’ll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this. A note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, we will use base R and data.frame instead of the {tidyverse} and tibbles.</p>
 <p>Let’s look at the <code>iris</code> data that comes built into R.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" title="1"><span class="kw">str</span>(iris)</a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" title="1"><span class="kw">str</span>(iris)</a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
 ##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
 ##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
@@ -662,16 +662,16 @@ variables for each of the possible values of <code>Species</code> (such as “se
 (i.e., the first row in the data frame above would have a 1 for a column named
 <code>setosa</code>).</p>
 <p>Let’s put the {dummies} package to work on this task. How many possible values are there for <code>Species</code>? We can check with the <code>levels</code> function:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" title="1"><span class="kw">levels</span>(iris<span class="op">$</span>Species)</a></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1"><span class="kw">levels</span>(iris<span class="op">$</span>Species)</a></code></pre></div>
 <pre><code>## [1] &quot;setosa&quot;     &quot;versicolor&quot; &quot;virginica&quot;</code></pre>
 <p>The function <code>dummy.data.frame()</code> takes a data frame and creates a <code>data.frame</code> where all the specified columns are given dummy attributes. We use it to turn <code>iris</code> into a dummy data frame. Then we run the <code>get.dummy()</code> function specifically on the <code>Species</code> variable. It returns <em>three</em> variables, one for each of the three levels of Species - <code>setosa</code>, <code>versicolor</code>, and <code>virginica</code>.</p>
 <p>Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the <code>dummy.data.frame()</code> function that hasn’t been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don’t) and you have to be aware of any changes when using them for analysis.</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" title="1">d_iris &lt;-</a>
-<a class="sourceLine" id="cb287-2" title="2"><span class="st">  </span><span class="kw">dummy.data.frame</span>(iris)</a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" title="1">d_iris &lt;-</a>
+<a class="sourceLine" id="cb300-2" title="2"><span class="st">  </span><span class="kw">dummy.data.frame</span>(iris)</a></code></pre></div>
 <pre><code>## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
 ## non-list contrasts argument ignored</code></pre>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" title="1"><span class="kw">get.dummy</span>(d_iris, <span class="dt">name =</span> <span class="st">&quot;Species&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb289-2" title="2"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" title="1"><span class="kw">get.dummy</span>(d_iris, <span class="dt">name =</span> <span class="st">&quot;Species&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb302-2" title="2"><span class="st">  </span><span class="kw">head</span>()</a></code></pre></div>
 <pre><code>##   Speciessetosa Speciesversicolor Speciesvirginica
 ## 1             1                 0                0
 ## 2             1                 0                0
@@ -684,16 +684,16 @@ column it corresponds to. We can do this by binding together the dummy codes and
 the <code>iris</code> data and then counting how many rows were coded with a “1” for each dummy code. For example, when the <code>Species</code> is “setosa”, the variable <code>Speciessetosa</code> always
 equals 1 - as is the case for the other species.</p>
 <p>Now we need to combine the dummy-coded variables with the <code>iris</code> dataset. <code>bind_cols()</code> is a useful {tidyverse} function for binding together data frames by column.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" title="1"><span class="co"># create matrix of dummy-coded variables</span></a>
-<a class="sourceLine" id="cb291-2" title="2">species_dummy_coded &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb291-3" title="3"><span class="st">  </span><span class="kw">get.dummy</span>(d_iris, <span class="dt">name =</span> <span class="st">&quot;Species&quot;</span>)</a>
-<a class="sourceLine" id="cb291-4" title="4"></a>
-<a class="sourceLine" id="cb291-5" title="5"><span class="co"># add dummy coded variables to iris</span></a>
-<a class="sourceLine" id="cb291-6" title="6">iris_with_dummy_codes &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb291-7" title="7"><span class="st">  </span><span class="kw">bind_cols</span>(iris, species_dummy_coded)</a></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" title="1"><span class="co"># create matrix of dummy-coded variables</span></a>
+<a class="sourceLine" id="cb304-2" title="2">species_dummy_coded &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb304-3" title="3"><span class="st">  </span><span class="kw">get.dummy</span>(d_iris, <span class="dt">name =</span> <span class="st">&quot;Species&quot;</span>)</a>
+<a class="sourceLine" id="cb304-4" title="4"></a>
+<a class="sourceLine" id="cb304-5" title="5"><span class="co"># add dummy coded variables to iris</span></a>
+<a class="sourceLine" id="cb304-6" title="6">iris_with_dummy_codes &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb304-7" title="7"><span class="st">  </span><span class="kw">bind_cols</span>(iris, species_dummy_coded)</a></code></pre></div>
 <p>Let’s look at the results.</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" title="1">iris_with_dummy_codes <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb292-2" title="2"><span class="st">  </span><span class="kw">count</span>(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)</a></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" title="1">iris_with_dummy_codes <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb305-2" title="2"><span class="st">  </span><span class="kw">count</span>(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 5
 ##   Species    Speciessetosa Speciesversicolor Speciesvirginica     n
 ##   &lt;fct&gt;              &lt;int&gt;             &lt;int&gt;            &lt;int&gt; &lt;int&gt;
@@ -707,10 +707,10 @@ equals 1 - as is the case for the other species.</p>
 <div id="import-data-5" class="section level2">
 <h2><span class="header-section-number">13.7</span> Import Data</h2>
 <p>Now that we have some background on dummy codes, let’s return to the online science class data. We’ll be using the same dataset that we used in <a href="c07.html#c07">Chapter 7</a>. Let’s load that dataset now from the {dataedu} package.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" title="1">dat &lt;-<span class="st"> </span>dataedu<span class="op">::</span>sci_mo_processed</a></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" title="1">dat &lt;-<span class="st"> </span>dataedu<span class="op">::</span>sci_mo_processed</a></code></pre></div>
 <p>To wrap up our discussion about factor variables, levels, and dummy codes, let’s look at how many classes are represented in the <code>course_id</code> variable. These classes will be our factor levels that we’ll be using in our model soon. We can use the <code>count()</code> function to see how many courses there are:</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb295-2" title="2"><span class="st">  </span><span class="kw">count</span>(course_id)</a></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1">dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb308-2" title="2"><span class="st">  </span><span class="kw">count</span>(course_id)</a></code></pre></div>
 <pre><code>## # A tibble: 26 x 2
 ##    course_id         n
 ##    &lt;chr&gt;         &lt;int&gt;
@@ -732,15 +732,15 @@ equals 1 - as is the case for the other species.</p>
 <h3><span class="header-section-number">13.8.1</span> Regression (Linear Model) Analysis with Dummy Codes</h3>
 <p>Before we fit our model, let’s talk about our dataset. We will keep the variables we used in our last set of models - <code>TimeSpent</code> and <code>course_id</code> - as independent variables. Recall that <code>TimeSpent</code> is the amount of time in minutes that a student spent in a course and <code>course_id</code> is a unique identifier for a particular course. In this walkthrough we’ll predict students’ final grade rather than the <code>percentage_earned</code> variable that we created in <a href="c07.html#c07">Chapter 7</a>.</p>
 <p>Since we will be using the final grade variable a lot let’s rename it to make it easier to type.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" title="1">dat &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb297-2" title="2"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb297-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">final_grade =</span> FinalGradeCEMS)</a></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" title="1">dat &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb310-2" title="2"><span class="st">  </span>dat <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb310-3" title="3"><span class="st">  </span><span class="kw">rename</span>(<span class="dt">final_grade =</span> FinalGradeCEMS)</a></code></pre></div>
 <p>Now we can fit our model. We will save the model object to <code>m_linear_dc</code>, where the <code>dc</code> stands for dummy code. Later we’ll be working with <code>course_id</code> as a factor variable, so we can expect to see <code>lm()</code> treat it as a dummy coded variable. This means that the model output will include a reference variable for <code>course_id</code> that all other levels of <code>course_id</code> will be compared against.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" title="1">m_linear_dc &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb298-2" title="2"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" title="1">m_linear_dc &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb311-2" title="2"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>The output from the model will be long. This is because each course in the <code>course_id</code> variable will get its own line in the model output. We can see that using <code>tab_model()</code> from {sjPlot}:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" title="1"><span class="kw">tab_model</span>(m_linear_dc,</a>
-<a class="sourceLine" id="cb299-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 13.1&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" title="1"><span class="kw">tab_model</span>(m_linear_dc,</a>
+<a class="sourceLine" id="cb312-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 13.1&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">
 Table 13.1
@@ -1170,16 +1170,16 @@ value of 0.74 represents the percentage of points that students in the reference
 group class have. <code>lm()</code> automatically picks the first level of the <code>course_id</code> variable as the reference group when it is converted to a factor. In this case, the course associated with course ID <code>course_idAnPhA-S116-01</code>, a first semester physiology course, is picked as the reference variable.</p>
 <p>What if we want to pick another class as the reference variable? For example, say that we want <code>course\_idPhysA-S116-01</code> (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the <code>fct_relevel()</code> function, which is a part of the {tidyverse} suite of packages. Note that before using <code>fct_relevel()</code>, the variable <code>course_id</code> was a character data type, which <code>lm()</code> coerced into a factor data type when we included it as a predictor variable. Using <code>fct_relevel()</code> will explicitly convert <code>course_id</code> to a factor data type.</p>
 <p>Now let’s use <code>fct_relevel()</code> and <code>mutate()</code> to re-order the levels within a factor, so that the “first” level will change:</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" title="1">dat &lt;-</a>
-<a class="sourceLine" id="cb300-2" title="2"><span class="st">  </span>dat <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb300-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">course_id =</span> <span class="kw">fct_relevel</span>(course_id, <span class="st">&quot;PhysA-S116-01&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" title="1">dat &lt;-</a>
+<a class="sourceLine" id="cb313-2" title="2"><span class="st">  </span>dat <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb313-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">course_id =</span> <span class="kw">fct_relevel</span>(course_id, <span class="st">&quot;PhysA-S116-01&quot;</span>))</a></code></pre></div>
 <p>We can now see that “PhysA-S116-01” the group is no longer listed as an independent variable. Now every coefficient listed in this model is in comparison to the new reference variable, “PhysA-S116-01”. We also see that <code>course_id</code> is now recognized as a factor data type.</p>
 <p>Now let’s fit our model again with the newly releveled <code>course_id</code> variable. We’ll give it a different name, <code>m_linear_dc_1</code>:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" title="1">m_linear_dc_<span class="dv">1</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb301-2" title="2"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb301-3" title="3"></a>
-<a class="sourceLine" id="cb301-4" title="4"><span class="kw">tab_model</span>(m_linear_dc_<span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb301-5" title="5">          <span class="dt">title =</span> <span class="st">&quot;Table 13.2&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" title="1">m_linear_dc_<span class="dv">1</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb314-2" title="2"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb314-3" title="3"></a>
+<a class="sourceLine" id="cb314-4" title="4"><span class="kw">tab_model</span>(m_linear_dc_<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb314-5" title="5">          <span class="dt">title =</span> <span class="st">&quot;Table 13.2&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">
 Table 13.2
@@ -1605,12 +1605,12 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 you need to fit a model with variables that are factors. We’ve already seen one benefit of using R functions like <code>lm()</code>, or the <code>lme4::lmer()</code> function we discuss later. These functions automatically convert character data types into factor data types.</p>
 <p>For example, imagine you include a variable for courses that has values like “mathematics”, “science”, “english language” (typed like that!), “social studies”, and “art” as an argument in <code>lm()</code>. <code>lm()</code> will automatically dummy-code these for you. You’ll just need to decide if you want to use the default reference group or if you should use <code>fct_revel()</code> to pick a different one.</p>
 <p>Lastly, there it’s worthing noting that there may be some situations where you do not want to dummy code a factor variable. These are situations where you don’t want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" title="1"><span class="co"># specifying the same linear model as the previous example, but using a &quot;-1&quot; to indicate that there should not be a reference group</span></a>
-<a class="sourceLine" id="cb302-2" title="2">m_linear_dc_<span class="dv">2</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb302-3" title="3"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span><span class="dv">-1</span> <span class="op">+</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a>
-<a class="sourceLine" id="cb302-4" title="4"></a>
-<a class="sourceLine" id="cb302-5" title="5"><span class="kw">tab_model</span>(m_linear_dc_<span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb302-6" title="6">          <span class="dt">title =</span> <span class="st">&quot;Table 13.3&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" title="1"><span class="co"># specifying the same linear model as the previous example, but using a &quot;-1&quot; to indicate that there should not be a reference group</span></a>
+<a class="sourceLine" id="cb315-2" title="2">m_linear_dc_<span class="dv">2</span> &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb315-3" title="3"><span class="st">  </span><span class="kw">lm</span>(final_grade <span class="op">~</span><span class="st"> </span><span class="dv">-1</span> <span class="op">+</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>course_id, <span class="dt">data =</span> dat)</a>
+<a class="sourceLine" id="cb315-4" title="4"></a>
+<a class="sourceLine" id="cb315-5" title="5"><span class="kw">tab_model</span>(m_linear_dc_<span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb315-6" title="6">          <span class="dt">title =</span> <span class="st">&quot;Table 13.3&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">
 Table 13.3
@@ -2060,8 +2060,8 @@ included in and accounted for in the model.</p>
 easy to use in R. We’ll need a new package for this next example. One of the most common for
 estimating these types of models is {lme4}. We use <code>lme4::lmer()</code> very similarly to the <code>lm()</code> function, but we pass it an additional argument for the <em>groups</em> we want to include in the model. This model is often referred to as a “varying intercepts” multilevel model. The difference between the groups is the effect of being a student in a class: the intercepts between the groups vary.</p>
 <p>Now we can fit our multilevel model uisng the <code>lmer()</code> function:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" title="1">m_course &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb303-2" title="2"><span class="st">  </span><span class="kw">lmer</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>course_id), <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" title="1">m_course &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb316-2" title="2"><span class="st">  </span><span class="kw">lmer</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent_std <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>course_id), <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>You’ll notice something here that we didn’t see when we used <code>lm()</code>. We use a new term (<code>(1|course_id)</code>). We use this new term to model the group (in this case, courses)
 in the data. With <code>lmer()</code>, these group terms are in parentheses and to the right of the bar. That is what the <code>|course_id</code> part means - it is telling <code>lmer()</code> that courses are groups in the data that we want to include in the model. The <code>1</code> on the left side of the bar tells <code>lmer()</code> that we want varying intercepts for each group (1 is used to denote the intercept).</p>
 <p>If you’re familiar with Bayesian methods, you’ll appreciate a connection here (<span class="citation">Gelman &amp; Hill (<a href="references.html#ref-gelman2006data">2006</a>)</span>). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian <em>prior</em> for the group estimates.</p>
@@ -2071,8 +2071,8 @@ in the data. With <code>lmer()</code>, these group terms are in parentheses and 
 <div id="results-4" class="section level2">
 <h2><span class="header-section-number">13.9</span> Results</h2>
 <p>Let’s view the results using the <code>tab_model()</code> function from {sjPlot} again.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" title="1"><span class="kw">tab_model</span>(m_course,</a>
-<a class="sourceLine" id="cb304-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 13.4&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" title="1"><span class="kw">tab_model</span>(m_course,</a>
+<a class="sourceLine" id="cb317-2" title="2">          <span class="dt">title =</span> <span class="st">&quot;Table 13.4&quot;</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">
 Table 13.4
@@ -2186,9 +2186,9 @@ variability there is between the groups.</p></li>
 </ol>
 <p>A common way to understand how much variability is at the group level is to calculate the <em>intra-class</em> correlation. This value is the proportion of the variability in the outcome (the <em>y</em>-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.</p>
 <p>You can install the {performance} package by typing this code in your console:</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;performance&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;performance&quot;</span>)</a></code></pre></div>
 <p>After that, try this function:</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" title="1"><span class="kw">icc</span>(m_course)</a></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" title="1"><span class="kw">icc</span>(m_course)</a></code></pre></div>
 <pre><code>## # Intraclass Correlation Coefficient
 ## 
 ##      Adjusted ICC: 0.091
@@ -2200,9 +2200,9 @@ students earned can be explained simply by knowing what class they are in.</p>
 <p>Now let’s add some additional levels. The data that we are using is all from one school, and so we cannot estimate a “two-level” model. Imagine, however, that instead of 26 classes, we had student data from 230 classes and that these classes were from 15 schools. We could estimate a two-level, varying intercepts (where there are now two groups
 with effects) model similar to the model we estimated above, but with another group added for the school. The model will automatically account for the way that the classes are nested within the schools automatically (Bates, Maechler, Bolker, &amp; Walker, 2015).</p>
 <p>We don’t have a variable containing the name of different schools. If we did we could fit the model like this, where <code>school_id</code> is the variable containing different schools:</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" title="1"><span class="co"># this model would specify a group effect for both the course and school</span></a>
-<a class="sourceLine" id="cb308-2" title="2">m_course_school &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb308-3" title="3"><span class="st">  </span><span class="kw">lmer</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>course_id) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>school_id), <span class="dt">data =</span> dat)</a></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" title="1"><span class="co"># this model would specify a group effect for both the course and school</span></a>
+<a class="sourceLine" id="cb321-2" title="2">m_course_school &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb321-3" title="3"><span class="st">  </span><span class="kw">lmer</span>(final_grade <span class="op">~</span><span class="st"> </span>TimeSpent <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>course_id) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>school_id), <span class="dt">data =</span> dat)</a></code></pre></div>
 <p>Were we to estimate this model (and then use the <code>icc()</code> function), we would see
 two ICC values representing the proportion of the variation in the dependent
 variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it is not necessary to explicitly nest the courses within schools.</p>
@@ -2224,6 +2224,14 @@ in the additional resources chapter.</p>
 recommendations in the <a href="c18.html#c18">Additional Resources</a> chapter.</p>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p> Run
+<code>?lme4::pvalues</code> to see a discussion of the issue and solutions. We
+have found the lmerTest to be helpful as an easy solution, though some of the recommendations available through <code>?lme4::pvalues</code> may be preferable because the technique lmerTest implements has some known issues.<a href="c13.html#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 
