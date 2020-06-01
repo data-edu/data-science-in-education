@@ -501,7 +501,7 @@ district_merged_df <- dataedu::district_merged_df
 What do the racial demographics in this district look like? A barplot
 can quickly visualize the different proportion of subgroups.
 
-```{r fig9-1, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup"}
+```{r fig9-1, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup", fig.showtext = TRUE}
 district_tidy_df %>%
   # Filter for Total rows, since we want district-level information
   filter(school_name == "Total",
@@ -552,7 +552,7 @@ Another view of the data is visualizing the distribution of students with
 different demographics across schools. Here is a histogram for the percentage of
 White students within the schools for which we have data.
 
-```{r fig9-2, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population"}
+```{r fig9-2, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population", fig.showtext = TRUE}
 district_merged_df %>%
   # Remove district totals
   filter(school_name != "Total") %>%
@@ -587,7 +587,7 @@ attended high-poverty schools [@ncesfrpl]. However, different subgroups are
 overrepresented and underrepresented within the high poverty schools. Is this
 the case for this district?
 
-```{r fig9-3, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Distribution of Subgroups in High Poverty Schools"}
+```{r fig9-3, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Distribution of Subgroups in High Poverty Schools", fig.showtext = TRUE}
 district_tidy_df %>%
   filter(school_name == "Total",
          str_detect(category, "povsch")) %>%
@@ -620,7 +620,7 @@ attending high poverty schools.
 
 Let’s explore what happens when we correlate race and FRPL percentage by school.
 
-```{r fig9-4, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage"}
+```{r fig9-4, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage", fig.showtext = TRUE}
 district_merged_df %>%
   filter(school_name != "Total") %>%
   ggplot(aes(x = wh_pct, y = frpl_pct)) +
