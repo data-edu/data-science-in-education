@@ -1,7 +1,6 @@
 # How to Use this Book {#c02}
 
-We've heard it from fellow data scientists and experienced it ourselves -
-learning a programming language is hard. Like
+We've heard it from fellow data scientists and experienced it ourselves---learning a programming language is hard. Like
 learning a foreign language, it is not just about mastering vocabulary. It's also
 about learning the language's norms, its underlying structure, and the metaphors
 that hold the whole thing together.
@@ -10,20 +9,20 @@ The beginning of the learning journey is particularly challenging because it
 feels slow. If you have experience as an educator or consultant, you already
 have efficient solutions you use in your day-to-day work. Introducing code to
 your workflow slows you down at first because you won't be as fast as you are
-with your favorite spreadsheet software. However, you're probably reading this book because you realize that learning how to analyze data using R is like investing in your own personal infrastructure--it takes time while you're building the initial skills, but the investment pays off when you start solving complex problems faster and at scale. One person we spoke with shared this story about their learning journey:
+with your favorite spreadsheet software. However, you're probably reading this book because you realize that learning how to analyze data using R is like investing in your own personal infrastructure---it takes time while you're building the initial skills, but the investment pays off when you start solving complex problems faster and at scale. One person we spoke with shared this story about their learning journey:
 
-> "The first six months were hard. I knew how quickly I could do a pivot table
+> The first six months were hard. I knew how quickly I could do a pivot table
 > in Excel. It took longer in R because I had to go through the syntax and take
 > the book out. I forced myself to do it, though. In the long-term, I'd be a
 > better data scientist. I'm so glad I thought that way, but it was hard the
-> first few months."
+> first few months.
 
 Our message is this: learning R for your education job is doable, challenging,
 and rewarding all at once. We wrote this book for you because we do this work
 every day. We're not writing as education data science masters. We're writing as
 people who learned R and data science *after* we chose education. And like you,
 improving the lives of students is our daily practice. Learning to use R and data
-science helped us do that. Join us in enjoying all that comes with R and data science -- both the challenge of
+science helped us do that. Join us in enjoying all that comes with R and data science---both the challenge of
 learning and the joy of solving problems in creative and efficient ways.
 
 ## Different Strokes for Different Data Scientists in Education
@@ -32,11 +31,11 @@ As we learned in the introduction, it's tough to define data science in educatio
 because people are educated in all kinds of settings and in all kinds of age groups. Education organizations
 require different roles to make it work, which creates different kinds of data
 science uses. A teacher's approach to data analysis is different from an
-administrator's or an operations manager's perspective.
+administrator's or an operations manager's. 
 
 We also know that learning data science and R is not in the typical job
 description. Most readers of this book are educators working with data and
-looking to expand their tools. You might even be an educator who **doesn't**
+looking to expand their tools. You might even be an educator who *doesn't*
 work with data, but you've discovered a love for learning about the lives of
 students through data. Either way, learning data science and R is probably not
 in your job description.
@@ -66,8 +65,8 @@ wrote this book for you. Consider reading the book cover to cover and doing all
 the analysis walkthroughs. Remember that you'll get more from a few minutes of
 practice every day than you will from long hours of practice every once in
 awhile. Typing code every day, even if it doesn't always run, is a daily practice
-that invites learning and a-ha moments. We know how easy it is to avoid coding
-when it doesn't feel successful (we've been there), so we've designed the book to deliver frequent
+that invites learning and "a-ha" moments. We know how easy it is to avoid coding
+when it doesn't feel successful (we've been there), so we've designed this book to deliver frequent
 small wins to keep the momentum going. But even then, we all eventually hit a
 wall in our learning. When that happens, take a break and then come back and
 keep coding. When daily coding becomes a habit, so does the learning.
@@ -83,7 +82,7 @@ We interviewed R users in education as research for this book. We chose people
 with different levels of experience in R, in the education field, and in statistics.
 We asked each interviewee to rate their level of experience on a scale from 1
 to 5, with 1 being "no experience" and 5 being "very experienced". You can try this
-now--take a moment to rate your level of experience in:
+now---take a moment to rate your level of experience in:
 
   - Using R
   - Education as a field
@@ -97,7 +96,7 @@ daily practice there. Eventually, we do hope you choose to experience the whole
 book, even if you start somewhere in the middle.
 
 For example, you might be working through a specific use case in your education
-job--perhaps you are analyzing student quiz scores, evaluating a school program, introducing a data science technique to your teammates, or designing data dashboards. If this describes your situation, feel free to find a section in the
+job---perhaps you are analyzing student quiz scores, evaluating a school program, introducing a data science technique to your teammates, or designing data dashboards. If this describes your situation, feel free to find a section in the
 book that inspires you or shows you techniques that apply to your project.
 
 This book is primarily about learning to use R as a tool for data science in education. Your experience level with R should be the main factor when you decide how to enjoy the book. But do consider how you rated your level of experience with education and statistics. If these are areas you want to focus on, take your time understanding the education scenarios and statistics techniques we describe. All three disciplines are important parts of being a data scientist in education. 
@@ -146,12 +145,12 @@ relationships or predict student outcomes.
 In this book we will spend a lot of time learning R by way of recognizable
 education data examples. But doing a deep dive into statistics and how to use
 statistical techniques responsibly is better covered by books dedicated solely to the topic. It's
-hard to understate how important this part of the learning is on the lives of
+hard to overstate how important this part of the learning is on the lives of
 students and educators. One education data scientist we spoke to said this about
 the difference between building a model for an online retailer and building a
 model in education:
 
->“It’s not a big deal if an online shopper gets mistakenly shown 1000 brooms but if I got my model wrong and we close a school, that will change a child's entire life.”
+>It’s not a big deal if an online shopper gets mistakenly shown 1000 brooms but if I got my model wrong and we close a school, that will change a child's entire life.
 
 We want this book to be your go-to R reference as you start integrating data
 science tools into your education job. Our aim is to help you learn R by
@@ -161,7 +160,7 @@ model building and how to run these operations in R. However, the explanations i
 
 We wrote within these boundaries because we believe that the technical and
 ethical use of statistics techniques deserves its own space. If you already have a foundation in statistics, you will learn how to implement some familiar processes in R. If you have no foundation in statistics, you will be able to take a satisfying leap forward in your learning by successfully using R to run the models and experiencing the model interpretations in our
-walkthroughs. We provide enough background for you to understand the purpose of the analysis and its results. We encourage you to explore other excellent books like [Learning Statistics With R](https://learningstatisticswithr.com/) (https://learningstatisticswithr.com/) [@learningstatswithr], as you learn the required nuances of applying statistical techniques to scenarios outside our walkthroughs.
+walkthroughs. We provide enough background for you to understand the purpose of the analysis and its results. We encourage you to explore other excellent books like [*Learning Statistics With R*](https://learningstatisticswithr.com/) (https://learningstatisticswithr.com/) [@learningstatswithr], as you learn the required nuances of applying statistical techniques to scenarios outside our walkthroughs.
 
 ## What This Book Is Not About
 
@@ -169,15 +168,15 @@ While we wrote *Data Science in Education Using R* to be a wide-ranging introduc
 to the topic, there is a great deal that this book is not about. Some of these topics 
 are those that we would have liked to have been able to include, but we did not because they did 
 not fit our intention of providing a solid foundation in doing data science in education. 
-We chose to not include other topics because, frankly, excellent resources already exist. We
+We chose to not include other topics because, frankly, excellent resources for those topics already exist. We
 detail some of what we had to not include in the book here.
 
-- git/GitHub: Git and GitHub are version control software programs, which means that they help keep track of different versions of coding files and which specific changes were made for each version. Git and GitHub are parts of many data scientists' workflows for solo or collaborative work. However, there is a steep learning curve and these tools are not necessary to get started with coding in R. An outstanding introduction to git and Github is @bryan2020 's freely-available book [Happy git with R](https://happygitwithr.com/) (https://happygitwithr.com/).
+- Git/GitHub: Git and GitHub are version control software programs, which means that they help keep track of different versions of coding files and specific changes that were made for each version. Git and GitHub are parts of many data scientists' workflows for solo or collaborative work. However, there is a steep learning curve and these tools are not necessary to get started with coding in R. An outstanding introduction to Git and Github is @bryan2020's freely available book [*Happy Git with R*](https://happygitwithr.com/) (https://happygitwithr.com/).
 
-- Building R packages: If you are carrying out the same analyses many times, it may be helpful to create your own package. Packages are collections of code and sometimes data, such as the {roomba} (for tidying complex, nested lists) and {tidyLPA} (for carrying out Latent Profile Analysis) packages that authors of this book created. However, building an R package is not the focus of this book. Hadley Wickham wrote a very helpful - and freely-available - book on the topic called [R Packages](http://r-pkgs.had.co.nz/) (http://r-pkgs.had.co.nz/) [@rpackages].
+- Building R packages: If you are carrying out the same analyses many times, it may be helpful to create your own package. Packages are collections of code and sometimes data, such as the {roomba} (for tidying complex, nested lists) and {tidyLPA} (for carrying out Latent Profile Analysis) packages that authors of this book created. However, building an R package is not the focus of this book. Hadley Wickham wrote a very helpful---and freely available---book on the topic called [*R Packages*](http://r-pkgs.had.co.nz/) (http://r-pkgs.had.co.nz/) [@rpackages].
 
 - Advanced statistical methodologies: As noted above, there are other excellent books for learning 
-statistics. While we do discuss basic and advanced statistical methods, this is not a statistical methods book. One advanced statistical book that we think is excellent from a machine learning perspective is @james2013 *An Introduction to Statistical Learning with Applications in R*.
+statistics. While we do discuss basic and advanced statistical methods, this is not a statistical methods book. One advanced statistical book that we think is excellent from a machine learning perspective is @james2013's *An Introduction to Statistical Learning with Applications in R*.
 
 - Creating a website (or book): As you might already suspect, R is versatile and can be used for more than just performing data analyses. In fact, R can be used to write books (like this one, which we wrote using the {bookdown} package) and create websites (which some of the authors have done using the {blogdown} package). This book does not describe how to create books or websites; there are excellent, freely available books on these topics as well (see @xie2019blogdown's *blogdown: Creating Websites with R Markdown* (https://bookdown.org/yihui/blogdown/) and @xie2019bookdown's *bookdown: Authoring Books and Technical Documents with R Markdown* (https://bookdown.org/yihui/bookdown/).
 
@@ -199,7 +198,7 @@ We designed this book to be useful and practical for our readers in education. W
 reference that is not intimidating to new users and that creates frequent,
 small wins while learning to use R.
 
-One question we asked ourselves was: How do we expand this work as data science in education expands as a field? We want readers of this book to be equipped with an agile skillset, and we want this book to continue to provide that even as new R packages are developed and new methods arise. We wrote this book in the open on GitHub so that community members can help us
+One question we asked ourselves was: how do we expand this work as data science in education expands as a field? We want readers of this book to be equipped with an agile skillset, and we want this book to continue to provide that even as new R packages are developed and new methods arise. We wrote this book in the open on GitHub so that community members can help us
 evolve the work, even after it is formally published. 
 
 We want this to be the book new data scientists in education have with them as
@@ -207,7 +206,7 @@ they grow their craft. To achieve that goal, it's important to us that the stori
 examples in the book are based on **your** stories and examples. Therefore, we've
 built ways for you to share with us.
 
-If you have some experience with git and want to contribute that way, here's how you can can contribute:
+If you have some experience with Git and want to contribute that way, here's how you can contribute:
 
   - Submit an "issue" to our [GitHub repository](https://github.com/data-edu/data-science-in-education) (https://github.com/data-edu/data-science-in-education/issues) that describes
     a data science problem that is unique to the education setting 
