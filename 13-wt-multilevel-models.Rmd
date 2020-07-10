@@ -174,13 +174,13 @@ tab_model(m_linear_dc,
 
 Wow! Those are a lot of effects. The model estimates the effects of being in each class, accounting for the time students spent on a course and the class they were in. We know this because the model output includes the time spent (`TimeSpent_std`) variable and subject variables (like `course_id[AnPhA-S116-02]`). 
 
-If we count the number of classes, we see that there are 25 - and not 26! One has
+If we count the number of courses, we see that there are 25 - and not 26! One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
-value of 0.74 represents the percentage of points that students in the reference
-group class have. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference variable.
+value of 73.20 represents the number of percentage points that students in the reference
+group class are estimated to earn. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference group.
 
-What if we want to pick another class as the reference variable? For example, say that we want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. 
+What if we want to pick another class as the reference variable? For example, say that we want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual *value* of the variable is what is in square brackets in the output, whereas `course_id` is the variable *name*; in the output, these are just combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
 
 Now let's use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level will change:
 
@@ -190,7 +190,7 @@ dat <-
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
 ```
 
-We can now see that "PhysA-S116-01" the group is no longer listed as an independent variable. Now every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". We also see that `course_id` is now recognized as a factor data type. 
+We can now see that "PhysA-S116-01" is no longer listed as an independent variable. Now every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". We also see that `course_id` is now recognized as a factor data type. 
 
 Now let's fit our model again with the newly releveled `course_id` variable. We'll give it a different name, `m_linear_dc_1`: 
 
