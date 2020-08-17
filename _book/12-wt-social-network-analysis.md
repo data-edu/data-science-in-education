@@ -87,7 +87,7 @@ tt_tweets  <-
   search_tweets("#tidytuesday", n = 500)
 ```
 
-You may notice that the most recent tweets containing the #tidytuesday hashtag are returned. What if you wanted to explore 
+You may notice that the most recent tweets containing the #tidytuesday hashtag are returned. What if you wanted to go further back in time? We’ll discuss this topic in the next section and in Appendix B.
 
 ### Using an Application Programming Interface (or API)
 
@@ -132,20 +132,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 x 2
-##    sender         receiver                
-##    <chr>          <chr>                   
-##  1 Patel, Dominic Gebremedhin, Anthony    
-##  2 Duran, Taneil  Alcantar, Andrew        
-##  3 Duran, Taneil  Mitchell, Donavon       
-##  4 Huff, Kevin    Alcantar, Andrew        
-##  5 Huff, Kevin    Gebremedhin, Anthony    
-##  6 Huff, Kevin    Aguilar, Bailee         
-##  7 el-Omar, Fidda Mitchell, Donavon       
-##  8 el-Omar, Fidda Chavez, David           
-##  9 el-Omar, Fidda Aguilar, Bailee         
-## 10 Pena, Joshua   al-Rasheed, Abdul Hakeem
-## 11 Ho, Lawrence   Mitchell, Donavon       
-## 12 Ho, Lawrence   al-Rasheed, Abdul Hakeem
+##    sender               receiver         
+##    <chr>                <chr>            
+##  1 Schmalz, Connor      Ruedas, Selena   
+##  2 al-Salameh, Fawzaana Coen, Annie      
+##  3 al-Salameh, Fawzaana el-Matar, Marzooq
+##  4 Jelani, Tyrone       Coen, Annie      
+##  5 Jelani, Tyrone       Ruedas, Selena   
+##  6 Jelani, Tyrone       Sollie, Nicholas 
+##  7 Luster, Kayla        el-Matar, Marzooq
+##  8 Luster, Kayla        Westling, Julio  
+##  9 Luster, Kayla        Sollie, Nicholas 
+## 10 Johnson, Kayla       Bytnar, Riley    
+## 11 Solomon Jadd, Eric   el-Matar, Marzooq
+## 12 Solomon Jadd, Eric   Bytnar, Riley
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.

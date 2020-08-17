@@ -553,6 +553,11 @@ argument `skip = 3`. We'll assign the newly read dataset to the fifth element of
 the `all_files` list:
 
 
+```r
+all_files[[5]] <-
+  # Skip the first 3 lines instead of the first 4
+  read_csv(filenames[[5]], skip = 3)
+```
 
 Try printing `all_files` now. You can confirm we fixed the problem by checking
 that the variable names are correct.
@@ -733,7 +738,7 @@ you can run the following code to load it directly from the {dataedu} package:
 
 
 ```r
-longitudinal_data <- dataedu::longitudinal_data
+longitudinal_data <- dataedu::child_counts
 ```
 
 ### Filter for the Desired Disabilities and Age Groups
@@ -1421,8 +1426,8 @@ female students to learn about the ratio of female to male students? Similarly,
 we should ask the question Do we have enough data points across our year
 variable to learn about how this ratio has changed over time?
 
-To answer that question, let's start by making a new dataset that excludes any
-rows where the `f` variables has a value that is less than or equal to 500,000.
+To answer that question, let's start by making a new dataset that includes any
+rows where the `f` variable has a value that is less than or equal to 500,000.
 We'll convert the `year` variable to a factor data type--we'll see how this
 helps in a bit. We'll also add a column called `ratio` that contains the male to
 female count ratio.
