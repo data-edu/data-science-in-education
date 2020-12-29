@@ -154,12 +154,10 @@ iris_with_dummy_codes %>%
 ```
 
 ```
-## # A tibble: 3 x 5
-##   Species    Speciessetosa Speciesversicolor Speciesvirginica     n
-##   <fct>              <int>             <int>            <int> <int>
-## 1 setosa                 1                 0                0    50
-## 2 versicolor             0                 1                0    50
-## 3 virginica              0                 0                1    50
+##      Species Speciessetosa Speciesversicolor Speciesvirginica  n
+## 1     setosa             1                 0                0 50
+## 2 versicolor             0                 1                0 50
+## 3  virginica             0                 0                1 50
 ```
 
 Now that we have a basic understanding of how dummy codes work, let's now explore how we use them in our model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
@@ -258,153 +256,153 @@ tab_model(m_linear_dc,
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S116-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.59</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-10.88&nbsp;&ndash;&nbsp;7.70</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S116&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.59</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;10.88&nbsp;&ndash;&nbsp;7.70</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.737</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-9.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-17.44&nbsp;&ndash;&nbsp;-0.67</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;9.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;17.44&nbsp;&ndash;&nbsp;-0.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.034</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-4.51</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-16.41&nbsp;&ndash;&nbsp;7.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;4.51</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;16.41&nbsp;&ndash;&nbsp;7.40</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.457</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">7.24</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-6.34&nbsp;&ndash;&nbsp;20.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;6.34&nbsp;&ndash;&nbsp;20.82</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.296</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-3.56</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-12.67&nbsp;&ndash;&nbsp;5.55</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.56</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;12.67&nbsp;&ndash;&nbsp;5.55</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.443</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-14.67</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-31.61&nbsp;&ndash;&nbsp;2.26</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;14.67</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;31.61&nbsp;&ndash;&nbsp;2.26</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.089</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">9.18</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.84&nbsp;&ndash;&nbsp;37.20</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.84&nbsp;&ndash;&nbsp;37.20</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.520</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">12.02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.33&nbsp;&ndash;&nbsp;19.70</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-3.14</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-17.36&nbsp;&ndash;&nbsp;11.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;17.36&nbsp;&ndash;&nbsp;11.08</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.665</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-03]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.51</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-5.43&nbsp;&ndash;&nbsp;12.46</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;5.43&nbsp;&ndash;&nbsp;12.46</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.441</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-04]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-14.98&nbsp;&ndash;&nbsp;25.43</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;14.98&nbsp;&ndash;&nbsp;25.43</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.612</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">9.92</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.41&nbsp;&ndash;&nbsp;17.43</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.010</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">7.37</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-2.70&nbsp;&ndash;&nbsp;17.45</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.70&nbsp;&ndash;&nbsp;17.45</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.151</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-03]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.38</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-25.65&nbsp;&ndash;&nbsp;30.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;25.65&nbsp;&ndash;&nbsp;30.40</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.868</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-04]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">15.40</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-2.92&nbsp;&ndash;&nbsp;33.72</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.92&nbsp;&ndash;&nbsp;33.72</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.099</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">8.12</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-12.08&nbsp;&ndash;&nbsp;28.33</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;12.08&nbsp;&ndash;&nbsp;28.33</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.430</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.06</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-5.67&nbsp;&ndash;&nbsp;13.79</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;5.67&nbsp;&ndash;&nbsp;13.79</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.413</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.02</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-9.89&nbsp;&ndash;&nbsp;13.93</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;9.89&nbsp;&ndash;&nbsp;13.93</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.739</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-03]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.75</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-57.86&nbsp;&ndash;&nbsp;20.36</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.75</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;57.86&nbsp;&ndash;&nbsp;20.36</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.347</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-6.41</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-15.04&nbsp;&ndash;&nbsp;2.22</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;6.41</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;15.04&nbsp;&ndash;&nbsp;2.22</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.145</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-2.76</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-13.47&nbsp;&ndash;&nbsp;7.95</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.76</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;13.47&nbsp;&ndash;&nbsp;7.95</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.613</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-T116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-2.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-16.97&nbsp;&ndash;&nbsp;12.87</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-T116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;16.97&nbsp;&ndash;&nbsp;12.87</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.787</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">15.35</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">6.99&nbsp;&ndash;&nbsp;23.71</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.40</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-6.01&nbsp;&ndash;&nbsp;16.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;6.01&nbsp;&ndash;&nbsp;16.82</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.353</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">20.73</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-7.23&nbsp;&ndash;&nbsp;48.70</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;7.23&nbsp;&ndash;&nbsp;48.70</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.146</td>
 </tr>
 <tr>
@@ -477,153 +475,153 @@ tab_model(m_linear_dc_1,
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-15.35</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-23.71&nbsp;&ndash;&nbsp;-6.99</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;15.35</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;23.71&nbsp;&ndash;&nbsp;-6.99</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S116-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-16.94</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-26.20&nbsp;&ndash;&nbsp;-7.67</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S116&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;16.94</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;26.20&nbsp;&ndash;&nbsp;-7.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-24.40</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-32.77&nbsp;&ndash;&nbsp;-16.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;24.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;32.77&nbsp;&ndash;&nbsp;-16.04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-19.86</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-31.71&nbsp;&ndash;&nbsp;-8.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;19.86</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;31.71&nbsp;&ndash;&nbsp;-8.01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-T116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-8.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-21.64&nbsp;&ndash;&nbsp;5.42</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-T116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;8.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;21.64&nbsp;&ndash;&nbsp;5.42</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.240</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.91</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-27.72&nbsp;&ndash;&nbsp;-10.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.91</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;27.72&nbsp;&ndash;&nbsp;-10.09</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-30.02</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-46.80&nbsp;&ndash;&nbsp;-13.24</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;30.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;46.80&nbsp;&ndash;&nbsp;-13.24</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-T116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-6.17</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-34.09&nbsp;&ndash;&nbsp;21.75</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-T116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;6.17</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;34.09&nbsp;&ndash;&nbsp;21.75</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.664</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-3.33</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-10.76&nbsp;&ndash;&nbsp;4.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.33</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;10.76&nbsp;&ndash;&nbsp;4.10</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.379</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.49</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-32.58&nbsp;&ndash;&nbsp;-4.39</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;32.58&nbsp;&ndash;&nbsp;-4.39</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.010</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-03]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-11.84</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-20.59&nbsp;&ndash;&nbsp;-3.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;11.84</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;20.59&nbsp;&ndash;&nbsp;-3.08</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.008</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-04]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-10.12</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-30.32&nbsp;&ndash;&nbsp;10.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;10.12</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;30.32&nbsp;&ndash;&nbsp;10.08</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.326</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-5.43</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-12.62&nbsp;&ndash;&nbsp;1.75</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;5.43</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;12.62&nbsp;&ndash;&nbsp;1.75</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.138</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-7.97</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-17.85&nbsp;&ndash;&nbsp;1.90</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;7.97</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;17.85&nbsp;&ndash;&nbsp;1.90</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.113</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-03]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-12.97</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-40.89&nbsp;&ndash;&nbsp;14.95</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;12.97</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;40.89&nbsp;&ndash;&nbsp;14.95</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.362</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-04]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.15&nbsp;&ndash;&nbsp;18.25</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.15&nbsp;&ndash;&nbsp;18.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.996</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-T116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-7.22</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-27.47&nbsp;&ndash;&nbsp;13.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-T116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;7.22</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;27.47&nbsp;&ndash;&nbsp;13.02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.484</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-11.29</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-20.98&nbsp;&ndash;&nbsp;-1.60</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;11.29</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;20.98&nbsp;&ndash;&nbsp;-1.60</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.022</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-13.33</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-25.16&nbsp;&ndash;&nbsp;-1.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;13.33</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;25.16&nbsp;&ndash;&nbsp;-1.49</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.027</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-03]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-34.10</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-73.17&nbsp;&ndash;&nbsp;4.97</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;34.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;73.17&nbsp;&ndash;&nbsp;4.97</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.087</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-21.76</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-30.29&nbsp;&ndash;&nbsp;-13.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;21.76</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;30.29&nbsp;&ndash;&nbsp;-13.23</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-02]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-18.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-28.66&nbsp;&ndash;&nbsp;-7.56</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;18.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;28.66&nbsp;&ndash;&nbsp;-7.56</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-T116-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-17.40</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-32.22&nbsp;&ndash;&nbsp;-2.58</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-T116&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;17.40</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;32.22&nbsp;&ndash;&nbsp;-2.58</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.021</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-S216-01]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-9.94</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-21.16&nbsp;&ndash;&nbsp;1.28</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-S216&#45;01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;9.94</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;21.16&nbsp;&ndash;&nbsp;1.28</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.082</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.39</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-22.55&nbsp;&ndash;&nbsp;33.32</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;22.55&nbsp;&ndash;&nbsp;33.32</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.705</td>
 </tr>
 <tr>
@@ -675,157 +673,157 @@ tab_model(m_linear_dc_2,
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">88.55</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">82.83&nbsp;&ndash;&nbsp;94.27</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">73.20</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">67.20&nbsp;&ndash;&nbsp;79.20</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S116-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S116&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">71.61</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">64.38&nbsp;&ndash;&nbsp;78.83</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">64.15</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">58.12&nbsp;&ndash;&nbsp;70.17</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-S216-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-S216&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">68.69</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">58.35&nbsp;&ndash;&nbsp;79.04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [AnPhA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idAnPhA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">80.44</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">68.20&nbsp;&ndash;&nbsp;92.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">69.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">62.89&nbsp;&ndash;&nbsp;76.40</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">58.53</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">42.74&nbsp;&ndash;&nbsp;74.32</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [BioA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idBioA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">82.38</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">55.04&nbsp;&ndash;&nbsp;109.72</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">85.22</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">80.46&nbsp;&ndash;&nbsp;89.98</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">70.06</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">57.18&nbsp;&ndash;&nbsp;82.94</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-03]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">76.71</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">70.08&nbsp;&ndash;&nbsp;83.34</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S116-04]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S116&#45;04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">78.43</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">59.08&nbsp;&ndash;&nbsp;97.78</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">83.12</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">78.72&nbsp;&ndash;&nbsp;87.52</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">80.57</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">72.51&nbsp;&ndash;&nbsp;88.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-03]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">75.58</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">48.23&nbsp;&ndash;&nbsp;102.92</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-S216-04]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-S216&#45;04</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">88.60</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">71.31&nbsp;&ndash;&nbsp;105.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [FrScA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idFrScA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">81.32</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">61.94&nbsp;&ndash;&nbsp;100.71</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">77.26</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">69.49&nbsp;&ndash;&nbsp;85.03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">75.22</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">64.88&nbsp;&ndash;&nbsp;85.56</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S116-03]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S116&#45;03</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">54.45</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">15.80&nbsp;&ndash;&nbsp;93.10</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.006</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">66.79</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">60.50&nbsp;&ndash;&nbsp;73.07</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-S216-02]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-S216&#45;02</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">70.44</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">61.57&nbsp;&ndash;&nbsp;79.31</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [OcnA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idOcnA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">71.15</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">57.48&nbsp;&ndash;&nbsp;84.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-S216-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-S216&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">78.60</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">68.94&nbsp;&ndash;&nbsp;88.27</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_id [PhysA-T116-01]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">course_idPhysA-T116&#45;01</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">93.93</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">66.60&nbsp;&ndash;&nbsp;121.27</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</td>

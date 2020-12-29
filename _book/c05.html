@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Getting Started with R and RStudio | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Getting Started with R and RStudio | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -61,9 +62,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -72,14 +73,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -88,9 +91,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -623,11 +626,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Installing the {dataedu} package</li>
 <li>Exploring R with the {swirl} package</li>
 </ul>
-<p><em>If</em> you already have experience using R and RStudio, you may find some of the contents of this chapter to be a refresher—or as a chance to learn a few new things about setting up and using them. If you are looking to get started with the very basics of data loading and manipulation using the {tidyverse} <span class="citation">(Wickham et al., <a href="references.html#ref-wickham2019">2019</a>)</span> right now, consider reading this chapter quickly and then starting <a href="c06.html#c06">Chapter 6</a>, which covers foundational skills.</p>
+<p><em>If</em> you already have experience using R and RStudio, you may find some of the contents of this chapter to be a refresher—or as a chance to learn a few new things about setting up and using them. If you are looking to get started with the very basics of data loading and manipulation using the {tidyverse} <span class="citation">(Wickham et al., <a href="references.html#ref-wickham2019" role="doc-biblioref">2019</a>)</span> right now, consider reading this chapter quickly and then starting <a href="c06.html#c06">Chapter 6</a>, which covers foundational skills.</p>
 </div>
 <div id="downloading-r-and-rstudio" class="section level2">
 <h2><span class="header-section-number">5.4</span> Downloading R and RStudio</h2>
-<p>First, you will need to download the latest versions of R <span class="citation">(R Core Team, <a href="references.html#ref-rcoreteam">2019</a>)</span> and RStudio <span class="citation">(RStudio Team, <a href="references.html#ref-rstudio">2015</a>)</span>.
+<p>First, you will need to download the latest versions of R <span class="citation">(R Core Team, <a href="references.html#ref-rcoreteam" role="doc-biblioref">2019</a>)</span> and RStudio <span class="citation">(RStudio Team, <a href="references.html#ref-rstudio" role="doc-biblioref">2015</a>)</span>.
 R is a free environment for statistical computing and graphics using the programming language R.
 RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.</p>
 <p>Although you will likely use RStudio as your main console and editor, <em>you must first install R</em> as RStudio uses R behind the scenes. Both R and RStudio are freely available, cross-platform, and open-source.</p>
@@ -663,7 +666,7 @@ One of the most reliable ways to tell if you’re opening R or RStudio is to loo
 Figure 5.1: Icons
 </p>
 </div>
-<p>Whenever we want to work with R, we’ll open RStudio. RStudio interfaces directly with R, and is an <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment (IDE). This means that RStudio comes with built-in features that make using R a little easier. If you’d like more information on the difference between R and RStudio, we recommend the “Getting Started” section of the <em><a href="https://moderndive.com/1-getting-started.html#">Modern Dive</a></em> (https<a href=""></a>://moderndive.com/1-getting-started.html#) textbook <span class="citation">(Ismay &amp; Kim, <a href="references.html#ref-statisticalinf">2019</a>)</span>.</p>
+<p>Whenever we want to work with R, we’ll open RStudio. RStudio interfaces directly with R, and is an <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment (IDE). This means that RStudio comes with built-in features that make using R a little easier. If you’d like more information on the difference between R and RStudio, we recommend the “Getting Started” section of the <em><a href="https://moderndive.com/1-getting-started.html#">Modern Dive</a></em> (https<a href=""></a>://moderndive.com/1-getting-started.html#) textbook <span class="citation">(Ismay &amp; Kim, <a href="references.html#ref-statisticalinf" role="doc-biblioref">2019</a>)</span>.</p>
 <p>You do not <em>have</em> to use RStudio to access R, and many people don’t!</p>
 <p>Other IDEs that work with R include:</p>
 <ul>
@@ -771,7 +774,7 @@ R has returned the sum of <code>3 + 4</code> on a new line, next to <code>[1]</c
 The <code>[1]</code> tells us that there is one row of data.</p>
 <p>We can also use R to print out text.
 Type the following in the Console and hit <code>Enter</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">print</span>(<span class="st">&quot;I am learning R&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="c05.html#cb1-1"></a><span class="kw">print</span>(<span class="st">&quot;I am learning R&quot;</span>)</span></code></pre></div>
 <p>We should see this in the Console:</p>
 <div class="figure" style="text-align: center"><span id="fig:fig5-10"></span>
 <img src="man/figures/Figure%205.10.png" alt="Printing Text to the Console" width="100%" />
@@ -781,7 +784,7 @@ Figure 5.10: Printing Text to the Console
 </div>
 <p>There’s one error that you’re likely going to come across, both when running code in the Console as well as in an R script.
 Let’s explore that error now by running the following code in the Console and hitting <code>Enter</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">print</span>(<span class="st">&quot;This is going to cause a problem&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="c05.html#cb2-1"></a><span class="kw">print</span>(<span class="st">&quot;This is going to cause a problem&quot;</span></span></code></pre></div>
 <p>Make sure that you left off the closing parenthesis!
 What you’ll see in the Console is:</p>
 <div class="figure" style="text-align: center"><span id="fig:fig5-11"></span>
@@ -808,13 +811,13 @@ Can you think of when you might want to use one option instead of the other?</p>
 - Highlight the line(s) of code you’d like to run and click the “Run” button in the <code>R script</code> pane<br />
 - To run <em>every</em> line of code in your file you can press <code>Ctrl</code> + <code>Shift</code> + <code>Enter</code></p>
 <p>Create a new <code>.R</code> script, or open the one you created earlier in this chapter. Next, type in the following code and run it using each of the options listed above.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">print</span>(<span class="st">&quot;We&#39;re going to use R as a calculator.&quot;</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw">print</span>(<span class="st">&quot;First up, addition!&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="dv">12</span> <span class="op">+</span><span class="st"> </span><span class="dv">8</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="dv">632</span> <span class="op">+</span><span class="st"> </span><span class="dv">41</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="kw">print</span>(<span class="st">&quot;Next, subtraction!&quot;</span>)</a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="dv">48</span> <span class="op">-</span><span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="fl">0.65</span> <span class="op">-</span><span class="st"> </span><span class="fl">1.42</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="c05.html#cb3-1"></a><span class="kw">print</span>(<span class="st">&quot;We&#39;re going to use R as a calculator.&quot;</span>)</span>
+<span id="cb3-2"><a href="c05.html#cb3-2"></a><span class="kw">print</span>(<span class="st">&quot;First up, addition!&quot;</span>)</span>
+<span id="cb3-3"><a href="c05.html#cb3-3"></a><span class="dv">12</span> <span class="op">+</span><span class="st"> </span><span class="dv">8</span></span>
+<span id="cb3-4"><a href="c05.html#cb3-4"></a><span class="dv">632</span> <span class="op">+</span><span class="st"> </span><span class="dv">41</span></span>
+<span id="cb3-5"><a href="c05.html#cb3-5"></a><span class="kw">print</span>(<span class="st">&quot;Next, subtraction!&quot;</span>)</span>
+<span id="cb3-6"><a href="c05.html#cb3-6"></a><span class="dv">48</span> <span class="op">-</span><span class="st"> </span><span class="dv">6</span></span>
+<span id="cb3-7"><a href="c05.html#cb3-7"></a><span class="fl">0.65</span> <span class="op">-</span><span class="st"> </span><span class="fl">1.42</span></span></code></pre></div>
 <p>Feel free to spend some more time writing and running code within your <code>.R</code> script, or move on to the next section, where we’ll add comments to our code.</p>
 </div>
 <div id="commenting-your-code-in-r" class="section level3">
@@ -827,12 +830,12 @@ Comments are ignored by R when running a script, so they will not affect your co
 Be careful when excluding certain lines of code, especially in longer files, as it can be easy to forget where you’ve commented out code.
 It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out individual lines of code.</p>
 <p>We can also write comments in-line with our code, like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&#39; this will be a short code example.</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&#39; you are not expected to know what this does,</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&#39; nor do you need to try running it on your computer.</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw">library</span>(readr)  <span class="co"># load the readr package</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="kw">library</span>(here)  <span class="co"># load the here package</span></a>
-<a class="sourceLine" id="cb4-6" title="6">data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;file_path&quot;</span>, <span class="st">&quot;file_name.csv&quot;</span>))  <span class="co"># save file_name.csv as data</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="c05.html#cb4-1"></a><span class="co">#&#39; this will be a short code example.</span></span>
+<span id="cb4-2"><a href="c05.html#cb4-2"></a><span class="co">#&#39; you are not expected to know what this does,</span></span>
+<span id="cb4-3"><a href="c05.html#cb4-3"></a><span class="co">#&#39; nor do you need to try running it on your computer.</span></span>
+<span id="cb4-4"><a href="c05.html#cb4-4"></a><span class="kw">library</span>(readr)  <span class="co"># load the readr package</span></span>
+<span id="cb4-5"><a href="c05.html#cb4-5"></a><span class="kw">library</span>(here)  <span class="co"># load the here package</span></span>
+<span id="cb4-6"><a href="c05.html#cb4-6"></a>data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="kw">here</span>(<span class="st">&quot;file_path&quot;</span>, <span class="st">&quot;file_name.csv&quot;</span>))  <span class="co"># save file_name.csv as data</span></span></code></pre></div>
 <p>If you think you’ll be writing more than one line of comments, you can do a pound sign followed by a single quotation mark (<code>#'</code>).
 This will continue to comment out lines of text or code each time you hit <code>Enter</code>.
 You can delete the <code>#'</code> on a new line where you want to write code for R to run.
@@ -854,10 +857,10 @@ This method is useful when you’re writing a long description of what you’re 
 </ol>
 <p>If you feel that you need more information before you’re ready to install the package, you can skip this section and rest assured that we’ll cover packages, their installation, and how to load them into R in more depth in <a href="c06.html#c06">Chapter 6</a>.
 However, if you’re feeling a bit adventurous, go ahead and give it a shot by running the code below. <em>Please note that the {dataedu} package requires R version 3.6 or higher to run.</em></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># install devtools</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="co"># install the dataedu package (requires R version 3.6 or higher)</span></a>
-<a class="sourceLine" id="cb5-4" title="4">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="c05.html#cb5-1"></a><span class="co"># install devtools</span></span>
+<span id="cb5-2"><a href="c05.html#cb5-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</span>
+<span id="cb5-3"><a href="c05.html#cb5-3"></a><span class="co"># install the dataedu package (requires R version 3.6 or higher)</span></span>
+<span id="cb5-4"><a href="c05.html#cb5-4"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</span></code></pre></div>
 <p><em>A special note on {tabulizer}:</em>
 One of the walkthroughs uses <a href="https://github.com/ropensci/tabulizer">{tabulizer}</a>, created by ROpenSci to read PDFs.
 {tabulizer} requires the installation of <a href="https://cran.r-project.org/web/packages/rJava/index.html">RJava</a>, which can be a tricky process on Mac computers.
@@ -867,12 +870,12 @@ Neither {tabulizer} nor {RJava} are included in <code>mass_install()</code> and 
 <h2><span class="header-section-number">5.8</span> Exploring R with the {swirl} Package</h2>
 <p>If you were able to install the {dataedu} package without any issues or concerns and you’re eager to get started exploring everything that R can do, you can supplement your learning through <a href="https://swirlstats.com/students.html">{swirl}</a> (https<a href=""></a>://swirlstats.com/students.html).</p>
 <p>You can install {swirl} by running the following code:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;swirl&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="c05.html#cb6-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;swirl&quot;</span>)</span></code></pre></div>
 <p>{swirl} is set of packages (see more on packages in <a href="c06.html#c06">Chapter 6</a>) that you can download, providing an interactive method for learning R by using R in the RStudio Console.<br />
 Since you’ve already installed R, RStudio, and the {swirl} package, you can follow the instructions on the {swirl} webpage or run the following code <em>in your Console pane</em> to get started with a beginner-level course in {swirl}:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(swirl)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">install_course</span>(<span class="st">&quot;R_Programming_E&quot;</span>)</a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="kw">swirl</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="c05.html#cb7-1"></a><span class="kw">library</span>(swirl)</span>
+<span id="cb7-2"><a href="c05.html#cb7-2"></a><span class="kw">install_course</span>(<span class="st">&quot;R_Programming_E&quot;</span>)</span>
+<span id="cb7-3"><a href="c05.html#cb7-3"></a><span class="kw">swirl</span>()</span></code></pre></div>
 <p>There are multiple courses available on {swirl}, and you can access them by installing them and then running the <code>swirl()</code> command in your console.
 We are not affiliated with {swirl} in any way, nor is {swirl} required to progress through this text, but it’s a great resource that we want to make sure is on your radar!</p>
 </div>

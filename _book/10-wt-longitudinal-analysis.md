@@ -720,7 +720,7 @@ str(child_counts)
 ```
 
 ```
-## tibble [97,387 × 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+## tibble [97,387 × 8] (S3: tbl_df/tbl/data.frame)
 ##  $ Year                     : num [1:97387] 2012 2012 2012 2012 2012 ...
 ##  $ State Name               : chr [1:97387] "ALABAMA" "ALABAMA" "ALABAMA" "ALABAMA" ...
 ##  $ SEA Education Environment: chr [1:97387] "Correctional Facilities" "Home" "Homebound/Hospital" "Inside regular class 40% through 79% of day" ...
@@ -729,6 +729,12 @@ str(child_counts)
 ##  $ Male Age 3 to 5          : chr [1:97387] "-" "174" "-" "-" ...
 ##  $ Female Age 6 to 21       : chr [1:97387] "4" "-" "104" "1590" ...
 ##  $ Male Age 6 to 21         : chr [1:97387] "121" "-" "130" "3076" ...
+##  - attr(*, "problems")= tibble [3 × 5] (S3: tbl_df/tbl/data.frame)
+##   ..$ row     : int [1:3] 16228 16229 16230
+##   ..$ col     : chr [1:3] "Year" "Year" "Year"
+##   ..$ expected: chr [1:3] "a double" "a double" "a double"
+##   ..$ actual  : chr [1:3] "-------------------" "-   Data not available" "x   Data supressed due to small cell size"
+##   ..$ file    : chr [1:3] "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'"
 ```
 
 ### Importing the data from the {dataedu} package
@@ -920,7 +926,13 @@ child_counts <-
 ```
 
 ```
-## Warning: NAs introduced by coercion
+## Warning: Problem with `mutate()` input `total`.
+## ℹ NAs introduced by coercion
+## ℹ Input `total` is `as.numeric(total)`.
+```
+
+```
+## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
 ```
 
 ```r
@@ -1104,6 +1116,10 @@ child_counts %>%
   summarize(mean_count = mean(total)) %>%
   # which six states have the highest mean count of students with disabilities
   top_n(6, mean_count)
+```
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```
@@ -1561,6 +1577,10 @@ model_data %>%
 ```
 
 ```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```
 ## # A tibble: 6 x 2
 ##   year  mean_ratio
 ##   <fct>      <dbl>
@@ -1625,6 +1645,10 @@ looking at the median male to female ratio for each year:
 model_data %>%
   group_by(year) %>%
   summarize(median_ratio = median(ratio))
+```
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
 ```
 
 ```

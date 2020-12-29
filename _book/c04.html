@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Special Considerations | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Special Considerations | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -61,9 +62,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -72,14 +73,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -88,9 +91,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -600,7 +603,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="addressing-ambiguity-a-reproducible-approach" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Addressing Ambiguity: A Reproducible Approach</h3>
 <p>Educators often feel wary of data science processes because of their ambiguity. One way to address this concern is to build analytic processes that are transparent. Specifically, it is helpful if the data scientist in education is open about what data is collected, how it is collected, how it is analyzed, and how it is considered alongside other data when used in decision-making conversations. This transparency can be achieved through a number of activities, including having regular conversations about analytic methods, providing written reports describing data collection, and receiving input about analytic goals from staff members.</p>
-<p>One such process for achieving openness in data collection and analysis is called “reproducible research”. The concept of reproducible work <span class="citation">(Wikipedia, <a href="references.html#ref-wikipedia2020reproducible">2020</a>)</span> is the idea that a completed analysis should come with all the necessary materials, including a description of methodology and programming code, needed for someone else to run the analysis and achieve the same results.</p>
+<p>One such process for achieving openness in data collection and analysis is called “reproducible research”. The concept of reproducible work <span class="citation">(Wikipedia, <a href="references.html#ref-wikipedia2020reproducible" role="doc-biblioref">2020</a>)</span> is the idea that a completed analysis should come with all the necessary materials, including a description of methodology and programming code, needed for someone else to run the analysis and achieve the same results.</p>
 <p>A reproducible approach can be especially beneficial in transition periods. If a data-science-in-school advocate leaves their original position, they would leave behind not just descriptions of the analyses that they did, but also the specific files needed to run the analyses again. The new individual who takes their place will be able to seamlessly transition into the new role. If asked to run “the same report I always got from your predecessor”, the new person will understand immediately what files were needed to create that original report and will be able to request all necessary data to generate a new version of the report.</p>
 <p>To implement a reproducible approach in your organization, you can start by keeping all files related to each project you do in their own folders. As you create reports from the data, keeping notes in the files will help you easily generate similar reports in the future. Many educators find that even though changing administration might mean changing requests, having careful documentation of past processes allows for more efficiency in the way they use data to answer those requests.</p>
 </div>
@@ -622,7 +625,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="lack-of-processes-and-guidelines" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Lack of Processes and Guidelines</h3>
-<p>Educators have concerns about the ambiguity of data science processes because we do not yet have a good idea of the best practices in our field. While there is a body of past research on <em>students’</em> work with data (see <span class="citation">Lee &amp; Wilkerson (<a href="references.html#ref-msdatause">2018</a>)</span> for a review), there is limited information from case- or design-based research on how others in education—teachers, administrators, and data scientists—use data in their work. This challenge is reflected in part in the variability in the job titles of those who work with data: some are data analysts, some are research associates, and the list continues. However, as educational data science emerges as a field, some school districts are now hiring for data scientist positions. Even so, there is a lack of an organizing body that brings all these people together. There are a multitude of discipline-specific (e.g., science teaching) or department-specific (e.g., institutional research) conferences, but no overarching norms universal to those who work with data in education.</p>
+<p>Educators have concerns about the ambiguity of data science processes because we do not yet have a good idea of the best practices in our field. While there is a body of past research on <em>students’</em> work with data (see <span class="citation">Lee &amp; Wilkerson (<a href="references.html#ref-msdatause" role="doc-biblioref">2018</a>)</span> for a review), there is limited information from case- or design-based research on how others in education—teachers, administrators, and data scientists—use data in their work. This challenge is reflected in part in the variability in the job titles of those who work with data: some are data analysts, some are research associates, and the list continues. However, as educational data science emerges as a field, some school districts are now hiring for data scientist positions. Even so, there is a lack of an organizing body that brings all these people together. There are a multitude of discipline-specific (e.g., science teaching) or department-specific (e.g., institutional research) conferences, but no overarching norms universal to those who work with data in education.</p>
 <p>Education is a field that is rich with data: survey, assessment, written, and policy and evaluation data, and more. Nevertheless, there often is a lack of common consensus on processes and procedures for educators and data scientists to share data and the results of data analysis with each other. Academic and research settings sometimes can lead to silos of information. A group of researchers at one university could do a survey, and another group doing similar work may not see the results until the study is published, years later. Sometimes, the second group never even becomes aware of the survey. The good news about this is that many education organizations are both curious and passionate about supporting student success. It is likely that even if many separate data collection efforts are being implemented (rather than one unified strategy), you will not be dealing with the problem of “I don’t have enough data to analyze”. As a pioneer for data science in your organization, you can help to clarify these redundant processes and can offer your skills to help make sense of the wealth of information already being gathered.</p>
 </div>
 <div id="limited-training-and-educational-opportunities" class="section level3">

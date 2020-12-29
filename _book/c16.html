@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>16 Teaching Data Science | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="16 Teaching Data Science | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -61,9 +62,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -72,14 +73,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -88,9 +91,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -603,7 +606,7 @@ data science</em>. In recognition of these dual meanings of data science in
 education, we’ve referred to the application of data science methods as
 “data science <em>in</em> education*, and the teaching and
 learning of data science as”data science *for" education
-<span class="citation">(Rosenberg et al., <a href="references.html#ref-rosenberg2020mdsc">2020</a>)</span>.</p>
+<span class="citation">(Rosenberg et al., <a href="references.html#ref-rosenberg2020mdsc" role="doc-biblioref">2020</a>)</span>.</p>
 <p>Naturally, educators who do data science are positioned well to try to
 teach others how to do data science. In addition, we expect readers of this book - many of whom will
 also be involved in education - will be interested in teaching others about data science.</p>
@@ -651,7 +654,7 @@ chapters.</p>
 <p>Differentiation is a method for providing multiple pathways for learners to
 engage with, understand, and ultimately apply new content and new skills. To
 differentiate this text, we first created personas of the common groups of readers
-we expected to read this book (see <span class="citation">Wilson (<a href="references.html#ref-wilson2009">2009</a>)</span> for an example of this
+we expected to read this book (see <span class="citation">Wilson (<a href="references.html#ref-wilson2009" role="doc-biblioref">2009</a>)</span> for an example of this
 approach).</p>
 <p>The objective was to write in a way that helped readers see themselves in the scenarios.
 The personas were a way to imagine our audience and guide who we interviewed to
@@ -682,7 +685,7 @@ These contributions included writing sections of the book in which contributors
 had specific expertise, asking clarifying questions, and, even creating a logo
 for the book which informed our choice of a color palette. We decided to write
 this book in the open after witnessing the success of other books on data
-science (such as <span class="citation">Wickham (<a href="references.html#ref-wickham2019advr">2019</a><a href="references.html#ref-wickham2019advr">a</a>)</span> <em>Advanced R</em> (<a href="https://adv-r.hadley.nz/" class="uri">https://adv-r.hadley.nz/</a>)
+science (such as <span class="citation">Wickham (<a href="references.html#ref-wickham2019advr" role="doc-biblioref">2019</a><a href="references.html#ref-wickham2019advr" role="doc-biblioref">a</a>)</span> <em>Advanced R</em> (<a href="https://adv-r.hadley.nz/" class="uri">https://adv-r.hadley.nz/</a>)
 book.</p>
 </div>
 </div>
@@ -693,14 +696,14 @@ book.</p>
 four core concepts (projects, functions, packages, and data) that are relevant to and used in nearly all data science projects.
 We chose to introduce this <em>general</em> framework before walkthroughs, which introduce <em>specific</em> techniques,
 in part to help readers to build a “mental model” of data science: an understanding of
-how data science tools and techniques at a level deeper than particular functions or individual lines of code (see <span class="citation">Krist et al. (<a href="references.html#ref-krist2019">2019</a>)</span>’s framework for
+how data science tools and techniques at a level deeper than particular functions or individual lines of code (see <span class="citation">Krist et al. (<a href="references.html#ref-krist2019" role="doc-biblioref">2019</a>)</span>’s framework for
 the development of <em>mental models</em> and this type of deeper understanding). Understanding both how R works as a programming language (what R code is)
 and how R and RStudio work as software programs can make it easier to troubleshoot the
 (inevitable!) issues and identify possible solutions in the course of working on educational data science projects.</p>
 <div id="universal-design" class="section level3">
 <h3><span class="header-section-number">16.3.1</span> Universal Design</h3>
-<p>In our original proposal for this book (see <span class="citation">Estrellado et al. (<a href="references.html#ref-dsieurproposal">2019</a>)</span>), we noted that
-Universal Design <span class="citation">(McTighe &amp; Willis, <a href="references.html#ref-mctighe2019upgrade">2019</a>; Wiggins et al., <a href="references.html#ref-wiggins2005understanding">2005</a>)</span> was a part
+<p>In our original proposal for this book (see <span class="citation">Estrellado et al. (<a href="references.html#ref-dsieurproposal" role="doc-biblioref">2019</a>)</span>), we noted that
+Universal Design <span class="citation">(McTighe &amp; Willis, <a href="references.html#ref-mctighe2019upgrade" role="doc-biblioref">2019</a>; Wiggins et al., <a href="references.html#ref-wiggins2005understanding" role="doc-biblioref">2005</a>)</span> was a part
 of our pedagogical framework. As we worked toward completing the book, we
 recognized that we did not fully meet the aims we had laid out. Here is what we
 wrote in the proposal:</p>
@@ -778,7 +781,7 @@ outstanding way for an individual to learn to use R.</p>
 </div>
 <div id="dont-touch-that-keyboard" class="section level3">
 <h3><span class="header-section-number">16.4.3</span> Don’t Touch That Keyboard!</h3>
-<p>Resist helping learners to the point of hindering their learning. <span class="citation">Wilson (<a href="references.html#ref-wilson2009">2009</a>)</span>
+<p>Resist helping learners to the point of hindering their learning. <span class="citation">Wilson (<a href="references.html#ref-wilson2009" role="doc-biblioref">2009</a>)</span>
 writes about the way in which those teaching others about R - or to program, in
 general - can find it easier to correct errors in learners’ work. But, by fixing
 errors, you may cause learners to feel that they are not capable of carrying out all
@@ -806,7 +809,7 @@ responses or answers that provide more clarity, rather than confusion.</p>
 <p>For example, there are complicated issues at the heart of why data that is
 built-in to packages or to R (such as the iris dataset) appear in the
 environment after they are first used in an R session (see the section on
-“promises” in <span class="citation">Wickham (<a href="references.html#ref-wickham2019advr">2019</a><a href="references.html#ref-wickham2019advr">a</a>)</span>). Similarly, there are complicated issues that
+“promises” in <span class="citation">Wickham (<a href="references.html#ref-wickham2019advr" role="doc-biblioref">2019</a><a href="references.html#ref-wickham2019advr" role="doc-biblioref">a</a>)</span>). Similarly, there are complicated issues that
 pertain to how functions are evaluated that can explain why it is important to
 provide the name of packages installed via <code>install.packages()</code> (whereas the
 names of arguments to other functions, such as <code>dplyr::select()</code> do not need to
@@ -814,14 +817,14 @@ be quoted).</p>
 </div>
 <div id="start-lessons-or-activities-with-visualizing-data" class="section level3">
 <h3><span class="header-section-number">16.4.5</span> Start Lessons or Activities With Visualizing Data</h3>
-<p>There are examples from data science books <span class="citation">Wickham &amp; Grolemund (<a href="references.html#ref-grolemund2018">2018</a>)</span> and past research
-(e.g., <span class="citation">Lehrer &amp; Schauble (<a href="references.html#ref-lehrer2015">2015</a>)</span>) that suggest that starting with visualizing data can be
-beneficial in terms of learners’ ability to work with data. <span class="citation">Wickham &amp; Grolemund (<a href="references.html#ref-grolemund2018">2018</a>)</span> write
+<p>There are examples from data science books <span class="citation">Wickham &amp; Grolemund (<a href="references.html#ref-grolemund2018" role="doc-biblioref">2018</a>)</span> and past research
+(e.g., <span class="citation">Lehrer &amp; Schauble (<a href="references.html#ref-lehrer2015" role="doc-biblioref">2015</a>)</span>) that suggest that starting with visualizing data can be
+beneficial in terms of learners’ ability to work with data. <span class="citation">Wickham &amp; Grolemund (<a href="references.html#ref-grolemund2018" role="doc-biblioref">2018</a>)</span> write
 that they begin their book, <em>Data Science Using R</em>, with a chapter on
 visualization, because doing so allows learners to create something they
 can share immediately, whereas tasks such as loading data can be rife with
 issues and do not immediately give learners a product they can
-share. <span class="citation">Lehrer et al. (<a href="references.html#ref-lehrer2007">2007</a>)</span> show how providing students with an opportunity to invent
+share. <span class="citation">Lehrer et al. (<a href="references.html#ref-lehrer2007" role="doc-biblioref">2007</a>)</span> show how providing students with an opportunity to invent
 statistics by displaying the data in new ways led to productive critique
 among fifth- and sixth-grade students and their teacher.</p>
 </div>
@@ -831,7 +834,7 @@ among fifth- and sixth-grade students and their teacher.</p>
 what to value or prioritize. Another is to consider data as a process that is
 value-laden, from deciding what question to ask (and what data to collect) to
 interpreting findings with attention to how others will make sense of them
-(e.g., <span class="citation">O’Neil (<a href="references.html#ref-oneill2016">2016</a>)</span>’s <em>Weapons of Math Destruction</em>, and <span class="citation">Lehrer et al. (<a href="references.html#ref-lehrer2007">2007</a>)</span>’s
+(e.g., <span class="citation">O’Neil (<a href="references.html#ref-oneill2016" role="doc-biblioref">2016</a>)</span>’s <em>Weapons of Math Destruction</em>, and <span class="citation">Lehrer et al. (<a href="references.html#ref-lehrer2007" role="doc-biblioref">2007</a>)</span>’s
 description of data modeling). From this broader view, choosing representative
 data is a choice, like others, that teachers can make. For example, instructors
 can choose data that directs attention to issues–equity-related issues in
@@ -870,8 +873,8 @@ Curricula</a> (http<a href=""></a>://oceansofdata.org/our-work/ocean-tracks-high
 </ul>
 <p>Last, there are also books that emphasize the importance–for teachers–of
 understanding their students–every student. These books include
-<span class="citation">(<span class="citeproc-not-found" data-reference-id="paris2017culturallya"><strong>???</strong></span>)</span> and <span class="citation">Kozol (<a href="references.html#ref-kozol2012savage">2012</a>)</span> and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
-students. <span class="citation">Moore Jr et al. (<a href="references.html#ref-moore2017guide">2017</a>)</span> and <span class="citation">Emdin (<a href="references.html#ref-emdin2016">2016</a>)</span> may be helpful for data science
+<span class="citation">(<span class="citeproc-not-found" data-reference-id="paris2017culturallya"><strong>???</strong></span>)</span> and <span class="citation">Kozol (<a href="references.html#ref-kozol2012savage" role="doc-biblioref">2012</a>)</span> and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
+students. <span class="citation">Moore Jr et al. (<a href="references.html#ref-moore2017guide" role="doc-biblioref">2017</a>)</span> and <span class="citation">Emdin (<a href="references.html#ref-emdin2016" role="doc-biblioref">2016</a>)</span> may be helpful for data science
 educators who aim to be aware and intentional about teaching students from
 backgrounds other than their own.</p>
 </div>
@@ -879,14 +882,14 @@ backgrounds other than their own.</p>
 <div id="general-strategies-related-to-teaching-and-learning" class="section level2">
 <h2><span class="header-section-number">16.5</span> General Strategies Related to Teaching and Learning</h2>
 <p>The National Academy of Science commissioned a report, <em>How People Learn</em>
-<span class="citation">(Bransford et al., <a href="references.html#ref-nrc2000">2000</a>)</span>, that aimed to summarize research on teaching and learning from educational psychology
+<span class="citation">(Bransford et al., <a href="references.html#ref-nrc2000" role="doc-biblioref">2000</a>)</span>, that aimed to summarize research on teaching and learning from educational psychology
 and the learning sciences. In 2018, the report was
-updated in <em>How People Learn II</em> <span class="citation">(National Academies of Sciences et al., <a href="references.html#ref-nrc2018">2018</a>)</span> with a new emphasis on the
+updated in <em>How People Learn II</em> <span class="citation">(National Academies of Sciences et al., <a href="references.html#ref-nrc2018" role="doc-biblioref">2018</a>)</span> with a new emphasis on the
 social and cultural aspects of teaching and learning. Both reports include general strategies
 that may be helpful to those teaching data science.</p>
 <p>In addition to these reports, there are some books that are more
-practical, including <span class="citation">Hattie (<a href="references.html#ref-hattie2012visible">2012</a>)</span>, <span class="citation">Lemov (<a href="references.html#ref-lemov2015teach">2015</a>)</span>, and
-<span class="citation">Bambrick-Santoyo (<a href="references.html#ref-bambrick2010driven">2010</a>)</span>. These may provide some answers to questions of how to teach
+practical, including <span class="citation">Hattie (<a href="references.html#ref-hattie2012visible" role="doc-biblioref">2012</a>)</span>, <span class="citation">Lemov (<a href="references.html#ref-lemov2015teach" role="doc-biblioref">2015</a>)</span>, and
+<span class="citation">Bambrick-Santoyo (<a href="references.html#ref-bambrick2010driven" role="doc-biblioref">2010</a>)</span>. These may provide some answers to questions of how to teach
 data science and how to mitigate some of the anxiety that teachers may feel.</p>
 <p>Below, we highlight some general teaching and learning strategies
 with an emphasis on strategies applicable to teaching and learning data science. These general strategies
@@ -934,9 +937,9 @@ can save hours of work.</p>
 <p>While teachers are responsible for designing learning opportunities, learners
 also play an important role in their own learning! According to the authors of
 <em>How People Learn II</em>, learning strategies matter, including those that help students
-retrieve, summarize, and explain what they have learned to themselves and others (see <span class="citation">National Academies of Sciences et al. (<a href="references.html#ref-nrc2018">2018</a>)</span> for an elaboration on these).</p>
+retrieve, summarize, and explain what they have learned to themselves and others (see <span class="citation">National Academies of Sciences et al. (<a href="references.html#ref-nrc2018" role="doc-biblioref">2018</a>)</span> for an elaboration on these).</p>
 <p>Teaching strategies, such as how content is spaced and sequenced, also help learners.
-<span class="citation">Dirksen (<a href="references.html#ref-dirksen2015">2015</a>)</span>’s <em>Design for How People Learn</em> presents these strategies, based largely on instructional
+<span class="citation">Dirksen (<a href="references.html#ref-dirksen2015" role="doc-biblioref">2015</a>)</span>’s <em>Design for How People Learn</em> presents these strategies, based largely on instructional
 design research, that may be helpful to those teaching data science.</p>
 <p>What is most important for teachers of data science is less the specific strategies,
 and more the commitment to teaching their students how to learn.</p>
