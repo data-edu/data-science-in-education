@@ -291,7 +291,7 @@ which may be helpful:
 
 Last, there are also books that emphasize the importance--for teachers--of
 understanding their students--every student. These books include
-@paris2017culturallya and @kozol2012savage and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
+@paris2017culturally and @kozol2012savage and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
 students. @moore2017guide and @emdin2016 may be helpful for data science
 educators who aim to be aware and intentional about teaching students from
 backgrounds other than their own.
