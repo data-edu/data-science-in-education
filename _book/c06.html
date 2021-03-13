@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Foundational Skills | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Foundational Skills | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -49,6 +49,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -61,9 +62,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -72,14 +73,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -88,9 +91,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -684,7 +687,7 @@ later.</li>
 <li>Click “Create Project”</li>
 </ol>
 <p>At this point, you should have a Project that will serve as a place to store any <code>.R</code> scripts that you create as you work through this text. If you’d like more practice, take a few moments to set up a couple of additional Projects by following the steps listed above. Within each Project, add and save <code>.R</code> scripts. Since this is just for practice, feel free to delete these Projects once you have the hang of the procedure.</p>
-<p>We should point out that it is not <em>necessary</em> to create a Project for your work, although we <em>strongly</em> recommend it. When you utilize Projects in tandem with the {here} package, you will be set up with an easy-to-use workflow. For more on using Projects with the {here} package, read <span class="citation">Bryan (<a href="references.html#ref-bryan2017">2017</a>)</span>’s <a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">article</a>(https:<a href=""></a>//www.tidyverse.org/blog/2017/12/workflow-vs-script/). We will also explain more about the {here} package later in this text. If you choose not to create a Project, you will still be able to navigate the walkthroughs in this text—and even carry out future analyses—relatively easily. However, be aware that at some point you will run into issues with how the files are structured on your computer.</p>
+<p>We should point out that it is not <em>necessary</em> to create a Project for your work, although we <em>strongly</em> recommend it. When you utilize Projects in tandem with the {here} package, you will be set up with an easy-to-use workflow. For more on using Projects with the {here} package, read <span class="citation">Bryan (<a href="references.html#ref-bryan2017" role="doc-biblioref">2017</a>)</span>’s <a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">article</a>(https:<a href=""></a>//www.tidyverse.org/blog/2017/12/workflow-vs-script/). We will also explain more about the {here} package later in this text. If you choose not to create a Project, you will still be able to navigate the walkthroughs in this text—and even carry out future analyses—relatively easily. However, be aware that at some point you will run into issues with how the files are structured on your computer.</p>
 <p>While we cannot emphasize enough how Projects and the {here} package streamline this process, you can always check where your computer is looking for your <code>.R</code> scripts by checking the working directory. To do that, you can run this code: <code>getwd()</code>. That code will let you know what file path R is currently pointing towards. If that is not what you wanted, you can then change your working directory manually by running <code>setwd()</code> and providing your file path name as an argument. The reason we do not advocate for this <code>getwd()</code> and <code>setwd()</code> workflow is that if you use it, it becomes impossible for someone on another computer (or you on a future computer) to run your code. The <code>getwd()</code> and <code>setwd()</code> commands point to a specific location on your own device.</p>
 </div>
 <div id="functions" class="section level2">
@@ -703,27 +706,27 @@ This is when you <em>know</em> you need to write a function.</p>
 _What this translates to is the idea that once you find yourself copying and pasting code for the third time, it’s time to write a function!)</p>
 <p>We’ll cover the very basics of writing a function, but we would strongly suggest you check out this <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">Creating Functions</a>(https:<a href=""></a>//swcarpentry.github.io/r-novice-inflammation/02-func-R/) tutorial from <a href="https:%5B%5D()//software-carpentry.org/">Software Carpentries</a>(<a href="https://software-carpentry.org/" class="uri">https://software-carpentry.org/</a>) for more information and practice.</p>
 <p>The template for writing a function is:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">name_of_function &lt;-<span class="st"> </span><span class="cf">function</span>(argument_<span class="dv">1</span>, argument_<span class="dv">2</span>, argument_n){</a>
-<a class="sourceLine" id="cb8-2" title="2">    code_that_does_something</a>
-<a class="sourceLine" id="cb8-3" title="3">    code_that_does_something_else</a>
-<a class="sourceLine" id="cb8-4" title="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="c06.html#cb8-1"></a>name_of_function &lt;-<span class="st"> </span><span class="cf">function</span>(argument_<span class="dv">1</span>, argument_<span class="dv">2</span>, argument_n){</span>
+<span id="cb8-2"><a href="c06.html#cb8-2"></a>    code_that_does_something</span>
+<span id="cb8-3"><a href="c06.html#cb8-3"></a>    code_that_does_something_else</span>
+<span id="cb8-4"><a href="c06.html#cb8-4"></a>}</span></code></pre></div>
 <p>Functions can be as simple or as complex as you like.
 For example, if we wanted to create a function that adds two numbers together, we would write:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co">#&#39; writing our function</span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&#39; we&#39;ve named the function &quot;addition&quot;</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&#39; and asked for two arguments, &quot;number_1&quot; and &quot;number_2&quot;</span></a>
-<a class="sourceLine" id="cb9-4" title="4">addition &lt;-<span class="st"> </span><span class="cf">function</span>(number_<span class="dv">1</span>, number_<span class="dv">2</span>) {</a>
-<a class="sourceLine" id="cb9-5" title="5">    number_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>number_<span class="dv">2</span></a>
-<a class="sourceLine" id="cb9-6" title="6">}</a>
-<a class="sourceLine" id="cb9-7" title="7"></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&#39; using our function</span></a>
-<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&#39; below are 3 separate examples of utilizing our new function called &quot;addition&quot;</span></a>
-<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&#39; note that we provide each argument separated by commas</span></a>
-<a class="sourceLine" id="cb9-11" title="11"><span class="kw">addition</span>(<span class="dt">number_1 =</span> <span class="dv">3</span>, <span class="dt">number_2 =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb9-12" title="12"></a>
-<a class="sourceLine" id="cb9-13" title="13"><span class="kw">addition</span>(<span class="fl">0.921</span>, <span class="fl">12.01</span>)</a>
-<a class="sourceLine" id="cb9-14" title="14"></a>
-<a class="sourceLine" id="cb9-15" title="15"><span class="kw">addition</span>(<span class="dv">62</span>, <span class="dv">34</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="c06.html#cb9-1"></a><span class="co">#&#39; writing our function</span></span>
+<span id="cb9-2"><a href="c06.html#cb9-2"></a><span class="co">#&#39; we&#39;ve named the function &quot;addition&quot;</span></span>
+<span id="cb9-3"><a href="c06.html#cb9-3"></a><span class="co">#&#39; and asked for two arguments, &quot;number_1&quot; and &quot;number_2&quot;</span></span>
+<span id="cb9-4"><a href="c06.html#cb9-4"></a>addition &lt;-<span class="st"> </span><span class="cf">function</span>(number_<span class="dv">1</span>, number_<span class="dv">2</span>) {</span>
+<span id="cb9-5"><a href="c06.html#cb9-5"></a>    number_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>number_<span class="dv">2</span></span>
+<span id="cb9-6"><a href="c06.html#cb9-6"></a>}</span>
+<span id="cb9-7"><a href="c06.html#cb9-7"></a></span>
+<span id="cb9-8"><a href="c06.html#cb9-8"></a><span class="co">#&#39; using our function</span></span>
+<span id="cb9-9"><a href="c06.html#cb9-9"></a><span class="co">#&#39; below are 3 separate examples of utilizing our new function called &quot;addition&quot;</span></span>
+<span id="cb9-10"><a href="c06.html#cb9-10"></a><span class="co">#&#39; note that we provide each argument separated by commas</span></span>
+<span id="cb9-11"><a href="c06.html#cb9-11"></a><span class="kw">addition</span>(<span class="dt">number_1 =</span> <span class="dv">3</span>, <span class="dt">number_2 =</span> <span class="dv">1</span>)</span>
+<span id="cb9-12"><a href="c06.html#cb9-12"></a></span>
+<span id="cb9-13"><a href="c06.html#cb9-13"></a><span class="kw">addition</span>(<span class="fl">0.921</span>, <span class="fl">12.01</span>)</span>
+<span id="cb9-14"><a href="c06.html#cb9-14"></a></span>
+<span id="cb9-15"><a href="c06.html#cb9-15"></a><span class="kw">addition</span>(<span class="dv">62</span>, <span class="dv">34</span>)</span></code></pre></div>
 <p><strong>Challenge Questions</strong></p>
 <ul>
 <li>For our newly written function “addition”, what happens if we only provide one argument?</li>
@@ -743,11 +746,11 @@ We’ll get into more detail on installing and loading packages now.</p>
 <p>In order to access the functions within a package, you must first install the package on your computer. There are a collection of R packages hosted on the internet on the CRAN website: <a href="https://cran.r-project.org/">CRAN</a>(https:<a href=""></a>//cran.r-project.org/), the <strong>C</strong>omprehensive <strong>R</strong> <strong>A</strong>rchive <strong>N</strong>etwork. These packages must meet certain quality standards, and they are regularly tested.</p>
 <p>If an R user feels that their package would benefit a broad audience, they may choose to submit their package to CRAN. The process of submitting a package and having it published through CRAN is beyond the scope of this book, but it’s important to point out that you—yes, you!—can create a package that you use all for yourself, share with colleagues, or submit to CRAN. Most of the packages we’ll be working with in this book are available on CRAN, which means that we can install them using the <code>install.packages()</code> function.</p>
 <p>If the package is on CRAN, we can install it by running the following code in the RStudio Console:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># template for installing a package</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</a>
-<a class="sourceLine" id="cb10-3" title="3"></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="co"># example of installing a package</span></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="c06.html#cb10-1"></a><span class="co"># template for installing a package</span></span>
+<span id="cb10-2"><a href="c06.html#cb10-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</span>
+<span id="cb10-3"><a href="c06.html#cb10-3"></a></span>
+<span id="cb10-4"><a href="c06.html#cb10-4"></a><span class="co"># example of installing a package</span></span>
+<span id="cb10-5"><a href="c06.html#cb10-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
 <p><em>Note that the name of the package needs to be inside quotation marks when using the <code>install.packages()</code> function.</em></p>
 <p>You can run the <code>install.packages()</code> functions within an <code>.R</code> script! However if you choose to do this, please make sure to comment out the line(s) of code that install packages after you have installed those packages. Commenting out the install packages commands will save you time in the future as you will not need to re-install packages each time you run a script.</p>
 <p>If you do not want to write code for installing packages, you can also navigate to the “Packages” tab of the “Files” pane, click “Install”, and then search for and install one or more packages.</p>
@@ -765,12 +768,12 @@ Figure 6.1: Image of the Packages Pane, which is Found in the Bottom Right Corne
 <p>A package is a like a book, a library is like a library; you use library() to check a package out of the library.
 -Hadley Wickham, Chief Scientist, RStudio</p>
 </blockquote>
-<p>Loading a package into our R environment signals to R that we would like to have access to all the functions available to us in that package. We can load a package, such as the {dplyr} package <span class="citation">(Wickham et al., <a href="references.html#ref-R-dplyr">2020</a>)</span>, using the following code:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># template for loading a package</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw">library</span>(package_name)  </a>
-<a class="sourceLine" id="cb11-3" title="3"></a>
-<a class="sourceLine" id="cb11-4" title="4"><span class="co"># example of loading a package</span></a>
-<a class="sourceLine" id="cb11-5" title="5"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<p>Loading a package into our R environment signals to R that we would like to have access to all the functions available to us in that package. We can load a package, such as the {dplyr} package <span class="citation">(Wickham et al., <a href="references.html#ref-R-dplyr" role="doc-biblioref">2020</a>)</span>, using the following code:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="c06.html#cb11-1"></a><span class="co"># template for loading a package</span></span>
+<span id="cb11-2"><a href="c06.html#cb11-2"></a><span class="kw">library</span>(package_name)  </span>
+<span id="cb11-3"><a href="c06.html#cb11-3"></a></span>
+<span id="cb11-4"><a href="c06.html#cb11-4"></a><span class="co"># example of loading a package</span></span>
+<span id="cb11-5"><a href="c06.html#cb11-5"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
 <p><em>Note that unlike installing a package, we do not need to put the package name inside quotation marks when we load the package into RStudio using the <code>library()</code> function.</em></p>
 <p>We only have to install a package once, but to use it, we have to load it each time we start a new R session.</p>
 <p>Sometimes you’ll see <code>require()</code> used instead of <code>library()</code>. We strongly advocate for the use of <code>library()</code>, as it forces R to load the package. If the package is not installed, or if there are issues with the package, RStudio will print out an error message. <code>require()</code>, on the other hand, will not give an error if the package is not available or if there are issues with the it.<br />
@@ -792,11 +795,11 @@ As R has grown in popularity, Google has gotten significantly better at returnin
 <h3><span class="header-section-number">6.8.5</span> Installing the {dataedu} package</h3>
 <p>In <a href="c05.html#c05">Chapter 5</a>, we provided the following code for installing the {dataedu} package. There are related packages that {dataedu} will install for you when you install the {dataedu} package. If you run into difficulties, a good place to start is re-installing the package to make sure you have the most updated version.
 If you installed the {dataedu} package already, you can skip to the next section. Otherwise, go ahead and run the following code. <em>Please note that the {dataedu} package requires R version 3.6 or higher to run.</em></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># install devtools</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3"></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="co"># install the dataedu package</span></a>
-<a class="sourceLine" id="cb12-5" title="5">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="c06.html#cb12-1"></a><span class="co"># install devtools</span></span>
+<span id="cb12-2"><a href="c06.html#cb12-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;devtools&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</span>
+<span id="cb12-3"><a href="c06.html#cb12-3"></a></span>
+<span id="cb12-4"><a href="c06.html#cb12-4"></a><span class="co"># install the dataedu package</span></span>
+<span id="cb12-5"><a href="c06.html#cb12-5"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</span></code></pre></div>
 <p>Let’s take this code apart a bit.
 The first function, <code>install.packages("devtools", repos = "http://cran.us.r-project.org")</code>, has two arguments, <code>"devtools"</code> and <code>repos = "http://cran.us.r-project.org"</code>.
 The first argument, <code>"devtools"</code>, is the name of the package we want to install.
@@ -814,8 +817,8 @@ We have to take this approach to loading the {dataedu} package because the packa
 <p>Now that we’ve installed the {dataedu} package, we can load it using <code>library()</code>.
 You can create an <code>.R</code> script in your Project to load and explore the {dataedu} package.
 We’ll load the {dataedu} package by running the following code in an <code>.R</code> script:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># loading the dataedu package</span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="kw">library</span>(dataedu)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="c06.html#cb13-1"></a><span class="co"># loading the dataedu package</span></span>
+<span id="cb13-2"><a href="c06.html#cb13-2"></a><span class="kw">library</span>(dataedu)</span></code></pre></div>
 <p>When we work with packages, we <em>don’t</em> include the <code>install.packages()</code> function in an <code>.R</code> script, but we <em>do</em> include any <code>library()</code> functions that we use.
 This ensures that we know what packages we need to load into our RStudio environment, and signals to anyone else using our code which packages they’ll need to use to run our code.</p>
 </div>
@@ -861,7 +864,7 @@ They can then load the package any time that they want to use the functions, usi
 <p>We have <em>data</em> that we bring into a Project within RStudio, and you’re likely using R because you have some data that you would like to explore.
 Throughout this book, you’ll see data accessed in a multitude of ways.
 Sometimes, we’ve pulled the data directly from a website, while other times we ask you to load the data from a <code>.csv</code> or <code>.xls</code> file.
-We’ve also provided each of the datasets used in this book as <code>.rda</code> files that are accessible via the {dataedu} package <span class="citation">(Estrellado et al., <a href="references.html#ref-R-dataedu">2020</a>)</span>.
+We’ve also provided each of the datasets used in this book as <code>.rda</code> files that are accessible via the {dataedu} package <span class="citation">(Estrellado et al., <a href="references.html#ref-R-dataedu" role="doc-biblioref">2020</a>)</span>.
 We’ve provided additional resources for loading data from Excel, SAV, and Google Sheets in <a href="c20.html#c20a">Appendix A</a>.</p>
 <p>While it is possible to connect directly to a database from within R, we do not cover those skills in this text.
 For those curious about how to accomplish this, we recommend starting with the <a href="https://db.rstudio.com/">Databases using R</a> (https<a href=""></a>://db.rstudio.com/) resource from RStudio.</p>
@@ -903,15 +906,15 @@ For this section, we’ll use the example of encountering a function for the fir
 <div id="activate-prior-knowledge" class="section level3">
 <h3><span class="header-section-number">6.11.1</span> Activate Prior Knowledge</h3>
 <p>You’ve been reading through a tutorial and have come across the <code>coalesce()</code> function in the vignette for the <a href="https://github.com/sfirke/janitor">{janitor} function</a>(https:<a href=""></a>//github.com/sfirke/janitor):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="kw">library</span>(janitor)</a>
-<a class="sourceLine" id="cb14-3" title="3"></a>
-<a class="sourceLine" id="cb14-4" title="4">roster &lt;-<span class="st"> </span>roster_raw <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="st">    </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="st">    </span><span class="kw">remove_empty</span>(<span class="kw">c</span>(<span class="st">&quot;rows&quot;</span>, <span class="st">&quot;cols&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-7" title="7"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">hire_date =</span> <span class="kw">excel_numeric_to_date</span>(hire_date),</a>
-<a class="sourceLine" id="cb14-8" title="8">           <span class="dt">cert =</span> <span class="kw">coalesce</span>(certification, certification_<span class="dv">1</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-9" title="9"><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>certification, <span class="op">-</span>certification_<span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="c06.html#cb14-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb14-2"><a href="c06.html#cb14-2"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb14-3"><a href="c06.html#cb14-3"></a></span>
+<span id="cb14-4"><a href="c06.html#cb14-4"></a>roster &lt;-<span class="st"> </span>roster_raw <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-5"><a href="c06.html#cb14-5"></a><span class="st">    </span><span class="kw">clean_names</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-6"><a href="c06.html#cb14-6"></a><span class="st">    </span><span class="kw">remove_empty</span>(<span class="kw">c</span>(<span class="st">&quot;rows&quot;</span>, <span class="st">&quot;cols&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-7"><a href="c06.html#cb14-7"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">hire_date =</span> <span class="kw">excel_numeric_to_date</span>(hire_date),</span>
+<span id="cb14-8"><a href="c06.html#cb14-8"></a>           <span class="dt">cert =</span> <span class="kw">coalesce</span>(certification, certification_<span class="dv">1</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-9"><a href="c06.html#cb14-9"></a><span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>certification, <span class="op">-</span>certification_<span class="dv">1</span>)</span></code></pre></div>
 <p><em>Note: you aren’t expected to know what the chunk of code that you’ve just read does, nor are you expected to run it. By the time you’ve finished this book, you’ll be able to run and understand everything in that code example!</em></p>
 <p>Take a moment to think through the following questions:</p>
 <ul>
@@ -968,15 +971,15 @@ If you can’t, dig deeper into the documentation, online forums, or even in tes
 <p>If you haven’t already, set up a Project in RStudio and create a new <code>.R</code> script.
 Save your <code>.R</code> script as “chapter_6_walkthrough” or another similar name.
 Run the following code in the <strong>RStudio Console</strong>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># Installing the skimr package, not included in {dataedu}</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">install.packages</span>(<span class="st">&quot;skimr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="c06.html#cb15-1"></a><span class="co"># Installing the skimr package, not included in {dataedu}</span></span>
+<span id="cb15-2"><a href="c06.html#cb15-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;skimr&quot;</span>)</span></code></pre></div>
 <p>Now, take a few minutes to type out and run each of the following lines of code in your <strong><code>.R</code> script</strong>, one by one, and notice what you see happening in the <strong>Console</strong> after you run each line.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># Setting up your environment</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb16-3" title="3"></a>
-<a class="sourceLine" id="cb16-4" title="4"><span class="kw">library</span>(dataedu)</a>
-<a class="sourceLine" id="cb16-5" title="5"></a>
-<a class="sourceLine" id="cb16-6" title="6"><span class="kw">library</span>(skimr)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="c06.html#cb16-1"></a><span class="co"># Setting up your environment</span></span>
+<span id="cb16-2"><a href="c06.html#cb16-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb16-3"><a href="c06.html#cb16-3"></a></span>
+<span id="cb16-4"><a href="c06.html#cb16-4"></a><span class="kw">library</span>(dataedu)</span>
+<span id="cb16-5"><a href="c06.html#cb16-5"></a></span>
+<span id="cb16-6"><a href="c06.html#cb16-6"></a><span class="kw">library</span>(skimr)</span></code></pre></div>
 <ul>
 <li>What do you think running the above lines of code accomplished?</li>
 <li>How do you know?</li>
@@ -1010,25 +1013,25 @@ However, this can be tricky for several reasons:</p>
 When we have conflicting function names from different packages, we can tell R which package we’d like to pull a function from by using <code>::</code>.</p>
 <p>Using the example of the <code>filter()</code> function above, coupled with the examples in the Help documentation, we can specify which package to pull the <code>filter()</code> function using <code>::</code>, as outlined below.</p>
 <p><em>Note: we haven’t covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation!</em></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># using the filter() function from the stats package</span></a>
-<a class="sourceLine" id="cb17-2" title="2">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb17-3" title="3"></a>
-<a class="sourceLine" id="cb17-4" title="4">stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb17-5" title="5"></a>
-<a class="sourceLine" id="cb17-6" title="6"><span class="co"># using the filter() function from the dplyr package</span></a>
-<a class="sourceLine" id="cb17-7" title="7">starwars <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb17-8" title="8"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">85</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="c06.html#cb17-1"></a><span class="co"># using the filter() function from the stats package</span></span>
+<span id="cb17-2"><a href="c06.html#cb17-2"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">100</span></span>
+<span id="cb17-3"><a href="c06.html#cb17-3"></a></span>
+<span id="cb17-4"><a href="c06.html#cb17-4"></a>stats<span class="op">::</span><span class="kw">filter</span>(x, <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb17-5"><a href="c06.html#cb17-5"></a></span>
+<span id="cb17-6"><a href="c06.html#cb17-6"></a><span class="co"># using the filter() function from the dplyr package</span></span>
+<span id="cb17-7"><a href="c06.html#cb17-7"></a>starwars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb17-8"><a href="c06.html#cb17-8"></a><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(mass <span class="op">&gt;</span><span class="st"> </span><span class="dv">85</span>)</span></code></pre></div>
 </div>
 <div id="loading-data-from-dataedu-into-our-r-environment" class="section level3">
 <h3><span class="header-section-number">6.12.2</span> Loading Data from {dataedu} into our R Environment</h3>
 <p>In this section, we’re going to explore not only how to load a dataset from the {dataedu} package into our R Environment but also how to assign that dataset to an object so that we can use it in downstream analyses.</p>
 <p>In <a href="c20.html#c20a">Appendix A</a>, we show how to access directly data from a few other sources: Excel, SPSS (via <code>.SAV</code> files), and Google Sheets. For now, we will be loading datasets that are already stored in the {dataedu} package.</p>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">dataedu<span class="op">::</span>ma_data_init</a>
-<a class="sourceLine" id="cb18-2" title="2"></a>
-<a class="sourceLine" id="cb18-3" title="3">dataedu<span class="op">::</span>ma_data_init -&gt;<span class="st"> </span>ma_data</a>
-<a class="sourceLine" id="cb18-4" title="4"></a>
-<a class="sourceLine" id="cb18-5" title="5">ma_data_init &lt;-<span class="st"> </span>dataedu<span class="op">::</span>ma_data_init</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="c06.html#cb18-1"></a>dataedu<span class="op">::</span>ma_data_init</span>
+<span id="cb18-2"><a href="c06.html#cb18-2"></a></span>
+<span id="cb18-3"><a href="c06.html#cb18-3"></a>dataedu<span class="op">::</span>ma_data_init -&gt;<span class="st"> </span>ma_data</span>
+<span id="cb18-4"><a href="c06.html#cb18-4"></a></span>
+<span id="cb18-5"><a href="c06.html#cb18-5"></a>ma_data_init &lt;-<span class="st"> </span>dataedu<span class="op">::</span>ma_data_init</span></code></pre></div>
 <p>Each of the three code examples above differs slightly, but two lines of code do almost exactly the same thing. The first example provided loads the data into our R environment, but not in a format that’s immediately useful to us. The second and third lines of code read in the data and assign it to a new object,<code>ma_data</code> and <code>ma_data_init</code>, respectively.</p>
 <p>In our Environment pane, we can see the data that has been brought into R. We can even click on the table icon on the far right of the row that describes the data to get an interactive table (the dataset is rather large, so RStudio may lag slightly as you open the table and manipulate it).</p>
 <div class="figure" style="text-align: center"><span id="fig:fig6-5"></span>
@@ -1047,31 +1050,31 @@ Regardless of which option you choose, both are different means to the same end.
 <p>This next chunk of code uses functions that help us explore our data, and also introduces us to some common errors in writing R code.</p>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. If you’d like, practice commenting your code by noting what you see happening with each line of code that you run.</p>
 <p><em>Note: we have intentionally included errors in this and subsequent code chunks to help highlight concepts as well as introduce you to error messages early on!</em></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="co"># you probably wrote these 3 library() lines in your R script file earlier</span></a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="co"># if you have not yet run them, you will need to run these three lines before running the rest of the chunk</span></a>
-<a class="sourceLine" id="cb19-3" title="3"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb19-4" title="4"><span class="kw">library</span>(dataedu)</a>
-<a class="sourceLine" id="cb19-5" title="5"><span class="kw">library</span>(skimr)</a>
-<a class="sourceLine" id="cb19-6" title="6"><span class="kw">library</span>(janitor)</a>
-<a class="sourceLine" id="cb19-7" title="7"></a>
-<a class="sourceLine" id="cb19-8" title="8"><span class="co"># Exploring and manipulating your data</span></a>
-<a class="sourceLine" id="cb19-9" title="9"><span class="kw">names</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb19-10" title="10"></a>
-<a class="sourceLine" id="cb19-11" title="11"><span class="kw">glimpse</span>(ma_dat_init) </a>
-<a class="sourceLine" id="cb19-12" title="12"></a>
-<a class="sourceLine" id="cb19-13" title="13"><span class="kw">glimpse</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb19-14" title="14"></a>
-<a class="sourceLine" id="cb19-15" title="15"><span class="kw">summary</span>(ma_data_init)</a>
-<a class="sourceLine" id="cb19-16" title="16"></a>
-<a class="sourceLine" id="cb19-17" title="17"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>Town)</a>
-<a class="sourceLine" id="cb19-18" title="18"></a>
-<a class="sourceLine" id="cb19-19" title="19"><span class="kw">summary</span>(ma_data_init<span class="op">$</span>Town)</a>
-<a class="sourceLine" id="cb19-20" title="20"></a>
-<a class="sourceLine" id="cb19-21" title="21"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>AP_Test Takers)</a>
-<a class="sourceLine" id="cb19-22" title="22"></a>
-<a class="sourceLine" id="cb19-23" title="23"><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a>
-<a class="sourceLine" id="cb19-24" title="24"></a>
-<a class="sourceLine" id="cb19-25" title="25"><span class="kw">summary</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="c06.html#cb19-1"></a><span class="co"># you probably wrote these 3 library() lines in your R script file earlier</span></span>
+<span id="cb19-2"><a href="c06.html#cb19-2"></a><span class="co"># if you have not yet run them, you will need to run these three lines before running the rest of the chunk</span></span>
+<span id="cb19-3"><a href="c06.html#cb19-3"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb19-4"><a href="c06.html#cb19-4"></a><span class="kw">library</span>(dataedu)</span>
+<span id="cb19-5"><a href="c06.html#cb19-5"></a><span class="kw">library</span>(skimr)</span>
+<span id="cb19-6"><a href="c06.html#cb19-6"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb19-7"><a href="c06.html#cb19-7"></a></span>
+<span id="cb19-8"><a href="c06.html#cb19-8"></a><span class="co"># Exploring and manipulating your data</span></span>
+<span id="cb19-9"><a href="c06.html#cb19-9"></a><span class="kw">names</span>(ma_data_init)</span>
+<span id="cb19-10"><a href="c06.html#cb19-10"></a></span>
+<span id="cb19-11"><a href="c06.html#cb19-11"></a><span class="kw">glimpse</span>(ma_dat_init) </span>
+<span id="cb19-12"><a href="c06.html#cb19-12"></a></span>
+<span id="cb19-13"><a href="c06.html#cb19-13"></a><span class="kw">glimpse</span>(ma_data_init)</span>
+<span id="cb19-14"><a href="c06.html#cb19-14"></a></span>
+<span id="cb19-15"><a href="c06.html#cb19-15"></a><span class="kw">summary</span>(ma_data_init)</span>
+<span id="cb19-16"><a href="c06.html#cb19-16"></a></span>
+<span id="cb19-17"><a href="c06.html#cb19-17"></a><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>Town)</span>
+<span id="cb19-18"><a href="c06.html#cb19-18"></a></span>
+<span id="cb19-19"><a href="c06.html#cb19-19"></a><span class="kw">summary</span>(ma_data_init<span class="op">$</span>Town)</span>
+<span id="cb19-20"><a href="c06.html#cb19-20"></a></span>
+<span id="cb19-21"><a href="c06.html#cb19-21"></a><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span>AP_Test Takers)</span>
+<span id="cb19-22"><a href="c06.html#cb19-22"></a></span>
+<span id="cb19-23"><a href="c06.html#cb19-23"></a><span class="kw">glimpse</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</span>
+<span id="cb19-24"><a href="c06.html#cb19-24"></a></span>
+<span id="cb19-25"><a href="c06.html#cb19-25"></a><span class="kw">summary</span>(ma_data_init<span class="op">$</span><span class="st">`</span><span class="dt">AP_Test Takers</span><span class="st">`</span>)</span></code></pre></div>
 <p>What differences do you see between each line of code?
 What changes in the output to the Console with each line of code that you run?</p>
 <p><em>Common Errors: Typos, Spaces, and Parentheses</em></p>
@@ -1093,24 +1096,24 @@ It’s important that the spelling, punctuation, and capitalization that you use
 The pipe operator allows us to link together functions so that we can run our data through multiple sequential functions. The keyboard shortcut for typing the pipe operator is <code>Ctrl</code> + <code>Shift</code> + <code>M</code>.</p>
 <p><em>Note: You can find additional keyboard shortcuts for RStudio by going to “Help” in the top bar and then selecting “Keyboard Shortcuts Help”.</em></p>
 <p>Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. You will run into an error message in one of the code chunks, but just try to understand what it means and continue. We will explain this code below.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(District Name) <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb20-3" title="3"><span class="st">    </span><span class="kw">count</span>()</a>
-<a class="sourceLine" id="cb20-4" title="4"></a>
-<a class="sourceLine" id="cb20-5" title="5">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-6" title="6"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-7" title="7"><span class="st">    </span><span class="kw">count</span>()  </a>
-<a class="sourceLine" id="cb20-8" title="8">    </a>
-<a class="sourceLine" id="cb20-9" title="9">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-10" title="10"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-11" title="11"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-12" title="12"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb20-13" title="13"></a>
-<a class="sourceLine" id="cb20-14" title="14">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-15" title="15"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-16" title="16"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-17" title="17"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb20-18" title="18"><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="c06.html#cb20-1"></a>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="c06.html#cb20-2"></a><span class="st">    </span><span class="kw">group_by</span>(District Name) <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb20-3"><a href="c06.html#cb20-3"></a><span class="st">    </span><span class="kw">count</span>()</span>
+<span id="cb20-4"><a href="c06.html#cb20-4"></a></span>
+<span id="cb20-5"><a href="c06.html#cb20-5"></a>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-6"><a href="c06.html#cb20-6"></a><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-7"><a href="c06.html#cb20-7"></a><span class="st">    </span><span class="kw">count</span>()  </span>
+<span id="cb20-8"><a href="c06.html#cb20-8"></a>    </span>
+<span id="cb20-9"><a href="c06.html#cb20-9"></a>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-10"><a href="c06.html#cb20-10"></a><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-11"><a href="c06.html#cb20-11"></a><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-12"><a href="c06.html#cb20-12"></a><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>)</span>
+<span id="cb20-13"><a href="c06.html#cb20-13"></a></span>
+<span id="cb20-14"><a href="c06.html#cb20-14"></a>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-15"><a href="c06.html#cb20-15"></a><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-16"><a href="c06.html#cb20-16"></a><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-17"><a href="c06.html#cb20-17"></a><span class="st">    </span><span class="kw">filter</span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-18"><a href="c06.html#cb20-18"></a><span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</span></code></pre></div>
 <p><em>“Reading” Code</em></p>
 <p>When you encounter new-to-you code, it’s helpful to pause and read through the code to see if you can come up with a hypothesis about what it is trying to accomplish. Doing this will help you not only understand code a bit better, but also spot errors more quickly when the code doesn’t do what you thought it was going to do.</p>
 <p>The way that we would read the last chunk of code we ran is:</p>
@@ -1144,20 +1147,20 @@ Figure 6.6: The Treachery of Images by Magritte
 <h3><span class="header-section-number">6.12.5</span> Exploring Assignment vs. Equality</h3>
 <p>We’ve introduced a couple operators already: namely the assignment operator (<code>&lt;-</code> or <code>-&gt;</code>) and the pipe operator (<code>%&gt;%</code>). We’re now going to talk a bit more in-depth about <code>=</code> and <code>==</code>.</p>
 <p>Take a few minutes to read through the code below before typing or running anything in R. Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code. Once you’ve done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">ma_data_init <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-3" title="3"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-4" title="4"><span class="st">    </span><span class="kw">filter</span>(<span class="dt">n =</span> <span class="dv">10</span>) </a>
-<a class="sourceLine" id="cb21-5" title="5"></a>
-<a class="sourceLine" id="cb21-6" title="6">ma_data_init <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-7" title="7"><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-8" title="8"><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb21-9" title="9"><span class="st">    </span><span class="kw">filter</span>(n <span class="op">==</span><span class="st"> </span><span class="dv">10</span>) </a>
-<a class="sourceLine" id="cb21-10" title="10"></a>
-<a class="sourceLine" id="cb21-11" title="11">ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-12" title="12"><span class="st">    </span><span class="kw">rename</span>(<span class="dt">district_name =</span> <span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>,</a>
-<a class="sourceLine" id="cb21-13" title="13">           <span class="dt">grade =</span> Grade) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-14" title="14"><span class="st">    </span><span class="kw">select</span>(district_name, grade)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="c06.html#cb21-1"></a>ma_data_init <span class="op">%&gt;%</span></span>
+<span id="cb21-2"><a href="c06.html#cb21-2"></a><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></span>
+<span id="cb21-3"><a href="c06.html#cb21-3"></a><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></span>
+<span id="cb21-4"><a href="c06.html#cb21-4"></a><span class="st">    </span><span class="kw">filter</span>(<span class="dt">n =</span> <span class="dv">10</span>) </span>
+<span id="cb21-5"><a href="c06.html#cb21-5"></a></span>
+<span id="cb21-6"><a href="c06.html#cb21-6"></a>ma_data_init <span class="op">%&gt;%</span></span>
+<span id="cb21-7"><a href="c06.html#cb21-7"></a><span class="st">    </span><span class="kw">group_by</span>(<span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>) <span class="op">%&gt;%</span></span>
+<span id="cb21-8"><a href="c06.html#cb21-8"></a><span class="st">    </span><span class="kw">count</span>() <span class="op">%&gt;%</span></span>
+<span id="cb21-9"><a href="c06.html#cb21-9"></a><span class="st">    </span><span class="kw">filter</span>(n <span class="op">==</span><span class="st"> </span><span class="dv">10</span>) </span>
+<span id="cb21-10"><a href="c06.html#cb21-10"></a></span>
+<span id="cb21-11"><a href="c06.html#cb21-11"></a>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb21-12"><a href="c06.html#cb21-12"></a><span class="st">    </span><span class="kw">rename</span>(<span class="dt">district_name =</span> <span class="st">`</span><span class="dt">District Name</span><span class="st">`</span>,</span>
+<span id="cb21-13"><a href="c06.html#cb21-13"></a>           <span class="dt">grade =</span> Grade) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb21-14"><a href="c06.html#cb21-14"></a><span class="st">    </span><span class="kw">select</span>(district_name, grade)</span></code></pre></div>
 <p><em>The Difference Between <code>=</code> and <code>==</code></em></p>
 <p>We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (<code>=</code>) to accomplish the same thing. When R encounters an equal sign (<code>=</code>) it is looking to create an object by assigning a value to a variable. So when we saw <code>filter(n = 10)</code> in the first example in the code chunk above, R didn’t understand why we were trying to filter something we were naming and told us so with an error message.</p>
 <p>When we are looking to determine whether or not values are equal, we use a double equals sign (<code>==</code>), as we did in <code>filter(n == 10)</code>. When R sees a double equals sign (<code>==</code>) it is evaluating whether or not the value on the left is equivalent to the value on the right.</p>
@@ -1166,25 +1169,25 @@ Figure 6.6: The Treachery of Images by Magritte
 <h3><span class="header-section-number">6.12.6</span> Basics of Object and Variable Names</h3>
 <p>Naming things is important!</p>
 <p>The more you use R, the more you’ll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. However, there are some hard and fast rules that R has about naming things, and we’ll cover them in this section. In the code chunk below, we will try saving our <code>ma_data_init</code> dataset into a few different object names. We will be using the <code>clean_names()</code> function from the {janitor} package, which you likely already loaded into your environment using the <code>library(janitor)</code> function earlier in this chapter. Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">ma data &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-3" title="3"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb22-4" title="4"></a>
-<a class="sourceLine" id="cb22-5" title="5"><span class="dv">01</span>_ma_data &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb22-6" title="6"><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb22-7" title="7"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb22-8" title="8"></a>
-<a class="sourceLine" id="cb22-9" title="9"><span class="op">$</span>_ma_data &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb22-10" title="10"><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></a>
-<a class="sourceLine" id="cb22-11" title="11"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb22-12" title="12"></a>
-<a class="sourceLine" id="cb22-13" title="13">ma_data_<span class="dv">01</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb22-14" title="14"><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-15" title="15"><span class="st">    </span><span class="kw">clean_names</span>()</a>
-<a class="sourceLine" id="cb22-16" title="16"></a>
-<a class="sourceLine" id="cb22-17" title="17">MA_data_<span class="dv">02</span> &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb22-18" title="18"><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb22-19" title="19"><span class="st">    </span><span class="kw">clean_names</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="c06.html#cb22-1"></a>ma data &lt;-<span class="st"> </span></span>
+<span id="cb22-2"><a href="c06.html#cb22-2"></a><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-3"><a href="c06.html#cb22-3"></a><span class="st">    </span><span class="kw">clean_names</span>()</span>
+<span id="cb22-4"><a href="c06.html#cb22-4"></a></span>
+<span id="cb22-5"><a href="c06.html#cb22-5"></a><span class="dv">01</span>_ma_data &lt;-<span class="st"> </span></span>
+<span id="cb22-6"><a href="c06.html#cb22-6"></a><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb22-7"><a href="c06.html#cb22-7"></a><span class="st">    </span><span class="kw">clean_names</span>()</span>
+<span id="cb22-8"><a href="c06.html#cb22-8"></a></span>
+<span id="cb22-9"><a href="c06.html#cb22-9"></a><span class="op">$</span>_ma_data &lt;-<span class="st"> </span></span>
+<span id="cb22-10"><a href="c06.html#cb22-10"></a><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb22-11"><a href="c06.html#cb22-11"></a><span class="st">    </span><span class="kw">clean_names</span>()</span>
+<span id="cb22-12"><a href="c06.html#cb22-12"></a></span>
+<span id="cb22-13"><a href="c06.html#cb22-13"></a>ma_data_<span class="dv">01</span> &lt;-<span class="st"> </span></span>
+<span id="cb22-14"><a href="c06.html#cb22-14"></a><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-15"><a href="c06.html#cb22-15"></a><span class="st">    </span><span class="kw">clean_names</span>()</span>
+<span id="cb22-16"><a href="c06.html#cb22-16"></a></span>
+<span id="cb22-17"><a href="c06.html#cb22-17"></a>MA_data_<span class="dv">02</span> &lt;-<span class="st"> </span></span>
+<span id="cb22-18"><a href="c06.html#cb22-18"></a><span class="st">    </span>ma_data_init <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-19"><a href="c06.html#cb22-19"></a><span class="st">    </span><span class="kw">clean_names</span>()</span></code></pre></div>
 <p>As you saw in the above examples, R doesn’t like it when you create a name that starts with a number or symbol. In addition, R is going to squawk when you give it a name with a space in it.
 As such, when we create variable names in R, they <em>must</em> start with a letter, although it doesn’t matter if the letter is capitalized or in lower case.</p>
 </div>
@@ -1199,7 +1202,7 @@ As such, when we create variable names in R, they <em>must</em> start with a let
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>We note that we will have a few other appendices like this one to expand on some of the content in the walkthrough chapters.<a href="c06.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>We note that we will have a few other appendices like this one to expand on some of the content in the walkthrough chapters.<a href="c06.html#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

@@ -87,6 +87,10 @@ quizzes_1 %>%
 ```
 
 ```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```
 ## # A tibble: 3 x 2
 ##   student_id quiz_mean
 ##        <int>     <dbl>
@@ -169,6 +173,10 @@ all_quizzes %>%
     # Compute the mean of each student
     group_by(student_id, intervention ) %>% 
     summarise(quiz_mean = mean(score))
+```
+
+```
+## `summarise()` regrouping output by 'student_id' (override with `.groups` argument)
 ```
 
 ```

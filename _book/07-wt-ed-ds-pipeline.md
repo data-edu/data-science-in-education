@@ -559,7 +559,13 @@ measure_mean <- measure_mean %>%
     # had NAs in the response field
     percent_NA = mean(is.na(response))
     )
+```
 
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```r
 measure_mean
 ```
 
@@ -750,7 +756,13 @@ pre_survey <- pre_survey %>%
 ```
 
 ```
-## Warning: NAs introduced by coercion
+## Warning: Problem with `mutate()` input `student_id`.
+## ℹ NAs introduced by coercion
+## ℹ Input `student_id` is `as.numeric(student_id)`.
+```
+
+```
+## Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
 ```
 
 Now that the `student_id` and `course_id` variables are ready to go in the
@@ -924,16 +936,16 @@ dat_right
 ## # A tibble: 39,593 x 21
 ##    course_id subject semester section student_id Gradebook_Item Grade_Category
 ##    <chr>     <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
-##  1 FrScA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-##  2 BioA-S11… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
-##  3 OcnA-S11… <NA>    <NA>     <NA>         82588 <NA>           <NA>          
-##  4 AnPhA-S1… <NA>    <NA>     <NA>         80623 <NA>           <NA>          
-##  5 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-##  6 AnPhA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-##  7 AnPhA-T1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-##  8 BioA-S11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-##  9 BioA-T11… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
-## 10 PhysA-S1… <NA>    <NA>     <NA>         80624 <NA>           <NA>          
+##  1 AnPhA-S1… AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S1… AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S1… AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S1… AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S1… AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S1… AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S1… AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S1… AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S1… AnPhA   S116     01           60186 1.4: Negative… Hw            
 ## # … with 39,583 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
 ## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
@@ -1457,7 +1469,13 @@ survey_responses <-
   filter(!is.na(mean_response)) %>%
   pivot_wider(names_from = measure, 
               values_from = mean_response)
+```
 
+```
+## `summarise()` regrouping output by 'student_id' (override with `.groups` argument)
+```
+
+```r
 survey_responses
 ```
 
@@ -1682,8 +1700,8 @@ tab_model(m_linear_3,
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">subject [BioA]</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-1.56</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-8.64&nbsp;&ndash;&nbsp;5.52</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.56</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;8.64&nbsp;&ndash;&nbsp;5.52</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.665</td>
 </tr>
 <tr>
@@ -1695,7 +1713,7 @@ tab_model(m_linear_3,
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">subject [OcnA]</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.10</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-3.96&nbsp;&ndash;&nbsp;6.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.96&nbsp;&ndash;&nbsp;6.16</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.670</td>
 </tr>
 <tr>
@@ -1717,7 +1735,7 @@ tab_model(m_linear_3,
 
 
 
-It looks like subjects `FrSc`---forensic science---and `Ocn`---oceanography---are associated with a higher final grade. This indicates that students in those two classes earned higher grades than students in other science classes in this dataset.
+It looks like subjects `FrSc`---forensic science---and `PhysA`---Physics---are associated with a higher final grade. This indicates that students in those two classes earned higher grades than students in other science classes in this dataset.
 
 ## Conclusion
 

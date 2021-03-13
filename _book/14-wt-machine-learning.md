@@ -295,7 +295,7 @@ df <-
 ```
 
 ```
-## mutate: new variable 'temp_id' with 464 unique values and 0% NA
+## mutate: new variable 'temp_id' (integer) with 464 unique values and 0% NA
 ```
 
 ```r
@@ -614,11 +614,11 @@ df_test_augmented <-
 ```
 
 ```
-## mutate: new variable 'pred' with 92 unique values and 0% NA
+## mutate: new variable 'pred' (double) with 92 unique values and 0% NA
 ```
 
 ```
-##         new variable 'obs' with 90 unique values and 0% NA
+##         new variable 'obs' (double) with 90 unique values and 0% NA
 ```
 
 ```r
@@ -749,11 +749,11 @@ df_train_lm <-
 ```
 
 ```
-## mutate: new variable 'obs' with 354 unique values and 0% NA
+## mutate: new variable 'obs' (double) with 354 unique values and 0% NA
 ```
 
 ```
-##         new variable 'pred' with 372 unique values and 0% NA
+##         new variable 'pred' (double) with 372 unique values and 0% NA
 ```
 
 ```r
@@ -765,11 +765,11 @@ df_train_randomfor <-
 ```
 
 ```
-## mutate: new variable 'pred' with 372 unique values and 0% NA
+## mutate: new variable 'pred' (double) with 372 unique values and 0% NA
 ```
 
 ```
-##         new variable 'obs' with 354 unique values and 0% NA
+##         new variable 'obs' (double) with 354 unique values and 0% NA
 ```
 
 ```r

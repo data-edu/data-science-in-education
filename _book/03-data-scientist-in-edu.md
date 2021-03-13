@@ -88,7 +88,7 @@ The strategy and techniques for sharing with a wider audience are different from
 
 ## Who We Are and What We Do
 
-In some fields, there is a clear path you must follow to do a specific job: if you want to be perform cardiac surgery, you have to go to medical school; if you want to hear trials in court, you have to go to law school first. That's not always true for data analysis. To prepare for this book, we talked to lots of folks who do data analysis in the education field. We found that there’s quite a bit of variety in both how people work with data in education and how those people arrived at their education data science roles. 
+In some fields, there is a clear path you must follow to do a specific job: if you want to perform cardiac surgery, you have to go to medical school; if you want to hear trials in court, you have to go to law school first. That's not always true for data analysis. To prepare for this book, we talked to lots of folks who do data analysis in the education field. We found that there’s quite a bit of variety in both how people work with data in education and how those people arrived at their education data science roles. 
 
 This is good news for people who want to start working with data in education in a more formalized way. You don’t need a Ph.D. to do this kind of work, though some people we talked to had pursued graduate education. You don't need to be an expert in statistical modeling, though some people had a statistics background. We talked to consultants who moved to the education field. We also talked to teachers and administrators who became consultants. We talked to people who are the lone data scientist in their education organizations and we talked to people who are part of an analytics team. 
 
