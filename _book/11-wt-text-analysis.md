@@ -466,7 +466,7 @@ dv_pos %>%
 ```
 ## # A tibble: 2 x 3
 ##   positive     n  perc
-##      <dbl> <int> <dbl>
+## *    <dbl> <int> <dbl>
 ## 1        0   272 0.450
 ## 2        1   333 0.550
 ```
@@ -517,7 +517,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 9 1 7 8 4
+## [1] 5 2 4 8 7
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

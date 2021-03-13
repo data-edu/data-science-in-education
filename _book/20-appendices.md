@@ -184,12 +184,12 @@ Then, load the data by using the function `read_sav()`:
 ```r
 library(haven)
 my_data <-
-    read_sav("path/to/file.xlsx")
+    read_sav("path/to/file.sav")
 ```
 
 ### Google Sheets
 
-Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the Google Sheets package.
+Finally, it can sometimes be useful to load a file directly from Google Sheets, and this can be done using the {googlesheets4} package.
 
 
 ```r
@@ -285,7 +285,7 @@ One way to consider these models and methods is by considering selection and inf
 - *Selection*: the process of choosing relationships
 - *Influence*: the process of how our social relationships affect behavior
 
-While these are processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preparation and visualization of network data.
+While these processes are complex, it is possible to study them using data about people's relationships and behavior. Happily, the use of these methods has expanded along with R. In fact, long-standing R packages have become some of the best tools for studying social networks. Additionally, while there are many nuances to studying selection and influence, these are models that can be carried out with relatively simple modeling techniques like linear regression. We describe these in [Appendix C](#c20c), as they do not use the tidytuesday dataset and are likely to be of interest to readers after mastering the preparation and visualization of network data.
 
 After getting familiar with using edgelists and visualizations in the chapter on social network analysis, [Chapter 12](#c12), a good next step is learning about selection and influence. Let's look at some examples: 
 
@@ -442,9 +442,9 @@ sessionInfo()
 ```
 
 ```
-## R version 4.0.2 (2020-06-22)
+## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Catalina 10.15.7
+## Running under: macOS Big Sur 10.16
 ## 
 ## Matrix products: default
 ## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -457,22 +457,22 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.2     purrr_0.3.4    
-##  [5] readr_1.4.0     tidyr_1.1.2     tibble_3.0.4    ggplot2_3.3.2  
+##  [1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.3     purrr_0.3.4    
+##  [5] readr_1.4.0     tidyr_1.1.3     tibble_3.1.0    ggplot2_3.3.3  
 ##  [9] tidyverse_1.3.0 png_0.1-7      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5        cellranger_1.1.0  pillar_1.4.7      compiler_4.0.2   
-##  [5] dbplyr_2.0.0      tools_4.0.2       digest_0.6.27     lubridate_1.7.9.2
-##  [9] jsonlite_1.7.2    evaluate_0.14     lifecycle_0.2.0   gtable_0.3.0     
-## [13] pkgconfig_2.0.3   rlang_0.4.9       reprex_0.3.0      cli_2.2.0        
-## [17] rstudioapi_0.13   DBI_1.1.0         yaml_2.2.1        haven_2.3.1      
-## [21] xfun_0.19         withr_2.3.0       xml2_1.3.2        httr_1.4.2       
-## [25] knitr_1.30        fs_1.5.0          hms_0.5.3         generics_0.1.0   
-## [29] vctrs_0.3.6       grid_4.0.2        tidyselect_1.1.0  glue_1.4.2       
-## [33] R6_2.5.0          fansi_0.4.1       readxl_1.3.1      rmarkdown_2.6    
-## [37] bookdown_0.21     modelr_0.1.8      magrittr_2.0.1    backports_1.2.1  
-## [41] scales_1.1.1      ellipsis_0.3.1    htmltools_0.5.0   rvest_0.3.6      
-## [45] assertthat_0.2.1  colorspace_2.0-0  stringi_1.5.3     munsell_0.5.0    
-## [49] broom_0.7.3       crayon_1.3.4
+##  [1] tidyselect_1.1.0  xfun_0.21         haven_2.3.1       colorspace_2.0-0 
+##  [5] vctrs_0.3.6       generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1       
+##  [9] utf8_1.1.4        rlang_0.4.10      pillar_1.5.1      withr_2.4.1      
+## [13] glue_1.4.2        DBI_1.1.1         dbplyr_2.1.0      modelr_0.1.8     
+## [17] readxl_1.3.1      lifecycle_1.0.0   munsell_0.5.0     gtable_0.3.0     
+## [21] cellranger_1.1.0  rvest_0.3.6       evaluate_0.14     knitr_1.31       
+## [25] fansi_0.4.2       broom_0.7.5       Rcpp_1.0.6        scales_1.1.1     
+## [29] backports_1.2.1   jsonlite_1.7.2    fs_1.5.0          hms_1.0.0        
+## [33] digest_0.6.27     stringi_1.5.3     bookdown_0.21     grid_4.0.3       
+## [37] cli_2.3.1         tools_4.0.3       magrittr_2.0.1    crayon_1.4.1     
+## [41] pkgconfig_2.0.3   ellipsis_0.3.1    xml2_1.3.2        reprex_1.0.0     
+## [45] lubridate_1.7.10  assertthat_0.2.1  rmarkdown_2.7     httr_1.4.2       
+## [49] rstudioapi_0.13   R6_2.5.0          compiler_4.0.3
 ```

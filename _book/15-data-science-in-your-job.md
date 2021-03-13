@@ -87,13 +87,9 @@ quizzes_1 %>%
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 3 x 2
 ##   student_id quiz_mean
-##        <int>     <dbl>
+## *      <int>     <dbl>
 ## 1          1      49.7
 ## 2          2      63.7
 ## 3          3      35.3
@@ -176,7 +172,7 @@ all_quizzes %>%
 ```
 
 ```
-## `summarise()` regrouping output by 'student_id' (override with `.groups` argument)
+## `summarise()` has grouped output by 'student_id'. You can override using the `.groups` argument.
 ```
 
 ```
