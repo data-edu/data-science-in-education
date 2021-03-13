@@ -115,16 +115,16 @@ tibble(
 ## # A tibble: 10 x 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              64
-##  2 b       l             100
-##  3 c       m              37
-##  4 d       n              73
-##  5 e       o              66
+##  1 a       k              96
+##  2 b       l              36
+##  3 c       m               4
+##  4 d       n              76
+##  5 e       o              51
 ##  6 f       k              83
-##  7 g       l              27
+##  7 g       l              37
 ##  8 h       m              63
-##  9 i       n              40
-## 10 j       o              25
+##  9 i       n               8
+## 10 j       o              19
 ```
 
 Aggregate data totals up a variable - the variable `test_score` in this case - to
@@ -144,18 +144,14 @@ tibble(
 ```
 
 ```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-```
 ## # A tibble: 5 x 2
 ##   school mean_score
-##   <chr>       <dbl>
-## 1 k            78.5
-## 2 l            46.5
-## 3 m            81  
-## 4 n            34.5
-## 5 o            49.5
+## * <chr>       <dbl>
+## 1 k            54  
+## 2 l            51.5
+## 3 m            24  
+## 4 n            44.5
+## 5 o            37
 ```
 
 Notice here that this dataset no longer identifies individual students.
