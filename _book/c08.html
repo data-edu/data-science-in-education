@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8 Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8 Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c07.html"/>
 <link rel="next" href="c09.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -686,8 +711,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li>directory<br />
 </li>
-<li>environment<br />
-</li>
+<li>environment</li>
+<li>factor level</li>
 <li>linear model<br />
 </li>
 <li>linearity<br />
@@ -854,42 +879,69 @@ Click on the Download button to download the <code>ExcelGradeBook.xlsx</code> fi
 <p>Visual representations of data are more human friendly than just looking at numbers alone. This next line of code shows a summary of the data by each column, similar to what we did in Walkthrough 1.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="c08.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of the data by columns</span></span>
 <span id="cb109-2"><a href="c08.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gradebook)</span></code></pre></div>
-<p>But R can do more than just print numbers to a screen. We’ll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable <code>letter_grade</code> is plotted on the x-axis showing the counts of each letter grade on the y-axis.</p>
+<p>But R can do more than just print numbers to a screen. We’ll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here, we can see the variable <code>letter_grade</code> is plotted on the x-axis showing the counts of each letter grade on the y-axis.</p>
+<p>In this dataset, the column <code>letter_grades</code> has a “factor level,” a predefined order for categorical variables. By default, if you were to plot this graph using the code below <em>without</em> defining the order of the letter grades, {ggplot2} will default to the lexicographic ordering of factors on the horizontal axis (i.e., A, A-, A+, B, B-, B+, etc.). It is more useful to have the traditional order of grades with A+ being the highest (and furthest left). We do this by using <code>mutate()</code>, noting which variable we want to designate a factor order (<code>letter_grade</code>), and the desired factor levels supplied in a vector. Try out the code with and without the <code>mutate()</code> call to see the difference and see if you agree!</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="c08.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar graph for categorical variable</span></span>
 <span id="cb110-2"><a href="c08.html#cb110-2" aria-hidden="true" tabindex="-1"></a>gradebook <span class="sc">%&gt;%</span></span>
-<span id="cb110-3"><a href="c08.html#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> letter_grade,</span>
-<span id="cb110-4"><a href="c08.html#cb110-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> running_average <span class="sc">&gt;</span> <span class="dv">90</span>)) <span class="sc">+</span></span>
-<span id="cb110-5"><a href="c08.html#cb110-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb110-6"><a href="c08.html#cb110-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Bar Graph of Student Grades&quot;</span>,</span>
-<span id="cb110-7"><a href="c08.html#cb110-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Letter Grades&quot;</span>,</span>
-<span id="cb110-8"><a href="c08.html#cb110-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>,</span>
-<span id="cb110-9"><a href="c08.html#cb110-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;A or Better&quot;</span>) <span class="sc">+</span></span>
-<span id="cb110-10"><a href="c08.html#cb110-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_dataedu</span>() <span class="sc">+</span></span>
-<span id="cb110-11"><a href="c08.html#cb110-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dataedu</span>()</span></code></pre></div>
+<span id="cb110-3"><a href="c08.html#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Code defining the </span></span>
+<span id="cb110-4"><a href="c08.html#cb110-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">letter_grade =</span> </span>
+<span id="cb110-5"><a href="c08.html#cb110-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(letter_grade, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;A+&quot;</span>,</span>
+<span id="cb110-6"><a href="c08.html#cb110-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb110-7"><a href="c08.html#cb110-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;A-&quot;</span>,</span>
+<span id="cb110-8"><a href="c08.html#cb110-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;B+&quot;</span>,</span>
+<span id="cb110-9"><a href="c08.html#cb110-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;B&quot;</span>,</span>
+<span id="cb110-10"><a href="c08.html#cb110-10" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;B-&quot;</span>,</span>
+<span id="cb110-11"><a href="c08.html#cb110-11" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">&quot;C+&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb110-12"><a href="c08.html#cb110-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> letter_grade,</span>
+<span id="cb110-13"><a href="c08.html#cb110-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> running_average <span class="sc">&gt;</span> <span class="dv">90</span>)) <span class="sc">+</span></span>
+<span id="cb110-14"><a href="c08.html#cb110-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb110-15"><a href="c08.html#cb110-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Bar Graph of Student Grades&quot;</span>,</span>
+<span id="cb110-16"><a href="c08.html#cb110-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Letter Grades&quot;</span>,</span>
+<span id="cb110-17"><a href="c08.html#cb110-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Count&quot;</span>,</span>
+<span id="cb110-18"><a href="c08.html#cb110-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;A or Better&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-19"><a href="c08.html#cb110-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_dataedu</span>() <span class="sc">+</span></span>
+<span id="cb110-20"><a href="c08.html#cb110-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dataedu</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:fig8-1"></span>
 <img src="08-wt-gradebook_files/figure-html/fig8-1-1.png" alt="Bar Graph of Student Grades" width="100%" />
 <p class="caption">
 Figure 8.1: Bar Graph of Student Grades
 </p>
 </div>
-<p>Using {ggplot2}, we can create many types of graphs. Using our <code>classwork_df</code> from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the <code>classworks</code> and <code>scores</code> columns into tidy formats.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="c08.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatterplot of continuous variable</span></span>
+<p>Using {ggplot2}, we can create many types of graphs. Using <code>classwork_df</code> from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the <code>classworks</code> and <code>scores</code> columns into tidy formats. Like before, we can change the factor levels of <code>classwork_number</code> so that they are in an order that is more easily understandable when viewing the plot.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="c08.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot of continuous variable</span></span>
 <span id="cb111-2"><a href="c08.html#cb111-2" aria-hidden="true" tabindex="-1"></a>classwork_df <span class="sc">%&gt;%</span></span>
-<span id="cb111-3"><a href="c08.html#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> classwork_number,</span>
-<span id="cb111-4"><a href="c08.html#cb111-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> score,</span>
-<span id="cb111-5"><a href="c08.html#cb111-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> classwork_number)) <span class="sc">+</span></span>
-<span id="cb111-6"><a href="c08.html#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb111-7"><a href="c08.html#cb111-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Classwork Scores&quot;</span>,</span>
-<span id="cb111-8"><a href="c08.html#cb111-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Classwork&quot;</span>,</span>
-<span id="cb111-9"><a href="c08.html#cb111-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Scores&quot;</span>) <span class="sc">+</span></span>
-<span id="cb111-10"><a href="c08.html#cb111-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_dataedu</span>() <span class="sc">+</span></span>
-<span id="cb111-11"><a href="c08.html#cb111-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dataedu</span>() <span class="sc">+</span></span>
-<span id="cb111-12"><a href="c08.html#cb111-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb111-13"><a href="c08.html#cb111-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># removes legend</span></span>
-<span id="cb111-14"><a href="c08.html#cb111-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
-<span id="cb111-15"><a href="c08.html#cb111-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angles the x axis labels</span></span>
-<span id="cb111-16"><a href="c08.html#cb111-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
-<span id="cb111-17"><a href="c08.html#cb111-17" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<span id="cb111-3"><a href="c08.html#cb111-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">classwork_number =</span> </span>
+<span id="cb111-4"><a href="c08.html#cb111-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(classwork_number, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;classwork_1&quot;</span>,</span>
+<span id="cb111-5"><a href="c08.html#cb111-5" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_2&quot;</span>,</span>
+<span id="cb111-6"><a href="c08.html#cb111-6" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_3&quot;</span>,</span>
+<span id="cb111-7"><a href="c08.html#cb111-7" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_4&quot;</span>,</span>
+<span id="cb111-8"><a href="c08.html#cb111-8" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_5&quot;</span>,</span>
+<span id="cb111-9"><a href="c08.html#cb111-9" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_6&quot;</span>,</span>
+<span id="cb111-10"><a href="c08.html#cb111-10" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_7&quot;</span>,</span>
+<span id="cb111-11"><a href="c08.html#cb111-11" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_8&quot;</span>,</span>
+<span id="cb111-12"><a href="c08.html#cb111-12" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_9&quot;</span>,</span>
+<span id="cb111-13"><a href="c08.html#cb111-13" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_10&quot;</span>,</span>
+<span id="cb111-14"><a href="c08.html#cb111-14" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_11&quot;</span>,</span>
+<span id="cb111-15"><a href="c08.html#cb111-15" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_12&quot;</span>,</span>
+<span id="cb111-16"><a href="c08.html#cb111-16" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_13&quot;</span>,</span>
+<span id="cb111-17"><a href="c08.html#cb111-17" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_14&quot;</span>,</span>
+<span id="cb111-18"><a href="c08.html#cb111-18" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_15&quot;</span>,</span>
+<span id="cb111-19"><a href="c08.html#cb111-19" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_16&quot;</span>,</span>
+<span id="cb111-20"><a href="c08.html#cb111-20" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;classwork_17&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb111-21"><a href="c08.html#cb111-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> classwork_number,</span>
+<span id="cb111-22"><a href="c08.html#cb111-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> score,</span>
+<span id="cb111-23"><a href="c08.html#cb111-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> classwork_number)) <span class="sc">+</span></span>
+<span id="cb111-24"><a href="c08.html#cb111-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="fu">dataedu_colors</span>(<span class="st">&quot;yellow&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb111-25"><a href="c08.html#cb111-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Distribution of Classwork Scores&quot;</span>,</span>
+<span id="cb111-26"><a href="c08.html#cb111-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Classwork&quot;</span>,</span>
+<span id="cb111-27"><a href="c08.html#cb111-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Scores&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-28"><a href="c08.html#cb111-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dataedu</span>() <span class="sc">+</span></span>
+<span id="cb111-29"><a href="c08.html#cb111-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb111-30"><a href="c08.html#cb111-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># removes legend</span></span>
+<span id="cb111-31"><a href="c08.html#cb111-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb111-32"><a href="c08.html#cb111-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># angles the x axis labels</span></span>
+<span id="cb111-33"><a href="c08.html#cb111-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb111-34"><a href="c08.html#cb111-34" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:fig8-2"></span>
 <img src="08-wt-gradebook_files/figure-html/fig8-2-1.png" alt="Distribution of Classwork Scores" width="100%" />
 <p class="caption">
@@ -1030,7 +1082,7 @@ Figure 8.6: Distribution of Overall Grade Scores
 <p>This walkthrough chapter followed the basic steps of a data analysis project.
 We first <em>imported</em> our data, then <em>cleaned and transformed</em> it.
 Once we had the data in a tidy format, we were able to <em>explore</em> the data using data visualization before <em>modeling</em> the data using linear regression.
-Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as <a href="https://rmarkdown.rstudio.com/">RMarkdown</a> (https<a href=""></a>://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format).</p>
+Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as <a href="https://rmarkdown.rstudio.com/">RMarkdown</a> (https<a href=""></a>://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats).</p>
 <p>While we began to explore models in this walkthrough, we will continue to discuss analyses and statistical modeling in more detail in later chapters (i.e., <a href="#c9">Chapter 9 on aggregate data</a>, <a href="c10.html#c10">Chapter 10 on longitudinal analyses</a>, <a href="c13.html#c13">Chapter 13 on multi-level models</a>, and <a href="c14.html#c14">Chapter 14 on random forest machine learning models</a>).</p>
 
 </div>
@@ -1064,6 +1116,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

@@ -184,9 +184,9 @@ dat %>%
 ```
 
 ```
-## # A tibble: 26 x 2
+## # A tibble: 26 × 2
 ##    course_id         n
-##  * <chr>         <int>
+##    <chr>         <int>
 ##  1 AnPhA-S116-01    43
 ##  2 AnPhA-S116-02    29
 ##  3 AnPhA-S216-01    43

@@ -112,19 +112,19 @@ tibble(
 ```
 
 ```
-## # A tibble: 10 x 3
+## # A tibble: 10 × 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k              96
-##  2 b       l              36
-##  3 c       m               4
-##  4 d       n              76
-##  5 e       o              51
-##  6 f       k              83
-##  7 g       l              37
-##  8 h       m              63
-##  9 i       n               8
-## 10 j       o              19
+##  1 a       k              27
+##  2 b       l              56
+##  3 c       m              54
+##  4 d       n              59
+##  5 e       o               6
+##  6 f       k              89
+##  7 g       l              36
+##  8 h       m             100
+##  9 i       n              35
+## 10 j       o              32
 ```
 
 Aggregate data totals up a variable - the variable `test_score` in this case - to
@@ -144,14 +144,14 @@ tibble(
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 5 × 2
 ##   school mean_score
-## * <chr>       <dbl>
-## 1 k            54  
-## 2 l            51.5
-## 3 m            24  
-## 4 n            44.5
-## 5 o            37
+##   <chr>       <dbl>
+## 1 k            82.5
+## 2 l            21.5
+## 3 m            58.5
+## 4 n            46  
+## 5 o            39.5
 ```
 
 Notice here that this dataset no longer identifies individual students.
@@ -587,7 +587,7 @@ district_tidy_df %>%
 ```
 
 ```
-## # A tibble: 1 x 3
+## # A tibble: 1 × 3
 ##   school_name category value
 ##   <chr>       <chr>    <dbl>
 ## 1 Total       frpl_pct 0.569

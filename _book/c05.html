@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Getting Started with R and RStudio | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Getting Started with R and RStudio | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c04.html"/>
 <link rel="next" href="c06.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -926,11 +951,14 @@ This method is useful when you’re writing a long description of what you’re 
 <li>The “dataedu” theme and color palette for reuse</li>
 </ol>
 <p>If you feel that you need more information before you’re ready to install the package, you can skip this section and rest assured that we’ll cover packages, their installation, and how to load them into R in more depth in <a href="c06.html#c06">Chapter 6</a>.
-However, if you’re feeling a bit adventurous, go ahead and give it a shot by running the code below. <em>Please note that the {dataedu} package requires R version 3.6 or higher to run.</em></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="c05.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install devtools</span></span>
-<span id="cb5-2"><a href="c05.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</span>
-<span id="cb5-3"><a href="c05.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install the dataedu package (requires R version 3.6 or higher)</span></span>
-<span id="cb5-4"><a href="c05.html#cb5-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</span></code></pre></div>
+However, if you’re feeling a bit adventurous, go ahead and give it a shot by running the code below.</p>
+<blockquote>
+<p><strong>Note:</strong> After the publication of this book, we realized using {devtools} to install {dataedu} could create a lot of conflict with readers’ existing packages We updated the code to require only the package {remotes} contained within {devtools} so to ease installation. For more info, see the <a href="https://github.com/data-edu/dataedu">{dataedu} repository on GitHub</a>.</p>
+</blockquote>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="c05.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install {remotes}</span></span>
+<span id="cb5-2"><a href="c05.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>, <span class="at">repos =</span> <span class="st">&quot;http://cran.us.r-project.org&quot;</span>)</span>
+<span id="cb5-3"><a href="c05.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install the {dataedu} package (requires R version 3.6 or higher)</span></span>
+<span id="cb5-4"><a href="c05.html#cb5-4" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;data-edu/dataedu&quot;</span>)</span></code></pre></div>
 <p><em>A special note on {tabulizer}:</em>
 One of the walkthroughs uses <a href="https://github.com/ropensci/tabulizer">{tabulizer}</a>, created by ROpenSci to read PDFs.
 {tabulizer} requires the installation of <a href="https://cran.r-project.org/web/packages/rJava/index.html">RJava</a>, which can be a tricky process on Mac computers.
@@ -986,6 +1014,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

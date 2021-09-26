@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11 Walkthrough 5: Text Analysis With Social Media Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11 Walkthrough 5: Text Analysis With Social Media Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c10.html"/>
 <link rel="next" href="c12.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -765,7 +790,7 @@ For instructions on and an overview about installing packages, see the <a href="
 <span id="cb231-3"><a href="c11.html#cb231-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> text)</span>
 <span id="cb231-4"><a href="c11.html#cb231-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb231-5"><a href="c11.html#cb231-5" aria-hidden="true" tabindex="-1"></a>tokens </span></code></pre></div>
-<pre><code>## # A tibble: 131,233 x 2
+<pre><code>## # A tibble: 131,232 × 2
 ##    status_id           word       
 ##    &lt;chr&gt;               &lt;chr&gt;      
 ##  1 1163154266065735680 first      
@@ -778,7 +803,7 @@ For instructions on and an overview about installing packages, see the <a href="
 ##  8 1163154266065735680 rise       
 ##  9 1163154266065735680 to         
 ## 10 1163154266065735680 power      
-## # … with 131,223 more rows</code></pre>
+## # … with 131,222 more rows</code></pre>
 <p>We use <code>output = word</code> to tell <code>unnest_tokens()</code> that we want our column of tokens to be called <code>word</code>. We use <code>input = text</code> to tell <code>unnest_tokens()</code> to tokenize the tweets in the <code>text</code> column of our <code>tweets</code> dataset. The result is a new dataset where each row has a single word in the <code>word</code> column and a unique ID in the <code>status_id</code> column that tells us which tweet the word appears in.</p>
 <p>Notice that our <code>tokens</code> dataset has many more rows than our <code>tweets</code> dataset. This tells us a lot about how <code>unnest_tokens()</code> works. In the <code>tweets</code> dataset, each row has an entire tweet and its unique ID. Since that unique ID is assigned to the entire tweet, each unique ID only appears once in the dataset. When we used <code>unnest_tokens()</code> put each word on its own row, we broke each tweet into many words. This created additional rows in the dataset. And since each word in a single tweet shares the same ID for that tweet, an ID now appears multiple times in our new dataset.</p>
 <p>We’re almost ready to start analyzing the dataset! There’s one more step we’ll take–removing common words that don’t help us learn about what people are tweeting about. Words like “the” or “a” are in a category of words called “stop words.” Stop words serve a function in verbal communication, but don’t tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The {tidytext} package includes a dataset called <code>stop_words</code> that we’ll use to remove rows containing stop words. We’ll use <code>anti_join</code>() on our <code>tokens</code> dataset and the <code>stop_words</code> dataset to keep only rows that have words <em>not</em> appearing in the <code>stop_words</code> dataset.</p>
@@ -795,7 +820,7 @@ For instructions on and an overview about installing packages, see the <a href="
 <p>Now it’s time to start exploring our newly cleaned dataset of tweets. Computing the frequency of each word and seeing which words showed up the most often is a good start. We can pipe <code>tokens</code> to the <code>count</code> function to do this:</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="c11.html#cb234-1" aria-hidden="true" tabindex="-1"></a>tokens <span class="sc">%&gt;%</span> </span>
 <span id="cb234-2"><a href="c11.html#cb234-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
-<pre><code>## # A tibble: 15,335 x 2
+<pre><code>## # A tibble: 15,334 × 2
 ##    word            n
 ##    &lt;chr&gt;       &lt;int&gt;
 ##  1 t.co         5432
@@ -808,7 +833,7 @@ For instructions on and an overview about installing packages, see the <a href="
 ##  8 r4ds          675
 ##  9 dataviz       607
 ## 10 time          494
-## # … with 15,325 more rows</code></pre>
+## # … with 15,324 more rows</code></pre>
 <p>We pass <code>count()</code> the argument <code>sort = TRUE</code> to sort the <code>n</code> variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, “tidytuesday” was the third most frequent word in this dataset.</p>
 <p>We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services.</p>
 <p>In our tweets dataset, we’ll be calculating the count of words as a percentage of all tweets. We can do that by using <code>mutate()</code> to add a column called <code>percent</code>. <code>percent</code> will divide <code>n</code> by <code>sum(n)</code>, which is the total number of words. Finally, will multiply the result by 100.</p>
@@ -816,7 +841,7 @@ For instructions on and an overview about installing packages, see the <a href="
 <span id="cb236-2"><a href="c11.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb236-3"><a href="c11.html#cb236-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n as a percent of total words</span></span>
 <span id="cb236-4"><a href="c11.html#cb236-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 15,335 x 3
+<pre><code>## # A tibble: 15,334 × 3
 ##    word            n percent
 ##    &lt;chr&gt;       &lt;int&gt;   &lt;dbl&gt;
 ##  1 t.co         5432   7.39 
@@ -829,7 +854,7 @@ For instructions on and an overview about installing packages, see the <a href="
 ##  8 r4ds          675   0.919
 ##  9 dataviz       607   0.826
 ## 10 time          494   0.672
-## # … with 15,325 more rows</code></pre>
+## # … with 15,324 more rows</code></pre>
 <p>Even at 4316 appearances in our dataset, “tidytuesday” represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words.</p>
 </div>
 <div id="analysis-sentiment-analysis" class="section level2" number="11.11">
@@ -842,7 +867,7 @@ For instructions on and an overview about installing packages, see the <a href="
 <div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="c11.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;textdata&quot;</span>)</span></code></pre></div>
 <p>To explore this dataset more, we’ll use a {tidytext} function called <code>get_sentiments()</code> to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you’ll be prompted to download the NRC lexicon. Respond “yes” to the prompt and the NRC lexicon will download. Note that you’ll only have to do this the first time you use the NRC lexicon.</p>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="c11.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_sentiments</span>(<span class="st">&quot;nrc&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 13,901 x 2
+<pre><code>## # A tibble: 13,901 × 2
 ##    word        sentiment
 ##    &lt;chr&gt;       &lt;chr&gt;    
 ##  1 abacus      trust    
@@ -873,7 +898,7 @@ For instructions on and an overview about installing packages, see the <a href="
 <span id="cb241-11"><a href="c11.html#cb241-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb241-12"><a href="c11.html#cb241-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb241-13"><a href="c11.html#cb241-13" aria-hidden="true" tabindex="-1"></a>pos_tokens_count</span></code></pre></div>
-<pre><code>## # A tibble: 644 x 2
+<pre><code>## # A tibble: 644 × 2
 ##    word          n
 ##    &lt;chr&gt;     &lt;int&gt;
 ##  1 fun         173
@@ -921,7 +946,7 @@ Figure 11.1: Count of Words Associated with Positivity
 <span id="cb244-3"><a href="c11.html#cb244-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">==</span> <span class="st">&quot;dataviz&quot;</span>)</span>
 <span id="cb244-4"><a href="c11.html#cb244-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb244-5"><a href="c11.html#cb244-5" aria-hidden="true" tabindex="-1"></a>dv_tokens</span></code></pre></div>
-<pre><code>## # A tibble: 607 x 2
+<pre><code>## # A tibble: 607 × 2
 ##    status_id           word   
 ##    &lt;chr&gt;               &lt;chr&gt;  
 ##  1 1116518351147360257 dataviz
@@ -946,7 +971,7 @@ Figure 11.1: Count of Words Associated with Positivity
 <span id="cb248-3"><a href="c11.html#cb248-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">%in%</span> nrc_pos<span class="sc">$</span>word)</span>
 <span id="cb248-4"><a href="c11.html#cb248-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb248-5"><a href="c11.html#cb248-5" aria-hidden="true" tabindex="-1"></a>pos_tokens</span></code></pre></div>
-<pre><code>## # A tibble: 4,925 x 2
+<pre><code>## # A tibble: 4,925 × 2
 ##    status_id           word      
 ##    &lt;chr&gt;               &lt;chr&gt;     
 ##  1 1163154266065735680 throne    
@@ -991,9 +1016,9 @@ Figure 11.1: Count of Words Associated with Positivity
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="c11.html#cb255-1" aria-hidden="true" tabindex="-1"></a>dv_pos <span class="sc">%&gt;%</span></span>
 <span id="cb255-2"><a href="c11.html#cb255-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(positive) <span class="sc">%&gt;%</span></span>
 <span id="cb255-3"><a href="c11.html#cb255-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) </span></code></pre></div>
-<pre><code>## # A tibble: 2 x 3
+<pre><code>## # A tibble: 2 × 3
 ##   positive     n  perc
-## *    &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+##      &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
 ## 1        0   272 0.450
 ## 2        1   333 0.550</code></pre>
 <p>About 55 percent of tweets that have “dataviz” in them also had at least one positive word and about 45 percent of them did not have at least one positive word. It’s worth noting here that this finding doesn’t necessarily mean users didn’t have anything good to say about 45 percent of the “dataviz” tweets. We can’t know precisely why some tweets had positive words and some didn’t, we just know that more dataviz tweets had positive words than not. To put this in perspective, we might have a different impression if 5 percent or 95 percent of the tweets had positive words.</p>
@@ -1011,34 +1036,34 @@ Figure 11.1: Count of Words Associated with Positivity
 <p>We can use <code>slice()</code> to help us pick the rows. When we pass <code>slice()</code> a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our tweets dataset this way:</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="c11.html#cb258-1" aria-hidden="true" tabindex="-1"></a>tweets <span class="sc">%&gt;%</span> </span>
 <span id="cb258-2"><a href="c11.html#cb258-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>, <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 2 x 2
-##   status_id         text                                                        
-##   &lt;chr&gt;             &lt;chr&gt;                                                       
-## 1 1163154266065735… &quot;First #TidyTuesday submission! Roman emperors and their ri…
-## 2 1001412196247666… &quot;My #tidytuesday submission for week 8. Honey production da…</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   status_id           text                                                      
+##   &lt;chr&gt;               &lt;chr&gt;                                                     
+## 1 1163154266065735680 &quot;First #TidyTuesday submission! Roman emperors and their …
+## 2 1001412196247666688 &quot;My #tidytuesday submission for week 8. Honey production …</code></pre>
 <p>Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves.</p>
 <p>Here’s one way to do that using base R:</p>
 <div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="c11.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## [1] 8 5 9 7 4</code></pre>
+<pre><code>## [1] 2 9 4 5 3</code></pre>
 <p>Passing <code>sample()</code> a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of <code>x</code> and <code>size</code> to see how this works.</p>
 <p>{dplyr} has a version of this called <code>sample_n()</code> that we can use to randomly select rows in our tweets dataset. Using <code>sample_n()</code> looks like this:</p>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="c11.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
 <span id="cb262-2"><a href="c11.html#cb262-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb262-3"><a href="c11.html#cb262-3" aria-hidden="true" tabindex="-1"></a>pos_tweets <span class="sc">%&gt;%</span> </span>
 <span id="cb262-4"><a href="c11.html#cb262-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(., <span class="at">size =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 10 x 3
-##    status_id        text                                                positive
-##    &lt;chr&gt;            &lt;chr&gt;                                                  &lt;dbl&gt;
-##  1 113347244173969… &quot;Today is the day - excited to be leading this Bos…        1
-##  2 114436276456938… &quot;UFO sightings with gganimate - need to tidy up so…        1
-##  3 996745975124430… &quot;This week&#39;s #TidyTuesday dataset looks too fun to…        1
-##  4 108681181347857… &quot;This week: 2019-01-15 #TidyTuesday #rstats my foc…        1
-##  5 103451450126419… &quot;#TidyTuesday week 22.\nInteresting patterns in ho…        1
-##  6 113597645318988… &quot;.@broadwym is kicking off the #TidyTuesday colear…        1
-##  7 114881375394674… &quot;Night everyone i am heading to bed now i love you…        1
-##  8 107466544430342… &quot;@sebastianhwells @jspairani Hi Sebastian - every …        1
-##  9 115468388823039… &quot;Have you signed up for our next #rladies event? \…        1
-## 10 112789066770597… &quot;Better late than never. My first #TidyTuesday plo…        1</code></pre>
+<pre><code>## # A tibble: 10 × 3
+##    status_id           text                                             positive
+##    &lt;chr&gt;               &lt;chr&gt;                                               &lt;dbl&gt;
+##  1 1133472441739694081 &quot;Today is the day - excited to be leading this …        1
+##  2 1144362764569382912 &quot;UFO sightings with gganimate - need to tidy up…        1
+##  3 996745975124430848  &quot;This week&#39;s #TidyTuesday dataset looks too fun…        1
+##  4 1086811813478572033 &quot;This week: 2019-01-15 #TidyTuesday #rstats my …        1
+##  5 1034514501264191488 &quot;#TidyTuesday week 22.\nInteresting patterns in…        1
+##  6 1135976453189881858 &quot;.@broadwym is kicking off the #TidyTuesday col…        1
+##  7 1148813753946742784 &quot;Night everyone i am heading to bed now i love …        1
+##  8 1074665444303429633 &quot;@sebastianhwells @jspairani Hi Sebastian - eve…        1
+##  9 1154683888230391810 &quot;Have you signed up for our next #rladies event…        1
+## 10 1127890667705970689 &quot;Better late than never. My first #TidyTuesday …        1</code></pre>
 <p>That returned ten randomly selected tweets that we can now read through and discuss. Let’s look a little closer at how we did that. We used <code>sample_n()</code>, which returns randomly selected rows from our tweets dataset. We also specified that <code>size = 10</code>, which means we want <code>sample_n()</code> to give us 10 randomly selected rows. A few lines before that, we used <code>set.seed(2020)</code>. This helps us ensure that, while <code>sample_n()</code> theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using <code>set.seed(2020)</code> at the top of your code makes <code>sample_n()</code> pick the same ten rows every time. Try changing <code>2020</code> to another number and notice how <code>sample_n()</code> picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in <code>set.seed()</code>.</p>
 </div>
 </div>
@@ -1085,6 +1110,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

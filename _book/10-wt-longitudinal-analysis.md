@@ -225,7 +225,7 @@ dataset has some lines at the top that contain no data:
 
 
 ```
-## # A tibble: 16,234 x 31
+## # A tibble: 16,234 × 31
 ##    `Extraction Date… `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
 ##    <chr>             <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
 ##  1 Updated:          2/12/2014   <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
@@ -269,7 +269,7 @@ skip = 4)
 ```
 
 ```
-## # A tibble: 16,230 x 31
+## # A tibble: 16,230 × 31
 ##     Year `State Name` `SEA Education Envir… `SEA Disability … `American Indian …
 ##    <dbl> <chr>        <chr>                 <chr>             <chr>             
 ##  1  2012 ALABAMA      Correctional Facilit… All Disabilities  -                 
@@ -288,13 +288,7 @@ skip = 4)
 ## #   Two or More Races Age 3-5 <chr>, White Age 3-5 <chr>,
 ## #   Female Age 3 to 5 <chr>, Male Age 3 to 5 <chr>, LEP Yes Age 3 to 5 <chr>,
 ## #   LEP No Age 3 to 5 <chr>, Age 3 to 5 <chr>, Age 6-11 <chr>, Age 12-17 <chr>,
-## #   Age 18-21 <chr>, Ages 6-21 <chr>, LEP Yes Age 6 to 21 <chr>,
-## #   LEP No Age 6 to 21 <chr>, Female Age 6 to 21 <chr>, Male Age 6 to 21 <chr>,
-## #   American Indian or Alaska Native Age 6 to21 <chr>, Asian Age 6 to21 <chr>,
-## #   Black or African American Age 6 to21 <chr>,
-## #   Hispanic/Latino Age 6 to21 <chr>,
-## #   Native Hawaiian or Other Pacific Islander Age 6 to21 <chr>,
-## #   Two or more races Age 6 to21 <chr>, White Age 6 to21 <chr>
+## #   Age 18-21 <chr>, Ages 6-21 <chr>, LEP Yes Age 6 to 21 <chr>, …
 ```
 
 The `skip` argument told `read_csv()` to make the line containing "Year", "State
@@ -522,7 +516,7 @@ all_files[[5]]
 ```
 
 ```
-## # A tibble: 16,230 x 50
+## # A tibble: 16,230 × 50
 ##    `2016` Alabama `Correctional Facili… `All Disabiliti… `-`   `-_1` `-_2` `-_3`
 ##     <dbl> <chr>   <chr>                 <chr>            <chr> <chr> <chr> <chr>
 ##  1   2016 Alabama Home                  All Disabilities 43    30    35    0    
@@ -541,8 +535,7 @@ all_files[[5]]
 ## #   0_3 <chr>, 0_4 <chr>, 0_5 <chr>, 0_6 <chr>, 0_7 <chr>, 0_8 <chr>, 1 <chr>,
 ## #   2 <chr>, 4 <chr>, 14 <chr>, 22 <chr>, 30 <chr>, 4_1 <chr>, 0_9 <chr>,
 ## #   7 <chr>, 70 <chr>, 77 <chr>, 0_10 <chr>, 77_1 <chr>, 1_1 <chr>, 76 <chr>,
-## #   0_11 <chr>, 0_12 <chr>, 68 <chr>, 0_13 <chr>, 0_14 <chr>, 0_15 <chr>,
-## #   9 <chr>
+## #   0_11 <chr>, 0_12 <chr>, 68 <chr>, 0_13 <chr>, 0_14 <chr>, 0_15 <chr>, …
 ```
 
 We used `skip = 4` when we read in the datasets in the list. That worked for all
@@ -593,7 +586,7 @@ all_files[[1]] %>%
 ```
 
 ```
-## # A tibble: 16,230 x 8
+## # A tibble: 16,230 × 8
 ##     Year `State Name` `SEA Education Environ… `SEA Disability … `Female Age 3 t…
 ##    <dbl> <chr>        <chr>                   <chr>             <chr>           
 ##  1  2012 ALABAMA      Correctional Facilities All Disabilities  -               
@@ -762,9 +755,9 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 16 x 2
+## # A tibble: 16 × 2
 ##    `SEA Disability Category`                                                   n
-##  * <chr>                                                                   <int>
+##    <chr>                                                                   <int>
 ##  1 All Disabilities                                                         6954
 ##  2 Autism                                                                   6954
 ##  3 Deaf-blindness                                                           6954
@@ -836,7 +829,7 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   state              n
 ##   <chr>          <int>
 ## 1 Alabama            8
@@ -926,9 +919,7 @@ child_counts <-
 ```
 
 ```
-## Warning: Problem with `mutate()` input `total`.
-## ℹ NAs introduced by coercion
-## ℹ Input `total` is `as.numeric(total)`.
+## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion
 ```
 
 ```r
@@ -936,7 +927,7 @@ child_counts
 ```
 
 ```
-## # A tibble: 2,928 x 6
+## # A tibble: 2,928 × 6
 ##     year state   age             disability       gender total
 ##    <dbl> <chr>   <chr>           <chr>            <chr>  <dbl>
 ##  1  2012 alabama Total, Age 3-5  All Disabilities f       2228
@@ -1031,7 +1022,7 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 2,928 x 6
+## # A tibble: 2,928 × 6
 ##    year       state   age             disability       gender total
 ##    <date>     <chr>   <chr>           <chr>            <chr>  <dbl>
 ##  1 2012-01-01 alabama Total, Age 3-5  All Disabilities f       2228
@@ -1073,7 +1064,7 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 1,390 x 6
+## # A tibble: 1,390 × 6
 ##    year       state          age             disability       gender total
 ##    <date>     <chr>          <chr>           <chr>            <chr>  <dbl>
 ##  1 2012-01-01 alabama        Total, Age 3-5  All Disabilities f       2228
@@ -1115,7 +1106,7 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   state                                            mean_count
 ##   <chr>                                                 <dbl>
 ## 1 california                                          180879.
@@ -1267,7 +1258,7 @@ year. Our coding strategy will be to
   - Use `pivot_wider()` to create separate columns for male and female students.
   - Use `mutate()` to create a new variable called `ratio`. The values in this
     column will be the result of dividing the count of male students by the
-    count of female students
+    count of female students.
  
 Note here that we can also accomplish this comparison by dividing the number of
 female students by the number of male students. In this case, the result would
@@ -1385,15 +1376,15 @@ child_counts %>%
 ```
 
 ```
-## # A tibble: 6 x 5
-##   year       state                                  age                 f      m
-##   <date>     <chr>                                  <chr>           <dbl>  <dbl>
-## 1 2012-01-01 us, outlying areas, and freely associ… Total, Age 6… 1933619 3.89e6
-## 2 2013-01-01 us, outlying areas, and freely associ… Total, Age 6… 1937726 3.88e6
-## 3 2014-01-01 us, outlying areas, and freely associ… Total, Age 6… 1965204 3.92e6
-## 4 2015-01-01 us, outlying areas, and freely associ… Total, Age 6… 2007174 3.98e6
-## 5 2016-01-01 us, outlying areas, and freely associ… Total, Age 6… 2014120 3.97e6
-## 6 2017-01-01 us, outlying areas, and freely associ… Total, Age 6… 2051438 4.02e6
+## # A tibble: 6 × 5
+##   year       state                                            age        f      m
+##   <date>     <chr>                                            <chr>  <dbl>  <dbl>
+## 1 2012-01-01 us, outlying areas, and freely associated states Tota… 1.93e6 3.89e6
+## 2 2013-01-01 us, outlying areas, and freely associated states Tota… 1.94e6 3.88e6
+## 3 2014-01-01 us, outlying areas, and freely associated states Tota… 1.97e6 3.92e6
+## 4 2015-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.98e6
+## 5 2016-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.97e6
+## 6 2017-01-01 us, outlying areas, and freely associated states Tota… 2.05e6 4.02e6
 ```
 
 This is where we discover that each of the data points in the upper right hand
@@ -1463,9 +1454,9 @@ model_data %>%
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   year      n
-## * <fct> <int>
+##   <fct> <int>
 ## 1 2012     59
 ## 2 2013     56
 ## 3 2014     56
@@ -1569,9 +1560,9 @@ model_data %>%
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   year  mean_ratio
-## * <fct>      <dbl>
+##   <fct>      <dbl>
 ## 1 2012        2.03
 ## 2 2013        2.02
 ## 3 2014        2.01
@@ -1636,9 +1627,9 @@ model_data %>%
 ```
 
 ```
-## # A tibble: 6 x 2
+## # A tibble: 6 × 2
 ##   year  median_ratio
-## * <fct>        <dbl>
+##   <fct>        <dbl>
 ## 1 2012          1.99
 ## 2 2013          1.99
 ## 3 2014          1.98

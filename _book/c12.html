@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c11.html"/>
 <link rel="next" href="c13.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -751,21 +776,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">12.6</span> Methods: Process Data</h2>
 <p>Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant’s role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an <em>edgelist</em>. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an <em>edge</em>. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as <em>ties</em> or <em>relations</em>, but these generally refer to the same thing, though they may be used in different contexts.</p>
 <p>An edgelist looks like the following, where the <code>sender</code> (sometimes called the “nominator”) column identifies who is initiating the interaction and the <code>receiver</code> (sometimes called the “nominee”) column identifies who is receiving the interaction:</p>
-<pre><code>## # A tibble: 12 x 2
-##    sender         receiver           
-##    &lt;chr&gt;          &lt;chr&gt;              
-##  1 Reed, Lariah   Ward, Alexandra    
-##  2 Soto, Zayra    Gutierrez, Jeremiah
-##  3 Soto, Zayra    Duling, Kaila      
-##  4 Ashley, John   Gutierrez, Jeremiah
-##  5 Ashley, John   Ward, Alexandra    
-##  6 Ashley, John   Villalobos, Alexis 
-##  7 Pranger, Eva   Duling, Kaila      
-##  8 Pranger, Eva   Dhanani, James     
-##  9 Pranger, Eva   Villalobos, Alexis 
-## 10 Morado, Jacobo Pierce, Jordain    
-## 11 Yazzie, David  Duling, Kaila      
-## 12 Yazzie, David  Pierce, Jordain</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    sender               receiver            
+##    &lt;chr&gt;                &lt;chr&gt;               
+##  1 el-Ebrahimi, Saalima Saunders, Danial    
+##  2 Chen, Dewi           Duran, Roberto      
+##  3 Chen, Dewi           Herrera, J&#39;Rita     
+##  4 Blanchard, Dillon    Duran, Roberto      
+##  5 Blanchard, Dillon    Saunders, Danial    
+##  6 Blanchard, Dillon    Qadri, Thuc         
+##  7 Balsells, Dustin     Herrera, J&#39;Rita     
+##  8 Balsells, Dustin     al-Husain, Ahmed    
+##  9 Balsells, Dustin     Qadri, Thuc         
+## 10 Yazzie, Hershel      al-Mohammadi, Idrees
+## 11 Gomez, Mike          Herrera, J&#39;Rita     
+## 12 Gomez, Mike          al-Mohammadi, Idrees</code></pre>
 <p>In this edgelist, the <code>sender</code> column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like “liking” or “mentioning” their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.</p>
 <div id="extracting-mentions" class="section level3" number="12.6.1">
 <h3><span class="header-section-number">12.6.1</span> Extracting Mentions</h3>
@@ -792,7 +817,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">12.6.2</span> Putting the Edgelist Together</h3>
 <p>Recall that an edgelist is a data structure that has columns for the “sender” and “receiver” of interactions. Someone “sends” the mention to someone who is mentioned, who can be considered to “receive” it. To make the edgelist, we’ll need to clean it up a little by removing the “@” symbol. Let’s look at our data as it is now.</p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="c12.html#cb274-1" aria-hidden="true" tabindex="-1"></a>mentions</span></code></pre></div>
-<pre><code>## # A tibble: 2,447 x 2
+<pre><code>## # A tibble: 2,447 × 2
 ##    sender  all_mentions    
 ##    &lt;chr&gt;   &lt;chr&gt;           
 ##  1 cizzart @eldestapeweb   
@@ -828,7 +853,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb277-5"><a href="c12.html#cb277-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
 <span id="cb277-6"><a href="c12.html#cb277-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb277-7"><a href="c12.html#cb277-7" aria-hidden="true" tabindex="-1"></a>interactions_sent</span></code></pre></div>
-<pre><code>## # A tibble: 618 x 2
+<pre><code>## # A tibble: 618 × 2
 ##    sender            n
 ##    &lt;chr&gt;         &lt;int&gt;
 ##  1 thomas_mock     347
@@ -862,7 +887,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #
 ## # A directed multigraph with 7 components
 ## #
-## # Node Data: 267 x 1 (active)
+## # Node Data: 267 × 1 (active)
 ##   name           
 ##   &lt;chr&gt;          
 ## 1 dgwinfred      
@@ -873,7 +898,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 6 jakekaupp      
 ## # … with 261 more rows
 ## #
-## # Edge Data: 975 x 2
+## # Edge Data: 975 × 2
 ##    from    to
 ##   &lt;int&gt; &lt;int&gt;
 ## 1     1    32
@@ -1434,6 +1459,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

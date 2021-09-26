@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10 Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c09.html"/>
 <link rel="next" href="c11.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -855,7 +880,7 @@ chunk will store each dataset as an element of a list.</p>
 learn about its structure. Clues from this exploration inform how you read in
 all the datasets at once later on. For example, we can see that the first
 dataset has some lines at the top that contain no data:</p>
-<pre><code>## # A tibble: 16,234 x 31
+<pre><code>## # A tibble: 16,234 × 31
 ##    `Extraction Date… `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
 ##    &lt;chr&gt;             &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 ##  1 Updated:          2/12/2014   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; 
@@ -889,7 +914,7 @@ let’s you know in a warning message.</p>
 <span id="cb148-4"><a href="c10.html#cb148-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;bchildcountandedenvironments2012.csv&quot;</span></span>
 <span id="cb148-5"><a href="c10.html#cb148-5" aria-hidden="true" tabindex="-1"></a>),</span>
 <span id="cb148-6"><a href="c10.html#cb148-6" aria-hidden="true" tabindex="-1"></a><span class="at">skip =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 16,230 x 31
+<pre><code>## # A tibble: 16,230 × 31
 ##     Year `State Name` `SEA Education Envir… `SEA Disability … `American Indian …
 ##    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                 &lt;chr&gt;             &lt;chr&gt;             
 ##  1  2012 ALABAMA      Correctional Facilit… All Disabilities  -                 
@@ -908,13 +933,7 @@ let’s you know in a warning message.</p>
 ## #   Two or More Races Age 3-5 &lt;chr&gt;, White Age 3-5 &lt;chr&gt;,
 ## #   Female Age 3 to 5 &lt;chr&gt;, Male Age 3 to 5 &lt;chr&gt;, LEP Yes Age 3 to 5 &lt;chr&gt;,
 ## #   LEP No Age 3 to 5 &lt;chr&gt;, Age 3 to 5 &lt;chr&gt;, Age 6-11 &lt;chr&gt;, Age 12-17 &lt;chr&gt;,
-## #   Age 18-21 &lt;chr&gt;, Ages 6-21 &lt;chr&gt;, LEP Yes Age 6 to 21 &lt;chr&gt;,
-## #   LEP No Age 6 to 21 &lt;chr&gt;, Female Age 6 to 21 &lt;chr&gt;, Male Age 6 to 21 &lt;chr&gt;,
-## #   American Indian or Alaska Native Age 6 to21 &lt;chr&gt;, Asian Age 6 to21 &lt;chr&gt;,
-## #   Black or African American Age 6 to21 &lt;chr&gt;,
-## #   Hispanic/Latino Age 6 to21 &lt;chr&gt;,
-## #   Native Hawaiian or Other Pacific Islander Age 6 to21 &lt;chr&gt;,
-## #   Two or more races Age 6 to21 &lt;chr&gt;, White Age 6 to21 &lt;chr&gt;</code></pre>
+## #   Age 18-21 &lt;chr&gt;, Ages 6-21 &lt;chr&gt;, LEP Yes Age 6 to 21 &lt;chr&gt;, …</code></pre>
 <p>The <code>skip</code> argument told <code>read_csv()</code> to make the line containing “Year,” “State
 Name,” and so on as the first line. The result is a dataset that has “Year,”
 “State Name,” and so on as variable names.</p>
@@ -1072,7 +1091,7 @@ of <code>filenames</code>:</p>
 <p>Once we know the 2016 dataset is the fifth element of our list, we can pluck it
 out by using double brackets:</p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="c10.html#cb164-1" aria-hidden="true" tabindex="-1"></a>all_files[[<span class="dv">5</span>]]</span></code></pre></div>
-<pre><code>## # A tibble: 16,230 x 50
+<pre><code>## # A tibble: 16,230 × 50
 ##    `2016` Alabama `Correctional Facili… `All Disabiliti… `-`   `-_1` `-_2` `-_3`
 ##     &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
 ##  1   2016 Alabama Home                  All Disabilities 43    30    35    0    
@@ -1091,8 +1110,7 @@ out by using double brackets:</p>
 ## #   0_3 &lt;chr&gt;, 0_4 &lt;chr&gt;, 0_5 &lt;chr&gt;, 0_6 &lt;chr&gt;, 0_7 &lt;chr&gt;, 0_8 &lt;chr&gt;, 1 &lt;chr&gt;,
 ## #   2 &lt;chr&gt;, 4 &lt;chr&gt;, 14 &lt;chr&gt;, 22 &lt;chr&gt;, 30 &lt;chr&gt;, 4_1 &lt;chr&gt;, 0_9 &lt;chr&gt;,
 ## #   7 &lt;chr&gt;, 70 &lt;chr&gt;, 77 &lt;chr&gt;, 0_10 &lt;chr&gt;, 77_1 &lt;chr&gt;, 1_1 &lt;chr&gt;, 76 &lt;chr&gt;,
-## #   0_11 &lt;chr&gt;, 0_12 &lt;chr&gt;, 68 &lt;chr&gt;, 0_13 &lt;chr&gt;, 0_14 &lt;chr&gt;, 0_15 &lt;chr&gt;,
-## #   9 &lt;chr&gt;</code></pre>
+## #   0_11 &lt;chr&gt;, 0_12 &lt;chr&gt;, 68 &lt;chr&gt;, 0_13 &lt;chr&gt;, 0_14 &lt;chr&gt;, 0_15 &lt;chr&gt;, …</code></pre>
 <p>We used <code>skip = 4</code> when we read in the datasets in the list. That worked for all
 datasets except the fifth one. In that one, skipping four lines left out the
 variable name row. To fix it, we’ll read the 2016 dataset again using
@@ -1129,7 +1147,7 @@ can pass those characters to <code>contains()</code>:</p>
 <span id="cb167-5"><a href="c10.html#cb167-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contains</span>(<span class="st">&quot;SEA&quot;</span>, <span class="at">ignore.case =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb167-6"><a href="c10.html#cb167-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contains</span>(<span class="st">&quot;male&quot;</span>)</span>
 <span id="cb167-7"><a href="c10.html#cb167-7" aria-hidden="true" tabindex="-1"></a>  ) </span></code></pre></div>
-<pre><code>## # A tibble: 16,230 x 8
+<pre><code>## # A tibble: 16,230 × 8
 ##     Year `State Name` `SEA Education Environ… `SEA Disability … `Female Age 3 t…
 ##    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;             &lt;chr&gt;           
 ##  1  2012 ALABAMA      Correctional Facilities All Disabilities  -               
@@ -1261,9 +1279,9 @@ an <code>SEA Disability Category</code> appears in the dataset:</p>
 <div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="c10.html#cb176-1" aria-hidden="true" tabindex="-1"></a>child_counts <span class="sc">%&gt;%</span></span>
 <span id="cb176-2"><a href="c10.html#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># count number of times the category appears in the dataset</span></span>
 <span id="cb176-3"><a href="c10.html#cb176-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">SEA Disability Category</span><span class="st">`</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 16 x 2
+<pre><code>## # A tibble: 16 × 2
 ##    `SEA Disability Category`                                                   n
-##  * &lt;chr&gt;                                                                   &lt;int&gt;
+##    &lt;chr&gt;                                                                   &lt;int&gt;
 ##  1 All Disabilities                                                         6954
 ##  2 Autism                                                                   6954
 ##  3 Deaf-blindness                                                           6954
@@ -1319,7 +1337,7 @@ letters and some are in lower case letters:</p>
 <div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="c10.html#cb180-1" aria-hidden="true" tabindex="-1"></a>child_counts <span class="sc">%&gt;%</span></span>
 <span id="cb180-2"><a href="c10.html#cb180-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(state) <span class="sc">%&gt;%</span></span>
 <span id="cb180-3"><a href="c10.html#cb180-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##   state              n
 ##   &lt;chr&gt;          &lt;int&gt;
 ## 1 Alabama            8
@@ -1388,11 +1406,9 @@ numeric columns. We’ll use <code>mutate()</code> to change the count columns.<
 <div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="c10.html#cb185-1" aria-hidden="true" tabindex="-1"></a>child_counts <span class="ot">&lt;-</span></span>
 <span id="cb185-2"><a href="c10.html#cb185-2" aria-hidden="true" tabindex="-1"></a>  child_counts <span class="sc">%&gt;%</span></span>
 <span id="cb185-3"><a href="c10.html#cb185-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">as.numeric</span>(total))</span></code></pre></div>
-<pre><code>## Warning: Problem with `mutate()` input `total`.
-## ℹ NAs introduced by coercion
-## ℹ Input `total` is `as.numeric(total)`.</code></pre>
+<pre><code>## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
 <div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="c10.html#cb187-1" aria-hidden="true" tabindex="-1"></a>child_counts</span></code></pre></div>
-<pre><code>## # A tibble: 2,928 x 6
+<pre><code>## # A tibble: 2,928 × 6
 ##     year state   age             disability       gender total
 ##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
 ##  1  2012 alabama Total, Age 3-5  All Disabilities f       2228
@@ -1451,7 +1467,7 @@ does on <code>child_counts</code> when we pass it the <code>year</code>, <code>s
 variables:</p>
 <div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="c10.html#cb197-1" aria-hidden="true" tabindex="-1"></a>child_counts <span class="sc">%&gt;%</span></span>
 <span id="cb197-2"><a href="c10.html#cb197-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, state, gender)</span></code></pre></div>
-<pre><code>## # A tibble: 2,928 x 6
+<pre><code>## # A tibble: 2,928 × 6
 ##    year       state   age             disability       gender total
 ##    &lt;date&gt;     &lt;chr&gt;   &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
 ##  1 2012-01-01 alabama Total, Age 3-5  All Disabilities f       2228
@@ -1480,7 +1496,7 @@ row for each category:</p>
 <p>We can verify we have the categories we want by sorting again:</p>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="c10.html#cb200-1" aria-hidden="true" tabindex="-1"></a>child_counts <span class="sc">%&gt;%</span></span>
 <span id="cb200-2"><a href="c10.html#cb200-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, state, gender)</span></code></pre></div>
-<pre><code>## # A tibble: 1,390 x 6
+<pre><code>## # A tibble: 1,390 × 6
 ##    year       state          age             disability       gender total
 ##    &lt;date&gt;     &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;  &lt;dbl&gt;
 ##  1 2012-01-01 alabama        Total, Age 3-5  All Disabilities f       2228
@@ -1515,7 +1531,7 @@ with disabilities:</p>
 <span id="cb202-3"><a href="c10.html#cb202-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_count =</span> <span class="fu">mean</span>(total)) <span class="sc">%&gt;%</span></span>
 <span id="cb202-4"><a href="c10.html#cb202-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which six states have the highest mean count of students with disabilities</span></span>
 <span id="cb202-5"><a href="c10.html#cb202-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">6</span>, mean_count)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##   state                                            mean_count
 ##   &lt;chr&gt;                                                 &lt;dbl&gt;
 ## 1 california                                          180879.
@@ -1648,7 +1664,7 @@ year. Our coding strategy will be to</p>
 <li>Use <code>pivot_wider()</code> to create separate columns for male and female students.</li>
 <li>Use <code>mutate()</code> to create a new variable called <code>ratio</code>. The values in this
 column will be the result of dividing the count of male students by the
-count of female students</li>
+count of female students.</li>
 </ul>
 <p>Note here that we can also accomplish this comparison by dividing the number of
 female students by the number of male students. In this case, the result would
@@ -1753,15 +1769,15 @@ states that have more than 500,000 female students in any year:</p>
 <span id="cb211-4"><a href="c10.html#cb211-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> total) <span class="sc">%&gt;%</span> </span>
 <span id="cb211-5"><a href="c10.html#cb211-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(f <span class="sc">&gt;</span> <span class="dv">500000</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb211-6"><a href="c10.html#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, state, age, f, m)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 5
-##   year       state                                  age                 f      m
-##   &lt;date&gt;     &lt;chr&gt;                                  &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
-## 1 2012-01-01 us, outlying areas, and freely associ… Total, Age 6… 1933619 3.89e6
-## 2 2013-01-01 us, outlying areas, and freely associ… Total, Age 6… 1937726 3.88e6
-## 3 2014-01-01 us, outlying areas, and freely associ… Total, Age 6… 1965204 3.92e6
-## 4 2015-01-01 us, outlying areas, and freely associ… Total, Age 6… 2007174 3.98e6
-## 5 2016-01-01 us, outlying areas, and freely associ… Total, Age 6… 2014120 3.97e6
-## 6 2017-01-01 us, outlying areas, and freely associ… Total, Age 6… 2051438 4.02e6</code></pre>
+<pre><code>## # A tibble: 6 × 5
+##   year       state                                            age        f      m
+##   &lt;date&gt;     &lt;chr&gt;                                            &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 2012-01-01 us, outlying areas, and freely associated states Tota… 1.93e6 3.89e6
+## 2 2013-01-01 us, outlying areas, and freely associated states Tota… 1.94e6 3.88e6
+## 3 2014-01-01 us, outlying areas, and freely associated states Tota… 1.97e6 3.92e6
+## 4 2015-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.98e6
+## 5 2016-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.97e6
+## 6 2017-01-01 us, outlying areas, and freely associated states Tota… 2.05e6 4.02e6</code></pre>
 <p>This is where we discover that each of the data points in the upper right hand
 corner of the plot are from the state value “us, us, outlying areas, and freely
 associated states.” If we remove these outliers, we have a distribution of
@@ -1814,9 +1830,9 @@ female count ratio.</p>
 <p>We can see how much data we have per year by using <code>count()</code>:</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="c10.html#cb215-1" aria-hidden="true" tabindex="-1"></a>model_data <span class="sc">%&gt;%</span></span>
 <span id="cb215-2"><a href="c10.html#cb215-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##   year      n
-## * &lt;fct&gt; &lt;int&gt;
+##   &lt;fct&gt; &lt;int&gt;
 ## 1 2012     59
 ## 2 2013     56
 ## 3 2014     56
@@ -1896,9 +1912,9 @@ average <code>ratio</code> at every value of <code>year</code>. We can verify th
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="c10.html#cb221-1" aria-hidden="true" tabindex="-1"></a>model_data <span class="sc">%&gt;%</span></span>
 <span id="cb221-2"><a href="c10.html#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
 <span id="cb221-3"><a href="c10.html#cb221-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_ratio =</span> <span class="fu">mean</span>(ratio))</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##   year  mean_ratio
-## * &lt;fct&gt;      &lt;dbl&gt;
+##   &lt;fct&gt;      &lt;dbl&gt;
 ## 1 2012        2.03
 ## 2 2013        2.02
 ## 3 2014        2.01
@@ -1944,9 +1960,9 @@ looking at the median male to female ratio for each year:</p>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="c10.html#cb225-1" aria-hidden="true" tabindex="-1"></a>model_data <span class="sc">%&gt;%</span></span>
 <span id="cb225-2"><a href="c10.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
 <span id="cb225-3"><a href="c10.html#cb225-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_ratio =</span> <span class="fu">median</span>(ratio))</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # A tibble: 6 × 2
 ##   year  median_ratio
-## * &lt;fct&gt;        &lt;dbl&gt;
+##   &lt;fct&gt;        &lt;dbl&gt;
 ## 1 2012          1.99
 ## 2 2013          1.99
 ## 3 2014          1.98
@@ -2093,6 +2109,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

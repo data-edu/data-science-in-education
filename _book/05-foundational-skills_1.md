@@ -264,14 +264,16 @@ The package serves four main functions:
 4. The "dataedu" theme and color palette for reuse
 
 If you feel that you need more information before you're ready to install the package, you can skip this section and rest assured that we'll cover packages, their installation, and how to load them into R in more depth in [Chapter 6](#c06).
-However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below. *Please note that the {dataedu} package requires R version 3.6 or higher to run.*  
+However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below.
+
+> **Note:** After the publication of this book, we realized using {devtools} to install {dataedu} could create a lot of conflict with readers' existing packages We updated the code to require only the package {remotes} contained within {devtools} so to ease installation. For more info, see the [{dataedu} repository on GitHub](https://github.com/data-edu/dataedu).
 
 
 ```r
-# install devtools
-install.packages("devtools", repos = "http://cran.us.r-project.org")
-# install the dataedu package (requires R version 3.6 or higher)
-devtools::install_github("data-edu/dataedu")
+# install {remotes}
+install.packages("remotes", repos = "http://cran.us.r-project.org")
+# install the {dataedu} package (requires R version 3.6 or higher)
+remotes::install_github("data-edu/dataedu")
 ```
 
 *A special note on {tabulizer}:* 

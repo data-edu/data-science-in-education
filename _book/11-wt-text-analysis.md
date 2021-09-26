@@ -125,7 +125,7 @@ tokens
 ```
 
 ```
-## # A tibble: 131,233 x 2
+## # A tibble: 131,232 × 2
 ##    status_id           word       
 ##    <chr>               <chr>      
 ##  1 1163154266065735680 first      
@@ -138,7 +138,7 @@ tokens
 ##  8 1163154266065735680 rise       
 ##  9 1163154266065735680 to         
 ## 10 1163154266065735680 power      
-## # … with 131,223 more rows
+## # … with 131,222 more rows
 ```
 
 We use `output = word` to tell `unnest_tokens()` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens()` to tokenize the tweets in the `text` column of our `tweets` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `status_id` column that tells us which tweet the word appears in. 
@@ -171,7 +171,7 @@ tokens %>%
 ```
 
 ```
-## # A tibble: 15,335 x 2
+## # A tibble: 15,334 × 2
 ##    word            n
 ##    <chr>       <int>
 ##  1 t.co         5432
@@ -184,7 +184,7 @@ tokens %>%
 ##  8 r4ds          675
 ##  9 dataviz       607
 ## 10 time          494
-## # … with 15,325 more rows
+## # … with 15,324 more rows
 ```
 
 We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
@@ -202,7 +202,7 @@ tokens %>%
 ```
 
 ```
-## # A tibble: 15,335 x 3
+## # A tibble: 15,334 × 3
 ##    word            n percent
 ##    <chr>       <int>   <dbl>
 ##  1 t.co         5432   7.39 
@@ -215,7 +215,7 @@ tokens %>%
 ##  8 r4ds          675   0.919
 ##  9 dataviz       607   0.826
 ## 10 time          494   0.672
-## # … with 15,325 more rows
+## # … with 15,324 more rows
 ```
 
 Even at 4316 appearances in our dataset, "tidytuesday" represents only about 6 percent of the total words in our dataset. This makes sense when you consider our dataset contains 15335 unique words. 
@@ -245,7 +245,7 @@ get_sentiments("nrc")
 ```
 
 ```
-## # A tibble: 13,901 x 2
+## # A tibble: 13,901 × 2
 ##    word        sentiment
 ##    <chr>       <chr>    
 ##  1 abacus      trust    
@@ -285,7 +285,7 @@ pos_tokens_count
 ```
 
 ```
-## # A tibble: 644 x 2
+## # A tibble: 644 × 2
 ##    word          n
 ##    <chr>     <int>
 ##  1 fun         173
@@ -346,7 +346,7 @@ dv_tokens
 ```
 
 ```
-## # A tibble: 607 x 2
+## # A tibble: 607 × 2
 ##    status_id           word   
 ##    <chr>               <chr>  
 ##  1 1116518351147360257 dataviz
@@ -387,7 +387,7 @@ pos_tokens
 ```
 
 ```
-## # A tibble: 4,925 x 2
+## # A tibble: 4,925 × 2
 ##    status_id           word      
 ##    <chr>               <chr>     
 ##  1 1163154266065735680 throne    
@@ -464,9 +464,9 @@ dv_pos %>%
 ```
 
 ```
-## # A tibble: 2 x 3
+## # A tibble: 2 × 3
 ##   positive     n  perc
-## *    <dbl> <int> <dbl>
+##      <dbl> <int> <dbl>
 ## 1        0   272 0.450
 ## 2        1   333 0.550
 ```
@@ -500,11 +500,11 @@ tweets %>%
 ```
 
 ```
-## # A tibble: 2 x 2
-##   status_id         text                                                        
-##   <chr>             <chr>                                                       
-## 1 1163154266065735… "First #TidyTuesday submission! Roman emperors and their ri…
-## 2 1001412196247666… "My #tidytuesday submission for week 8. Honey production da…
+## # A tibble: 2 × 2
+##   status_id           text                                                      
+##   <chr>               <chr>                                                     
+## 1 1163154266065735680 "First #TidyTuesday submission! Roman emperors and their …
+## 2 1001412196247666688 "My #tidytuesday submission for week 8. Honey production …
 ```
 
 Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves. 
@@ -517,7 +517,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 5 2 4 8 7
+## [1]  5  6  9  8 10
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -533,19 +533,19 @@ pos_tweets %>%
 ```
 
 ```
-## # A tibble: 10 x 3
-##    status_id        text                                                positive
-##    <chr>            <chr>                                                  <dbl>
-##  1 113347244173969… "Today is the day - excited to be leading this Bos…        1
-##  2 114436276456938… "UFO sightings with gganimate - need to tidy up so…        1
-##  3 996745975124430… "This week's #TidyTuesday dataset looks too fun to…        1
-##  4 108681181347857… "This week: 2019-01-15 #TidyTuesday #rstats my foc…        1
-##  5 103451450126419… "#TidyTuesday week 22.\nInteresting patterns in ho…        1
-##  6 113597645318988… ".@broadwym is kicking off the #TidyTuesday colear…        1
-##  7 114881375394674… "Night everyone i am heading to bed now i love you…        1
-##  8 107466544430342… "@sebastianhwells @jspairani Hi Sebastian - every …        1
-##  9 115468388823039… "Have you signed up for our next #rladies event? \…        1
-## 10 112789066770597… "Better late than never. My first #TidyTuesday plo…        1
+## # A tibble: 10 × 3
+##    status_id           text                                             positive
+##    <chr>               <chr>                                               <dbl>
+##  1 1133472441739694081 "Today is the day - excited to be leading this …        1
+##  2 1144362764569382912 "UFO sightings with gganimate - need to tidy up…        1
+##  3 996745975124430848  "This week's #TidyTuesday dataset looks too fun…        1
+##  4 1086811813478572033 "This week: 2019-01-15 #TidyTuesday #rstats my …        1
+##  5 1034514501264191488 "#TidyTuesday week 22.\nInteresting patterns in…        1
+##  6 1135976453189881858 ".@broadwym is kicking off the #TidyTuesday col…        1
+##  7 1148813753946742784 "Night everyone i am heading to bed now i love …        1
+##  8 1074665444303429633 "@sebastianhwells @jspairani Hi Sebastian - eve…        1
+##  9 1154683888230391810 "Have you signed up for our next #rladies event…        1
+## 10 1127890667705970689 "Better late than never. My first #TidyTuesday …        1
 ```
 
 That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
