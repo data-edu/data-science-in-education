@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>15 Introducing Data Science Tools To Your Education Job | Data Science in Education Using R</title>
   <meta name="description" content="Bookdown for ‘Data Science in Education Using R’ by Emily A. Bovee, Ryan A. Estrellado, Jesse Mostipak, Joshua M. Rosenberg, and Isabella C. Velásquez to be published by Routledge in 2020" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="15 Introducing Data Science Tools To Your Education Job | Data Science in Education Using R" />
   <meta property="og:type" content="book" />
@@ -32,7 +32,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <link rel="prev" href="c14.html"/>
 <link rel="next" href="c16.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156454511-1"></script>
 <script>
@@ -123,6 +125,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -695,7 +720,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb383-10"><a href="c15.html#cb383-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb383-11"><a href="c15.html#cb383-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb383-12"><a href="c15.html#cb383-12" aria-hidden="true" tabindex="-1"></a>quizzes_1</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 5
+<pre><code>## # A tibble: 3 × 5
 ##   teacher_id student_id quiz_1 quiz_2 quiz_3
 ##        &lt;dbl&gt;      &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
 ## 1          1          1     27     87     35
@@ -704,7 +729,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you’d like to do that for five teachers using the exact same method? First, let’s tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using <code>pivot_longer()</code> to separate the quiz number and its score for each student will get us a long way:</p>
 <div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="c15.html#cb385-1" aria-hidden="true" tabindex="-1"></a>quizzes_1 <span class="sc">%&gt;%</span> </span>
 <span id="cb385-2"><a href="c15.html#cb385-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 9 x 4
+<pre><code>## # A tibble: 9 × 4
 ##   teacher_id student_id quiz_number score
 ##        &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;       &lt;int&gt;
 ## 1          1          1 quiz_1         27
@@ -721,9 +746,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb387-2"><a href="c15.html#cb387-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb387-3"><a href="c15.html#cb387-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id) <span class="sc">%&gt;%</span> </span>
 <span id="cb387-4"><a href="c15.html#cb387-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   student_id quiz_mean
-## *      &lt;int&gt;     &lt;dbl&gt;
+##        &lt;int&gt;     &lt;dbl&gt;
 ## 1          1      49.7
 ## 2          2      63.7
 ## 3          3      35.3</code></pre>
@@ -760,7 +785,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb390-2"><a href="c15.html#cb390-2" aria-hidden="true" tabindex="-1"></a>all_quizzes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(quizzes_1, quizzes_2, quizzes_3) </span></code></pre></div>
 <p>Note there are now nine rows, one for each student in our dataset of three teacher quiz exports:</p>
 <div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="c15.html#cb391-1" aria-hidden="true" tabindex="-1"></a>all_quizzes</span></code></pre></div>
-<pre><code>## # A tibble: 9 x 6
+<pre><code>## # A tibble: 9 × 6
 ##   teacher_id student_id quiz_1 quiz_2 quiz_3 intervention
 ##        &lt;dbl&gt;      &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;
 ## 1          1          1     27     87     35            0
@@ -781,7 +806,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb393-6"><a href="c15.html#cb393-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id, intervention ) <span class="sc">%&gt;%</span> </span>
 <span id="cb393-7"><a href="c15.html#cb393-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;student_id&#39;. You can override using the `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 9 x 3
+<pre><code>## # A tibble: 9 × 3
 ## # Groups:   student_id [9]
 ##   student_id intervention quiz_mean
 ##        &lt;int&gt;        &lt;dbl&gt;     &lt;dbl&gt;
@@ -932,6 +957,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {

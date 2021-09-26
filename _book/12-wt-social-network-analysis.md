@@ -131,21 +131,21 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 
 ```
-## # A tibble: 12 x 2
-##    sender              receiver          
-##    <chr>               <chr>             
-##  1 Truitt, Reeanna     el-Pasha, Muhammad
-##  2 al-Shahid, Intisaar al-Sultan, Saalima
-##  3 al-Shahid, Intisaar Galloway, Erik    
-##  4 al-Rais, Tawheed    al-Sultan, Saalima
-##  5 al-Rais, Tawheed    el-Pasha, Muhammad
-##  6 al-Rais, Tawheed    Foley, Christopher
-##  7 el-Hana, Maisara    Galloway, Erik    
-##  8 el-Hana, Maisara    Topai, Carly      
-##  9 el-Hana, Maisara    Foley, Christopher
-## 10 Cantrell, Heidi     Donohue, Skyler   
-## 11 Moran, Vivian       Galloway, Erik    
-## 12 Moran, Vivian       Donohue, Skyler
+## # A tibble: 12 × 2
+##    sender           receiver         
+##    <chr>            <chr>            
+##  1 Broker, Aungko   Bruno, Alissa    
+##  2 Cordova, Ruth    al-Beydoun, Hujja
+##  3 Cordova, Ruth    el-Ishak, Jawhara
+##  4 Byers, Vanessa   al-Beydoun, Hujja
+##  5 Byers, Vanessa   Bruno, Alissa    
+##  6 Byers, Vanessa   Payte, Michael   
+##  7 el-Sadek, Munisa el-Ishak, Jawhara
+##  8 el-Sadek, Munisa Marynowski, Rito 
+##  9 el-Sadek, Munisa Payte, Michael   
+## 10 Tinsley, Jessie  el-Hammad, Taqi  
+## 11 Phan, Brian      el-Ishak, Jawhara
+## 12 Phan, Brian      el-Hammad, Taqi
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -190,7 +190,7 @@ mentions
 ```
 
 ```
-## # A tibble: 2,447 x 2
+## # A tibble: 2,447 × 2
 ##    sender  all_mentions    
 ##    <chr>   <chr>           
 ##  1 cizzart @eldestapeweb   
@@ -238,7 +238,7 @@ interactions_sent
 ```
 
 ```
-## # A tibble: 618 x 2
+## # A tibble: 618 × 2
 ##    sender            n
 ##    <chr>         <int>
 ##  1 thomas_mock     347
@@ -291,7 +291,7 @@ g
 ## #
 ## # A directed multigraph with 7 components
 ## #
-## # Node Data: 267 x 1 (active)
+## # Node Data: 267 × 1 (active)
 ##   name           
 ##   <chr>          
 ## 1 dgwinfred      
@@ -302,7 +302,7 @@ g
 ## 6 jakekaupp      
 ## # … with 261 more rows
 ## #
-## # Edge Data: 975 x 2
+## # Edge Data: 975 × 2
 ##    from    to
 ##   <int> <int>
 ## 1     1    32

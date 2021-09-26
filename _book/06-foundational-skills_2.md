@@ -165,7 +165,7 @@ While it is entirely possible to do all of your work in R without ever using a p
 
 **Installing a package**
 
-In [Chapter 5](#c05), you might have noticed at the very end that we installed two packages ({devtools} and {dataedu}), but we didn't talk too much about what we were doing. 
+In [Chapter 5](#c05), you might have noticed at the very end that we installed two packages ({remotes} and {dataedu}), but we didn't talk too much about what we were doing. 
 We'll get into more detail on installing and loading packages now. 
 
 In order to access the functions within a package, you must first install the package on your computer. There are a collection of R packages hosted on the internet on the CRAN website:  [CRAN](https://cran.r-project.org/)(https:[]()//cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork. These packages must meet certain quality standards, and they are regularly tested. 
@@ -236,22 +236,22 @@ If you installed the {dataedu} package already, you can skip to the next section
 
 
 ```r
-# install devtools
-install.packages("devtools", repos = "http://cran.us.r-project.org")
+# install remotes
+install.packages("remotes", repos = "http://cran.us.r-project.org")
 
 # install the dataedu package
-devtools::install_github("data-edu/dataedu")
+remotes::install_github("data-edu/dataedu")
 ```
 
 Let's take this code apart a bit.
-The first function, `install.packages("devtools", repos = "http://cran.us.r-project.org")`, has two arguments, `"devtools"` and `repos = "http://cran.us.r-project.org"`.
-The first argument, `"devtools"`, is the name of the package we want to install.
+The first function, `install.packages("remotes", repos = "http://cran.us.r-project.org")`, has two arguments, `"remotes"` and `repos = "http://cran.us.r-project.org"`.
+The first argument, `"remotes"`, is the name of the package we want to install.
 The second argument, `repos = "http://cran.us.r-project.org"`, tells R the URL of the repository to use. 
 For now, all we need to know is that a repository is a place where code can be stored.  
-In order for us to load and use the {dataedu} package, we first needed to install the {devtools} package.
+In order for us to load and use the {dataedu} package, we first needed to install the {remotes} package.
 
-The second function, `devtools::install_github("data-edu/dataedu")`, has only one argument, `"data-edu/dataedu"`, but also looks a little different from the first function.
-What we're doing here is telling R to go to the {devtools} package to find the `install_github()` function.
+The second function, `remotes::install_github("data-edu/dataedu")`, has only one argument, `"data-edu/dataedu"`, but also looks a little different from the first function.
+What we're doing here is telling R to go to the {remotes} package to find the `install_github()` function.
 The `install_github()` function is telling R to go to a specific repository on GitHub to get the code for the {dataedu} package.
 You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to loading the {dataedu} package because the package is not available on CRAN yet.

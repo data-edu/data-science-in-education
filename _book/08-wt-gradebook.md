@@ -17,7 +17,8 @@
 
 - correlation  
 - directory  
-- environment    
+- environment
+- factor level
 - linear model  
 - linearity  
 - missing values/ NA
@@ -270,12 +271,23 @@ Visual representations of data are more human friendly than just looking at numb
 summary(gradebook)
 ```
 
-But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here we can see the variable `letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis. 
+But R can do more than just print numbers to a screen. We'll use the {ggplot2} package from within {tidyverse} to graph some of the data to help get a better grasp of what the data looks like. This code uses {ggplot2} to graph categorical variables into a bar graph. Here, we can see the variable `letter_grade` is plotted on the x-axis showing the counts of each letter grade on the y-axis.
+
+In this dataset, the column `letter_grades` has a "factor level", a predefined order for categorical variables. By default, if you were to plot this graph using the code below _without_ defining the order of the letter grades, {ggplot2} will default to the lexicographic ordering of factors on the horizontal axis (i.e., A, A-, A+, B, B-, B+, etc.). It is more useful to have the traditional order of grades with A+ being the highest (and furthest left). We do this by using `mutate()`, noting which variable we want to designate a factor order (`letter_grade`), and the desired factor levels supplied in a vector. Try out the code with and without the `mutate()` call to see the difference and see if you agree!
 
 
 ```r
 # Bar graph for categorical variable
 gradebook %>%
+  # Code defining the 
+  mutate(letter_grade = 
+           factor(letter_grade, levels = c("A+",
+                                           "A",
+                                           "A-",
+                                           "B+",
+                                           "B",
+                                           "B-",
+                                           "C+"))) %>%
   ggplot(aes(x = letter_grade,
              fill = running_average > 90)) +
   geom_bar() +
@@ -289,20 +301,37 @@ gradebook %>%
 
 ![(\#fig:fig8-1)Bar Graph of Student Grades](08-wt-gradebook_files/figure-docx/fig8-1-1.png){width=100%}
 
-Using {ggplot2}, we can create many types of graphs. Using our `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats.
+Using {ggplot2}, we can create many types of graphs. Using `classwork_df` from earlier, we can see the distribution of scores and how they differ from classwork to classwork using boxplots. We are able to do this because we have made the `classworks` and `scores` columns into tidy formats. Like before, we can change the factor levels of `classwork_number` so that they are in an order that is more easily understandable when viewing the plot.
 
 
 ```r
-# Scatterplot of continuous variable
+# Boxplot of continuous variable
 classwork_df %>%
+  mutate(classwork_number = 
+           factor(classwork_number, levels = c("classwork_1",
+                                               "classwork_2",
+                                               "classwork_3",
+                                               "classwork_4",
+                                               "classwork_5",
+                                               "classwork_6",
+                                               "classwork_7",
+                                               "classwork_8",
+                                               "classwork_9",
+                                               "classwork_10",
+                                               "classwork_11",
+                                               "classwork_12",
+                                               "classwork_13",
+                                               "classwork_14",
+                                               "classwork_15",
+                                               "classwork_16",
+                                               "classwork_17"))) %>%
   ggplot(aes(x = classwork_number,
              y = score,
              fill = classwork_number)) +
-  geom_boxplot() +
+  geom_boxplot(fill = dataedu_colors("yellow")) +
   labs(title = "Distribution of Classwork Scores",
        x = "Classwork",
        y = "Scores") +
-  scale_fill_dataedu() +
   theme_dataedu() +
   theme(
     # removes legend
@@ -480,6 +509,6 @@ It takes practice to interpret and communicate these concepts well. A good start
 This walkthrough chapter followed the basic steps of a data analysis project. 
 We first *imported* our data, then *cleaned and transformed* it.
 Once we had the data in a tidy format, we were able to *explore* the data using data visualization before *modeling* the data using linear regression.
-Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats format). 
+Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [RMarkdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). While we do not discuss RMarkdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) as well as code and the output from code that are displayed together in a single document (PDF, Word, HTML, and other formats). 
 
 While we began to explore models in this walkthrough, we will continue to discuss analyses and statistical modeling in more detail in later chapters (i.e., [Chapter 9 on aggregate data](#c9), [Chapter 10 on longitudinal analyses](#c10), [Chapter 13 on multi-level models](#c13), and [Chapter 14 on random forest machine learning models](#c14)).

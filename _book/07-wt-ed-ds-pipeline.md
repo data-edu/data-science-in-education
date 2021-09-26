@@ -189,7 +189,7 @@ function; the names of the packages must be provided to the function as follows:
 
 
 ```r
-install.packages(c("tidyverse", "apaTables))
+install.packages(c("tidyverse", "apaTables"))
 ```
 
 When you're installing a package for the first time (which may be needed for the other walkthrough chapters, as well), you will need to take these same steps, first. 
@@ -240,7 +240,7 @@ pre_survey
 ```
 
 ```
-## # A tibble: 1,102 x 12
+## # A tibble: 1,102 × 12
 ##    opdata_username opdata_CourseID Q1MaincellgroupRow1 Q1MaincellgroupRow2
 ##    <chr>           <chr>                         <dbl>               <dbl>
 ##  1 _80624_1        FrScA-S116-01                     4                   4
@@ -265,19 +265,19 @@ course_data
 ```
 
 ```
-## # A tibble: 29,711 x 8
-##    CourseSectionOri… Bb_UserPK Gradebook_Item      Grade_Category FinalGradeCEMS
-##    <chr>                 <dbl> <chr>               <chr>                   <dbl>
-##  1 AnPhA-S116-01         60186 POINTS EARNED & TO… <NA>                     86.3
-##  2 AnPhA-S116-01         60186 WORK ATTEMPTED      <NA>                     86.3
-##  3 AnPhA-S116-01         60186 0.1: Message Your … <NA>                     86.3
-##  4 AnPhA-S116-01         60186 0.2: Intro Assignm… Hw                       86.3
-##  5 AnPhA-S116-01         60186 0.3: Intro Assignm… Hw                       86.3
-##  6 AnPhA-S116-01         60186 1.1: Quiz           Qz                       86.3
-##  7 AnPhA-S116-01         60186 1.2: Quiz           Qz                       86.3
-##  8 AnPhA-S116-01         60186 1.3: Create a Livi… Hw                       86.3
-##  9 AnPhA-S116-01         60186 1.3: Create a Livi… Hw                       86.3
-## 10 AnPhA-S116-01         60186 1.4: Negative Feed… Hw                       86.3
+## # A tibble: 29,711 × 8
+##    CourseSectionOrigID Bb_UserPK Gradebook_Item    Grade_Category FinalGradeCEMS
+##    <chr>                   <dbl> <chr>             <chr>                   <dbl>
+##  1 AnPhA-S116-01           60186 POINTS EARNED & … <NA>                     86.3
+##  2 AnPhA-S116-01           60186 WORK ATTEMPTED    <NA>                     86.3
+##  3 AnPhA-S116-01           60186 0.1: Message You… <NA>                     86.3
+##  4 AnPhA-S116-01           60186 0.2: Intro Assig… Hw                       86.3
+##  5 AnPhA-S116-01           60186 0.3: Intro Assig… Hw                       86.3
+##  6 AnPhA-S116-01           60186 1.1: Quiz         Qz                       86.3
+##  7 AnPhA-S116-01           60186 1.2: Quiz         Qz                       86.3
+##  8 AnPhA-S116-01           60186 1.3: Create a Li… Hw                       86.3
+##  9 AnPhA-S116-01           60186 1.3: Create a Li… Hw                       86.3
+## 10 AnPhA-S116-01           60186 1.4: Negative Fe… Hw                       86.3
 ## # … with 29,701 more rows, and 3 more variables: Points_Possible <dbl>,
 ## #   Points_Earned <dbl>, Gender <chr>
 ```
@@ -287,7 +287,7 @@ course_minutes
 ```
 
 ```
-## # A tibble: 598 x 3
+## # A tibble: 598 × 3
 ##    Bb_UserPK CourseSectionOrigID TimeSpent
 ##        <dbl> <chr>                   <dbl>
 ##  1     44638 OcnA-S116-01            1383.
@@ -378,7 +378,7 @@ df %>% mutate(total_students = male + female)
 ```
 
 ```
-## # A tibble: 1 x 3
+## # A tibble: 1 × 3
 ##    male female total_students
 ##   <dbl>  <dbl>          <dbl>
 ## 1     5      5             10
@@ -564,9 +564,9 @@ measure_mean
 ```
 
 ```
-## # A tibble: 3 x 3
+## # A tibble: 3 × 3
 ##   measure mean_response percent_NA
-## * <chr>           <dbl>      <dbl>
+##   <chr>           <dbl>      <dbl>
 ## 1 int              4.25      0.178
 ## 2 pc               3.65      0.178
 ## 3 uv               3.74      0.178
@@ -644,7 +644,7 @@ pre_survey
 ```
 
 ```
-## # A tibble: 1,102 x 12
+## # A tibble: 1,102 × 12
 ##    student_id course_id       q1    q2    q3    q4    q5    q6    q7    q8    q9
 ##    <chr>      <chr>        <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 ##  1 _80624_1   FrScA-S116-…     4     4     4     5     5     4     5     5     5
@@ -750,9 +750,7 @@ pre_survey <- pre_survey %>%
 ```
 
 ```
-## Warning: Problem with `mutate()` input `student_id`.
-## ℹ NAs introduced by coercion
-## ℹ Input `student_id` is `as.numeric(student_id)`.
+## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion
 ```
 
 Now that the `student_id` and `course_id` variables are ready to go in the
@@ -788,19 +786,19 @@ dat
 ```
 
 ```
-## # A tibble: 40,348 x 21
-##    course_id  subject semester section student_id Gradebook_Item  Grade_Category
-##    <chr>      <chr>   <chr>    <chr>        <dbl> <chr>           <chr>         
-##  1 AnPhA-S11… AnPhA   S116     01           60186 POINTS EARNED … <NA>          
-##  2 AnPhA-S11… AnPhA   S116     01           60186 WORK ATTEMPTED  <NA>          
-##  3 AnPhA-S11… AnPhA   S116     01           60186 0.1: Message Y… <NA>          
-##  4 AnPhA-S11… AnPhA   S116     01           60186 0.2: Intro Ass… Hw            
-##  5 AnPhA-S11… AnPhA   S116     01           60186 0.3: Intro Ass… Hw            
-##  6 AnPhA-S11… AnPhA   S116     01           60186 1.1: Quiz       Qz            
-##  7 AnPhA-S11… AnPhA   S116     01           60186 1.2: Quiz       Qz            
-##  8 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-##  9 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-## 10 AnPhA-S11… AnPhA   S116     01           60186 1.4: Negative … Hw            
+## # A tibble: 40,348 × 21
+##    course_id     subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>         <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S116-01 AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S116-01 AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S116-01 AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S116-01 AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S116-01 AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S116-01 AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S116-01 AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S116-01 AnPhA   S116     01           60186 1.4: Negative… Hw            
 ## # … with 40,338 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
 ## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
@@ -855,19 +853,19 @@ dat_semi
 ```
 
 ```
-## # A tibble: 28,655 x 11
-##    course_id  subject semester section student_id Gradebook_Item  Grade_Category
-##    <chr>      <chr>   <chr>    <chr>        <dbl> <chr>           <chr>         
-##  1 AnPhA-S11… AnPhA   S116     01           60186 POINTS EARNED … <NA>          
-##  2 AnPhA-S11… AnPhA   S116     01           60186 WORK ATTEMPTED  <NA>          
-##  3 AnPhA-S11… AnPhA   S116     01           60186 0.1: Message Y… <NA>          
-##  4 AnPhA-S11… AnPhA   S116     01           60186 0.2: Intro Ass… Hw            
-##  5 AnPhA-S11… AnPhA   S116     01           60186 0.3: Intro Ass… Hw            
-##  6 AnPhA-S11… AnPhA   S116     01           60186 1.1: Quiz       Qz            
-##  7 AnPhA-S11… AnPhA   S116     01           60186 1.2: Quiz       Qz            
-##  8 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-##  9 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-## 10 AnPhA-S11… AnPhA   S116     01           60186 1.4: Negative … Hw            
+## # A tibble: 28,655 × 11
+##    course_id     subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>         <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S116-01 AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S116-01 AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S116-01 AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S116-01 AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S116-01 AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S116-01 AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S116-01 AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S116-01 AnPhA   S116     01           60186 1.4: Negative… Hw            
 ## # … with 28,645 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
@@ -888,19 +886,19 @@ dat_anti
 ```
 
 ```
-## # A tibble: 1,056 x 11
-##    course_id  subject semester section student_id Gradebook_Item  Grade_Category
-##    <chr>      <chr>   <chr>    <chr>        <dbl> <chr>           <chr>         
-##  1 AnPhA-S11… AnPhA   S116     01           85865 POINTS EARNED … <NA>          
-##  2 AnPhA-S11… AnPhA   S116     01           85865 WORK ATTEMPTED  <NA>          
-##  3 AnPhA-S11… AnPhA   S116     01           85865 0.1: Message Y… <NA>          
-##  4 AnPhA-S11… AnPhA   S116     01           85865 0.2: Intro Ass… Hw            
-##  5 AnPhA-S11… AnPhA   S116     01           85865 0.3: Intro Ass… Hw            
-##  6 AnPhA-S11… AnPhA   S116     01           85865 1.1: Quiz       Qz            
-##  7 AnPhA-S11… AnPhA   S116     01           85865 1.2: Quiz       Qz            
-##  8 AnPhA-S11… AnPhA   S116     01           85865 1.3: Create a … Hw            
-##  9 AnPhA-S11… AnPhA   S116     01           85865 1.3: Create a … Hw            
-## 10 AnPhA-S11… AnPhA   S116     01           85865 1.4: Negative … Hw            
+## # A tibble: 1,056 × 11
+##    course_id     subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>         <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S116-01 AnPhA   S116     01           85865 POINTS EARNED… <NA>          
+##  2 AnPhA-S116-01 AnPhA   S116     01           85865 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S116-01 AnPhA   S116     01           85865 0.1: Message … <NA>          
+##  4 AnPhA-S116-01 AnPhA   S116     01           85865 0.2: Intro As… Hw            
+##  5 AnPhA-S116-01 AnPhA   S116     01           85865 0.3: Intro As… Hw            
+##  6 AnPhA-S116-01 AnPhA   S116     01           85865 1.1: Quiz      Qz            
+##  7 AnPhA-S116-01 AnPhA   S116     01           85865 1.2: Quiz      Qz            
+##  8 AnPhA-S116-01 AnPhA   S116     01           85865 1.3: Create a… Hw            
+##  9 AnPhA-S116-01 AnPhA   S116     01           85865 1.3: Create a… Hw            
+## 10 AnPhA-S116-01 AnPhA   S116     01           85865 1.4: Negative… Hw            
 ## # … with 1,046 more rows, and 4 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>
 ```
@@ -923,19 +921,19 @@ dat_right
 ```
 
 ```
-## # A tibble: 39,593 x 21
-##    course_id  subject semester section student_id Gradebook_Item  Grade_Category
-##    <chr>      <chr>   <chr>    <chr>        <dbl> <chr>           <chr>         
-##  1 AnPhA-S11… AnPhA   S116     01           60186 POINTS EARNED … <NA>          
-##  2 AnPhA-S11… AnPhA   S116     01           60186 WORK ATTEMPTED  <NA>          
-##  3 AnPhA-S11… AnPhA   S116     01           60186 0.1: Message Y… <NA>          
-##  4 AnPhA-S11… AnPhA   S116     01           60186 0.2: Intro Ass… Hw            
-##  5 AnPhA-S11… AnPhA   S116     01           60186 0.3: Intro Ass… Hw            
-##  6 AnPhA-S11… AnPhA   S116     01           60186 1.1: Quiz       Qz            
-##  7 AnPhA-S11… AnPhA   S116     01           60186 1.2: Quiz       Qz            
-##  8 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-##  9 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-## 10 AnPhA-S11… AnPhA   S116     01           60186 1.4: Negative … Hw            
+## # A tibble: 39,593 × 21
+##    course_id     subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>         <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S116-01 AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S116-01 AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S116-01 AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S116-01 AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S116-01 AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S116-01 AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S116-01 AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S116-01 AnPhA   S116     01           60186 1.4: Negative… Hw            
 ## # … with 39,583 more rows, and 14 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
 ## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
@@ -958,7 +956,7 @@ dat_right
 ```
 
 ```
-## # A tibble: 801 x 12
+## # A tibble: 801 × 12
 ##    student_id course_id       q1    q2    q3    q4    q5    q6    q7    q8    q9
 ##         <dbl> <chr>        <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 ##  1      85791 FrScA-S116-…     3     3     3     3     4     3     3     3     2
@@ -1011,19 +1009,19 @@ dat
 ```
 
 ```
-## # A tibble: 40,348 x 22
-##    course_id  subject semester section student_id Gradebook_Item  Grade_Category
-##    <chr>      <chr>   <chr>    <chr>        <dbl> <chr>           <chr>         
-##  1 AnPhA-S11… AnPhA   S116     01           60186 POINTS EARNED … <NA>          
-##  2 AnPhA-S11… AnPhA   S116     01           60186 WORK ATTEMPTED  <NA>          
-##  3 AnPhA-S11… AnPhA   S116     01           60186 0.1: Message Y… <NA>          
-##  4 AnPhA-S11… AnPhA   S116     01           60186 0.2: Intro Ass… Hw            
-##  5 AnPhA-S11… AnPhA   S116     01           60186 0.3: Intro Ass… Hw            
-##  6 AnPhA-S11… AnPhA   S116     01           60186 1.1: Quiz       Qz            
-##  7 AnPhA-S11… AnPhA   S116     01           60186 1.2: Quiz       Qz            
-##  8 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-##  9 AnPhA-S11… AnPhA   S116     01           60186 1.3: Create a … Hw            
-## 10 AnPhA-S11… AnPhA   S116     01           60186 1.4: Negative … Hw            
+## # A tibble: 40,348 × 22
+##    course_id     subject semester section student_id Gradebook_Item Grade_Category
+##    <chr>         <chr>   <chr>    <chr>        <dbl> <chr>          <chr>         
+##  1 AnPhA-S116-01 AnPhA   S116     01           60186 POINTS EARNED… <NA>          
+##  2 AnPhA-S116-01 AnPhA   S116     01           60186 WORK ATTEMPTED <NA>          
+##  3 AnPhA-S116-01 AnPhA   S116     01           60186 0.1: Message … <NA>          
+##  4 AnPhA-S116-01 AnPhA   S116     01           60186 0.2: Intro As… Hw            
+##  5 AnPhA-S116-01 AnPhA   S116     01           60186 0.3: Intro As… Hw            
+##  6 AnPhA-S116-01 AnPhA   S116     01           60186 1.1: Quiz      Qz            
+##  7 AnPhA-S116-01 AnPhA   S116     01           60186 1.2: Quiz      Qz            
+##  8 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+##  9 AnPhA-S116-01 AnPhA   S116     01           60186 1.3: Create a… Hw            
+## 10 AnPhA-S116-01 AnPhA   S116     01           60186 1.4: Negative… Hw            
 ## # … with 40,338 more rows, and 15 more variables: FinalGradeCEMS <dbl>,
 ## #   Points_Possible <dbl>, Points_Earned <dbl>, Gender <chr>, q1 <dbl>,
 ## #   q2 <dbl>, q3 <dbl>, q4 <dbl>, q5 <dbl>, q6 <dbl>, q7 <dbl>, q8 <dbl>,
@@ -1105,7 +1103,7 @@ distinct(dat, Gradebook_Item)
 ```
 
 ```
-## # A tibble: 222 x 1
+## # A tibble: 222 × 1
 ##    Gradebook_Item                                  
 ##    <chr>                                           
 ##  1 POINTS EARNED & TOTAL COURSE POINTS             
@@ -1130,7 +1128,7 @@ distinct(dat, course_id, Gradebook_Item)
 ```
 
 ```
-## # A tibble: 1,269 x 2
+## # A tibble: 1,269 × 2
 ##    course_id     Gradebook_Item                                  
 ##    <chr>         <chr>                                           
 ##  1 AnPhA-S116-01 POINTS EARNED & TOTAL COURSE POINTS             
@@ -1470,7 +1468,7 @@ survey_responses
 ```
 
 ```
-## # A tibble: 515 x 4
+## # A tibble: 515 × 4
 ## # Groups:   student_id [515]
 ##    student_id   int    pc    uv
 ##         <dbl> <dbl> <dbl> <dbl>
