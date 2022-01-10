@@ -9,7 +9,7 @@
 
 ## Note from Our Publisher
 
-The authors of this text and the publisher Taylor and Francis are pleased to make Data Science in Education Using R available via bookdown at [datascienceineducation.com](datascienceineducation.com). They request that readers access the book via the website or in print form only and do not download or reproduce copies in any other form. Any attempt to do so will be considered a contravention of the publisher’s terms of availability.
+The authors of this text and the publisher Taylor and Francis are pleased to make Data Science in Education Using R available via bookdown at [datascienceineducation.com](https://datascienceineducation.com). They request that readers access the book via the website or in print form only and do not download or reproduce copies in any other form. Any attempt to do so will be considered a contravention of the publisher’s terms of availability.
 
 ## Reading the Book
 
