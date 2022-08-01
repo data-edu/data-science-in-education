@@ -1,6 +1,10 @@
-# Teaching Data Science {#c16}
+# Teaching data science {#c16}
 
-## Chapter Overview
+**Abstract**
+This chapter explores strategies for teaching data science to others. While our focus in this book (and the focus of many doing data science in education) is on the use of data science methods to ask and answer questions and identify and solve problems relating to teaching, learning, and educational systems, how data science is taught and learned is also an important consideration. This is particularly true for those tasked with teaching others, whether in formal settings (such as in classes or workshops) or in those that are informal (such as when providing just-in-time help to a colleague or peer). This chapter first draws attention to the pedagogical principles that undergirded this book, and then describes strategies for teaching data science as well as some general pedagogical strategies that have relevance to those teaching data science. The chapter concludes with a call for those teaching data science to carve out a distinctive field of their own.
+
+
+## Chapter overview
 
 This book is focused on the application of data science to education. In other
 words, this book focuses on how to apply data science to questions of teaching,
@@ -17,8 +21,8 @@ learning of data science as "data science \*for" education
 [@rosenberg2020mdsc].
 
 Naturally, educators who do data science are positioned well to try to 
-teach others how to do data science. In addition, we expect readers of this book - many of whom will
-also be involved in education - will be interested in teaching others about data science.
+teach others how to do data science. In addition, we expect readers of this book---many of whom will
+also be involved in education---will be interested in teaching others about data science.
 
 This chapter is organized around three topics:
 
@@ -26,10 +30,10 @@ This chapter is organized around three topics:
 2.  Strategies for teaching data science
 3.  General strategies related to teaching and learning
 
-## The Pedagogical Principles This Book is Based Upon
+## The pedagogical principles this book is based upon
 
-As the authors of a book about data science in education - and readers of books
-that taught us about data science - we considered what would make it effective
+As the authors of a book about data science in education---and readers of books
+that taught us about data science---we considered what would make it effective
 for our readers when we set out to write it. The result of this process was a
 pedagogical framework that consists of four principles: problem-based learning,
 differentiation, building mental models, and working in the open. We consider each of these in turn.
@@ -42,7 +46,7 @@ We applied this principle to the design of this book by including
 walkthroughs for common data science and education questions.
 This is especially important in data science because we do not
 have all of the right answers in this text. Moreover, there is not one right
-statistical model or algorithm, technique to write code, or piece software and
+statistical model or algorithm, technique to write code, or piece of software and
 set of tools to utilize.
 
 Thus, the text features walkthroughs that reflect the types of challenges that
@@ -56,8 +60,7 @@ book: [Walkthrough 1/Chapter 7](#c07), [Walkthrough 7/Chapter 13](#c13), and
 learning, but Walkthrough 7 expands Walkthrough 1 by its focus on modeling the
 effects of courses, and Walkthrough 8 takes a *predictive*, rather than
 explanatory, goal, through the use of machine learning. Other challenges, such
-as processing and preparing data, are introduced in the first walkthrough and -
-reflective of their importance and ubiquity - returned to in each of the subsequent 
+as processing and preparing data, are introduced in the first walkthrough and---reflective of their importance and ubiquity---returned to in each of the subsequent 
 chapters.
 
 ### Differentiation
@@ -78,19 +81,19 @@ We then aimed to differentiate the book by recognizing and providing background
 knowledge (either explicitly or through references to other resources) and
 recommendations for where to begin based on prior expertise. We also provided
 screenshots--particularly in [Chapter 5/Getting Started with R and
-RStudio](#c05) and [Chapter 6/Foundational Skills](#c06)--that are annotated and
+RStudio](#c05) and [Chapter 6/Foundational Skills](#c06)---that are annotated and
 reflective of the content in the text to help show readers how to use what they 
 are reading about.
 
 Lastly, we considered inclusivity and accessibility when differentiating this book. 
 For inclusivity, we considered who makes up the audience for this text and how a 
 broader view of who participates in data science informs the types of challenges, 
-topics, and data that we included. and accessibility (technically, in terms of how a wide audience of readers
-is able to access and use the book, as well how the
-content is written based on the unique assets that those in education bring)
+topics, and data that we included and its accessibility (technically, in terms of how a wide audience of readers
+is able to access and use the book as well how the
+content is written based on the unique assets that those in education bring),
 along with how we differentiate the book.
 
-### Working in the Open
+### Working in the open
 
 We started writing this book in the open, on GitHub. This allowed us to share
 the book as it developed. Writing the book in the open also allowed others from
@@ -102,7 +105,7 @@ this book in the open after witnessing the success of other books on data
 science (such as @wickham2019advr *Advanced R* (<https://adv-r.hadley.nz/>)
 book.
 
-## Building Mental Models
+## Building mental models
 
 In the foundational skills chapter, [Chapter 6](#c06), we introduced the 
 *foundational skills framework*. The purpose of this framework was to emphasize 
@@ -114,10 +117,10 @@ the development of *mental models* and this type of deeper understanding). Under
 and how R and RStudio work as software programs can make it easier to troubleshoot the 
 (inevitable!) issues and identify possible solutions in the course of working on educational data science projects.
 
-### Universal Design
+### Universal design
 
 In our original proposal for this book (see @dsieurproposal), we noted that
-Universal Design [@mctighe2019upgrade; @wiggins2005understanding] was a part
+Universal Design [@wiggins2005understanding; @mctighe2019upgrade] was a part
 of our pedagogical framework. As we worked toward completing the book, we
 recognized that we did not fully meet the aims we had laid out. Here is what we
 wrote in the proposal:
@@ -137,7 +140,7 @@ wrote in the proposal:
 While we did not adequately address these in the book, they remain important to
 us, and we hope to address them in a future edition of the book.
 
-## Strategies for Teaching Data Science
+## Strategies for teaching data science
 
 You may be interested in teaching others data science. You may be doing this
 informally (such as by teaching a colleague in your school
@@ -147,7 +150,7 @@ in-between (such as a workshop). There is some research
 on teaching data science, as well as practical advice from experienced
 instructors, that can inform these efforts.
 
-### Provide a Home Base for Learners to Access Resources (and to Learn More)
+### Provide a home base for learners to access resources (and to learn more)
 
 Learning strategies, along with other important factors (such as
 learners' motivations and having a supportive atmosphere), can make a difference 
@@ -162,15 +165,15 @@ data science, there are many tools and resources to keep track of, such as:
   - How to contact the instructor
   - How to get help and learn more
 
-Having a "home base," where you can remind learners to look first for
-resources, can help to lower some of learners' demands in terms of remembering
+Having a "home base" where you can remind learners to look first for
+resources can help to lower some of learners' demands in terms of remembering
 how these tools and resources can be accessed. One way to do this is through a
 personal website. Another is through GitHub pages. For some organizations, a
-proprietary learning management system - such as Desire2Learn, Blackboard,
-Moodle, or Canvas - can be helpful (especially if your learners are accustomed
+proprietary learning management system---such as Desire2Learn, Blackboard,
+Moodle, or Canvas---can be helpful (especially if your learners are accustomed
 to using them).
 
-### When it Comes to Writing Code, Think Early and Often
+### When it comes to writing code, think early and often
 
 It is important to get learners to start writing code early and often. It can be
 tempting to teach classes or workshops that front-load content about data
@@ -182,22 +185,22 @@ barrier to writing code for learners. Ways to do this include:
 
   - Using R Studio Cloud
   - Providing an R Markdown document for learners to work through
-  - Providing a data set and ideas for how to begin exploring it
+  - Providing a dataset and ideas for how to begin exploring it
 
 While these strategies are especially helpful for courses or workshops, they can
 be translated to teaching and learning R in tutoring (or "one-on-one")
 opportunities for learners. In these cases, being able to work through and
 modify an existing analysis (perhaps in R Studio Cloud) is a way to quickly
-begin running analyses - and to use the analysis as a template for analyses
-associated with other projects. Also, having a data set associated with a
-project or analysis - and a real need to analyze it using R - can be an
+begin running analyses---and to use the analysis as a template for analyses
+associated with other projects. Also, having a dataset associated with a
+project or analysis---and a real need to analyze it using R---can be an
 outstanding way for an individual to learn to use R.
 
-### Don't Touch That Keyboard!
+### Don't touch that keyboard!
 
 Resist helping learners to the point of hindering their learning. @wilson2009
-writes about the way in which those teaching others about R - or to program, in
-general - can find it easier to correct errors in learners' work. But, by fixing
+writes about the way in which those teaching others about R---or to program, in
+general---can find it easier to correct errors in learners' work. But, by fixing
 errors, you may cause learners to feel that they are not capable of carrying out all
 of the steps needed in an analysis on their own.
 
@@ -214,7 +217,7 @@ Consider taking the additional time needed to help learners navigate
 minor issues and errors in their code: it can pay off in increased motivation on
 their part in the long-term.
 
-### Anticipate Issues (and Sacrifice Accuracy for Clarity)
+### Anticipate issues (and sacrifice accuracy for clarity)
 
 Don't worry about being perfectly accurate early on, especially if doing so
 would lead to learners who are less interested in the topic you are teaching.
@@ -231,9 +234,9 @@ provide the name of packages installed via `install.packages()` (whereas the
 names of arguments to other functions, such as `dplyr::select()` do not need to
 be quoted).
 
-### Start Lessons or Activities With Visualizing Data
+### Start lessons or activities with visualizing data
 
-There are examples from data science books @grolemund2018 and past research
+There are examples from data science books by @grolemund2018 and past research
 (e.g., @lehrer2015) that suggest that starting with visualizing data can be
 beneficial in terms of learners' ability to work with data. @grolemund2018 write
 that they begin their book, *Data Science Using R*, with a chapter on
@@ -244,7 +247,7 @@ share. @lehrer2007 show how providing students with an opportunity to invent
 statistics by displaying the data in new ways led to productive critique
 among fifth- and sixth-grade students and their teacher.
 
-### Consider Representation and Inclusion in the Data and Examples You Use
+### Consider representation and inclusion in the data and examples you use
 
 One way to think about data is that it is objective and free of decisions about
 what to value or prioritize. Another is to consider data as a process that is
@@ -253,11 +256,11 @@ interpreting findings with attention to how others will make sense of them
 (e.g., @oneill2016's *Weapons of Math Destruction*, and @lehrer2007's
 description of data modeling). From this broader view, choosing representative
 data is a choice, like others, that teachers can make. For example, instructors
-can choose data that directs attention to issues--equity-related issues in
-education, for example--that she or he believes would be valuable for students
+can choose data that directs attention to issues---equity-related issues in
+education, for example---that she or he believes would be valuable for students
 to analyze.
 
-It is important to consider and question what data is collected and why, even with variables that we consider to be objective. For example, some variables are constructed to be dichotomous (e.g. gender) or categorical (e.g. race), but the data that is collected is based on decisions by the observer and may not be inherently objective. 
+It is important to consider and question what data is collected and why, even with variables that we consider to be objective. For example, some variables are constructed to be dichotomous (e.g., gender) or categorical (e.g., race), but the data that is collected is based on decisions by the observer and may not be inherently objective. 
 
 This broader consideration of data is also important when it comes to which data is used for teaching
 and learning. For example, if a dataset only includes names of individuals from a
@@ -267,7 +270,7 @@ to those we are teaching to decide on themselves, setting the precedent in class
 courses, and other contexts in which data science is taught can be important for 
 how learners collect and use data in the future.
 
-### Draw on Other Resources
+### Draw on other resources
 
 We touched on a few strategies for teaching data science. There are others that go more into depth on this topic from different
 perspectives, such as the following:
@@ -276,27 +279,27 @@ perspectives, such as the following:
     Guidelines](https://www.amstat.org/asa/education/Guidelines-for-Assessment-and-Instruction-in-Statistics-Education-Reports.aspx) (https[]()://www.amstat.org/asa/education/Guidelines-for-Assessment-and-Instruction-in-Statistics-Education-Reports.aspx):
     guidelines for teaching statistics
   - [Data Science for
-    Undergraduates](https://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options) ((https[]()://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options)):
+    Undergraduates](https://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options) (https[]()://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options):
     a report on undergraduate data science education
   - [R Studio Education](https://education.rstudio.com/) (https[]()://education.rstudio.com/)
 
 There are also a number of data science-related curricula (for the K-12 level)
 which may be helpful:
 
-  - [Bootstrap Data Science](https://www.bootstrapworld.org/blog/index.shtml)(https[]()://www.bootstrapworld.org/blog/index.shtml)
+  - [Bootstrap Data Science](https://www.bootstrapworld.org/blog/index.shtml) (https[]()://www.bootstrapworld.org/blog/index.shtml)
   - [Exploring CS, unit 5](http://www.exploringcs.org/curriculum) (http[]()://www.exploringcs.org/curriculum)
   - [Chromebook Data Science](http://jhudatascience.org/chromebookdatascience/) (http[]()://jhudatascience.org/chromebookdatascience/)
   - [Oceans of Data Institute
     Curricula](http://oceansofdata.org/our-work/ocean-tracks-high-school-learning-modules) (http[]()://oceansofdata.org/our-work/ocean-tracks-high-school-learning-modules)
 
-Last, there are also books that emphasize the importance--for teachers--of
-understanding their students--every student. These books include
-@paris2017culturallya and @kozol2012savage and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
+Last, there are also books that emphasize the importance---for teachers--of
+understanding their students---every student. These books include
+@paris2017culturally and @kozol2012savage, and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
 students. @moore2017guide and @emdin2016 may be helpful for data science
 educators who aim to be aware and intentional about teaching students from
 backgrounds other than their own.
 
-## General Strategies Related to Teaching and Learning
+## General strategies related to teaching and learning
 
 The National Academy of Science commissioned a report, *How People Learn*
 [@nrc2000], that aimed to summarize research on teaching and learning from educational psychology
@@ -316,7 +319,7 @@ are more conceptual than those described in the last section, and are likely mor
 useful as starting points for further research or reflection, instead of as specific techniques that can be brought to the next
 workshop, class, or peer-to-peer teaching session.
 
-### Teaching and Learning are Complex
+### Teaching and learning are complex
 
 One principle from *How People Learn II* is that learning is not just about what 
 learners know or think, but is also about the developmental, cultural, contextual, 
@@ -327,19 +330,19 @@ Individual distinctions also mean that educators need to consider factors beyond
 what learners know, such as their prior educational experiences and what resources
 and other individuals they have access to at work and at home.
 
-### Learners Learn Many Different Things (Consciously and Unconsciously)
+### Learners learn many different things (consciously and unconsciously)
 
 The authors of *How People Learn II* point out that individuals learn in response 
 to different challenges and circumstances, including those in formal learning environments, such as
 workshops or classes. This learning also happens at a different rate for each individual. 
 This principle implies a strategy that involves supporting
 learners doing data science, however and whenever they learn it. This means that
-it is both okay - and even to be expected - that learners may learn more
+it is both okay---and even to be expected---that learners may learn more
 from a problem they try to solve on their own, than from a workshop
 or class (or even a degree!). This also suggests that learners may learn things
 that we do not anticipate.
 
-### Meta-cognition is Important (Even Though it Sounds More Sophisticated Than it is!)
+### Meta-cognition is important (even though it sounds more dophisticated than it is!)
 
 Educators and educational researchers often talk about meta-cognition, or
 thinking (and ideas) about thinking, as if it is something only very
@@ -352,7 +355,7 @@ Another strategy is to help learners recognize when it is important to ask for h
 Often in data science, the right question to the right person (or community) 
 can save hours of work.
 
-### Learning Strategies Matter
+### Learning strategies matter
 
 While teachers are responsible for designing learning opportunities, learners
 also play an important role in their own learning! According to the authors of
@@ -369,4 +372,4 @@ and more the commitment to teaching their students how to learn.
 ## Summary
 
 Data science educators do not need to reinvent the wheel when it comes to teaching about data science. Insights from other, related educational domains (such as statistics education and computer science education) may prove helpful to those seeking to teach data science to others, whether in a one-on-one setting, a workshop, or through a formal class. In this chapter, we sought to describe both the pedagogical principles for this book and some 
-strategies for teaching data science. As scholarship and practice where it comes to teaching and learning data science continues to develop, we hope that those teaching (and producing scholarship about) teaching data science not only draw upon the findings of those in other domains, but carve out a domain of their own - one with findings that may have implications for how statistics, computer science, or even subject matters such as science and mathematics are learned.
+strategies for teaching data science. As scholarship and practice where it comes to teaching and learning data science continues to develop, we hope that those teaching (and producing scholarship about) data science not only draw upon the findings of those in other domains but carve out a domain of their own---one with findings that may have implications for how statistics, computer science, or even subject matters such as science and mathematics are learned.

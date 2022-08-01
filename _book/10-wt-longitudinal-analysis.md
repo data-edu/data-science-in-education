@@ -1,8 +1,13 @@
-# Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data {#c10}
+# Walkthrough 4: longitudinal analysis with federal students with disabilities data {#c10}
 
 
 
-## Topics Emphasized
+**Abstract**
+
+This chapter explores cleaning, visualizing, and modeling aggregate data. Data scientists in education frequently work with public aggregate data when student level data is not available. By analyzing aggregate datasets, data scientists in education uncover context for other analyses. Using a freely available federal government dataset, this chapter compares the number of female and male students in special education over time in the United States. Analysis on this scale provides useful context for district and school level analysis. It encourages questions about the experiences of students in special education at the local level by offering a basis for comparison at a national level. Data science tools in this chapter include importing data, preparing data for analysis, visualizing data, and selecting plots for communicating results.
+
+
+## Topics emphasized
 
 - Importing data
 - Tidying data 
@@ -11,7 +16,7 @@
 - Modeling data
 - Communicating results
 
-## Functions Introduced
+## Functions introduced
 
 - `list.files()`
 - `download.file()`
@@ -35,15 +40,15 @@
 - subset
 - vector
 
-## Chapter Overview
+## Chapter overview
 
 Data scientists working in education don't always have access to student level
-data, so knowing how to model publicly available datasets, as in [the previous
-chapter](#c9), is a useful skill. This walkthrough builds upon and extends the
+data, so knowing how to model publicly available datasets, as in [*the previous
+chapter*](#c9), is a useful skill. This walkthrough builds upon and extends the
 focus on aggregate data in the last chapter to focus on a change over time in
 students with disabilities in each state. We note that analyses that involve
 time can go by a number of names, such as longitudinal analyses or time series
-analyses, or - less formally - analyses or studies of change over time. 
+analyses, or---less formally---analyses or studies of change over time. 
 
 Here, we primarily use the term longitudinal analysis to refer to analyses of
 data at multiple time points. While data from two time points would be included in 
@@ -54,16 +59,16 @@ can reveal more nuance in how change over time is happening.
 
 In this chapter, we'll be learning some ways to explore data over time. In
 addition, we'll be learning some techniques for exploring a publicly
-available dataset. Like most public datasets (see [the previous chapter](#c9)),
+available dataset. Like most public datasets (see [*the previous chapter*](#c9)),
 this one contains aggregate data. This means that someone totaled up the student
 counts so that it doesn't reveal any private information.
 
 You can download the datasets for this walkthrough on the United States
-Department of Education website (see @usdoe2019)^[The documentation for the
+Department of Education website (see Department @usdoe2019)^[The documentation for the
 dataset is available here:
-https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf],
+https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf];
 though they are also available in the {dataedu} package that accompanies this
-book, as we describe in the Importing the Data From the {dataedu} Package section below.
+book, as we describe in the "Importing the Data From the {dataedu} Package" section below.
 
 ### Methods
 
@@ -72,11 +77,11 @@ In this walkthrough, we'll learn how to read multiple datasets in using the
 variable names. Finally, we'll explore this dataset by visualizing student
 counts and comparing male to female ratios over time.
 
-## Load Packages
+## Load packages
 
-The function `here()` from the {here} package can cause conflicts with other functions called `here()`. We can prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace."
+The function `here()` from the {here} package can cause conflicts with other functions called `here()`. We can prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace".
 
-If you have not installed any of these packages, then you will need to do so, first, using the `install.packages()` function; see the [Packages section](#c06p) of the [Foundational Skills](#c06) chapter for instructions (and an overview of what packages are and how they work). 
+If you have not installed any of these packages, then you will need to do so, first, using the `install.packages()` function; see the ["Packages" section](#c06p) of the ["Foundational Skills"](#c06) chapter for instructions (and an overview of what packages are and how they work). 
 
 You can load the packages needed in this walkthrough by running this code: 
 
@@ -88,26 +93,25 @@ library(lubridate)
 library(here)
 ```
 
-## Import Data
+## Import data
 
 In this analysis we'll be importing and combining six datasets that describe the
 number of students with disabilities in a given year. Let's spend some time
 carefully reviewing how to get the `.csv` files we'll need downloaded and stored
 on your computer. If you want to run the code exactly as written here, you'll
-need to store the same datasets in the right location. As an alternate, we make these data files that are used in the walkthrough - like those in other walkthroughs - 
-available through the {dataedu} package. Last, we note that while it's possible to use this
+need to store the same datasets in the right location. As an alternate, we make these data files that are used in the walkthrough---like those in other walkthroughs---available through the {dataedu} package. Last, we note that while it's possible to use this
 walkthrough on different datasets or to store them in different locations on
 your computer, you'll need to make adjustments to your code based on the
 datasets you used and where you stored them. We suggest only doing this if you
 already have some experience using R.
 
-### What to Download
+### What to download
 
 In this walkthrough, we'll be using six separate datasets of child counts, one
 for each year between 2012 and 2017. If you're copying and pasting the code in
 this walkthrough, we recommend downloading the datasets from our GitHub
-repository for the most reliable results. As we note above, you can also access these data after they have been merged together via the {dataedu} package; see the Importing the Data From the {dataedu} Package section of this chapter. Here's a link to each file; we also include a short URL via the URL-shortener website 
-bit.ly:
+repository for the most reliable results. As we note above, you can also access this data after they have been merged via the {dataedu} package; see the "Importing the Data From the {dataedu} Package" section of this chapter. Here's a link to each file; we also include a short URL via the URL-shortener website 
+*bit.ly*:
 
  - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https://bit.ly/3dCtVtf)
  
@@ -121,16 +125,16 @@ bit.ly:
  
  - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https://bit.ly/2wPLu8w)
 
-You can also find these files on the [United States Department of Education
-website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
+You can also find these files on the [*United States Department of Education
+website*](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
-### A Note on File Paths
+### A note on file paths
 
 When you download these files, be sure to store them in a folder in your working
 directory. To get to the data in this walkthrough, we can use this file path
-in our working directory: "data/longitudinal\_data". We'll be using the here *function* from the {here}
-*package*, which convenieniently fills in all the folders in the file path of your
+in our working directory: "data/longitudinal\_data". We'll be using the `here()` *function* from the {here}
+*package*, which conveniently fills in all the folders in the file path of your
 working directory all the way up to the folders you specify in the arguments. So,
 when referencing the file path "data/longitudinal\_data", we'll use code like
 this:
@@ -146,10 +150,10 @@ You can use a different file path if you like, just take note of where your
 downloaded files are so you can use the correct file path when writing your code
 to import the data.
 
-### How to Download the Files
+### How to download the files
 
-One way to download the files is to manually download them, saving them to a working directory. 
-Another way to download the files is to read them directly into R, using the `download.file()` function,
+One way to download the files is manually, saving them to a working directory. 
+Another way is to read them directly into R, using the `download.file()` function,
 and the same file path described in the previous section. This functionality works for any CSV files that you can download from webpages; the key is that the URL must be to the CSV file itself (one way to check is to ensure that the URL ends in `.csv`).
 
 Here is how we would do it for the first dataset (from the year 2012), using the shortened URLs included along with the full URLs above.
@@ -166,7 +170,7 @@ download.file(
   mode = "wb")
 ```
 
-We can do this for the remaining five datasets.
+We can do this for the remaining five datasets:
 
 
 ```r
@@ -206,11 +210,11 @@ download.file(
   mode = "wb")
 ```
 
-Now that the files are downloaded (either through the above code or by downloading them from GitHub), we're
+Now that the files are downloaded (either through the above code or from GitHub), we're
 ready to proceed to reading the data into R. If you were unable to download these files for any reason, they
 are also available through the {dataedu} package, as we describe after the "Reading in Many Datasets" section.
 
-### Reading in One Dataset
+### Reading in one dataset
 
 We'll be learning how to read in more than one dataset using the `map()`
 function. Let's try it first with one dataset, then we'll scale our solution up
@@ -226,7 +230,7 @@ dataset has some lines at the top that contain no data:
 
 ```
 ## # A tibble: 16,234 × 31
-##    `Extraction Date… `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
+##    `Extraction Dat…` `6/12/2013` X3    X4    X5    X6    X7    X8    X9    X10  
 ##    <chr>             <chr>       <chr> <chr> <chr> <chr> <chr> <chr> <chr> <chr>
 ##  1 Updated:          2/12/2014   <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
 ##  2 Revised:          <NA>        <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA> 
@@ -244,17 +248,17 @@ dataset has some lines at the top that contain no data:
 ## #   X25 <chr>, X26 <chr>, X27 <chr>, X28 <chr>, X29 <chr>, X30 <chr>, X31 <chr>
 ```
 
-The rows containing "Extraction Date:", "Updated:" and "Revised:" aren't
+The rows containing "Extraction Date:", "Updated:", and "Revised:" aren't
 actually rows. They're notes the authors left at the top of the dataset to show
 when the dataset was changed.
 
 `read_csv()` uses the first row as the variable names unless told otherwise, so
 we need to tell `read_csv()` to skip those lines using the `skip` argument. If
-we don't, `read_csv()` assumes the very first line--the one that says
-"Extraction Date:"--is the correct row of variable names. That's why calling
+we don't, `read_csv()` assumes the very first line---the one that says
+"Extraction Date:"---is the correct row of variable names. That's why calling
 `read_csv()` without the `skip` argument results in column names like `X4`. When
 there's no obvious column name to read in, `read_csv()` names them `X[...]` and
-let's you know in a warning message.
+lets you know in a warning message.
 
 Try using `skip = 4` in your call to `read_csv()`:
 
@@ -270,32 +274,32 @@ skip = 4)
 
 ```
 ## # A tibble: 16,230 × 31
-##     Year `State Name` `SEA Education Envir… `SEA Disability … `American Indian …
-##    <dbl> <chr>        <chr>                 <chr>             <chr>             
-##  1  2012 ALABAMA      Correctional Facilit… All Disabilities  -                 
-##  2  2012 ALABAMA      Home                  All Disabilities  1                 
-##  3  2012 ALABAMA      Homebound/Hospital    All Disabilities  -                 
-##  4  2012 ALABAMA      Inside regular class… All Disabilities  -                 
-##  5  2012 ALABAMA      Inside regular class… All Disabilities  -                 
-##  6  2012 ALABAMA      Inside regular class… All Disabilities  -                 
-##  7  2012 ALABAMA      Other Location Regul… All Disabilities  7                 
-##  8  2012 ALABAMA      Other Location Regul… All Disabilities  1                 
-##  9  2012 ALABAMA      Parentally Placed in… All Disabilities  -                 
-## 10  2012 ALABAMA      Residential Facility… All Disabilities  0                 
-## # … with 16,220 more rows, and 26 more variables: Asian Age 3-5 <chr>,
-## #   Black or African American Age 3-5 <chr>, Hispanic/Latino Age 3-5 <chr>,
-## #   Native Hawaiian or Other Pacific Islander Age 3-5 <chr>,
-## #   Two or More Races Age 3-5 <chr>, White Age 3-5 <chr>,
-## #   Female Age 3 to 5 <chr>, Male Age 3 to 5 <chr>, LEP Yes Age 3 to 5 <chr>,
-## #   LEP No Age 3 to 5 <chr>, Age 3 to 5 <chr>, Age 6-11 <chr>, Age 12-17 <chr>,
-## #   Age 18-21 <chr>, Ages 6-21 <chr>, LEP Yes Age 6 to 21 <chr>, …
+##     Year `State Name` `SEA Education Environ…` `SEA Disabilit…` `American Indi…`
+##    <dbl> <chr>        <chr>                    <chr>            <chr>           
+##  1  2012 ALABAMA      Correctional Facilities  All Disabilities -               
+##  2  2012 ALABAMA      Home                     All Disabilities 1               
+##  3  2012 ALABAMA      Homebound/Hospital       All Disabilities -               
+##  4  2012 ALABAMA      Inside regular class 40… All Disabilities -               
+##  5  2012 ALABAMA      Inside regular class 80… All Disabilities -               
+##  6  2012 ALABAMA      Inside regular class le… All Disabilities -               
+##  7  2012 ALABAMA      Other Location Regular … All Disabilities 7               
+##  8  2012 ALABAMA      Other Location Regular … All Disabilities 1               
+##  9  2012 ALABAMA      Parentally Placed in Pr… All Disabilities -               
+## 10  2012 ALABAMA      Residential Facility, A… All Disabilities 0               
+## # … with 16,220 more rows, and 26 more variables: `Asian Age 3-5` <chr>,
+## #   `Black or African American Age 3-5` <chr>, `Hispanic/Latino Age 3-5` <chr>,
+## #   `Native Hawaiian or Other Pacific Islander Age 3-5` <chr>,
+## #   `Two or More Races Age 3-5` <chr>, `White Age 3-5` <chr>,
+## #   `Female Age 3 to 5` <chr>, `Male Age 3 to 5` <chr>,
+## #   `LEP Yes Age 3 to 5` <chr>, `LEP No Age 3 to 5` <chr>, `Age 3 to 5` <chr>,
+## #   `Age 6-11` <chr>, `Age 12-17` <chr>, `Age 18-21` <chr>, …
 ```
 
 The `skip` argument told `read_csv()` to make the line containing "Year", "State
 Name", and so on as the first line. The result is a dataset that has "Year",
 "State Name", and so on as variable names.
 
-### Reading in Many Datasets
+### Reading in many datasets
 
 Will the `read_csv()` and `skip = 4` combination work on all our datasets? To
 find out, we'll use this strategy:
@@ -312,10 +316,10 @@ each of the raw materials it receives. You are the operator of the machine and
 you design instructions to get a widget out of the raw materials. Your plan
 might look something like this:
 
-  - *Raw materials*: a list of filenames and their paths
-  - *Widget-making machine*: `purrr:map()`
-  - *Widget-making instructions*: \`read\_csv(path, skip = 4)
-  - *Expected widgets*: a list of datasets
+  - **Raw materials**: a list of filenames and their paths
+  - **Widget-making machine**: `purrr:map()`
+  - **Widget-making instructions**: \`read\_csv(path, skip = 4)
+  - **Expected widgets**: a list of datasets
 
 Let's create the raw materials first. Our raw materials will be file paths to
 each of the CSVs we want to read. Use `list.files` to make a vector of filename
@@ -412,7 +416,7 @@ all_files %>%
 
 We have just encountered an extremely common problem in education data!
 Neither the number of columns nor the column names match.
-This is a problem because - with different column names - we won't be able to combine the datasets in a later step. 
+This is a problem because---with different column names---we won't be able to combine the datasets in a later step. 
 As we can see, when we try, `bind_rows()` returns a dataset with 100 columns, instead of the
 expected 50.
 
@@ -443,7 +447,7 @@ if you were unable to download the files because you do not have Internet access
 all_files <- dataedu::all_files
 ```
 
-## Process Data
+## Process data
 
 Transforming your dataset before visualizing it and fitting models is critical.
 It's easier to write code when variable names are concise and informative. Many
@@ -462,7 +466,7 @@ Let's preview the steps we'll be taking:
 6.  Standardize the state names
 7.  Transform the column formats from wide to long using `pivot_longer`
 8.  Change the data types of variables
-9.  Explore NAs
+9.  Explore `NA`'s
 
 In real life, data scientists don't always know the cleaning steps until they
 dive into the work. Learning what cleaning steps are needed requires
@@ -473,7 +477,7 @@ After a lot of exploring, we settled on these steps for this analysis. When you
 do your own, you will find different things to transform. As you do more and
 more data analysis, your instincts for what to transform will improve.
 
-### Fix the Variable Names in the 2016 Data
+### Fix the variable names in the 2016 data
 
 When we print the 2016 dataset, we notice that the variable names are incorrect.
 Let's verify that by looking at the first ten variable names of the 2016
@@ -517,7 +521,7 @@ all_files[[5]]
 
 ```
 ## # A tibble: 16,230 × 50
-##    `2016` Alabama `Correctional Facili… `All Disabiliti… `-`   `-_1` `-_2` `-_3`
+##    `2016` Alabama `Correctional Facil…` `All Disabilit…` `-`   `-_1` `-_2` `-_3`
 ##     <dbl> <chr>   <chr>                 <chr>            <chr> <chr> <chr> <chr>
 ##  1   2016 Alabama Home                  All Disabilities 43    30    35    0    
 ##  2   2016 Alabama Homebound/Hospital    All Disabilities -     -     -     -    
@@ -529,13 +533,13 @@ all_files[[5]]
 ##  8   2016 Alabama Residential Facility… All Disabilities -     -     -     -    
 ##  9   2016 Alabama Separate Class        All Disabilities 58    58    98    0    
 ## 10   2016 Alabama Separate School, Age… All Disabilities 11    20    19    0    
-## # … with 16,220 more rows, and 42 more variables: -_4 <chr>, -_5 <chr>,
-## #   -_6 <chr>, -_7 <chr>, -_8 <chr>, -_9 <chr>, -_10 <chr>, -_11 <chr>,
-## #   -_12 <chr>, -_13 <chr>, -_14 <chr>, 0 <chr>, 0_1 <chr>, 0_2 <chr>,
-## #   0_3 <chr>, 0_4 <chr>, 0_5 <chr>, 0_6 <chr>, 0_7 <chr>, 0_8 <chr>, 1 <chr>,
-## #   2 <chr>, 4 <chr>, 14 <chr>, 22 <chr>, 30 <chr>, 4_1 <chr>, 0_9 <chr>,
-## #   7 <chr>, 70 <chr>, 77 <chr>, 0_10 <chr>, 77_1 <chr>, 1_1 <chr>, 76 <chr>,
-## #   0_11 <chr>, 0_12 <chr>, 68 <chr>, 0_13 <chr>, 0_14 <chr>, 0_15 <chr>, …
+## # … with 16,220 more rows, and 42 more variables: `-_4` <chr>, `-_5` <chr>,
+## #   `-_6` <chr>, `-_7` <chr>, `-_8` <chr>, `-_9` <chr>, `-_10` <chr>,
+## #   `-_11` <chr>, `-_12` <chr>, `-_13` <chr>, `-_14` <chr>, `0` <chr>,
+## #   `0_1` <chr>, `0_2` <chr>, `0_3` <chr>, `0_4` <chr>, `0_5` <chr>,
+## #   `0_6` <chr>, `0_7` <chr>, `0_8` <chr>, `1` <chr>, `2` <chr>, `4` <chr>,
+## #   `14` <chr>, `22` <chr>, `30` <chr>, `4_1` <chr>, `0_9` <chr>, `7` <chr>,
+## #   `70` <chr>, `77` <chr>, `0_10` <chr>, `77_1` <chr>, `1_1` <chr>, …
 ```
 
 We used `skip = 4` when we read in the datasets in the list. That worked for all
@@ -555,7 +559,7 @@ all_files[[5]] <-
 Try printing `all_files` now. You can confirm we fixed the problem by checking
 that the variable names are correct.
 
-### Pick Variables
+### Pick variables
 
 Now that we know all our datasets have the correct variable names, we simplify
 our datasets by picking the variables we need. This is a good place to think
@@ -564,8 +568,7 @@ trial and error, but here is what we found we needed:
 
   - Our analytic questions are about gender, so let's pick the gender variable
   - Later, we'll need to filter our dataset by disability category and program
-    location so we'll want `SEA Education Environment` and `SEA Disability
-    Category`
+    location so we'll want `SEA Education Environment` and `SEA Disability Category`
   - We want to make comparisons by state and reporting year, so we'll also pick
     `State Name` and `Year`
 
@@ -587,20 +590,20 @@ all_files[[1]] %>%
 
 ```
 ## # A tibble: 16,230 × 8
-##     Year `State Name` `SEA Education Environ… `SEA Disability … `Female Age 3 t…
-##    <dbl> <chr>        <chr>                   <chr>             <chr>           
-##  1  2012 ALABAMA      Correctional Facilities All Disabilities  -               
-##  2  2012 ALABAMA      Home                    All Disabilities  63              
-##  3  2012 ALABAMA      Homebound/Hospital      All Disabilities  -               
-##  4  2012 ALABAMA      Inside regular class 4… All Disabilities  -               
-##  5  2012 ALABAMA      Inside regular class 8… All Disabilities  -               
-##  6  2012 ALABAMA      Inside regular class l… All Disabilities  -               
-##  7  2012 ALABAMA      Other Location Regular… All Disabilities  573             
-##  8  2012 ALABAMA      Other Location Regular… All Disabilities  81              
-##  9  2012 ALABAMA      Parentally Placed in P… All Disabilities  -               
-## 10  2012 ALABAMA      Residential Facility, … All Disabilities  6               
-## # … with 16,220 more rows, and 3 more variables: Male Age 3 to 5 <chr>,
-## #   Female Age 6 to 21 <chr>, Male Age 6 to 21 <chr>
+##     Year `State Name` `SEA Education Environ…` `SEA Disabilit…` `Female Age 3 …`
+##    <dbl> <chr>        <chr>                    <chr>            <chr>           
+##  1  2012 ALABAMA      Correctional Facilities  All Disabilities -               
+##  2  2012 ALABAMA      Home                     All Disabilities 63              
+##  3  2012 ALABAMA      Homebound/Hospital       All Disabilities -               
+##  4  2012 ALABAMA      Inside regular class 40… All Disabilities -               
+##  5  2012 ALABAMA      Inside regular class 80… All Disabilities -               
+##  6  2012 ALABAMA      Inside regular class le… All Disabilities -               
+##  7  2012 ALABAMA      Other Location Regular … All Disabilities 573             
+##  8  2012 ALABAMA      Other Location Regular … All Disabilities 81              
+##  9  2012 ALABAMA      Parentally Placed in Pr… All Disabilities -               
+## 10  2012 ALABAMA      Residential Facility, A… All Disabilities 6               
+## # … with 16,220 more rows, and 3 more variables: `Male Age 3 to 5` <chr>,
+## #   `Female Age 6 to 21` <chr>, `Male Age 6 to 21` <chr>
 ```
 
 That code chunk verifies that we got the variables we want, so now we will turn
@@ -608,8 +611,7 @@ the code chunk into a function called `pick_vars()`. We will then use `map()` to
 apply `pick_vars()` to each dataset of our list, `all_files`, to the function.
 In this function, we'll use a special version of `select()` called
 `select_at()`, which conveniently picks variables based on criteria we give it.
-The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA",
-ignore.case = FALSE), contains("male"))` tells R we want to keep any column
+The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column
 whose name has "State" in upper or lower case letters, has "SEA" in the title,
 and has "male" in the title. This will result in a newly transformed `all_files`
 list that contains six datasets, all with the desired variables.
@@ -634,7 +636,7 @@ all_files <-
   map(pick_vars)
 ```
 
-### Combine Six Datasets into One
+### Combine six datasets into one
 
 Now we'll turn our attention to combining the datasets in our list `all_files`
 into one. We'll use `bind_rows()`, which combines datasets by adding each one to
@@ -727,7 +729,7 @@ str(child_counts)
 ##   ..$ col     : chr [1:3] "Year" "Year" "Year"
 ##   ..$ expected: chr [1:3] "a double" "a double" "a double"
 ##   ..$ actual  : chr [1:3] "-------------------" "-   Data not available" "x   Data supressed due to small cell size"
-##   ..$ file    : chr [1:3] "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/shortessay/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'"
+##   ..$ file    : chr [1:3] "'/Users/bengibbons/Documents/GitHub/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/bengibbons/Documents/GitHub/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'" "'/Users/bengibbons/Documents/GitHub/data-science-in-education/data/longitudinal_data/bchildcountandedenvironments2012.csv'"
 ```
 
 ### Importing the data from the {dataedu} package
@@ -740,7 +742,7 @@ you can run the following code to load it directly from the {dataedu} package:
 longitudinal_data <- dataedu::child_counts
 ```
 
-### Filter for the Desired Disabilities and Age Groups
+### Filter for the desired disabilities and age groups
 
 We want to explore gender related variables, but our dataset has additional
 aggregate data for other subgroups. For example, we can use `count()` to explore
@@ -792,7 +794,7 @@ child_counts <-
   ) 
 ```
 
-### Rename the Variables
+### Rename the variables
 
 In the next section we'll prepare the dataset for visualization and modeling by
 "tidying" it. When we write code to transform datasets, we'll be typing the
@@ -816,10 +818,10 @@ child_counts <-
   )
 ```
 
-### Clean State Names
+### Clean state names
 
-You might have noticed that some state names in our dataset are in upper case
-letters and some are in lower case letters: 
+You might have noticed that some state names in our dataset are in uppercase
+letters, and some are in lowercase letters: 
 
 
 ```r
@@ -851,15 +853,15 @@ child_counts <-
   mutate(state = tolower(state)) 
 ```
 
-### Tidy the Dataset
+### Tidy the dataset
 
 Visualizing and modeling our data will be much easier if our dataset is in a
 "tidy" format. In *Tidy Data* [@wickham2014], defines
 tidy datasets as possessing the following characteristics:
 
-> 1.  Each variable forms a column.
-> 2.  Each observation forms a row.
-> 3.  Each type of observational unit forms a table.
+> 1.  Each variable forms a column
+> 2.  Each observation forms a row
+> 3.  Each type of observational unit forms a table
 
 *A note on the gender variable in this dataset*
 
@@ -902,7 +904,7 @@ child_counts <-
   )
 ```
 
-### Convert Data Types
+### Convert data types
 
 The values in the `total` column represent the number of students from a
 specific year, state, gender, and age group. We know from the `chr` under their
@@ -995,15 +997,15 @@ child_counts <-
   mutate(year = ymd(year, truncated = 2))
 ```
 
-### Explore and Address NAs
+### Explore and address NAs
 
 You'll notice that some rows in the `total` column contain an `NA`. When we used
 `pivot_longer()` to create a `gender` column, R created unique rows for every
 year, state, age, disability, and gender combination. Since the original dataset
 had both gender and age range stored in a column like `Female Age 3 to 5`, R
-made rows where the `total` value is NA . For example, there is no student count
-for the `age` value "Total, Age 3-5" that also has the `gender` value for female
-students who were age 6-21. You can see that more clearly by sorting the dataset
+made rows where the `total` value is `NA` . For example, there is no student count
+for the `age` value "Total, Age 3--5" that also has the `gender` value for female
+students who were age 6--21. You can see that more clearly by sorting the dataset
 by year, state, and gender.
 
 In our Foundational Skills chapter, we introduced a {dplyr} function called
@@ -1038,13 +1040,13 @@ child_counts %>%
 ## # … with 2,918 more rows
 ```
 
-We can simplify our dataset by removing the rows with NAs, leaving us with one
+We can simplify our dataset by removing the rows with `NA`, leaving us with one
 row for each category:
 
-  - females age 3-5
-  - females age 6-21
-  - males age 3-5
-  - males age 6-21
+  - females age 3--5
+  - females age 6--21
+  - males age 3--5
+  - males age 6--21
 
 Each of these categories will be associated with a state and reporting year:
 
@@ -1083,13 +1085,13 @@ child_counts %>%
 ## Analysis
 
 In the last section we focused on importing our dataset. In this section, we
-will ask: how have child counts changed over time? First, we'll use
+will ask, "How have child counts changed over time?" First, we'll use
 visualization to explore the number of students in special education over time.
 In particular, we'll compare the count of male and female students. Next, we'll
 use what we learn from our visualizations to quantify any differences that we
 see.
 
-### Visualize the Dataset
+### Visualize the dataset
 
 Showing this many states in a plot can be overwhelming, so to start we'll make a
 subset of the dataset. We can use a function in the {dplyr} package called
@@ -1120,7 +1122,7 @@ child_counts %>%
 These six states have the highest mean count of students in special education
 over the six years we are examining. For reasons we will see in a later
 visualization, we are going to exclude outlying areas and freely associated
-states. That leaves us us with five states: California, Florida, New York,
+states. That leaves us with five states: California, Florida, New York,
 Pennsylvania, and Texas. We can remove all other states but these by using
 `filter()`. We'll call this new dataset `high_count`:
 
@@ -1136,7 +1138,7 @@ about comparing counts of male and female students in special education, but
 visualization is also a great way to explore related curiosities. You may
 surprise yourself with what you find when visualizing your datasets. You might
 come up with more interesting hypotheses, find that your initial hypothesis
-requires more data transformation, or find interesting subsets of the data--we
+requires more data transformation, or find interesting subsets of the data---we
 saw a little of that in the surprisingly high `mean_count` of freely associated
 states in the `state` column. Let your curiosity and intuition drive this part
 of the analysis. It's one of the activities that makes data analysis a creative
@@ -1160,18 +1162,21 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-1)Count of Female Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-1-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-1-1.png" alt="Count of Female Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-1)Count of Female Students in Special Education Over Time</p>
+</div>
 
-That gives us a plot that has the years in the *x*-axis and a count of female
-students in the *y*-axis. Each line takes a different color based on the state it
+That gives us a plot that has the years on the *x*-axis and a count of female
+students on the *y*-axis. Each line takes a different color based on the state it
 represents.
 
-Let's look at that closer: We used `filter()` to subset our dataset for students
+Let's look at that closer: we used `filter()` to subset our dataset for students
 who are female and ages 6 to 21. We used `aes` to connect visual elements of our
 plot to our data. We connected the *x*-axis to `year`, the *y*-axis to `total`, and
 the color of the line to `state`.
 
-It's worth calling out one more thing, since it's a technique we'll be using as
+It's worth calling out one more thing; since it's a technique we'll be using as
 we explore further. Note here that, instead of storing our new dataset in a new
 variable, we filter the dataset then use the pipe operator `%>%` to feed it to
 {ggplot2}. Since we're exploring freely, we don't need to create a lot of new
@@ -1193,7 +1198,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-2)Count of Male Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-2-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-2-1.png" alt="Count of Male Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-2)Count of Male Students in Special Education Over Time</p>
+</div>
 
 We've looked at each gender separately. What do these lines look like if we
 visualized the total amount of students each year per state? To do that, we'll
@@ -1214,7 +1222,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-3)Total Count of Students in Special Education Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-3-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-3-1.png" alt="Total Count of Students in Special Education Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-3)Total Count of Students in Special Education Over Time</p>
+</div>
 
 So far we've looked at a few ways to count students over time. In each plot, we
 see that while counts have grown overall for all states, each state has
@@ -1233,7 +1244,10 @@ high_count %>%
   theme_dataedu() 
 ```
 
-![(\#fig:fig10-4)Median Students with Disabilities Count](10-wt-longitudinal-analysis_files/figure-docx/fig10-4-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-4-1.png" alt="Median Students with Disabilities Count" width="100%" />
+<p class="caption">(\#fig:fig10-4)Median Students with Disabilities Count</p>
+</div>
 
 The boxplots show us what we might have expected from our `freqpoly` plots
 before it. The highest median student count over time is California and the
@@ -1245,7 +1259,7 @@ states) do not have similar counts to each other. The student counts for each
 state also appear to have grown over time.
 
 But how can we start comparing the male student count to the female student
-count? One way is to use a *ratio*, the number of times the first number contains 
+count? One way is to use a "*ratio*", the number of times the first number contains 
 the second. For example, if Variable A is equal to 14, and Variable B is equal to 7,
 the ratio between Variable A and Variable B is 2.00, indicating that the first number
 contains twice the number of the second.
@@ -1253,7 +1267,7 @@ contains twice the number of the second.
 We can use the count of male students in each state and divide it by the count
 of each female student. The result is the number of times male students are in
 special education more or less than the female students in the same state and
-year. Our coding strategy will be to
+year. Our coding strategy will be to:
 
   - Use `pivot_wider()` to create separate columns for male and female students.
   - Use `mutate()` to create a new variable called `ratio`. The values in this
@@ -1284,7 +1298,10 @@ high_count %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-5)Male Student to Female Student Ratio Over Time](10-wt-longitudinal-analysis_files/figure-docx/fig10-5-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-5-1.png" alt="Male Student to Female Student Ratio Over Time" width="100%" />
+<p class="caption">(\#fig:fig10-5)Male Student to Female Student Ratio Over Time</p>
+</div>
 
 By visually inspecting, we can hypothesize that there was no significant change
 in the male to female ratio between the years 2012 and 2017. But very often we
@@ -1293,12 +1310,11 @@ this by quantifying the relationship between two variables. In the next section,
 we'll explore ways to quantify the relationship between male student counts and
 female student counts.
 
-### Model the Dataset
+### Model the dataset
 
 When you visualize your datasets, you are exploring possible relationships
 between variables. But sometimes visualizations can be misleading because of the
-way we perceive graphics. In his book *Data Visualization: A Practical
-Introduction*, @healy2019 teaches us that
+way we perceive graphics. In his book *Data Visualization: A Practical Introduction*, @healy2019 teaches us that
 
 > Visualizations encode numbers in lines, shapes, and colors. That means that
 > our interpretation of these encodings is partly conditional on how we perceive
@@ -1307,11 +1323,11 @@ Introduction*, @healy2019 teaches us that
 What are some ways we can combat these errors of perception and at the same time
 draw substantive conclusions about our education dataset? When you spot a
 possible relationship between variables, the relationship between female and
-male counts for example, you'll want to quantify that relationship by fitting a
+male counts for example, you'll want to quantify it by fitting a
 statistical model. Practically speaking, this means you are selecting a
 distribution that represents your dataset reasonably well. This distribution
 will help you quantify and predict relationships between variables. This is an
-important step in the analytic process, because it acts as a check on what you
+important step in the analytic process because it acts as a check on what you
 saw in your exploratory visualizations.
 
 In this example, we'll follow our intuition about the relationship between male
@@ -1323,8 +1339,8 @@ female ratio will help us do just that.
 In the context of modeling the dataset, we note that there are techniques available (other than a linear regression model)
 for longitudinal analyses that are helpful for accounting for the way that individual
 data points over time can be modeled as grouped within units (such as individual students). 
-Such approaches, , such as those involving structural equation models [@grimm2016growth] 
-and multi-level models [@west2014linear], are especially helpful for analyzing patterns of change over time--and what predicts those patterns. Both of the references cited above include R code for carrying out such analyses.
+Such approaches, like those involving structural equation models [@grimm2016growth] 
+and multi-level models [@west2014linear], are especially helpful for analyzing patterns of change over time---and what predicts those patterns. Both of the references cited above include R code for carrying out such analyses.
 
 *Do we have enough information for our model?*
 
@@ -1355,7 +1371,10 @@ child_counts %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education](10-wt-longitudinal-analysis_files/figure-docx/fig10-6-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-6-1.png" alt="Comparison of Female Students to Male Students in Special Education" width="100%" />
+<p class="caption">(\#fig:fig10-6)Comparison of Female Students to Male Students in Special Education</p>
+</div>
 
 If you think of each potential point on the linear regression line as a ratio of
 male to female students, you'll notice that we don't know a whole lot about what
@@ -1377,14 +1396,14 @@ child_counts %>%
 
 ```
 ## # A tibble: 6 × 5
-##   year       state                                            age        f      m
-##   <date>     <chr>                                            <chr>  <dbl>  <dbl>
-## 1 2012-01-01 us, outlying areas, and freely associated states Tota… 1.93e6 3.89e6
-## 2 2013-01-01 us, outlying areas, and freely associated states Tota… 1.94e6 3.88e6
-## 3 2014-01-01 us, outlying areas, and freely associated states Tota… 1.97e6 3.92e6
-## 4 2015-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.98e6
-## 5 2016-01-01 us, outlying areas, and freely associated states Tota… 2.01e6 3.97e6
-## 6 2017-01-01 us, outlying areas, and freely associated states Tota… 2.05e6 4.02e6
+##   year       state                                           age        f      m
+##   <date>     <chr>                                           <chr>  <dbl>  <dbl>
+## 1 2012-01-01 us, outlying areas, and freely associated stat… Tota… 1.93e6 3.89e6
+## 2 2013-01-01 us, outlying areas, and freely associated stat… Tota… 1.94e6 3.88e6
+## 3 2014-01-01 us, outlying areas, and freely associated stat… Tota… 1.97e6 3.92e6
+## 4 2015-01-01 us, outlying areas, and freely associated stat… Tota… 2.01e6 3.98e6
+## 5 2016-01-01 us, outlying areas, and freely associated stat… Tota… 2.01e6 3.97e6
+## 6 2017-01-01 us, outlying areas, and freely associated stat… Tota… 2.05e6 4.02e6
 ```
 
 This is where we discover that each of the data points in the upper right hand
@@ -1412,22 +1431,25 @@ child_counts %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities](10-wt-longitudinal-analysis_files/figure-docx/fig10-7-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-7-1.png" alt="Comparison of Female Students to Male Students with Disabilities" width="100%" />
+<p class="caption">(\#fig:fig10-7)Comparison of Female Students to Male Students with Disabilities</p>
+</div>
 
 This should allow us to fit a better model for the relationship between male and
 female student counts, albeit only the ones where the count of female students
 takes a value between 0 and 500,000.
 
-*Male to Female Ratio Over Time*
+*Male to female ratio over time*
 
-Earlier we asked the question Do we have enough data points for the count of
-female students to learn about the ratio of female to male students? Similarly,
-we should ask the question Do we have enough data points across our year
-variable to learn about how this ratio has changed over time?
+Earlier, we asked the question, "Do we have enough data points for the count of
+female students to learn about the ratio of female to male students?" Similarly,
+we should ask ourselves, "Do we have enough data points across our year
+variable to learn about how this ratio has changed over time?"
 
-To answer that question, let's start by making a new dataset that includes any
+To answer that, let's start by making a new dataset that includes any
 rows where the `f` variable has a value that is less than or equal to 500,000.
-We'll convert the `year` variable to a factor data type--we'll see how this
+We'll convert the `year` variable to a factor data type---we'll see how this
 helps in a bit. We'll also add a column called `ratio` that contains the male to
 female count ratio.
 
@@ -1477,7 +1499,10 @@ ggplot(data = model_data, aes(x = year, y = ratio)) +
   theme_dataedu()
 ```
 
-![(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)](10-wt-longitudinal-analysis_files/figure-docx/fig10-8-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-8-1.png" alt="Male to Female Ratio Across Years (Jittered)" width="100%" />
+<p class="caption">(\#fig:fig10-8)Male to Female Ratio Across Years (Jittered)</p>
+</div>
 
 Each year seems to have data points that can be considered when we fit the
 model. This means that there are enough data points to help us learn how the
@@ -1488,7 +1513,7 @@ function `lm()`. In R, the `~` usually indicates a formula. In this case, the
 formula is the variable `year` as a predictor of the variable `ratio`. The final
 argument we pass to `lm` is `data = model_data`, which tells R to look for the
 variables `ratio` and `year` in the dataset `model_data`. The results of the
-model are called a "model object." We'll store the model object in `ratio_year`:
+model are called a "model object". We'll store the model object in `ratio_year`:
 
 
 ```r
@@ -1537,8 +1562,8 @@ in the in the list of rownames. That's because the `(Intercept)` row represents
 the first level of the factor is the intercept. Sometimes this level is called a
 "dummy variable". The remaining rows of the model output show how much each year
 differs from the intercept, 2012. For example, `year2013` has an estimate of
--0.012, which suggests that on average the value of `ratio` is .012 less
-than 2.03. On average, the ratio of `year2014` is .02 less than 2.03.
+--0.012, which suggests that on average the value of `ratio` is 0.012 less
+than 2.03. On average, the ratio of `year2014` is 0.02 less than 2.03.
 The `t value` column tells us the size of difference between the estimated value
 of the ratio for each year and the estimated value of the ratio of the
 intercept. Generally speaking, the larger the t value, the larger the chance
@@ -1572,9 +1597,9 @@ model_data %>%
 ```
 
 This verifies that our intercept, the value of `ratio` during the year 2012,
-is 2.03 and the value of `ratio` for 2013 is .012 less than that of 2012
+is 2.03 and the value of `ratio` for 2013 is 0.012 less than that of 2012
 on average. Fitting the model gives us more details about these mean ratio
-scores-- namely the coefficient, t value, and p value. These values help us
+scores---namely the coefficient, t value, and p value. These values help us
 apply judgement when deciding if differences in `ratio` values suggest an
 underlying difference between years or simply differences you can expect from
 randomness. In this case, the absence of "\*" in all rows except the Intercept
@@ -1605,7 +1630,7 @@ The mean value of the `ratio` column when the `year` column is 2012 is 2.03,
 just like in the model output's intercept row.
 
 Lastly, we may want to communicate to a larger audience that there were roughly
-twice amount of male students in this dataset than female students and that this
+twice the number of male students in this dataset than there were female students, and this
 did not change significantly between the years 2012 and 2017. When you are not
 communicating to an audience of other data scientists, it's helpful to
 illustrate your point without the technical details of the model output. Think
@@ -1660,7 +1685,10 @@ model_data %>%
   theme_dataedu()
 ```
 
-![(\#fig:fig10-9)Median Male and Female Student Counts in Special Education](10-wt-longitudinal-analysis_files/figure-docx/fig10-9-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="10-wt-longitudinal-analysis_files/figure-html/fig10-9-1.png" alt="Median Male and Female Student Counts in Special Education" width="100%" />
+<p class="caption">(\#fig:fig10-9)Median Male and Female Student Counts in Special Education</p>
+</div>
 
 Once we learned from our model that male to female ratios did not change in any
 meaningful way from 2012 to 2017 and that the median ratio across states was
@@ -1671,19 +1699,19 @@ your notes so you can reference specific coefficient estimates when needed.
 ## Results
 
 We learned that each state has a different count of students with
-disabilities–so different that we need to use statistics like ratios or
+disabilities---so different that we need to use statistics like ratios or
 visualizations to compare across states. Even when we narrow our focus to the
 five states with the highest counts of students with disabilities, we see that
 there are differences in these counts.
 
-When we look at these five states over time, we see that despite the differences
-in total count each year, all five states have increased their student counts.
+When we look at these five states over time, we see that, despite the differences
+in total count each year, all five increased their student counts.
 We also learned that though the male to female ratios for students with
 disabilities appears to have gone down slightly over time, our model suggests
 that these decreases do not represent a big difference.
 
 The comparison of student counts across each state is tricky because there is a
-lot of variation in total enrollment across all fifty states. While we explored
+lot of variation in total enrollment across all 50 states. While we explored
 student counts across each state and verified that there is variation in the
 counts, a good next step would be to combine these data with total enrollment
 data. This would allow us to compare counts of students with disabilities as a
@@ -1699,15 +1727,14 @@ dataset instead of a student-level dataset? We chose to use an aggregate dataset
 because it reflects an analysis that a data scientist in education would
 typically do.
 
-Using student-level data requires that the data scientist is either an employee
-of the school agency or that works under a memorandum of understanding (MOU)
+Using student-level data requires that the data scientist be either an employee
+of the school agency or someone who works under a memorandum of understanding (MOU)
 that allows her to access this data. Without either of these conditions, the
 education data scientist learns about the student experience by working on
 publicly available datasets, almost all of which are aggregated student-level
 datasets.
 
-**Student-level Data for Analysis of Local Populations: Aggregate Data for Base
-Rate and Context.**
+**Student-level data for analysis of local populations: aggregate data for base rate and context**
 
 Longitudinal analysis is typically done with student-level data because
 educators are interested in what happens to students over time. So if you cannot
@@ -1720,31 +1747,29 @@ an opportunity to learn from totaled up student data from other states or the
 whole country.
 
 In the book *Thinking Fast and Slow*, @kahneman2011 discusses the importance of
-learning from larger populations, a context he refers to as the base rate. The
+learning from larger populations, a context he refers to as the "base rate". The
 base rate fallacy is the tendency to only focus on conclusions we can draw from
 immediately available information. It's the difference between computing how
 often a student at one school is identified for special education services
 (student-level data) and how often students are identified for special
 educations services nationally (base rate data). We can use aggregate data to
-combat the baserate fallacy by putting what we learn from local student data in
+combat the base rate fallacy by putting what we learn from local student data in
 the context of surrounding populations.
 
 For example, consider an analysis of student-level data in a school district
 over time. Student-level data allows us to ask questions about our local
-population: One such question is: Are the rates of special education
-identification for male students different from other gender identities *in our
-district*? This style of question looks *inward* at your own educational system.
+population. One such question is, "Are the rates of special education
+identification for male students different from other gender identities *in our district*?" This style of question looks *inward* at your own educational system.
 
 Taking a cue from Kahneman, we should also ask what this pattern looks
 like in other states or in the country. Aggregate data allows us to ask
-questions about a larger population: One such question is Are the rates of
+questions about a larger population. One such question is, "Are the rates of
 special education identification for male students different from other gender
-identities *in the United States*? This style of question looks for answers
+identities *in the United States*?" This style of question looks for answers
 *outside* your own educational system. The combination of the two lines of
-inquiry are powerful way to generate new knowledge about the student experience.
+inquiry is a powerful way to generate new knowledge about the student experience.
 
 So education data scientists should not despair in situations where they cannot
-access student-level data. Aggregate data is a powerful way to learn from state
-level or national level data when a data sharing agreement for student-level
+access student-level data. Aggregate data is a powerful way to learn from state-level or national-level data when a data sharing agreement for student-level
 data is not possible. In situations where student-level data *is* available,
 including aggregate data is an excellent way to combat the base rate fallacy.

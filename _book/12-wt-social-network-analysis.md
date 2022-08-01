@@ -1,11 +1,16 @@
-# Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data {#c12}
+# Walkthrough 6: exploring relationships using social network analysis with social media data {#c12}
 
-## Topics Emphasized
+**Abstract**
+
+This chapter explores the use of social network analysis (commonly referred to as SNA). While much of the data that data scientists in education analyze pertains to variables for individuals, some data concerns the relationships between individuals, such as friendship between youth, or advice-seeking on the part of teachers. While such data is common---and often of interest to data scientists---it can be difficult to analyze, in part due to the multiple sources of data (about both individuals’ relations and individuals and the complexity of the relations between individuals. This chapter uses data from the Twitter #tidyuesday network, an R learning community, to demonstrate how such data can be accessed and imported, processed into forms necessary for social network analysis using the {tidygraph} R package, and visualized using the {ggraph} R package.
+
+
+## Topics emphasized
 
 - Transforming data
 - Visualizing data
 
-## Functions Introduced
+## Functions introduced
 
 - `rtweet::search_tweets()`
 - `randomNames::randomNames()`
@@ -25,11 +30,11 @@
 - sociogram
 - vertex
 
-## Chapter Overview
+## Chapter overview
 
-This chapter builds on [Walkthrough 5/Chapter 11](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques. 
+This chapter builds on [Walkthrough 5 in Chapter 11](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of tweets. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques. 
 
-While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources, as net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.
+While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.
 
 Like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
 
@@ -47,7 +52,7 @@ In the past, if a teacher wanted advice about how to plan a unit or to design a 
 
 In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet} and a Twitter account, it is easy to access data from Twitter. We will load the {tidyverse} and {rtweet} packages to get started. 
 
-We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph, @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used int he book), do so using the `install.packages()` function. More on installing packages is included in the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
+We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph; @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used in the book), do so using the `install.packages()` function. More on installing packages is included in the ["*Packages*"](#c06p) section of the ["*Foundational Skills*"](#c06) chapter.
 
 Let's load the packages with the following calls to the `library()` function:
 
@@ -61,9 +66,9 @@ library(tidygraph)
 library(ggraph)
 ```
 
-### Data Sources and Import
+### Data sources and import
 
-Here is an example of searching the most recent 1,000 tweets which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
+Here is an example of searching the most recent 1,000 tweets, which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
 
 
 ```r
@@ -91,15 +96,15 @@ You may notice that the most recent tweets containing the #tidytuesday hashtag a
 
 ### Using an Application Programming Interface (or API)
 
-It's worth taking a short detour to talk about how you can obtain a dataset like this. A common way to import data from websites, including social media platforms, is to use something called an Application Programming Interface (API). In fact, if you ran the code above, you just accessed an API!
+It's worth taking a short detour to talk about how you can obtain a dataset spanning a longer period of time. A common way to import data from websites, including social media platforms, is to use something called an Application Programming Interface (API). In fact, if you ran the code above, you just accessed an API!
 
 Think of an API as a special door a home builder made for a house that has a lot of cool stuff in it. The home builder doesn’t want everyone to be able to walk right in and use a bunch of stuff in the house. But they also don’t want to make it too hard because, after all, sharing is caring! Imagine the home builder made a door just for folks who know how to use doors. In order to get through this door, users need to know where to find it along the outside of the house. Once they’re there, they have to know the code to open. And, once they’re through the door, they have to know how to use the stuff inside. An API for social media platforms like Twitter and Facebook are the same way. You can download datasets of social media information, like tweets, using some code and authentication credentials organized by the website.
 
-There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product, but, rather, is one that can be updated with the most recent data (in this case, Tweets), every time you run it. By using an API to import new data every time you run your code, you create an analysis that can be used again and again on future datasets. However, A key point - and limitation - is that Twitter allows access to their data via their API only for (approximately) the seven most recent days. There are a number of *other* ways to access older data, though we focus on one way here: Having access to the URLs to (or the status IDs for) tweets. 
+There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product, but, rather, is one that can be updated with the most recent data (in this case, Tweets), every time you run it. By using an API to import new data every time you run your code, you create an analysis that can be used again and again on future datasets. However, a key point---and limitation---is that Twitter allows access to their data via their API only for (approximately) the seven most recent days. There are a number of *other* ways to access older data, though we focus on one way here: having access to the URLs of (or the status IDs for) tweets. 
 
-As a result, we used this technique - described in-depth in [Appendix B](#c20b) - to collect older (historical) data from Twitter about the #tidytuesday hashtag, using a different function than the one described above (`rtweet::lookup_statuses()` instead of `rtweet::search_tweets()`). This was important for this chapter because having acess to a greater number of tweets allows us to better understand the interactions between a larger number of the individuals participating in #tidytuesday. The data that we prepared from acessing historical data for #tidytuesday is available in the {dataedu} R package as the `tt_tweets` dataset, as we describe next.
+As a result, we used this technique---described in-depth in [Appendix B](#c20b)---to collect older (historical) data from Twitter about the #tidytuesday hashtag, using a different function than the one described above (`rtweet::lookup_statuses()` instead of `rtweet::search_tweets()`). This was important for this chapter because having access to a greater number of tweets allows us to better understand the interactions between a larger number of the individuals participating in #tidytuesday. The data that we prepared from accessing historical data for #tidytuesday is available in the {dataedu} R package as the `tt_tweets` dataset, as we describe next.
 
-**Accessing the data from {dataedu}***
+**Accessing the data from {dataedu}**
 
 Don't have Twitter or don't wish to access the data via Twitter? Then, you can load the data from the {dataedu} package (just as we did in the last chapter, [Chapter 11](#c11)), as follows:
 
@@ -108,7 +113,7 @@ Don't have Twitter or don't wish to access the data via Twitter? Then, you can l
 tt_tweets <- dataedu::tt_tweets
 ```
 
-## View Data
+## View data
 
 We can see that there are *many* rows for the data:
 
@@ -121,9 +126,9 @@ nrow(tt_tweets)
 ## [1] 4418
 ```
 
-## Methods: Process Data
+## Methods: process data
 
-Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an *edgelist*. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an *edge*. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as *ties* or *relations*, but these generally refer to the same thing, though they may be used in different contexts.
+Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "*edgelist*". An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an *edge*. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as *ties* or *relations*, but these generally refer to the same thing, though they may be used in different contexts.
 
 An edgelist looks like the following, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
 
@@ -132,20 +137,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 × 2
-##    sender               receiver       
-##    <chr>                <chr>          
-##  1 al-Farooqui, Urwa    Do, Levi       
-##  2 al-Othman, Mubaaraka el-Munir, Najwa
-##  3 al-Othman, Mubaaraka Parker, Demail 
-##  4 Hansen, Tammara      el-Munir, Najwa
-##  5 Hansen, Tammara      Do, Levi       
-##  6 Hansen, Tammara      Ervin, Anthony 
-##  7 Gomez, Benjamin      Parker, Demail 
-##  8 Gomez, Benjamin      Jauch, Anthony 
-##  9 Gomez, Benjamin      Ervin, Anthony 
-## 10 Romero, Rosalina     Fung, Salvatore
-## 11 Moquino, Leslie      Parker, Demail 
-## 12 Moquino, Leslie      Fung, Salvatore
+##    sender              receiver          
+##    <chr>               <chr>             
+##  1 Thin-Elk, Nathaniel Moon, Alix        
+##  2 Grado, Victor       Samarripa, Vanessa
+##  3 Grado, Victor       Crockett, Damon   
+##  4 Pineda, Laurie      Samarripa, Vanessa
+##  5 Pineda, Laurie      Moon, Alix        
+##  6 Pineda, Laurie      Ary, Patrick      
+##  7 el-Srour, Kamaal    Crockett, Damon   
+##  8 el-Srour, Kamaal    Nguyen, Yoki      
+##  9 el-Srour, Kamaal    Ary, Patrick      
+## 10 Kang, Ravinder      Carey, Brandon    
+## 11 Booth, Stephanie    Crockett, Damon   
+## 12 Booth, Stephanie    Carey, Brandon
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
@@ -328,7 +333,10 @@ g %>%
   theme_graph()
 ```
 
-![(\#fig:fig12-1)Network Graph](12-wt-social-network-analysis_files/figure-docx/fig12-1-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-1-1.png" alt="Network Graph" width="100%" />
+<p class="caption">(\#fig:fig12-1)Network Graph</p>
+</div>
 
 Finally, let's size the points based on a measure of centrality. A common way to do this is to measure how influential an individual may be based on the interactions observed.
 
@@ -868,7 +876,10 @@ g %>%
 ## font family 'Arial Narrow' not found, will use 'sans' instead
 ```
 
-![(\#fig:fig12-2)Network Graph with Centrality](12-wt-social-network-analysis_files/figure-docx/fig12-2-1.png){width=100%}
+<div class="figure" style="text-align: center">
+<img src="12-wt-social-network-analysis_files/figure-html/fig12-2-1.png" alt="Network Graph with Centrality" width="100%" />
+<p class="caption">(\#fig:fig12-2)Network Graph with Centrality</p>
+</div>
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: [https://ggraph.data-imaginist.com/](https://ggraph.data-imaginist.com/)
 

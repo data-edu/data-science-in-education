@@ -4,9 +4,14 @@ editor_options:
     wrap: 72
 ---
 
-# Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
+# Walkthrough 1: the education data science pipeline with online science class data {#c07}
 
-## Topics Emphasized
+**Abstract**
+
+This chapter explores tidying and transforming data from online K–12 science courses. Particularly for those carrying out educational research or evaluation, data from online courses and learning management systems (LMS) is commonly analyzed by data scientists in education and those involved in learning analytics. A feature---but also a challenge---of this type of data, which comes from both surveys as well as measures of students’ interactions with course content (i.e., “trace” measures), is that it often requires substantial time and effort before it can be described, visualized, and modeled. This type of analysis can be useful for understanding students’ experiences in online courses; it can also be used as a part of a process of providing feedback to teachers and students, as is commonly the case with learning analytics approaches. Data science tools in this chapter include joining together different datasets, pivoting data from “long” to “wide” form (and vice versa), and exploring data through visualizations, correlations, and regression models.
+
+
+## Topics emphasized
 
 For this and the remaining walkthroughs, we refer to the topics
 emphasized in terms of distinct but related steps involved in the
@@ -25,7 +30,7 @@ are:
 -   Tidying data
 -   Transforming data
 
-## Functions Introduced
+## Functions introduced
 
 -   `data.frame()`
 -   `dplyr::summarize()`
@@ -54,12 +59,11 @@ key terms that are introduced and used in the chapter.
 -   tibble
 -   vectorize
 
-## Introduction to the Walkthroughs
+## Introduction to the walkthroughs
 
 This chapter is the first of eight walkthroughs included in the book. In
 it, we present *one approach* to analyzing a specific dataset. In this
-chapter, the approach is what we refer to as the "education data science
-pipeline", or some of the steps taken in many data science projects,
+chapter, the approach is what we refer to as the "education data science pipeline", or some of the steps taken in many data science projects,
 including cleaning and tidying data as well as exploring and visualizing
 or modeling it.
 
@@ -74,13 +78,13 @@ problem explored in the walkthrough.
 We note that this chapter assumes familiarity with the four core
 concepts that comprise the foundational skills framework: projects,
 functions, packages, and data. If you would like a refresher about (or
-an introduction to) any of those, reading [Chapter 6](#06) then writing
+an introduction to) any of those, reading [Chapter 6](#06) and then writing
 and running some of the code in it may be helpful to you.
 
-## Chapter Overview
+## Chapter overview
 
 In this walkthrough, we explore some of the key steps that are a part of
-many data science in education projects. In particular, we explore how
+many "data science in education" projects. In particular, we explore how
 to process and prepare data. These steps are sometimes referred to as
 "data wrangling". To do this, we rely heavily on a set of tools that we
 use throughout *all* the walkthroughs---those associated with the
@@ -117,8 +121,8 @@ that helps explain students' performance in these online courses. The
 science in education: the data are complex and in need of further
 processing before we can get to the step of running analyses. We will
 use this same dataset in the final walkthrough, *Walkthrough 8*, in
-[Chapter 14](#c14), where we will provide more details there about the
-dataset and the context.
+[Chapter 14](#c14), where we will provide more details about the
+dataset and context.
 
 To understand students' performance, we will focus on an LMS variable
 that indicates the length of time students spent within the course LMS.
@@ -128,9 +132,9 @@ section in which students are enrolled on student performance.
 First, these different data sources will be described in terms of how
 they were provided by the school.
 
-### Data Sources
+### Data sources
 
-#### Data Source \#1: Self-Report Survey about Students' Motivation
+#### Data source \#1: self-report survey about students' motivation
 
 The first data source is a self-report survey. This was data collected
 before the start of the course. The survey included ten items, each
@@ -144,7 +148,7 @@ and believe that the concept they are trying to learn is important
 (value) [@wigfield2000]. There are multiple types of value, but we
 explore two of them here: interest and utility value. Utility value is
 the degree to which a person is able to connect the concept being
-learned with something they will utilize in their future life. This
+learned with something they will utilize in their future. This
 survey included the following ten items:
 
 1.  I think this course is an interesting subject. (Interest)
@@ -163,25 +167,25 @@ survey included the following ten items:
     (Utility value)
 10. I've always wanted to learn more about this subject. (Interest)
 
-### Data Source \#2: Log-Trace Data
+#### Data source \#2: log-trace data
 
-*Log-trace data* is data generated from our interactions with digital
+Log-trace data is data generated from our interactions with digital
 technologies, such as archived data from social media postings (see
 [Chapters 11](#c11) and [12](#c12)). In education, an increasingly
 common source of log-trace data generated from interactions with LMS and
-other digital tools [@siemens2012]. The data for this walk-through is a
+other digital tools [@baker-la-2014]. The data for this walk-through is a
 summary type of log-trace data: the number of minutes students spent on
 the course. While this data type is fairly straightforward, there are
 even more complex sources of log-trace data out there (e.g., timestamps
 associated with when students started and stopped accessing the course).
 
-### Data Source \#3: Academic Achievement and Gradebook Data
+#### Data source \#3: academic achievement and gradebook data
 
 This is a common source of data in the education realm: the graded
 assignments students completed. In this walkthrough, we examine only
 students' final grades for the course.
 
-### Data Source \#4: Discussion Board Data
+#### Data source \#4: discussion board data
 
 Discussion board data is both rich and unstructured because it is made
 up of large chunks of text that the students wrote. While discussion
@@ -195,13 +199,13 @@ In this walkthrough, we will concentrate on merging different datasets
 together by using the different "joins" available in the {dplyr}
 package. We will also start exploring how to run linear models in R.
 
-## Load Packages
+## Load packages
 
 This analysis uses R packages, which are collections of R code that help
 users code more efficiently, as you will recall from [Chapter 1](#c1).
 We load these packages with the function `library()`. The specific
 packages we'll use here will help us organize the structure of the data
-using the {tidyverse} [@R-tidyverse],create formatted tables using
+using the {tidyverse} [@R-tidyverse], create formatted tables using
 {apaTables} [@R-apaTables] and {sjPlot} [@R-sjPlot], and export datasets
 using {readxl} [@R-readxl].
 
@@ -245,7 +249,7 @@ library(readxl)
 library(dataedu)
 ```
 
-## Import Data
+## Import data
 
 This code chunk loads the log-trace data and self-report survey data
 from the {dataedu} package. Note that we assign a dataset to an object
@@ -266,7 +270,7 @@ course_data <- dataedu::course_data
 course_minutes <- dataedu::course_minutes
 ```
 
-## View Data
+## View data
 
 Now that we've successfully loaded all three log-trace datasets, we can
 visually inspect the data by typing the names that we assigned to each
@@ -279,13 +283,13 @@ course_data
 course_minutes
 ```
 
-## Process Data
+## Process data
 
 Often, survey data needs to be processed in order to be most useful. We
 are going to start with one of the three datasets we just saved as
 objects into our environment: the dataset with the pre-survey items.
-Here, we process the self-report items into three scales for 1)
-interest, 2) perceived competence, and 3) utility value. We do this by:
+Here, we process the self-report items into three scales for (1)
+interest, (2) perceived competence, and (3) utility value. We do this by:
 
 -   Renaming the question variables to something more manageable
 -   Reversing the response scales on questions 4 and 7
@@ -294,7 +298,7 @@ interest, 2) perceived competence, and 3) utility value. We do this by:
 
 Let's take these steps in order:
 
-1.  Take the pre-survey data, and save it as a new object with the same
+**(1)** Take the pre-survey data, and save it as a new object with the same
     name "pre_survey". Rename the question columns to something much
     simpler. To do this, we will use the `rename()` function and will
     input first the new variable name, then the "=" sign, and then the
@@ -304,7 +308,7 @@ Let's take these steps in order:
 ```{r}
 pre_survey  <-
   pre_survey  %>%
-  # Rename the qustions something easier to work with because R is case sensitive
+  # Rename the questions something easier to work with because R is case sensitive
   # and working with variable names in mix case is prone to error
   rename(
     q1 = Q1MaincellgroupRow1,
@@ -362,7 +366,7 @@ In our dataset `pre_survey`, we let `mutate_at()` know we want to change
 the variables `q1` through `q10`. We do this with the argument
 `vars(q1:q10)`.
 
-2.  Next, we'll reverse the scale of the survey responses on questions 4
+**(2)**  Next, we'll reverse the scale of the survey responses on questions 4
     and 7 so the responses for all questions can be interpreted in the
     same way. As you can see from the survey questions we listed earlier
     in the chapter, the phrasing of questions 4 and 7 is opposite the
@@ -451,14 +455,14 @@ pre_survey <-
 You'll notice that we call the `reverse_scale()` function we wrote, but
 we call it within the `mutate()` function. By doing things this way, we
 are overwriting the previous data in the columns for questions 4 and 7
-with our newly recoded values for questions 4 and 7.
+with our newly recoded values.
 
-3.  Next, we'll use a function called `pivot_longer()` in order to
+**(3)**  Next, we'll use a function called `pivot_longer()` in order to
     transform our `pre_survey` dataset from wide format to long format.
     That means instead of having 1,102 observations of 12 variables, we
     will now have 11,020 observations of 4 variables. By using
     `pivot_longer()`, we make it so that each question & response pair
-    has its own line in the data. Therefore, since we have ten-question
+    has its own line in the data. Therefore, since we have ten question
     variables (columns) in the `pre_survey` dataset, after we use
     `pivot_longer()` we will end up with ten times as many observations
     (rows) as before. Additionally, we no longer need a separate column
@@ -479,7 +483,7 @@ measure_mean <-
                values_to = "response")
 ```
 
-4.  Next, we'll take our new `measure_mean` dataset and create a column
+**(4)**  Next, we'll take our new `measure_mean` dataset and create a column
     called `measure`. We'll fill that column with one of three question
     categories:
 
@@ -515,7 +519,7 @@ measure_mean <- measure_mean %>%
   )
 ```
 
-5.  Last, we'll take that same `measure_mean` dataset and create a new
+**(5)**  Last, we'll take that same `measure_mean` dataset and create a new
     variable called `mean_response.` Since we are calculating the mean
     by category, we will need to first group the responses together
     using a function called `group_by()`. This function helps us get set
@@ -545,7 +549,7 @@ With that last step, we have finished processing the `pre_survey`
 dataset. We have renamed the relevant variables and computed some means
 that we can use later.
 
-### Processing the Course Data
+### Processing the course data
 
 When we loaded the data earlier in the chapter, we loaded three
 datasets: `pre_survey`, `course_data`, and `course_minutes.` Next, we
@@ -580,14 +584,14 @@ the total number of variables in this dataset from eight to 11. We will
 still see the original variable `CourseSectionOrigID` in the data as
 well.
 
-### Joining the Data
+### Joining the data
 
 In this chapter, we are looking at two datasets that are derived from
 the same courses. In order for these datasets to be most useful to us,
 we'd like all that data to be in one place.
 
 To join the course data and pre-survey data, we need to create similar
-*keys*. Our goal here is to have one variable that matches across both
+keys. Our goal here is to have one variable that matches across both
 datasets. Once we have that common variable in both datasets, we can
 merge the datasets on the basis of that variable.
 
@@ -693,7 +697,7 @@ pre_survey <- pre_survey %>%
 Now that the `student_id` and `course_id` variables are ready to go in
 the `pre_survey` dataset, let's proceed to the course data. Our goal is
 to rename the two variables that correspond to the course and the
-student so we can match them with the other variables we just created
+student so we can match them with the other variables we created
 for the pre-survey data. In the code chunk below, we will rename both
 those variables.
 
@@ -745,7 +749,7 @@ With most types of data, `left_join()` is helpful for carrying out most
 tasks related to joining datasets. However, there are functions for
 other types of joins that we want to make sure you know how to use. They
 may be less frequently used than `left_join()`, but they are still worth
-mentioning. Note that for all of these, the "left" data frame is always
+mentioning. Note that, for all of these, the "left" data frame is always
 the first argument, and the "right" data frame is always the second.
 When running the code chunks below, it can be helpful to pay attention
 to the number of observations and variables in the datasets before and
@@ -790,8 +794,8 @@ dat_anti
 #### `right_join()`
 
 Perhaps the least helpful of the three, `right_join()`, works the same
-as `left_join()`, but by retaining all of the rows in the "right" data
-frame, and joining matching rows in the "left" data frame (so, the
+as `left_join()` but by retaining all of the rows in the "right" data
+frame and joining matching rows in the "left" data frame (so, the
 opposite of `left_join()`).
 
 ```{r}
@@ -804,7 +808,7 @@ dat_right
 ```
 
 If we wanted this to return exactly the same output as `left_join()`
-(and, in doing so, to create a data frame that is identical to the `dat`
+(and, in doing so, create a data frame that is identical to the `dat`
 data frame we created above), we could simply switch the order of the
 two data frames to be the opposite of those used for the `left_join()`
 above:
@@ -853,15 +857,15 @@ combination. We have a pretty large data frame! Let's take a quick look.
 dat
 ```
 
-It looks like we have `r nrow(dat)` observations from 22 variables.
+It looks like we have `r format(nrow(dat),big.mark=",",scientific=FALSE)` observations from 22 variables.
 
-### Finding Distinct Cases at the Student-Level
+### Finding distinct cases at the student-level
 
 If a student was enrolled in two courses, she will have a different
 final grade for each of those two courses. However, our data in its
 current form has many rows representing each course. An easy way we can
 visually inspect to make sure every row is the same for the same
-student, by course is to use the `glimpse()` function. Try it below.
+student by course is to use the `glimpse()` function. Try it below.
 
 ```{r}
 glimpse(dat)
@@ -877,7 +881,7 @@ consistent across these rows.
 
 Since we are not carrying out a finer-grained analysis using the
 `Gradebook_Item`, these duplicate rows are not necessary. We only want
-variables at the student level and not at the level of different
+variables at the student level and *not* at the level of different
 gradebook items. We can extract only the unique student-level data using
 the `distinct()` function. This function takes as arguments the name of
 the data frame and the name of the variables used to determine what
@@ -977,7 +981,7 @@ has many graph shapes you can use, including points, bars, lines, and
 boxplots. Here's a {ggplot2} example using a dataset of school mean test
 scores to graph a bar chart:
 
-```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example Plot", fig.alt="Bar chart comparing school ID and mean score with School A having the lowest mean score, School B in the middle, and School C having the highest}
+```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example Plot", fig.alt="Bar chart comparing school ID and mean score with School A having the lowest mean score, School B in the middle, and School C having the highest"}
 # Create dataset
 students <- 
   tibble(
@@ -1021,10 +1025,10 @@ empathy and think about how well your code conveys your ideas to others,
 including yourself when you look at it many weeks from when you wrote
 it.
 
-### The Relationship between Time Spent on Course and Final Grade
+### The relationship between time spent on course and final grade
 
 One thing we might be wondering is how time spent on the course is
-related to students' final grade. Let's make a plot to depict that
+related to students' final grades. Let's make a plot to depict that
 relationship. Below, we'll use `geom_point` instead of `geom_bar`.
 
 ```{r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent", fig.alt="Scatterplot of Time Spent versus Final Grade with heavy concentration of dots on low time spent and high final grades", fig.showtext = TRUE}
@@ -1061,7 +1065,7 @@ dat %>%
 ```
 
 Looking at this plot, it appears that the more time students spent on
-the course, the higher their final grade is.
+the course, the higher their final grade.
 
 What is the line doing in the upper right part of the graph? Based upon
 the trend observable in the data, the line of best fit predicts that
@@ -1072,7 +1076,7 @@ interpreting lines of best fit (and other, more sophisticated analyses)
 carefully, keeping that understanding and knowledge in mind as you
 present and make sense of the results.
 
-### Linear Model (Regression)
+### Linear model (regression)
 
 We can find out exactly what the relationship between these two
 variables is using a linear model. We discuss linear models in more
@@ -1080,7 +1084,7 @@ detail in [Chapter 10](#c10).
 
 Let's use this technique to model the relationship between the time
 spent on the course and students' final grades. Here, we predict
-`final_grade`. The student's final, reported grade is the dependent, or
+`final_grade`. The student's final reported grade is the dependent, or
 *y*-variable, and so we enter it first, after the `lm()` command and
 before the tilde (`~`) symbol. To the right of the tilde is one
 independent variable, `TimeSpent`, or the time that students spent on
@@ -1199,7 +1203,7 @@ survey_responses %>%
 The time spent variable is on a very large scale (minutes); what if we
 transformed it to represent the number of *hours* that students spent on
 the course? Let's use the `mutate()` function we used earlier. We'll end
-the variable name with `_hours`, to represent what this variable means.
+the variable name with `_hours` to represent what this variable means.
 
 ```{r}
 # creating a new variable for the amount of time spent in hours
