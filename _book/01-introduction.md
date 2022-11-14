@@ -8,7 +8,7 @@ Whether you're a data scientist using your skills in an education job or an educ
 
 ## Learning Data Science in Education
 
-Over the coming chapters we'll be learning together about what data science in education can look like. But to understand why we were compelled to write about the topic, we need to talk about why data science in education is not such a straightforward thing. 
+Over the coming chapters, we'll be learning together about what data science in education can look like. But to understand why we were compelled to write about the topic, we need to talk about why data science in education is not such a straightforward thing. 
 
 Learning data science in education is challenging because there isn't a universal vision for that role yet. Data science in education isn't straightforward because the role itself is not straightforward. If education were a building, it would be multi-storied with many---rooms. There are privately and publicly funded schools. There are more than 18 possible grade levels. Students can learn alone or with others in a classroom. 
 

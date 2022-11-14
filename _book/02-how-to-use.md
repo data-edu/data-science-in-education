@@ -13,7 +13,7 @@ with your favorite spreadsheet software. However, you're probably reading this b
 
 > The first six months were hard. I knew how quickly I could do a pivot table
 > in Excel. It took longer in R because I had to go through the syntax and take
-> the book out. I forced myself to do it, though. In the long-term, I'd be a
+> the book out. I forced myself to do it, though. In the long term, I'd be a
 > better data scientist. I'm so glad I thought that way, but it was hard the
 > first few months.
 
@@ -64,7 +64,7 @@ If you've never written a line of R code, we welcome you to the community! We
 wrote this book for you. Consider reading the book cover to cover and doing all
 the analysis walkthroughs. Remember that you'll get more from a few minutes of
 practice every day than you will from long hours of practice every once in
-awhile. Typing code every day, even if it doesn't always run, is a daily practice
+a while. Typing code every day, even if it doesn't always run, is a daily practice
 that invites learning and "a-ha" moments. We know how easy it is to avoid coding
 when it doesn't feel successful (we've been there), so we've designed this book to deliver frequent
 small wins to keep the momentum going. But even then, we all eventually hit a
@@ -73,7 +73,7 @@ keep coding. When daily coding becomes a habit, so does the learning.
 
 If you get stuck in an advanced chapter and you need a break, try reviewing an
 earlier chapter. You'll be surprised at how much you learn from reviewing old
-material with the benefit of new experience. Sometimes that kind of back-to-basics
+material with the benefit of new experiences. Sometimes that kind of back-to-basics
 attitude is what we need to get a fresh perspective on new challenges.
 
 ### Pick a Chapter of Interest and Start There
@@ -133,16 +133,16 @@ more people.
 
 What happens when we remove one of these pieces? Consider a data scientist
 working in education who is an expert programmer and statistician but has not
-learned about the real life conditions that generate education data. She might
+learned about the real-life conditions that generate education data. She might
 make analysis decisions that overlook the nuances in the data. As another example, consider a data
 scientist who is an expert statistician and an education veteran, but who has not
 learned to code. He will find it difficult to scale his analysis up, thereby foregoing the chance to make the
 largest possible improvement to the student experience. Finally,
 consider a data scientist who is an expert programmer and an education veteran.
-She can only scale surface level analysis and might miss chances to understand causal
+She can only scale surface-level analysis and might miss chances to understand causal
 relationships or predict student outcomes.
 
-In this book we will spend a lot of time learning R by way of recognizable
+In this book, we will spend a lot of time learning R by way of recognizable
 education data examples. But doing a deep dive into statistics and how to use
 statistical techniques responsibly is better covered by books dedicated solely to the topic. It's
 hard to overstate how important this part of the learning is on the lives of

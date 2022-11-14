@@ -2,17 +2,17 @@
 
 In this chapter, and the following chapter (on [Foundational Skills](#c06)), and each of the walkthrough chapters, we include a broad overview of the topics emphasized and the functions introduced in the chapter. 
 
-## Topic Emphasized
+## Topics Emphasized
 
-For all of the topics emphasized sections (like this one), we indicate what topics, in general, are unique to each chapter. Especially for the walkthrough chapters, however, there is a great deal of overlap between chapters in what is emphasized because, for example, visualizing data is used so regularly as a part of carrying out a data science project in education. Therefore, consider these topics emphasized to be those that are the *particular* focus of the chapters they reference.
+For all of the topics emphasized sections (like this one), we indicate topics that are unique to each chapter. Especially for the walkthrough chapters, there is a great deal of overlap between chapters in what is emphasized. For example, visualizing data is regularly used as a part of carrying out a data science project in education. Therefore, consider these topics emphasized to be the *particular* focus of the chapters they reference.
 
 - Installing R, RStudio, and R packages
 
 ## Functions Introduced
 
-For all of the functions introduced sections, you will notice that some look a little bit different than others. For example, `devtools::install_github()` is different than `install.packages()`. 
+For the "functions introduced" sections, you will notice that some look a little bit different than others. For example, `devtools::install_github()` is different than `install.packages()`. 
 
-The reason is that the `install_github()` function comes from a specific *package* (which we'll discuss in great depth in this and the following chapter). If you had a hunch that this function comes from the `devtools` package, then you'd be correct. The `::` symbols (described more in [Chapter 6](#c06)) simply mean that a specific function comes from a particular package, something that we wanted to point out so that you will know which package you will need to use if you want to use the function. Not sure what some of these terms mean quite yet? Read on in this chapter to learn more about installing and using packages!
+The reason is that the `install_github()` function comes from a specific *package* (which we'll discuss in great depth in this and the following chapter). If you had a hunch that this function comes from the `devtools` package, then you'd be correct. The `::` symbols (described more in [Chapter 6](#c06)) mean that a specific function comes from a particular package, something that we wanted to point out so that you will know which package you will need to use if you want to use the function. Not sure what some of these terms mean quite yet? Read on in this chapter to learn more about installing and using packages!
 
 - `install.packages()`
 - `devtools::install_github()`
@@ -41,7 +41,7 @@ We will be covering the following topics in this chapter:
 
 First, you will need to download the latest versions of R [@rcoreteam] and RStudio [@rstudio]. 
 R is a free environment for statistical computing and graphics using the programming language R. 
-RStudio is a set of integrated tools that allows for a more user-friendly experience for using R.
+RStudio is a set of integrated tools that allow for a more user-friendly experience for using R.
 
 Although you will likely use RStudio as your main console and editor, _you must first install R_ as RStudio uses R behind the scenes. Both R and RStudio are freely available, cross-platform, and open-source.
 
@@ -84,7 +84,7 @@ Other IDEs that work with R include:
 - [EMACS Speaks Statistics (ESS)](https://ess.r-project.org/) (https[]()://ess.r-project.org/)
 
 This is a non-exhaustive list, and most of these options require a good deal of familiarity with a given IDE.
-However we bring up alternative IDEs---particularly ESS---because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers. We have chosen to use RStudio in this text in order to standardize the experience, but we encourage you to choose the IDE that best suits your needs!
+We bring up alternative IDEs---particularly ESS---because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers. We have chosen to use RStudio in this text in order to standardize the experience, but we encourage you to choose the IDE that best suits your needs!
 
 ### RStudio Layout 
 
@@ -146,7 +146,7 @@ Up to this point, we've been exploring the RStudio interface and setting up our 
 Now, we'll shift to some basic coding practices.
 In order to run code in R, you need to type your code either in the Console or within an `.R` script. 
 
-We generally recommend creating an `.R` script as you're learning, as it allows you to type all of your code, add comments, and then save your `.R` script for reference. If instead you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R, and you will not be able to reference it in the future.    
+We generally recommend creating an `.R` script as you're learning, as it allows you to type all of your code, add comments, and then save your `.R` script for reference. If you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R, and you will not be able to reference it in the future.    
 
 ### Writing Code in the Console
 
@@ -231,7 +231,7 @@ To comment out a line of code, you can place a pound sign (also called an octoth
 Be careful when excluding certain lines of code, especially in longer files, as it can be easy to forget where you've commented out code. 
 It is often better to simply start a new section of code to tinker with until you get it working as expected, rather than commenting out individual lines of code.
 
-We can also write comments in-line with our code, like this: 
+We can also write comments in line with our code, like this: 
 
 
 ```r
@@ -263,7 +263,7 @@ The package serves four main functions:
 3. Access to the data used in each of the walkthroughs  
 4. The "dataedu" theme and color palette for reuse
 
-If you feel that you need more information before you're ready to install the package, you can skip this section and rest assured that we'll cover packages, their installation, and how to load them into R in more depth in [Chapter 6](#c06).
+If you feel that you need more information before you're ready to install the package, you can skip this section. Rest assured that we'll cover packages, their installation, and how to load them into R in more depth in [Chapter 6](#c06).
 However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below.
 
 > **Note:** After the publication of this book, we realized using {devtools} to install {dataedu} could create a lot of conflict with readers' existing packages We updated the code to require only the package {remotes} contained within {devtools} so to ease installation. For more info, see the [{dataedu} repository on GitHub](https://github.com/data-edu/dataedu).
@@ -291,7 +291,7 @@ You can install {swirl} by running the following code:
 install.packages("swirl")
 ```
 
-{swirl} is set of packages (see more on packages in [Chapter 6](#c06)) that you can download, providing an interactive method for learning R by using R in the RStudio Console.  
+{swirl} is a set of packages (see more on packages in [Chapter 6](#c06)) that you can download, providing an interactive method for learning R by using R in the RStudio Console.  
 Since you've already installed R, RStudio, and the {swirl} package, you can follow the instructions on the {swirl} webpage or run the following code _in your Console pane_ to get started with a beginner-level course in {swirl}:
 
 
@@ -306,6 +306,6 @@ We are not affiliated with {swirl} in any way, nor is {swirl} required to progre
 
 ## Conclusion
 
-Congratulations! At this point in the book you've installed R and RStudio, explored the RStudio IDE, and even written some basic code. 
-At this point you're set up to either move on to [Chapter 6](#c06), where we'll do a deeper dive into projects, packages, and functions, and how those relate to your future data tasks. We will also introduce help documentation and some skills for when you're working with new or unfamiliar information. 
+Congratulations! At this point in the book, you've installed R and RStudio, explored the RStudio IDE, and even written some basic code. 
+At this point, you're set up to either move on to [Chapter 6](#c06), where we'll do a deeper dive into projects, packages, and functions, and how those relate to your future data tasks. We will also introduce help documentation and some skills for when you're working with new or unfamiliar information. 
 If that all sounds familiar to you already, you can jump ahead to a walkthrough of your choosing! 

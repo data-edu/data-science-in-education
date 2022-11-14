@@ -672,23 +672,23 @@ varImp(rf_fit2_imp)
 ## 
 ##                                                     Overall
 ## n                                                   100.000
-## subjectFrScA                                         20.827
-## time_spent                                           13.680
-## subjectPhysA                                          5.288
-## semesterS216                                          4.063
-## negemo                                                3.137
-## pc                                                    2.558
-## social                                                2.360
-## posemo                                                1.724
-## int                                                   0.933
-## cogproc                                               0.729
-## enrollment_reasonScheduling Conflict                  0.516
-## enrollment_reasonLearning Preference of the Student   0.466
-## enrollment_reasonOther                                0.412
-## uv                                                    0.387
-## enrollment_reasonCredit Recovery                      0.233
-## semesterT116                                          0.212
-## subjectOcnA                                           0.180
+## subjectFrScA                                         20.846
+## time_spent                                           13.450
+## subjectPhysA                                          5.143
+## semesterS216                                          4.209
+## negemo                                                3.086
+## pc                                                    2.515
+## social                                                2.071
+## posemo                                                1.429
+## int                                                   0.917
+## enrollment_reasonOther                                0.600
+## enrollment_reasonScheduling Conflict                  0.543
+## cogproc                                               0.520
+## enrollment_reasonLearning Preference of the Student   0.391
+## uv                                                    0.381
+## subjectOcnA                                           0.252
+## enrollment_reasonCredit Recovery                      0.234
+## semesterT116                                          0.195
 ## subjectBioA                                           0.000
 ```
 
