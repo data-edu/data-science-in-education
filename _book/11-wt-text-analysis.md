@@ -517,7 +517,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1]  2  5 10  4  9
+## [1] 7 8 1 4 9
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 
@@ -534,18 +534,19 @@ pos_tweets %>%
 
 ```
 ## # A tibble: 10 × 3
-##    status_id           text                                             positive
+##    status_id           text                                              posit…¹
 ##    <chr>               <chr>                                               <dbl>
-##  1 1133472441739694081 "Today is the day - excited to be leading this …        1
-##  2 1144362764569382912 "UFO sightings with gganimate - need to tidy up…        1
-##  3 996745975124430848  "This week's #TidyTuesday dataset looks too fun…        1
-##  4 1086811813478572033 "This week: 2019-01-15 #TidyTuesday #rstats my …        1
-##  5 1034514501264191488 "#TidyTuesday week 22.\nInteresting patterns in…        1
-##  6 1135976453189881858 ".@broadwym is kicking off the #TidyTuesday col…        1
-##  7 1148813753946742784 "Night everyone i am heading to bed now i love …        1
-##  8 1074665444303429633 "@sebastianhwells @jspairani Hi Sebastian - eve…        1
-##  9 1154683888230391810 "Have you signed up for our next #rladies event…        1
-## 10 1127890667705970689 "Better late than never. My first #TidyTuesday …        1
+##  1 1133472441739694081 "Today is the day - excited to be leading this B…       1
+##  2 1144362764569382912 "UFO sightings with gganimate - need to tidy up …       1
+##  3 996745975124430848  "This week's #TidyTuesday dataset looks too fun …       1
+##  4 1086811813478572033 "This week: 2019-01-15 #TidyTuesday #rstats my f…       1
+##  5 1034514501264191488 "#TidyTuesday week 22.\nInteresting patterns in …       1
+##  6 1135976453189881858 ".@broadwym is kicking off the #TidyTuesday cole…       1
+##  7 1148813753946742784 "Night everyone i am heading to bed now i love y…       1
+##  8 1074665444303429633 "@sebastianhwells @jspairani Hi Sebastian - ever…       1
+##  9 1154683888230391810 "Have you signed up for our next #rladies event?…       1
+## 10 1127890667705970689 "Better late than never. My first #TidyTuesday p…       1
+## # … with abbreviated variable name ¹​positive
 ```
 
 That returned ten randomly selected tweets that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our tweets dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 

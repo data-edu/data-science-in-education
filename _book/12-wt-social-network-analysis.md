@@ -47,7 +47,7 @@ In the past, if a teacher wanted advice about how to plan a unit or to design a 
 
 In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet} and a Twitter account, it is easy to access data from Twitter. We will load the {tidyverse} and {rtweet} packages to get started. 
 
-We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph, @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used int he book), do so using the `install.packages()` function. More on installing packages is included in the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
+We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph; @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used int he book), do so using the `install.packages()` function. More on installing packages is included in the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
 
 Let's load the packages with the following calls to the `library()` function:
 
@@ -132,20 +132,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 × 2
-##    sender               receiver       
-##    <chr>                <chr>          
-##  1 al-Farooqui, Urwa    Do, Levi       
-##  2 al-Othman, Mubaaraka el-Munir, Najwa
-##  3 al-Othman, Mubaaraka Parker, Demail 
-##  4 Hansen, Tammara      el-Munir, Najwa
-##  5 Hansen, Tammara      Do, Levi       
-##  6 Hansen, Tammara      Ervin, Anthony 
-##  7 Gomez, Benjamin      Parker, Demail 
-##  8 Gomez, Benjamin      Jauch, Anthony 
-##  9 Gomez, Benjamin      Ervin, Anthony 
-## 10 Romero, Rosalina     Fung, Salvatore
-## 11 Moquino, Leslie      Parker, Demail 
-## 12 Moquino, Leslie      Fung, Salvatore
+##    sender               receiver          
+##    <chr>                <chr>             
+##  1 Marfizo, Ayana       Haynes, Malikah   
+##  2 Martinez, Gisela     el-Jabbour, Imraan
+##  3 Martinez, Gisela     Roberts, Cornelius
+##  4 al-Kaiser, Jameela   el-Jabbour, Imraan
+##  5 al-Kaiser, Jameela   Haynes, Malikah   
+##  6 al-Kaiser, Jameela   Poon, Ann         
+##  7 Rojas, Roxanna       Roberts, Cornelius
+##  8 Rojas, Roxanna       el-Kader, Thanaa  
+##  9 Rojas, Roxanna       Poon, Ann         
+## 10 el-Mona, Mushtaaq    al-Qazi, Kaarim   
+## 11 Henderson, Theanysla Roberts, Cornelius
+## 12 Henderson, Theanysla al-Qazi, Kaarim
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
