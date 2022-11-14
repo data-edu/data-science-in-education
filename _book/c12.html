@@ -777,20 +777,20 @@ div.csl-indent {
 <p>Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant’s role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an <em>edgelist</em>. An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an <em>edge</em>. We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as <em>ties</em> or <em>relations</em>, but these generally refer to the same thing, though they may be used in different contexts.</p>
 <p>An edgelist looks like the following, where the <code>sender</code> (sometimes called the “nominator”) column identifies who is initiating the interaction and the <code>receiver</code> (sometimes called the “nominee”) column identifies who is receiving the interaction:</p>
 <pre><code>## # A tibble: 12 × 2
-##    sender        receiver              
-##    &lt;chr&gt;         &lt;chr&gt;                 
-##  1 Nguyen, Kai   Polson, Nicole        
-##  2 Vandyke, Rose el-Ashraf, Juwairiya  
-##  3 Vandyke, Rose al-Latif, Abdul Jaleel
-##  4 Haley, Lynn   el-Ashraf, Juwairiya  
-##  5 Haley, Lynn   Polson, Nicole        
-##  6 Haley, Lynn   Gantulga, Katie       
-##  7 Prum, Seung   al-Latif, Abdul Jaleel
-##  8 Prum, Seung   al-Omer, Lutfi        
-##  9 Prum, Seung   Gantulga, Katie       
-## 10 Dial, Mustafa Mckeon, Thristin      
-## 11 Stuber, Paul  al-Latif, Abdul Jaleel
-## 12 Stuber, Paul  Mckeon, Thristin</code></pre>
+##    sender             receiver             
+##    &lt;chr&gt;              &lt;chr&gt;                
+##  1 Valenzuela, Angelo Maestas, Brieanna    
+##  2 Johnson, Jaimie    Schliesser, Gabrielle
+##  3 Johnson, Jaimie    Tavares, Jesus       
+##  4 Quintana, Julia    Schliesser, Gabrielle
+##  5 Quintana, Julia    Maestas, Brieanna    
+##  6 Quintana, Julia    Mcdaniel, Jenny      
+##  7 el-Tabet, Rajaa    Tavares, Jesus       
+##  8 el-Tabet, Rajaa    Vovan, Caitlyn       
+##  9 el-Tabet, Rajaa    Mcdaniel, Jenny      
+## 10 el-Hashem, Asmaa   Cates, Alexandra     
+## 11 Brinkmann, Jacob   Tavares, Jesus       
+## 12 Brinkmann, Jacob   Cates, Alexandra</code></pre>
 <p>In this edgelist, the <code>sender</code> column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like “liking” or “mentioning” their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.</p>
 <div id="extracting-mentions" class="section level3 hasAnchor" number="12.6.1">
 <h3><span class="header-section-number">12.6.1</span> Extracting Mentions<a href="c12.html#extracting-mentions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
