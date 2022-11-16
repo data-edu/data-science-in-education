@@ -121,7 +121,7 @@ If you have questions, comments, or ideas you can reach the authors by email at 
 
  - Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
 
- - Ryan [@RyanEs](https://twitter.com/RyanEs) 
+ - Ryan [@ry_estrellado](https://twitter.com/ry_estrellado) 
  
  ## Citation
  
