@@ -13,7 +13,7 @@ The authors of this text and the publisher Taylor and Francis are pleased to mak
 
 ## Reading the Book
 
-We wrote this book for you and are excited to share it! You can read the work in progress at [datascienceineducation.com](https://datascienceineducation.com) right now. The print version will be released in 2020 through [Routledge](https://www.routledge.com). 
+We wrote this book for you and are excited to share it! You can read the current version at [datascienceineducation.com](https://datascienceineducation.com). The print version is available now through [Routledge](https://www.routledge.com). 
 
 ## The Aims of This Book
 
@@ -85,7 +85,7 @@ And, the reader will be able to:
 
 This project started in the #dataedu [Slack channel](https://dataedu.slack.com/). You can join the workspace [here](https://join.slack.com/t/dataedu/shared_invite/enQtNzQ3ODcwNzM0NDgwLTQzMTE1YjdiMTg0NWExYTljNTg5YzU1NjY4NGE3MjA0ODRiNGM5NGYyNzRmNDk5Yjk0OTYyYWU4Zjc0ZTgyYTg). 
 
-Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. We're actively editing as we get closer to our manuscript's due date and this helps us keep all the changes synced up. 
+Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. This helps us keep all the changes synced up. 
 
  - [How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) 
 
