@@ -13,7 +13,7 @@ The authors of this text and the publisher Taylor and Francis are pleased to mak
 
 ## Reading the Book
 
-We wrote this book for you and are excited to share it! You can read the current version at [datascienceineducation.com](https://datascienceineducation.com). The print version is available now through [Routledge](https://www.routledge.com). 
+We wrote this book for you and are excited to share it! You can read the current version at [datascienceineducation.com](https://datascienceineducation.com). The print version is available now through [Routledge](https://www.routledge.com/Data-Science-in-Education-Using-R/Estrellado-Freer-Mostipak-Rosenberg-Velasquez/p/book/9780367422257). 
 
 ## The Aims of This Book
 
