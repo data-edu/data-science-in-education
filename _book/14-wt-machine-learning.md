@@ -1,4 +1,4 @@
-# Walkthrough 8: predicting students' final grades using machine learning methods with online course data {#c14}
+# Walkthrough 8: Predicting students' final grades using machine learning methods with online course data {#c14}
 
 **Abstract** 
 

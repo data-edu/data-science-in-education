@@ -1,4 +1,4 @@
-# Conclusion: where to next? {#c19}
+# Conclusion: Where to next? {#c19}
 
 **Abstract**
 This chapter contains bigger-picture advice about how to apply the capabilities and knowledge one has developed with respect to data science education, with an emphasis on the importance of continuously connecting one’s data science-related work to the language, problems, and types of datasets encountered in education; collaborating and building trust with others;, and—--on occasion—--taking strategic breaks by stepping away from the keyboard to help solve problems.

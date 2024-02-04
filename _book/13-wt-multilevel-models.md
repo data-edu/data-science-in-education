@@ -1,4 +1,4 @@
-# Walkthrough 7: The Role (and Usefulness) of Multilevel Models {#c13}
+# Walkthrough 7: The role (and usefulness) of multilevel models {#c13}
 
 ## Topics Emphasized
 

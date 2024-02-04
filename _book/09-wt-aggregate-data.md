@@ -1,4 +1,4 @@
-# Walkthrough 3: using school-level aggregate data to illuminate educational inequities {#c09}
+# Walkthrough 3: Using school-level aggregate data to illuminate educational inequities {#c09}
 
 **Abstract** 
 
@@ -119,16 +119,16 @@ tibble(
 ## # A tibble: 10 × 3
 ##    student school test_score
 ##    <chr>   <chr>       <int>
-##  1 a       k               1
-##  2 b       l              80
-##  3 c       m              43
-##  4 d       n              22
-##  5 e       o              93
-##  6 f       k              85
-##  7 g       l              64
-##  8 h       m              38
-##  9 i       n              94
-## 10 j       o              66
+##  1 a       k              52
+##  2 b       l              27
+##  3 c       m              37
+##  4 d       n               8
+##  5 e       o              38
+##  6 f       k              13
+##  7 g       l              24
+##  8 h       m              12
+##  9 i       n              29
+## 10 j       o              35
 ```
 
 Aggregate data totals up a variable---the variable `test_score` in this case---to
@@ -151,11 +151,11 @@ tibble(
 ## # A tibble: 5 × 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            32.5
-## 2 l            41.5
-## 3 m            51.5
-## 4 n            29  
-## 5 o            36
+## 1 k            74.5
+## 2 l            29.5
+## 3 m            40  
+## 4 n            34  
+## 5 o            63.5
 ```
 
 Notice that this dataset no longer identifies individual students.

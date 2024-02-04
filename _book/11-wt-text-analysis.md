@@ -1,4 +1,4 @@
-# Walkthrough 5: text analysis with social media data {#c11}
+# Walkthrough 5: Text analysis with social media data {#c11}
 
 **Abstract**
 
@@ -522,7 +522,7 @@ sample(x = 1:10, size = 5)
 ```
 
 ```
-## [1] 3 9 8 2 7
+## [1] 10  3  6  7  4
 ```
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works. 

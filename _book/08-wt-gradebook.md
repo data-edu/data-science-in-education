@@ -1,4 +1,4 @@
-# Walkthrough 2: approaching gradebook data from a data science perspective {#c08}
+# Walkthrough 2: Approaching gradebook data from a data science perspective {#c08}
 
 **Abstract**
 

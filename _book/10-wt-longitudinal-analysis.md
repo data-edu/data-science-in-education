@@ -1,4 +1,4 @@
-# Walkthrough 4: longitudinal analysis with federal students with disabilities data {#c10}
+# Walkthrough 4: Longitudinal analysis with federal students with disabilities data {#c10}
 
 
 

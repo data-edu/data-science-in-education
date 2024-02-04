@@ -1,4 +1,4 @@
-# Walkthrough 1: The Education Data Science Pipeline With Online Science Class Data {#c07}
+# Walkthrough 1: The education data science pipeline with online science class data {#c07}
 
 ## Topics Emphasized
 

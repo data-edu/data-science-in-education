@@ -1,4 +1,4 @@
-# Introduction: data science in education -- you're invited to the party! {#c01}
+# Introduction: Data science in education -- you're invited to the party! {#c01}
 
 **Abstract**
 

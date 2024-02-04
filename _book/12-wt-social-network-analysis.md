@@ -1,4 +1,4 @@
-# Walkthrough 6: exploring relationships using social network analysis with social media data {#c12}
+# Walkthrough 6: Exploring relationships using social network analysis with social media data {#c12}
 
 **Abstract**
 
@@ -137,20 +137,20 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```
 ## # A tibble: 12 × 2
-##    sender                receiver             
-##    <chr>                 <chr>                
-##  1 Trujillo, Angel       al-Alli, Abdur Raheem
-##  2 Micael, Anthaneisha   Sperling, Shay-Lee   
-##  3 Micael, Anthaneisha   Nguyen, Hyemin       
-##  4 el-Zahra, Tameem      Sperling, Shay-Lee   
-##  5 el-Zahra, Tameem      al-Alli, Abdur Raheem
-##  6 el-Zahra, Tameem      Doering, Kin-Lino    
-##  7 Conley, Christian     Nguyen, Hyemin       
-##  8 Conley, Christian     Huppert, Dennis      
-##  9 Conley, Christian     Doering, Kin-Lino    
-## 10 Trujillo, Matea       Panchal, Yu          
-## 11 Rosalesyanez, Denisse Nguyen, Hyemin       
-## 12 Rosalesyanez, Denisse Panchal, Yu
+##    sender                 receiver          
+##    <chr>                  <chr>             
+##  1 Smith, Natasha         Lang, Austin      
+##  2 Yang, Thu Anh          Stewart, Kenneth  
+##  3 Yang, Thu Anh          el-Khatib, Muneeb 
+##  4 Costello, Elsa         Stewart, Kenneth  
+##  5 Costello, Elsa         Lang, Austin      
+##  6 Costello, Elsa         el-Hammad, Zakiyya
+##  7 Derrera-Finning, David el-Khatib, Muneeb 
+##  8 Derrera-Finning, David Lowe, Michael     
+##  9 Derrera-Finning, David el-Hammad, Zakiyya
+## 10 Tran, Kristie          Hernandez, Gabriel
+## 11 Silva, Bradley         el-Khatib, Muneeb 
+## 12 Silva, Bradley         Hernandez, Gabriel
 ```
 
 In this edgelist, the `sender` column might identify someone who nominates another  (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their tweets. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Twitter.
