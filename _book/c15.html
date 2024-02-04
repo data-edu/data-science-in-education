@@ -733,18 +733,18 @@ This chapter explores what it’s like to begin using the tools of data science 
 <div id="example-preparing-quiz-data-to-compute-average-scores" class="section level4 hasAnchor" number="15.2.1.1">
 <h4><span class="header-section-number">15.2.1.1</span> Example: Preparing Quiz Data to Compute Average Scores<a href="c15.html#example-preparing-quiz-data-to-compute-average-scores" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let’s take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher’s quiz export looks like this:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="c15.html#cb391-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb391-2"><a href="c15.html#cb391-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
-<span id="cb391-3"><a href="c15.html#cb391-3" tabindex="-1"></a></span>
-<span id="cb391-4"><a href="c15.html#cb391-4" tabindex="-1"></a>quizzes_1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb391-5"><a href="c15.html#cb391-5" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">1</span>, </span>
-<span id="cb391-6"><a href="c15.html#cb391-6" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), </span>
-<span id="cb391-7"><a href="c15.html#cb391-7" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb391-8"><a href="c15.html#cb391-8" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb391-9"><a href="c15.html#cb391-9" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb391-10"><a href="c15.html#cb391-10" tabindex="-1"></a>)</span>
-<span id="cb391-11"><a href="c15.html#cb391-11" tabindex="-1"></a></span>
-<span id="cb391-12"><a href="c15.html#cb391-12" tabindex="-1"></a>quizzes_1</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="c15.html#cb389-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb389-2"><a href="c15.html#cb389-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb389-3"><a href="c15.html#cb389-3" tabindex="-1"></a></span>
+<span id="cb389-4"><a href="c15.html#cb389-4" tabindex="-1"></a>quizzes_1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb389-5"><a href="c15.html#cb389-5" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">1</span>, </span>
+<span id="cb389-6"><a href="c15.html#cb389-6" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), </span>
+<span id="cb389-7"><a href="c15.html#cb389-7" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb389-8"><a href="c15.html#cb389-8" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb389-9"><a href="c15.html#cb389-9" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb389-10"><a href="c15.html#cb389-10" tabindex="-1"></a>)</span>
+<span id="cb389-11"><a href="c15.html#cb389-11" tabindex="-1"></a></span>
+<span id="cb389-12"><a href="c15.html#cb389-12" tabindex="-1"></a>quizzes_1</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 5
 ##   teacher_id student_id quiz_1 quiz_2 quiz_3
 ##        &lt;dbl&gt;      &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
@@ -752,8 +752,8 @@ This chapter explores what it’s like to begin using the tools of data science 
 ## 2          1          2     86     64     41
 ## 3          1          3     21     16     69</code></pre>
 <p>Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you’d like to do that for five teachers using the exact same method? First, let’s tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using <code>pivot_longer()</code> to separate the quiz number and its score for each student will get us a long way:</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="c15.html#cb393-1" tabindex="-1"></a>quizzes_1 <span class="sc">%&gt;%</span> </span>
-<span id="cb393-2"><a href="c15.html#cb393-2" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="c15.html#cb391-1" tabindex="-1"></a>quizzes_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb391-2"><a href="c15.html#cb391-2" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 4
 ##   teacher_id student_id quiz_number score
 ##        &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;       &lt;int&gt;
@@ -767,10 +767,10 @@ This chapter explores what it’s like to begin using the tools of data science 
 ## 8          1          3 quiz_2         16
 ## 9          1          3 quiz_3         69</code></pre>
 <p>Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using <code>pivot_longer()</code>, each row is now a unique combination of teacher, student, and quiz number. This is often talked about as changing a dataset from “wide” to “narrow” because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="c15.html#cb395-1" tabindex="-1"></a>quizzes_1 <span class="sc">%&gt;%</span> </span>
-<span id="cb395-2"><a href="c15.html#cb395-2" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb395-3"><a href="c15.html#cb395-3" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id) <span class="sc">%&gt;%</span> </span>
-<span id="cb395-4"><a href="c15.html#cb395-4" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="c15.html#cb393-1" tabindex="-1"></a>quizzes_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb393-2"><a href="c15.html#cb393-2" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb393-3"><a href="c15.html#cb393-3" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id) <span class="sc">%&gt;%</span> </span>
+<span id="cb393-4"><a href="c15.html#cb393-4" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   student_id quiz_mean
 ##        &lt;int&gt;     &lt;dbl&gt;
@@ -778,38 +778,38 @@ This chapter explores what it’s like to begin using the tools of data science 
 ## 2          2      63.7
 ## 3          3      35.3</code></pre>
 <p>Again, for one dataset this computation is fairly straightforward and can be done with many software tools. But what if the education consultant in our example wants to do this repeatedly for 25 teacher quiz exports? Let’s look at one way we can do this fairly quickly using R. We’ll start by creating two additional datasets as an example. To make things feel authentic, we’ll also add a column to show if the students participated in a new intervention.</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="c15.html#cb397-1" tabindex="-1"></a><span class="co"># Add intervention column to first dataset </span></span>
-<span id="cb397-2"><a href="c15.html#cb397-2" tabindex="-1"></a>quizzes_1 <span class="ot">&lt;-</span> quizzes_1 <span class="sc">%&gt;%</span> </span>
-<span id="cb397-3"><a href="c15.html#cb397-3" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb397-4"><a href="c15.html#cb397-4" tabindex="-1"></a></span>
-<span id="cb397-5"><a href="c15.html#cb397-5" tabindex="-1"></a><span class="co"># Second imaginary dataset</span></span>
-<span id="cb397-6"><a href="c15.html#cb397-6" tabindex="-1"></a>quizzes_2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb397-7"><a href="c15.html#cb397-7" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">2</span>, </span>
-<span id="cb397-8"><a href="c15.html#cb397-8" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>), </span>
-<span id="cb397-9"><a href="c15.html#cb397-9" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-10"><a href="c15.html#cb397-10" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-11"><a href="c15.html#cb397-11" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-12"><a href="c15.html#cb397-12" tabindex="-1"></a>    <span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb397-13"><a href="c15.html#cb397-13" tabindex="-1"></a>)</span>
-<span id="cb397-14"><a href="c15.html#cb397-14" tabindex="-1"></a></span>
-<span id="cb397-15"><a href="c15.html#cb397-15" tabindex="-1"></a><span class="co"># Third imaginary dataset</span></span>
-<span id="cb397-16"><a href="c15.html#cb397-16" tabindex="-1"></a>quizzes_3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb397-17"><a href="c15.html#cb397-17" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">3</span>, </span>
-<span id="cb397-18"><a href="c15.html#cb397-18" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>), </span>
-<span id="cb397-19"><a href="c15.html#cb397-19" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-20"><a href="c15.html#cb397-20" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-21"><a href="c15.html#cb397-21" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb397-22"><a href="c15.html#cb397-22" tabindex="-1"></a>    <span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb397-23"><a href="c15.html#cb397-23" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="c15.html#cb395-1" tabindex="-1"></a><span class="co"># Add intervention column to first dataset </span></span>
+<span id="cb395-2"><a href="c15.html#cb395-2" tabindex="-1"></a>quizzes_1 <span class="ot">&lt;-</span> quizzes_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb395-3"><a href="c15.html#cb395-3" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb395-4"><a href="c15.html#cb395-4" tabindex="-1"></a></span>
+<span id="cb395-5"><a href="c15.html#cb395-5" tabindex="-1"></a><span class="co"># Second imaginary dataset</span></span>
+<span id="cb395-6"><a href="c15.html#cb395-6" tabindex="-1"></a>quizzes_2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb395-7"><a href="c15.html#cb395-7" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">2</span>, </span>
+<span id="cb395-8"><a href="c15.html#cb395-8" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>), </span>
+<span id="cb395-9"><a href="c15.html#cb395-9" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-10"><a href="c15.html#cb395-10" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-11"><a href="c15.html#cb395-11" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-12"><a href="c15.html#cb395-12" tabindex="-1"></a>    <span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb395-13"><a href="c15.html#cb395-13" tabindex="-1"></a>)</span>
+<span id="cb395-14"><a href="c15.html#cb395-14" tabindex="-1"></a></span>
+<span id="cb395-15"><a href="c15.html#cb395-15" tabindex="-1"></a><span class="co"># Third imaginary dataset</span></span>
+<span id="cb395-16"><a href="c15.html#cb395-16" tabindex="-1"></a>quizzes_3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb395-17"><a href="c15.html#cb395-17" tabindex="-1"></a>    <span class="at">teacher_id =</span> <span class="dv">3</span>, </span>
+<span id="cb395-18"><a href="c15.html#cb395-18" tabindex="-1"></a>    <span class="at">student_id =</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>), </span>
+<span id="cb395-19"><a href="c15.html#cb395-19" tabindex="-1"></a>    <span class="at">quiz_1 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-20"><a href="c15.html#cb395-20" tabindex="-1"></a>    <span class="at">quiz_2 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-21"><a href="c15.html#cb395-21" tabindex="-1"></a>    <span class="at">quiz_3 =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb395-22"><a href="c15.html#cb395-22" tabindex="-1"></a>    <span class="at">intervention =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb395-23"><a href="c15.html#cb395-23" tabindex="-1"></a>)</span></code></pre></div>
 <p>The method we’ll use to compute the mean quiz score for each student is to:</p>
 <ol style="list-style-type: decimal">
 <li><p>Combine all the datasets into one big dataset: Use <code>bind_rows()</code> to combine all three quiz exports into one dataset. Remember, this can be done because each teacher’s export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names</p></li>
 <li><p>Reuse the code from the first dataset on the new bigger dataset: Paste the code we used in the first example into the script so it cleans and computes the mean quiz score for each student</p></li>
 </ol>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="c15.html#cb398-1" tabindex="-1"></a><span class="co"># Use `bind_rows` to combine the three quiz exports into one big dataset</span></span>
-<span id="cb398-2"><a href="c15.html#cb398-2" tabindex="-1"></a>all_quizzes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(quizzes_1, quizzes_2, quizzes_3) </span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="c15.html#cb396-1" tabindex="-1"></a><span class="co"># Use `bind_rows` to combine the three quiz exports into one big dataset</span></span>
+<span id="cb396-2"><a href="c15.html#cb396-2" tabindex="-1"></a>all_quizzes <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(quizzes_1, quizzes_2, quizzes_3) </span></code></pre></div>
 <p>Note there are now nine rows, one for each student in our dataset of three teacher quiz exports:</p>
-<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="c15.html#cb399-1" tabindex="-1"></a>all_quizzes</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="c15.html#cb397-1" tabindex="-1"></a>all_quizzes</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 6
 ##   teacher_id student_id quiz_1 quiz_2 quiz_3 intervention
 ##        &lt;dbl&gt;      &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;
@@ -823,13 +823,13 @@ This chapter explores what it’s like to begin using the tools of data science 
 ## 8          3          8     77     46     83            0
 ## 9          3          9     75     77     17            1</code></pre>
 <p>We’ll combine the cleaning and computation of the mean steps neatly into one this chunk of code:</p>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="c15.html#cb401-1" tabindex="-1"></a><span class="co"># Reuse the code from the first dataset on the new bigger dataset</span></span>
-<span id="cb401-2"><a href="c15.html#cb401-2" tabindex="-1"></a>all_quizzes <span class="sc">%&gt;%</span> </span>
-<span id="cb401-3"><a href="c15.html#cb401-3" tabindex="-1"></a>    <span class="co"># Clean with pivot_longer</span></span>
-<span id="cb401-4"><a href="c15.html#cb401-4" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb401-5"><a href="c15.html#cb401-5" tabindex="-1"></a>    <span class="co"># Compute the mean of each student</span></span>
-<span id="cb401-6"><a href="c15.html#cb401-6" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id, intervention ) <span class="sc">%&gt;%</span> </span>
-<span id="cb401-7"><a href="c15.html#cb401-7" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="c15.html#cb399-1" tabindex="-1"></a><span class="co"># Reuse the code from the first dataset on the new bigger dataset</span></span>
+<span id="cb399-2"><a href="c15.html#cb399-2" tabindex="-1"></a>all_quizzes <span class="sc">%&gt;%</span> </span>
+<span id="cb399-3"><a href="c15.html#cb399-3" tabindex="-1"></a>    <span class="co"># Clean with pivot_longer</span></span>
+<span id="cb399-4"><a href="c15.html#cb399-4" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> quiz_1<span class="sc">:</span>quiz_3, <span class="at">names_to =</span> <span class="st">&quot;quiz_number&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;score&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb399-5"><a href="c15.html#cb399-5" tabindex="-1"></a>    <span class="co"># Compute the mean of each student</span></span>
+<span id="cb399-6"><a href="c15.html#cb399-6" tabindex="-1"></a>    <span class="fu">group_by</span>(student_id, intervention ) <span class="sc">%&gt;%</span> </span>
+<span id="cb399-7"><a href="c15.html#cb399-7" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">quiz_mean =</span> <span class="fu">mean</span>(score))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;student_id&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 9 × 3

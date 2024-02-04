@@ -1184,10 +1184,10 @@ div.csl-indent {
 <span id="cb374-9"><a href="c14.html#cb374-9" tabindex="-1"></a>        <span class="at">method =</span> <span class="st">&quot;ranger&quot;</span>,</span>
 <span id="cb374-10"><a href="c14.html#cb374-10" tabindex="-1"></a>        <span class="at">tuneGrid =</span> tune_grid,</span>
 <span id="cb374-11"><a href="c14.html#cb374-11" tabindex="-1"></a>        <span class="at">importance =</span> <span class="st">&quot;permutation&quot;</span></span>
-<span id="cb374-12"><a href="c14.html#cb374-12" tabindex="-1"></a>    )</span></code></pre></div>
-<pre><code>## Growing trees.. Progress: 42%. Estimated remaining time: 5 minutes, 49 seconds.</code></pre>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="c14.html#cb376-1" tabindex="-1"></a><span class="co"># Extract the variable importance from this new model</span></span>
-<span id="cb376-2"><a href="c14.html#cb376-2" tabindex="-1"></a><span class="fu">varImp</span>(rf_fit2_imp)</span></code></pre></div>
+<span id="cb374-12"><a href="c14.html#cb374-12" tabindex="-1"></a>    )</span>
+<span id="cb374-13"><a href="c14.html#cb374-13" tabindex="-1"></a></span>
+<span id="cb374-14"><a href="c14.html#cb374-14" tabindex="-1"></a><span class="co"># Extract the variable importance from this new model</span></span>
+<span id="cb374-15"><a href="c14.html#cb374-15" tabindex="-1"></a><span class="fu">varImp</span>(rf_fit2_imp)</span></code></pre></div>
 <pre><code>## ranger variable importance
 ## 
 ##                                                     Overall
@@ -1212,13 +1212,13 @@ div.csl-indent {
 ## subjectBioA                                           0.000</code></pre>
 <p>Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.</p>
 <p>We can visualize this variable importance list with {ggplot2}.</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="c14.html#cb378-1" tabindex="-1"></a><span class="fu">varImp</span>(rf_fit2_imp) <span class="sc">%&gt;%</span></span>
-<span id="cb378-2"><a href="c14.html#cb378-2" tabindex="-1"></a>    <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb378-3"><a href="c14.html#cb378-3" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&quot;var&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb378-4"><a href="c14.html#cb378-4" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(var, Overall), <span class="at">y =</span> Overall)) <span class="sc">+</span></span>
-<span id="cb378-5"><a href="c14.html#cb378-5" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="fu">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb378-6"><a href="c14.html#cb378-6" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb378-7"><a href="c14.html#cb378-7" tabindex="-1"></a>    <span class="fu">theme_dataedu</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="c14.html#cb376-1" tabindex="-1"></a><span class="fu">varImp</span>(rf_fit2_imp) <span class="sc">%&gt;%</span></span>
+<span id="cb376-2"><a href="c14.html#cb376-2" tabindex="-1"></a>    <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb376-3"><a href="c14.html#cb376-3" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&quot;var&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb376-4"><a href="c14.html#cb376-4" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(var, Overall), <span class="at">y =</span> Overall)) <span class="sc">+</span></span>
+<span id="cb376-5"><a href="c14.html#cb376-5" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="fu">dataedu_colors</span>(<span class="st">&quot;darkblue&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb376-6"><a href="c14.html#cb376-6" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb376-7"><a href="c14.html#cb376-7" tabindex="-1"></a>    <span class="fu">theme_dataedu</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig14-1"></span>
 <img src="14-wt-machine-learning_files/figure-html/fig14-1-1.png" alt="Variable Importance" width="100%" />
 <p class="caption">
@@ -1233,40 +1233,40 @@ Figure 14.1: Variable Importance
 <div id="comparing-random-forest-to-regression" class="section level3 hasAnchor" number="14.9.2">
 <h3><span class="header-section-number">14.9.2</span> Comparing random forest to regression<a href="c14.html#comparing-random-forest-to-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we’ll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We’ll compare this with the random forest model’s performance (<code>rf_fit2</code>). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the <code>rf_fit2</code> model predicted as well as the actual <code>rf_fit2</code> values.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="c14.html#cb379-1" tabindex="-1"></a><span class="co"># Make sure all variables stored as characters are converted to factors</span></span>
-<span id="cb379-2"><a href="c14.html#cb379-2" tabindex="-1"></a>df_train_lm <span class="ot">&lt;-</span> </span>
-<span id="cb379-3"><a href="c14.html#cb379-3" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span> </span>
-<span id="cb379-4"><a href="c14.html#cb379-4" tabindex="-1"></a>    <span class="fu">mutate_if</span>(is.character, as.factor) </span></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="c14.html#cb377-1" tabindex="-1"></a><span class="co"># Make sure all variables stored as characters are converted to factors</span></span>
+<span id="cb377-2"><a href="c14.html#cb377-2" tabindex="-1"></a>df_train_lm <span class="ot">&lt;-</span> </span>
+<span id="cb377-3"><a href="c14.html#cb377-3" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span> </span>
+<span id="cb377-4"><a href="c14.html#cb377-4" tabindex="-1"></a>    <span class="fu">mutate_if</span>(is.character, as.factor) </span></code></pre></div>
 <pre><code>## mutate_if: no changes</code></pre>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="c14.html#cb381-1" tabindex="-1"></a><span class="co"># Create a linear regression model, </span></span>
-<span id="cb381-2"><a href="c14.html#cb381-2" tabindex="-1"></a><span class="co"># using the same formula approach as in the random forest: ~ .</span></span>
-<span id="cb381-3"><a href="c14.html#cb381-3" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span></span>
-<span id="cb381-4"><a href="c14.html#cb381-4" tabindex="-1"></a>    <span class="fu">train</span>(final_grade <span class="sc">~</span> .,</span>
-<span id="cb381-5"><a href="c14.html#cb381-5" tabindex="-1"></a>          <span class="at">data =</span> df_train_lm,</span>
-<span id="cb381-6"><a href="c14.html#cb381-6" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span>
-<span id="cb381-7"><a href="c14.html#cb381-7" tabindex="-1"></a></span>
-<span id="cb381-8"><a href="c14.html#cb381-8" tabindex="-1"></a><span class="co"># Append the predicted values to the training dataset for the linear model, </span></span>
-<span id="cb381-9"><a href="c14.html#cb381-9" tabindex="-1"></a><span class="co"># so we can see both the predicted and the actual values</span></span>
-<span id="cb381-10"><a href="c14.html#cb381-10" tabindex="-1"></a>df_train_lm <span class="ot">&lt;-</span></span>
-<span id="cb381-11"><a href="c14.html#cb381-11" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span></span>
-<span id="cb381-12"><a href="c14.html#cb381-12" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">obs =</span> final_grade,</span>
-<span id="cb381-13"><a href="c14.html#cb381-13" tabindex="-1"></a>           <span class="at">pred =</span> <span class="fu">predict</span>(lm_fit, df_train_lm))</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="c14.html#cb379-1" tabindex="-1"></a><span class="co"># Create a linear regression model, </span></span>
+<span id="cb379-2"><a href="c14.html#cb379-2" tabindex="-1"></a><span class="co"># using the same formula approach as in the random forest: ~ .</span></span>
+<span id="cb379-3"><a href="c14.html#cb379-3" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span></span>
+<span id="cb379-4"><a href="c14.html#cb379-4" tabindex="-1"></a>    <span class="fu">train</span>(final_grade <span class="sc">~</span> .,</span>
+<span id="cb379-5"><a href="c14.html#cb379-5" tabindex="-1"></a>          <span class="at">data =</span> df_train_lm,</span>
+<span id="cb379-6"><a href="c14.html#cb379-6" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>)</span>
+<span id="cb379-7"><a href="c14.html#cb379-7" tabindex="-1"></a></span>
+<span id="cb379-8"><a href="c14.html#cb379-8" tabindex="-1"></a><span class="co"># Append the predicted values to the training dataset for the linear model, </span></span>
+<span id="cb379-9"><a href="c14.html#cb379-9" tabindex="-1"></a><span class="co"># so we can see both the predicted and the actual values</span></span>
+<span id="cb379-10"><a href="c14.html#cb379-10" tabindex="-1"></a>df_train_lm <span class="ot">&lt;-</span></span>
+<span id="cb379-11"><a href="c14.html#cb379-11" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span></span>
+<span id="cb379-12"><a href="c14.html#cb379-12" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">obs =</span> final_grade,</span>
+<span id="cb379-13"><a href="c14.html#cb379-13" tabindex="-1"></a>           <span class="at">pred =</span> <span class="fu">predict</span>(lm_fit, df_train_lm))</span></code></pre></div>
 <pre><code>## mutate: new variable &#39;obs&#39; (double) with 354 unique values and 0% NA</code></pre>
 <pre><code>##         new variable &#39;pred&#39; (double) with 372 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="c14.html#cb384-1" tabindex="-1"></a><span class="co"># Append the predicted values to the training dataset for the random forest</span></span>
-<span id="cb384-2"><a href="c14.html#cb384-2" tabindex="-1"></a>df_train_randomfor <span class="ot">&lt;-</span></span>
-<span id="cb384-3"><a href="c14.html#cb384-3" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span></span>
-<span id="cb384-4"><a href="c14.html#cb384-4" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">predict</span>(rf_fit2, df_train),</span>
-<span id="cb384-5"><a href="c14.html#cb384-5" tabindex="-1"></a>           <span class="at">obs =</span> final_grade)</span></code></pre></div>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="c14.html#cb382-1" tabindex="-1"></a><span class="co"># Append the predicted values to the training dataset for the random forest</span></span>
+<span id="cb382-2"><a href="c14.html#cb382-2" tabindex="-1"></a>df_train_randomfor <span class="ot">&lt;-</span></span>
+<span id="cb382-3"><a href="c14.html#cb382-3" tabindex="-1"></a>    df_train <span class="sc">%&gt;%</span></span>
+<span id="cb382-4"><a href="c14.html#cb382-4" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">pred =</span> <span class="fu">predict</span>(rf_fit2, df_train),</span>
+<span id="cb382-5"><a href="c14.html#cb382-5" tabindex="-1"></a>           <span class="at">obs =</span> final_grade)</span></code></pre></div>
 <pre><code>## mutate: new variable &#39;pred&#39; (double) with 372 unique values and 0% NA</code></pre>
 <pre><code>##         new variable &#39;obs&#39; (double) with 354 unique values and 0% NA</code></pre>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="c14.html#cb387-1" tabindex="-1"></a><span class="co"># Summarize, as data frames, the training data with the predicted </span></span>
-<span id="cb387-2"><a href="c14.html#cb387-2" tabindex="-1"></a><span class="co"># and the actual values for both the linear model</span></span>
-<span id="cb387-3"><a href="c14.html#cb387-3" tabindex="-1"></a><span class="fu">defaultSummary</span>(<span class="fu">as.data.frame</span>(df_train_lm))</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="c14.html#cb385-1" tabindex="-1"></a><span class="co"># Summarize, as data frames, the training data with the predicted </span></span>
+<span id="cb385-2"><a href="c14.html#cb385-2" tabindex="-1"></a><span class="co"># and the actual values for both the linear model</span></span>
+<span id="cb385-3"><a href="c14.html#cb385-3" tabindex="-1"></a><span class="fu">defaultSummary</span>(<span class="fu">as.data.frame</span>(df_train_lm))</span></code></pre></div>
 <pre><code>##     RMSE Rsquared      MAE 
 ##   14.434    0.556   10.848</code></pre>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="c14.html#cb389-1" tabindex="-1"></a><span class="co"># and the random forest</span></span>
-<span id="cb389-2"><a href="c14.html#cb389-2" tabindex="-1"></a><span class="fu">defaultSummary</span>(<span class="fu">as.data.frame</span>(df_train_randomfor))</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="c14.html#cb387-1" tabindex="-1"></a><span class="co"># and the random forest</span></span>
+<span id="cb387-2"><a href="c14.html#cb387-2" tabindex="-1"></a><span class="fu">defaultSummary</span>(<span class="fu">as.data.frame</span>(df_train_randomfor))</span></code></pre></div>
 <pre><code>##     RMSE Rsquared      MAE 
 ##    4.602    0.968    3.393</code></pre>
 <p>Our output will come in the order we wrote the code, so the linear model output is displayed above the random forest output.</p>
