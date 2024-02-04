@@ -1,4 +1,4 @@
-# Walkthrough 7: The Role (and Usefulness) of Multilevel Models {#c13}
+# Walkthrough 7: The role (and usefulness) of multilevel models {#c13}
 
 ## Topics Emphasized
 
@@ -85,7 +85,7 @@ The function `dummy.data.frame()` takes a data frame and creates a `data.frame` 
 
 Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't) and you have to be aware of any changes when using them for analysis.
 
-``` {r run dummy on species}
+``` {r run dummy on species, eval = FALSE}
 d_iris <-
   dummy.data.frame(iris)
 
@@ -100,7 +100,7 @@ equals 1 - as is the case for the other species.
 
 Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
 
-```{r add dummy coded variables to iris}
+```{r add dummy coded variables to iris, eval = FALSE}
 # create matrix of dummy-coded variables
 species_dummy_coded <- 
   get.dummy(d_iris, name = "Species")
@@ -112,7 +112,7 @@ iris_with_dummy_codes <-
 
 Let's look at the results.
 
-```{r count species}
+```{r count species, eval = FALSE}
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```

@@ -1,14 +1,19 @@
-# Getting Started with R and RStudio {#c05}
+# Getting started with R and RStudio {#c05}
+
+**Abstract**
+
+This chapter is designed to provide readers with clear, concise instructions on installing all the software necessary to complete any of the subsequent walkthrough chapters. Readers who are familiar with R and RStudio, as well as how to install and load packages in R, may find this to be a helpful review or may prefer to skip the chapter entirely. This chapter also covers the basics of writing and running code in RStudio, and closes with an introduction to using the {swirl} package. It is designed to help you get started using R and RStudio, assuming no prior use of either.
+
 
 In this chapter, and the following chapter (on [Foundational Skills](#c06)), and each of the walkthrough chapters, we include a broad overview of the topics emphasized and the functions introduced in the chapter. 
 
-## Topics Emphasized
+## Topics emphasized
 
-For all of the topics emphasized sections (like this one), we indicate topics that are unique to each chapter. Especially for the walkthrough chapters, there is a great deal of overlap between chapters in what is emphasized. For example, visualizing data is regularly used as a part of carrying out a data science project in education. Therefore, consider these topics emphasized to be the *particular* focus of the chapters they reference.
+For all of the topics emphasized sections (like this one), we indicate topics that are unique to each chapter. Especially for the walkthrough chapters, however, there is a great deal of overlap between chapters in what is emphasized, because, for example, visualizing data is regularly used as a part of carrying out a data science project in education. Therefore, consider these topics emphasized to be the *particular* focus of the chapters they reference.
 
 - Installing R, RStudio, and R packages
 
-## Functions Introduced
+## Functions introduced
 
 For the "functions introduced" sections, you will notice that some look a little bit different than others. For example, `devtools::install_github()` is different than `install.packages()`. 
 
@@ -23,7 +28,7 @@ The reason is that the `install_github()` function comes from a specific *packag
 - `swirl::swirl()`
 - `swirl::install_course()`
 
-## Chapter Overview
+## Chapter overview
 
 This chapter is designed to help you to get started using R and RStudio, assuming no prior use of either. 
 
@@ -45,7 +50,7 @@ RStudio is a set of integrated tools that allow for a more user-friendly experie
 
 Although you will likely use RStudio as your main console and editor, _you must first install R_ as RStudio uses R behind the scenes. Both R and RStudio are freely available, cross-platform, and open-source.
 
-### To Download R:
+### To download R:
 
 - Visit [CRAN](https://cran.r-project.org/) (https:[]()//cran.r-project.org/) to download R 
 - Find your operating system (Mac, Windows, or Linux)
@@ -54,7 +59,7 @@ Although you will likely use RStudio as your main console and editor, _you must 
 
 Don't worry; you will not mess anything up if you download (or even install!) the wrong file. Once you've installed R, you can get started.
 
-### To Download RStudio:
+### To download RStudio:
 
 - Visit [RStudio's website](https://www.rstudio.com/products/rstudio/download/) (https[]()://www.rstudio.com/products/rstudio/download/) to download RStudio
 - Under the column called "RStudio Desktop FREE", click "Download"
@@ -64,7 +69,7 @@ Don't worry; you will not mess anything up if you download (or even install!) th
 
 If you do have issues, consider [the Data Carpentry page](https://datacarpentry.org/R-ecology-lesson/) (https[]()://datacarpentry.org/R-ecology-lesson/) and then reach out for help. Another excellent place to get help is the [RStudio Community forums](https://community.rstudio.com/) (https[]()://community.rstudio.com/).
 
-## RStudio Layout and Customization: Getting to Know R through RStudio
+## RStudio layout and customization: getting to know R through RStudio
 
 Now that we've installed both R and RStudio, we will be accessing R _through_ RStudio. 
 One of the most reliable ways to tell if you're opening R or RStudio is to look at the icons: 
@@ -86,7 +91,7 @@ Other IDEs that work with R include:
 This is a non-exhaustive list, and most of these options require a good deal of familiarity with a given IDE.
 We bring up alternative IDEs---particularly ESS---because RStudio, as of this writing, is not fully accessible for learners who utilize screen readers. We have chosen to use RStudio in this text in order to standardize the experience, but we encourage you to choose the IDE that best suits your needs!
 
-### RStudio Layout 
+### RStudio layout 
 
 When we open RStudio for the first time, we should see something similar to this:
 
@@ -116,7 +121,7 @@ The "General" tab will open, with several checkboxes selected and unselected. Th
 
 Last, but certainly not least, click on the "Appearance" tab from within Global Options. From here you can select your RStudio Font, Font Size, and Theme. Go through the options and select an appearance that works best for you, and know that you can _always_ come back and change it!
     
-### Minimized and Missing Panes
+### Minimized and missing panes
 
 If, at any point, you find that one of your panes seems to have "disappeared", one of two things has likely happened: 
 
@@ -140,7 +145,7 @@ When we select Pane Layout, we'll see this:
 
 From here, you can select which tabs you'd like to appear within each pane, and you can even change where each pane appears within RStudio. If our Environment Pane had been closed, we would select it from the Pane Layout in order to re-open it within RStudio.
 
-## Writing and Running Code in RStudio
+## Writing and running code in RStudio
 
 Up to this point, we've been exploring the RStudio interface and setting up our preferences.
 Now, we'll shift to some basic coding practices.
@@ -148,7 +153,7 @@ In order to run code in R, you need to type your code either in the Console or w
 
 We generally recommend creating an `.R` script as you're learning, as it allows you to type all of your code, add comments, and then save your `.R` script for reference. If you work entirely in the Console, anything that you type in the Console will disappear as soon as you restart or close R, and you will not be able to reference it in the future.    
 
-### Writing Code in the Console
+### Writing code in the console
 
 To run code in the Console, you type your code next to the `>` and hit `Enter`.  
 We'll spend a little time practicing running code in the Console by exploring some basic properties of coding in R.  
@@ -198,7 +203,7 @@ Go ahead and run this intentional error, and try each of the options above.
 Compare the output of each, and think about how they're different.
 Can you think of when you might want to use one option instead of the other? 
 
-### Writing Code in an R Script
+### Writing code in an R script
 
 There are three main ways to run code in an `.R` script:  
 - Highlight the line(s) of code you'd like to run and press `Ctrl` + `Enter`  
@@ -220,7 +225,7 @@ print("Next, subtraction!")
 
 Feel free to spend some more time writing and running code within your `.R` script, or move on to the next section, where we'll add comments to our code.  
 
-### Commenting Your Code in R
+### Commenting your code in R
 
 It is considered good practice to comment your code when working in an `.R` script. 
 Even if you are the only person to ever work on your code, it can be helpful to write yourself notes about what you were trying to do with a specific piece of code. 
@@ -252,7 +257,7 @@ This method is useful when you're writing a long description of what you're doin
 _Note: when we refer to "commenting" we're referring to adding in actual text comments, whereas "commenting out" refers to using the pound sign (octothorpe) in front of a line of code so that R ignores it._
 _We will also use the phrase "uncomment code", which means you should delete (or omit when typing out) the_ `#` _or_ `#'` _in an example._
     
-## Installing the {dataedu} Package 
+## Installing the {dataedu} package 
 
 This next section will briefly go over installing the {dataedu} package that's used throughout this book. We created this package to provide our readers with an opportunity to jump into R however they see fit.
 
@@ -264,9 +269,7 @@ The package serves four main functions:
 4. The "dataedu" theme and color palette for reuse
 
 If you feel that you need more information before you're ready to install the package, you can skip this section. Rest assured that we'll cover packages, their installation, and how to load them into R in more depth in [Chapter 6](#c06).
-However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below.
-
-> **Note:** After the publication of this book, we realized using {devtools} to install {dataedu} could create a lot of conflict with readers' existing packages We updated the code to require only the package {remotes} contained within {devtools} so to ease installation. For more info, see the [{dataedu} repository on GitHub](https://github.com/data-edu/dataedu).
+However, if you're feeling a bit adventurous, go ahead and give it a shot by running the code below. *Please note that the {dataedu} package requires R version 3.6 or higher to run.*
 
 
 ```r
@@ -281,7 +284,7 @@ One of the walkthroughs uses [{tabulizer}](https://github.com/ropensci/tabulizer
 {tabulizer} requires the installation of [RJava](https://cran.r-project.org/web/packages/rJava/index.html), which can be a tricky process on Mac computers. 
 Neither {tabulizer} nor {RJava} are included in `mass_install()` and we recommend reading through the notes on the [{tabulizer} GitHub repository]("https://github.com/ropensci/tabulizer) if you choose to install it.
 
-## Exploring R with the {swirl} Package
+## Exploring R with the {swirl} package
 
 If you were able to install the {dataedu} package without any issues or concerns and you're eager to get started exploring everything that R can do, you can supplement your learning through [{swirl}](https://swirlstats.com/students.html) (https[]()://swirlstats.com/students.html).  
 

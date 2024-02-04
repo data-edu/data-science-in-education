@@ -1,16 +1,21 @@
-# Special Considerations {#c04}
+# Special considerations {#c04}
+
+**Abstract**
+
+This chapter explores how data science in education is similar to other data science fields. It also explores how data science in education has its unique opportunities and challenges. This chapter describes considerations for data science in general, like learning to code and adopting a reproducible scientific approach to data analysis. Skills like cleaning, visualizing, and modeling data are present in other fields. Some skills, like working with data standards and guidelines specific to education, require learning in the education context. This chapter also describes opportunities in data science in education, like working towards equitable outcomes for students. Using examples from the field, this chapter provides practical context and inspiration for the reader’s learning experience.
+
 
 Data science in education presents many opportunities, like those discussed in [Chapter 3](#c03), but also many challenges. These are varied, and while some are common to *all* domains in which data science is carried out, others are very particular to the field of education. For example, data science in education includes not only accessing, processing, and modeling data, but also social and cultural factors, like the training and support that educational data scientists have available to them. 
 
 Because data science in education is relatively new, it's understandable that school staff may be wary of how data is collected and analyzed. It's common for them to question how data is used, particularly if it is used to describe and evaluate staff and student performance. One of the biggest challenges that can arise is when individuals feel concerned that they are being evaluated by unclear or unfair metrics. Usually, "data-driven" efforts mean different things to administrators and educators. To an administrator, a data-driven effort might be an endeavor to better understand the strengths and weaknesses of pre-existing systems, with an eye to eventually proposing new, more efficient systems. To an educator, a data-driven effort might feel like an approach that masks the individuality of students by reducing them to numbers. Neither perspective is exactly correct. While maximizing efficiency and preserving students' individual needs should certainly be goals of educators and educational administrators, data science is a versatile tool that can be leveraged to help answer a variety of meaningful questions. This chapter will present some thoughts to consider when adopting data science in educational contexts.
 
-## Things to Consider when Doing Data Science in any Domain 
+## Things to consider when doing data science in any domain 
 
-### Learning to Code
+### Learning to code
 
 Data scientists everywhere are combining content knowledge, programming, and statistics to solve problems. However, many people are not experts in all three areas when they begin their data science journeys, and you are not alone if your programming skills are lacking. Learning to code can seem like a daunting task, but we don't want you to feel paralyzed. We wrote this book for R learners without a computer science background or even any informal coding training. The great thing about entering a field as flexible as data science is that you are joining a vast crowd of self-taught individuals, and you will find that there is a very supportive online community to help you. 
 
-### Addressing Ambiguity: A Reproducible Approach
+### Addressing ambiguity: a reproducible approach
 
 Educators often feel wary of data science processes because of their ambiguity. One way to address this concern is to build analytic processes that are transparent. Specifically, it is helpful if the data scientist in education is open about what data is collected, how it is collected, how it is analyzed, and how it is considered alongside other data when used in decision-making conversations. This transparency can be achieved through many activities, including having regular conversations about analytic methods, providing written reports describing data collection, and receiving input about analytic goals from staff members. 
 
@@ -20,9 +25,9 @@ A reproducible approach can be especially beneficial in transition periods. If a
 
 To implement a reproducible approach in your organization, you can start by keeping all files related to each project you do in their individual folders. As you create reports from the data, keeping notes in the files will help you easily generate similar reports in the future. Many educators find that even though changing administration might mean changing requests, having careful documentation of past processes allows for more efficiency in the way they use data to answer those requests.
 
-## Things to Consider when Doing Data Science in Education 
+## Things to consider when doing data science in education 
 
-### Addressing Organizational Resistance: A Self-Driven Analytic Approach
+### Addressing organizational resistance: a self-driven analytic approach
 
 One consideration when adopting data science strategies in educational contexts is that, in some environments, there is no precedent for a data science approach. It is not common, for example, for a teacher to be conducting regression analyses on data. However, it's not necessary to wait for a district-wide or state-wide initiative to begin to implement the techniques you will learn in this book.
 
@@ -37,17 +42,17 @@ Building and establishing a data governance system that advocates for an open an
  
 By adopting a self-driven analytic approach, individuals can help their education organization to embrace the potential of utilizing data to anticipate and possibly forestall problems in the future.
 
-### Lack of Processes and Guidelines 
+### Lack of processes and guidelines 
 
 Educators have concerns about the ambiguity of data science processes because we do not yet have a good idea of the best practices in our field. While there is a body of past research on *students'* work with data (see @msdatause for a review), there is limited information from case- or design-based research on how others in education---teachers, administrators, and data scientists---use data in their work. This challenge is reflected in part in the variability in the job titles of those who work with data: some are data analysts, some are research associates, and the list continues. However, as educational data science emerges as a field, some school districts are now hiring for data scientist positions. Even so, there is a lack of an organizing body that brings all these people together. There are a multitude of discipline-specific (e.g.,  science teaching) or department-specific (e.g.,  institutional research) conferences, but no overarching norms universal to those who work with data in education.
 
 Education is a field that is rich with data: survey, assessment, written, and policy and evaluation data, and more. Nevertheless, there often is a lack of common consensus on processes and procedures for educators and data scientists to share data and the results of data analysis with each other. Academic and research settings sometimes can lead to silos of information. A group of researchers at one university could do a survey, and another group doing similar work may not see the results until the study is published,  years later. Sometimes, the second group never even becomes aware of the survey. The good news about this is that many education organizations are both curious and passionate about supporting student success. It is likely that even if many separate data collection efforts are being implemented (rather than one unified strategy), you will not be dealing with the problem of "I don't have enough data to analyze". As a pioneer for data science in your organization, you can help to clarify these redundant processes and can offer your skills to help make sense of the wealth of information already being gathered.
 
-### Limited Training and Educational Opportunities
+### Limited training and educational opportunities
 
 Right now, there are limited opportunities for those working in education to build their capabilities in educational data science (though this is changing; see Anderson and colleagues' work to create an educational data science certificate program at the University of Oregon and Baker’s educational data mining Massive Open Online Course offered through Coursera). Many educational data scientists have been trained in fields other than statistics, business analytics, or research. Moreover, the training in terms of particular tools and approaches that educational data scientists use are highly varied. However, this diversity of training and background positions educators to tackle educational challenges creatively.
 
-### Advancing Equity
+### Advancing equity
 
 Data science can be used to inform decisions that reduce inequities in the education system. However, it can also be used to exacerbate the marginalization of students we want to serve. An example is an algorithm that is not transparent, that is implemented poorly, and that prompts people to make decisions that have adverse effects.
 
@@ -59,7 +64,7 @@ R and RStudio, both freely available and open, also serve to increase equity in 
 
 Thoughtful and deliberate data science can help us understand what to do so our students reach their highest potential. Data science can make us more efficient in our tasks. It can increase transparency about what we are doing to help our students. It can also help monitor how we are progressing. However, we must continuously inspect our processes and work to make sure we do not do unintentional harm.
 
-### The Complex Nature of Education Data
+### The complex nature of education data
 
 Education data are difficult to collect and to analyze. It is often hierarchical in that data at multiple "levels" are collected. These levels include classrooms, schools, districts, states, and countries---quite the hierarchy! Additionally, an education dataset often requires linking with other datasets. For example, when data is collected on students at the school level, it might be important to also know about the preparation of the teachers in the school. Contextual data about the funding provided by the community in terms of per-pupil spending would be helpful to merge with data about the educational outcomes of students in that school district. The complexity does not end when the data are collected and merged with other relevant information: education data are not simple.
 
@@ -67,11 +72,11 @@ Often, the variables gathered in education are numeric, but just as often they a
 
 The complexity of education data need not discourage educators from pursuing their interests. If you are faced with a large and complicated dataset, you might begin by asking yourself what you are curious about and then carving out just a couple variables that you can use to answer your question. Your colleague might be interested in an entirely different question and might consider different variables from the same dataset in their analysis. 
 
-### Ethical and Legal Concerns
+### Ethical and legal concerns
 
 There are many ethical and legal concerns in working responsibly with education data. At the K--12 level, most datasets require safeguards because youth are a protected population. There might be physical limitations to the places from which a data scientist in education could access confidential data, and there might be limitations on the ways that results of a data analysis can be shared with others within the organization. A closely related issue concerns the aims of education within predetermined constraints. Those working in education often seek to improve it and often work to do so with a scarcity of school and community resources. These ethical, legal, and even values-related concerns may become amplified as the role of data in education increases. They should be carefully considered and emphasized from the outset by those involved in educational data science. If you feel resistance in your organization as you begin to adopt the principles you learn in this book, you might begin by offering to analyze "de-identified" or "anonymous" data. In this way, you show your administration what is possible and foster additional buy-in further down the road.
 
-### Analytic Considerations
+### Analytic considerations
 
 Due to its nature, analyzing education data can be difficult, too. The data is often not ready to be used: it may be in a format that is difficult to open without specialized software, or it may need to be "cleaned" before it is usable. In data science, "cleaning" or "processing" data refers to reorganizing or restructuring the dataset to make it easier to analyze. This process would be analogous to the steps you would take if you received an Excel spreadsheet but found that the columns were in an order that didn't make sense to you and that there were some duplicate columns. The process you'd go through to reorganize the data to make it logical is data cleaning. Because of the different *types* of data, the data scientist in education must often use a variety of analytic approaches, such as multilevel models, models for longitudinal data, or even models and analytic approaches for text data. In later chapters of this book, you will learn more specifics about building models. 
 

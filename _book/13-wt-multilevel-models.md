@@ -1,4 +1,4 @@
-# Walkthrough 7: The Role (and Usefulness) of Multilevel Models {#c13}
+# Walkthrough 7: The role (and usefulness) of multilevel models {#c13}
 
 ## Topics Emphasized
 
@@ -105,26 +105,9 @@ Please note that the code below will trigger a warning. A warning will run the c
 ```r
 d_iris <-
   dummy.data.frame(iris)
-```
 
-```
-## Warning in model.matrix.default(~x - 1, model.frame(~x - 1), contrasts = FALSE):
-## non-list contrasts argument ignored
-```
-
-```r
 get.dummy(d_iris, name = "Species") %>% 
   head()
-```
-
-```
-##   Speciessetosa Speciesversicolor Speciesvirginica
-## 1             1                 0                0
-## 2             1                 0                0
-## 3             1                 0                0
-## 4             1                 0                0
-## 5             1                 0                0
-## 6             1                 0                0
 ```
 
 Let's confirm that every row associated with a specific species has a 1 in the
@@ -151,13 +134,6 @@ Let's look at the results.
 ```r
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
-```
-
-```
-##      Species Speciessetosa Speciesversicolor Speciesvirginica  n
-## 1     setosa             1                 0                0 50
-## 2 versicolor             0                 1                0 50
-## 3  virginica             0                 0                1 50
 ```
 
 Now that we have a basic understanding of how dummy codes work, let's now explore how we use them in our model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
@@ -197,7 +173,7 @@ dat %>%
 ##  8 BioA-T116-01      2
 ##  9 FrScA-S116-01    70
 ## 10 FrScA-S116-02    12
-## # … with 16 more rows
+## # ℹ 16 more rows
 ```
 
 ## Analysis
