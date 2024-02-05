@@ -120,15 +120,15 @@ tibble(
 ##    student school test_score
 ##    <chr>   <chr>       <int>
 ##  1 a       k              45
-##  2 b       l              27
-##  3 c       m              49
+##  2 b       l              78
+##  3 c       m              29
 ##  4 d       n              79
-##  5 e       o              41
-##  6 f       k              91
-##  7 g       l              53
-##  8 h       m              39
-##  9 i       n              67
-## 10 j       o              57
+##  5 e       o              34
+##  6 f       k               0
+##  7 g       l              29
+##  8 h       m              42
+##  9 i       n               9
+## 10 j       o              38
 ```
 
 Aggregate data totals up a variable---the variable `test_score` in this case---to
@@ -151,11 +151,11 @@ tibble(
 ## # A tibble: 5 × 2
 ##   school mean_score
 ##   <chr>       <dbl>
-## 1 k            56.5
-## 2 l            72.5
-## 3 m            70  
-## 4 n            61.5
-## 5 o            54.5
+## 1 k            30  
+## 2 l            90  
+## 3 m            73.5
+## 4 n            47.5
+## 5 o            44.5
 ```
 
 Notice that this dataset no longer identifies individual students.
