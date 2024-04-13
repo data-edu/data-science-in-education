@@ -3,9 +3,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
  
-* [Note from Our Publisher](#Note-from-Our-Publisher)
-* [How to Contribute](#Contributing)
-* [Contact Us](#Contact-Us)
+* [Note from Our Publisher](#Note-from-Our-Publisher) 
+
+* [How to Contribute](#Contributing) 
+
+* [Contact Us](#Contact-Us) 
 
 ## Note from Our Publisher
 
@@ -32,38 +34,63 @@ Technology is transforming education for administrators, staff, and students. It
 By the end of this book the reader will understand:
 
 * The diversity of data analysis skills and applications in the education field 
-* Unique considerations for analyzing education data
+
+* Unique considerations for analyzing education data 
+
 * Using effective analysis workflows 
-* An increased belief in shaping data science in our education
+
+* An increased belief in shaping data science in our education 
 
 … and the reader will be able to:
 
-* Better define their role as a data analyst and educator
+* Better define their role as a data analyst and educator 
+
 * Identify and apply solutions to education data’s unique challenges, including cleaning data and using aggregated student data 
-* Apply a basic analytic workflow through practice with education datasets
-* Introduce data science to their workplace in a thoughtful, empathetic, and effective manner
+
+* Apply a basic analytic workflow through practice with education datasets 
+
+* Introduce data science to their workplace in a thoughtful, empathetic, and effective manner 
 
 ## Chapters 
 
-1. [Introduction: Data Science in Education - You’re Invited to the Party!](https://datascienceineducation.com/c01.html)
-2. [How to Use This Book](https://datascienceineducation.com/c02.html)
-3. [What Does Data Science in Education Look Like?](https://datascienceineducation.com/c03.html)
-4. [Special Considerations](https://datascienceineducation.com/c04.html)
-5. [Getting Started with R and R Studio](https://datascienceineducation.com/c05.html)
-6. [Foundational Skills](https://datascienceineducation.com/c06.html)
-7. [Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data](https://datascienceineducation.com/c07.html)
-8. [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective](https://datascienceineducation.com/c08.html)
-9. [Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities](https://datascienceineducation.com/c09.html)
-10. [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](https://datascienceineducation.com/c10.html)
-11. [Walkthrough 5: Text Analysis With Social Media Data](https://datascienceineducation.com/c11.html)
-12. [Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data](https://datascienceineducation.com/c12.html)
-13. [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](https://datascienceineducation.com/c13.html)
-14. [Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data](https://datascienceineducation.com/c14.html)
-15. [Introducing Data Science Tools To Your Education Job](https://datascienceineducation.com/c15.html)
-16. [Teaching Data Science](https://datascienceineducation.com/c16.html)
-17. [Learning More](https://datascienceineducation.com/c17.html)
-18. [Additional Resources](https://datascienceineducation.com/c18.html)
+1. [Introduction: Data Science in Education - You’re Invited to the Party!](https://datascienceineducation.com/c01.html) 
+
+2. [How to Use This Book](https://datascienceineducation.com/c02.html) 
+
+3. [What Does Data Science in Education Look Like?](https://datascienceineducation.com/c03.html) 
+
+4. [Special Considerations](https://datascienceineducation.com/c04.html) 
+
+5. [Getting Started with R and R Studio](https://datascienceineducation.com/c05.html) 
+
+6. [Foundational Skills](https://datascienceineducation.com/c06.html) 
+
+7. [Walkthrough 1: The Education Dataset Science Pipeline With Online Science Class Data](https://datascienceineducation.com/c07.html) 
+
+8. [Walkthrough 2: Approaching Gradebook Data From a Data Science Perspective](https://datascienceineducation.com/c08.html) 
+
+9. [Walkthrough 3: Using School-Level Aggregate Data to Illuminate Educational Inequities](https://datascienceineducation.com/c09.html) 
+
+10. [Walkthrough 4: Longitudinal Analysis With Federal Students With Disabilities Data](https://datascienceineducation.com/c10.html) 
+
+11. [Walkthrough 5: Text Analysis With Social Media Data](https://datascienceineducation.com/c11.html) 
+
+12. [Walkthrough 6: Exploring Relationships Using Social Network Analysis With Social Media Data](https://datascienceineducation.com/c12.html) 
+
+13. [Walkthrough 7: The Role (and Usefulness) of Multi-Level Models](https://datascienceineducation.com/c13.html) 
+
+14. [Walkthrough 8: Predicting Students’ Final Grades Using Machine Learning Methods with Online Course Data](https://datascienceineducation.com/c14.html) 
+
+15. [Introducing Data Science Tools To Your Education Job](https://datascienceineducation.com/c15.html) 
+
+16. [Teaching Data Science](https://datascienceineducation.com/c16.html) 
+
+17. [Learning More](https://datascienceineducation.com/c17.html) 
+
+18. [Additional Resources](https://datascienceineducation.com/c18.html) 
+
 19. [Conclusion: Where to Next?](https://datascienceineducation.com/c19.html) 
+
 20. [Appendices](https://datascienceineducation.com/c20.html) 
 
 ## Contributing
@@ -73,38 +100,40 @@ This project started in the #dataedu [Slack channel](https://dataedu.slack.com/)
 Community members can contribute by making changes through a pull request. We encourage community members to do their pull requests on separate branches. This helps us coordinate changes: 
 
 * [How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) 
+
 * [How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 ### Git Issue Labels
 
 To help contributors participate, we use labels to organize tasks. When working on an issue, [assign yourself to the issue](https://help.github.com/en/github/managing-your-work-on-github/assigning-issues-and-pull-requests-to-other-github-users). This helps us track the work and lets us know who to contact for more collaboration. The labels are: 
 
-* `good first issue`: These are requests for changes that are fun and achievable if you're new to git and GitHub
-* `discussion`: Sometimes we need help talking through a topic or design decision. These issues won't always result in a change, but they help us clarify what's best for the final product. 
+* `good first issue`: These are requests for changes that are fun and achievable if you're new to git and GitHub 
 
- - `test code`: These issues are for running code and giving feedback about the result.
+* `discussion`: Sometimes we need help talking through a topic or design decision. These issues won't always result in a change, but they help us clarify what's best for the final product
 
- - `bug`: These issues are for code that isn't running as expected and needs fixing. 
+* `test code`: These issues are for running code and giving feedback about the result 
 
- - `help wanted`: These issues are for general requests like help with code or writing new content.
+* `bug`: These issues are for code that isn't running as expected and needs fixing 
 
- - `writing`: These issues are for writing new content. We will assign at least one author to `writing` issues. 
+* `help wanted`: These issues are for general requests like help with code or writing new content 
 
- - `review draft`: These issues are requests to read through a draft chapter and provide feedback.
+* `writing`: These issues are for writing new content. We will assign at least one author to `writing` issues 
+
+* `review draft`: These issues are requests to read through a draft chapter and provide feedback 
 
 ## Contact Us 
 
 If you have questions, comments, or ideas contact the authors by email at [authors@datascienceineducation.com](mailto:authors@datascienceineducation.com) or on Twitter: 
 
- - Emily [@ebovee09](https://twitter.com/ebovee09)  
-
- - Isabella [@ivelasq3](https://twitter.com/ivelasq3) 
-
- - Jesse [@kierisi](https://twitter.com/kierisi) 
-
- - Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
-
- - Ryan [@ry_estrellado](https://twitter.com/ry_estrellado) 
+ * Emily [@ebovee09](https://twitter.com/ebovee09) 
+ 
+ * Isabella [@ivelasq3](https://twitter.com/ivelasq3) 
+ 
+ * Jesse [@kierisi](https://twitter.com/kierisi) 
+ 
+ * Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
+ 
+ * Ryan [@ry_estrellado](https://twitter.com/ry_estrellado) 
  
  ## Citation
  
