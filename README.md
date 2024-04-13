@@ -1,8 +1,10 @@
 # Data Science in Education Using R <img src='man/figures/logo.png' align="right" height="120" />
 
 <!-- badges: start -->
-<!-- badges: end -->
- 
+<!-- badges: end --> 
+
+This repository is for the second edition of _Data Science in Education_ Using R, which is a work in progress. 
+
 * [Note from Our Publisher](#Note-from-Our-Publisher) 
 
 * [How to Contribute](#Contributing) 
@@ -129,12 +131,12 @@ If you have questions, comments, or ideas contact the authors by email at [autho
  
  * Isabella [@ivelasq3](https://twitter.com/ivelasq3) 
  
- * Jesse [@kierisi](https://twitter.com/kierisi) 
- 
  * Joshua [@jrosenberg6432](https://twitter.com/jrosenberg6432) 
  
  * Ryan [@ry_estrellado](https://twitter.com/ry_estrellado) 
  
  ## Citation
- 
+
+Until we publish the second edition, use the following citation for the first edition of the print version: 
+
 > Bovee, E. A., Estrellado, R. A., Motsipak, J., Rosenberg, J. M., & Velásquez, I. C. (under contract). Data science in education using R. London, England: Routledge. Nb. All authors contributed equally. http://www.datascienceineducation.com/
