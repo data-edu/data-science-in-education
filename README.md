@@ -27,7 +27,7 @@ As a result, it's hard for enthusiastic practitioners to feel a connection betwe
 
 R is an Open Source programming language for data analysis. When data science meets education, practitioners can use the numbers previously confined to websites and PDF reports. Teachers, administrators, and consultants can apply programming and statistics to prepare data, transform it, visualize it, and analyze it. These practices empower practitioners to answer questions that make a difference for their students.
 
-Our book focuses on *data science in education*, which we define as using data science techniques to support schooling at all levels. These techniques include preparing, exploring, visualizing, and modeling data. 
+Our book focuses on data science in education, which we define as using data science techniques to support schooling at all levels. These techniques include preparing, exploring, visualizing, and modeling data. 
 
 These techniques shouldn't be learned separately from education use cases. We propose learning about data science through field-specific examples. Using common field-specific language is important for learning techniques that are practical for the job. We feel that discussing data science using education-specific scenarios will make learning more fun and meaningful.
 
