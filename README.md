@@ -3,7 +3,7 @@
 <!-- badges: start -->
 <!-- badges: end --> 
 
-This repository is for the second edition of _Data Science in Education_ Using R, which is a work in progress. 
+This repository is for the second edition of _Data Science in Education Using R_, which is a work in progress. 
 
 * [Note from Our Publisher](#Note-from-Our-Publisher) 
 
