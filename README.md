@@ -39,7 +39,7 @@ By the end of this book the reader will understand:
 
 * Unique considerations for analyzing education data 
 
-* Using effective analysis workflows 
+* How to run effective analysis workflows 
 
 * An increased belief in shaping data science in our education 
 
