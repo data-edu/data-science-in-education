@@ -31,7 +31,7 @@ Our book focuses on data science in education, which we define as using data sci
 
 These techniques shouldn't be learned separately from education use cases. We propose learning about data science through field-specific examples. Using common field-specific language is important for learning techniques that are practical for the job. We feel that discussing data science using education-specific scenarios will make learning more fun and meaningful.
 
-Technology is transforming education for administrators, staff, and students. It is increasingly important for educators -- not just data analysts -- to use data to reveal the stories of their students. Our book empowers educators from elementary school to higher education to transform educational data into actionable insights. We wrote our book as a main textbook in graduate data science in education courses. We also wrote it as a practical reference for data scientists working with education data.
+Technology is transforming education for administrators, staff, and students. It is increasingly important for educators -- not just data analysts -- to use data to reveal the stories of their students. Our book empowers educators from elementary school to higher education to transform educational data into actionable insights. We wrote our book as a main textbook in graduate data science in education courses. We also wrote it as a practical reference for data practitioners working with education data.
 
 By the end of this book the reader will understand:
 
