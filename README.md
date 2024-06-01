@@ -103,7 +103,7 @@ Community members can contribute by making changes through a pull request. We en
 
 * [How to create an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue) 
 
-* [How to do a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
+* [How to make a pull request on a separate branch](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
 ### Git Issue Labels
 
