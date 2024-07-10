@@ -6,7 +6,9 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 **Abstract**
 
-This chapter explores cleaning, visualizing, and modeling aggregate data. Data scientists in education frequently work with public aggregate data when student level data is not available. By analyzing aggregate datasets, data scientists in education uncover context for other analyses. Using a freely available federal government dataset, this chapter compares the number of female and male students in special education over time in the United States. Analysis on this scale provides useful context for district and school level analysis. It encourages questions about the experiences of students in special education at the local level by offering a basis for comparison at a national level. Data science tools in this chapter include importing data, preparing data for analysis, visualizing data, and selecting plots for communicating results.
+This chapter explores cleaning, visualizing, and modeling aggregate data. Data scientists in education frequently work with public aggregate data when student level data is not available. By analyzing aggregate datasets, data scientists in education uncover context for other analyses. Using a freely available federal government dataset that includes students in special education, this chapter compares the gender variable over time in the United States. 
+
+Analysis on this scale provides useful context for district and school level analysis. It encourages questions about the experiences of students in special education at the local level by offering a basis for comparison at a national level. Data science tools in this chapter include importing data, preparing data for analysis, visualizing data, and selecting plots for communicating results.
 
 
 ## Topics emphasized
@@ -45,47 +47,37 @@ This chapter explores cleaning, visualizing, and modeling aggregate data. Data s
 ## Chapter overview
 
 Data scientists working in education don't always have access to student level
-data, so knowing how to model publicly available datasets, as in [*the previous
-chapter*](#c9), is a useful skill. This walkthrough builds upon and extends the
-focus on aggregate data in the last chapter to focus on a change over time in
-students with disabilities in each state. We note that analyses that involve
-time can go by a number of names, such as longitudinal analyses or time series
-analyses, or---less formally---analyses or studies of change over time. 
+data. Knowing how to model publicly available datasets, as in [*the previous
+chapter*](#c9), empowers data scientists to do analysis when individual level data is not available. This walkthrough builds on the last chapter by focusing on students with disabilities data over time. Note that this kind of analysis goes by a number of names, such as longitudinal analyses, time series
+analyses, or change over time. 
 
-Here, we primarily use the term longitudinal analysis to refer to analyses of
-data at multiple time points. While data from two time points would be included in 
-this definition, our emphasis is on data from a greater number of time points, which
-can reveal more nuance in how change over time is happening.
+*A note on the gender variable in this dataset*
+
+The dataset in this chapter uses a binary approach to data collection about gender, which does not reflect the experiences of students who do not identify with either of these categories. It's important that data scientists in education engage data governance to improve how gender data is collected. It's also important for data scientists to interpret existing binary data with the proper nuance and context. The need for an inclusive approach to documenting gender identity is discussed in a paper by @park2016 of The Williams Institute at UCLA.
 
 ### Background
 
-In this chapter, we'll be learning some ways to explore data over time. In
-addition, we'll be learning some techniques for exploring a publicly
-available dataset. Like most public datasets (see [*the previous chapter*](#c9)),
+In this chapter, you'll learn to explore a publicly available dataset and analyze its data over time. Like most public datasets (see [*the previous chapter*](#c9)),
 this one contains aggregate data. This means that someone totaled up the student
-counts so that it doesn't reveal any private information.
+counts so that it doesn't reveal indvidiual and personally identifiable information.
 
 You can download the datasets for this walkthrough on the United States
-Department of Education website (see Department @usdoe2019)^[The documentation for the
-dataset is available here:
-https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf];
-though they are also available in the {dataedu} package that accompanies this
-book, as we describe in the "Importing the Data From the {dataedu} Package" section below.
+Department of Education website (see Department @usdoe2019)^[The documentation for the dataset is available here: https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf]. They are also available in the {dataedu} package that accompanies this book, described in the "Importing the Data From the {dataedu} Package" section below.
 
 ### Methods
 
-In this walkthrough, we'll learn how to read multiple datasets in using the
-`map()` function. Next, we'll prepare our data for analysis by cleaning the
-variable names. Finally, we'll explore this dataset by visualizing student
+In this walkthrough, you'll learn how to read multiple datasets in using the
+`map()` function. Next, you'll prepare the data for analysis by cleaning the
+variable names. Finally, you'll explore the datasets by visualizing student
 counts and comparing male to female ratios over time.
 
 ## Load packages
 
-The function `here()` from the {here} package can cause conflicts with other functions called `here()`. We can prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace".
+The function `here()` from the {here} package can cause conflicts with other functions called `here()`. Prevent problems by loading that package last and including the package name for every call to `here()`, like this: `here::here()`. This is called "including the namespace".
 
-If you have not installed any of these packages, then you will need to do so, first, using the `install.packages()` function; see the ["Packages" section](#c06p) of the ["Foundational Skills"](#c06) chapter for instructions (and an overview of what packages are and how they work). 
+If you have not installed these packages, do so using the `install.packages()` function; see the ["Packages" section](#c06p) of the ["Foundational Skills"](#c06) chapter for instructions. 
 
-You can load the packages needed in this walkthrough by running this code: 
+Load the packages for this walkthrough using this code: 
 
 ```{r load packages, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -96,15 +88,10 @@ library(here)
 
 ## Import data
 
-In this analysis we'll be importing and combining six datasets that describe the
-number of students with disabilities in a given year. Let's spend some time
-carefully reviewing how to get the `.csv` files we'll need downloaded and stored
-on your computer. If you want to run the code exactly as written here, you'll
-need to store the same datasets in the right location. As an alternate, we make these data files that are used in the walkthrough---like those in other walkthroughs---available through the {dataedu} package. Last, we note that while it's possible to use this
-walkthrough on different datasets or to store them in different locations on
-your computer, you'll need to make adjustments to your code based on the
-datasets you used and where you stored them. We suggest only doing this if you
-already have some experience using R.
+In this analysis you'll be importing and combining six datasets that describe the
+number of students with disabilities in a given year. First, you'll review how to get the `.csv` files you'll need for the task. Alternatively, we make these data files available through the {dataedu} package. 
+
+Note that if you use this walkthrough on different datasets or store datasetsin different locations on your computer, you'll need to your code accordingly. We suggest only doing this if you have previous experience using R.
 
 ### What to download
 
@@ -633,13 +620,6 @@ tidy datasets as possessing the following characteristics:
 > 1.  Each variable forms a column
 > 2.  Each observation forms a row
 > 3.  Each type of observational unit forms a table
-
-*A note on the gender variable in this dataset*
-
-This dataset uses a binary approach to data collection about gender. Students
-are described as either male or female. The need for an inclusive approach to
-documenting gender identity is discussed in a paper by @park2016 of The Williams
-Institute at UCLA.
 
 The gender variables in our dataset are spread across four columns, with each
 one representing a combination of gender and age range. We can use
