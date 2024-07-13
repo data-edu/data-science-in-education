@@ -34,8 +34,7 @@ This chapter explores cleaning, tidying, joining, and visualizing publicly avail
 
 ## Chapter overview
 
-Data scientists working in education don't always have access to student-level
-data, so knowing how to model aggregate datasets is very valuable. This chapter explores what aggregate data is, and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one time point.
+Data scientists working in education don't always have access to student-level data, so knowing how to model aggregate datasets is very valuable. This chapter explores aggregate data and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one-time point.
 
 ### Background
 
@@ -51,36 +50,26 @@ numerical information (or non-numerical information, such as the names of distri
 
 Examples of publicly available aggregate data include school-level graduation
 rates, state test proficiency scores by grade and subject, or mean survey
-responses. In this walkthrough, we explore the role of aggregate data, with a
+responses. In this walkthrough, we explore the role of aggregate data with a
 focus on educational equity.
 
 Aggregate data is essential both for accountability purposes and for providing
-useful information about schools and districts to those who are monitoring them.
+useful information about schools and districts to those monitoring them.
 For example, district administrators might aggregate row-level (also known as
 individual-level or student-level) enrollment reports over time. This allows
 them to see how many students enroll in each school, in the district overall,
-and at any grade-level variation. Depending on their state, the district
+and at any grade-level variation. Depending on the state, the district
 administrator might submit these aggregate data to their state education agency (SEA)
 for reporting purposes. These datasets might be posted on the state's Department
 of Education website for anyone to download and use.
 
-Federal and international education datasets provide additional information. In the US, some federal datasets aim to
-consolidate important metrics from all states. This can be useful because
-each state has its own repository of data and to go through each state website to
-download a particular metric is a significant effort. The federal government
-also funds assessments and surveys which are disseminated to the public.
-However, federal datasets often have more stringent data requirements than
-the states, so the datasets may be less usable.
+Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. This can be useful because each state has its own repository of data, and to go through each state's website to download a particular metric is a significant effort. The federal government
+also funds assessments and surveys, which are disseminated to the public. However, federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
 
-For data scientists in education, these reports and datasets can be analyzed to
-answer questions related to their field of interest. However, doing so is not always straightforward.
-Publicly available aggregate datasets are large and often suppressed to protect privacy.
-Sometimes they are already a couple of years old by the time they're released.
-Because of their coarseness, they can be difficult to interpret and use.
-Generally, aggregate data is used to surface broader trends and
-patterns in education as opposed to diagnosing underlying issues or making
-causal statements. It is very important that we consider the limitations of
-aggregate data *first* before analyzing it.
+Data scientists in education can analyze these reports and datasets to
+answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, they are already a couple of years old by the time they're released. Because of their coarseness, they can be difficult to interpret and use.
+
+Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data *first* before analyzing it.
 
 Analysis of aggregate data can help us identify patterns that may not have
 previously been known. When we have gained new insight, we can create research
@@ -88,16 +77,14 @@ questions, craft hypotheses around our findings, and make recommendations on how
 to improve for the future.
 
 We want to take time to explore aggregate data since it's so common
-in education but can also be challenging to meaningfully used. This chapter and the [*following one*](#c10) provide two different examples of
-cleaning an aggregate dataset and of using aggregate
-datasets to compare student experiences. In this chapter, we'll focus on
+in education but can also be challenging to meaningfully use. This chapter and the [*following one*](#c10) provide two different examples of cleaning an aggregate dataset and using aggregate datasets to compare student experiences. In this chapter, we'll focus on
 educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, we'll compare student counts longitudinally (or over time) in different states.
 
 #### What is the difference between aggregate and student-level data?
 
 Let's dig a little deeper into the differences between aggregate and
 student-level data. Publicly available data---like the data we'll use in this
-walkthrough---is a summary of student-level data. That means that student-level
+walkthrough---summarizes student-level data. That means that student-level
 data is totaled to protect the identities of students before making the data
 publicly available. We can use R to demonstrate this concept.
 
@@ -116,17 +103,17 @@ tibble(
 
 Aggregate data totals up a variable---the variable `test_score` in this case---to
 "hide" the student-level information. The rows of the resulting dataset
-represent a group. The group in our example is the `school` variable:
+represent a group. The group in our example is the `school` variable, and we calculate the average score by school using `summarize()`:
 
 ```{r aggregate level data example}
 tibble(
-  student = letters[1:10],
-  school = rep(letters[11:15], 2),
-  test_score = sample(0:100, 10, replace = TRUE)
+    student = letters[1:10],
+    school = rep(letters[11:15], 2),
+    test_score = sample(0:100, 10, replace = TRUE)
 ) %>%
-  # Aggregate by school
-  group_by(school) %>%
-  summarize(mean_score = mean(test_score))
+    # Aggregate by school
+    group_by(school) %>%
+    summarize(mean_score = mean(test_score))
 ```
 
 Notice that this dataset no longer identifies individual students.
@@ -134,12 +121,7 @@ Notice that this dataset no longer identifies individual students.
 #### Disaggregating aggregated data
 
 Aggregated data can tell us many things, but in order for us to better examine
-subgroups (groups that share similar characteristics), we must have data *disaggregated* by the
-subgroups we hope to analyze. This data is still aggregated from row-level data
-but provides information on smaller components than the grand total
-[@disaggregate]. Common disaggregations for students include gender,
-race/ethnicity, socioeconomic status, English learner designation, and whether
-they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
+subgroups (groups that share similar characteristics), we must have data *disaggregated* by the subgroups we hope to analyze. This data is still aggregated from row-level data but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
 
 #### Disaggregating data and equity
 
@@ -159,7 +141,7 @@ international level, perhaps the most well-known is PISA:
 
   - [Programme for International Student Assessment
     (PISA)](http://www.oecd.org/pisa/) (http[]()://www.oecd.org/pisa/), which
-    measures 15-year-old school pupils' scholastic performance in mathematics,
+    measures 15-year-old school pupils' academic performance in mathematics,
     science, and reading.
 
 On the federal level, well-known examples include:
@@ -167,7 +149,7 @@ On the federal level, well-known examples include:
   - [Civil Rights Data Collection
     (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html)
     (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which reports
-    many different variables on educational program and services disaggregated
+    many different variables on educational programs and services disaggregated
     by race/ethnicity, sex, limited English proficiency, and disability. These
     data are school-level.
 
@@ -183,7 +165,7 @@ On the federal level, well-known examples include:
 
   - [Integrated Postsecondary Education Data System
     (IPEDS)](https://nces.ed.gov/ipeds/) (https[]()://nces.ed.gov/ipeds/), which
-    is the U.S. Department of Education's primary database on postsecondary-education.
+    is the U.S. Department of Education's primary database on postsecondary education.
 
   - [National Assessment for Educational Progress (NAEP)
     Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx)
@@ -202,14 +184,14 @@ At the state and district levels, two examples include:
 
   - [Minneapolis Public Schools](https://mpls.k12.mn.us/reports_and_data)
     (https[]()://mpls.k12.mn.us/reports\_and\_data), which is a district-level
-    website with datasets beyond those listed in the state website.
+    website with datasets beyond those listed on the state website.
 
 ### Selecting data
 
 For the purposes of this walkthrough, we will be looking at a particular school
 district's data; in the next, we will "zoom out" to look across states in the United States.
 
-The district we focus on here reports their student demographics in a robust,
+The district we focus on here reports its student demographics in a robust,
 complete way. Not only do they report the percentage of students in a subgroup,
 but they also include the number of students in each subgroup. This allows a
 deep look into their individual school demographics. Their reporting of the
@@ -220,10 +202,9 @@ inequities in a system.
 
 In this chapter, we will walk through how running analyses on data from a single district can help education data practitioners *understand and describe the landscape
 of needs and opportunities* present there. As opposed to causal
-analyses, which aim to assess the root cause of an phenomenon or the effects of
+analyses, which aim to assess the root cause of a phenomenon or the effects of
 an intervention, we use descriptive analysis on an aggregate dataset to find out whether
-there *is* a phenomenon present, *what* it is, and *what* may be worth trying to address through future
-supports, reforms, or interventions [@descriptive].
+there *is* a phenomenon present, *what* it is, and *what* may be worth trying to address through future supports, reforms, or interventions [@descriptive].
 
 ## Load packages
 
