@@ -2,7 +2,9 @@
 
 **Abstract** 
 
-This chapter explores cleaning, tidying, joining, and visualizing publicly available, aggregate data. Data scientists in education frequently work with public aggregate data when student-level data is not available. By working with these data, data scientists in education can discover broader trends and underlying patterns. If aggregate data is disaggregated by subgroups or subpopulations, data scientists can reveal areas of inequity for marginalized populations. Using a freely-available district dataset, this chapter looks at the distribution of students in the district by race and socioeconomic status. Subgroup analysis can point out the state of equity in a system to inform how to improve the situation for more equitable opportunities for students. Data science techniques in this chapter include reading tables from an online PDF into a machine-readable format, preparing data for analysis, transforming it into a tidy format, visualizing it, and analyzing distributions and relationships.
+This chapter explores cleaning, tidying, joining, and visualizing publicly available, aggregate data. Data scientists in education frequently work with public aggregate data when student-level data is not available. By working with these data, data scientists in education can discover broader trends and underlying patterns. If aggregate data is disaggregated by subgroups or subpopulations, data scientists can reveal areas of inequity for marginalized populations. 
+
+Using a freely-available school district dataset, this chapter looks at the distribution of students in the district by race and socioeconomic status. Subgroup analysis can point out the state of equity in a system and inform improvement for students. Data science techniques in this chapter include reading tables from an online PDF into a machine-readable format, preparing data for analysis, transforming it into a tidy format, visualizing it, and analyzing distributions and relationships.
 
 ## Topics emphasized
 
@@ -42,32 +44,31 @@ Data scientists working in education don't always have access to student-level d
 
 ### Background
 
-A common situation encountered when searching for education data, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available *aggregate data*. Aggregate data refers to numerical information (or non-numerical information, such as the names of districts or schools) that has the following characteristics:
+A common situation encountered when searching for education data, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available aggregate data. Aggregate data is information that has the following characteristics:
 
 1.  collected from multiple sources and/or on multiple measures, variables, or
     individuals and
 2.  compiled into data summaries or summary reports, typically for the purposes
     of public reporting or statistical analysis [@greatschools2014]
 
-Examples of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or mean survey responses. In this walkthrough, we explore the role of aggregate data with a focus on educational equity.
+Examples of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or mean survey responses. In this walkthrough, you'll explore the role of aggregate data with a focus on educational equity.
 
-Aggregate data is essential both for accountability purposes and for providing useful information about schools and districts to those monitoring them. For example, district administrators might aggregate row-level (also known as individual-level or student-level) enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and at various grade levels. Depending on the state, the district administrator might submit these aggregate data to their state education agency (SEA) for reporting purposes. These datasets might be posted on the state's Department of Education website for anyone to download and use.
+Aggregate data is essential both for accountability and for providing useful information about schools and districts. For example, district administrators might aggregate student-level enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and at various grade levels. Depending on the state, the district administrator might submit these aggregate data to their state education agency (SEA) for reporting purposes. These datasets might be posted on the state's Department of Education website for anyone to download and use.
 
-Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. This can be useful because each state has its own repository of data, and to go through each state's website to download a particular metric is a significant effort. The federal government
-also funds assessments and surveys, which are disseminated to the public. However, federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
+Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. This can be useful because each state has its own repository of data. Further, going through each state's website to download a particular metric is a significant effort. However, federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
 
 Data scientists in education can analyze these reports and datasets to
-answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, they are already a couple of years old by the time they're released. Because of their coarseness, they can be difficult to interpret and use.
+answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, agencies release multiple years behind the current year. Because of their coarseness, they can be difficult to interpret and use.
 
-Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. It is very important that we consider the limitations of aggregate data before analyzing it.
+Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. It is very important that data scientists consider the limitations of aggregate data before analyzing it.
 
-Analysis of aggregate data can help us identify patterns that may not have previously been known. When we have gained new insight, we can create research questions, craft hypotheses around our findings, and make recommendations on how to improve for the future.
+Despite these limitations, the wide availability of aggregated data has its benefits. Analysis of aggregate data helps educators identify patterns that are harder to see in individual level data. Data scientists in education can use this new insight, to create research questions, craft hypotheses, and make recommendations on how to improve education systems.
 
-We need to take time to explore aggregate data since they're so common in education but also because they can be challenging to meaningfully use. This chapter and the [following one](#c10) provide two different examples of cleaning aggregate data and using these datasets to compare student experiences. In this chapter, we'll focus on educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, we'll compare student counts longitudinally (or over time) in different states.
+This chapter and the [following one](#c10) provide two different examples of cleaning aggregate data and using these datasets to compare student experiences. In this chapter, you'll focus on educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, you'll compare student counts over time in different states.
 
 #### What is the difference between aggregate and student-level data?
 
-Let's dig a little deeper into the differences between aggregate and student-level data. Publicly available data---like the data we'll use in this walkthrough---summarizes student-level data. That means that student-level data is totaled to protect the identities of students before making the data publicly available. We can use R to demonstrate this concept.
+Let's dig deeper into the differences between aggregate and student-level data. Publicly available data---like the data you'll use in this walkthrough---summarizes student-level data. That means that student-level data is totaled to protect the identities of students before making the data publicly available. We can use R to demonstrate this concept.
 
 Here are rows in a student-level dataset:
 
@@ -82,7 +83,7 @@ tibble(
 )
 ```
 
-Aggregate data totals up a variable---the variable `test_score` in this case---to "roll up" the student-level information. Each row of the resulting dataset represents a group. The group in this example is `school`, which we tell R to use by putting it in `group_by()`. Then, we calculate the average score by school with `summarize()` and `mean()`:
+Run the next code chunk and you'll see that aggregate data totals up a variable---the variable `test_score` in this case---to "roll up" the student-level information. Each row of the resulting dataset represents a group. The group in this example is `school`, which you'll tell R to use by putting it in `group_by()`. Then, you'll calculate the average score by school with `summarize()` and `mean()`:
 
 ```{r aggregate level data example}
 tibble(
@@ -99,15 +100,11 @@ Notice that this dataset no longer identifies individual students.
 
 #### Disaggregating aggregated data
 
-Aggregated data can tell us many things, but in order for us to better examine
-subgroups (groups that share similar characteristics), we must have data *disaggregated* by the subgroups we hope to analyze. This data is still aggregated at the row-level but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race/ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
+Aggregated data can tell you many things, but in order for you to better examine groups that share similar characteristics, you must have data disaggregated by those groups. This data is still aggregated at the row-level but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race and ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
 
 #### Disaggregating data and equity
 
-Disaggregated data is essential to monitor equity in educational resources and outcomes. If only aggregate data is provided, we are unable to distinguish how different groups of students are doing and what support they need. With disaggregated data, we can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
-
-It is important to define what equity means to your team so you know whether you
-are meeting your equity goals.
+Disaggregated data is essential for understanding equity in educational resources and outcomes. Without disaggregating data by student characteristics, educators are unable to understand how different groups of students are doing and what support they need. With disaggregated data, educators can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
 
 ## Data sources
 
