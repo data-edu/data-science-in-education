@@ -192,7 +192,7 @@ Option 2: Get the imported but unprocessed data from the book's [Github reposito
 
 Option 3: Get the imported but unprocessed data from the {dataedu} package.
 
-First, let's look at the Race/Ethnicity tables. Import the PDF information using one of the three options:
+Begin importing the data with the Race/Ethnicity tables. Import the PDF information using one of the three options:
 
 ```{r, eval = FALSE}
 # Option 1: Get data using {tabulizer}
@@ -211,7 +211,7 @@ race_pdf <-
     dataedu::race_pdf
 ```
 
-The object `race_pdf` is a list. Before analyzing the data, you need to transform the list to a data frame. Start by turning `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package. Then, use the `list_rbind()` function to turn these tibbles into a single data frame. Next, use the `slice()` function to remove unnecessary rows. Finally, create readable column names using `set_names()`.
+Next, convert what you've imported into a data frame. The object `race_pdf` is a list. Before analyzing the data, you need to transform the list to a data frame. Start by turning `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package. Then, use the `list_rbind()` function to turn these tibbles into a single data frame. Next, use the `slice()` function to remove unnecessary rows. Finally, create readable column names using `set_names()`.
 
 ```{r, eval = FALSE}
 race_df <-
@@ -256,21 +256,21 @@ race_df <-
     )
 ```
 
-For the Race/Ethnicity table, you want the totals for each district school, as you won't be looking at grade-level variation. When looking at the resulting data frame, you can see the school totals have "Total" in `school_name`.
+For the Race/Ethnicity table, you want the totals for each district school because you won't be looking at grade-level variation. When looking at the resulting data frame, you can see the school totals have "Total" in `school_name`.
 
-You can clean up the data by:
+Next, clean the data further using these steps:
 
-1.  Removing unnecessary or blank columns using `select()`. Negative selections means those columns will be removed.
-2.  Removing all "Grand Total" rows (otherwise, they'll show up in your data when you just want district-level data) using `filter()`. Keep schools that have "Total" in the name but remove any rows that are "Grand Total".
-3.  Trimming white space from character columns using `trimws()`.
-4.  Turning the data in the `percentage` columns into numeric. Those columns contain percentage signs, meaning they were read in as characters. You will have to remove all of the non-numeric characters to be able to do math with these columns (for example, to add them together). Divide the numbers by 100 so they are in decimal format.
+1.  Remove unnecessary or blank columns using `select()`. Negative selections means those columns will be removed.
+2.  Remove all "Grand Total" rows using `filter()`. Keep schools that have "Total" in the name but remove any rows that are "Grand Total".
+3.  Trim white space from character columns using `trimws()`.
+4.  Turn the data in the `percentage` columns into a numeric data type. These columns contain percentage signs, meaning they were read in as characters.
 
-Let's break this line down: `mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))`. We are telling `mutate` to:
+Let's discuss that final step further: `mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))`. Using this code, you are telling `mutate` to:
 
-* Use `match()` in conjunction with `across()` to select columns with names that match the regular expression "pct"
-* For the rows in those columns, replace the character "%" with blanks "" by using `str_replace(., "%", "")`
-* Make those rows numeric by using `as.numeric()`
-* Divide those numbers by 100 using `/100`
+* Use `match()` with `across()` to select columns with names that match the regular expression "pct"
+* For the rows in these columns, replace the character "%" with blanks "" by using `str_replace(., "%", "")`
+* Make these rows numeric by using `as.numeric()`
+* Divide the values by 100 using `/100`
 
 ```{r, eval = FALSE}
 race_df2 <-
@@ -287,9 +287,11 @@ race_df2 <-
     mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))
 ```
 
-Now, we will import the FRPL PDFs.
+With the Race/Ethnicity data imported, you'll now import the Free and Reduced Price Lunch (FRPL) PDFs.
 
-FRPL stands for Free/Reduced Price Lunch and is often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185% of the poverty threshold are eligible for free or reduced price lunch. (Sidenote: definitions are very important for disaggregated data. FRPL is used because it's ubiquitous but there is debate as to whether it actually reflects the level of poverty among students.)
+FRPL data are often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185% of the poverty threshold are eligible for free or reduced price lunch. 
+
+Definitions are very important for disaggregated data. FRPL is used because it's ubiquitous but there is debate as to whether it actually reflects the level of poverty among students.
 
 ```{r, eval = FALSE}
 # Get data using {tabulizer}
@@ -307,7 +309,7 @@ frpl_pdf <-
     dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, you take the PDF list output, turn it into tibbles, then create a single data frame. Remove unnecessary rows from each page using `slice()`. Then, we create column names that are easily understood.
+Similar to the Race/Ethnicity PDF, you'll take the PDF list output, turn it into tibbles, then create a single data frame. Then you'll remove unnecessary rows from each page using `slice()`. Finally, you'll create column names that are easily understood.
 
 ```{r, eval=FALSE}
 frpl_df <-
@@ -335,7 +337,7 @@ frpl_df <-
     )
 ```
 
-To clean the dataset up further, remove the blank rows. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 level. Although this is useful data, we don't need it for this district-level analysis. There are different ways we can remove these rows, but you can just filter them out by inserting `!` before the variable name.
+To clean the dataset further, remove the blank rows. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 level. Although this is useful data, you won't need it for this district-level analysis. Filter them out by inserting `!` before the variable name.
 
 ```{r, eval = FALSE}
 frpl_df2 <-
@@ -358,7 +360,7 @@ frpl_df2 <-
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
-To look at race and ethnicity data in conjunction with FPRL percentage, join the two datasets by the name of the school. To make the student counts and percentages numeric, apply `as.numeric` to multiple columns using `mutate_at()`.
+With both the Race/Ethnicity and FRPL data ready, you'll join the two to prepare them for analysis. Join the two datasets by the name of the school. To make the student counts and percentages numeric, apply `as.numeric` to multiple columns using `mutate_at()`.
 
 ```{r, eval = FALSE}
 # create full dataset, joined by school name
@@ -367,16 +369,17 @@ joined_df <-
     mutate(across(2:17, as.numeric))
 ```
 
-**Did you notice?** The total number of students from the Race/Ethnicity table does **not** match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Why? Perhaps the two datasets were created by different people who used different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students may have moved around in the meantime. We don't know, but it does require us to make strategic decisions about which data we consider the "truth" for our analysis.
+Did you notice? The total number of students from the Race/Ethnicity table does not match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. 
 
-Now, we move on to the fun part of creating new columns based on the merged
-dataset using `mutate()`.
+Perhaps the two datasets were created using different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year and students moved around in the meantime. Even if you don't know the cause, you'll need to make strategic decisions about which data to consider the "truth" in this analysis.
 
-1.  We want to calculate, for each race, the number of students in "high-poverty" schools. This is defined by NCES as schools that are over 75% FRPL [@ncesfrpl]. When a school is over 75% FRPL, we count the number of students for that particular race under the variable `[racename]_povnum`.
-2.  The {janitor} package has a handy `adorn_totals()` function that sums columns for you. This is important because we want a weighted average of students in each category, so we need the total number of students in each group.
-3.  We create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.
-4.  To get FRPL percentage for all schools, we have to recalculate `frpl_pct` (otherwise, it would not be a weighted average).
-5.  To calculate the percentage of students by race who are in high-poverty schools, we must divide the number of students in high-poverty schools by the total number of students in that race.
+Continue preparing the data by creating new columns based on the merged dataset using `mutate()`.
+
+1.  NCES defines high poverty as schools that are over 75% FRPL [@ncesfrpl]. Calculate the number of students in "high-poverty" schools in a race group. Do this by counting the number of students for a particular race under the variable `[racename]_povnum` when a school is over 75% FRPL. 
+2.  Calculate the weighted average of students in each category. Do this by using `adorn_totals()` in the {janitor} package, which sums columns for you. 
+3.  Create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.
+4.  Compute the FRPL percentage for all schools by recalculating `frpl_pct`. Doing this gives you a weighted average.
+5.  Calculate the percentage of students by race who are in high-poverty schools by dividing the number of students in high-poverty schools by the total number of students in that race.
 
 ```{r, eval=FALSE}
 district_merged_df <-
@@ -419,7 +422,7 @@ district_tidy_df <-
     )
 ```
 
-Running the code above, particularly the importing of the PDFs, takes a lot of time. We've saved copies of the merged and tidy data in the book's GitHub repository and {dataedu}. To access them, you can run the code below.
+For your convenience, we've saved copies of the merged and tidy data in the book's GitHub repository and {dataedu}. To access them, you can run the code below.
 
 ```{r, message = FALSE}
 # If reading in from book repository
