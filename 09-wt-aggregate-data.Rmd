@@ -46,10 +46,9 @@ Data scientists working in education don't always have access to student-level d
 
 A common situation encountered when searching for education data, particularly by analysts who are not directly working with schools or districts, is the prevalence of publicly available aggregate data. Aggregate data is information that has the following characteristics:
 
-1.  collected from multiple sources and/or on multiple measures, variables, or
-    individuals and
-2.  compiled into data summaries or summary reports, typically for the purposes
-    of public reporting or statistical analysis [@greatschools2014]
+1.  collected from multiple sources and/or on multiple measures, variables, or individuals and
+
+2.  compiled into data summaries or summary reports, typically for the purposes of public reporting or statistical analysis [@greatschools2014]
 
 Examples of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or mean survey responses. In this walkthrough, you'll explore the role of aggregate data with a focus on educational equity.
 
@@ -99,6 +98,8 @@ tibble(
 Notice that this dataset no longer identifies individual students.
 
 #### Disaggregating aggregated data
+
+In this walkthrough, you'll encounter the term "disaggregated." In the context of the walkthrough, this means disaggregating to some smaller group, but not to the student level. 
 
 Aggregated data can tell you many things, but in order for you to better examine groups that share similar characteristics, you must have data disaggregated by those groups. This data is still aggregated at the row-level but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race and ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
 
@@ -442,7 +443,9 @@ district_merged_df <- dataedu::district_merged_df
 
 ### Discovering distributions
 
-What do the racial demographics in this district look like? A barplot can quickly visualize the different proportions of subgroups.
+Now that you've imported the data, it's time to begin exploring it. 
+
+What do the racial demographics in this district look like? Use a barplot to visualize the different proportions of subgroups.
 
 ```{r fig9-1, fig.align = "center", results = "hide", message = FALSE, fig.cap = "Percentage of Population by Subgroup", fig.showtext = TRUE}
 district_tidy_df %>%
@@ -471,22 +474,22 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-When we look at these data, the district seems very diverse. Almost 40% of students are Black, and around 36% are White. Note that this matches the percentages provided in the original PDFs. This shows that your calculations above are accurate. Hooray!
+Look at these data and note the shares of each race group. Almost 40% of students are Black, and around 36% are White. This matches the percentages provided in the original PDFs, which validates the calculations you did when you cleaned the data. Good job!
 
-`frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
+Now look at these data and note the students who are eligible for FRPL. Recall that `frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
 
 ```{r}
 district_tidy_df %>%
     filter(category == "frpl_pct", school_name == "Total")
 ```
 
-**56.9% of the students are eligible for FRPL**, compared to the US average of 52.1% [@avgfrpl]. This also matches the numbers in the PDFs. Great!
-
-Now, we dig deeper to see if there is more to the story.
+56.9% of the students are eligible for FRPL, compared to the US average of 52.1% [@avgfrpl]. This also validates what you saw in the original PDFs. 
 
 ### Analyzing spread
 
-Another view of the data is visualizing the distribution of students with different demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
+Now that you've done some initial validations, try exploring the dataset through distributions. This empowers you to see beyond district totals and into the underlying school data. 
+
+Start by exploring student demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
 ```{r fig9-2, fig.align = "center", results = 'hide', message = FALSE, fig.cap = "Count of Schools by White Population", fig.showtext = TRUE}
 district_merged_df %>%
@@ -504,13 +507,15 @@ district_merged_df %>%
     theme_dataedu()
 ```
 
-**26 of the 74 (35%) of schools have between 0 and 10% White students.** This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students, even though White students make up 35% of the district student population.
+26 of the 74 (35%) of schools have between 0 and 10% White students. This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students, even though White students make up 35% of the district student population.
 
 The school race demographics are not representative of the district populations, but does that hold for socioeconomic status as well?
 
 ## Analysis
 
 ### Creating categories
+
+Try the approach you used to look at the distribution of student race groups in all schools to look at the distribution of of student race groups in high-poverty schools. 
 
 High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools [@ncesfrpl]. However, different subgroups are overrepresented and underrepresented within high-poverty schools. Is this the case for this district?
 
@@ -537,11 +542,13 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-**8% of White students** attend high-poverty schools, compared to **43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students**. We can conclude that non-White students are disproportionally attending high-poverty schools.
+8% of White students** attend high-poverty schools, compared to 43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students. In this district, non-White students disproportionally attend high-poverty schools.
 
 ### Reveal relationships
 
-Let’s explore what happens when we correlate race and FRPL percentage by school.
+So far, you've validated your initial calculations and explored distributions. Next, you'll explore correlations. 
+
+Begin by investigating the correlation between race and FRPL percentage by school.
 
 ```{r fig9-4, warning = FALSE, fig.align = "center", message = FALSE, results = 'hide', fig.cap="FRPL Percentage vs. White Percentage", fig.showtext = TRUE}
 district_merged_df %>%
@@ -561,12 +568,11 @@ Similar to the result in Creating Categories, there is a strong negative correla
 
 ## Results
 
-Because of the disaggregated data this district provides, we can go deeper than the average demographics across the district and see what it looks like at the school level. These distinct but closely related views demonstrate that:
+Because of the disaggregated data this district provides, you can go deeper than the average demographics across the district and analyze at the school level. These distinct but closely related views demonstrate that:
 
-1. There exists a distribution of race/ethnicity within schools that is not representative of the district.
+1. The distribution of race/ethnicity within schools is not representative of the district.
 2. Students of color are overrepresented in high-poverty schools.
-3. There is a negative relationship between the percentage of White students in a
-school and the percentage of students eligible for FRPL.
+3. There is a negative relationship between the percentage of White students in a school and the percentage of students eligible for FRPL.
 
 ## Conclusion
 
@@ -574,4 +580,4 @@ This analysis, like all analyses, does not occur in a vacuum. According to the U
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, the deep segregation that exists in the district can have adverse effects on students.
 
-As a data scientist in education, we can use these data to showcase the inequity in a system and suggest interventions for what we can do to improve the situation in the district. In addition, we can advocate for more datasets such as these, which allow us to dig deep. In the next chapter, we discuss aggregate data further, focusing on how we can use them to understand changes over time.
+As data scientists in education, we can use these data to identify the inequity in a system and suggest interventions to improve the situation. In addition, we can advocate for more datasets such as these, which allow us to analyze outcomes in total and across subgroups. In the next chapter, we discuss aggregate data further, focusing on how to understand changes over time.
