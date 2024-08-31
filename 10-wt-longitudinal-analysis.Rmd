@@ -95,7 +95,7 @@ Note that if you use this walkthrough on different datasets or store datasetsin 
 
 ### What to download
 
-In this walkthrough, we'll be using six separate datasets of child counts, one
+In this walkthrough, you'll be using six separate datasets of child counts, one
 for each year between 2012 and 2017. If you're copying and pasting the code in
 this walkthrough, we recommend downloading the datasets from our GitHub
 repository for the most reliable results. As we note above, you can also access this data after they have been merged via the {dataedu} package; see the "Importing the Data From the {dataedu} Package" section of this chapter. Here's a link to each file; we also include a short URL via the URL-shortener website 
@@ -121,10 +121,10 @@ website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/i
 
 When you download these files, be sure to store them in a folder in your working
 directory. To get to the data in this walkthrough, we can use this file path
-in our working directory: "data/longitudinal\_data". We'll be using the `here()` *function* from the {here}
+in our working directory: "data/longitudinal\_data". you'll be using the `here()` *function* from the {here}
 *package*, which conveniently fills in all the folders in the file path of your
 working directory all the way up to the folders you specify in the arguments. So,
-when referencing the file path "data/longitudinal\_data", we'll use code like
+when referencing the file path "data/longitudinal\_data", you'll use code like
 this:
 
 ```{r demo here, eval = FALSE}
@@ -201,8 +201,8 @@ are also available through the {dataedu} package, as we describe after the "Read
 
 ### Reading in one dataset
 
-We'll be learning how to read in more than one dataset using the `map()`
-function. Let's try it first with one dataset, then we'll scale our solution up
+you'll be learning how to read in more than one dataset using the `map()`
+function. Let's try it first with one dataset, then you'll scale our solution up
 to multiple datasets. When you are analyzing multiple datasets that all have the
 same structure, you can read in each dataset using one code chunk. This code
 chunk will store each dataset as an element of a list.
@@ -250,7 +250,7 @@ Name", and so on as the first line. The result is a dataset that has "Year",
 ### Reading in many datasets
 
 Will the `read_csv()` and `skip = 4` combination work on all our datasets? To
-find out, we'll use this strategy:
+find out, you'll use this strategy:
 
   - Store a vector of filenames and paths in a list. These paths point to our
     datasets
@@ -346,7 +346,7 @@ bind_rows(all_files) %>%
   ncol()
 ```
 
-We'll correct this in the next section by selecting and renaming our variables,
+you'll correct this in the next section by selecting and renaming our variables,
 but it's good to notice this problem early in the process so you know to work on
 it later.
 
@@ -368,7 +368,7 @@ datasets are in a "tidy" format. It's easier to do an analysis when you have
 just the variables you need. Any unused variables can confuse your thought
 process.
 
-Let's preview the steps we'll be taking:
+Let's preview the steps you'll be taking:
 
 1.  Fix the variable names in the 2016 data
 2.  Combine the datasets
@@ -422,9 +422,9 @@ all_files[[5]]
 
 We used `skip = 4` when we read in the datasets in the list. That worked for all
 datasets except the fifth one. In that one, skipping four lines left out the
-variable name row. To fix it, we'll read the 2016 dataset again using
+variable name row. To fix it, you'll read the 2016 dataset again using
 `read_csv()` and the fifth element of `filenames` but this time will use the
-argument `skip = 3`. We'll assign the newly read dataset to the fifth element of
+argument `skip = 3`. you'll assign the newly read dataset to the fifth element of
 the `all_files` list:
 
 ```{r fix 2016 colnames, message=FALSE, warning=FALSE}
@@ -444,9 +444,9 @@ carefully about which variables to pick. This usually requires a fair amount of
 trial and error, but here is what we found we needed:
 
   - Our analytic questions are about gender, so let's pick the gender variable
-  - Later, we'll need to filter our dataset by disability category and program
-    location so we'll want `SEA Education Environment` and `SEA Disability Category`
-  - We want to make comparisons by state and reporting year, so we'll also pick
+  - Later, you'll need to filter our dataset by disability category and program
+    location so you'll want `SEA Education Environment` and `SEA Disability Category`
+  - We want to make comparisons by state and reporting year, so you'll also pick
     `State Name` and `Year`
 
 Combining `select()` and `contains()` is a convenient way to pick these
@@ -467,7 +467,7 @@ all_files[[1]] %>%
 That code chunk verifies that we got the variables we want, so now we will turn
 the code chunk into a function called `pick_vars()`. We will then use `map()` to
 apply `pick_vars()` to each dataset of our list, `all_files`, to the function.
-In this function, we'll use a special version of `select()` called
+In this function, you'll use a special version of `select()` called
 `select_at()`, which conveniently picks variables based on criteria we give it.
 The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column
 whose name has "State" in upper or lower case letters, has "SEA" in the title,
@@ -495,8 +495,8 @@ all_files <-
 
 ### Combine six datasets into one
 
-Now we'll turn our attention to combining the datasets in our list `all_files`
-into one. We'll use `bind_rows()`, which combines datasets by adding each one to
+Now you'll turn our attention to combining the datasets in our list `all_files`
+into one. you'll use `bind_rows()`, which combines datasets by adding each one to
 the bottom of the one before it. The first step is to check and see if our
 datasets have the same number of variables and the same variable names. When we
 use `names()` on our list of newly changed datasets, we see that each dataset's
@@ -509,7 +509,7 @@ all_files %>%
 ```
 
 That means that we can combine all six datasets into one using `bind_rows()`.
-We'll call this newly combined dataset `child_counts`:
+you'll call this newly combined dataset `child_counts`:
 
 ```{r combine datasets 2}
 child_counts <-
@@ -553,7 +553,7 @@ child_counts %>%
 ```
 
 Since we will be visualizing and modeling gender variables for all students in
-the dataset, we'll filter out all subgroups except "All Disabilities" and the
+the dataset, you'll filter out all subgroups except "All Disabilities" and the
 age totals:
 
 ```{r filter child_counts}
@@ -569,8 +569,8 @@ child_counts <-
 
 ### Rename the variables
 
-In the next section we'll prepare the dataset for visualization and modeling by
-"tidying" it. When we write code to transform datasets, we'll be typing the
+In the next section you'll prepare the dataset for visualization and modeling by
+"tidying" it. When we write code to transform datasets, you'll be typing the
 column names a lot, so it's useful to change them to ones with more convenient
 names. 
 
@@ -636,7 +636,7 @@ child_counts <-
                  values_to = "total")
 ```
 
-To make the values of the `gender` column more intuitive, we'll use
+To make the values of the `gender` column more intuitive, you'll use
 `case_when()` to transform the values to either "f" or "m":
 
 ```{r replace gender values}
@@ -660,7 +660,7 @@ specific year, state, gender, and age group. We know from the `chr` under their
 variable names that R is treating these values like characters instead of
 numbers. While R does a decent job of treating numbers like numbers when needed,
 it's much safer to prepare the dataset by changing these character columns to
-numeric columns. We'll use `mutate()` to change the count columns. 
+numeric columns. you'll use `mutate()` to change the count columns. 
 
 ```{r convert to numeric}
 child_counts <-
@@ -750,15 +750,15 @@ child_counts %>%
 ## Analysis
 
 In the last section we focused on importing our dataset. In this section, we
-will ask, "How have child counts changed over time?" First, we'll use
+will ask, "How have child counts changed over time?" First, you'll use
 visualization to explore the number of students in special education over time.
-In particular, we'll compare the count of male and female students. Next, we'll
+In particular, you'll compare the count of male and female students. Next, you'll
 use what we learn from our visualizations to quantify any differences that we
 see.
 
 ### Visualize the dataset
 
-Showing this many states in a plot can be overwhelming, so to start we'll make a
+Showing this many states in a plot can be overwhelming, so to start you'll make a
 subset of the dataset. We can use a function in the {dplyr} package called
 `top_n()` to help us learn which states have the highest mean count of students
 with disabilities: 
@@ -776,7 +776,7 @@ over the six years we are examining. For reasons we will see in a later
 visualization, we are going to exclude outlying areas and freely associated
 states. That leaves us with five states: California, Florida, New York,
 Pennsylvania, and Texas. We can remove all other states but these by using
-`filter()`. We'll call this new dataset `high_count`:
+`filter()`. you'll call this new dataset `high_count`:
 
 ```{r filter most populated}
 high_count <-
@@ -795,7 +795,7 @@ states in the `state` column. Let your curiosity and intuition drive this part
 of the analysis. It's one of the activities that makes data analysis a creative
 process.
 
-In that spirit, we'll start by visualizing specific genders and age groups. Feel
+In that spirit, you'll start by visualizing specific genders and age groups. Feel
 free to try these, but also try the other student groups for practice and more
 exploration.
 
@@ -821,7 +821,7 @@ who are female and ages 6 to 21. We used `aes` to connect visual elements of our
 plot to our data. We connected the *x*-axis to `year`, the *y*-axis to `total`, and
 the color of the line to `state`.
 
-It's worth calling out one more thing; since it's a technique we'll be using as
+It's worth calling out one more thing; since it's a technique you'll be using as
 we explore further. Note here that, instead of storing our new dataset in a new
 variable, we filter the dataset then use the pipe operator `%>%` to feed it to
 {ggplot2}. Since we're exploring freely, we don't need to create a lot of new
@@ -843,9 +843,9 @@ high_count %>%
 ```
 
 We've looked at each gender separately. What do these lines look like if we
-visualized the total amount of students each year per state? To do that, we'll
+visualized the total amount of students each year per state? To do that, you'll
 need to add both gender values together and both age group values together.
-We'll do this using a very common combination of functions: `group_by()` and
+you'll do this using a very common combination of functions: `group_by()` and
 `summarize()`. 
 
 ```{r fig10-3, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time", fig.showtext = TRUE}
@@ -928,7 +928,7 @@ By visually inspecting, we can hypothesize that there was no significant change
 in the male to female ratio between the years 2012 and 2017. But very often we
 want to understand the underlying properties of our education dataset. We can do
 this by quantifying the relationship between two variables. In the next section,
-we'll explore ways to quantify the relationship between male student counts and
+you'll explore ways to quantify the relationship between male student counts and
 female student counts.
 
 ### Model the dataset
@@ -951,8 +951,8 @@ will help you quantify and predict relationships between variables. This is an
 important step in the analytic process because it acts as a check on what you
 saw in your exploratory visualizations.
 
-In this example, we'll follow our intuition about the relationship between male
-and female student counts in our special education dataset. In particular, we'll
+In this example, you'll follow our intuition about the relationship between male
+and female student counts in our special education dataset. In particular, you'll
 test the hypothesis that this ratio has decreased over the years. Fitting a
 linear regression model that estimates the year as a predictor of the male to
 female ratio will help us do just that. 
@@ -1045,8 +1045,8 @@ variable to learn about how this ratio has changed over time?"
 
 To answer that, let's start by making a new dataset that includes any
 rows where the `f` variable has a value that is less than or equal to 500,000.
-We'll convert the `year` variable to a factor data type---we'll see how this
-helps in a bit. We'll also add a column called `ratio` that contains the male to
+you'll convert the `year` variable to a factor data type---you'll see how this
+helps in a bit. you'll also add a column called `ratio` that contains the male to
 female count ratio.
 
 ```{r make model data}
@@ -1089,7 +1089,7 @@ function `lm()`. In R, the `~` usually indicates a formula. In this case, the
 formula is the variable `year` as a predictor of the variable `ratio`. The final
 argument we pass to `lm` is `data = model_data`, which tells R to look for the
 variables `ratio` and `year` in the dataset `model_data`. The results of the
-model are called a "model object". We'll store the model object in `ratio_year`:
+model are called a "model object". you'll store the model object in `ratio_year`:
 
 ```{r fit model for year predicting ratio }
 ratio_year <- 
@@ -1164,7 +1164,7 @@ and the language of data visualization, your challenge is to take what you
 learned from the model output and tell that story in a way that is meaningful to
 your non-data scientist audience.
 
-There are many ways to do this, but we'll choose boxplots to show our audience
+There are many ways to do this, but you'll choose boxplots to show our audience
 that there was roughly twice as many male students in special education than
 female students between 2012 and 2017. For our purposes, let's verify this by
 looking at the median male to female ratio for each year:
