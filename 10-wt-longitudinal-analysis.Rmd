@@ -89,17 +89,19 @@ library(here)
 ## Import data
 
 In this analysis you'll be importing and combining six datasets that describe the
-number of students with disabilities in a given year. First, you'll review how to get the `.csv` files you'll need for the task. Alternatively, we make these data files available through the {dataedu} package. 
+number of students with disabilities in a given year. First, you'll review how to get the `.csv` files you'll need for the task. Alternatively, we make these data files available through the {dataedu} package. You'll find more about the {dataedu} package below. 
 
-Note that if you use this walkthrough on different datasets or store datasetsin different locations on your computer, you'll need to your code accordingly. We suggest only doing this if you have previous experience using R.
+Note that if you use this walkthrough on different datasets or store datasets in different locations on your computer, you'll need to your code accordingly. We suggest only doing this if you have previous experience using R.
 
 ### What to download
 
 In this walkthrough, you'll be using six separate datasets of child counts, one
 for each year between 2012 and 2017. If you're copying and pasting the code in
-this walkthrough, we recommend downloading the datasets from our GitHub
-repository for the most reliable results. As we note above, you can also access this data after they have been merged via the {dataedu} package; see the "Importing the Data From the {dataedu} Package" section of this chapter. Here's a link to each file; we also include a short URL via the URL-shortener website 
-*bit.ly*:
+this walkthrough, downloading the datasets from our GitHub repository for the most reliable results. 
+
+You can also access this data through the {dataedu} package; see the "Importing the Data From the {dataedu} Package" section of this chapter. 
+
+Here's a link to each file; we also include a short URL via the URL-shortener website *bit.ly*:
 
  - [2012 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2012.csv) (https://bit.ly/3dCtVtf)
  
@@ -113,19 +115,17 @@ repository for the most reliable results. As we note above, you can also access 
  
  - [2017 data](https://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https[]()://github.com/data-edu/data-science-in-education/raw/master/data/longitudinal_data/bchildcountandedenvironments2017-18.csv) (https://bit.ly/2wPLu8w)
 
-You can also find these files on the [United States Department of Education
+For reference, we originally downloaded these files from the [United States Department of Education
 website](https://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 (https[]()://www2.ed.gov/programs/osepidea/618-data/state-level-data-files/index.html)
 
 ### A note on file paths
 
-When you download these files, be sure to store them in a folder in your working
-directory. To get to the data in this walkthrough, we can use this file path
-in our working directory: "data/longitudinal\_data". you'll be using the `here()` *function* from the {here}
-*package*, which conveniently fills in all the folders in the file path of your
-working directory all the way up to the folders you specify in the arguments. So,
-when referencing the file path "data/longitudinal\_data", you'll use code like
-this:
+When you download these files, store them in a folder in your working
+directory. To get to the data in this walkthrough, use this file path
+in your working directory: "data/longitudinal\_data". 
+
+You'll be using the `here()` *function* from the {here} *package*, which conveniently fills in the folders in the file path of your working directory all the way up to the folders you specify in the arguments. So, when referencing the file path "data/longitudinal\_data", you'll use code like this:
 
 ```{r demo here, eval = FALSE}
 here::here("data",
@@ -133,17 +133,16 @@ here::here("data",
            "bchildcountandedenvironments2012.csv")
 ```
 
-You can use a different file path if you like, just take note of where your
-downloaded files are so you can use the correct file path when writing your code
+You can use a different file path if you like, but take note of where your
+downloaded files are so you can use the correct file path when writing code
 to import the data.
 
 ### How to download the files
 
 One way to download the files is manually, saving them to a working directory. 
-Another way is to read them directly into R, using the `download.file()` function,
-and the same file path described in the previous section. This functionality works for any CSV files that you can download from webpages; the key is that the URL must be to the CSV file itself (one way to check is to ensure that the URL ends in `.csv`).
+Another way is to read them directly into R, using the `download.file()` function using the same file path described in the previous section. This functionality works for any CSV files that download from webpages; the key is that the URL must point to the CSV file itself. One way to check this is to ensure the URL ends in `.csv`.
 
-Here is how we would do it for the first dataset (from the year 2012), using the shortened URLs included along with the full URLs above.
+Here is how to do it for the first dataset, which contains 2012 data:
 
 ```{r, eval = FALSE}
 download.file(
@@ -195,22 +194,14 @@ download.file(
   mode = "wb")
 ```
 
-Now that the files are downloaded (either through the above code or from GitHub), we're
-ready to proceed to reading the data into R. If you were unable to download these files for any reason, they
-are also available through the {dataedu} package, as we describe after the "Reading in Many Datasets" section.
+Now that the files are downloaded you're ready to read the data into R. If you were unable to download these files, they are also available through the {dataedu} package, as we describe after the "Reading in Many Datasets" section.
 
 ### Reading in one dataset
 
-you'll be learning how to read in more than one dataset using the `map()`
-function. Let's try it first with one dataset, then you'll scale our solution up
-to multiple datasets. When you are analyzing multiple datasets that all have the
-same structure, you can read in each dataset using one code chunk. This code
-chunk will store each dataset as an element of a list.
+You'll be learning how to read in more than one dataset using the `map()`
+function. Try it first with one dataset, then try it with multiple datasets. When you are analyzing multiple datasets that have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list.
 
-Before doing that, you should explore one of the datasets to see what you can
-learn about its structure. Clues from this exploration inform how you read in
-all the datasets at once later on. For example, we can see that the first
-dataset has some lines at the top that contain no data:
+Before doing that, explore one of the datasets to see what you can learn about its structure. Clues from this exploration inform how you read in all the datasets at once later on. For example, we can see that the first dataset has some lines at the top that contain no data:
 
 ```{r read 2012 data, echo = FALSE, message = F, warning = F}
 read_csv(here::here(
@@ -225,8 +216,8 @@ actually rows. They're notes the authors left at the top of the dataset to show
 when the dataset was changed.
 
 `read_csv()` uses the first row as the variable names unless told otherwise, so
-we need to tell `read_csv()` to skip those lines using the `skip` argument. If
-we don't, `read_csv()` assumes the very first line---the one that says
+you need to tell `read_csv()` to skip those lines using the `skip` argument. If
+you don't, `read_csv()` assumes the very first line---the one that says
 "Extraction Date:"---is the correct row of variable names. That's why calling
 `read_csv()` without the `skip` argument results in column names like `X4`. When
 there's no obvious column name to read in, `read_csv()` names them `X[...]` and
@@ -250,7 +241,7 @@ Name", and so on as the first line. The result is a dataset that has "Year",
 ### Reading in many datasets
 
 Will the `read_csv()` and `skip = 4` combination work on all our datasets? To
-find out, you'll use this strategy:
+find out, use this strategy:
 
   - Store a vector of filenames and paths in a list. These paths point to our
     datasets
@@ -258,23 +249,19 @@ find out, you'll use this strategy:
     `purrr::map()`, including `skip = 4`, in our `read_csv()` call
   - Examine the new list of datasets to see if the variable names are correct
 
-Imagine a widget-making machine that works by acting on raw materials it
-receives on a conveyer belt. This machine executes one set of instructions on
-each of the raw materials it receives. You are the operator of the machine and
-you design instructions to get a widget out of the raw materials. Your plan
-might look something like this:
+To understand what `purrr::map()` does, imagine a widget-making machine that works by acting on raw materials it receives on a conveyer belt. This machine executes one set of instructions on each of the raw materials it receives. You are the operator of the machine and you design instructions to get a widget out of the raw materials. Your plan might look something like this:
 
   - **Raw materials**: a list of filenames and their paths
   - **Widget-making machine**: `purrr:map()`
   - **Widget-making instructions**: \`read\_csv(path, skip = 4)
   - **Expected widgets**: a list of datasets
 
-Let's create the raw materials first. Our raw materials will be file paths to
-each of the CSVs we want to read. Use `list.files` to make a vector of filename
+Create the raw materials first. These will be file paths to
+each of the CSVs you want to read. Use `list.files` to make a vector of filename
 paths and name that vector `filenames`. `list.files` returns a vector of file
-names in the folder specified in the `path` argument. When we set the
+names in the folder specified in the `path` argument. When you set the
 `full.names` argument to "TRUE", we get a full path of these filenames. This
-will be useful later when we need the file names and their paths to read our
+will be useful later when you need the file names and their paths to read the
 data in.
 
 ```{r get filenames, results='hide'}
@@ -288,8 +275,8 @@ filenames
 ```
 
 That made a vector of six filenames, one for each year of child count data
-stored in the data folder. Now pass our raw materials, the vector called
-`filenames`, to our widget-making machine called `map()` and give the machine
+stored in the data folder. Now pass the raw materials, the vector called
+`filenames`, to the widget-making machine called `map()` and give the machine
 the instructions `read_csv(., skip = 4)`. Name the list of widgets it cranks out
 `all_files`:
 
@@ -303,8 +290,8 @@ all_files <-
 
 It is important to think ahead here. The goal is to combine the datasets in
 `all_files` into one dataset using `bind_rows()`. But that will only work if all
-the datasets in our list have the same number of columns and the same column
-names. We can check our column names by using `map()` and `names()`:
+the datasets in your list have the same number of columns and the same column
+names. Check the column names by using `map()` and `names()`:
 
 ```{r check column names, include=FALSE}
 all_files %>% 
@@ -312,7 +299,7 @@ all_files %>%
   map(names)
 ```
 
-We can use `identical()` to see if the variables from two datasets match. We see
+Use `identical()` to see if the variables from two datasets match. You'll see
 that the variable names of the first and second datasets don't match, but the
 variables from the second and third do. 
 
@@ -324,7 +311,7 @@ identical(names(all_files[[1]]), names(all_files[[2]]))
 identical(names(all_files[[2]]), names(all_files[[3]]))
 ```
 
-And we can check the number of columns by using `map()` and `ncol()`:
+Check the number of columns by using `map()` and `ncol()`:
 
 ```{r check cols}
 all_files %>% 
@@ -332,11 +319,9 @@ all_files %>%
   map(ncol)
 ```
 
-We have just encountered an extremely common problem in education data!
-Neither the number of columns nor the column names match.
-This is a problem because---with different column names---we won't be able to combine the datasets in a later step. 
-As we can see, when we try, `bind_rows()` returns a dataset with 100 columns, instead of the
-expected 50.
+This is an extremely common problem in education data. Neither the number of columns nor the column names match. With different column names we won't be able to combine the datasets in a later step. 
+
+You'll see that if you try `bind_rows()`, which returns a dataset with 100 columns, instead of the expected 50.
 
 ```{r combine datasets 1}
 # combining the datasets at this stage results in the incorrect 
@@ -346,14 +331,13 @@ bind_rows(all_files) %>%
   ncol()
 ```
 
-you'll correct this in the next section by selecting and renaming our variables,
+You'll correct this in the next section by selecting and renaming the variables,
 but it's good to notice this problem early in the process so you know to work on
 it later.
 
 ### Loading the data from {dataedu}
 
-After all of the hard work we've done above, it may seem painful to simply read in the final result! But, 
-if you were unable to download the files because you do not have Internet access (or for any other reason!), you can read in the `all_files` list of six data frames through the {dataedu} package with the following line of code:
+If you were unable to download the files, you can read in the `all_files` list of six data frames through the {dataedu} package with the following line of code:
 
 ```{r, eval = FALSE}
 all_files <- dataedu::all_files
