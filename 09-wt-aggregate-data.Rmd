@@ -2,9 +2,9 @@
 
 **Abstract** 
 
-This chapter explores cleaning, tidying, joining, and visualizing publicly available, aggregate data. Data scientists in education frequently work with public aggregate data when student-level data is not available. By working with these data, data scientists in education can discover broader trends and underlying patterns. If aggregate data is disaggregated by subgroups or subpopulations, data scientists can reveal areas of inequity for marginalized populations. 
+This chapter explores cleaning, tidying, joining, and visualizing publicly available, aggregate data. Data scientists in education frequently work with public aggregate data when student-level data is not available. By working with these data, they can discover broader trends and underlying patterns. If aggregate data is disaggregated by subgroups or subpopulations, data scientists can reveal areas of inequity for marginalized populations. 
 
-Using a freely-available school district dataset, this chapter looks at the distribution of students in the district by race and socioeconomic status. Subgroup analysis can point out the state of equity in a system and inform improvement for students. Data science techniques in this chapter include reading tables from an online PDF into a machine-readable format, preparing data for analysis, transforming it into a tidy format, visualizing it, and analyzing distributions and relationships.
+This chapter uses a freely available school district dataset to examine the distribution of students in the district by race and socioeconomic status. Subgroup analysis can reveal the state of equity in a system and inform student improvement. Data science techniques in this chapter include reading tables from an online PDF into a machine-readable format, preparing data for analysis, transforming it into a tidy format, visualizing it, and analyzing distributions and relationships.
 
 ## Topics emphasized
 
@@ -40,7 +40,7 @@ Using a freely-available school district dataset, this chapter looks at the dist
 
 ## Chapter overview
 
-Data scientists working in education don't always have access to student-level data, so knowing how to model aggregate datasets is very valuable. This chapter explores aggregate data and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one-time point.
+Data scientists in education don't always have access to student-level data, so knowing how to model aggregate datasets is very valuable. This chapter explores aggregate data and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one time point.
 
 ### Background
 
@@ -52,24 +52,23 @@ A common situation encountered when searching for education data, particularly b
 
 Examples of publicly available aggregate data include school-level graduation rates, state test proficiency scores by grade and subject, or mean survey responses. In this walkthrough, you'll explore the role of aggregate data with a focus on educational equity.
 
-Aggregate data is essential both for accountability and for providing useful information about schools and districts. For example, district administrators might aggregate student-level enrollment reports over time. This allows them to see how many students enroll in each school, in the district overall, and at various grade levels. Depending on the state, the district administrator might submit these aggregate data to their state education agency (SEA) for reporting purposes. These datasets might be posted on the state's Department of Education website for anyone to download and use.
+Aggregate data is essential both for accountability and for providing useful information about schools and districts. For example, district administrators might aggregate student-level enrollment reports over time. They can use this information to see how many students enroll in each school, in the district overall, and at various grade levels. Depending on the state, the district administrator might submit these aggregate data to their state education agency (SEA) for reporting purposes. These datasets might be posted on the state's Department of Education website for anyone to download and use.
 
-Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. This can be useful because each state has its own repository of data. Further, going through each state's website to download a particular metric is a significant effort. However, federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
+Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. These consolidated reports can be useful because each state has its own repository of data. Going through each state's website to download a particular metric is a significant effort. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
 
-Data scientists in education can analyze these reports and datasets to
-answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, agencies release multiple years behind the current year. Because of their coarseness, they can be difficult to interpret and use.
+Data scientists in education can analyze these reports and datasets to answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, agencies release multiple years behind the current year. Because of their coarseness, they can be difficult to interpret and use.
 
-Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. It is very important that data scientists consider the limitations of aggregate data before analyzing it.
+Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. Data scientists must consider the limitations of aggregate data before analyzing it.
 
-Despite these limitations, the wide availability of aggregated data has its benefits. Analysis of aggregate data helps educators identify patterns that are harder to see in individual level data. Data scientists in education can use this new insight, to create research questions, craft hypotheses, and make recommendations on how to improve education systems.
+Despite these limitations, the wide availability of aggregated data has its benefits. Analysis of aggregate data helps educators identify patterns that are harder to see in individual-level data. Data scientists in education can use this new insight to create research questions, craft hypotheses, and make recommendations on how to improve education systems.
 
-This chapter and the [following one](#c10) provide two different examples of cleaning aggregate data and using these datasets to compare student experiences. In this chapter, you'll focus on educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, you'll compare student counts over time in different states.
+This chapter and the [following one](#c10) provide two examples of cleaning aggregate data and using these datasets to compare student experiences. In this chapter, you'll focus on educational equity by identifying and comparing patterns in student demographic groups. In the next chapter, you'll compare student counts over time in different states.
 
 #### What is the difference between aggregate and student-level data?
 
 Let's dig deeper into the differences between aggregate and student-level data. Publicly available data---like the data you'll use in this walkthrough---summarizes student-level data. That means that student-level data is totaled to protect the identities of students before making the data publicly available. We can use R to demonstrate this concept.
 
-Here are rows in a student-level dataset:
+Here are rows in an example student-level dataset:
 
 ```{r student level data example, message = F}
 library(tidyverse)
@@ -82,7 +81,7 @@ tibble(
 )
 ```
 
-Run the next code chunk and you'll see that aggregate data totals up a variable---the variable `test_score` in this case---to "roll up" the student-level information. Each row of the resulting dataset represents a group. The group in this example is `school`, which you'll tell R to use by putting it in `group_by()`. Then, you'll calculate the average score by school with `summarize()` and `mean()`:
+Run the next code chunk, and you'll see that aggregate data totals up a variable---the variable `test_score` in this case---to "roll up" the student-level information. Each row of the resulting dataset represents a group. The group in this example is `school`, which you'll tell R to use by putting it in `group_by()`. Then, you'll calculate the average score by school with `summarize()` and `mean()`:
 
 ```{r aggregate level data example}
 tibble(
@@ -99,22 +98,21 @@ Notice that this dataset no longer identifies individual students.
 
 #### Disaggregating aggregated data
 
-In this walkthrough, you'll encounter the term "disaggregated." In the context of the walkthrough, this means disaggregating to some smaller group, but not to the student level. 
+In this walkthrough, you'll encounter the term "disaggregated." In the context of the walkthrough, this means disaggregating to some smaller group but not to the individual level. 
 
-Aggregated data can tell you many things, but in order for you to better examine groups that share similar characteristics, you must have data disaggregated by those groups. This data is still aggregated at the row-level but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race and ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
+Aggregated data can tell you many things, but for you to better examine groups that share similar characteristics, you must have data disaggregated by those groups. This data is still aggregated at the row level but provides information on smaller components than the grand total [@disaggregate]. Common disaggregations for students include gender, race and ethnicity, socioeconomic status, English learner designation, and whether they are served under the Individuals with Disabilities Education Act (IDEA) [@subgroup].
 
 #### Disaggregating data and equity
 
-Disaggregated data is essential for understanding equity in educational resources and outcomes. Without disaggregating data by student characteristics, educators are unable to understand how different groups of students are doing and what support they need. With disaggregated data, educators can identify where solutions are needed to solve disparities in opportunity, resources, and treatment.
+Disaggregated data is essential for understanding equity in educational resources and outcomes. Without disaggregating data by student characteristics, educators are unable to understand how different groups of students are doing and what support they need. With disaggregated data, educators can identify where solutions are required in order to solve disparities in opportunity, resources, and treatment.
 
 ## Data sources
 
-There are many publicly available aggregate datasets related to education. On the
-international level, perhaps the most well-known is PISA:
+There are many publicly available aggregate datasets related to education. On the international level, perhaps the most well-known is PISA:
 
   - [Programme for International Student Assessment (PISA)](https://www.oecd.org/en/about/programmes/pisa.html) (https[]()://www.oecd.org/pisa/), which measures 15-year-old school pupils' academic performance in mathematics, science, and reading. 
 
-On the federal level, well-known examples include:
+On the U.S. federal level, well-known examples include:
 
   - [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which reports variables on educational programs and services disaggregated by race and ethnicity, sex, limited English proficiency, and disability. These data are at the school level.
 
@@ -126,7 +124,7 @@ On the federal level, well-known examples include:
 
   - [National Assessment for Educational Progress (NAEP) Data](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx) (https[]()://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx), which is an assessment of educational progress in the United States. Often called the "nation's report card", the NAEP reading and mathematics assessments are administered to a representative sample of fourth- and eighth-grade students in each state every two years.
 
-At the state and district levels, two examples include:
+At the U.S. state and district levels, two examples include:
 
   - [California Department of Education](https://www.cde.ca.gov/ds/) (https[]()://www.cde.ca.gov/ds/), which is the state's Department of Education website. It includes both downloadable CSV files and "Data Quest", which lets you query their data online.
 
@@ -134,28 +132,28 @@ At the state and district levels, two examples include:
 
 ### Selecting data
 
-For the purposes of this walkthrough, you'll be looking at a school district's data. In the next, you'll zoom out and look across states in the United States.
+For this walkthrough, you'll examine data from a school district. In the next, you'll zoom out and examine data across states in the United States.
 
 When we published the first edition of this book in 2020, the school district provided comprehensive student demographic data in PDF format. They reported both the percentage and exact number of students in each subgroup. This detailed information allowed a thorough examination of individual school demographics and offered an excellent opportunity to explore systemic inequities.
 
-The district has since changed its reporting process to a school-level dashboard. The PDFs we used in the first edition are no longer available on the district's website. This is a common occurrence in education. We cannot assume that data will remain available in the same format or location, or remain available at all.
+The district has since changed its reporting process to a school-level dashboard. The PDFs we used in the first edition are no longer available on the district's website. This change in availability and access is a common occurrence in education. We cannot assume that data will remain available in the same format or location, or remain available at all.
 
-Adapting to changes in data availability is crucial. This includes implementing data governance measures in your organization, saving backups in an organized manner in accordance with privacy and security policies, and creating a centralized repository for data-related resources. To learn more, we recommend Data Management in Large-Scale Education Research by Crystal Lewis [@lewis2024data].
+Adapting to changes in data availability is crucial. You can implement data governance measures in your organization, save backups in an organized manner in accordance with privacy and security policies, and create a centralized repository for data-related resources. To learn more, we recommend Data Management in Large-Scale Education Research by Crystal Lewis [@lewis2024data].
 
-To ensure consistent access to the PDFs for this chapter, we saved copies in our  [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). You can verify their original locations on the district website with the Wayback Machine:
+To ensure consistent access to the PDFs for this chapter, we saved copies in our  [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). You can verify their original locations on the district website with the Wayback Machine:
 
 * [Race demographic data](https://web.archive.org/web/20201112024712/https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf) (https[]()://web.archive.org/web/20201112024712/https[]()://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf)
 * [FRPL data](https://web.archive.org/web/20220307174824/https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf) (https[]()://web.archive.org/web/20220307174824/https[]()//studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf)
 
 ### Methods
 
-In this chapter, you'll practice analyzing data from a single district to help education data practitioners describe the district's needs and opportunities. You'll use descriptive analysis on an aggregate dataset to find out whether there is a phenomenon present, what it is, and what leaders can address through supports, reforms, or interventions [@descriptive]. This is different from causal analyses, which aims to assess the root cause of a phenomenon or the effects of an intervention. 
+In this chapter, you'll practice analyzing data from a single district to help education data practitioners describe the district's needs and opportunities. You'll use descriptive analysis on an aggregate dataset to find out whether there is a phenomenon present, what it is, and what leaders can address through resources, reforms, or interventions [@descriptive]. Descriptive analysis is different from causal analysis, which aims to assess the root cause of a phenomenon or the effects of an intervention. 
 
-To begin, you'll learn how to import PDFs into R, clean and wrangle data, and visualize it to gain insights about the district.
+First, you'll learn how to import PDFs into R, clean and wrangle data, and visualize it to gain insights about the district.
 
 ## Load packages
 
-As in past chapters, begin your script by calling the packages you'll need. If you have not installed these packages yet, see the ["Packages" section](#c06p) of the ["Foundational Skills"](#c06) chapter.
+As in past chapters, begin your script by calling the necessary packages. If you have not installed these packages yet, see the ["Packages" section](#c06p) of the ["Foundational Skills"](#c06) chapter.
 
 ```{r, message = F, warning = F}
 library(tidyverse)
@@ -164,8 +162,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf)
-(https[]()://github.com/ropensci/tabulapdf) package [@sepulveda]. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
+ROpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf)(https[]()://github.com/ropensci/tabulapdf) package [@sepulveda]. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
 
 ```{r, eval = FALSE}
 install.packages(
@@ -185,11 +182,11 @@ library(tabulapdf)
 
 ## Import data
 
-You have three options for extracting the data from the PDFs. Pick one option and run the code, then follow the data workflow to clean clean and process the data. 
+You have three options for extracting the data from the PDFs. Pick one option and run the code, then follow the data workflow to clean and process the data. 
 
 Option 1: Use {tabulapdf}, which pulls the PDF tables into lists using `extract_tables()`. The PDFs are available in the book's [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). 
 
-Option 2: Get the imported but unprocessed data from the book's [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). They are available in the files `race_pdf.Rds` and `frpl_pdf.Rds`. To set up the folders in your working directory as they are in this book, first create a folder called `"data"`. Then, inside that folder, create a second folder called `"agg_data"` and place the `race_pdf.Rds` and `frpl_pdf.Rds` files in the `"agg_data"` folder. Then, load the data using `here()`. Alternative, if you are using a different working directory, change the file path inside of `here()` to match where you store your data in your working directory. 
+Option 2: Get the imported but unprocessed data from the book's [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). They are available in the files `race_pdf.Rds` and `frpl_pdf.Rds`. To set up the folders in your working directory as they are in this book, first, create a folder called `"data"`. Then, inside that folder, create a second folder called `"agg_data"` and place the `race_pdf.Rds` and `frpl_pdf.Rds` files in the `"agg_data"` folder. Then, load the data using `here()`. Alternatively, if you are using a different working directory, change the file path inside of `here()` to match where you store your data in your working directory. 
 
 Option 3: Get the imported but unprocessed data from the {dataedu} package.
 
@@ -212,7 +209,7 @@ race_pdf <-
     dataedu::race_pdf
 ```
 
-Next, convert what you've imported into a data frame. The object `race_pdf` is a list. Before analyzing the data, you need to transform the list to a data frame. Start by turning `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package. Then, use the `list_rbind()` function to turn these tibbles into a single data frame. Next, use the `slice()` function to remove unnecessary rows. Finally, create readable column names using `set_names()`.
+Next, convert what you've imported into a data frame. The object `race_pdf` is a list. Before analyzing the data, you need to transform the list into a data frame. Start by turning `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package. Then, use the `list_rbind()` function to turn these tibbles into a single data frame. Next, use the `slice()` function to remove unnecessary rows. Finally, create readable column names using `set_names()`.
 
 ```{r, eval = FALSE}
 race_df <-
@@ -257,7 +254,7 @@ race_df <-
     )
 ```
 
-For the Race/Ethnicity table, you want the totals for each district school because you won't be looking at grade-level variation. When looking at the resulting data frame, you can see the school totals have "Total" in `school_name`.
+For the Race/Ethnicity table, you want the totals for each district school because you won't be looking at grade-level variation. When looking at the resulting data frame, the school totals have "Total" in `school_name`.
 
 Next, clean the data further using these steps:
 
@@ -290,9 +287,9 @@ race_df2 <-
 
 With the Race/Ethnicity data imported, you'll now import the Free and Reduced Price Lunch (FRPL) PDFs.
 
-FRPL data are often used as a proxy for poverty [@frpl]. Students from a household with an income up to 185% of the poverty threshold are eligible for free or reduced price lunch. 
+FRPL data are often used as a proxy for poverty in the U.S. [@frpl]. Students from households with incomes up to 185% of the poverty threshold are eligible for free or reduced-price lunch. 
 
-Definitions are very important for disaggregated data. FRPL is used because it's ubiquitous but there is debate as to whether it actually reflects the level of poverty among students.
+Definitions are very important for disaggregated data. FRPL is used because it's ubiquitous, but there is debate as to whether it actually reflects the level of poverty among students.
 
 ```{r, eval = FALSE}
 # Get data using {tabulizer}
@@ -310,7 +307,7 @@ frpl_pdf <-
     dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, you'll take the PDF list output, turn it into tibbles, then create a single data frame. Then you'll remove unnecessary rows from each page using `slice()`. Finally, you'll create column names that are easily understood.
+Similar to the Race/Ethnicity PDF, you'll take the PDF list output, turn it into tibbles, then create a single data frame. Then, you'll remove unnecessary rows from each page using `slice()`. Finally, you'll create column names that are easily understood.
 
 ```{r, eval=FALSE}
 frpl_df <-
@@ -338,7 +335,7 @@ frpl_df <-
     )
 ```
 
-To clean the dataset further, remove the blank rows. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 level. Although this is useful data, you won't need it for this district-level analysis. Filter them out by inserting `!` before the variable name.
+To clean the dataset further, remove the blank rows. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 levels. Although this is useful data, you won't need it for this district-level analysis. Filter them out by inserting `!` before the variable name.
 
 ```{r, eval = FALSE}
 frpl_df2 <-
@@ -361,7 +358,7 @@ frpl_df2 <-
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
-With both the Race/Ethnicity and FRPL data ready, you'll join the two to prepare them for analysis. Join the two datasets by the name of the school. To make the student counts and percentages numeric, apply `as.numeric` to multiple columns using `mutate_at()`.
+With both the Race/Ethnicity and FRPL data ready, you'll join the two to prepare them for analysis. Join the two datasets by the name of the school. To make the student counts and percentages numeric, apply `as.numeric()` to multiple columns using `mutate_at()`.
 
 ```{r, eval = FALSE}
 # create full dataset, joined by school name
@@ -372,7 +369,7 @@ joined_df <-
 
 Did you notice? The total number of students from the Race/Ethnicity table does not match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. 
 
-Perhaps the two datasets were created using different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year and students moved around in the meantime. Even if you don't know the cause, you'll need to make strategic decisions about which data to consider the "truth" in this analysis.
+Perhaps the two datasets were created using different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students moved around in the meantime. Even if you don't know the cause, you'll need to make strategic decisions about which data to consider the "truth" in this analysis.
 
 Continue preparing the data by creating new columns based on the merged dataset using `mutate()`.
 
@@ -474,20 +471,20 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-Look at these data and note the shares of each race group. Almost 40% of students are Black, and around 36% are White. This matches the percentages provided in the original PDFs, which validates the calculations you did when you cleaned the data. Good job!
+Look at these data and note the shares of each race group. Almost 40% of students are Black, and around 36% are White. These numbers matches the percentages provided in the original PDFs, which validate the calculations you did when you cleaned the data. Good job!
 
-Now look at these data and note the students who are eligible for FRPL. Recall that `frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
+Now, look at these data and note the students who are eligible for FRPL. Recall that `frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
 
 ```{r}
 district_tidy_df %>%
     filter(category == "frpl_pct", school_name == "Total")
 ```
 
-56.9% of the students are eligible for FRPL, compared to the US average of 52.1% [@avgfrpl]. This also validates what you saw in the original PDFs. 
+56.9% of the students are eligible for FRPL, compared to the US average of 52.1% [@avgfrpl]. These numbers also validates what you saw in the original PDFs. 
 
 ### Analyzing spread
 
-Now that you've done some initial validations, try exploring the dataset through distributions. This empowers you to see beyond district totals and into the underlying school data. 
+Now that you've done some initial validations, try exploring the dataset through distributions. This further analysis empowers you to see beyond district totals and into the underlying school data. 
 
 Start by exploring student demographics across schools. Here is a histogram for the percentage of White students within the schools for which we have data.
 
@@ -507,15 +504,15 @@ district_merged_df %>%
     theme_dataedu()
 ```
 
-26 of the 74 (35%) of schools have between 0 and 10% White students. This implies that even though the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students, even though White students make up 35% of the district student population.
+26 of the 74 (35%) of schools have between 0 and 10% White students. This number implies that although the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students, even though White students make up 35% of the district student population.
 
-The school race demographics are not representative of the district populations, but does that hold for socioeconomic status as well?
+The school race demographics do not represent the district populations, but does that also hold for socioeconomic status?
 
 ## Analysis
 
 ### Creating categories
 
-Try the approach you used to look at the distribution of student race groups in all schools to look at the distribution of of student race groups in high-poverty schools. 
+Try the approach you used to look at the distribution of student race groups in all schools to look at the distribution of student race groups in high-poverty schools. 
 
 High-poverty schools are defined as public schools where more than 75% of the students are eligible for FRPL. According to NCES, 24% of public school students attended high-poverty schools [@ncesfrpl]. However, different subgroups are overrepresented and underrepresented within high-poverty schools. Is this the case for this district?
 
@@ -542,11 +539,11 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-8% of White students** attend high-poverty schools, compared to 43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students. In this district, non-White students disproportionally attend high-poverty schools.
+8% of White students attend high-poverty schools, compared to 43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students. In this district, non-White students disproportionally attend high-poverty schools.
 
 ### Reveal relationships
 
-So far, you've validated your initial calculations and explored distributions. Next, you'll explore correlations. 
+So far, you've validated your initial calculations and explored distributions. Next, you'll examine correlations. 
 
 Begin by investigating the correlation between race and FRPL percentage by school.
 
@@ -564,19 +561,19 @@ district_merged_df %>%
     theme(legend.position = "none")
 ```
 
-Similar to the result in Creating Categories, there is a strong negative correlation between FRPL percentage and the percentage of White students in a school. That is, high-poverty schools appear to have a lower percentage of White students, and low-poverty schools have a higher percentage of White students.
+Similar to the result in Creating Categories, a strong negative correlation exists between FRPL percentage and the percentage of White students in a school. That is, high-poverty schools appear to have a lower percentage of White students, and low-poverty schools have a higher percentage of White students.
 
 ## Results
 
 Because of the disaggregated data this district provides, you can go deeper than the average demographics across the district and analyze at the school level. These distinct but closely related views demonstrate that:
 
-1. The distribution of race/ethnicity within schools is not representative of the district.
+1. The distribution of race/ethnicity within schools does not represent the district.
 2. Students of color are overrepresented in high-poverty schools.
 3. There is a negative relationship between the percentage of White students in a school and the percentage of students eligible for FRPL.
 
 ## Conclusion
 
-This analysis, like all analyses, does not occur in a vacuum. According to the Urban Institute, the disproportionate percentage of students of color attending high-poverty schools "is a defining feature of almost all Midwestern and northeastern metropolitan school systems" [@urbanpov]. Among other issues, "high poverty schools tend to lack the educational resources - like highly qualified and experienced teachers, low student-teacher ratios, college prerequisite and advanced placement courses, and extracurricular activities - available in low-poverty schools". This has a huge impact on these students and their futures.
+This analysis, like all analyses, does not occur in a vacuum. According to the Urban Institute, the disproportionate percentage of students of color attending high-poverty schools "is a defining feature of almost all Midwestern and northeastern metropolitan school systems" [@urbanpov]. Among other issues, "high poverty schools tend to lack the educational resources - like highly qualified and experienced teachers, low student-teacher ratios, college prerequisite and advanced placement courses, and extracurricular activities - available in low-poverty schools". This disproportionality has a huge impact on these students and their futures.
 
 In addition, research shows that racial and socioeconomic diversity in schools can provide students with a range of cognitive and social benefits. Therefore, the deep segregation that exists in the district can have adverse effects on students.
 
