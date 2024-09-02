@@ -40,7 +40,7 @@ This chapter uses a freely available school district dataset to examine the dist
 
 ## Chapter overview
 
-Data scientists in education don't always have access to student-level data, so knowing how to model aggregate datasets is very valuable. This chapter explores aggregate data and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one time point.
+Data scientists in education don't always have access to student-level data, so knowing how to analyze aggregate datasets is very valuable. This chapter explores aggregate data and how to access, clean, and explore it. It is a "companion" to [Chapter 10](#c10), which also explores aggregate data but does so with an emphasis on "longitudinal analyses"---analyses that involve data at more than one time point.
 
 ### Background
 
@@ -56,7 +56,7 @@ Aggregate data is essential both for accountability and for providing useful inf
 
 Federal and international education datasets provide additional information. In the US, some federal datasets aim to consolidate important metrics from all states. These consolidated reports can be useful because each state has its own repository of data. Going through each state's website to download a particular metric is a significant effort. However, the federal datasets often have more stringent data requirements than the states, so the datasets may be less usable.
 
-Data scientists in education can analyze these reports and datasets to answer questions related to their field of interest. However, doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Sometimes, agencies release multiple years behind the current year. Because of their coarseness, they can be difficult to interpret and use.
+Data scientists in education can analyze these reports and datasets to answer questions related to their field of interest, but doing so is not always straightforward. Publicly available aggregate datasets are large and often suppressed to protect privacy. Because of their coarseness, they can be difficult to interpret and use. Sometimes, agencies delay the dataset release by multiple years.
 
 Generally, aggregate data is used to surface broader trends and patterns in education instead of diagnosing underlying issues or making causal statements. Data scientists must consider the limitations of aggregate data before analyzing it.
 
@@ -138,11 +138,11 @@ When we published the first edition of this book in 2020, the school district pr
 
 The district has since changed its reporting process to a school-level dashboard. The PDFs we used in the first edition are no longer available on the district's website. This change in availability and access is a common occurrence in education. We cannot assume that data will remain available in the same format or location, or remain available at all.
 
-Adapting to changes in data availability is crucial. You can implement data governance measures in your organization, save backups in an organized manner in accordance with privacy and security policies, and create a centralized repository for data-related resources. To learn more, we recommend Data Management in Large-Scale Education Research by Crystal Lewis [@lewis2024data].
+Adapting to changes in data availability is crucial as a data scientist in education. You can implement data governance measures in your organization, save backups in an organized manner in accordance with privacy and security policies, and create a centralized repository for data-related resources. To learn more, we recommend Data Management in Large-Scale Education Research by Crystal Lewis [@lewis2024data].
 
 To ensure consistent access to the PDFs for this chapter, we saved copies in our  [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). You can verify their original locations on the district website with the Wayback Machine:
 
-* [Race demographic data](https://web.archive.org/web/20201112024712/https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf) (https[]()://web.archive.org/web/20201112024712/https[]()://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf)
+* [Race/ethnicity data](https://web.archive.org/web/20201112024712/https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf) (https[]()://web.archive.org/web/20201112024712/https[]()://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf)
 * [FRPL data](https://web.archive.org/web/20220307174824/https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf) (https[]()://web.archive.org/web/20220307174824/https[]()//studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf)
 
 ### Methods
@@ -162,7 +162,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf)(https[]()://github.com/ropensci/tabulapdf) package [@sepulveda]. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
+ROpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf) [@sepulveda] package. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
 
 ```{r, eval = FALSE}
 install.packages(
@@ -184,16 +184,16 @@ library(tabulapdf)
 
 You have three options for extracting the data from the PDFs. Pick one option and run the code, then follow the data workflow to clean and process the data. 
 
-Option 1: Use {tabulapdf}, which pulls the PDF tables into lists using `extract_tables()`. The PDFs are available in the book's [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). 
+Option 1: Use {tabulapdf}, which pulls the PDF tables into lists using `extract_tables()`. The PDFs are available in the book's [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). 
 
-Option 2: Get the imported but unprocessed data from the book's [Github repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). They are available in the files `race_pdf.Rds` and `frpl_pdf.Rds`. To set up the folders in your working directory as they are in this book, first, create a folder called `"data"`. Then, inside that folder, create a second folder called `"agg_data"` and place the `race_pdf.Rds` and `frpl_pdf.Rds` files in the `"agg_data"` folder. Then, load the data using `here()`. Alternatively, if you are using a different working directory, change the file path inside of `here()` to match where you store your data in your working directory. 
+Option 2: Get the imported but unprocessed data from the book's [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). They are available in the files `race_pdf.Rds` and `frpl_pdf.Rds`. To set up the folders in your working directory as they are in this book, first, create a folder called `"data"`. Then, inside that folder, create a second folder called `"agg_data"` and place the `race_pdf.Rds` and `frpl_pdf.Rds` files in the `"agg_data"` folder. Then, load the data using `here()`. Alternatively, if you are using a different working directory, change the file path inside of `here()` to match where you store your data in your working directory. 
 
 Option 3: Get the imported but unprocessed data from the {dataedu} package.
 
 Begin importing the data with the Race/Ethnicity tables. Import the PDF information using one of the three options:
 
 ```{r, eval = FALSE}
-# Option 1: Get data using {tabulizer}
+# Option 1: Get data using {tabulapdf}
 race_pdf <-
     extract_tables(
         "https://github.com/data-edu/data-science-in-education/blob/main/data/agg_data/mps_fall2018_racial_ethnic_by_school_by_grade.pdf?raw=true"
@@ -209,7 +209,12 @@ race_pdf <-
     dataedu::race_pdf
 ```
 
-Next, convert what you've imported into a data frame. The object `race_pdf` is a list. Before analyzing the data, you need to transform the list into a data frame. Start by turning `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package. Then, use the `list_rbind()` function to turn these tibbles into a single data frame. Next, use the `slice()` function to remove unnecessary rows. Finally, create readable column names using `set_names()`.
+Next, convert what you've imported into a data frame. The object `race_pdf` is a list. Before analyzing the data, you need to transform the list into a data frame by following these steps:
+
+1. Turn `race_pdf` into a tibble by using `map(as_tibble())` from the {purrr} package.
+2. Use the `list_rbind()` function to turn these tibbles into a single data frame.
+3. Use the `slice()` function to remove unnecessary rows.
+4. Create readable column names using `set_names()`.
 
 ```{r, eval = FALSE}
 race_df <-
@@ -249,7 +254,8 @@ race_df <-
             "pi_pct",
             # Pacific Islander percentage
             "blank_col",
-            "tot" # Total number of students (from the Race PDF)
+            # Total number of students (from the Race PDF)
+            "tot" 
         )
     )
 ```
@@ -259,29 +265,29 @@ For the Race/Ethnicity table, you want the totals for each district school becau
 Next, clean the data further using these steps:
 
 1.  Remove unnecessary or blank columns using `select()`. Negative selections means those columns will be removed.
-2.  Remove all "Grand Total" rows using `filter()`. Keep schools that have "Total" in the name but remove any rows that are "Grand Total".
+2.  Keep schools that have "Total" in the name but remove any rows that are "Grand Total" using `filter()`
 3.  Trim white space from character columns using `trimws()`.
-4.  Turn the data in the `percentage` columns into a numeric data type. These columns contain percentage signs, meaning they were read in as characters.
+4.  The `percentage` columns contain percentage signs, meaning they were read in as characters. Turn the data in these columns into a numeric data type using `mutate()`.
 
 Let's discuss that final step further: `mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))`. Using this code, you are telling `mutate` to:
 
-* Use `match()` with `across()` to select columns with names that match the regular expression "pct"
-* For the rows in these columns, replace the character "%" with blanks "" by using `str_replace(., "%", "")`
-* Make these rows numeric by using `as.numeric()`
-* Divide the values by 100 using `/100`
+* Use `match()` with `across()` to select columns with names that match the regular expression "pct".
+* For the rows in these columns, replace the character `"%"` with blanks `""` by using `str_replace(., "%", "")`.
+* Make these rows numeric by using `as.numeric()`.
+* Divide the values by 100 using `/100`.
 
 ```{r, eval = FALSE}
 race_df2 <-
     race_df %>%
     # Remove unnecessary columns
     select(-school_group, -grade, -pi_pct, -blank_col) %>%
-    # Filter to get grade-level numbers
+    # Remove the "Grand Total" to get grade-level numbers
     filter(str_detect(school_name, "Total"), school_name != "Grand Total") %>%
     # Clean up school names
     mutate(school_name = str_replace(school_name, "Total", "")) %>%
-    # Remove white space
+    # Trim white space
     mutate(across(where(is.character), trimws)) %>%
-    # Turn percentage columns into numeric and decimal format
+    # Turn percentage columns into numeric format
     mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))
 ```
 
@@ -292,22 +298,28 @@ FRPL data are often used as a proxy for poverty in the U.S. [@frpl]. Students fr
 Definitions are very important for disaggregated data. FRPL is used because it's ubiquitous, but there is debate as to whether it actually reflects the level of poverty among students.
 
 ```{r, eval = FALSE}
-# Get data using {tabulizer}
+# Option 1: Get data using {tabulapdf}
 frpl_pdf <-
     extract_tables(
         "https://github.com/data-edu/data-science-in-education/blob/main/data/agg_data/fall_2018_meal_eligiblity_official.pdf?raw=true"
     )
 
-# Get data from book repository
+# Option 2: Get data from the book repository
+# The code below assumes you have set up folders data and agg_data within your working directory
 frpl_pdf <-
     readRDS(here("data", "agg_data", "frpl_pdf.Rds"))
 
-# Get data using {dataedu}
+# Option 3: Get data using {dataedu}
 frpl_pdf <-
     dataedu::frpl_pdf
 ```
 
-Similar to the Race/Ethnicity PDF, you'll take the PDF list output, turn it into tibbles, then create a single data frame. Then, you'll remove unnecessary rows from each page using `slice()`. Finally, you'll create column names that are easily understood.
+Similar to the Race/Ethnicity PDF, you transform the list into a tibble using the following steps:
+
+1. Take the PDF list output and turn it into tibbles using `map(as_tibble())`.
+2. Create a single data frame with `list_rbind()`.
+3. Remove unnecessary rows from each page using `slice()`.
+4. Finally, create column names that are easily understood using `set_names()`.
 
 ```{r, eval=FALSE}
 frpl_df <-
@@ -335,7 +347,11 @@ frpl_df <-
     )
 ```
 
-To clean the dataset further, remove the blank rows. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 levels. Although this is useful data, you won't need it for this district-level analysis. Filter them out by inserting `!` before the variable name.
+To clean the dataset further:
+
+1. Remove the blank rows.
+2. Notice that there are aggregations inserted into the table that are not at the district level. For example, the report includes `ELM K_08` as a value of the variable `school_name`, presumably to aggregate FRPL numbers up to the K--8 levels. Although this is useful data, you won't need it for this district-level analysis. Filter them out by inserting `!` before the variable name.
+3. Turn the data in the `percentage` columns into a numeric data type using `mutate()`.
 
 ```{r, eval = FALSE}
 frpl_df2 <-
@@ -358,18 +374,19 @@ frpl_df2 <-
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
-With both the Race/Ethnicity and FRPL data ready, you'll join the two to prepare them for analysis. Join the two datasets by the name of the school. To make the student counts and percentages numeric, apply `as.numeric()` to multiple columns using `mutate_at()`.
+With both the Race/Ethnicity and FRPL data ready, you'll join the two tibbles to prepare them for analysis. 
+
+1. Join the two tibbles by the variable `school_name`.
+2. Use `mutate()` and `across()` to turn the 2nd to the 17th columns into a numeric data type.
 
 ```{r, eval = FALSE}
-# create full dataset, joined by school name
+# Create full dataset, joined by school name
 joined_df <-
     left_join(race_df2, frpl_df2, by = c("school_name")) %>%
     mutate(across(2:17, as.numeric))
 ```
 
-Did you notice? The total number of students from the Race/Ethnicity table does not match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. 
-
-Perhaps the two datasets were created using different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students moved around in the meantime. Even if you don't know the cause, you'll need to make strategic decisions about which data to consider the "truth" in this analysis.
+Did you notice? The total number of students from the Race/Ethnicity table does not match the total number of students from the FRPL table, even though they're referring to the same districts in the same year. Perhaps the two datasets were created using different rules when aggregating the dataset. Perhaps the counts were taken at different times of the year, and students moved around in the meantime. Even if you don't know the cause, you'll need to make strategic decisions about which data to consider the "truth" in this analysis.
 
 Continue preparing the data by creating new columns based on the merged dataset using `mutate()`.
 
@@ -463,7 +480,7 @@ district_tidy_df %>%
             "as_pct" = "Asian",
             "na_pct" = "Native Am."
         )
-    )+
+    ) +
     # Makes labels present as percentages
     scale_y_continuous(labels = scales::percent) +
     scale_fill_dataedu() +
@@ -480,7 +497,7 @@ district_tidy_df %>%
     filter(category == "frpl_pct", school_name == "Total")
 ```
 
-56.9% of the students are eligible for FRPL, compared to the US average of 52.1% [@avgfrpl]. These numbers also validates what you saw in the original PDFs. 
+56.9% of the students are eligible for FRPL, compared to the US average of 52.1% in 2015-16 [@avgfrpl]. These numbers also validates what you saw in the original PDFs. 
 
 ### Analyzing spread
 
