@@ -91,6 +91,7 @@ tibble(
 ) %>%
     # Aggregate by school
     group_by(school) %>%
+    # Calculate average score by school
     summarize(mean_score = mean(test_score))
 ```
 
@@ -380,9 +381,10 @@ Once the Race/Ethnicity and FRPL data are ready, you’ll join the two tibbles t
 2. Use `mutate()` and `across()` to convert the 2nd to 17th columns into numeric data types.
 
 ```{r, eval = FALSE}
-# Create full dataset, joined by school name
 joined_df <-
+    # Create full dataset, joined by school name
     left_join(race_df2, frpl_df2, by = c("school_name")) %>%
+    # Convert these columns to numeric
     mutate(across(2:17, as.numeric))
 ```
 
@@ -391,7 +393,7 @@ Did you notice? The total number of students from the Race/Ethnicity table does 
 Continue preparing the data by creating new columns based on the merged dataset using `mutate()`.
 
 1.  NCES defines high poverty as schools that are over 75% FRPL [@ncesfrpl]. Calculate the number of students in "high-poverty" schools in a race group. Do this by counting the number of students for a particular race under the variable `[racename]_povnum` when a school is over 75% FRPL. 
-2.  Calculate the weighted average of students in each category. Do this by using `adorn_totals()` in the {janitor} package, which sums columns for you. 
+2.  Calculate the weighted average of students in each category. Start by using `adorn_totals()` in the {janitor} package, which sums columns for you. 
 3.  Create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.
 4.  Compute the FRPL percentage for all schools by recalculating `frpl_pct`. Doing this gives you a weighted average.
 5.  Calculate the percentage of students by race who are in high-poverty schools by dividing the number of students in high-poverty schools by the total number of students in that race.
@@ -407,6 +409,7 @@ district_merged_df <-
         as_povnum = case_when(frpl_pct > .75 ~ as_num),
         na_povnum = case_when(frpl_pct > .75 ~ na_num)
     ) %>%
+    # Calculate totals of students
     adorn_totals() %>%
     # Create percentage by demographic
     mutate(
