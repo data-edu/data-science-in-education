@@ -345,14 +345,9 @@ all_files <- dataedu::all_files
 
 ## Process data
 
-Transforming your dataset before visualizing it and fitting models is critical.
-It's easier to write code when variable names are concise and informative. Many
-functions in R, especially those in the {ggplot2} package, work best when
-datasets are in a "tidy" format. It's easier to do an analysis when you have
-just the variables you need. Any unused variables can confuse your thought
-process.
+Transforming your dataset before visualizing it and fitting models is critical. It's easier to write code when variable names are concise and informative. Many functions in R, especially those in the {ggplot2} package, work best when datasets are in a "tidy" format. It's easier to do an analysis when you have just the variables you need because unused variables can confuse your thought process.
 
-Let's preview the steps you'll be taking:
+Here are the steps you'll be taking to process the data:
 
 1.  Fix the variable names in the 2016 data
 2.  Combine the datasets
@@ -364,52 +359,33 @@ Let's preview the steps you'll be taking:
 8.  Change the data types of variables
 9.  Explore `NA`'s
 
-In real life, data scientists don't always know the cleaning steps until they
-dive into the work. Learning what cleaning steps are needed requires
-exploration, trial and error, and clarity on the analytic questions you want to
-answer.
+In real life, data scientists don't always know the cleaning steps until they dive into the work. Learning what cleaning steps are needed requires exploration, trial and error, and clarity on the analytic questions you want to answer.
 
-After a lot of exploring, we settled on these steps for this analysis. When you
-do your own, you will find different things to transform. As you do more and
-more data analysis, your instincts for what to transform will improve.
+These are just some initial steps for processing data. When you do your own projects, you will find different things to transform. As you do more and more data analysis, your instincts for what to transform will improve.
 
 ### Fix the variable names in the 2016 data
 
-When we print the 2016 dataset, we notice that the variable names are incorrect.
-Let's verify that by looking at the first ten variable names of the 2016
-dataset, which is the fifth element of `all_files`: 
+When you print the 2016 dataset, notice that the variable names are incorrect. Verify that by looking at the first ten variable names of the 2016 dataset, which is the fifth element of `all_files`: 
 
 ```{r 2016 dataset}
 # Look at the first 10 column names of 2016
 names(all_files[[5]])[1:10]
 ```
 
-We want the variable names to be `Year` and `State Name`, not `2016` and
-`Alabama`. But first, let's go back and review how to get at the 2016 dataset
-from `all_files`. We need to identify which element the 2016 dataset was in the
-list. The order of the list elements was set all the way back when we fed
-`map()` our list of filenames. If we look at `filenames` again, we see that its
-fifth element is the 2016 dataset. Try looking at the first and fifth elements
-of `filenames`:
+You want the variable names to be `Year` and `State Name`, not `2016` and `Alabama`. But first, go back and review how to get at the 2016 dataset from `all_files`. You need to identify which element the 2016 dataset was in the list. The order of the list elements was set when you fed `map()` the list of file names. If you look at `filenames` again, notice that its fifth element is the 2016 dataset. Try looking at the first and fifth elements of `filenames`:
 
 ```{r show filenamess, eval=FALSE}
 filenames[[1]]
 filenames[[5]]
 ```
 
-Once we know the 2016 dataset is the fifth element of our list, we can pluck it
-out by using double brackets: 
+Now that you know the 2016 dataset is the fifth element in the list, pluck it out by using double brackets: 
 
 ```{r pluck 2016 data}
 all_files[[5]]
 ```
 
-We used `skip = 4` when we read in the datasets in the list. That worked for all
-datasets except the fifth one. In that one, skipping four lines left out the
-variable name row. To fix it, you'll read the 2016 dataset again using
-`read_csv()` and the fifth element of `filenames` but this time will use the
-argument `skip = 3`. you'll assign the newly read dataset to the fifth element of
-the `all_files` list:
+You used `skip = 4` when you read in the datasets in the list. That worked for all datasets except the fifth one. In that one, skipping four lines left out the variable name row. To fix it, read the 2016 dataset again using `read_csv()` and the fifth element of `filenames`. This time, use the argument `skip = 3`. You'll assign the newly read dataset to the fifth element of the `all_files` list:
 
 ```{r fix 2016 colnames, message=FALSE, warning=FALSE}
 all_files[[5]] <-
@@ -417,26 +393,17 @@ all_files[[5]] <-
   read_csv(filenames[[5]], skip = 3)
 ```
 
-Try printing `all_files` now. You can confirm we fixed the problem by checking
-that the variable names are correct.
+Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct.
 
 ### Pick variables
 
-Now that we know all our datasets have the correct variable names, we simplify
-our datasets by picking the variables we need. This is a good place to think
-carefully about which variables to pick. This usually requires a fair amount of
-trial and error, but here is what we found we needed:
+Now that you know the datasets have the correct variable names, simplify them by picking the variables you need. This is a good place to think carefully about which variables to pick. This usually requires trial and error, but here's a good start:
 
-  - Our analytic questions are about gender, so let's pick the gender variable
-  - Later, you'll need to filter our dataset by disability category and program
-    location so you'll want `SEA Education Environment` and `SEA Disability Category`
-  - We want to make comparisons by state and reporting year, so you'll also pick
-    `State Name` and `Year`
+  - The analytic questions are about gender, so pick the gender variable
+  - Later, you'll need to filter the dataset by disability category and program location so you'll want `SEA Education Environment` and `SEA Disability Category`
+  - You'll be making comparisons by state and reporting year, so also pick `State Name` and `Year`
 
-Combining `select()` and `contains()` is a convenient way to pick these
-variables without writing a lot of code. Knowing that we want variables that
-contain the acronym "SEA" and variables that contain "male" in their names, we
-can pass those characters to `contains()`:
+Combining `select()` and `contains()` is a convenient way to pick these variables without writing a lot of code. Knowing that you want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains()`:
 
 ```{r pick vars}
 all_files[[1]] %>%
@@ -448,15 +415,11 @@ all_files[[1]] %>%
   ) 
 ```
 
-That code chunk verifies that we got the variables we want, so now we will turn
-the code chunk into a function called `pick_vars()`. We will then use `map()` to
-apply `pick_vars()` to each dataset of our list, `all_files`, to the function.
+That code chunk verifies that you got the variables you want. Now turn
+the code chunk into a function called `pick_vars()`. Then use `map()` to apply `pick_vars()` to each dataset in the `all_files` list. 
+
 In this function, you'll use a special version of `select()` called
-`select_at()`, which conveniently picks variables based on criteria we give it.
-The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R we want to keep any column
-whose name has "State" in upper or lower case letters, has "SEA" in the title,
-and has "male" in the title. This will result in a newly transformed `all_files`
-list that contains six datasets, all with the desired variables.
+`select_at()`. This conveniently picks variables based on criteria you give it. The argument `vars(Year, contains("State", ignore.case = FALSE), contains("SEA", ignore.case = FALSE), contains("male"))` tells R you want to keep any column whose name has "State" in upper or lower case letters, has "SEA" in the title, and has "male" in the title. This will result in a newly transformed `all_files` list that contains six datasets, all with the desired variables.
 
 ```{r pick vars function}
 # build the function
@@ -473,18 +436,14 @@ pick_vars <-
 
 # use the function with `all_files`
 all_files <-
-  all_files %>%
-  map(pick_vars)
+  all_files %>% 
+    map(pick_vars)
 ```
 
 ### Combine six datasets into one
 
-Now you'll turn our attention to combining the datasets in our list `all_files`
-into one. you'll use `bind_rows()`, which combines datasets by adding each one to
-the bottom of the one before it. The first step is to check and see if our
-datasets have the same number of variables and the same variable names. When we
-use `names()` on our list of newly changed datasets, we see that each dataset's
-variable names are the same:
+Now it's time to combine the datasets in the list `all_files`
+into one. You'll use `bind_rows()`, which combines datasets by adding each one to the bottom of the one before it. The first step is to check and see if the datasets have the same number of variables and the same variable names. When you use `names()` on our list of newly changed datasets, you'll see that each dataset's variable names are the same:
 
 ```{r verify var names}
 # check variable names
@@ -492,8 +451,8 @@ all_files %>%
   map(names)
 ```
 
-That means that we can combine all six datasets into one using `bind_rows()`.
-you'll call this newly combined dataset `child_counts`:
+That means can combine all six datasets into one using `bind_rows()`.
+You'll call this newly combined dataset `child_counts`:
 
 ```{r combine datasets 2}
 child_counts <-
@@ -502,13 +461,12 @@ child_counts <-
   bind_rows()
 ```
 
-Since we know the following, we can conclude that all our rows
-combined together correctly: 
+Now you know the following:
 
-1. each of our six datasets had eight variables
-1. our combined dataset also has eight variables, 
+1. Each of the six datasets had eight variables
+1. The combined dataset also has eight variables 
 
-But, let's use `str()` to verify: 
+So you can conclude that all the rows combined together correctly. Just to be safe, use `str()` to verify: 
 
 ```{r check structure}
 str(child_counts)
@@ -516,8 +474,7 @@ str(child_counts)
 
 ### Importing the data from the {dataedu} package
 
-If you would like to load this processed dataset (`child_counts`), then
-you can run the following code to load it directly from the {dataedu} package:
+If you would like to load this processed dataset (`child_counts`) using the {dataedu} package, run the following code:
 
 ```{r, eval = FALSE}
 longitudinal_data <- dataedu::child_counts
@@ -525,10 +482,7 @@ longitudinal_data <- dataedu::child_counts
 
 ### Filter for the desired disabilities and age groups
 
-We want to explore gender related variables, but our dataset has additional
-aggregate data for other subgroups. For example, we can use `count()` to explore
-all the different disability groups in the dataset. Here's the number of times
-an `SEA Disability Category` appears in the dataset: 
+You want to explore gender related variables, but the dataset has additional aggregate data for other student groups. For example, you can use `count()` to explore all the different disability groups in the dataset. Here's the number of times an `SEA Disability Category` appears in the dataset: 
 
 ```{r count disabilities}
 child_counts %>%
@@ -536,9 +490,7 @@ child_counts %>%
   count(`SEA Disability Category`)
 ```
 
-Since we will be visualizing and modeling gender variables for all students in
-the dataset, you'll filter out all subgroups except "All Disabilities" and the
-age totals:
+Since you'll be visualizing and modeling gender variables for all students in the dataset, you'll filter out all subgroups except "All Disabilities" and the age totals:
 
 ```{r filter child_counts}
 child_counts <-
@@ -553,10 +505,7 @@ child_counts <-
 
 ### Rename the variables
 
-In the next section you'll prepare the dataset for visualization and modeling by
-"tidying" it. When we write code to transform datasets, you'll be typing the
-column names a lot, so it's useful to change them to ones with more convenient
-names. 
+In the next section you'll prepare the dataset for visualization and modeling by "tidying" it. When you write code to transform datasets, you'll be typing the column names a lot. Do yourself a favor and change the names to more convenient names: 
 
 ```{r rename vars}
 child_counts <-
@@ -576,8 +525,7 @@ child_counts <-
 
 ### Clean state names
 
-You might have noticed that some state names in our dataset are in uppercase
-letters, and some are in lowercase letters: 
+Have noticed that some state names are in uppercase letters and some are in lowercase letters? 
 
 ```{r count states}
 child_counts %>%
@@ -585,9 +533,7 @@ child_counts %>%
   head()
 ```
 
-If we leave it like this, R will treat state values like "CALIFORNIA" and
-"California" as two different states. We can use `mutate` and `tolower` to
-transform all the state names to lowercase letters. 
+If you leave it like this, R will treat state values like "CALIFORNIA" and "California" as two different states. We can use `mutate` and `tolower` to transform all the state names to lowercase letters. 
 
 ```{r fix caps}
 child_counts <-
@@ -597,20 +543,14 @@ child_counts <-
 
 ### Tidy the dataset
 
-Visualizing and modeling our data will be much easier if our dataset is in a
-"tidy" format. In *Tidy Data* [@wickham2014], defines
-tidy datasets as possessing the following characteristics:
+Visualizing and modeling the data will be easier if it's in a
+"tidy" format. In *Tidy Data* [@wickham2014], defines tidy datasets as possessing the following characteristics:
 
 > 1.  Each variable forms a column
 > 2.  Each observation forms a row
 > 3.  Each type of observational unit forms a table
 
-The gender variables in our dataset are spread across four columns, with each
-one representing a combination of gender and age range. We can use
-`pivot_longer()` to bring the gender variable into one column. In this
-transformation, we create two new columns: a `gender` column and a `total`
-column. The `total` column will contain the number of students in each row's
-gender and age category.
+The gender variables in this dataset are spread across four columns, with each representing a combination of gender and age range. Use `pivot_longer()` to bring the gender variable into one column. In this transformation, you'll create two new columns: a `gender` column and a `total` column. The `total` column will contain the number of students in each row's gender and age category: 
 
 ```{r pivot_longer gender col}
 child_counts <-
@@ -620,7 +560,7 @@ child_counts <-
                  values_to = "total")
 ```
 
-To make the values of the `gender` column more intuitive, you'll use
+To make the values of the `gender` column more intuitive, use
 `case_when()` to transform the values to either "f" or "m":
 
 ```{r replace gender values}
@@ -639,12 +579,7 @@ child_counts <-
 
 ### Convert data types
 
-The values in the `total` column represent the number of students from a
-specific year, state, gender, and age group. We know from the `chr` under their
-variable names that R is treating these values like characters instead of
-numbers. While R does a decent job of treating numbers like numbers when needed,
-it's much safer to prepare the dataset by changing these character columns to
-numeric columns. you'll use `mutate()` to change the count columns. 
+The values in the `total` column represent the number of students from a specific year, state, gender, and age group. You know from the `chr` under their variable names that R treats these values like characters instead of numbers. While R does a decent job of deciding this, it's much safer to prepare the dataset by changing these character columns to numeric columns. Use `mutate()` to change the count columns: 
 
 ```{r convert to numeric}
 child_counts <-
@@ -654,13 +589,8 @@ child_counts <-
 child_counts
 ```
 
-Converting these count columns from character classes to number classes resulted
-in two changes. First, the `chr` under these variable names has now changed to
-`dbl`, short for "double-precision". This lets us know that R recognizes these
-values as numbers with decimal points. Second, the blank values changed to `NA`.
-When R sees a character class value like `"4"`, it knows to change it to numeric
-class `4`. But there is no obvious number represented by a value like `""` or
-`-`, so it changes it to `NA`: 
+Converting these count columns from character classes to number classes results in two changes. First, the `chr` under these variable names changed to `dbl`, short for "double-precision". This lets you know that R recognizes these values as numbers with decimal points. Second, the blank values changed to `NA`. When R sees a character class value like `"4"`, it knows to change it to numeric
+class `4`. But there is no obvious number represented by a value like `""` or `-`, so it changes it to `NA`: 
 
 ```{r demo as.numeric}
 # Convert a character to a number 
@@ -671,11 +601,7 @@ as.numeric("")
 as.numeric("-")
 ```
 
-Similarly, the variable `year` needs to be changed from the character format to
-the date format. Doing so will make sure R treats this variable like a point in
-time when we plot our dataset. The package {lubridate} has a handy function
-called `ymd` that can help us. We just have to use the `truncated` argument to
-let R know we don't have a month and date to convert. 
+Similarly, the variable `year` needs to be changed from the character format to the date format. This will make sure R treats this variable like a point in time when we plot our dataset. The package {lubridate} has a function called `ymd` that does this. Use the `truncated` argument to let R know we don't have a month and date to convert. 
 
 ```{r convert date}
 child_counts <-
@@ -685,31 +611,16 @@ child_counts <-
 
 ### Explore and address NAs
 
-You'll notice that some rows in the `total` column contain an `NA`. When we used
-`pivot_longer()` to create a `gender` column, R created unique rows for every
-year, state, age, disability, and gender combination. Since the original dataset
-had both gender and age range stored in a column like `Female Age 3 to 5`, R
-made rows where the `total` value is `NA` . For example, there is no student count
-for the `age` value "Total, Age 3--5" that also has the `gender` value for female
-students who were age 6--21. You can see that more clearly by sorting the dataset
-by year, state, and gender.
+You'll notice that some rows in the `total` column contain an `NA`. When you used `pivot_longer()` to create a `gender` column, R created unique rows for every year, state, age, disability, and gender combination. Since the original dataset had both gender and age range stored in a column like `Female Age 3 to 5`, R made rows where the `total` value is `NA`. For example, there is no student count for the `age` value "Total, Age 3--5" that also has the `gender` value for female students who were age 6--21. You can see that more clearly by sorting the dataset by year, state, and gender.
 
-In our Foundational Skills chapter, we introduced a {dplyr} function called
-`arrange()` to sort the rows of a dataset by the values in a column. Let's use
-`arrange()` here to sort the dataset by the `year`, `state` and `gender`
-columns. When you pass `arrange()` a variable, it will sort by the order of the
-values in that variable. If you pass it multiple variables, `arrange()` will
-sort by the first variable, then by the second, and so on. Let's see what it
-does on `child_counts` when we pass it the `year`, `state`, and `gender`
-variables:
+In the Foundational Skills chapter, you learned a {dplyr} function called `arrange()` to sort the rows of a dataset by the values in a column. Use `arrange()` here sort the dataset by the `year`, `state` and `gender` columns. When you pass variable to `arrange()`, it sorts by the order of the values in that variable. When you pass it multiple variables, `arrange()` sorts by the first variable, then by the second, and so on. See see what it does on `child_counts` when you pass it the `year`, `state`, and `gender` variables:
 
 ```{r show NAs}
 child_counts %>%
   arrange(year, state, gender)
 ```
 
-We can simplify our dataset by removing the rows with `NA`, leaving us with one
-row for each category:
+You can simplify the dataset by removing the rows with `NA`, leaving one row for each category:
 
   - females age 3--5
   - females age 6--21
@@ -724,7 +635,7 @@ child_counts <-
   filter(!is.na(total)) 
 ```
 
-We can verify we have the categories we want by sorting again: 
+Verify you have the categories you want by sorting again: 
 
 ```{r verify rows}
 child_counts %>%
