@@ -644,19 +644,13 @@ child_counts %>%
 
 ## Analysis
 
-In the last section we focused on importing our dataset. In this section, we
-will ask, "How have child counts changed over time?" First, you'll use
-visualization to explore the number of students in special education over time.
-In particular, you'll compare the count of male and female students. Next, you'll
-use what we learn from our visualizations to quantify any differences that we
-see.
+In the last section you imported the dataset for analysis. In this section, you'll ask, "How have child counts changed over time?" 
+
+First, you'll use visualization to explore the number of students in special education over time. In particular, you'll compare the count of gender categories. Next, you'll use what you learn from the visualizations to quantify any differences.
 
 ### Visualize the dataset
 
-Showing this many states in a plot can be overwhelming, so to start you'll make a
-subset of the dataset. We can use a function in the {dplyr} package called
-`top_n()` to help us learn which states have the highest mean count of students
-with disabilities: 
+Showing a lot of states in a plot will be overwhelming, so start by making a subset of the dataset. Use a function in the {dplyr} package called `top_n()` to learn which states have the highest mean count of students with disabilities: 
 
 ```{r filter dataset with top_n}
 child_counts %>%
@@ -666,12 +660,8 @@ child_counts %>%
   top_n(6, mean_count)
 ```
 
-These six states have the highest mean count of students in special education
-over the six years we are examining. For reasons we will see in a later
-visualization, we are going to exclude outlying areas and freely associated
-states. That leaves us with five states: California, Florida, New York,
-Pennsylvania, and Texas. We can remove all other states but these by using
-`filter()`. you'll call this new dataset `high_count`:
+These six states have the highest mean count of students in special education over the six years you are analyzing. For reasons you'll see later, exclude outlying areas and freely associated
+states. That leaves you with five states: California, Florida, New York, Pennsylvania, and Texas. You can remove all other states but these by using `filter()`. Call this new dataset `high_count`:
 
 ```{r filter most populated}
 high_count <-
@@ -679,22 +669,15 @@ high_count <-
   filter(state %in% c("california", "florida", "new york", "pennsylvania", "texas"))
 ```
 
-Now we can use `high_count` to do some initial exploration. Our analysis is
-about comparing counts of male and female students in special education, but
-visualization is also a great way to explore related curiosities. You may
-surprise yourself with what you find when visualizing your datasets. You might
-come up with more interesting hypotheses, find that your initial hypothesis
-requires more data transformation, or find interesting subsets of the data---we
-saw a little of that in the surprisingly high `mean_count` of freely associated
-states in the `state` column. Let your curiosity and intuition drive this part
-of the analysis. It's one of the activities that makes data analysis a creative
-process.
+Now you can use `high_count` to do some initial exploration. This analysis compares counts of gender categories in special education, but visualization is also a great way to explore related curiosities. 
 
-In that spirit, you'll start by visualizing specific genders and age groups. Feel
-free to try these, but also try the other student groups for practice and more
-exploration.
+You may surprise yourself with what you find when visualizing datasets. For example, you might discover interesting hypotheses, find better ways to transform the data, or find interesting subsets. Recall that we saw that in the high `mean_count` of freely associated states in the `state` column. 
 
-Start by copying and running this code in your console to see what it does:
+Let your curiosity and intuition drive this part of the analysis. It's one of the activities that makes data analysis a creative process.
+
+In that spirit, you'll start by visualizing specific gender categories and age groups. Feel free to try these, but also try other student groups for further exploration.
+
+Start by running this code in your console to see what it does:
 
 ```{r fig10-1, results = 'hide', message = FALSE, warning = F, fig.cap = "Count of Female Students in Special Education Over Time", fig.showtext = TRUE}
 high_count %>%
@@ -707,24 +690,13 @@ high_count %>%
   theme_dataedu()
 ```
 
-That gives us a plot that has the years on the *x*-axis and a count of female
-students on the *y*-axis. Each line takes a different color based on the state it
-represents.
+The result is a plot that has the years on the x-axis and a count of female students on the y-axis. Each line takes a different color based on the state it represents.
 
-Let's look at that closer: we used `filter()` to subset our dataset for students
-who are female and ages 6 to 21. We used `aes` to connect visual elements of our
-plot to our data. We connected the *x*-axis to `year`, the *y*-axis to `total`, and
-the color of the line to `state`.
+Let's look closer: You used `filter()` to subset the dataset for students who are female and ages 6 to 21. You used `aes` to connect visual elements of our plot to our data. You connected the x-axis to `year`, the y-axis to `total`, and the color of the line to `state`.
 
-It's worth calling out one more thing; since it's a technique you'll be using as
-we explore further. Note here that, instead of storing our new dataset in a new
-variable, we filter the dataset then use the pipe operator `%>%` to feed it to
-{ggplot2}. Since we're exploring freely, we don't need to create a lot of new
-variables we probably won't need later.
+Note here that, instead of storing a new dataset in a new variable, you filtered the dataset then used the pipe operator `%>%` to feed it to {ggplot2}. While exploring, you don't need to create a new variables if you don't think you'll need them later.
 
-We can also try the same plot, but subsetting for male students instead. We can
-use the same code we used for the last plot, but filter for the value "m" in the
-`gender` field: 
+Now try the same plot, but subsetting for male students. Use the same code from the last plot, but filter for the value "m" in the `gender` field: 
 
 ```{r fig10-2, results = 'hide', message = FALSE, fig.cap="Count of Male Students in Special Education Over Time", fig.showtext = TRUE}
 high_count %>%
@@ -737,11 +709,7 @@ high_count %>%
   theme_dataedu()
 ```
 
-We've looked at each gender separately. What do these lines look like if we
-visualized the total amount of students each year per state? To do that, you'll
-need to add both gender values together and both age group values together.
-you'll do this using a very common combination of functions: `group_by()` and
-`summarize()`. 
+You've looked at each gender separately. What do these lines look like if you visualized the total number of students each year per state? To do that, you'll need to add the gender values together and both age group values together. You'll do this using a common combination of functions: `group_by()` and `summarize()`: 
 
 ```{r fig10-3, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time", fig.showtext = TRUE}
 high_count %>%
@@ -755,10 +723,8 @@ high_count %>%
   theme_dataedu()
 ```
 
-So far we've looked at a few ways to count students over time. In each plot, we
-see that while counts have grown overall for all states, each state has
-different sized populations. Let's see if we can summarize that difference by
-looking at the median student count for each state over the years:
+So far you've looked at ways to count students over time. In each plot, you saw that while counts have grown overall, each state has different sized populations. Now you'll summarize that difference by
+looking at the median student count for each state over time:
 
 ```{r fig10-4, results = 'hide', message = FALSE, fig.cap="Median Students with Disabilities Count", fig.showtext = TRUE}
 high_count %>%
@@ -771,35 +737,20 @@ high_count %>%
   theme_dataedu() 
 ```
 
-The boxplots show us what we might have expected from our `freqpoly` plots
-before it. The highest median student count over time is California and the
-lowest is Pennsylvania.
+The boxplots show what you might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania.
 
-What have we learned about our data so far? The five states in the US with the
-highest total student counts (not including outlying areas and freely associated
-states) do not have similar counts to each other. The student counts for each
-state also appear to have grown over time.
+What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated
+states) do not have similar counts. The student counts for each state also appear to have grown over time.
 
-But how can we start comparing the male student count to the female student
-count? One way is to use a "*ratio*", the number of times the first number contains 
-the second. For example, if Variable A is equal to 14, and Variable B is equal to 7,
-the ratio between Variable A and Variable B is 2.00, indicating that the first number
+But how might you compare the male category count to the female category count? One way is to use a ratio. For example, if Variable A is equal to 14, and Variable B is equal to 7, the ratio between Variable A and Variable B is 2.00, indicating that the first number
 contains twice the number of the second.
 
-We can use the count of male students in each state and divide it by the count
-of each female student. The result is the number of times male students are in
-special education more or less than the female students in the same state and
-year. Our coding strategy will be to:
+Use the count of male students in each state and divide it by the count of each female student. The result is the number of times male students are in special education more or less than the female students in the same state and year. The coding strategy will be to:
 
   - Use `pivot_wider()` to create separate columns for male and female students.
-  - Use `mutate()` to create a new variable called `ratio`. The values in this
-    column will be the result of dividing the count of male students by the
-    count of female students.
+  - Use `mutate()` to create a new variable called `ratio`. The values in this column will be the result of dividing the count of male students by the count of female students.
  
-Note here that we can also accomplish this comparison by dividing the number of
-female students by the number of male students. In this case, the result would
-be the number of times female students are in special education more or less
-than male students.
+You can also do this comparison by dividing the number of female students by the number of male students. In this case, the result would be the number of times female students are in special education more or less than male students.
 
 ```{r fig10-5, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time", fig.showtext = TRUE}
 high_count %>%
