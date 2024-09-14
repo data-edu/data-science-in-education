@@ -88,8 +88,7 @@ library(here)
 
 ## Import data
 
-In this analysis you'll be importing and combining six datasets that describe the
-number of students with disabilities in a given year. First, you'll review how to get the `.csv` files you'll need for the task. Alternatively, we make these data files available through the {dataedu} package. You'll find more about the {dataedu} package below. 
+In this analysis you'll be importing and combining six datasets that describe the number of students with disabilities in a given year. First, you'll review how to get the `.csv` files you'll need for the task. Alternatively, we make these data files available through the {dataedu} package. You'll find more about the {dataedu} package below. 
 
 Note that if you use this walkthrough on different datasets or store datasets in different locations on your computer, you'll need to your code accordingly. We suggest only doing this if you have previous experience using R.
 
@@ -155,7 +154,7 @@ download.file(
   mode = "wb")
 ```
 
-We can do this for the remaining five datasets:
+Do this for the remaining five datasets:
 
 ```{r, eval = FALSE}
 download.file(
@@ -201,7 +200,7 @@ Now that the files are downloaded you're ready to read the data into R. If you w
 You'll be learning how to read in more than one dataset using the `map()`
 function. Try it first with one dataset, then try it with multiple datasets. When you are analyzing multiple datasets that have the same structure, you can read in each dataset using one code chunk. This code chunk will store each dataset as an element of a list.
 
-Before doing that, explore one of the datasets to see what you can learn about its structure. Clues from this exploration inform how you read in all the datasets at once later on. For example, we can see that the first dataset has some lines at the top that contain no data:
+Before doing that, explore one of the datasets to see what you can learn about its structure. Clues from this exploration inform how you read in all the datasets at once later on. For example, you can see that the first dataset has some lines at the top that contain no data:
 
 ```{r read 2012 data, echo = FALSE, message = F, warning = F}
 read_csv(here::here(
@@ -257,12 +256,7 @@ To understand what `purrr::map()` does, imagine a widget-making machine that wor
   - **Expected widgets**: a list of datasets
 
 Create the raw materials first. These will be file paths to
-each of the CSVs you want to read. Use `list.files` to make a vector of filename
-paths and name that vector `filenames`. `list.files` returns a vector of file
-names in the folder specified in the `path` argument. When you set the
-`full.names` argument to "TRUE", we get a full path of these filenames. This
-will be useful later when you need the file names and their paths to read the
-data in.
+each of the CSVs you want to read. Use `list.files` to make a vector of filename paths and name that vector `filenames`. `list.files` returns a vector of file names in the folder specified in the `path` argument. When you set the `full.names` argument to "TRUE", you get a full path of these filenames. This will be useful later when you need the file names and their paths to read the data in.
 
 ```{r get filenames, results='hide'}
 # Get filenames from the data folder 
@@ -319,7 +313,7 @@ all_files %>%
   map(ncol)
 ```
 
-This is an extremely common problem in education data. Neither the number of columns nor the column names match. With different column names we won't be able to combine the datasets in a later step. 
+This is an extremely common problem in education data. Neither the number of columns nor the column names match. With different column names you won't be able to combine the datasets in a later step. 
 
 You'll see that if you try `bind_rows()`, which returns a dataset with 100 columns, instead of the expected 50.
 
@@ -393,7 +387,7 @@ all_files[[5]] <-
   read_csv(filenames[[5]], skip = 3)
 ```
 
-Try printing `all_files` now. You can confirm we fixed the problem by checking that the variable names are correct.
+Try printing `all_files` now. You can confirm you fixed the problem by checking that the variable names are correct.
 
 ### Pick variables
 
@@ -403,7 +397,7 @@ Now that you know the datasets have the correct variable names, simplify them by
   - Later, you'll need to filter the dataset by disability category and program location so you'll want `SEA Education Environment` and `SEA Disability Category`
   - You'll be making comparisons by state and reporting year, so also pick `State Name` and `Year`
 
-Combining `select()` and `contains()` is a convenient way to pick these variables without writing a lot of code. Knowing that you want variables that contain the acronym "SEA" and variables that contain "male" in their names, we can pass those characters to `contains()`:
+Combining `select()` and `contains()` is a convenient way to pick these variables without writing a lot of code. Knowing that you want variables that contain the acronym "SEA" and variables that contain "male" in their names, you can pass those characters to `contains()`:
 
 ```{r pick vars}
 all_files[[1]] %>%
@@ -533,7 +527,7 @@ child_counts %>%
   head()
 ```
 
-If you leave it like this, R will treat state values like "CALIFORNIA" and "California" as two different states. We can use `mutate` and `tolower` to transform all the state names to lowercase letters. 
+If you leave it like this, R will treat state values like "CALIFORNIA" and "California" as two different states. you can use `mutate` and `tolower` to transform all the state names to lowercase letters. 
 
 ```{r fix caps}
 child_counts <-
@@ -601,7 +595,7 @@ as.numeric("")
 as.numeric("-")
 ```
 
-Similarly, the variable `year` needs to be changed from the character format to the date format. This will make sure R treats this variable like a point in time when we plot our dataset. The package {lubridate} has a function called `ymd` that does this. Use the `truncated` argument to let R know we don't have a month and date to convert. 
+Similarly, the variable `year` needs to be changed from the character format to the date format. This will make sure R treats this variable like a point in time when you plot the dataset. The package {lubridate} has a function called `ymd` that does this. Use the `truncated` argument to let R know you don't have a month and date to convert. 
 
 ```{r convert date}
 child_counts <-
@@ -671,7 +665,7 @@ high_count <-
 
 Now you can use `high_count` to do some initial exploration. This analysis compares counts of gender categories in special education, but visualization is also a great way to explore related curiosities. 
 
-You may surprise yourself with what you find when visualizing datasets. For example, you might discover interesting hypotheses, find better ways to transform the data, or find interesting subsets. Recall that we saw that in the high `mean_count` of freely associated states in the `state` column. 
+You may surprise yourself with what you find when visualizing datasets. For example, you might discover interesting hypotheses, find better ways to transform the data, or find interesting subsets. Recall that in the high `mean_count` of freely associated states in the `state` column. 
 
 Let your curiosity and intuition drive this part of the analysis. It's one of the activities that makes data analysis a creative process.
 
@@ -739,8 +733,7 @@ high_count %>%
 
 The boxplots show what you might have expected from our `freqpoly` plots before it. The highest median student count over time is California and the lowest is Pennsylvania.
 
-What have we learned about our data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated
-states) do not have similar counts. The student counts for each state also appear to have grown over time.
+What have you learned about the data so far? The five states in the US with the highest total student counts (not including outlying areas and freely associated states) do not have similar counts. The student counts for each state also appear to have grown over time.
 
 But how might you compare the male category count to the female category count? One way is to use a ratio. For example, if Variable A is equal to 14, and Variable B is equal to 7, the ratio between Variable A and Variable B is 2.00, indicating that the first number
 contains twice the number of the second.
@@ -793,9 +786,9 @@ female ratio.
 
 Note that there are more statistical modeling techniques available for accomplishing this. Such approaches, like those involving structural equation models [@grimm2016growth]  and multi-level models [@west2014linear], are helpful for analyzing patterns of change over time and their predictors. Both of the references cited above include R code for carrying out such analyses.
 
-#### Do we have enough information for our model?
+#### Do you have enough information for the model?
 
-At the start of this section, we excluded outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when we try to interpret our model later. Here's a plot of the female gender category compared to the male gender category. Note that the relationship appears linear, but there is a gap in the distribution of female student counts between the values of 250,000 and 1,750,000:
+At the start of this section, you excluded outlying areas and freely associated states. This visualization suggests that there are some states that have a child count so high it leaves a gap in the x-axis values. This can be problematic when you try to interpret our model later. Here's a plot of the female gender category compared to the male gender category. Note that the relationship appears linear, but there is a gap in the distribution of female student counts between the values of 250,000 and 1,750,000:
 
 ```{r fig10-6, results='hide', message = FALSE, fig.cap="Comparison of Female Students to Male Students in Special Education", fig.showtext = TRUE}
 child_counts %>%
@@ -855,7 +848,7 @@ female student counts, albeit only the ones where the count of female students t
 
 #### Male to female ratio over time
 
-Earlier, we asked the question, "Do we have enough data points for the count of female students to learn about the ratio of female to male students?" Similarly, consider asking, "Do we have enough data points across the year variable to learn about how this ratio has changed over time?"
+Earlier, you asked the question, "Do we have enough data points for the count of female students to learn about the ratio of female to male students?" Similarly, consider asking, "Do we have enough data points across the year variable to learn about how this ratio has changed over time?"
 
 To answer that, start by making a new dataset that includes any
 rows where the `f` variable has a value that is less than or equal to 500,000. You'll convert the `year` variable to a factor data type---you'll see how this helps later in the process. You'll also add a column called `ratio` that contains the male to female count ratio: 
@@ -873,7 +866,7 @@ model_data <- child_counts %>%
   select(-c(age, disability))
 ```
 
-You can see how much data we have per year by using `count()`: 
+You can see how much data you have per year by using `count()`: 
 
 ```{r check factor sample sizes}
 model_data %>%
