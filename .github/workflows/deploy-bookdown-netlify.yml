@@ -21,18 +21,13 @@ jobs:
         
       - name: Install R dependencies with RSPM for dummies and GitHub PAT
         run: |
-          # Set CRAN as the default repository
-          Rscript -e 'options(repos = c(CRAN = "https://cloud.r-project.org"))'
-          
-          # Install remotes package
-          Rscript -e 'install.packages("remotes")'
           
           # Install dummies from RSPM (archived version)
           Rscript -e 'install.packages("dummies", repos = "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-07-01")'
 
-          # Install other dependencies from DESCRIPTION using GitHub PAT
-          Rscript -e 'Sys.setenv(GITHUB_PAT = Sys.getenv("GITHUB_TOKEN"))'
-          Rscript -e 'remotes::install_deps()'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build bookdown site
         run: |
