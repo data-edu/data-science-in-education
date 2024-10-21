@@ -186,7 +186,13 @@ install.packages("textdata")
 To explore this dataset more, we'll use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 ```{r view nrc}
-get_sentiments("nrc")
+#| include: false
+nrc_sentiments <- read_rds("data/nrc_sentiments.Rds")
+```
+
+```{r view nrc}
+#| eval: false
+nrc_sentiments <- get_sentiments("nrc")
 ```
 
 This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
@@ -198,8 +204,8 @@ Let's begin working on reducing our `tokens` dataset down to only words that the
 ```{r count positive words}
 # Only positive in the NRC dataset
 nrc_pos <-
-  get_sentiments("nrc") %>%
-  filter(sentiment == "positive")
+    nrc_sentiments %>%
+    filter(sentiment == "positive")
 
 # Match to tokens
 pos_tokens_count <-
