@@ -4,7 +4,6 @@
 
 This chapter is designed to give readers the skills and knowledge necessary to get started in any of the walkthrough chapters. The goal for this chapter is to provide insights into key areas of working with R, develop mental models for working with R, and ultimately begin working with R using the RStudio Integrated Development Environment (IDE) through a series of introductory applied examples. While this chapter covers introductory data manipulation in R, please note that it is not intended to be a full and complete introduction to programming with R nor to using R for data science.
 
-
 ## Topics emphasized
 
 - Preparing your programming environment 
@@ -168,7 +167,7 @@ While it is entirely possible to do all of your work in R without ever using a p
 
 #### Installing a package
 
-In [Chapter 5](#c05), you might have noticed at the very end that we installed two packages ({remotes} and {dataedu}), but we didn't talk too much about what we were doing. 
+In [Chapter 5](#c05), you might have noticed at the very end that we installed two packages ({pak} and {dataedu}), but we didn't talk too much about what we were doing. 
 We'll get into more detail on installing and loading packages now. 
 
 In order to access the functions within a package, you must first install the package on your computer. There are a collection of R packages hosted on the internet on the CRAN website:  [CRAN](https://cran.r-project.org/)(https:[]()//cran.r-project.org/), the **C**omprehensive **R** **A**rchive **N**etwork. These packages must meet certain quality standards, and they are regularly tested. 
@@ -178,10 +177,10 @@ If an R user feels that their package would benefit a broad audience, they may c
 If the package is on CRAN, we can install it by running the following code in the RStudio Console:  
 
 ```{r eval = FALSE}
-# template for installing a package
+# Template for installing a package
 install.packages("package_name")
 
-# example of installing a package
+# Example of installing a package
 install.packages("dplyr")
 ```
 
@@ -222,13 +221,13 @@ Using `library()` will help to eliminate sources of confusion later.
 ### How to find packages
 
 As you begin your R learning journey, the bulk of the packages you will need to use are either already included when you install R or available on CRAN. 
-[CRAN TaskViews](https://cran.r-project.org/web/views/) (https[]()://cran.r-project.org/web/views/) is one of the best resources for seeing what packages are available and might be relevant to your work.
-Other great resources to learn about various R packages are through Twitter (following the "#rstats" hashtag) as well as through Google searches.
+[CRAN Task Views](https://cran.r-project.org/web/views/) (https[]()://cran.r-project.org/web/views/) is one of the best resources for seeing what packages are available and might be relevant to your work.
+Other great resources to learn about various R packages are through Bluesky (following the "#rstats" hashtag) as well as through Google searches.
 As R has grown in popularity, Google has gotten significantly better at returning R-related results.
 
 ### Learning more about a package
 
-Sometimes when you look up a package, you will be able to identify the function that you need and continue on your way. Other times, you may need (or want!) to learn more about a specific package. Packages on CRAN all come with something called a "vignette", which is a worked example using various functions from within the package. You can access a package's vignette(s) on CRAN TaskViews.
+Sometimes when you look up a package, you will be able to identify the function that you need and continue on your way. Other times, you may need (or want!) to learn more about a specific package. Packages on CRAN all come with something called a "vignette", which is a worked example using various functions from within the package. You can access a package's vignette(s) on CRAN Task Views.
 
 Packages do not need to be submitted to CRAN to be used by the public, and many are available directly from their respective developers via GitHub. Package authors may publish vignettes or blog posts about their package, and other R users may _also_ publish tutorials about a specific package. If you find yourself on GitHub looking at information for a package, more often than not, the README file will have good information for getting started with a package. At the time of publication, the {dataedu} package we have created is available only through GitHub (but not yet through CRAN).
 
@@ -238,23 +237,23 @@ In [Chapter 5](#c05), we provided the following code for installing the {dataedu
 If you installed the {dataedu} package already, you can skip to the next section. Otherwise, go ahead and run the following code. *Please note that the {dataedu} package requires R version 3.6 or higher to run.* 
 
 ```{r, eval = FALSE}
-# install remotes
-install.packages("remotes", repos = "http://cran.us.r-project.org")
+# Install pak
+install.packages("pak", repos = "http://cran.us.r-project.org")
 
-# install the dataedu package
-remotes::install_github("data-edu/dataedu")
+# Install the dataedu package
+pak::pak("data-edu/dataedu")
 ```
 
 Let's take this code apart a bit.
-The first function, `install.packages("remotes", repos = "http://cran.us.r-project.org")`, has two arguments, `"remotes"` and `repos = "http://cran.us.r-project.org"`.
-The first argument, `"remotes"`, is the name of the package we want to install.
+The first function, `install.packages("pak", repos = "http://cran.us.r-project.org")`, has two arguments, `"pak"` and `repos = "http://cran.us.r-project.org"`.
+The first argument, `"pak"`, is the name of the package we want to install.
 The second argument, `repos = "http://cran.us.r-project.org"`, tells R the URL of the repository to use. 
 For now, all we need to know is that a repository is a place where code can be stored.  
-In order for us to load and use the {dataedu} package, we first needed to install the {remotes} package.
+In order for us to load and use the {dataedu} package, we first needed to install the {pak} package.
 
-The second function, `remotes::install_github("data-edu/dataedu")`, has only one argument, `"data-edu/dataedu"`, but also looks a little different from the first function.
-What we're doing here is telling R to go to the {remotes} package to find the `install_github()` function.
-The `install_github()` function is telling R to go to a specific repository on GitHub to get the code for the {dataedu} package.
+The second function, `pak::pak("data-edu/dataedu")`, has only one argument, `"data-edu/dataedu"`, but also looks a little different from the first function.
+What we're doing here is telling R to go to the {pak} package to find the `pak()` function.
+The `pak()` function is telling R to go to a specific repository on GitHub to get the code for the {dataedu} package.
 You can also see [the repository for the {dataedu} package on GitHub](https://github.com/data-edu/dataedu)(https:[]()//github.com/data-edu/dataedu) yourself!
 We have to take this approach to load the {dataedu} package because the package is not available on CRAN yet.
 
@@ -325,7 +324,7 @@ We've also provided each of the datasets used in this book as `.rda` files that 
 We've provided additional resources for loading data from Excel, SAV, and Google Sheets in [Appendix A](#c20a).
 
 While it is possible to connect directly to a database from within R, we do not cover those skills in this text. 
-For those curious about how to accomplish this, we recommend starting with the [Databases using R](https://db.rstudio.com/) (https[]()://db.rstudio.com/) resource from RStudio.
+For those curious about how to accomplish this, we recommend starting with the [Best Practices in Working with Databases](https://solutions.posit.co/connections/db/) (https[]()://solutions.posit.co/connections/db/) resource from Posit.
 
 ## Help documentation
 
@@ -373,11 +372,11 @@ You've been reading through a tutorial and have come across the `coalesce()` fun
 library(tidyverse)
 library(janitor)
 
-roster <- roster_raw %>% 
-    clean_names() %>% 
-    remove_empty(c("rows", "cols")) %>% 
+roster <- roster_raw %>%
+    clean_names() %>%
+    remove_empty(c("rows", "cols")) %>%
     mutate(hire_date = excel_numeric_to_date(hire_date),
-           cert = coalesce(certification, certification_1)) %>% 
+           cert = coalesce(certification, certification_1)) %>%
     select(-certification, -certification_1)
 ```
 
@@ -547,8 +546,8 @@ Take a few minutes to type out and run each of the following lines of code, one 
 _Note: we have intentionally included errors in this and subsequent code chunks to help highlight concepts as well as introduce you to error messages early on!_
 
 ```{r, eval = FALSE}
-# you probably wrote these 3 library() lines in your R script file earlier
-# if you have not yet run them, you will need to run these three lines before running the rest of the chunk
+# You probably wrote these 3 library() lines in your R script file earlier.
+# If you have not yet run them, you will need to run these three lines before running the rest of the chunk.
 library(tidyverse)
 library(dataedu)
 library(skimr)
