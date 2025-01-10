@@ -1,11 +1,8 @@
-# Walkthrough 8: Predicting students' final grades using machine learning methods with online course data {#c14}
-
-> introduce OULAD, introduce tidymodels, deliberately use a very simple model without tuning parameters (just a logistic regression), keep the cross-validation part, point people to other resources and argue that the core steps are the same
+# Walkthrough 8: Predicting students' final grades using supervised machine learning methods {#c14}
 
 **Abstract** 
 
-<!-- this needs to be revised -->
-
+introduce OULAD, introduce tidymodels, deliberately use a very simple model without tuning parameters (just a logistic regression), keep the cross-validation part, point people to other resources and argue that the core steps are the same
 
 ## Topics emphasized
 
@@ -14,14 +11,26 @@
 
 ## Functions introduced
 
-- xx
-- xx
+- initial_split()
+- training()
+- testing()
+- recipe()
+- logistic_reg()
+- set_model()
+- set_mode()
+- workflow()
+- collect_predictions()
+- collect_metrics()
 
 ## Vocabulary
 
 - supervised machine learning
 - training data
 - testing data
+- logistic regression
+- classification
+- predictions
+- metrics
 
 ## Chapter overview
 
@@ -29,13 +38,13 @@ In this chapter, we draw on a widely-used data set in the learning analytics fie
 
 We focus on *predicting* an outcome--whether a student passes a course--more than *explaining* how variables relate to an outcome, such as how the amount of time students spend on the course relates to their final grade. We do so with a relatively simple machine learning algorithm, or model, a generalized linear regression model. 
 
-Though we focus on this model, many of the ideas explored in this chapter will likely extend and prove useful for other machine learning methods. Our goal is for you to finish this final walkthrough with the confidence to explore using machine learning to answer a question or to solve a problem of your own with respect to teaching, learning, and educational systems.
+Though we focus on this relatively simple model, or algorithm,, many of the ideas explored in this chapter will likely extend and prove useful for other machine learning methods. Our goal is for you to finish this final walkthrough with the confidence to explore using machine learning to answer a question or to solve a problem of your own with respect to teaching, learning, and educational systems.
 
 ### Background
 
 In a face-to-face classroom, an educator might count on behavioral cues to help them effectively deliver instruction. Online, educators do not readily have access to the behavioral cues essential for effective face-to-face instruction. For example, in a face-to-face classroom, cues such as a student missing class repeatedly or many students seeming distracted during a lecture can trigger a shift in the delivery of instruction. Many educators find themselves looking for ways to understand and support students online in the same way that face-to-face instructors would. Educational technology affords unique opportunities to support student success online because it provides new methods of collecting and storing data. 
 
-Online learning management systems often automatically track several types of student interactions with the system and feed that data back to the course instructor. For example, an instructor might be able to quickly see how many students logged into their course on a certain day, or they might see how long students engaged with a posted video before pausing it or logging out. The collection of this data is met with mixed reactions from educators. Some are concerned that data collection in this manner is intrusive, but others see a new opportunity to support students in online contexts in new ways. As long as data are collected and utilized responsibly, data collection can support student success.
+Online learning management systems and Massive Open Online Courses (MOOCs) often automatically track several types of student interactions with the system and feed that data back to the course instructor. For example, an instructor might be able to quickly see how many students logged into their course on a certain day, or they might see how long students engaged with a posted video before pausing it or logging out. The collection of this data is met with mixed reactions from educators. Some are concerned that data collection in this manner is intrusive, but others see a new opportunity to support students in online contexts in new ways. As long as data are collected and utilized responsibly, data collection can support student success.
 
 In this walkthrough, we examine the question, *How well can we predict students who are at risk of dropping a course?*
 
@@ -45,7 +54,7 @@ We explore the following question: Can we predict whether a student will pass a 
 
 ### Data sources
 
-xx
+The Open University Learning Analytics Dataset (OULAD) provides information for analyzing student outcomes in online learning environments. Many students successfully complete these courses, but not all do, highlighting the importance of identifying those who may be at risk. The dataset includes information on students' initial characteristics and their interactions within the course.
 
 ### Methods
 
@@ -53,10 +62,11 @@ xx
 
 A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to try to determine what a person will want, need, or do next. "Predictive analytics" is a blanket term that can be used to describe any statistical approach that yields a prediction. We could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could give you a probability of that computer-sitting happening today. Under the hood, some predictive models are not very complex. If we have an outcome with two possibilities, a logistic regression model could be fit to the data in order to help us answer the cat-keyboard question. In this chapter, we'll compare a machine learning model to another type of regression: multiple regression. We want to make sure to fit the simplest model as possible to our data. After all, the effectiveness in predicting the outcome is really the most important thing, not the fanciness of the model.
     
-Data collection is an essential first step in any type of machine learning or predictive analytics. It is important to note here that machine learning only works effectively when (1) a person selects variables to include in the model that are anticipated to be related to the outcome and (2) a person correctly interprets the model's findings. There is an adage that goes, "garbage in, garbage out". This holds true here. If we do not feel confident that the data we collected are accurate, we will not be able to be confident in our conclusions no matter what model we build. To collect good data, we must first clarify what it is that we want to know (i.e., what question are we really asking?) and what information we would need in order to effectively answer that question. Sometimes, people approach analysis from the opposite direction---they might look at the data they have and ask what questions could be answered based on that data. That approach is okay, as long as you are willing to acknowledge that sometimes the pre-existing dataset may *not* contain all the information you need, and you might need to go out and find additional information to add to your dataset to truly answer your question.
+Data collection is an essential first step in any type of machine learning or predictive analytics. It is important to note here that machine learning only works effectively when (1) a person selects variables to include in the model that are anticipated to be related to the outcome and (2) a person correctly interprets the model's findings. 
+
+There is an adage: "garbage in, garbage out". This holds true here. If we do not feel confident that the data we collected are accurate, we will not be able to be confident in our conclusions no matter what model we build. To collect good data, we must first clarify what it is that we want to know (i.e., what question are we really asking?) and what information we would need in order to effectively answer that question. Sometimes, people approach analysis from the opposite direction---they might look at the data they have and ask what questions could be answered based on that data. That approach is okay, as long as you are willing to acknowledge that sometimes the pre-existing dataset may *not* contain all the information you need, and you might need to go out and find additional information to add to your dataset to truly answer your question.
     
 When people talk about "machine learning", you might get the image in your head of a desktop computer learning how to spell. You might picture your favorite social media site showing you advertisements that are just a little too accurate. At its core, machine learning is the process of "showing" your statistical model only some of the data at once and training the model to predict accurately on that training dataset (this is the "learning" part of machine learning). Then, the model as developed on the training data is shown new data---data you had all along, but hid from your computer initially---and you see how well the model that you developed on the training data performs on this new testing data. Eventually, you might use the model on entirely new data.  
-
 
 ## Load packages
 
@@ -65,191 +75,211 @@ As always, if you have not installed any of these packages before, do so first u
 ```{r, message = FALSE, warning = FALSE}
 # load the packages
 library(tidyverse)
-library(caret)
-library(ranger)
-library(e1071)
-library(tidylog)
-library(dataedu)
+library(tidymodels)
 ```
 
-First, we will load the data. Our data is stored in the {dataedu} package that is part of this book. Within that package, the data is stored as an `.rda` file. We note that this data is augmented to have some other---and additional---variables that the `sci_mo_processed` data used in [Chapter 7](#c7) does not.
 
-## Import and view data
+#### Reading CSV Data
 
-xxx
-
-## Process data
-
-xxx
-
-## Analysis
-
-### Use of {caret}
-
-
-### Tuning the random forest model
-
-When we look at this output, we are looking to see which values of the various tuning parameters were selected. We see at the bottom of the output above that the value of `mtry` was 19, the split rule was "extratrees", and the minimum node size is 5. We let this model explore which value of `mtry` was best and to explore whether extra trees or variance was a better split rule, but we forced all iterations of the model to a minimum node size of five (so that minimum node size value in the output shouldn't be a surprise to us). When we look at the bottom row of the output, it shows the final values selected for the model. We see also that this row has the lowest RMSE and highest Rsquared value, which means it has the lowest error and highest predictive power. 
-
-We won't dive into the specifics of the statistics behind these decisions right now, but next we will try adjusting a few different parts of the model to see whether our performance improves. For a detailed statistical explanation of random forest modeling, including more about `mtry` and tuning a model, please see Chapter 8 in the book "An Introduction to Statistical Learning with Applications in R" [@james2013]. 
-
-What would happen if we do not fix `min.node.size` to five? We're going to let `min.node.size` change and let `mtry` change as well.
-
-Let's create our own grid of values to test for `mtry` and `min.node.size`. We'll stick with the default bootstrap resampling method to choose the best model. We will randomly choose some values to use for `mtry`, including the three that were used previously (2, 10, and 19). Let's try 2, 3, 7, 10, and 19.
+To begin, we will load our data using the `read_csv()` function. This dataset has undergone minimal preprocessing to help streamline our analysis. Additionally, we will load an assessments dataset, which provides data on students' performance on various assessments throughout their courses.
 
 ```{r}
-# setting a seed for reproducibility
-set.seed(2020)
-
-# Create a grid of different values of mtry, different splitrules, and different minimum node sizes to test
-tune_grid <-
-    expand.grid(
-        mtry = c(2, 3, 7, 10, 19),
-        splitrule = c("variance", "extratrees"),
-        min.node.size = c(1, 5, 10, 15, 20)
-    )
-
-# Fit a new model, using the tuning grid we created above
-rf_fit2 <-
-    train(final_grade ~ .,
-          data = df_train,
-          method = "ranger",
-          tuneGrid = tune_grid)
-
-rf_fit2
+students <- read_csv("data/ml/oulad-students.csv")
+assessments <- read_csv("data/ml/oulad-assessments.csv")
 ```
 
-The model with the same values as identified before for `mtry` (19) and `splitrule` (extratrees), but with `min.node.size` equal to 1 (not 5, as before) seems to fit best. We know this model fits best because the RMSE is lowest (13.36) and the variance explained is highest (0.63) for this model, though the improvement seems to be fairly small relative to the difference the other tuning parameters seem to make. 
+The dataset integrates information from three sources: `studentInfo`, `courses`, and `studentRegistration`. For a more comprehensive understanding of the variables, you can review the dataset description [here](https://analyse.kmi.open.ac.uk/open_dataset#description).
 
-While the output above gives us a good summary of the model, we might want to look more closely at what we found with our `rf_fit2` model. The code below is a way for us to zoom in and look specifically at the *final* random forest model generated by our `rf_fit2.`
+### Inspecting the Data
 
-In the code chunk below, you'll notice we are selecting the "finalModel" output using a `$` operator rather than the familiar `select`. We cannot use {dplyr} and the tidyverse here because of the structure of the `rf_fit2` object---we have stored a random forest model as a model, so it's not a normal data frame. So, we extract with a `$`. We want to select only the final model used and not worry about the prior iterations of the model.
-
-```{r, cache = TRUE}
-#Here, we select the "finalModel" output from the rf_fit2 model
-rf_fit2$finalModel
-```
-In looking at this output, we see the same parameters we noted above: `mtry` is 19, the node size is 1, and the split rule is extra trees. We can also note the *OOB prediction error (MSE)*, of 159.86, and the proportion of the variance explained, or R squared, of 0.66. As before, we want the error to be low and the variance explained to be high.
-
-Now that we understand how to develop a basic machine learning model and how to use different tuning parameters (such as node size and the splitting rule), we can explore some other related themes. We might wonder about how we could examine the predictive accuracy of the random forest model we just developed.
-
-### Examining predictive accuracy on the test dataset
-
-What if we use the test dataset, data not used to train the model? Below, we'll create a new object that uses the `rf_fit2` model we developed above. We will put our testing data through the model, and assign the predicted values to a column called `pred`. At the same, time, we'll make a column called `obs` that includes the real final grades that students earned. Later, we'll compare these predicted and observed values to see how well our model did.
+Let’s take a quick look at the structure of both datasets using the `glimpse()` function. This provides an overview of the data types and the first few values of each variable.
 
 ```{r}
-# setting a seed for reproducibility
-set.seed(2020)
-
-# Create a new object for the testing data including predicted values 
-df_test_augmented <-
-    df_test %>%
-    mutate(pred = predict(rf_fit2, df_test),
-           obs = final_grade)
-
-# Transform this new object into a data frame
-defaultSummary(as.data.frame(df_test_augmented))
+glimpse(students)
+glimpse(assessments)
 ```
 
-We can compare this to the values above to see how our model performs when given data that was not used to train the model. Comparing the RMSE values, we see that the RMSE is about the same when we use the model on the test data as it was on the training data. We get a value of 12.98 on the test data here, and it was 13.36 on the training data. The Rsquared value is 0.55 here, as compared to the 0.63 we got when we passed the training data through `rf_fit2` earlier. 
+### Creating New Variables
 
-While we might have expected that the model performance would be worse for the testing data as compared to the training data, we actually are seeing marginal improvements here: the model does better with the test data than with the training data. These results suggest to us that the model is able to handle new data, as we get comparable---in fact, improved---results when running the model on data it has never "seen" before (the testing data). This is good news!
+Our primary goal is to build a model that can predict whether a student is at risk of dropping out of a course. To achieve this, we need to create an outcome variable indicating whether a student has passed.
 
-## Results
-
-### Variable importance
-
-One helpful characteristic of random forest models is that we can learn about which variables contributed most strongly to the predictions in our model, across all the trees in our forest.
-
-We can examine two different variable importance measures using the **ranger** method in {caret}.
-
-Note that importance values are not calculated automatically, but that "impurity" or "permutation" can be passed to the `importance` argument in `train()`. See more on [this website](https://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html) (https[]()://alexisperrier.com/datascience/2015/08/27/feature-importance-random-forests-gini-accuracy.html).
-
-We'll re-run the `rf_fit2` model with the same specifications as before, but this time we will add an argument to call the variable importance metric.
+Using the `mutate()` function, we can create a binary variable that represents whether the student passed (1) or did not pass (0):
 
 ```{r}
-# setting a seed for reproducibility
-set.seed(2020)
-
-# Specify the same model as earlier in the chapter (rf_fit2) with the addition of the variable importance metric
-rf_fit2_imp <-
-    train(
-        final_grade ~ .,
-        data = df_train,
-        method = "ranger",
-        tuneGrid = tune_grid,
-        importance = "permutation"
-    )
-
-# Extract the variable importance from this new model
-varImp(rf_fit2_imp)
+students <- students %>%
+    mutate(pass = ifelse(final_result == "Pass", 1, 0)) %>%
+    mutate(pass = as.factor(pass))
 ```
 
-Our results here give us a ranked order list of the variables in the order of their importance. Variables that appear at the top of the list are more important, and variables that appear at the bottom of the list are less important in the specification of our final random forest model. Remember that we are predicting final grade in the course, so this list will tell us which factors were most important in predicting final grade in online science courses. It can be a bit hard to visually scan a variable importance list, so we might be interested in doing a data visualization.
+The [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html#:~:text=mutate()%20creates%20new%20columns,setting%20their%20value%20to%20NULL%20) function is essential for creating new variables, modifying existing ones, or even removing columns by setting their values to `NULL`.
 
-We can visualize this variable importance list with {ggplot2}. 
-
-```{r fig14-1, results='hide', message = FALSE, warning = FALSE, results = "hide", fig.cap="Variable Importance", fig.showtext = TRUE}
-varImp(rf_fit2_imp) %>%
-    pluck(1) %>%
-    rownames_to_column("var") %>%
-    ggplot(aes(x = reorder(var, Overall), y = Overall)) +
-    geom_col(fill = dataedu_colors("darkblue")) +
-    coord_flip() +
-    theme_dataedu()
-```
-
-Cool! We can now visualize which variables are most important in predicting final grade. 
-
-The first thing we notice is that the variable `n` is the most important. This variable indicates how much students write in their discussion posts. The second most important variable is `subjectFrScA.` This is the course subject: forensic science. Being enrolled in the forensic science course has a large impact on final grade. That would indicate to us that the forensic science course---more than the other science subjects in this dataset---is strongly correlated with students' final course grades. The third most important variable is the amount of time students spend in their course. We can keep scanning down the list to see the other variables that were indicated as less and less important for the model's predictions. Variable importance can help us to better understand the inner workings of a random forest model.
-
-Overall, there are some subject level differences in terms of how predictive subject is. Biology (`subjectBioA`) shows up pretty far down the list, whereas Physiology is much higher (`subjPhysA`), and forensic science is even higher still (`subjectFrScA`). What this tells us is that the course students are in seems to have a different effect on final grade, depending on the course. Perhaps grades should be normalized within subject: would this still be an important predictor if we did that? We won't dive into that question here, but you can see how the line of research inquiry might progress as you start to explore your data with a machine learning model.
-
-A quick statistical note: above, we selected our variable importance method to be "permutation" for our demonstrative example. There are other options available in the {caret} package if you would like to explore those in your analyses.
-
-### Comparing random forest to regression
-
-You may be curious about comparing the predictive accuracy of the model to a linear model (a regression). Below, we'll specify a linear model and check out how the linear model performs in terms of predicting the real outcomes. We'll compare this with the random forest model's performance (`rf_fit2`). Note that we are not actually re-running our random forest model here, but instead we are just making a dataset that includes the values that the `rf_fit2` model predicted as well as the actual `rf_fit2` values.
+Next, we will create a factor variable to indicate whether a student identifies as having a disability. This variable will serve as one of our predictors.
 
 ```{r}
-# Make sure all variables stored as characters are converted to factors
-df_train_lm <- 
-    df_train %>% 
-    mutate_if(is.character, as.factor) 
-
-# Create a linear regression model, 
-# using the same formula approach as in the random forest: ~ .
-lm_fit <-
-    train(final_grade ~ .,
-          data = df_train_lm,
-          method = "lm")
-
-# Append the predicted values to the training dataset for the linear model, 
-# so we can see both the predicted and the actual values
-df_train_lm <-
-    df_train %>%
-    mutate(obs = final_grade,
-           pred = predict(lm_fit, df_train_lm))
-
-# Append the predicted values to the training dataset for the random forest
-df_train_randomfor <-
-    df_train %>%
-    mutate(pred = predict(rf_fit2, df_train),
-           obs = final_grade)
-
-# Summarize, as data frames, the training data with the predicted 
-# and the actual values for both the linear model
-defaultSummary(as.data.frame(df_train_lm))
-
-# and the random forest
-defaultSummary(as.data.frame(df_train_randomfor))
+students <- students %>% 
+    mutate(disability = as.factor(disability))
 ```
-Our output will come in the order we wrote the code, so the linear model output is displayed above the random forest output.
 
-We can see that the random forest technique seems to perform better than regression. Specifically, the RMSE is lower for the random forest (4.60 as compared to 14.43 for the linear model). Second, the variance explained (`Rsquared`) is higher in the random forest (0.97 as compared to 0.56 for the linear model). 
+We will also summarize assessment data to create a new predictor based on students’ performance on assessments submitted early in the course. Specifically, we will calculate the mean weighted score of assessments submitted before the first quartile of assignment dates.
 
-It may be interesting to compare the results from the random forest to a more sophisticated model as well, like one using deep learning. As you expand your skills, you can explore and find out.
+```{r}
+code_module_dates <- assessments %>% 
+    group_by(code_module, code_presentation) %>% 
+    summarize(quantile_cutoff_date = quantile(date, probs = .25, na.rm = TRUE))
+
+assessments_joined <- assessments %>% 
+    left_join(code_module_dates) %>% 
+    filter(date < quantile_cutoff_date) %>% 
+    mutate(weighted_score = score * weight) %>% 
+    group_by(id_student) %>% 
+    summarize(mean_weighted_score = mean(weighted_score, na.rm = TRUE))
+
+students <- students %>% 
+    left_join(assessments_joined, by = "id_student")
+```
+
+To verify that these new variables have been correctly added, you can manually inspect the data using the `view()` function:
+
+```{r, eval=FALSE}
+view(students)
+```
+
+### Exploratory Data Analysis
+
+Exploratory data analysis (EDA) helps us better understand the dataset and identify potential issues or patterns. In this section, we will:
+
+1. Count the number of students and the number of course offerings.
+2. Engineer a new variable representing socioeconomic status.
+
+#### Examining Outcomes
+
+We start by counting the total number of students and the specific course offerings. The `count()` function is useful for this purpose.
+
+```{r}
+students %>% 
+    count(id_student) # counts total students
+
+students %>% 
+    count(code_module, code_presentation) # counts course offerings
+
+assessments %>% 
+    count(assessment_type) # counts different types of assessments
+```
+
+#### Feature Engineering: Socioeconomic Index
+
+Feature engineering involves creating new variables that can enhance the predictive power of our model. Here, we will create a new predictor variable representing socioeconomic status based on the index of multiple deprivation (IMD) variable.
+
+```{r}
+students <- students %>% 
+    mutate(imd_band = factor(imd_band, levels = c("0-10%",
+                                        "10-20%",
+                                        "20-30%",
+                                        "30-40%",
+                                        "40-50%",
+                                        "50-60%",
+                                        "60-70%",
+                                        "70-80%",
+                                        "80-90%",
+                                        "90-100%"))) %>%
+    mutate(imd_band = as.integer(imd_band))
+
+students
+```
+
+### Building the Predictive Model
+
+With our dataset prepared, we can now proceed to build a predictive model. This involves five key steps:
+
+1. Splitting the data into training and test sets.
+2. Creating a preprocessing recipe.
+3. Specifying the model and workflow.
+4. Fitting the model to the training data.
+5. Evaluating the model’s accuracy.
+
+#### Step 1: Splitting the Data
+
+Machine learning models are typically trained on a subset of the data and tested on a separate subset to evaluate performance. We will use an 80-20 split, with 80% of the data used for training and 20% reserved for testing.
+
+```{r}
+set.seed(20230712)
+
+students <- students %>% 
+    drop_na(mean_weighted_score)
+
+train_test_split <- initial_split(students, prop = .80, strata = "pass")
+
+data_train <- training(train_test_split)
+
+data_test  <- testing(train_test_split)
+```
+
+To confirm the split, you can check the number of observations in `data_train` and `data_test`:
+
+```{r}
+data_train
+data_test
+```
+
+#### Step 2: Creating a Recipe
+
+The {recipes} package allows us to define preprocessing steps for our model. We will create a recipe that predicts the outcome (`pass`) using `disability`, `imd_band`, and `mean_weighted_score` as predictor variables.
+
+```{r}
+my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score, data = data_train)
+
+my_rec
+```
+
+#### Step 3: Specifying the Model and Workflow
+
+We specify a logistic regression model using the {parsnip} package. Since our outcome is binary, we set the mode to "classification" and use the "glm" engine (generalized linear model).
+
+```{r}
+my_mod <-
+    logistic_reg() %>% 
+    set_engine("glm") %>% 
+    set_mode("classification")
+
+my_mod
+```
+
+Next, we bundle the recipe and model into a workflow using the {workflows} package:
+
+```{r}
+my_wf <-
+    workflow() %>% 
+    add_model(my_mod) %>% 
+    add_recipe(my_rec)
+```
+
+#### Step 4: Fitting the Model
+
+We can now fit our model to the training data and evaluate it using the test data.
+
+```{r}
+final_fit <- last_fit(my_wf, train_test_split)
+```
+
+#### Step 5: Evaluating Model Accuracy
+
+To assess the model’s accuracy, we compare its predictions to the actual outcomes in the test set.
+
+```{r}
+final_fit %>% 
+    collect_predictions() %>% 
+    select(.pred_class, pass) %>% 
+    mutate(correct = .pred_class == pass)
+```
+
+For a quick summary of model performance, we can use the `collect_metrics()` function:
+
+```{r}
+collect_metrics(final_fit)
+```
+
+This chapter introduced the fundamental steps involved in building a predictive model using logistic regression. In the next chapter, we will explore more advanced models and feature engineering techniques to improve predictive performance.
 
 ## Conclusion
 
-In this chapter, we introduced both general machine learning ideas, like training and test datasets and evaluating the importance of specific variables, and specific ideas, like how a random forest works and how to tune specific parameters so that the model is as effective as possible at predicting an outcome. Like many of the topics in this book---but, perhaps *particularly* so for machine learning---there is much more to discover on the topic, and we encourage you to consult the books and resources in the [Learning More chapter](#c17) to learn about further applications of machine learning methods.
+In this chapter, we introduced general machine learning ideas, like training and test datasets and evaluating the importance of specific variables, in the context of predicting students' passing a course. Like many of the topics in this book---but, perhaps *particularly* so for machine learning---there is much more to discover on the topic, and we encourage you to consult the books and resources in the [Learning More chapter](#c17) to learn about further applications of machine learning methods.
