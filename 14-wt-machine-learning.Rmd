@@ -74,46 +74,30 @@ library(tidyverse)
 library(tidymodels)
 ```
 
-
 #### Reading CSV Data
 
-To begin, we will load our data using the `read_csv()` function. This dataset has undergone minimal preprocessing to help streamline our analysis. Additionally, we will load an assessments dataset, which provides data on students' performance on various assessments throughout their courses.
+To begin, we will load student-level data using the `read_csv()` function. This dataset has undergone minimal preprocessing to help streamline our analysis -- it integrates information from three sources: `studentInfo`, `courses`, and `studentRegistration`.
+
+Additionally, we will load an assessments dataset, which provides data on students' performance on various assessments throughout their courses.
 
 ```{r}
 students <- read_csv("data/ml/oulad-students.csv")
 assessments <- read_csv("data/ml/oulad-assessments.csv")
 ```
 
-The dataset integrates information from three sources: `studentInfo`, `courses`, and `studentRegistration`. For a more comprehensive understanding of the variables, you can review the dataset description [here](https://analyse.kmi.open.ac.uk/open_dataset#description).
+### Preprocessing and Feature Engineering
 
-### Inspecting the Data
+Our goal is to build a model that predicts whether a student is at risk of dropping out. We will handle some feature engineering directly, while moving a couple of preprocessing steps into the recipe to demonstrate how recipes work.
 
-Let’s take a quick look at the structure of both datasets using the `glimpse()` function. This provides an overview of the data types and the first few values of each variable.
+#### Step 1: Creating Outcome and Predictor Variables Outside the Recipe
 
-```{r}
-glimpse(students)
-glimpse(assessments)
-```
-
-### Creating New Variables
-
-Our primary goal is to build a model that can predict whether a student is at risk of dropping out of a course. To achieve this, we need to create an outcome variable indicating whether a student has passed.
-
-Using the `mutate()` function, we can create a binary variable that represents whether the student passed (1) or did not pass (0):
+To begin, we create the outcome variable (`pass`) and a factor variable for `disability` directly using `mutate()`:
 
 ```{r}
 students <- students %>%
     mutate(pass = ifelse(final_result == "Pass", 1, 0)) %>%
-    mutate(pass = as.factor(pass))
-```
-
-The [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html#:~:text=mutate()%20creates%20new%20columns,setting%20their%20value%20to%20NULL%20) function is essential for creating new variables, modifying existing ones, or even removing columns by setting their values to `NULL`.
-
-Next, we will create a factor variable to indicate whether a student identifies as having a disability. This variable will serve as one of our predictors.
-
-```{r}
-students <- students %>% 
-    mutate(disability = as.factor(disability))
+    mutate(pass = as.factor(pass),
+           disability = as.factor(disability))
 ```
 
 We will also summarize assessment data to create a new predictor based on students’ performance on assessments submitted early in the course. Specifically, we will calculate the mean weighted score of assessments submitted before the first quartile of assignment dates.
@@ -130,151 +114,103 @@ assessments_joined <- assessments %>%
     group_by(id_student) %>% 
     summarize(mean_weighted_score = mean(weighted_score, na.rm = TRUE))
 
+```
+
+Last, we will create a socioeconomic status variable (`imd_band`) outside the recipe for clarity:
+
+```{r}
+students <- students %>%
+    mutate(imd_band = factor(imd_band, levels = c("0-10%",
+                                                  "10-20%",
+                                                  "20-30%",
+                                                  "30-40%",
+                                                  "40-50%",
+                                                  "50-60%",
+                                                  "60-70%",
+                                                  "70-80%",
+                                                  "80-90%",
+                                                  "90-100%"))) %>%
+    mutate(imd_band = as.integer(imd_band))
+```
+
+Let's join the data together.
+
+```{r}
 students <- students %>% 
     left_join(assessments_joined, by = "id_student")
 ```
 
-To verify that these new variables have been correctly added, you can manually inspect the data using the `view()` function:
+#### Step 2: Splitting the Data
 
-```{r, eval=FALSE}
-view(students)
-```
-
-### Exploratory Data Analysis
-
-Exploratory data analysis (EDA) helps us better understand the dataset and identify potential issues or patterns. In this section, we will:
-
-1. Count the number of students and the number of course offerings.
-2. Engineer a new variable representing socioeconomic status.
-
-#### Examining Outcomes
-
-We start by counting the total number of students and the specific course offerings. The `count()` function is useful for this purpose.
+We split the dataset into training and testing sets using an 80-20 split:
 
 ```{r}
-students %>% 
-    count(id_student) # counts total students
+set.seed(2025)
 
-students %>% 
-    count(code_module, code_presentation) # counts course offerings
-
-assessments %>% 
-    count(assessment_type) # counts different types of assessments
-```
-
-#### Feature Engineering: Socioeconomic Index
-
-Feature engineering involves creating new variables that can enhance the predictive power of our model. Here, we will create a new predictor variable representing socioeconomic status based on the index of multiple deprivation (IMD) variable.
-
-```{r}
-students <- students %>% 
-    mutate(imd_band = factor(imd_band, levels = c("0-10%",
-                                        "10-20%",
-                                        "20-30%",
-                                        "30-40%",
-                                        "40-50%",
-                                        "50-60%",
-                                        "60-70%",
-                                        "70-80%",
-                                        "80-90%",
-                                        "90-100%"))) %>%
-    mutate(imd_band = as.integer(imd_band))
-
-students
-```
-
-### Building the Predictive Model
-
-With our dataset prepared, we can now proceed to build a predictive model. This involves five key steps:
-
-1. Splitting the data into training and test sets.
-2. Creating a preprocessing recipe.
-3. Specifying the model and workflow.
-4. Fitting the model to the training data.
-5. Evaluating the model’s accuracy.
-
-#### Step 1: Splitting the Data
-
-Machine learning models are typically trained on a subset of the data and tested on a separate subset to evaluate performance. We will use an 80-20 split, with 80% of the data used for training and 20% reserved for testing.
-
-```{r}
-set.seed(20230712)
-
-students <- students %>% 
-    drop_na(mean_weighted_score)
-
-train_test_split <- initial_split(students, prop = .80, strata = "pass")
+train_test_split <- initial_split(students, prop = 0.8, strata = "pass")
 
 data_train <- training(train_test_split)
-
 data_test  <- testing(train_test_split)
 ```
 
-To confirm the split, you can check the number of observations in `data_train` and `data_test`:
+#### Step 3: Creating a Recipe for Selected Preprocessing Steps
+
+To keep things simple, we will only include two preprocessing steps in the recipe:
+
+1. **Centering and scaling the `mean_weighted_score` predictor**  
+2. **Converting the outcome variable (`pass`) into a factor (if it wasn't already)**
 
 ```{r}
-data_train
-data_test
+my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score, data = data_train) %>%
+    step_center(mean_weighted_score) %>%
+    step_scale(mean_weighted_score) %>%
+    step_mutate(pass = as.factor(pass)) # Ensures the outcome is a factor
 ```
 
-#### Step 2: Creating a Recipe
-
-The {recipes} package allows us to define preprocessing steps for our model. We will create a recipe that predicts the outcome (`pass`) using `disability`, `imd_band`, and `mean_weighted_score` as predictor variables.
+We can inspect the recipe to verify the steps:
 
 ```{r}
-my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score, data = data_train)
-
 my_rec
 ```
 
-#### Step 3: Specifying the Model and Workflow
+#### Step 4: Specifying the Model and Workflow
 
-We specify a logistic regression model using the {parsnip} package. Since our outcome is binary, we set the mode to "classification" and use the "glm" engine (generalized linear model).
-
-```{r}
-my_mod <-
-    logistic_reg() %>% 
-    set_engine("glm") %>% 
-    set_mode("classification")
-
-my_mod
-```
-
-Next, we bundle the recipe and model into a workflow using the {workflows} package:
+Next, we specify a logistic regression model and bundle the recipe and model into a workflow. This step has a lot of pieces, but they are fairly boilerplate. The first part is to specify the model:
 
 ```{r}
-my_wf <-
-    workflow() %>% 
-    add_model(my_mod) %>% 
-    add_recipe(my_rec)
+my_mod <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification")
 ```
 
-#### Step 4: Fitting the Model
+The next is to specify the workflow.
 
-We can now fit our model to the training data and evaluate it using the test data.
+```{r}
+my_wf <- workflow() %>%
+  add_recipe(my_rec) %>%
+  add_model(my_mod)
+```
+
+#### Step 5: Fitting the Model
+
+Now we fit the model to the training data. We do this by calling the `last_fit()` function on the workflow:
 
 ```{r}
 final_fit <- last_fit(my_wf, train_test_split)
 ```
 
-#### Step 5: Evaluating Model Accuracy
+#### Step 6: Evaluating Model Performance
 
-To assess the model’s accuracy, we compare its predictions to the actual outcomes in the test set.
-
-```{r}
-final_fit %>% 
-    collect_predictions() %>% 
-    select(.pred_class, pass) %>% 
-    mutate(correct = .pred_class == pass)
-```
-
-For a quick summary of model performance, we can use the `collect_metrics()` function:
+Finally, we evaluate the model’s performance using the test set. The tidymodels package makes this easy.
 
 ```{r}
-collect_metrics(final_fit)
+metrics <- final_fit %>%
+  collect_metrics()
+
+metrics
 ```
 
-This chapter introduced the fundamental steps involved in building a predictive model using logistic regression. In the next chapter, we will explore more advanced models and feature engineering techniques to improve predictive performance.
+So, how did the model do? Not so hot! Let's see if we can do better.
 
 ## Conclusion
 
