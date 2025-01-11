@@ -96,15 +96,16 @@ To begin, we create the outcome variable (`pass`) and a factor variable for `dis
 ```{r}
 students <- students %>%
     mutate(pass = ifelse(final_result == "Pass", 1, 0)) %>%
-    mutate(pass = as.factor(pass))
+    mutate(pass = as.factor(pass),
+           disability = as.factor(disability))
 ```
 
-We will also summarize assessment data to create a new predictor based on students’ performance on assessments submitted early in the course. Specifically, we will calculate the mean weighted score of assessments submitted before the first quartile of assignment dates.
+We will also summarize assessment data to create a new predictor based on students’ performance on assessments submitted early in the course. Specifically, we will calculate the mean weighted score of assessments submitted before the first half of assignment dates.
 
 ```{r}
 code_module_dates <- assessments %>% 
     group_by(code_module, code_presentation) %>% 
-    summarize(quantile_cutoff_date = quantile(date, probs = .25, na.rm = TRUE))
+    summarize(quantile_cutoff_date = quantile(date, probs = .5, na.rm = TRUE))
 
 assessments_joined <- assessments %>% 
     left_join(code_module_dates) %>% 
@@ -131,6 +132,7 @@ students <- students %>%
                                                   "90-100%"))) %>%
     mutate(imd_band = as.integer(imd_band))
 ```
+
 
 Let's join the data together.
 
@@ -160,10 +162,11 @@ To keep things simple, we will only include two preprocessing steps in the recip
 2. **Converting the outcome variable (`pass`) into a factor (if it wasn't already)**
 
 ```{r}
-my_rec <- recipe(pass ~ imd_band + mean_weighted_score, data = data_train) %>%
+my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score + num_of_prev_attempts + gender + region + highest_education, data = data_train) %>%
     step_center(mean_weighted_score) %>%
     step_scale(mean_weighted_score) %>%
-    step_mutate(pass = as.factor(pass)) # Ensures the outcome is a factor
+    step_dummy(all_nominal_predictors(), -all_outcomes()) %>% 
+    step_scale(num_of_prev_attempts)
 ```
 
 We can inspect the recipe to verify the steps:
