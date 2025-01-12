@@ -371,22 +371,20 @@ You won't always have the time to follow all these steps for each unfamiliar pie
 
 ## Bringing it all together: getting started coding walkthrough
 
-This section is going to take everything we've talked about so far and walk you through some introductory code. This code does not represent a comprehensive data analysis, but it does use some exploratory data analysis techniques.
+In this section, you'll take everything you've learned so far and apply it to some introductory code. This code isn't a comprehensive data analysis, but it does use exploratory data analysis techniques.
 
-At this point, we are assuming that you've installed the {dataedu} package and that you have also run `dataedu::install_dataedu()` to install the associated packages. If you have _not_ installed the {dataedu} package and run `dataedu::install_dataedu()` yet, please do so before continuing. 
+Before beginning this section, you'll need to have installed the {dataedu} package and that you have also run `dataedu::install_dataedu()` to install the associated packages. If you have not done this yet, please do so before continuing.
 
-### Creating a project and an `.R` script and setting up our RStudio environment
+### Creating a project and an `.R` script 
 
-If you haven't already, set up a Project in RStudio and create a new `.R` script. 
-Save your `.R` script as "chapter_6_walkthrough" or another similar name.
-Run the following code in the RStudio Console:
+If you haven't already, set up a Project in RStudio and create a new `.R` script, as described earlier in this chapter. Save your `.R` script as "chapter_6_walkthrough" or another similar name. Run the following code in the RStudio Console to install the {skimr} package, which you'll use to create summary statistics. 
 
 ```{r, eval = FALSE}
 # Installing the skimr package, not included in {dataedu}
 install.packages("skimr")
 ```
 
-Now, take a few minutes to type out and run each of the following lines of code in your `.R` script, one by one, and notice what you see happening in the Console after you run each line.  
+Next, type out and run the following lines of code in your `.R` script, one by one, and notice what happens in the Console after you run each line.  
 
 ```{r eval = FALSE, error = FALSE, message = FALSE}
 # Setting up your environment
@@ -396,6 +394,8 @@ library(dataedu)
 
 library(skimr)
 ```
+
+Reflect on these questions to further your learning: 
 
 - What do you think running the above lines of code accomplished?
 - How do you know?
@@ -408,10 +408,9 @@ In your Console, you may have noticed the following message:
 knitr::include_graphics("./man/figures/Figure 6.4.png")
 ```
 
-This isn't an error, but it is some important information that we need to consider!
-When we first open R (via RStudio) we are working with base R---that is, everything that comes with R and a handful of pre-installed packages. 
+This isn't an error. It's important information that for you consider ahead of your analysis. When we first open R (via RStudio) we are working with base R---that is, everything that comes with R and a handful of pre-installed packages. 
 
-These are packages and functions that exist in R that we have access to without needing to first load the package using `library()`. 
+These are packages and functions that exist in R without loading additional packages. 
 
 ```{block}
 If you would like to see what functions are available to you in base R, you can run `library(help = "base")` in the Console.
@@ -419,28 +418,24 @@ If you would like to see the packages that came pre-installed with R, you can ru
 Additionally, if you would like to see a list of _all_ of the packages that have been installed (both pre-installed with base R as well as those that you have installed), you can run `rownames(installed.packages())` in the Console.
 ```
 
-Due to the broad array of packages that have been created for use in R, it's not uncommon for two (or more!) packages to have functions with the same name.
+Because of the many packages that have been created for use in R, it's not uncommon for packages to have functions with the same name.
 
-What this message is telling us, then, is that if we use the `filter()` function, R will use the `filter()` function from the {dplyr} package (a package within the {tidyverse}) rather than the `filter()` function from within the {stats} package (one of the packages that accompany base R). 
+This message tells you that if you use the `filter()` function, R will use the `filter()` function from the {dplyr} package (a package in the {tidyverse}) rather than the `filter()` function from the {stats} package (a package in base R). R gives precedence to the most recently loaded package.
 
-Take a moment to use the Help documentation to explore how these two functions might differ. 
+Take a moment to use the Help documentation to explore how these two functions differ. 
 
-It's important to note that R will give precedence to the most recently loaded package.
+If R gives precedence to the most recently loaded package, you may be wondering how to use the `filter()` function from the {stats} package and the `filter()` function from the {dplyr} package in the same R session. 
 
-If R gives precedence to the most recently loaded package, you may be wondering what happens if we want to use the `filter()` function from the {stats} package _and_ the `filter()` function from the {dplyr} package in the same R session. 
+One solution is to reload the library you want to use each time you want to change the package you're using the `filter()` function from. However, this can be tricky for several reasons: 
 
-One solution would be to reload the library you want to use each time you want to change the package you're using the `filter()` function from.
-However, this can be tricky for several reasons: 
+- It's best practice to keep your `library()` calls at the very top of your R script, so reloading a package using `library()` throughout your script clutters things and can cause you headaches down the road.
+- If you scroll to the top of your script and reload the packages as you need them, it becomes difficult to keep track of which one you recently loaded.
 
-- It's best practice to keep your `library()` calls at the very top of your R script, so reloading a package using `library()` throughout your script can clutter things and cause you headaches down the road.
-- If you scroll to the top of your script and reload the packages as you need them, it can be difficult to keep track of which one you recently loaded.
+Instead, there's an easier way to handle this kind of problem. When you have conflicting function names from different packages, tell R which package you'd like to pull a function from by using `::`.
 
-Instead, there's an easier way to handle this kind of problem.
-When we have conflicting function names from different packages, we can tell R which package we'd like to pull a function from by using `::`.
+Using the example of the `filter()` function above, coupled with the examples in the Help documentation, specify which package to pull the `filter()` function from using `::`, as outlined below. 
 
-Using the example of the `filter()` function above, coupled with the examples in the Help documentation, we can specify which package to pull the `filter()` function using `::`, as outlined below. 
-
-_Note: we haven't covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation!_
+_Note: we haven't covered what any of this code does yet, but see what you can learn from running the code and using the Help documentation_
 
 ```{r eval = FALSE}
 # using the filter() function from the stats package
@@ -455,11 +450,11 @@ starwars %>%
 
 ### Loading data from {dataedu} into our R Environment
 
-In this section, we're going to explore not only how to load a dataset from the {dataedu} package into our R Environment but also how to assign that dataset to an object so that we can use it in downstream analyses.
+In this section, you'll learn how to load a dataset from the {dataedu} package into the R Environment. You'll assign that dataset to an object so you can use it in downstream analyses.
 
-In [Appendix A](#c20a), we show how to directly access data from a few other sources: Excel, SPSS (via `.SAV` files), and Google Sheets. For now, we will be loading datasets that are already stored in the {dataedu} package.
+In [Appendix A](#c20a), we show how to directly access data from other sources: Excel, SPSS (via `.SAV` files), and Google Sheets. For now, you will be loading datasets that are stored in the {dataedu} package.
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
 
 ```{r, eval = FALSE}
 dataedu::ma_data_init
@@ -469,9 +464,9 @@ dataedu::ma_data_init -> ma_data
 ma_data_init <- dataedu::ma_data_init
 ```
 
-Each of the three code examples above differs slightly, but two lines of code do almost exactly the same thing. The first example provided loads the data into our R environment, but not in a format that's immediately useful to us. The second and third lines of code read in the data and assign it to a new object,`ma_data` and `ma_data_init`, respectively.
+Each of the three code examples above differs slightly, but two lines of code do almost exactly the same thing. The first example loads the data into our R environment, but not in a format that's immediately useful. The second and third lines of code load the data and assign it to a new object,`ma_data` and `ma_data_init`, respectively.
 
-In our Environment pane, we can see the data that has been brought into R. We can even click on the table icon on the far right of the row that describes the data to get an interactive table (the dataset is rather large, so RStudio may lag slightly as you open the table and manipulate it).
+In our Environment pane, you can see the data that's been loaded in R. You can click on the table icon on the far right of the row in the Environment pane to get an interactive table. In this case, the dataset is rather large, so RStudio may lag slightly as you open the table.
 
 ```{r fig6-5, fig.cap = "Loading the `ma_data` Dataset", echo = FALSE}
 knitr::include_graphics("./man/figures/Figure 6.5.png")
@@ -479,18 +474,17 @@ knitr::include_graphics("./man/figures/Figure 6.5.png")
 
 #### The assignment operator
 
-The second and third examples in the code chunk above are how you'll most commonly see things in R being saved to a variable. When we save something to a variable, we do so using what's called an "assignment operator", which in R is either a left- or a right-facing arrow (`<-` or `->`).
+The second and third examples in the code chunk above are how you'll most commonly see data loaded and assigned to a variable. When saving something to a variable, you'll do so using an "assignment operator." In R, commonly used assignment operators are a left- or a right-facing arrow (`<-` or `->`).
 
-Writing the name of your variable followed by a left-facing arrow is currently the most common convention used in R, but it is also perfectly acceptable to use the right-facing arrow. Intuitively, the right-facing arrow may make more sense for those of us who work predominantly in languages that read left to right as what we're essentially saying is "Take this entire chunk of code and save it to this variable name". 
-Regardless of which option you choose, both are different means to the same end.
+Writing the name of your variable followed by a _left-facing arrow_ is a common convention used in R. Intuitively, the _right-facing arrow_ may make more sense for those of us who work in languages that read left to right. The code essentially says "Take this chunk of code and save it to this variable name". Regardless of which option you choose, both accomplish the same thing.
 
-### Exploring our data and common errors
+### Exploring data and common errors
 
-This next chunk of code uses functions that help us explore our data, and also introduces us to some common errors in writing R code.
+This next chunk of code uses functions to explore the data. It also introduces common errors when writing R code.
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. If you'd like, practice commenting your code by noting what you see happening with each line of code that you run.
+Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line. If you'd like, practice commenting your code by noting what happens with each line of code that you run.
 
-_Note: we have intentionally included errors in this and subsequent code chunks to help highlight concepts as well as introduce you to error messages early on!_
+_Note: we intentionally included errors in this and subsequent code chunks to help you learn about them._
 
 ```{r, eval = FALSE}
 # You probably wrote these 3 library() lines in your R script file earlier.
@@ -503,7 +497,7 @@ library(janitor)
 # Exploring and manipulating your data
 names(ma_data_init)
 
-glimpse(ma_dat_init) 
+glimpse(ma_data_init) 
 
 glimpse(ma_data_init)
 
@@ -552,7 +546,7 @@ The pipe operator allows us to link together functions so that we can run our da
 
 _Note: You can find additional keyboard shortcuts for RStudio by going to "Help" in the top bar and then selecting "Keyboard Shortcuts Help"._
 
-Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. You will run into an error message in one of the code chunks, but just try to understand what it means and continue. We will explain this code below.
+Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line. You will run into an error message in one of the code chunks, but just try to understand what it means and continue. We will explain this code below.
 
 ```{r, eval = FALSE}
 ma_data_init %>% 
@@ -616,7 +610,7 @@ In this case, the author of the {magrittr} package created a series of pipe oper
 
 We've introduced a couple of operators already: namely the assignment operator (`<-` or `->`) and the pipe operator (`%>%`). We're now going to talk a bit more in-depth about `=` and `==`.
 
-Take a few minutes to read through the code below before typing or running anything in R. Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code. Once you've done that, type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line.
+Take a few minutes to read through the code below before typing or running anything in R. Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code. Once you've done that, type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
 
 ```{r, eval = FALSE}
 
@@ -646,7 +640,7 @@ When we are looking to determine whether or not values are equal, we use a doubl
 
 Naming things is important! 
 
-The more you use R, the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. However, there are some hard and fast rules that R has about naming things, and we'll cover them in this section.  In the code chunk below, we will try saving our `ma_data_init` dataset into a few different object names. We will be using the `clean_names()` function from the {janitor} package, which you likely already loaded into your environment using the `library(janitor)` function earlier in this chapter. Take a few minutes to type out and run each of the following lines of code, one by one, and notice what you see happening in the Console after you run each line. 
+The more you use R, the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. However, there are some hard and fast rules that R has about naming things, and we'll cover them in this section.  In the code chunk below, we will try saving our `ma_data_init` dataset into a few different object names. We will be using the `clean_names()` function from the {janitor} package, which you likely already loaded into your environment using the `library(janitor)` function earlier in this chapter. Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
 
 ```{r, eval = FALSE}
 
