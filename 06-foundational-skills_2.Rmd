@@ -497,7 +497,7 @@ library(janitor)
 # Exploring and manipulating your data
 names(ma_data_init)
 
-glimpse(ma_data_init) 
+glimpse(ma_dat_init) 
 
 glimpse(ma_data_init)
 
@@ -514,8 +514,11 @@ glimpse(ma_data_init$`AP_Test Takers`)
 summary(ma_data_init$`AP_Test Takers`)
 ```
 
+Reflect on these questions to further your learning: 
+
 What differences do you see between each line of code?
-What changes in the output to the Console with each line of code that you run?
+
+How do the results in the the Console change with each line of code you run?
 
 #### Common errors: typos, spaces, and parentheses
 
@@ -523,26 +526,26 @@ There were two lines of code that resulted in errors and both were due to one of
 
 The first was `glimpse(ma_dat_init)`. 
 
-This might be a tricky error to spot because at first glance it might seem like nothing is wrong!
-However, we've left off the "a" in "data", which has caused problems with R.
+This might be a tricky error to spot because at first glance it doesn't look like anything is wrong.
+However, there's a missing "a" in "data", which caused the error.
 
-Remember: R will do exactly as you tell it to do. This means if you want to run a function on a dataset, R will only run the function on the datasets that are available in its environment. Looking at our Environment pane, we can see that there is no dataset called `ma_dat_init`, which is what R is trying to tell us with its error message of `Error in glimpse(ma_dat_init) : object 'ma_dat_init' not found`. 
+Remember that R will do exactly what you tell it to do. If you want to run a function on a dataset, R will only run the functions available in its environment. Looking at our Environment pane, you'll see there is no dataset called `ma_dat_init`, which is what R is trying to tell us with its error message of `Error: object 'ma_dat_init' not found`. 
 
 The second error was with `glimpse(ma_data_init$AP_Test Takers)`. What do you think the error is here? 
 
-R is unhappy with the space in the file name, and it doesn't know how to read the code. To get around this, there are a couple of things we can do. First, we could make sure that data column names never have spaces in them. This is unlikely to be within our control unless we are the ones creating every dataset we ever use. A second option would be to use R to manipulate the column names after we import the data, but before we start doing any exploration. Another method for dealing with the spaces in column names is to leave the column names as they are but to use single backticks (`) to surround the column header with spaces in it.
+R is unhappy with the space in the argument, and it doesn't know how to read the code. There are a few things you can do to get around this. First, you can make sure that data column names never have spaces in them. This is not always within your control unless you are the creator of the datasets you use. Second, you can use R to manipulate the column names after you import the data and before you start exploring it. Third, you can leave the column names as they are but use single backticks (`) to surround the column header with spaces in it.
 
-_Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks (' ') instead of the actual backticks, but they don't work the same way!_
+_Note: the single backtick key is usually in the top-left of your keyboard. It's common to try and use a set of single quotation marks (' ') instead of the actual backticks, but they don't work the same way._
 
 *The `$` operator*
 
-There are many ways to isolate and explore a single variable within your dataset. In this set of examples above, we used the `$` symbol. The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`. We can see how this works in the last three lines of code in the code chunk above: it is a way of subsetting.
-It's important that the spelling, punctuation, and capitalization that you use in your code match what's in your dataset; otherwise, R will tell you that it can't find anything.
+There are many ways to isolate and explore a single variable in your dataset. In the set of examples above, you used the `$` symbol. The pattern for using the `$` symbol is `name_of_dataset$variable_in_dataset`. You can see how this works in the last three lines of code in the code chunk above: it is a way of subsetting.
 
-### Exploring our data with the pipe operator
+It's important that the spelling, punctuation, and capitalization you use in your code match what's in your dataset; otherwise, R will tell you that it can't find what you've asked it to.
 
-This next code chunk is going to introduce a funny little operator known as the pipe (`%>%`).
-The pipe operator allows us to link together functions so that we can run our data through multiple sequential functions. The keyboard shortcut for typing the pipe operator is `Ctrl` + `Shift` + `M`.
+### Exploring data with the pipe operator
+
+This next code chunk introduces an operator known as the pipe (`%>%`). The pipe operator allows you to link functions together so you can run the data through multiple sequential functions. The keyboard shortcut for typing the pipe operator is `Ctrl` + `Shift` + `M`.
 
 _Note: You can find additional keyboard shortcuts for RStudio by going to "Help" in the top bar and then selecting "Keyboard Shortcuts Help"._
 
@@ -569,48 +572,47 @@ ma_data_init %>%
     arrange(desc(n))
 ```
 
-#### "Reading" code
+Before a fuller explanation of the code below, let's discuss the error. You got an error due to an "unexpected symbol". Like early examples, this error is caused by the space in the variable name. In the code chunk you just ran, you can enclose `District Name` in backticks to resolve this error.
 
-When you encounter new-to-you code, it's helpful to pause and read through the code to see if you can come up with a hypothesis about what it is trying to accomplish. Doing this will help you not only understand code a bit better but also spot errors more quickly when the code doesn't do what you thought it was going to do. 
+#### Reading code
 
-The way that we would read the last chunk of code we ran is:
+When you encounter new-to-you code, it's helpful to read the code out loud and develop a hypothesis about what it's meant to accomplish. Doing this helps you understand the code better. It also helps you spot errors more quickly.
+
+The way that you would read the last chunk of code you ran is:
 
 > Take the `ma_data_init` dataset and then 
 > *group* it *by* `District Name` and then 
-> *count* (the number of schools in a district) and then 
+> *count* the number of schools in a district and then 
 > *filter* for Districts with more than 10 schools and then 
 > *arrange* the list of Districts and the number of schools in each District in descending order, based on the number of schools.
 
-That's a mouthful! But there are a couple of consistent points to make regarding this paragraph.
-Every time we see the pipe, we say "and then".  This is because we're starting with our dataset, `ma_data_init`, _and then_ doing one thing after another to it.
+That's a mouthful! Every time you see the pipe, you'd say "and then". This is because you're starting with the dataset, `ma_data_init`, _and then_ doing one thing after another to it.
 
-Because we're using the pipe operator between each function, R knows that all of our functions are being applied to the `ma_data_init` dataset. We do not need to call or refer to the `ma_data_init` data with each function on each line of code. When we link together functions using the pipe operator in this manner, we often refer to it as "chaining together functions".
-
-Before we move on, let's go back to the first example in the code chunk we just ran. We got an error here due to an "unexpected symbol". Like the example we went over earlier in the chapter, this error is caused by the space in the variable name. In the second example in the code chunk we just ran, we enclose `District Name` in backticks to resolve this error.
+Because you're using the pipe operator between each function, R knows that all of the functions are being applied to the `ma_data_init` dataset. You don't need to refer to the `ma_data_init` data in each new line of code. Linking functions together using the pipe operator is commonly referred to as "chaining together functions".
 
 #### The pipe operator
 
-The pipe operator `%>%` can sometimes throw R learners for a loop until all of a sudden something clicks for them and they decide that they either love it or hate it.
-We use the pipe operator throughout this text because we also heavily rely on the use of the {tidyverse}, which is a package of packages designed for most data science workflows. 
+The pipe operator `%>%` sometimes throws R learners for a loop until something clicks for them. Then they decide they either love it or hate it.
 
-_Note: as you progress in your R learning journey you will likely find that you need to move well beyond the tidyverse for accomplishing your analytical goals---and that's OK!_
-_We like the tidyverse for teaching and learning because it relies on the same syntax across packages, so as you learn how to use functions within one package, you're learning the syntax for functions in other tidyverse packages._  
+We use the pipe operator throughout this text because we also rely heavily on the use of the {tidyverse}, which is a collection of packages designed for data science workflows. 
 
-It's worth taking a few moments to talk about the context for the pipe operator and its package. The pipe operator first appeared in the {magrittr} package and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images. In these images, he would paint an object, such as a pipe, and accompany it with the text "ceci n'est pas une pipe", which is French for "this is not a pipe". 
+_Note: as you progress in your R learning journey you may find you need to move well beyond the tidyverse for accomplishing your analytic goals---and that's OK. We like the tidyverse for teaching and learning because it relies on the same syntax across packages. So as you learn how to use functions within one tidyverse package, you're learning the syntax for functions in other tidyverse packages._  
+
+Here's some fun history about the pipe operator and its package: The pipe operator first appeared in the {magrittr} package and is a play on a famous painting by the artist Magritte, who painted The Treachery of Images. In these images, he would paint an object, such as a pipe, and accompany it with the text "ceci n'est pas une pipe", which is French for "this is not a pipe". 
 
 ```{r fig6-6, fig.cap = "The Treachery of Images by Magritte", echo = FALSE}
 knitr::include_graphics("./man/figures/Figure 6.6.png")
 ```
 
-At the risk of spoiling a joke by over-explaining it, it's common in the R programming world to name a package by choosing a word that represents what the package does (or what the package is for) and either capitalizing the letter R if it appears in the package name or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
+It's common in the R programming world to name a package by choosing a word that represents what the package does or what it's for, then capitalizing the letter R if it appears in the package name or adding an R to the end of the package ({dplyr}, {tidyr}, {stringr}, and even {purrr}).
 
 In this case, the author of the {magrittr} package created a series of pipe operators and then collected them in a package named after the artist Magritte.
 
 ### Exploring assignment vs. equality
 
-We've introduced a couple of operators already: namely the assignment operator (`<-` or `->`) and the pipe operator (`%>%`). We're now going to talk a bit more in-depth about `=` and `==`.
+You've learned a couple of operators already: namely the assignment operator (`<-` or `->`) and the pipe operator (`%>%`). Now you'll learn about `=` and `==`.
 
-Take a few minutes to read through the code below before typing or running anything in R. Try to guess what is happening in each code chunk by writing out a sentence for each line of code so that you have a small paragraph for each chunk of code. Once you've done that, type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
+Read through the code below before typing or running anything in R. Try to guess what is happening in each code chunk by writing a sentence for each line of code so that you have a small paragraph for each chunk. Once you've done that, type and run the following lines of code one by one and notice what happens in the Console after you run each line.
 
 ```{r, eval = FALSE}
 
@@ -632,15 +634,13 @@ ma_data_init %>%
 
 #### The difference between `=` and `==`
 
-We talked earlier about using a left- or right-facing arrow to assign values or code to a variable, but we could also use an equals sign (`=`) to accomplish the same thing. When R encounters an equal sign (`=`) it is looking to create an object by assigning a value to a variable. So when we saw `filter(n = 10)` in the first example in the code chunk above, R didn't understand why we were trying to filter something we were naming and told us so with an error message.
+Earlier you learned about using a left- or right-facing arrow to assign values or code to a variable. You can also use an equals sign (`=`) to accomplish the same thing. When R encounters an equal sign (`=`) it creates an object by assigning a value to a variable. So when you used `filter(n = 10)` in the first example in the code chunk above, R didn't know how to filter something being assigned to a variable and told us so with an error message.
 
-When we are looking to determine whether or not values are equal, we use a double equals sign (`==`), as we did in `filter(n == 10)`. When R sees a double equals sign (`==`) it is evaluating whether or not the value on the left is equivalent to the value on the right. 
+When determining whether or not values are equal, use a double equals sign (`==`), as you did in `filter(n == 10)`. When R sees a double equals sign (`==`) it evaluates whether or not the value on the left is equivalent to the value on the right. 
 
 ### Basics of object and variable names
 
-Naming things is important! 
-
-The more you use R, the more you'll develop your own sense of how you prefer to name things, either as an organization or an individual programmer. However, there are some hard and fast rules that R has about naming things, and we'll cover them in this section.  In the code chunk below, we will try saving our `ma_data_init` dataset into a few different object names. We will be using the `clean_names()` function from the {janitor} package, which you likely already loaded into your environment using the `library(janitor)` function earlier in this chapter. Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
+Naming things is important! The more you use R, the more you'll develop a sense of how you prefer to name things, either as an organization or an individual programmer. However, there are some hard and fast rules that R has about naming things. Using the code chunk below, try saving the `ma_data_init` dataset into few different object names. You'll be using the `clean_names()` function from the {janitor} package, which you already loaded into your environment earlier using the `library(janitor)` function. Type out and run the following lines of code one by one, and notice what happens in the Console after you run each line.
 
 ```{r, eval = FALSE}
 
@@ -665,11 +665,12 @@ MA_data_02 <-
     clean_names()
 ```
 
-As you saw in the above examples, R doesn't like it when you create a name that starts with a number or symbol. In addition, R is going to squawk when you give it a name with a space in it.
-As such, when we create variable names in R, they _must_ start with a letter, although it doesn't matter if the letter is capitalized or in lower case.
+As you saw in the above examples, R doesn't like names that start with a number or symbol. In addition, R also throws an error when you give it a name with a space in it.
+
+As such, variable names in R must start with a letter, though it doesn't matter if the letter is capitalized or in lower case.
 
 ## Conclusion
 
-It would be impossible for us to cover _everything_ you can do with R in a single chapter of a book, but it is our hope that this chapter gives you a strong foundation from which to explore both subsequent chapters as well as additional R resources. [Appendix A](#c20a)^[We note that we will have a few other appendices like this one to expand on some of the content in the walkthrough chapters.] extends some of the techniques introduced in the foundational skills chapter---particularly, reading data from various sources (not only CSV files but also SAV and XLSX files and spreadsheets from Google Sheets).
+It's impossible to cover everything you can do with R in a single book chapter, but we hope this chapter gives you a foundation from which to explore subsequent chapters and other R resources. [Appendix A](#c20a)^[We note that we will have a few other appendices like this one to expand on the content in the walkthrough chapters.] extends the techniques introduced in the foundational skills chapter---particularly, reading data from various sources (not only CSV files but also SAV, XLSX files, and spreadsheets from Google Sheets).
 
-In this chapter, we've covered the concepts of Projects, functions, packages, and data. We have also walked through foundational ideas, concepts, and skills related to doing data science in R. It is our hope that you feel well prepared to tackle the subsequent walkthrough chapters, either in sequential order, or in the order that appeals to you!
+In this chapter, you learned about Projects, functions, packages, and data. We hope you feel prepared to tackle the subsequent walkthrough chapters.
