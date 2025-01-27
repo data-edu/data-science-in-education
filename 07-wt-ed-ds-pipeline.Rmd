@@ -2,16 +2,13 @@
 
 ## Topics Emphasized
 
-For this and the remaining walkthroughs, we refer to the topics emphasized in terms of distinct but related 
-steps involved in the process of data science. In this book, we use the six steps - described in detail 
-in [Chapter 3](#c03) - from @grolemund2018's depiction of the process.
+In this and future walkthroughs, we focus on the distinct but interconnected steps of the data science process, based on the six steps outlined in R for Data Science by @r4ds2023 (see [Chapter 3](#c03)). Each chapter emphasize specific topics while incorporating elements of the entire process.
 
-As mentioned in [Chapter 5](#c05), then, the topics emphasized are those that are the *particular* focus of each chapter; most of the walkthroughs contain some element of all of the five aspects, but all have specific emphases.
-
-For this chapter on the education data science pipeline, those emphases are:
+This chapter on the education data science pipeline emphasizes:
 
 - Tidying data 
 - Transforming data
+- Modeling data
 
 ## Functions Introduced
 
@@ -26,7 +23,7 @@ For this chapter on the education data science pipeline, those emphases are:
 
 ## Vocabulary
 
-In this section (here and in the other walkthrough sections), we include key terms that are introduced and used in the chapter.
+In this walkthrough sections, we include key terms introduced in the chapter:
 
   - data frame
   - item
@@ -42,83 +39,47 @@ In this section (here and in the other walkthrough sections), we include key ter
 
 ## Introduction to the Walkthroughs
 
-This chapter is the first of eight walkthroughs included in the book. In it, we
-present *one approach* to analyzing a specific dataset. In this chapter, the
-approach is what we refer to as the *education data science pipeline*, orsome  the steps taken in many data science projects, including cleaning and tidying data as well as exploring and visualizing or modeling it.
+This chapter is the first of eight walkthroughs included in the book, each exploring the *education data science pipeline* through different datasets. The pipeline encompasses common steps in data science projects, such as cleaning, tidying, exploring, visualizing, and modeling data, as depicted by @r4ds2023.
 
-Here, we will be using data from a number of online science classes and will show the process of
-working with an education dataset from start to finish. While the walkthroughs
-are very different, the structure and section headings will be consistent
-throughout the walkthroughs. For example, every walkthrough will begin with a
-vocabulary section, followed by an introduction to the dataset and an
-introduction to the question or problem explored in the walkthrough. 
+```{r fig7-1, fig.cap = "Data Science Cycle", echo = FALSE, fig.alt="A diagram displaying the data science cycle: Import -> Tidy -> Understand  (which has the phases Transform -> Visualize -> Model in a cycle) -> Communicate. Surrounding all of these is Program  Import, Tidy, Transform, and Visualize is highlighted."}
+knitr::include_graphics("./man/figures/Figure 7.1.png")
+```
 
-We note that this chapter assumes familiarity with the four core concepts that 
-comprise the foundational skills framework: projects, functions, packages, and data. If you would 
-like a refresher about (or an introduction to) any of those, the foundational skills chapter, 
-then reading and writing and running some of the code in the previous chapter [Chapter 6](#06) may be helpful to you.
+Using data from a number of sources, we show the end-to-end process of working with an education dataset. While the walkthrough topics vary, their structure and section headings remain consistent. Each walkthrough begins with a vocabulary section, followed by an introduction to the dataset and the central question or problem.
+
+This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would 
+like a refresher about (or an introduction to) any of those, refer to the previous chapter, [Chapter 6](#06).
 
 ## Chapter Overview
 
-In this walkthrough, we explore some of the key steps that are a part of many
-data science in education projects. In particular, we explore how to process and
-prepare data. These steps are sometimes referred to as "data wrangling". To do
-so, we rely heavily on a set of tools that we use throughout *all* of the
-walkthroughs, those associated with the {tidyverse}.
+In this walkthrough, we explore some of the key steps that are a part of many data science projects in education. In particular, we focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools that we use throughout *all* of the walkthroughs, those associated with the {tidyverse}, which is a set of packages for data manipulation, exploration, and visualization. 
 
-The {tidyverse} is a set of packages for data manipulation, exploration, and
-visualization. that uses the design philosophy of 'tidy' data [@wickham2014].
-Tidy data has a specific structure: each variable is a column, each observation
-is a row, and each type of observational unit is a table. We'll discuss both the
-{tidyverse} and tidy data much more throughout the book. For more information,
-see the Foundational Skills chapters or <https://www.tidyverse.org/>.
+The {tidyverse} follows the design philosophy of 'tidy' data [@wickham2014]. Tidy data has a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table. We'll discuss the {tidyverse} and tidy data throughout the book. For more information, see the Foundational Skills chapters or <https://www.tidyverse.org/>.
 
 ### Background
 
-The online science classes we explore in this chapter were designed and taught
-by instructors through a statewide online course provider designed to supplement
-- but not replace - students' enrollment in their local school. For example,
-students may have chosen to enroll in an online physics class because one was
-not offered at their school. The data were originally collected for a research
-study, which utilized a number of different data sources to understand students'
-course-related motivation. These datasets included:
+The online science classes we explore in this chapter were created by instructors through a statewide online course provider designed to supplement - but not replace - students' enrollment in their local schools. For example, students may have chosen to enroll in an online physics class if their school did not offer one. The data were originally collected for a research study using multiple data sources to understand students' course-related motivation. These datasets include:
 
 1.  A self-report survey assessing three aspects of students' motivation
-2.  Log-trace data, such as data output from the learning management system
+2.  Log-trace data, such as data output from the learning management system (LMS)
 3.  Discussion board data
 4.  Academic achievement data
 
-Our high-level *purpose* for this walkthrough is to conduct an analysis that
-helps explain students' performance in these online courses. The *problem* we
-are facing is a very common one when it comes to data science in education: the
-data are complex and in need of further processing before we can get to the step
-of running analyses. We will use this same dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), and we will provide more details there about the dataset and the context. 
+Our primary *purpose* of this walkthrough is to analyze factors that explain students' performance in these online courses. The *problem* is a very common challenge when it comes to data science in education: the data are complex and require significant processing before analysis We will revisit this dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), where we will provide more details on the dataset and the context. 
 
-To understand students' performance, we will focus on a learning management
-system (LMS) variable that indicates the amount of time students spent within
-the course LMS. We will also explore the effects of the type of science course
-and the section in which students are enrolled on student performance.
+To understand students' performance, we will focus on an LMS variable that represents the amount of time students spent in the LMS. we will explore how the type of science course and class section influence performance.
 
-First, these different data sources will be described in terms of how they were
-provided by the school.
+We begin by describing how these data sources were provided by the school.
 
 ### Data Sources
 
 #### Data Source \#1: Self-Report Survey about Students' Motivation
 
-The first data source is a self-report survey. This was data collected before
-the start of the course. The survey included ten items, each corresponding to
-one of three motivation *measures*: interest, utility value, and perceived
-competence. A *measure* is a concept that we try to make concrete and assess
-using survey questions. The three motivation measures we explore here come from
-Expectancy-Value Theory, which states that students are motivated to learn when
-they both believe that they can achieve something (expectancy, also known as
+The first data source is a self-report survey conducted before the course began. The survey included ten items, each corresponding to one of three motivation *measures*: interest, utility value, and perceived competence. A *measure* is a concept that we try to make concrete and assessable using survey questions. The three motivation measures are from Expectancy-Value Theory, which states that students are motivated to learn when
+they both believe that they can succeed (expectancy, also known as
 perceived competence) and believe that the concept they are trying to learn is
 important (value) [@wigfield2000]. There are multiple types of value, but we
-explore two of them here: interest and utility value. Utility value is the
-degree to which a person is able to connect the concept being learned with
-something they will utilize in their future life. This survey included the
-following ten items:
+examine two of them here: interest and utility value. Interest is how engaging or enjoyable students find the subject,  and utility value is how relevant students believe the subject is to their future. This survey included the following ten items:
 
 1.  I think this course is an interesting subject. (Interest)
 2.  What I am learning in this class is relevant to my life. (Utility value)
@@ -136,35 +97,20 @@ following ten items:
 
 ### Data Source \#2: Log-Trace Data
 
-*Log-trace data* is data generated from our interactions with digital
-technologies, such as archived data from social media postings (see
-[Chapter 11](#c11) and [Chapter 12](#c12)). In education, an increasingly common
-source of log-trace data is that generated from interactions with learning
-management systems and other digital tools [@siemens2012]. The data for this
-walk-through is a summary type of log-trace data: the number of minutes students
-spent on the course. While this data type is fairly straightforward, there are
-even more complex sources of log-trace data out there (e.g. time stamps
-associated with when students started and stopped accessing the course!).
+*Log-trace data* refers to data generated from interactions with digital
+technologies, such as social media posts (see [Chapter 11](#c11) and [Chapter 12](#c12) for walkthroughts wiht social media posts). In education, an increasingly common source is data from LMSs and other digital tools [@siemens2012]. For this walkthrough, we use a summary form of log-trace data: the number of minutes students spent on the course. While this data is relatively simple, more complex sources of log-trace data can include detailed timestamps, such as when students started and stopped accessing the course.
 
 ### Data Source \#3: Academic Achievement and Gradebook Data
 
-This is a common source of data in the education realm: the graded assignments
-students completed. In this walkthrough, we examine only students' final grade
-for the course.
+A common source of data in the education realm  is students' graded assignments. In this walkthrough, we examine only students' final course grade.
 
 ### Data Source \#4: Discussion Board Data
 
-Discussion board data is both rich and unstructured because it is made up of
-large chunks of text that the students wrote. While discussion board data was
-collected for this research project, but we do not examine it in this
-walkthrough. More information about analyzing text data can be found in
-[Chapter 11](#c11).
+Discussion board data is rich but unstructured because it consists of large text blocks written by students wrote. Although discussion board data was collected for this research project, we do not examine it in this walkthrough. More information about analyzing text data can be found in [Chapter 11](#c11).
 
 ### Methods
 
-In this walkthrough, we will concentrate on merging different datasets together
-by using the different "joins" available in the {dplyr} package. We will also
-start exploring how to run linear models in R. 
+In this walkthrough, we focus on merging datasets using the different "joins" available in the {dplyr} package and begin exploring how to run linear models in R. 
 
 ## Load Packages
 
@@ -172,7 +118,7 @@ This analysis uses R packages, which are collections of R code that help users
 code more efficiently, as you will recall from [Chapter 1](#c1). We load these
 packages with the function `library()`. The specific packages we'll use here
 will help us organize the structure of the data using the {tidyverse}
-[@R-tidyverse],create formatted tables using {apaTables} [@R-apaTables] and
+[@R-tidyverse], create formatted tables using {apaTables} [@R-apaTables] and
 {sjPlot} [@R-sjPlot], and export datasets using {readxl} [@R-readxl].
 
 ***Install packages (if necessary)***
@@ -363,7 +309,7 @@ some logical operators you can use in the future:
 
 Let's make this all concrete and use it here in our function that reverses the
 scale of the survey responses. In the first part of the code chunk below, we
-will write our function. Note that by running the first bit of code here, we
+will write our custom function. If you need a brief overview of custom functions, see the Writing Your Own Functions section in [Chapter 6](#c6). Note that by running the first bit of code here, we
 won't be changing anything in our data. Instead, we are creating a reusable,
 general-purpose code chunk that we will then apply to the specific survey
 questions we want to recode.
