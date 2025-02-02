@@ -824,80 +824,220 @@ div.csl-indent {
 <span id="cb11-9"><a href="c14.html#cb11-9" tabindex="-1"></a>                                                  <span class="st">&quot;70-80%&quot;</span>,</span>
 <span id="cb11-10"><a href="c14.html#cb11-10" tabindex="-1"></a>                                                  <span class="st">&quot;80-90%&quot;</span>,</span>
 <span id="cb11-11"><a href="c14.html#cb11-11" tabindex="-1"></a>                                                  <span class="st">&quot;90-100%&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb11-12"><a href="c14.html#cb11-12" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">imd_band =</span> <span class="fu">as.integer</span>(imd_band))</span></code></pre></div>
+<span id="cb11-12"><a href="c14.html#cb11-12" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">imd_band =</span> <span class="fu">as.factor</span>(imd_band))</span></code></pre></div>
+<p>In the OULAD documentation, this is called the VLE (virtual learning environment) data source. Please review the description of the variables in the <em>studentVLE</em> and <em>VLE</em> sources (which are joined together for this learning lab) <a href="https://analyse.kmi.open.ac.uk/open_dataset#description">here</a>.</p>
+<p>Let’s import it:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="c14.html#cb12-1" tabindex="-1"></a>interactions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/ml/oulad-interactions-filtered.csv&quot;</span>) <span class="co"># need to unzip</span></span></code></pre></div>
+<pre><code>## Rows: 5548858 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): code_module, code_presentation, activity_type
+## dbl (8): id_student, id_site, date, sum_click, week_from, week_to, module_pr...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div id="your-turn" class="section level4 hasAnchor" number="14.5.1.2">
+<h4><span class="header-section-number">14.5.1.2</span> <span style="color: green;">Your Turn</span> ⤵<a href="c14.html#your-turn" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><em>First</em>, <code>count()</code> the <code>activity_type</code> variable and <em>sort</em> the resulting output by frequency.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="c14.html#cb14-1" tabindex="-1"></a>interactions <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="c14.html#cb14-2" tabindex="-1"></a>    <span class="fu">count</span>(activity_type)</span></code></pre></div>
+<pre><code>## # A tibble: 19 × 2
+##    activity_type        n
+##    &lt;chr&gt;            &lt;int&gt;
+##  1 dataplus           311
+##  2 dualpane          7306
+##  3 externalquiz     18171
+##  4 forumng        1279917
+##  5 glossary          9630
+##  6 homepage        832424
+##  7 htmlactivity      6562
+##  8 oucollaborate    25861
+##  9 oucontent      1065736
+## 10 ouelluminate     13829
+## 11 ouwiki           66413
+## 12 page             33539
+## 13 questionnaire    16528
+## 14 quiz            398966
+## 15 repeatactivity       6
+## 16 resource        436704
+## 17 sharedsubpage      103
+## 18 subpage        1104279
+## 19 url             232573</code></pre>
+<p>What does this tell you? Consulting the codebook and your output, please add at least two notes on what you are noticing:</p>
+<p>Then, let’s create a histogram of the <code>date</code> variable.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="c14.html#cb16-1" tabindex="-1"></a>interactions <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="c14.html#cb16-2" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="c14.html#cb16-3" tabindex="-1"></a>    <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Let’s join the data together.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="c14.html#cb12-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> students <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="c14.html#cb12-2" tabindex="-1"></a>    <span class="fu">left_join</span>(assessments_joined, <span class="at">by =</span> <span class="st">&quot;id_student&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="c14.html#cb18-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> students <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="c14.html#cb18-2" tabindex="-1"></a>    <span class="fu">left_join</span>(assessments_joined, <span class="at">by =</span> <span class="st">&quot;id_student&quot;</span>)</span></code></pre></div>
+<p>Next, we’ll load a new file — one with <em>interactions</em> (or log-trace) data.</p>
+<p>We have to do the same processing we did in the second learning lab, to obtain cut-off dates. As a reminder, the purpose of this is to train the model on data from the first one-third of the class, with the reasoning being this is a good time to intervene–far enough into the class to make an appreciable impact, but not too late to have a limited chance of being able to change students’ trajectory in the class.</p>
+<p>We’ll repeat the procedure we carried out with the assessments data — calculating a cut-off for each class and then filtering the data based upon this cut-off. But, since we’ve already done this for the assessment data, to allow us to focus more on the modeling, we are providing you with the already-filtered interactions data.</p>
+<p>Next, we load <code>oulad-interactions-filtered.csv</code> into R, assigning the resulting data frame the name <code>interactions</code>.</p>
 </div>
-<div id="step-2-splitting-the-data" class="section level4 hasAnchor" number="14.5.1.2">
-<h4><span class="header-section-number">14.5.1.2</span> Step 2: Splitting the Data<a href="c14.html#step-2-splitting-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="your-turn-1" class="section level4 hasAnchor" number="14.5.1.3">
+<h4><span class="header-section-number">14.5.1.3</span> <span style="color: green;">Your Turn</span> ⤵<a href="c14.html#your-turn-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="c14.html#cb19-1" tabindex="-1"></a>interactions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/ml/oulad-interactions-filtered.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 5548858 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): code_module, code_presentation, activity_type
+## dbl (8): id_student, id_site, date, sum_click, week_from, week_to, module_pr...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>How can we create a feature with <code>sum_click</code>? Think back to our
+discussion in the presentation; we have <em>many</em> options for working with
+such time series data. Perhaps the most simple is to count the clicks.
+Please summarize the number of clicks for each student (specific to a
+single course). This means you will need to group your data by
+<code>id_student</code>, <code>code_module</code>, and <code>code_presentation</code>, and then create a
+summary variable.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="c14.html#cb21-1" tabindex="-1"></a>interactions_summarized <span class="ot">&lt;-</span> interactions <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="c14.html#cb21-2" tabindex="-1"></a>    <span class="fu">group_by</span>(id_student, code_module, code_presentation) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="c14.html#cb21-3" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">sum_clicks =</span> <span class="fu">sum</span>(sum_click))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;id_student&#39;, &#39;code_module&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="c14.html#cb23-1" tabindex="-1"></a>interactions_summarized</span></code></pre></div>
+<pre><code>## # A tibble: 29,160 × 4
+## # Groups:   id_student, code_module [28,192]
+##    id_student code_module code_presentation sum_clicks
+##         &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;                  &lt;dbl&gt;
+##  1       6516 AAA         2014J                    999
+##  2       8462 DDD         2013J                    516
+##  3       8462 DDD         2014J                     10
+##  4      11391 AAA         2013J                    528
+##  5      23629 BBB         2013B                     84
+##  6      23698 CCC         2014J                    503
+##  7      23798 BBB         2013J                    277
+##  8      24186 GGG         2014B                    118
+##  9      24213 DDD         2014B                    642
+## 10      24391 GGG         2013J                    424
+## # ℹ 29,150 more rows</code></pre>
+<p>How many times did students click? Let’s create a histogram to see.
+Please use {ggplot} and <code>geom_histogram()</code> to visualize the distribution
+of the <code>sum_clicks</code> variable you just created.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="c14.html#cb25-1" tabindex="-1"></a>interactions_summarized <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="c14.html#cb25-2" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sum_clicks)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="c14.html#cb25-3" tabindex="-1"></a>    <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>This is a good start - we’ve created our first feature based upon the
+log data, <code>sum_clicks</code>! What are some other features we can add? An affordance
+of using the <code>summarize()</code> function in R is we can create multiple
+summary statistics at once. Let’s also calculate the standard deviation
+of the number of clicks as well as the mean. Please copy the code you
+wrote above into the code chunk below and then add these two additional
+summary statistics.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="c14.html#cb27-1" tabindex="-1"></a>interactions_summarized <span class="ot">&lt;-</span> interactions <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="c14.html#cb27-2" tabindex="-1"></a>    <span class="fu">group_by</span>(id_student, code_module, code_presentation) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="c14.html#cb27-3" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">sum_clicks =</span> <span class="fu">sum</span>(sum_click),</span>
+<span id="cb27-4"><a href="c14.html#cb27-4" tabindex="-1"></a>              <span class="at">sd_clicks =</span> <span class="fu">sd</span>(sum_click), </span>
+<span id="cb27-5"><a href="c14.html#cb27-5" tabindex="-1"></a>              <span class="at">mean_clicks =</span> <span class="fu">mean</span>(sum_click))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;id_student&#39;, &#39;code_module&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<p>Let’s join together <em>all</em> of the data we’ll use for
+our modeling: <code>students</code> and <code>intteractions_summarized</code>. Use
+<code>left_join()</code> once more, assigning the resulting output the name
+<code>students_and_interactions</code>.</p>
+<p>Lots of joining! Sometimes, the hardest part of complex analyses lies in the preparation (and joining) of the data.</p>
+</div>
+<div id="your-turn-2" class="section level4 hasAnchor" number="14.5.1.4">
+<h4><span class="header-section-number">14.5.1.4</span> <span style="color: green;">Your Turn</span> ⤵<a href="c14.html#your-turn-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="c14.html#cb29-1" tabindex="-1"></a>students_and_interactions <span class="ot">&lt;-</span> <span class="fu">left_join</span>(students, </span>
+<span id="cb29-2"><a href="c14.html#cb29-2" tabindex="-1"></a>                                       interactions_summarized)</span></code></pre></div>
+<pre><code>## Joining with `by = join_by(code_module, code_presentation, id_student)`</code></pre>
+</div>
+<div id="step-2-splitting-the-data" class="section level4 hasAnchor" number="14.5.1.5">
+<h4><span class="header-section-number">14.5.1.5</span> Step 2: Splitting the Data<a href="c14.html#step-2-splitting-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We split the dataset into training and testing sets using an 80-20 split:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="c14.html#cb13-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
-<span id="cb13-2"><a href="c14.html#cb13-2" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="c14.html#cb13-3" tabindex="-1"></a>train_test_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(students, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> <span class="st">&quot;pass&quot;</span>)</span>
-<span id="cb13-4"><a href="c14.html#cb13-4" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="c14.html#cb13-5" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(train_test_split)</span>
-<span id="cb13-6"><a href="c14.html#cb13-6" tabindex="-1"></a>data_test  <span class="ot">&lt;-</span> <span class="fu">testing</span>(train_test_split)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="c14.html#cb31-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb31-2"><a href="c14.html#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="c14.html#cb31-3" tabindex="-1"></a>train_test_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(students_and_interactions, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> <span class="st">&quot;pass&quot;</span>)</span>
+<span id="cb31-4"><a href="c14.html#cb31-4" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="c14.html#cb31-5" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">training</span>(train_test_split)</span>
+<span id="cb31-6"><a href="c14.html#cb31-6" tabindex="-1"></a>data_test  <span class="ot">&lt;-</span> <span class="fu">testing</span>(train_test_split)</span></code></pre></div>
 </div>
-<div id="step-3-creating-a-recipe-for-selected-preprocessing-steps" class="section level4 hasAnchor" number="14.5.1.3">
-<h4><span class="header-section-number">14.5.1.3</span> Step 3: Creating a Recipe for Selected Preprocessing Steps<a href="c14.html#step-3-creating-a-recipe-for-selected-preprocessing-steps" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>To keep things simple, we will only include two preprocessing steps in the recipe:</p>
-<ol style="list-style-type: decimal">
-<li><strong>Centering and scaling the <code>mean_weighted_score</code> predictor</strong><br />
-</li>
-<li><strong>Converting the outcome variable (<code>pass</code>) into a factor (if it wasn’t already)</strong></li>
-</ol>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="c14.html#cb14-1" tabindex="-1"></a>my_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(pass <span class="sc">~</span> disability <span class="sc">+</span> imd_band <span class="sc">+</span> mean_weighted_score <span class="sc">+</span> num_of_prev_attempts <span class="sc">+</span> gender <span class="sc">+</span> region <span class="sc">+</span> highest_education, <span class="at">data =</span> data_train) <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="c14.html#cb14-2" tabindex="-1"></a>    <span class="fu">step_center</span>(mean_weighted_score) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="c14.html#cb14-3" tabindex="-1"></a>    <span class="fu">step_scale</span>(mean_weighted_score) <span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="c14.html#cb14-4" tabindex="-1"></a>    <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-5"><a href="c14.html#cb14-5" tabindex="-1"></a>    <span class="fu">step_scale</span>(num_of_prev_attempts)</span></code></pre></div>
+<div id="step-3-creating-a-recipe-for-selected-preprocessing-steps" class="section level4 hasAnchor" number="14.5.1.6">
+<h4><span class="header-section-number">14.5.1.6</span> Step 3: Creating a Recipe for Selected Preprocessing Steps<a href="c14.html#step-3-creating-a-recipe-for-selected-preprocessing-steps" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>To keep things simple, we will only include a few pre-processing steps.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="c14.html#cb32-1" tabindex="-1"></a>my_rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(pass <span class="sc">~</span> disability <span class="sc">+</span> imd_band <span class="sc">+</span> mean_weighted_score <span class="sc">+</span> </span>
+<span id="cb32-2"><a href="c14.html#cb32-2" tabindex="-1"></a>                     num_of_prev_attempts <span class="sc">+</span> gender <span class="sc">+</span> region <span class="sc">+</span> highest_education <span class="sc">+</span></span>
+<span id="cb32-3"><a href="c14.html#cb32-3" tabindex="-1"></a>                     sum_clicks <span class="sc">+</span> </span>
+<span id="cb32-4"><a href="c14.html#cb32-4" tabindex="-1"></a>                     sd_clicks <span class="sc">+</span></span>
+<span id="cb32-5"><a href="c14.html#cb32-5" tabindex="-1"></a>                     mean_clicks,</span>
+<span id="cb32-6"><a href="c14.html#cb32-6" tabindex="-1"></a>                 <span class="at">data =</span> data_train) <span class="sc">%&gt;%</span></span>
+<span id="cb32-7"><a href="c14.html#cb32-7" tabindex="-1"></a>    <span class="co"># steps</span></span>
+<span id="cb32-8"><a href="c14.html#cb32-8" tabindex="-1"></a>    <span class="fu">step_impute_mean</span>(mean_weighted_score, sum_clicks, sd_clicks, mean_clicks) <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="c14.html#cb32-9" tabindex="-1"></a>    <span class="fu">step_impute_mode</span>(imd_band) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-10"><a href="c14.html#cb32-10" tabindex="-1"></a>    <span class="fu">step_center</span>(mean_weighted_score) <span class="sc">%&gt;%</span></span>
+<span id="cb32-11"><a href="c14.html#cb32-11" tabindex="-1"></a>    <span class="fu">step_scale</span>(mean_weighted_score) <span class="sc">%&gt;%</span></span>
+<span id="cb32-12"><a href="c14.html#cb32-12" tabindex="-1"></a>    <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-13"><a href="c14.html#cb32-13" tabindex="-1"></a>    <span class="fu">step_scale</span>(num_of_prev_attempts)</span></code></pre></div>
 <p>We can inspect the recipe to verify the steps:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="c14.html#cb15-1" tabindex="-1"></a>my_rec</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="c14.html#cb33-1" tabindex="-1"></a>my_rec</span></code></pre></div>
 <pre><code>## </code></pre>
 <pre><code>## ── Recipe ──────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## </code></pre>
 <pre><code>## ── Inputs</code></pre>
 <pre><code>## Number of variables by role</code></pre>
-<pre><code>## outcome:   1
-## predictor: 7</code></pre>
+<pre><code>## outcome:    1
+## predictor: 10</code></pre>
 <pre><code>## </code></pre>
 <pre><code>## ── Operations</code></pre>
+<pre><code>## • Mean imputation for: mean_weighted_score, sum_clicks, sd_clicks, ...</code></pre>
+<pre><code>## • Mode imputation for: imd_band</code></pre>
 <pre><code>## • Centering for: mean_weighted_score</code></pre>
 <pre><code>## • Scaling for: mean_weighted_score</code></pre>
 <pre><code>## • Dummy variables from: all_nominal_predictors() and -all_outcomes()</code></pre>
 <pre><code>## • Scaling for: num_of_prev_attempts</code></pre>
 </div>
-<div id="step-4-specifying-the-model-and-workflow" class="section level4 hasAnchor" number="14.5.1.4">
-<h4><span class="header-section-number">14.5.1.4</span> Step 4: Specifying the Model and Workflow<a href="c14.html#step-4-specifying-the-model-and-workflow" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="step-4-specifying-the-model-and-workflow" class="section level4 hasAnchor" number="14.5.1.7">
+<h4><span class="header-section-number">14.5.1.7</span> Step 4: Specifying the Model and Workflow<a href="c14.html#step-4-specifying-the-model-and-workflow" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Next, we specify a logistic regression model and bundle the recipe and model into a workflow. This step has a lot of pieces, but they are fairly boilerplate. The first part is to specify the model:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="c14.html#cb28-1" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="c14.html#cb28-2" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-3"><a href="c14.html#cb28-3" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="c14.html#cb48-1" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb48-2"><a href="c14.html#cb48-2" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">&quot;glm&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-3"><a href="c14.html#cb48-3" tabindex="-1"></a>    <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>)</span>
+<span id="cb48-4"><a href="c14.html#cb48-4" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="c14.html#cb48-5" tabindex="-1"></a><span class="co"># my_mod &lt;- boost_tree() %&gt;%</span></span>
+<span id="cb48-6"><a href="c14.html#cb48-6" tabindex="-1"></a><span class="co">#   set_engine(&quot;xgboost&quot;) %&gt;%  # &quot;xgboost&quot; is a common engine for boosted trees</span></span>
+<span id="cb48-7"><a href="c14.html#cb48-7" tabindex="-1"></a><span class="co">#   set_mode(&quot;classification&quot;)</span></span></code></pre></div>
 <p>The next is to specify the workflow.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="c14.html#cb29-1" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="c14.html#cb29-2" tabindex="-1"></a>  <span class="fu">add_recipe</span>(my_rec) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="c14.html#cb29-3" tabindex="-1"></a>  <span class="fu">add_model</span>(my_mod)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="c14.html#cb49-1" tabindex="-1"></a>my_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="c14.html#cb49-2" tabindex="-1"></a>    <span class="fu">add_recipe</span>(my_rec) <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="c14.html#cb49-3" tabindex="-1"></a>    <span class="fu">add_model</span>(my_mod)</span></code></pre></div>
 </div>
-<div id="step-5-fitting-the-model" class="section level4 hasAnchor" number="14.5.1.5">
-<h4><span class="header-section-number">14.5.1.5</span> Step 5: Fitting the Model<a href="c14.html#step-5-fitting-the-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="step-5-fitting-the-model" class="section level4 hasAnchor" number="14.5.1.8">
+<h4><span class="header-section-number">14.5.1.8</span> Step 5: Fitting the Model<a href="c14.html#step-5-fitting-the-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Now we fit the model to the training data. We do this by calling the <code>last_fit()</code> function on the workflow:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="c14.html#cb30-1" tabindex="-1"></a>final_fit <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(my_wf, train_test_split)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="c14.html#cb50-1" tabindex="-1"></a>final_fit <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(my_wf, train_test_split)</span></code></pre></div>
 </div>
-<div id="step-6-evaluating-model-performance" class="section level4 hasAnchor" number="14.5.1.6">
-<h4><span class="header-section-number">14.5.1.6</span> Step 6: Evaluating Model Performance<a href="c14.html#step-6-evaluating-model-performance" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="step-6-evaluating-model-performance" class="section level4 hasAnchor" number="14.5.1.9">
+<h4><span class="header-section-number">14.5.1.9</span> Step 6: Evaluating Model Performance<a href="c14.html#step-6-evaluating-model-performance" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Finally, we evaluate the model’s performance using the test set. The tidymodels package makes this easy.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="c14.html#cb31-1" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="c14.html#cb31-2" tabindex="-1"></a>  <span class="fu">collect_metrics</span>()</span>
-<span id="cb31-3"><a href="c14.html#cb31-3" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="c14.html#cb31-4" tabindex="-1"></a>metrics</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="c14.html#cb51-1" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="c14.html#cb51-2" tabindex="-1"></a>    <span class="fu">collect_metrics</span>()</span>
+<span id="cb51-3"><a href="c14.html#cb51-3" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="c14.html#cb51-4" tabindex="-1"></a>metrics</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 4
 ##   .metric     .estimator .estimate .config             
 ##   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
-## 1 accuracy    binary         0.597 Preprocessor1_Model1
-## 2 roc_auc     binary         0.612 Preprocessor1_Model1
-## 3 brier_class binary         0.239 Preprocessor1_Model1</code></pre>
-<p>So, how did the model do? Not so hot! Let’s see if we can do better.</p>
+## 1 accuracy    binary         0.640 Preprocessor1_Model1
+## 2 roc_auc     binary         0.639 Preprocessor1_Model1
+## 3 brier_class binary         0.224 Preprocessor1_Model1</code></pre>
+<p>So, how did the model do? Not so bad!</p>
+<p>One affordance of tidymodels is we can readily switch out the model and engine. Try one of these modifications to the code to see how the predictive performance improves—for a random forest and a boosted tree model, respectively.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="c14.html#cb53-1" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="c14.html#cb53-2" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">&quot;ranger&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># install.packages(&quot;ranger&quot;) needed first</span></span>
+<span id="cb53-3"><a href="c14.html#cb53-3" tabindex="-1"></a>    <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>)</span>
+<span id="cb53-4"><a href="c14.html#cb53-4" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="c14.html#cb53-5" tabindex="-1"></a>my_mod <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>() <span class="sc">%&gt;%</span> <span class="co"># install.packages(&quot;xgboost&quot;) needed first</span></span>
+<span id="cb53-6"><a href="c14.html#cb53-6" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;xgboost&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-7"><a href="c14.html#cb53-7" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">&quot;classification&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 </div>

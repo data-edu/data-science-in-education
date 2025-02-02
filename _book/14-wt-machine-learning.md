@@ -57,11 +57,11 @@ In this chapter, we draw on a widely-used data set in the learning analytics fie
 #### Predictive snalytics and machine learning
 
 A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to try to determine what a person will want, need, or do next. "Predictive analytics" is a blanket term that can be used to describe any statistical approach that yields a prediction. We could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could give you a probability of that computer-sitting happening today. Under the hood, some predictive models are not very complex. If we have an outcome with two possibilities, a logistic regression model could be fit to the data in order to help us answer the cat-keyboard question. In this chapter, we'll compare a machine learning model to another type of regression: multiple regression. We want to make sure to fit the simplest model as possible to our data. After all, the effectiveness in predicting the outcome is really the most important thing, not the fanciness of the model.
-    
+
 Data collection is an essential first step in any type of machine learning or predictive analytics. It is important to note here that machine learning only works effectively when (1) a person selects variables to include in the model that are anticipated to be related to the outcome and (2) a person correctly interprets the model's findings. 
 
 There is an adage: "garbage in, garbage out". This holds true here. If we do not feel confident that the data we collected are accurate, we will not be able to be confident in our conclusions no matter what model we build. To collect good data, we must first clarify what it is that we want to know (i.e., what question are we really asking?) and what information we would need in order to effectively answer that question. Sometimes, people approach analysis from the opposite direction---they might look at the data they have and ask what questions could be answered based on that data. That approach is okay, as long as you are willing to acknowledge that sometimes the pre-existing dataset may *not* contain all the information you need, and you might need to go out and find additional information to add to your dataset to truly answer your question.
-    
+
 When people talk about "machine learning", you might get the image in your head of a desktop computer learning how to spell. You might picture your favorite social media site showing you advertisements that are just a little too accurate. At its core, machine learning is the process of "showing" your statistical model only some of the data at once and training the model to predict accurately on that training dataset (this is the "learning" part of machine learning). Then, the model as developed on the training data is shown new data---data you had all along, but hid from your computer initially---and you see how well the model that you developed on the training data performs on this new testing data. Eventually, you might use the model on entirely new data.  
 
 ## Load packages
@@ -170,9 +170,80 @@ students <- students %>%
                                                   "70-80%",
                                                   "80-90%",
                                                   "90-100%"))) %>%
-    mutate(imd_band = as.integer(imd_band))
+    mutate(imd_band = as.factor(imd_band))
 ```
 
+In the OULAD documentation, this is called the VLE (virtual learning environment) data source. Please review the description of the variables in the *studentVLE* and *VLE* sources (which are joined together for this learning lab) [here](https://analyse.kmi.open.ac.uk/open_dataset#description).
+
+Let's import it:
+
+
+```r
+interactions <- read_csv("data/ml/oulad-interactions-filtered.csv") # need to unzip
+```
+
+```
+## Rows: 5548858 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): code_module, code_presentation, activity_type
+## dbl (8): id_student, id_site, date, sum_click, week_from, week_to, module_pr...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+*First*, `count()` the `activity_type` variable and *sort* the resulting output by frequency.
+
+
+```r
+interactions %>% 
+    count(activity_type)
+```
+
+```
+## # A tibble: 19 × 2
+##    activity_type        n
+##    <chr>            <int>
+##  1 dataplus           311
+##  2 dualpane          7306
+##  3 externalquiz     18171
+##  4 forumng        1279917
+##  5 glossary          9630
+##  6 homepage        832424
+##  7 htmlactivity      6562
+##  8 oucollaborate    25861
+##  9 oucontent      1065736
+## 10 ouelluminate     13829
+## 11 ouwiki           66413
+## 12 page             33539
+## 13 questionnaire    16528
+## 14 quiz            398966
+## 15 repeatactivity       6
+## 16 resource        436704
+## 17 sharedsubpage      103
+## 18 subpage        1104279
+## 19 url             232573
+```
+
+What does this tell you? Consulting the codebook and your output, please add at least two notes on what you are noticing:
+
+Then, let's create a histogram of the `date` variable.
+
+
+```r
+interactions %>% 
+    ggplot(aes(x = date)) +
+    geom_histogram()
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
 Let's join the data together.
 
@@ -180,6 +251,133 @@ Let's join the data together.
 ```r
 students <- students %>% 
     left_join(assessments_joined, by = "id_student")
+```
+
+
+Next, we'll load a new file --- one with *interactions* (or log-trace) data.
+
+We have to do the same processing we did in the second learning lab, to obtain cut-off dates. As a reminder, the purpose of this is to train the model on data from the first one-third of the class, with the reasoning being this is a good time to intervene--far enough into the class to make an appreciable impact, but not too late to have a limited chance of being able to change students' trajectory in the class.
+
+We'll repeat the procedure we carried out with the assessments data --- calculating a cut-off for each class and then filtering the data based upon this cut-off. But, since we've already done this for the assessment data, to allow us to focus more on the modeling, we are providing you with the already-filtered interactions data.
+
+Next, we load `oulad-interactions-filtered.csv` into R, assigning the resulting data frame the name `interactions`.
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+
+```r
+interactions <- read_csv("data/ml/oulad-interactions-filtered.csv")
+```
+
+```
+## Rows: 5548858 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): code_module, code_presentation, activity_type
+## dbl (8): id_student, id_site, date, sum_click, week_from, week_to, module_pr...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+How can we create a feature with `sum_click`? Think back to our
+discussion in the presentation; we have *many* options for working with
+such time series data. Perhaps the most simple is to count the clicks.
+Please summarize the number of clicks for each student (specific to a
+single course). This means you will need to group your data by
+`id_student`, `code_module`, and `code_presentation`, and then create a
+summary variable.
+
+
+```r
+interactions_summarized <- interactions %>% 
+    group_by(id_student, code_module, code_presentation) %>% 
+    summarize(sum_clicks = sum(sum_click))
+```
+
+```
+## `summarise()` has grouped output by 'id_student', 'code_module'. You can
+## override using the `.groups` argument.
+```
+
+```r
+interactions_summarized
+```
+
+```
+## # A tibble: 29,160 × 4
+## # Groups:   id_student, code_module [28,192]
+##    id_student code_module code_presentation sum_clicks
+##         <dbl> <chr>       <chr>                  <dbl>
+##  1       6516 AAA         2014J                    999
+##  2       8462 DDD         2013J                    516
+##  3       8462 DDD         2014J                     10
+##  4      11391 AAA         2013J                    528
+##  5      23629 BBB         2013B                     84
+##  6      23698 CCC         2014J                    503
+##  7      23798 BBB         2013J                    277
+##  8      24186 GGG         2014B                    118
+##  9      24213 DDD         2014B                    642
+## 10      24391 GGG         2013J                    424
+## # ℹ 29,150 more rows
+```
+
+How many times did students click? Let's create a histogram to see.
+Please use {ggplot} and `geom_histogram()` to visualize the distribution
+of the `sum_clicks` variable you just created.
+
+
+```r
+interactions_summarized %>% 
+    ggplot(aes(x = sum_clicks)) +
+    geom_histogram()
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+<img src="14-wt-machine-learning_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" />
+
+This is a good start - we've created our first feature based upon the
+log data, `sum_clicks`! What are some other features we can add? An affordance
+of using the `summarize()` function in R is we can create multiple
+summary statistics at once. Let's also calculate the standard deviation
+of the number of clicks as well as the mean. Please copy the code you
+wrote above into the code chunk below and then add these two additional
+summary statistics.
+
+
+```r
+interactions_summarized <- interactions %>% 
+    group_by(id_student, code_module, code_presentation) %>% 
+    summarize(sum_clicks = sum(sum_click),
+              sd_clicks = sd(sum_click), 
+              mean_clicks = mean(sum_click))
+```
+
+```
+## `summarise()` has grouped output by 'id_student', 'code_module'. You can
+## override using the `.groups` argument.
+```
+
+Let's join together *all* of the data we'll use for
+our modeling: `students` and `intteractions_summarized`. Use
+`left_join()` once more, assigning the resulting output the name
+`students_and_interactions`. 
+
+Lots of joining! Sometimes, the hardest part of complex analyses lies in the preparation (and joining) of the data.
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+
+```r
+students_and_interactions <- left_join(students, 
+                                       interactions_summarized)
+```
+
+```
+## Joining with `by = join_by(code_module, code_presentation, id_student)`
 ```
 
 #### Step 2: Splitting the Data
@@ -190,7 +388,7 @@ We split the dataset into training and testing sets using an 80-20 split:
 ```r
 set.seed(2025)
 
-train_test_split <- initial_split(students, prop = 0.8, strata = "pass")
+train_test_split <- initial_split(students_and_interactions, prop = 0.8, strata = "pass")
 
 data_train <- training(train_test_split)
 data_test  <- testing(train_test_split)
@@ -198,14 +396,19 @@ data_test  <- testing(train_test_split)
 
 #### Step 3: Creating a Recipe for Selected Preprocessing Steps
 
-To keep things simple, we will only include two preprocessing steps in the recipe:
-
-1. **Centering and scaling the `mean_weighted_score` predictor**  
-2. **Converting the outcome variable (`pass`) into a factor (if it wasn't already)**
+To keep things simple, we will only include a few pre-processing steps.
 
 
 ```r
-my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score + num_of_prev_attempts + gender + region + highest_education, data = data_train) %>%
+my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score + 
+                     num_of_prev_attempts + gender + region + highest_education +
+                     sum_clicks + 
+                     sd_clicks +
+                     mean_clicks,
+                 data = data_train) %>%
+    # steps
+    step_impute_mean(mean_weighted_score, sum_clicks, sd_clicks, mean_clicks) %>%
+    step_impute_mode(imd_band) %>% 
     step_center(mean_weighted_score) %>%
     step_scale(mean_weighted_score) %>%
     step_dummy(all_nominal_predictors(), -all_outcomes()) %>% 
@@ -240,8 +443,8 @@ my_rec
 ```
 
 ```
-## outcome:   1
-## predictor: 7
+## outcome:    1
+## predictor: 10
 ```
 
 ```
@@ -250,6 +453,14 @@ my_rec
 
 ```
 ## ── Operations
+```
+
+```
+## • Mean imputation for: mean_weighted_score, sum_clicks, sd_clicks, ...
+```
+
+```
+## • Mode imputation for: imd_band
 ```
 
 ```
@@ -275,8 +486,12 @@ Next, we specify a logistic regression model and bundle the recipe and model int
 
 ```r
 my_mod <- logistic_reg() %>% 
-  set_engine("glm") %>% 
-  set_mode("classification")
+    set_engine("glm") %>% 
+    set_mode("classification")
+
+# my_mod <- boost_tree() %>%
+#   set_engine("xgboost") %>%  # "xgboost" is a common engine for boosted trees
+#   set_mode("classification")
 ```
 
 The next is to specify the workflow.
@@ -284,8 +499,8 @@ The next is to specify the workflow.
 
 ```r
 my_wf <- workflow() %>%
-  add_recipe(my_rec) %>%
-  add_model(my_mod)
+    add_recipe(my_rec) %>%
+    add_model(my_mod)
 ```
 
 #### Step 5: Fitting the Model
@@ -304,7 +519,7 @@ Finally, we evaluate the model’s performance using the test set. The tidymodel
 
 ```r
 metrics <- final_fit %>%
-  collect_metrics()
+    collect_metrics()
 
 metrics
 ```
@@ -313,12 +528,25 @@ metrics
 ## # A tibble: 3 × 4
 ##   .metric     .estimator .estimate .config             
 ##   <chr>       <chr>          <dbl> <chr>               
-## 1 accuracy    binary         0.597 Preprocessor1_Model1
-## 2 roc_auc     binary         0.612 Preprocessor1_Model1
-## 3 brier_class binary         0.239 Preprocessor1_Model1
+## 1 accuracy    binary         0.640 Preprocessor1_Model1
+## 2 roc_auc     binary         0.639 Preprocessor1_Model1
+## 3 brier_class binary         0.224 Preprocessor1_Model1
 ```
 
-So, how did the model do? Not so hot! Let's see if we can do better.
+So, how did the model do? Not so bad!
+
+One affordance of tidymodels is we can readily switch out the model and engine. Try one of these modifications to the code to see how the predictive performance improves---for a random forest and a boosted tree model, respectively.
+
+
+```r
+my_mod <- rand_forest() %>%
+    set_engine("ranger") %>% # install.packages("ranger") needed first
+    set_mode("classification")
+
+my_mod <- boost_tree() %>% # install.packages("xgboost") needed first
+  set_engine("xgboost") %>% 
+  set_mode("classification")
+```
 
 ## Conclusion
 
