@@ -133,12 +133,53 @@ students <- students %>%
     mutate(imd_band = as.integer(imd_band))
 ```
 
+In the OULAD documentation, this is called the VLE (virtual learning environment) data source. Please review the description of the variables in the *studentVLE* and *VLE* sources (which are joined together for this learning lab) [here](https://analyse.kmi.open.ac.uk/open_dataset#description).
+
+Let's import it:
+
+```{r}
+interactions_filtered <- read_csv("data/oulad-interactions-filtered.csv")
+```
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+*First*, `count()` the `activity_type` variable and *sort* the resulting output by frequency.
+
+```{r}
+interactions %>% 
+    count(activity_type)
+```
+
+What does this tell you? Consulting the codebook and your output, please add at least two notes on what you are noticing:
+
+Then, let's create a histogram of the `date` variable.
+
+```{r}
+interactions %>% 
+    ggplot(aes(x = date)) +
+    geom_histogram()
+```
 
 Let's join the data together.
 
 ```{r}
 students <- students %>% 
     left_join(assessments_joined, by = "id_student")
+```
+
+
+Next, we'll load a new file --- one with *interactions* (or log-trace) data.
+
+We have to do the same processing we did in the second learning lab, to obtain cut-off dates. As a reminder, the purpose of this is to train the model on data from the first one-third of the class, with the reasoning being this is a good time to intervene--far enough into the class to make an appreciable impact, but not too late to have a limited chance of being able to change students' trajectory in the class.
+
+We'll repeat the procedure we carried out with the assessments data --- calculating a cut-off for each class and then filtering the data based upon this cut-off. But, since we've already done this for the assessment data, to allow us to focus more on the modeling, we are providing you with the already-filtered interactions data.
+
+Next, we load `oulad-interactions-filtered.csv` into R, assigning the resulting data frame the name `interactions`.
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+```{r}
+interactions <- read_csv("data/oulad-interactions-filtered.csv")
 ```
 
 #### Step 2: Splitting the Data
