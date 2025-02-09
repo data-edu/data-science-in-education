@@ -14,8 +14,11 @@ This chapter on the education data science pipeline emphasizes:
 
 - `data.frame()`
 - `dplyr::summarize()`
+- `tibble()`
 - `tidyr::pivot_longer() and tidyr::pivot_wider()`
 - `tidyr::left_join()`, `tidyr::right_join()`, `tidyr::semi_join()`, and `tidyr::anti_join()`
+- `mutate()`
+- `across()`
 - `lm()`
 - `ggplot2::ggplot()`
 - `apaTables::apa.cor.table()`
@@ -35,7 +38,7 @@ In this walkthrough sections, we include key terms introduced in the chapter:
   - regression
   - survey
   - tibble
-  - vectorize
+  - tidy selection
 
 ## Introduction to the Walkthroughs
 
@@ -147,27 +150,22 @@ library(dataedu)
 
 This code chunk loads the log-trace data and self-report survey data from the {dataedu} package. Each dataset is assigned to an object using `<-`, with a unique name for each dataset.
 
-``` {r}
+```{r}
 # Pre-survey for the F15 and S16 semesters
-
 pre_survey <- dataedu::pre_survey
 
 # Gradebook and log-trace data for F15 and S16 semesters
-
 course_data <- dataedu::course_data
 
 # Log-trace data for F15 and S16 semesters - this is for time spent in the LMS
-
 course_minutes <- dataedu::course_minutes
 ```
 
 ## View Data
 
-Now that we've successfully loaded all three log-trace datasets, we can visually
-inspect the data by typing the names that we assigned to each dataset. Running
-each line, one at a time, will show the first several rows of each dataset.
+Now that we've successfully loaded all three log-trace datasets, we can visually inspect the data by typing their assigned names. Running each line individually will display the first few rows of each dataset.
 
-``` {r}
+```{r}
 pre_survey
 course_data
 course_minutes
@@ -175,27 +173,18 @@ course_minutes
 
 ## Process Data
 
-Often, survey data needs to be processed in order to be most useful. We are
-going to start with one of the three datasets we just saved as objects into our
-environment: the dataset with the pre-survey items. Here, we process the
-self-report items into three scales for 1) interest, 2) perceived competence,
-and 3) utility value. We do this by:
+Survey data often requires processing to be useful. We begin with the pre-survey dataset and transform the self-report items into three scales: 1) interest, 2) perceived competence, and 3) utility value. This involves:
 
-  - Renaming the question variables to something more manageable
-  - Reversing the response scales on questions 4 and 7
+  - Renaming question variables for clarity
+  - Reversing the response scales for questions 4 and 7
   - Categorizing each question into a measure
   - Computing the mean of each measure
 
 Let's take these steps in order:
 
-1.  Take the pre-survey data and save it as a new object with the same name
-    "pre\_survey." Rename the question columns to something much simpler. To do
-    this, we will use the `rename()` function and will input first the new
-    variable name, then the "=" sign, and then the old variable name. You'll
-    notice another function at the bottom called `mutate_at()`. We'll explain
-    that below this code chunk.
+1.  Save the pre-survey data as a new object with the same name, "pre\_survey." Rename the question columns to something much simpler using the `rename()` function by using this format: `new_name = old_name`. Use the {dplyr} functions `mutate()` and `across()` (explained below) for further transformations.
 
-``` {r}
+```{r}
 pre_survey  <-
   pre_survey  %>%
   # Rename the questions something easier to work with because R is case sensitive
@@ -213,74 +202,57 @@ pre_survey  <-
     q10 = Q1MaincellgroupRow10
   ) %>%
   # Convert all question responses to numeric
-  mutate_at(vars(q1:q10), list( ~ as.numeric(.)))
+  mutate(across(q1:q10, as.numeric))
 ```
 
-Let's take a moment to discuss the {dplyr} function `mutate_at()`. `mutate_at()`
-is a version of `mutate()`, which changes the values in an existing column or
-creates new columns. It's useful in education datasets because you'll often need
-to transform your data before analyzing it. In the code chunk we just ran, we
-used `mutate_at()` to convert the data in all ten variables into a numeric
-format.
+Let's take a moment to discuss `mutate` and `across()`. The `mutate()` function modifies the values in an existing column or creates new columns. It's useful in education datasets because you'll often need to create new variables before analysis. To learn a little more about `mutate()`, let's demonstrate how to create and modify a data frame called "df". 
 
-To learn a little more about `mutate()`, try the example below, where we create
-a new data frame called "df". A data frame is a two-dimensional structure that stores tables. The table has a header and data rows and each cell stores values. 
+A data frame is a two-dimensional structure that stores tables. The table has a header and data rows, where each cell stores a value. The example uses the `tibble()` function from the {tibble} package. The function creates a tibble, which is special type of data frame that makes working with the tidy data a little easier. More information is available in R for Data Science [@r4ds2023].
 
-We fill this data frame with two columns: "male" and
-"female." Each column has only one value, and that value is 5. In the second
-part of the code, we add a `total_students` column by adding the number of
-`male` students and `female` students.
-
-Note that we create the dataset with `tibble()`, which is from the {tibble} package included in the tidyverse. A tibble is a special type of data frame that makes working with the tidy data a little easier. More information is available in R for Data Science [@grolemund2018].
+We fill this data frame with two columns: "male" and "female." Each column has only one value, which is set to 5. In the second part of the code, we create a `total_students` column by adding the number of `male` students and `female` students using `mutate()`.
 
 ```{r}
 # Dataset of students
-df <- tibble(
-  male = 5, 
-  female = 5
-)
+df <- tibble(male = 5, female = 5)
 
 # Use mutate to create a new column called "total_students" 
-  # populate that column with the sum of the "male" and "female" variables
+# Populate that column with the sum of the "male" and "female" variables
 df %>% mutate(total_students = male + female)
 ```
 
-To return to our original data, we used `mutate_at()`, a special version of
-`mutate()` which conveniently changes the values of multiple columns. In our
-dataset `pre_survey`, we let `mutate_at()` know we want to change the variables
-`q1` through `q10`. We do this with the argument `vars(q1:q10)`.
+The `across()` function within `mutate()` applies a transformation to multiple columns at once. It follows the format, `mutate(across(variables, transformation))`. For example, in our `df` dataset, we can use `across()` to multiply the male column by 2. Note that because we did not save `df` in the previous code chunk to an object, the `total_students` column is no longer present:
 
-2.  Next we'll reverse the scale of the survey responses on questions 4 and 7 so
-    the responses for all questions can be interpreted in the same way. As you
-    can see from the survey questions we listed earlier in the chapter, the
-    phrasing of questions 4 and 7 is opposite the phrasing of the other
-    questions. Rather than write a lot of code once to reverse the scales for
-    question 4 then writing it again to reverse the scales on question 7, we'll
-    build a function that does that job for us. Then we'll use the same function
-    that we wrote to recode both question 4 and question 7. This will result in
-    much less code, and it will make it easier for us to change in the future.
+```{r}
+df %>% mutate(across(male, ~ . * 2))
+```
+The `~ . * 2` syntax is a shorthand for applying a function to each selected column. Let's apply another transformation using `across()` where we square the `female` column. Note that because we did not save `df` in the previous code chunk to an object, `male` is still set to 5:
 
-We'll use the function `case_when()` within our function to reverse the scale of
-the item responses. `case_when()` is useful when you need to replace the values
-in a column with other values based on some criteria. Education datasets use a
-lot of codes to describe demographics, like numerical codes for disability
-categories, race groups, or proficiency in a test. When you work with codes like
-this, you'll often want to change the codes to values that are easier to
-understand. For a example, a consultant analyzing how students did on state
-testing might use `case_when()` to replace proficiency codes like 1, 2, or 3 to
-more descriptive words like "below proficiency", "proficient", or "advanced."
+```{r}
+df %>% mutate(across(female, ~ . ^ 2))
+```
+
+Because of something called tidy selection, we don’t have to list each variable explicitly.  In the `pre_survey` code above, `q1:q10` selects all consecutive columns from `q1` to `q10` using `:` instead of listing each one. The `as.numeric()` function is applied to these variables to transform them to a numeric format.
+
+Other useful selection helpers include `c()` for combining selections, `starts_with()` for selecting variables by prefix, `matches()` for pattern matching with regular expressions, and so on. We'll explore more examples in future walkthroughs.
+
+2.  Next, we'll reverse the scale of the survey responses on questions 4 and 7 so that all responses can be interpreted in the same way. As you can see from the survey questions we listed earlier in the chapter, the phrasing of questions 4 and 7 is opposite to the others.
+
+Education datasets often use numerical codes to describe demographics, such as disability categories, race groups, or test proficiency levels. In such cases, it's useful to replace these codes with more descriptive labels. You can use the `case_when()` function when you need to modify the values in a column based on some criteria. 
+
+For a example, a consultant analyzing state test results might use `case_when()` to replace proficiency codes like `1`, `2`, or `3` to labels like "below proficiency", "proficient", or "advanced." In our case, we’ll use `case_when()` within a function to reverse the scale of item responses.
 	
-`case_when()` lets you vectorize the rules you want to use to change values in a
-column. When a sequence of criteria is vectorized, R will evaluate a value in a
-column against each criteria in your `case_when()` sequence. `case_when()` is
-helpful because it does this without requiring you to write complicated code
-loops. Instead, you can systematically evaluate your criteria using code that is
-compact and readable (once you understand how all the arguments work).
+`case_when()` works by evaluating each value in a column against a sequence of conditions. It is helpful because, instead of writing complex loops, you can apply multiple conditions in a compact and readable way.
 
-The left hand side of each `case_when()` argument will be a formula that returns
-either a `TRUE` or a `FALSE`. In the function below, we'll use logical operators
-in the left hand side of the formula like this: `question == 1 ~ 5`. Here are
-some logical operators you can use in the future:
+The left-hand side of each `case_when()` condition is a logical statement that returns `TRUE` or `FALSE`. If the condition is met, the corresponding values are replaced with the right-hand side.
+
+Let's revisit our `df` tibble.  Below, we use `case_when()` within `mutate()` to modify the `male` column. The condition `male == 5 ~ 10` means that whenever `male` equals (`==`) `5`, it will be replaced with `10`:
+
+```{r}
+df  %>%
+    mutate(male = case_when(male == 5 ~ 10))
+```
+
+Here are some logical operators you can use in the future:
 
   - `==`: equal to
   - `>`: greater than
@@ -291,13 +263,27 @@ some logical operators you can use in the future:
   - `!`: not
   - `&`: and
   - `|`: or
+ 
+Returning to the `pre_survey` dataset, let's reverse the scale for question 4 using `case_when()`. We’ll recode the values so that `1` becomes `5`, `2` becomes `4`, and so on. The `.default = NA` argument makes it so  any values not explicitly matched will be assigned `NA`.
 
-Let's make this all concrete and use it here in our function that reverses the
-scale of the survey responses. In the first part of the code chunk below, we
-will write our custom function. If you need a brief overview of custom functions, see the Writing Your Own Functions section in [Chapter 6](#c6). Note that by running the first bit of code here, we
-won't be changing anything in our data. Instead, we are creating a reusable,
-general-purpose code chunk that we will then apply to the specific survey
-questions we want to recode.
+```{r}
+pre_survey <-
+    pre_survey %>%
+    mutate(
+        case_when(
+            q4 == 1 ~ 5,
+            q4 == 2 ~ 4,
+            q4 == 3 ~ 3,
+            q4 == 4 ~ 2,
+            q4 == 5 ~ 1,
+            .default = NA
+            )
+    )
+```
+
+This approach works well, but you can imagine it'd become quite tedious if we had to rewrite the same `case_when()` for multiple questions. Rather than duplicating code for questions 4 and 7, we'll create a function that reverses the scale for any specified questions. This results in more concise code, and it will be easier to maintain.
+
+Let's make this all concrete. In the first part of the code chunk below, we define our custom function. Note that running this code won't modify the dataset yet. Instead, it creates a reusable, general-purpose function that we can apply to the specific survey questions we want to recode. If you need a refresher on writing custom functions, see the Writing Your Own Functions section in [Chapter 6](#c6).
 
 ```{r}
 # This part of the code is where we write the function:
@@ -310,77 +296,51 @@ reverse_scale <- function(question) {
   #    a numeric converted response
   # Note: even though 3 is not transformed, case_when expects a match for all
   # possible conditions, so it's best practice to label each possible input
-  # and use TRUE ~ as the final statement returning NA for unexpected inputs
+  # and use .default = as the final statement returning NA for unexpected inputs
   x <- case_when(
-    question == 1 ~ 5,
-    question == 2 ~ 4,
-    question == 3 ~ 3, 
-    question == 4 ~ 2,
-    question == 5 ~ 1,
-    TRUE ~ NA_real_
+      question == 1 ~ 5,
+      question == 2 ~ 4,
+      question == 3 ~ 3, 
+      question == 4 ~ 2,
+      question == 5 ~ 1,
+      .default = NA
   )
   x
 }
+```
 
-# And here's where we use that function to reverse the scales
-# We use the pipe operator %>% here
-# Reverse scale for questions 4 and 7
+Now, we apply our `reverse_scale()` function to adjust the scales for questions 4 and 7. Using the pipe operator (`%>%`), we pass our dataset into `mutate()`, where we call `reverse_scale()` to transform the selected questions. By using `mutate()`, we replace the existing values in questions 4 and 7 with their newly recoded versions.
+
+```{r}
 pre_survey <-
   pre_survey %>%
   mutate(q4 = reverse_scale(q4),
          q7 = reverse_scale(q7))
 ```
 
-You'll notice that we call the `reverse_scale()` function we wrote, but we call
-it within the `mutate()` function. By doing things this way, we are overwriting
-the previous data in the columns for questions 4 and 7 with our newly recoded
-values for questions 4 and 7.
+3.  Next, we'll use the `pivot_longer()` function to reshape the `pre_survey` dataset from wide to long format. That means instead of having `r scales::comma(pre_survey |> nrow())` observations of `r scales::comma(pre_survey |> ncol() - 1)` variables, we will now have 11,020 observations of 4 variables. 
 
-3.  Next, we'll use a function called `pivot_longer()` in order to transform our
-    `pre_survey` dataset from wide format to long format. That means instead of
-    having 1,102 observations of 12 variables, we will now have 11,020
-    observations of 4 variables. By using `pivot_longer()`, we make it so that
-    each question & response pair has its own line in the data. Therefore, since
-    we have 10 question variables (columns) in the `pre_survey` dataset, after
-    we use `pivot_longer()`, we will end up with 10 times as many observations
-    (rows) as before. Additionally, we no longer need a separate column for each
-    individual question, since each question-response pair is now on its own
-    line. What was previously one row of data now takes up ten rows of data. so
-    `pivot_longer()` automatically deletes those empty columns after condensing
-    all the data. We'll save this new dataset as an object called `measure_mean`
-    in order to represent new variables we will create in future data processing
-    steps.
+By using `pivot_longer()`, we make it so that each question-response pair gets its own row. Since the dataset contains 10 question variables (columns), we end up with 10 times as many observations (rows) as before. Additionally, we no longer need a separate column for each individual question, since each question-response pair is now on its own row. What was previously one row of data now takes up ten rows of data. so `pivot_longer()` automatically removes the redundant columns. We'll save the pivoted dataset as an object called `measure_mean`.
+
+Using the tidy selector `:`, we specify the range of columns to pivot (`q1` to `q10`). he `names_to` argument creates a new column to store the original column names (`q1` through `q10`), while the `values_to` argument contains their corresponding values.
 
 ``` {r}
-# Pivot the dataset from wide to long format
 measure_mean <-
-  pre_survey %>%
-  # Gather questions and responses
-  pivot_longer(cols = q1:q10,
-               names_to = "question",
-               values_to = "response")
+    pre_survey %>%
+    pivot_longer(cols = q1:q10,
+                 names_to = "question",
+                 values_to = "response")
 ```
 
-4.  Next, we'll take our new `measure_mean` dataset and create a column called
-    `measure`. We'll fill that column with one of three question categories:
+4.  Next, we'll take our new `measure_mean` dataset and create a column called `measure`. We'll fill that column with one of three question categories:
 
   - `int`: interest
   - `uv`: utility value
   - `pc`: perceived competence .
 
-We will use the `case_when()` function we learned earlier in order to do this.
-When we pivoted from wide format to long format in the prior step, we ended up
-with one variable containing all possible question numbers (q1, q2, etc.). Now,
-we want to tell R which question numbers correspond to which categories. To do
-this, we will supply `case_when()` with a list of all the question numbers that
-correspond to each category: interest, utility value, and perceived competence.
-We'll introduce a new operator in order to do this: `%in!%`. Practically, this
-operator means that R should look within a list for something. In the code
-below, we tell R to use questions 1, 4, 5, 8, and 10 to create the category
-`int`. We then tell R to use questions 2, 6, and 9 to calculate `uv` and to use
-questions 3 and 7 to calculate `pc`. We indicate the start of each list with the
-letter "c" and an open parenthesis, and we indicate the end of each list with a
-close parenthesis.
+We will use the `case_when()` function we learned earlier in order to do this. When we pivoted from wide format to long format in the prior step, we ended up with one variable containing all possible question numbers (q1, q2, etc.). Now, we want to tell R which question numbers correspond to which categories. To do this, we will supply `case_when()` with a list of all the question numbers that correspond to each category: interest, utility value, and perceived competence.
+
+We'll introduce a new operator in order to do this: `%in!%`. Practically, thisoperator means that R should look within a list for something. In the code below, we tell R to use questions 1, 4, 5, 8, and 10 to create the category `int`. We then tell R to use questions 2, 6, and 9 to calculate `uv` and to use questions 3 and 7 to calculate `pc`. We indicate the start of each list with the letter "c" and an open parenthesis, and we indicate the end of each list with a close parenthesis.
 
 ```{r}
 # Add measure variable 
@@ -391,7 +351,7 @@ measure_mean <- measure_mean %>%
       question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int",
       question %in% c("q2", "q6", "q9") ~ "uv",
       question %in% c("q3", "q7") ~ "pc",
-      TRUE ~ NA_character_)
+      .default = NA)
   )
 ```
 
