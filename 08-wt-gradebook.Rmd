@@ -333,18 +333,18 @@ classwork_df %>%
 
 #### Deciding on an analysis
 
-Using this spreadsheet, we can start to form hypotheses about the data. For example, we can ask ourselves, "Can we predict overall grade using formative assessment scores?" For this, we will try to predict a response variable Y (overall grade) as a function of a predictor variable X (formative assessment scores). The goal is to create a mathematical equation for overall grade as a function of formative assessment scores when only formative assessment scores are known.
+When you explore datasets, it's useful to identify hypotheses that you can test in the data through a model. For example, you can ask the question  "Can we predict overall grade using formative assessment scores?" Then, you can use a model to explore the relationship between the response variable Y (overall grade) and a predictor variable X (formative assessment scores). The goal of this model is to create a mathematical equation that describes the relationship between overall grade and formative assessment scores when only formative assessment scores are known.
 
 #### Visualize data to check assumptions
 
-It's important to visualize data to see any distributions, trends, or patterns before building a model. We use {ggplot2} to understand these variables graphically. 
+Before building a model, it's important to visualize the underlying data to see distributions, trends, or patterns. Different models operate under assumptions about the structure of the underlying data. Exploring these assumptions ahead of time will empower you to explain the model better after the analysis is complete. You'll be using {ggplot2} to explore these assumptions. 
 
 #### Linearity
 
-First, we plot X and Y to determine if we can see a linear relationship between the predictor and response. The x-axis shows the formative assessment scores while the y-axis shows the overall grades. The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, so does the overall grade.
+A linear regression model assumes that variables in the underlying data have a linear relationship. You'll explore this assumption by plotting the formative assessment scores and the overall grades.
 
 ```{r fig8-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments", fig.showtext = TRUE}  
-# Scatterplot between formative assessment and grades by percent
+# Scatter plot between formative assessment and grades by percent
 # To determine linear relationship
 gradebook %>%
   ggplot(aes(x = formative_assessments,
@@ -356,10 +356,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
-We can layer different types of plots on top of each other in {ggplot2}. Here the scatterplot is layered with a line of best fit, suggesting a positive linear relationship.
+The graph suggests a correlation between overall class grade and formative assessment scores. As the formative scores goes up, so does the overall grade. To see this better, use {ggplot2} to add a line of best fit.
 
 ```{r fig8-4, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Relationship Between Overall Grade and Formative Assessments (with Line of Best Fit)", fig.showtext = TRUE}  
-# Scatterplot between formative assessment and grades by percent
+# Scatter plot between formative assessment and grades by percent
 # To determine linear relationship
 # With line of best fit
 gradebook %>%
@@ -376,10 +376,12 @@ gradebook %>%
 
 #### Outliers
 
-Now we use boxplots to determine if there are any outliers in the formative assessment scores or overall grades. As we would like to conduct a linear regression, we're hoping to see no outliers in the data. We don't see any for these two variables, so we can proceed with the model.
+The usefulness of a model also assumes that outliers in the data do not have a large influence on the model. You'll explore this assumption by creating box plots for each of the variables you are modeling. 
+
+The first box plot is for the formative assessment scores: 
 
 ```{r fig8-5, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Formative Assessment Scores", fig.showtext = TRUE}
-# Boxplot of formative assessment scores
+# Box plot of formative assessment scores
 # To determine if there are any outliers
 gradebook %>%
   ggplot(aes(x = "",
@@ -391,8 +393,10 @@ gradebook %>%
   theme_dataedu()
 ```
 
+The next box plot is for the overall grade scores: 
+
 ```{r fig8-6, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Distribution of Overall Grade Scores", fig.showtext = TRUE}  
-# Boxplot of overall grade scores in percentage
+# Box plot of overall grade scores in percentage
 # To determine if there are any outliers
 gradebook %>%
   ggplot(aes(x = "",
@@ -404,25 +408,29 @@ gradebook %>%
   theme_dataedu()
 ```
 
+Based on these plots, there doesn't seem to be outliers in either of these variables. 
+
 ### Correlation analysis
 
-We want to know the strength of the relationship between the two variables, formative assessment scores and overall grade percentage. The strength is denoted by the "correlation coefficient". The correlation coefficient goes from --1 to 1. If one variable consistently increases with the increasing value of the other, then they have a positive correlation (towards 1). If one variable consistently decreases with the increasing value of the other, then they have a negative correlation (towards --1). If the correlation coefficient is 0, then there is no relationship between the two variables.
-
-Correlation is good for finding relationships but it does *not* imply that one variable causes the other (*correlation* does not mean *causation*).
+The usefulness of a model also assumes a relationship between the variables in the underlying data. You'll explore this assumption by computing the correlation coefficient between the formative assessments and overall grades. 
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}  
 cor(gradebook$formative_assessments, gradebook$running_average)
 ```
 
+Correlation coefficients go from --1 to 1. If one variable increases with the increasing value of the other, then they have a positive correlation (towards 1). If one variable decreases with the increasing value of the other, then they have a negative correlation (towards --1). If the correlation coefficient is 0, then there is no relationship between the two variables.
+
+Correlation is useful for finding relationships but it does not imply that one variable causes the other. Correlation does not necessarily mean causation. 
+
 ## Results
 
-In [Chapter 7](#c07), we introduced the concept of linear models. Let's use that same technique here. Now that you've checked your assumptions and seen a linear relationship, we can build a linear model---a mathematical formula that calculates your running average as a function of your formative assessment score. This is done using the `lm()` function, where the arguments are:
+In [Chapter 7](#c07), you learned about linear models. You'll use that same technique here. Now that you've checked your assumptions and seen a linear relationship, it's time to build the linear model. This will be a mathematical formula that calculates your running average as a function of your formative assessment score. You'll again use the `lm()` function, where the arguments are:
 
 * Your predictor (`formative_assessments`)
 * Your response (`running_average`)
 * The data (`gradebook`)
 
-`lm()` is available in "base R"---that is, no additional packages beyond what is loaded with R automatically are necessary.
+`lm()` is available in "base R"---that is, you won't need to install additional packages.
 
 ```{r}
 linear_mod <- 
@@ -431,31 +439,32 @@ linear_mod <-
 summary(linear_mod)
 ```
 
-When you fit a model to two variables, you create an equation that describes the relationship between them based on their averages. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is 0.42136. The equation reads like this: 
+When you fit a model to two variables, you create an equation that describes the average relationship between them. This equation uses the `(Intercept)`, which is 50.11511, and the coefficient for `formative_assessments`, which is 0.42136. The equation reads like this: 
 
 ```{}
 running_average = 50.11511 + 0.42136*formative_assessments
 ```
 
-We interpret these results by saying, "For every one unit increase in formative assessment scores, we can expect a 0.421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
+You can interpret these results by saying, "For every one unit increase in formative assessment scores, we can expect a 0.421 unit increase in running average scores". This equation estimates the relationship between formative assessment scores and running average scores in the student population. Think of it as an educated guess about any one particular student's running average, if all you had was their formative assessment scores. 
 
 ### More on interpreting models
 
-Challenge yourself to apply your education knowledge to the way you communicate a model's output to your audience. Consider the difference between describing the relationship between formative assessment scores and running averages for a large group of students and for an individual student. 
+Challenge yourself to apply your education knowledge to the way you share about your model's output. In particular, note that statistical models describe what happens in general, but cannot fully capture what happens on a case by case basis.
+
+To illustrate this concept, consider predicting how long it takes for you to run around the block. Imagine you ran around the block five times and after each lap you recorded your time. After the fifth lap, see that your average lap time is five minutes. 
+
+If you were to guess how long your sixth lap would take, you'd be smart to guess five minutes. But intuitively you know there's no guarantee the sixth lap time will land right on your average. Maybe you'll trip on a crack in the sidewalk and lose a few seconds, or maybe your favorite song pops into your head and gives you a 30-second advantage. 
+
+Statisticians call the difference between your predicted lap time and your actual lap time a "residual" value. Residuals are the differences between predicted values and actual values that aren't explained by your linear model equation. 
 
 If you were describing the formative assessment system to stakeholders, you might say something like, "We can generally expect our students to show a 0.421 increase in their running average score for every one point increase in their formative assessment scores". That makes sense because your goal is to explain what happens ***in general***.
 
-But we can rarely expect every prediction about individual students to be correct, even with a reliable model. So when using this equation to inform how you support an individual student, it's important to consider all the real-life factors, visible and invisible, that influence an individual student outcome. 
+But you can rarely expect every prediction about individual students to be correct, even with a reliable model. So when using this equation to inform how you support an individual student, it's important to consider the real-life factors, visible and invisible, that influence an individual student's outcome. 
 
-To illustrate this concept, consider predicting how long it takes for you to run around the block right outside your office. Imagine you ran around the block five times and after each lap you jotted your time down on a post-it. After the fifth lap, you do a calculation on your cell phone and see that your average lap time is five minutes. If you were to guess how long your sixth lap would take, you'd be smart to guess five minutes. But intuitively you know there's no guarantee the sixth lap time will land right on your average. Maybe you'll trip on a crack in the sidewalk and lose a few seconds, or maybe your favorite song pops into your head and gives you a 30-second advantage. Statisticians would call the difference between your predicted lap time and your actual lap time a "residual" value. Residuals are the differences between predicted values and actual values that aren't explained by your linear model equation. 
-
-It takes practice to interpret and communicate these concepts well. A good start is exploring model outputs in two contexts: first, as a general description of a population and, second, as a practical tool for helping individual student performance.
+It takes practice to interpret and communicate model results well. Start by exploring model outputs in two contexts: first, as a general description of a population and second, as a practical tool for helping individual student performance. When you're ready to share with colleagues, consider sharing the results as a written report. You can do this through tools like [R Markdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). Tools like this empower you to generate reports that include text, code, and code output in a single document. 
 
 ## Conclusion
 
-This walkthrough chapter followed the basic steps of a data analysis project. 
-We first *imported* our data, then *cleaned* and *transformed* it.
-Once we had the data in a tidy format, we were able to *explore* it using data visualization before *modeling* it using linear regression.
-Imagine that you ran this analysis for someone else: a teacher or an administrator in a school. In such cases, you might be interested in sharing the results in the form of a report or document. Thus, the only remaining step in this analysis would be to communicate our findings using a tool such as [R Markdown](https://rmarkdown.rstudio.com/) (https[]()://rmarkdown.rstudio.com/). While we do not discuss R Markdown in this book, we note that it provides the functionality to easily generate reports that include both text (like the words you just read) and code, and the output from code, which are displayed together in a single document (PDF, Word, HTML, and other formats). 
+This walkthrough followed the basic steps of a data analysis project. You imported the data, cleaned it, and transformed it. Once you had the data in a tidy format, you explored it through data visualizations. And finally, you modeled the data using linear regression.
 
-While we began to explore models in this walkthrough, we will continue to discuss analyses and statistical modeling in more detail in later chapters (i.e., [Chapter 9 on aggregate data](#c9), [Chapter 10 on longitudinal analyses](#c10), [Chapter 13 on multi-level models](#c13), and [Chapter 14 on random forest machine learning models](#c14)).
+You will continue to explore analyses and statistical modeling in later chapters (i.e., [Chapter 9 on aggregate data](#c9), [Chapter 10 on longitudinal analyses](#c10), [Chapter 13 on multi-level models](#c13), and [Chapter 14 on random forest machine learning models](#c14)).
