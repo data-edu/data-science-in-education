@@ -8,17 +8,20 @@ This chapter on the education data science pipeline emphasizes:
 
 - Tidying data 
 - Transforming data
+- Visualizing data
 - Modeling data
 
 ## Functions Introduced
 
+- `across()`
 - `data.frame()`
 - `dplyr::summarize()`
+- `group_by()`
 - `tibble()`
 - `tidyr::pivot_longer() and tidyr::pivot_wider()`
 - `tidyr::left_join()`, `tidyr::right_join()`, `tidyr::semi_join()`, and `tidyr::anti_join()`
 - `mutate()`
-- `across()`
+- `summarize()`
 - `lm()`
 - `ggplot2::ggplot()`
 - `apaTables::apa.cor.table()`
@@ -332,20 +335,25 @@ measure_mean <-
                  values_to = "response")
 ```
 
-4.  Next, we'll take our new `measure_mean` dataset and create a column called `measure`. We'll fill that column with one of three question categories:
+4.  Next, we'll take our new `measure_mean` dataset and create a new column called `measure`. We'll fill that column with one of three categories for each question:
 
-  - `int`: interest
-  - `uv`: utility value
-  - `pc`: perceived competence .
+  - `int`: Interest
+  - `uv`: Utility value
+  - `pc`: Perceived competence
 
-We will use the `case_when()` function we learned earlier in order to do this. When we pivoted from wide format to long format in the prior step, we ended up with one variable containing all possible question numbers (q1, q2, etc.). Now, we want to tell R which question numbers correspond to which categories. To do this, we will supply `case_when()` with a list of all the question numbers that correspond to each category: interest, utility value, and perceived competence.
+We will use the `case_when()` function we learned earlier in order to assign the categories. When we pivoted the data from wide to long format, all question numbers (`q1`, `q2`, etc.) were stored in a single column. Now, we want to map the question numbers to their respective categories.
 
-We'll introduce a new operator in order to do this: `%in!%`. Practically, thisoperator means that R should look within a list for something. In the code below, we tell R to use questions 1, 4, 5, 8, and 10 to create the category `int`. We then tell R to use questions 2, 6, and 9 to calculate `uv` and to use questions 3 and 7 to calculate `pc`. We indicate the start of each list with the letter "c" and an open parenthesis, and we indicate the end of each list with a close parenthesis.
+We'll introduce a new operator in order to do this: `%in%`. This operator checks whether a value exists to a specified list. In the code below, we assign:
+
+* Questions 1, 4, 5, 8, and 10 to `int`. 
+* Questions 2, 6, and 9 to `uv` 
+* Questions 3 and 7 to `pc`. 
+
+We define each list using `c()`. For example, `c("q3", "q7")` contains question 3 and 7. Then, we create a new `measure` column containing the assigned categories.
 
 ```{r}
 # Add measure variable 
 measure_mean <- measure_mean %>% 
-  # Here's where we make the column of question categories called "measure"
   mutate(
     measure = case_when(
       question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int",
@@ -355,48 +363,31 @@ measure_mean <- measure_mean %>%
   )
 ```
 
-5.  Last, we'll take that same `measure_mean` dataset and create a new variable
-    called `mean_response.` Since we are calculating the mean by category, we
-    will need to first group the responses together using a function called
-    `group_by()`. This function helps us get set up to calculate new columns
-    with grouped data. Next, we'll use the function `summarize()` to create two
-    new variables: `mean_response` and `percent_NA.` We'll find the mean
-    response of each category using the `mean()` function.
+5. Finally, we'll take that same `measure_mean` dataset to create a new variable called `mean_response`. To calculate the mean by category, we first need to group the data by category using the `group_by()` function. This function prepares us for grouped calculations. 
+
+Next, we'll use the `summarize()` function to create two new variables.
+
+* `mean_response`: The mean response for each category, calculated using the `mean()` function.
+* `percent_NA`: The percentage of missing values for each category.
+
+We use `summarize()` instead of `mutate()` because we want to condense data into summary statistics instead of modifying values in each row. The` na.rm = TRUE` argument in `mean()` ignores `NA` values when calculating the mean so they do not return an `NA` result.
 
 ``` {r}
-# Add measure variable 
 measure_mean <- measure_mean %>%
-  # First, we group by the new variable "measure"
-  group_by(measure) %>%
-  # Here's where we compute the mean of the responses
-  summarize(
-    # Creating a new variable to indicate the mean response for each measure
-    mean_response = mean(response, na.rm = TRUE),
-    # Creating a new variable to indicate the percent of each measure that 
-    # had NAs in the response field
-    percent_NA = mean(is.na(response))
-    )
+    group_by(measure) %>%
+    summarize(mean_response = mean(response, na.rm = TRUE),
+              percent_NA = mean(is.na(response)))
 
 measure_mean
 ```
 
-With that last step, we have finished processing the `pre_survey` dataset. We
-have renamed the relevant variables and computed some means that we can use
-later.
+With that final step, we have finished processing the `pre_survey` dataset. We renamed the key variables and computed means for future use.
 
 ### Processing the Course Data
 
-When we loaded the data earlier in the chapter, we loaded three datasets:
-`pre_survey`, `course_data`, and `course_minutes.` Next, we can process the
-course data that we already loaded into the environment in order to create new
-variables which we can use in analyses.
+When we loaded three datasetes earlier in the chapter: `pre_survey`, `course_data`, and `course_minutes.` Next, we can process the course data that we already loaded into the environment in order to create new variables which we can use in analyses.
 
-Information about the course subject, semester, and section are stored in a
-single column, `CourseSectionOrigID`. This format of data storage is not ideal.
-If we instead give each piece of information its own column, we'll have more
-opportunities for later analysis. We'll use a function called `separate()` to do
-this. Below, we will load `course_data` and run the `separate()` function to
-split up the subject, semester, and section so we can use them later on. 
+Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. This format of data storage is not ideal. If we instead give each piece of information its own column, we'll have more opportunities for later analysis. We'll use a function called `separate()` to do this. Below, we will load `course_data` and run the `separate()` function to split up the subject, semester, and section so we can use them later on. 
 
 ``` {r}
 # split course section into components
