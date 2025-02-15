@@ -14,18 +14,22 @@ This chapter on the education data science pipeline emphasizes:
 ## Functions Introduced
 
 - `across()`
+- `as.numeric()`
 - `data.frame()`
 - `dplyr::summarize()`
+- `dplyr::distinct()`
 - `group_by()`
 - `tibble()`
 - `tidyr::pivot_longer() and tidyr::pivot_wider()`
 - `tidyr::left_join()`, `tidyr::right_join()`, `tidyr::semi_join()`, and `tidyr::anti_join()`
-- `mutate()`
-- `summarize()`
+- `dplyr::mutate()`
+- `tidyr::separate()`
 - `lm()`
+- `rename()`
 - `ggplot2::ggplot()`
-- `apaTables::apa.cor.table()`
 - `sjPlot::tab_model()`
+- `stringr::str_sub()`
+- `dplyr::filter()`
 
 ## Vocabulary
 
@@ -39,6 +43,7 @@ In this walkthrough sections, we include key terms introduced in the chapter:
   - passed arguments
   - reverse scale
   - regression
+  - string variables
   - survey
   - tibble
   - tidy selection
@@ -120,8 +125,7 @@ In this walkthrough, we focus on merging datasets using the different joins avai
 
 ## Load Packages
 
-This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). We load these packages with the function `library()`. The specific packages used here help us structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {apaTables} [@R-apaTables] and
-{sjPlot} [@R-sjPlot], and export datasets with {readxl} [@R-readxl].
+This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). We load these packages with the function `library()`. The specific packages used here help us structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot], and export datasets with {readxl} [@R-readxl].
 
 ***Install packages (if necessary)***
 
@@ -143,7 +147,6 @@ Once installed, you only need to load a package with `library()` for future use.
 
 ``` {r, loading-packages, message = F, warning = F}
 library(tidyverse)
-library(apaTables)
 library(sjPlot)
 library(readxl)
 library(dataedu)
@@ -251,7 +254,7 @@ The left-hand side of each `case_when()` condition is a logical statement that r
 Let's revisit our `df` tibble.  Below, we use `case_when()` within `mutate()` to modify the `male` column. The condition `male == 5 ~ 10` means that whenever `male` equals (`==`) `5`, it will be replaced with `10`:
 
 ```{r}
-df  %>%
+df %>%
     mutate(male = case_when(male == 5 ~ 10))
 ```
 
@@ -270,6 +273,7 @@ Here are some logical operators you can use in the future:
 Returning to the `pre_survey` dataset, let's reverse the scale for question 4 using `case_when()`. We’ll recode the values so that `1` becomes `5`, `2` becomes `4`, and so on. The `.default = NA` argument makes it so  any values not explicitly matched will be assigned `NA`.
 
 ```{r}
+#| eval: false
 pre_survey <-
     pre_survey %>%
     mutate(
@@ -385,109 +389,70 @@ With that final step, we have finished processing the `pre_survey` dataset. We r
 
 ### Processing the Course Data
 
-When we loaded three datasetes earlier in the chapter: `pre_survey`, `course_data`, and `course_minutes.` Next, we can process the course data that we already loaded into the environment in order to create new variables which we can use in analyses.
+We loaded three datasets earlier in the chapter: `pre_survey`, `course_data`, and `course_minutes`. Next, we can process the course data to create new variables for analysis.
 
-Information about the course subject, semester, and section are stored in a single column, `CourseSectionOrigID`. This format of data storage is not ideal. If we instead give each piece of information its own column, we'll have more opportunities for later analysis. We'll use a function called `separate()` to do this. Below, we will load `course_data` and run the `separate()` function to split up the subject, semester, and section so we can use them later on. 
+The `CourseSectionOrigID` variable stores information about the course subject, semester, and section in a single column. This format of data storage is not ideal. If we instead give each piece of information its own column, we'll have more opportunities for later analysis. We can use a function called `separate()` from the {tidyr} package to split them into distinct columns. Below, we load `course_data` and run `separate()` to extract the subject, semester, and section for easier use later on.
 
 ``` {r}
-# split course section into components
-course_data <- 
-  course_data %>%
-  # Give course subject, semester, and section their own columns
-  separate(
-    col = CourseSectionOrigID,
-    into = c("subject", "semester", "section"),
-    sep = "-",
-    remove = FALSE
-  )
+# Split course section into components
+course_data <-
+    course_data %>%
+    # Give course subject, semester, and section their own columns
+    separate(
+        col = CourseSectionOrigID,
+        into = c("subject", "semester", "section"),
+        sep = "-",
+        remove = FALSE
+    )
 ```
 
-After running the code chunk above, take a look at the dataset `course_data` to
-make sure it looks the way you'd expect it to look. In this case, we are
-expecting that we will add 3 new variables, taking the total number of variables
-in this dataset from 8 to 11. We will still see the original variable
-`CourseSectionOrigID` in the data as well.
+After running the code above, take a look at the `course_data` dataset to confirm it looks as expected. We should have three new variables, increasing the total number of variables from 8 to 11. The original variable `CourseSectionOrigID` is still present in the data, as well.
 
 ### Joining the Data
 
-In this chapter, we are looking at two datasets that are derived from the same
-courses. In order for these datasets to be most useful to us, we'd like all that
-data to be in one place.
+In this chapter, we are working with two datasets that are derived from the same courses. In order for these datasets to be most useful, we want to combine them into one dataset.
 
-To join the course data and pre-survey data, we need to create similar *keys*.
-Our goal here is to have one variable that matches across both datasets. Once we
-have that common variable in both datasets, we can merge the datasets on the
-basis of that variable.
+To join the `course_data` and `pre_survey` data, we need to create a common key. Our goal is to have one variable that matches across both datasets. Once we have that common variable in both datasets, we can merge the datasets on the basis of that variable.
 
-When we look at the `course_data` and `pre_survey` datasets in our environment,
-we see that both have variables for the course and the student. However, this
-information is captured in different variable names in each dataset. Our first
-goal will be to rename two variables in each of our datasets so that they will
-match. One variable will correspond to the course, and the other will correspond
-to the student. We are not changing anything in the data itself at this step -
-instead, we are just cleaning the column headers up so that we can look at the
-data all in one place.
+When we look at the `course_data` and `pre_survey` datasets in our environment, we see that both have variables for courses and students. However, they have different variable names in each dataset. Our first step is to rename these variables in each of our datasets so that they match. We are not changing anything in the data other than the column headers, so that the column names align.
 
-Let's start with the pre-survey data. We will rename `RespondentID` and
-`opdata_CourseID` to be `student_id` and `course_id`, respectively. Here, we are
-going to use the same `rename()` function we learned earlier in this chapter.
+Let's start with the `pre_survey` data. We rename `RespondentID` to `student_id` and `opdata_CourseID` to `course_id` using the `rename()` function we learned earlier in this chapter.
 
 ```{r}
 pre_survey <-
-  pre_survey %>%
-  rename(student_id = opdata_username,
-         course_id = opdata_CourseID)
+    pre_survey %>%
+    rename(student_id = opdata_username, 
+           course_id = opdata_CourseID)
 
 pre_survey
 ```
 
-Those variable names look better now!
+The variable names look more consistent now!
 
-When we look at the data more closely, though, we will notice that the
-`student_id` variable has another issue - the variable has some additional
-characters before and after *the actual ID* that we will need to be able to join
-this data with the other data sources we have. Why does this variable have these
-additional characters? Why is there a "1" at the end of every 5-digit ID number?
-We are not sure! Sometimes, educational data from different systems (used for
-different purposes) may have additional "meta"-data added on. In any event, here
-is what the variables look like before processing:
+When we look at the `student_id` variable more closely, though, we notice that there is another issue. The variable has some extra characters before and after the actual ID. Why does this variable have these additional characters? Why is there a "1" at the end of every 5-digit ID number? We are not sure! Sometimes, educational data from different systems (or used for different purposes) include additional metadata. In any event, we'll need to clean `student_id` by removing these unnecessary characters. Here
+is what the variable looks like before processing:
 
 ```{r}
 head(pre_survey$student_id)
 ```
 
-What we need is the five characters in between the underscore symbols - these:
-`_`.
+We need to extract the five characters between the underscore symbols (`_`).
 
-One way to do this is to use the `str_sub()` function from the {stringr}
-package. This function lets us subset *string* variables: variables that store
-text data. You can specify the indices of the variables you want the string to
-*start* and *end* with.
-
-Here, for example, is how we can select only the content starting with the
-second character, skipping the first underscore in the process. This next chunk
-of code will not change our data, but will show you how the `str_sub()` function
-works by supplying a number-and-underscore combination to the function that is
-in the same format as our data.
+We can use the `str_sub()` function from the {stringr} package. This function lets us subset string variables, that is, variables that store text data. You specify the starting and ending character positions of the string to extract.
+ 
+Here, for example, we can use `str_sub()` to skip the first underscore and capture only the relevant portion of the string. This next chunk of code will not modify our dataset, but demonstrates how the `str_sub()` function works using a sample string formatted like our data.
 
 ```{r}
 str_sub("_99888_1", start = 2)
 ```
 
-We can apply the same thinking to delete characters from the end of a string. We
-will use a `-` to indicate that we want to start from the right side of the
-string of characters. Interestingly, when we specify the argument `end` below,
-we will tell it the placement of the first character we want to INCLUDE. When we
-type `end = -3`, we end up deleting only the last 2 characters. Our new
-rightmost character will be the final 8.
+We can apply the same function to remove characters from the end of a string. We use a dash (`-`) to indicate that we want to start from the right side of the string of characters. Interestingly, when we specify the argument `end = -3` below, we tell R to keep everything up to the third-to-last character. We end up removing only the last 2 characters. Our new rightmost character will be the final `8`.
 
 ```{r}
 str_sub("_99888_1", end = -3)
 ```
 
-Putting the pieces together, the following should return what we want. Try
-running the code below to see if it yields the 5-digit ID number we are shooting
-to extract.
+Putting the pieces together, the following code should extract the 5-digit ID number we need.
 
 ```{r}
 str_sub("_99888_1", start = 2, end = -3)
@@ -495,91 +460,54 @@ str_sub("_99888_1", start = 2, end = -3)
 
 _Note: you may receive a warning telling you that `NA` values were introduced by coercion. This happens when we change data types, and we will overlook this warning message for the purposes of this walkthrough._
 
-We can apply this process to our data using `mutate()`. We convert the string
-into a number using `as.numeric()` in the next portion of the code. This step is
-important so the data can be joined to the other, numeric `student_id` variables
-(in the other datasets):
+We can apply this process to our data using `str_sub()` within `mutate()`. We convert the string into a number using `as.numeric()` in the next portion of the code. This step is
+important so the data can be joined to the numeric `student_id` variables in the other datasets.
 
 ```{r}
 # Re-create the variable "student_id" so that it excludes the extraneous characters
-pre_survey <- pre_survey %>% 
-  mutate(student_id = str_sub(student_id, start = 2, end = -3))
+pre_survey <- pre_survey %>%
+    mutate(student_id = str_sub(student_id, start = 2, end = -3))
 
-# Save the new variable as numeric so that R no longer thinks it is text 
-pre_survey <- pre_survey %>% 
-  mutate(student_id = as.numeric(student_id))
-
+# Save the new variable as numeric so that R no longer thinks it is text
+pre_survey <- pre_survey %>%
+    mutate(student_id = as.numeric(student_id))
 ```
 
-Now that the `student_id` and `course_id` variables are ready to go in the
-`pre_survey` dataset, let's proceed to the course data. Our goal is to rename
-two variables that correspond to the course and the student so that we can match
-with the other variables we just created for the pre-survey data. In the code
-chunk below, we will rename both those variables.
+Now that the `student_id` and `course_id` variables are ready to go in the `pre_survey` dataset, let's proceed to `course_data.` Our goal is to rename the two variables that correspond to the course and the student so that we can match with the other variables we just created for the `pre_survey` data. In the code chunk below, we will rename both those variables.
 
 ``` {r}
 course_data <-
-  course_data %>%
-  rename(student_id = Bb_UserPK,
-         course_id = CourseSectionOrigID)
+    course_data %>%
+    rename(student_id = Bb_UserPK, 
+           course_id = CourseSectionOrigID)
 ```
 
-Now that we have two variables that are consistent across both datasets - we
-have called them `course_id` and `student_id` - we can join the two datasets
-using the {dplyr} function, `left_join()`.
+Now that `course_id` and `student_id` match across both datasets, we can join them using the {dplyr} function, `left_join()`.
 
-`left_join()` is named based on the 'direction' that the data is being joined.
-Note the order of the data frames passed to our "left" join. Left joins retain
-all of the rows in the data frame on the "left", and joins every matching row in
-the right data frame to it. We will use two variables as keys for joining the
-datasets, and we will specify those after the word `by`.
+Note the order of the data frames passed to our "left" join. It is named based on the direction that the data is being joined. Left joins retain all of the rows in the left (first) data frame and adds every matching row in the right (second) data frame. We use key variables to join the datasets specified by `by`.
 
-Let's save our joined data as a new object called `dat`.
+Let's save our joined data in a new object called `dat`.
 
 ```{r}
 dat <-
   left_join(course_data, pre_survey,
             by = c("student_id", "course_id"))
+
 dat
 ```
 
-Let's hone in on how this code is structured. After `left_join()`, we see
-`course_data` and then `pre_survey`. In this case, `course_data` is the "left"
-data frame (passed as the *first* argument), while `pre_survey` is the "right"
-data frame (passed as the *second* argument). So, in the above code, what
-happens? You can run the code yourself to check.
+Let's hone in on how this code is structured. After `left_join()`, we see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the first argument), while `pre_survey` is the "right" data frame (passed as the second argument). So, in the above code, what happens? You can run the code yourself to check.
 
-Our aim with that code is that all of the rows in `course_data` are retained in
-our new data frame, `dat`, with matching rows of `pre_survey` joined to it. An
-important note is that there are not multiple matching rows of `pre_survey`;
-otherwise, you would end up with more rows in `dat` than expected. There is a
-lot packed into this one function. Joins are extremely powerful - and common -
-in many data analysis processing pipelines, both in education and in any field.
-Think of all of the times you have data in more than one data frame, but you
-want everything to be in a single data frame! As a result, we think that joins
-are well worth investing the time to be able to use.
+Our aim with that code is that all of the rows in `course_data` are retained in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. An important note is that there are not multiple matching rows of `pre_survey`; otherwise, you would end up with more rows in `dat` than expected. There is a lot packed into this one function. Joins are extremely powerful - and common - in many data analysis processing pipelines, both in education and in any field. Think of all of the times you have data in more than one data frame, but you want everything to be in a single data frame! As a result, we think that joins are well worth investing the time to be able to use.
 
-With most types of data, `left_join()` is helpful for carrying out most tasks
-related to joining datasets. However, there are functions for other types of
-joins that we want to make sure you know how to use. They may be less frequently
-used than `left_join()`, but they are still worth mentioning. Note that for all
-of these, the "left" data frame is always the first argument, and the "right"
-data frame is always the second. When running the code chunks below, it can be
-helpful to pay attention to the number of observations and variables in the
-datasets before and after the joining. Eventually, the obscure names of these
-types of joins will start to become more intuitive as you use them more often.
+With most types of data, `left_join()` is helpful for carrying out most tasks related to joining datasets. However, there are functions for other types of joins that we want to make sure you know how to use. They may be less frequently used than `left_join()`, but they are still worth mentioning. Note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second. When running the code chunks below, it can be helpful to pay attention to the number of observations and variables in the datasets before and after the joining. Eventually, the obscure names of these types of joins will start to become more intuitive as you use them more often.
 
 #### `semi_join()`
 
-`semi_join()`: joins and retains all of the *matching* rows in the "left" and
-"right" data frame. This is useful when you are only interested in keeping the
-rows (or cases/observations) that are able to be joined. `semi_join()` will not
-create duplicate rows of the left data frame, even when it finds multiple
-matches on the right data frame. It will also keep only the columns from the
-left data frame.
+The `semi_join()` function joins and retains all of the matching rows in the "left" and
+"right" data frame. This is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame.
 
-For example, the following returns only the rows that are present in both
-`course_data` and `pre_survey`:
+For example, the following returns only the rows that are present in both `course_data` and `pre_survey`, and all rows in `course_data`:
 
 ```{r}
 dat_semi <- 
@@ -592,8 +520,7 @@ dat_semi
 
 #### `anti_join()`
 
-`anti_join()`: *removes* all of the rows in the "left" data frame that can be
-joined with those in the "right" data frame.
+The `anti_join()` function *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
 
 ```{r}
 dat_anti <-
@@ -606,10 +533,7 @@ dat_anti
 
 #### `right_join()`
 
-`right_join()`: perhaps the least helpful of the three, `right_join()` works the
-same as `left_join()`, but by retaining all of the rows in the "right" data
-frame, and joining matching rows in the "left" data frame (so, the opposite of
-`left_join()`).
+The `right_join()` function works the same as `left_join()`, but retains all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
 
 ```{r}
 dat_right <-
@@ -620,10 +544,7 @@ dat_right <-
 dat_right
 ```
 
-If we wanted this to return exactly the same output as `left_join()` (and so to
-create a data frame that is identical to the `dat` data frame we created above), we could
-simply switch the order of the two data frames to be the opposite of those used
-for the `left_join()` above:
+If we wanted this to return exactly the same output as `left_join()` (and so to create a data frame that is identical to the `dat` data frame we created above), we could switch the order of the two data frames to be the opposite of those used for the `left_join()` above:
 
 ```{r}
 dat_right <-
@@ -634,13 +555,7 @@ dat_right <-
 dat_right
 ```
 
-Now that we've gone through the different types of joins available, we will
-return to our main focus: joining our course datasets together. While we didn't
-do any data processing steps on it, we still have the `course_minutes` dataset
-in our environment from when we loaded it there earlier in the chapter. In the
-code chunk below, we will rename the necessary variables in that dataset so that
-it is ready to merge. Then, we will merge the `course_minutes` dataset, with its
-newly renamed variables `student_id` and `course_id`, with our `dat` dataset.
+Now that we've gone through the different types of joins available, we will return to our main focus: joining our course datasets together. While we didn't do any data processing steps on it, we still have the `course_minutes` dataset in our environment from when we loaded it there earlier in the chapter. In the code chunk below, we will rename the key variables to match `dat`. Then, we will merge the `course_minutes` dataset with its newly renamed variables `student_id` and `course_id`, with our `dat` dataset.
 
 ```{r}
 course_minutes <-
@@ -649,75 +564,49 @@ course_minutes <-
          course_id = CourseSectionOrigID)
 
 course_minutes <-
-  course_minutes %>%
-  # Change the data type for student_id in course_minutes so we can match to 
-  # student_id in dat
-  mutate(student_id = as.integer(student_id))
+    course_minutes %>%
+    # Change the data type for student_id in course_minutes so we can match to
+    # student_id in dat
+    mutate(student_id = as.integer(student_id))
 
-dat <- 
-  dat %>% 
-  left_join(course_minutes, 
-            by = c("student_id", "course_id"))
+dat <-
+    dat %>%
+    left_join(course_minutes, by = c("student_id", "course_id"))
 ```
 
-Note that they're now combined, even though the course data had many more rows.
-The pre-survey data has been joined for each student-course combination. We
-have a pretty large data frame! Let's take a quick look.
+Note that they're now combined, even though the course data had many more rows. The pre-survey data has been joined for each student-course combination. We have a pretty large data frame! Let's take a quick look.
 
 ``` {r}
 dat
 ```
 
-It looks like we have `r nrow(dat)` observations from 22 variables.
+It looks like we have `r scales::comma(nrow(dat))` observations from `r col(dat)` variables.
 
 ### Finding Distinct Cases at the Student-Level
 
-If a student was enrolled in two courses, she will have a different final grade for each of
-those two courses. However,  our data in
-its current form has many rows representing *each course. An easy way we can visually inspect to make sure every row
-is the same for the same student, by course is to use the `glimpse()` function. 
-Try it below.
+If a student was enrolled in two courses, she will have a different final grade for each course. However, our data in its current form has many rows representing each course. An quick way we can visually inspect to make sure each row correctly represents a unique student-course combination to use the `glimpse()` function. Try it below.
 
 ```{r}
 glimpse(dat)
 ```
 
-You can also use `View(dat)` in order to view the data in RStudio's viewer.
+You can also use `View(dat)` to explore the data in RStudio's viewer.
 
-Visually inspecting the first several rows of data, we see that they all
-correspond to the same student for the same course. As we expected, the
-`FinalGradeCEMs` variable (representing students' final grade) is also consistent across these rows. 
+Visually inspecting the first several rows of data, we see that they all correspond to the same student for the same course. As we expected, the `FinalGradeCEMs` variable (representing students' final grade) is also consistent across these rows. 
 
-Since we are not carrying out a finer-grained analysis using the `Gradebook_Item`, these
-duplicate rows are not necessary. We only want variables at the student level,
-and not at the level of different gradebook items. We can extract only the
-unique student-level data using the `distinct()` function. This function takes
-as arguments the name of the data frame and the name of the variables used to
-determine what counts as a unique case.
+Since we are not analyzing individual `Gradebook_Item` values, these duplicate rows are not necessary. We only want variables at the student level, not at the gradebook level. We can extract only the unique student-level data using the `distinct()` function.
 
-Imagine having a bucket of Halloween candy that has 100 pieces of candy. You
-know that these 100 pieces are really just a bunch of duplicate pieces from a
-relatively short list of candy brands. `distinct()` takes that bucket of 100
-pieces and returns a bucket containing only one of each distinct piece.
+Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct()` takes that bucket of 100 pieces and returns a bucket containing only one of each brand.
 
-Another thing to note about `distinct()` is that it will only return the
-variable(s) (it is possible to pass more than one variable to `distinct()`) you
-used to determine uniqueness, *unless* you include the argument `.keep_all =
-TRUE`. For the sake of making it simple to view the output, we will omit this
-argument for now.
+By default, `distinct()` will only return the variable(s) (it is possible to pass more than one variable to `distinct()`) you used to determine uniqueness, unless you include the `.keep_all = TRUE` argument. For the sake of simplicity, we omit this argument for now.
 
-Were we to run `distinct(dat, Gradebook_Item)`, what do you think would be
-returned? Running the following code returns a one-column data frame that lists the names of
-every distinct gradebook item.
+Were we to run `distinct(dat, Gradebook_Item)`, what do you think would be returned? Running the following code returns a one-column data frame that lists the names of all unique gradebook items.
  
-``` {r}
+```{r}
 distinct(dat, Gradebook_Item)
 ```
 
-You might be wondering whether some gradebook
-items have the same names across courses. We can return the unique *combination*
-of courses and gradebook items by simply adding another variable to
-`distinct()`:
+You might be wondering whether some gradebook items share the same names across different courses. We can find the unique combination of courses and gradebook items by adding another variable to `distinct()`:
 
 ``` {r}
 distinct(dat, course_id, Gradebook_Item)
@@ -739,18 +628,10 @@ dat <-
   distinct(dat, course_id, student_id, .keep_all = TRUE)
 ```
 
-This is a much smaller data frame - with one row for each student in the course.
-Whereas our prior version of the `dat` dataset had over 40,000 rows, that prior
-version is only helpful if we wanted to do an analysis at the level of specific
-students' grades for specific gradebook items. Our new dataset keeps only the
-unique combinations of student and course, leaving us with a more manageable
-number of observations: `r nrow(dat)`. Now that our data are ready to go, we can
-start to ask some questions of the data.
+This is a much smaller data frame, with just one row for each student in the course. The previous version of `dat` had over 40,000 rows, useful for analyzing specific gradebook items. However, since we are focusing on student-level data, our new dataset keeps only the
+unique combinations of student and course, leaving us with a more manageable number of observations: `r nrow(dat)`. Now that our data are ready to go, we can start to ask some questions of the data.
 
-Let's take one last step. Since we will be using the final grade variable in 
-many of the figures and analyses that follow, let's rename it using the {dplyr} 
-`rename()` function to something that is a bit easier to type and remember than
-`FinalGradeCEMS`:
+Let's take one last step. Since we use the final grade variable `FinalGradeCEMS` in many of the figures and analyses that follow, let's rename it using`rename()` to something that is a bit easier to type and remember:
 
 ```{r}
 dat <- rename(dat, final_grade = FinalGradeCEMS)
@@ -765,48 +646,29 @@ introduce {ggplot2}, a visualization package we'll be using in our walkthroughs.
 
 ### About {ggplot2}
 
-{ggplot2} is a package we’ll be using a lot for graphing our education datasets.
-{ggplot2} is designed to build graphs layer by layer, where each layer is a
-building block for your graph. Making graphs in layers is useful because we can
-think of building up our graphs in separate parts: the data comes first, then
-the x-axis and y-axis, and finally other components like text labels and graph
-shapes. When something goes wrong and your ggplot2 code returns an error, you
-can learn about what’s happening by removing one layer at a time and running it
-again until the code works properly. Once you know which line is causing the
+We'll be using the {ggplot2} a package for graphing our education datasets. {ggplot2} is designed to build graphs layer by layer, where each layer is a building block for your graph. Making graphs in layers is useful because we can think of building up our graphs in separate parts: the data comes first, then the x-axis and y-axis, and finally other components like text labels and graph shapes. When something goes wrong and your ggplot2 code returns an error, you can learn about what’s happening by removing one layer at a time and running it again until the code works properly. Once you know which line is causing the
 problem, you can focus on fixing it.
 
-The first two lines of {ggplot2} code look similar for most graphs. The first
-line tells R which dataset to graph and which columns the x-axis and y-axis will
-represent. The second line tells R which shape to use when drawing the graph.
-You can tell R which shape to use in your graphs with a family of {ggplot2}
-functions that start with `geom_`. {ggplot2} has many graph shapes you can use,
-including points, bars, lines, and boxplots. Here’s a {ggplot2} example using a
-dataset of school mean test scores to graph a bar chart:
+The first two lines of {ggplot2} code look similar for most graphs. The first line tells R which dataset to graph and which columns the x-axis and y-axis will represent. The second line tells R which shape to use when drawing the graph. You can tell R which shape to use in your graphs with a family of {ggplot2} functions that start with `geom_`. {ggplot2} has many graph shapes you can use, including points, bars, lines, and boxplots. Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
 
 ```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example Plot"}
-# make dataset
+# Make dataset
 students <- 
   tibble(
     school_id = c("a", "b", "c"), 
     mean_score = c(10, 20, 30)
   )
 
-# tell R which dataset to plot and which columns the x-axis and y-axis will represent
+# Tell R which dataset to plot and which columns the x-axis and y-axis will represent
 students %>% 
   ggplot(aes(x = school_id, y = mean_score)) + 
-  # draw the plot
+  # Draw the plot
   geom_bar(stat = "identity",
            fill = dataedu_colors("darkblue")) +
   theme_dataedu()
 ```
 
-The `data` argument in the first line tells R we’ll be using the dataset called
-`students`. The `aes` argument tells R we’ll be using values from the
-`school_id` column for the x-axis and values from the `mean_score` column for
-the y-axis. In the second line, the `geom_bar` function tells R we’ll drawing
-the graph using the bar chart format. Each line of {ggplot2} code is connected by a
-`+` at the end to tell R the next line of code is an additional {ggplot2} layer to
-add.
+The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` (aesthetics) argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’re drawing the graph using the bar chart format. Finally, we customize our graph font and color palette with `theme_dataedu()`, a custom theme we created for the book. Each line of {ggplot2} code is connected by a `+` at the end to tell R the next line of code is an additional {ggplot2} layer to add.
 
 Writing code is like writing essays. There's a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you'll see variations in {ggplot2} style, but all within what we believe is the range of acceptable conventions. Here are some examples: 
 
@@ -814,85 +676,62 @@ Writing code is like writing essays. There's a range of acceptable styles and ce
  - Using `ggtitle()` for labels vs using `labs()` 
  - Order of `ggplot()` levels 
 
-It's ok if those terms are new to you. The main point is there are multiple ways to make the plot you want. You'll see that in this book and in other peoples' code. As you learn, we encourage you to practice empathy and think about how well your code conveys your ideas to other people, including yourself when you look at it many weeks from when you wrote it. 
+It's ok if those terms are new to you. The main point is there are multiple ways to make the plot you want. You'll see that in this book and in other peoples' code. As you learn, we encourage you to practice empathy and think about how well your code conveys your ideas to other people, including yourself when you look at it many weeks after you wrote it. 
 
 ### The Relationship between Time Spent on Course and Final Grade
 
-One thing we might be wondering is how time spent on course is related to
-students' final grade. Let's make a plot to depict that relationship. Below,
-we'll use `geom_point` instead of `geom_bar`.
+One thing we might want to learn is how time spent on course is related to students' final grade. Let's make a plot to depict that relationship. Below, we'll create a scatterplot usng `geom_point`.
 
 ``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent", fig.showtext = TRUE}
 dat %>%
-  # aes() tells ggplot2 what variables to map to what feature of a plot
-  # Here we map variables to the x- and y-axis
-  ggplot(aes(x = TimeSpent, y = final_grade)) + 
-  # Creates a point with x- and y-axis coordinates specified above
-  geom_point(color = dataedu_colors("green")) + 
-  theme_dataedu() +
-  labs(x = "Time Spent",
-       y = "Final Grade")
+    # aes() tells ggplot2 what variables to map to what feature of a plot
+    # Here we map variables to the x- and y-axis
+    ggplot(aes(x = TimeSpent, y = final_grade)) + 
+    # Creates a point with x- and y-axis coordinates specified above
+    geom_point(color = dataedu_colors("green")) +
+    theme_dataedu() +
+    labs(x = "Time Spent", y = "Final Grade")
 ```
 
-_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced through coercion earlier in this walkthrough, and are not a cause for alarm!_
+_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced earlier in this walkthrough, and are not a cause for alarm!_
 
-There appears to be *some* relationship. What if we added a line of best fit - a
-linear model? The code below is the same plot we just made, but it includes the
-addition of another layer called `geom_smooth`. 
+There appears to be *some* relationship in the data. What if we added a line of best fit using a linear model? The code below builds on our previous plot and adds another layer with `geom_smooth()`. This function fits a smoothed line to the data.
 
 ``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit", fig.showtext = TRUE}
 dat %>%
-  ggplot(aes(x = TimeSpent, y = final_grade)) +
+    ggplot(aes(x = TimeSpent, y = final_grade)) +
     geom_point(color = dataedu_colors("green")) + # same as above
-  # this adds a line of best fit
-  # method = "lm" tells ggplot2 to fit the line using linear regression
-  geom_smooth(method = "lm") +
-  theme_dataedu() +
-  labs(x = "Time Spent",
-       y = "Final Grade")
+    # This adds a line of best fit
+    # method = "lm" tells ggplot2 to fit the line using linear regression
+    geom_smooth(method = "lm") +
+    theme_dataedu() +
+    labs(x = "Time Spent", 
+         y = "Final Grade")
 ```
 
-Looking at this plot, it appears that the more time students spent on the
-course, the higher that there final grade is. 
+Looking at this plot, it appears that students who spent more time on the course tended to have higher final grades.
 
-What is the line doing in the upper right part of the graph? Based upon the trend
-that is observable in the data, the line of best fit predicts that students who spend 
-a particular amount of time on the course *earn greater than 100* for their final grade!
-Of course, this is not possible, and highlights the importance of understanding your 
-data and carefully interpreting lines of best fit (and other, more sophisticated analyses)
-carefully, keeping that understanding and knowledge in mind as you present and make sense 
-of the results.
+What is the line doing in the upper right part of the graph? Based upon the trend that is observable in the data, the line of best fit predicts that students who spend a particular amount of time on the course earn a final grade above 100!  Of course, this is not possible, and highlights the importance of understanding your data and carefully interpreting lines of best fit (or any other statistical model). Always keep real-world constraints in mind when analyzing and presenting results.
 
 ### Linear Model (Regression)
 
-We can find out exactly what the relationship between these two variables is
-using a linear model. We discuss linear models in more detail in
-[Chapter 10](#c10).
+We can understand the relationship between time spent on the course and students' final grade using a linear model. We discuss linear models in more detail in [Chapter 10](#c10).
 
-Let's use this technique to model the relationship between the time spent on the
-course and students' final grade. Here, we predict
-`final_grade`. Students' final, reported grade is the dependent, or *y*-variable, and so
-we enter it first, after the `lm()` command and before the tilde (`~`) symbol.
-To the right of the tilde is one independent variable, `TimeSpent`, or the time
-that students spent on the course. We also pass, or provide, the data frame,
-`dat`. At this point, we're ready to run the model. Let's run this line of code
-and save the results to an object - we chose `m_linear`, but any name will work.
-We will then run the `summary()` function on the output.
+Let's model the relationship between these two variables. The dependent variable is the students' final grade (`final_grade`), which is entered first after the `lm()` command and before the tilde (`~`). To the right of the tilde is the independent variable, `TimeSpent`, or the amount of time that students spent on the course. We’ll use the data frame `dat` for the analysis.
+
+We save the results to an object called `lm_linear` and use the `summary()` function to examine the results. Let's run this line of code to see the output.
 
 ``` {r}
 m_linear <-
-  lm(final_grade ~ TimeSpent, data = dat)
+    lm(final_grade ~ TimeSpent, data = dat)
 
 summary(m_linear)
 ```
 
-Another way that we can generate table output is with a function from the
-{sjPlot} package, `tab_model()`. When you run this code, you should see the
-results pop up in the "Viewer" pane of RStudio. If you haven't changed the
-default settings, this will be in the lower right quadrant of your screen.
+We can also generate table output with the `tab_model()` function from the {sjPlot} package. When you run this code, you should see the results pop up in the "Viewer" pane of RStudio. If you haven't changed the default settings, this will be in the lower right quadrant of your screen.
 
 ``` {r}
-tab_model(m_linear,
+tab_model(m_linear, 
           title = "Table 7.1")
 ```
 
@@ -902,73 +741,42 @@ tab_model(m_linear,
           title = "Table 7.1")
 ```
 
-This will work well for R Markdown documents (or simply to interpret the model
-in R). If you want to save the model for use in a Word document, the
-[{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
-(https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html)
-package may be helpful. To save a table in Word format, just pass the name of
-the regression model to a function from the `apaTables` package, like we did
-with the `tab_model()` function. Then, you can save the output to a Word
-document, simply by adding a `filename` argument:
-
-```{r, eval = FALSE}
-apa.reg.table(m_linear, filename = "regression-table-output.doc")
-```
-
-You might be wondering what else the {apaTables} package does. We encourage you
-to read more about the package here:
-<https://cran.r-project.org/web/packages/apaTables/index.html>. The vignette is
-especially helpful. One function that may be useful for writing manuscripts is
-the following function for creating correlation tables. This function takes, as
-an input, a data frame with the variables for which you wish to calculate
-correlations.
-
-Before we proceed to the next code chunk, let's talk about some functions we'll
-be using a lot in this book. `filter()`, `group_by()`, and `summarize()` are
-functions in the {dplyr} package that you will see a lot in upcoming chapters.
-You got a preview of these functions earlier in this chapter, and now that
-you've seen how they are used, we want to provide clear definitions for each of
-these functions.
+Before we proceed to the next code chunk, let's talk about some common functions we use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter, but we want to provide clear definitions for each.
 
   - `filter()` removes rows from the dataset that don't match a criteria. Use it
-    for tasks like only keeping records for students in the fifth grade
+    for tasks like only keeping records for students in the fifth grade.
   - `group_by()` groups records together so you can perform operations on those
     groups instead of on the entire dataset. Use it for tasks like getting the
-    mean test score of each school instead of a whole school district
+    mean test score of each school instead of a whole school district.
   - `summarize()` and `summarise()` reduce your dataset down to a summary
     statistic. Use it for tasks like turning a dataset of student test scores
-    into a dataset of grade levels and their mean test score
+    into a dataset of grade levels and their mean test score.
 
-Now let's use these {dplyr} functions on our survey analysis. We will create the
-same measures (based on the survey items) that we used earlier to understand how
-they relate to one another.
+Now let's use these {dplyr} functions in our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another.
 
 ``` {r}
 survey_responses <-
-  pre_survey %>%
-  # Gather questions and responses
-  pivot_longer(cols = q1:q10,
-               names_to = "question",
-               values_to = "response") %>%
-  mutate(
-    # Here's where we make the column of question categories
-    measure = case_when(
-      question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int",
-      question %in% c("q2", "q6", "q9") ~ "uv",
-      question %in% c("q3", "q7") ~ "pc",
-      TRUE ~ NA_character_
-    )
-  ) %>%
-  group_by(student_id, measure) %>%
-  # Here's where we compute the mean of the responses
-  summarize(
-    # Mean response for each measure
-    mean_response = mean(response, na.rm = TRUE)
+    pre_survey %>%
+    # Gather questions and responses
+    pivot_longer(cols = q1:q10,
+                 names_to = "question",
+                 values_to = "response") %>%
+    mutate(
+        # Here's where we make the column of question categories
+        measure = case_when(
+            question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int",
+            question %in% c("q2", "q6", "q9") ~ "uv",
+            question %in% c("q3", "q7") ~ "pc",
+            .default ~ NA
+        )
     ) %>%
+    group_by(student_id, measure) %>%
+    # Here's where we compute the mean of the responses
+    summarize(# Mean response for each measure
+        mean_response = mean(response, na.rm = TRUE)) %>%
     # Filter NA (missing) responses
-  filter(!is.na(mean_response)) %>%
-  pivot_wider(names_from = measure, 
-              values_from = mean_response)
+    filter(!is.na(mean_response)) %>%
+    pivot_wider(names_from = measure, values_from = mean_response)
 
 survey_responses
 ```
