@@ -30,6 +30,7 @@ This chapter on the education data science pipeline emphasizes:
 - `sjPlot::tab_model()`
 - `stringr::str_sub()`
 - `dplyr::filter()`
+- `apaTables::apa.cor.table()`
 
 ## Vocabulary
 
@@ -125,7 +126,7 @@ In this walkthrough, we focus on merging datasets using the different joins avai
 
 ## Load Packages
 
-This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). We load these packages with the function `library()`. The specific packages used here help us structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot], and export datasets with {readxl} [@R-readxl].
+This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). We load these packages with the function `library()`. The specific packages used here help us structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot] and {apaTables} [@apaTables], and export datasets with {readxl} [@R-readxl].
 
 ***Install packages (if necessary)***
 
@@ -148,6 +149,7 @@ Once installed, you only need to load a package with `library()` for future use.
 ``` {r, loading-packages, message = F, warning = F}
 library(tidyverse)
 library(sjPlot)
+library(apaTables)
 library(readxl)
 library(dataedu)
 ```
@@ -741,18 +743,28 @@ tab_model(m_linear,
           title = "Table 7.1")
 ```
 
-Before we proceed to the next code chunk, let's talk about some common functions we use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter, but we want to provide clear definitions for each.
+Tables from {sjPlot} will work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a table in Word format, pass the name of the regression model to a function from the {apaTables} package. Then, you can save the output to a Word document by adding the `filename` argument:
 
-  - `filter()` removes rows from the dataset that don't match a criteria. Use it
-    for tasks like only keeping records for students in the fifth grade.
+```r
+apa.reg.table(m_linear, filename = "regression-table-output.doc")
+```
+
+
+
+
+
+Before we proceed to the next code chunk, let's talk about some common functions we use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter.
+
+  - `filter()` removes rows from the dataset that don't match a specified criterion. Use it
+    for tasks like keeping only records for students in the fifth grade.
   - `group_by()` groups records together so you can perform operations on those
-    groups instead of on the entire dataset. Use it for tasks like getting the
+    groups instead of the entire dataset. Use it for tasks like getting the
     mean test score of each school instead of a whole school district.
-  - `summarize()` and `summarise()` reduce your dataset down to a summary
+  - `summarize()` (or `summarise()`) reduces your dataset down to a summary
     statistic. Use it for tasks like turning a dataset of student test scores
-    into a dataset of grade levels and their mean test score.
+    into a dataset of average test score for each grade level.
 
-Now let's use these {dplyr} functions in our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another.
+Now let's apply these {dplyr} functions to our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another.
 
 ``` {r}
 survey_responses <-
@@ -767,7 +779,7 @@ survey_responses <-
             question %in% c("q1", "q4", "q5", "q8", "q10") ~ "int",
             question %in% c("q2", "q6", "q9") ~ "uv",
             question %in% c("q3", "q7") ~ "pc",
-            .default ~ NA
+            .default = NA
         )
     ) %>%
     group_by(student_id, measure) %>%
@@ -788,24 +800,20 @@ survey_responses %>%
   apa.cor.table()
 ```
 
-The time spent variable is on a very large scale (minutes); what if we
-transformed it to represent the number of *hours* that students spent on the
-course? Let's use the `mutate()` function we used earlier. We'll end the
-variable name in `_hours`, to represent what this variable means.
+The time spent variable is on a very large scale (minutes); what if we transformed it to represent the number of hours that students spent on the course? Let's use the `mutate()` function we used earlier. We'll create a variable ending in `_hours`.
 
 ``` {r}
-# creating a new variable for the amount of time spent in hours
-dat <- 
-  dat %>% 
-  mutate(TimeSpent_hours = TimeSpent / 60)
+# Creating a new variable for the amount of time spent in hours
+dat <-
+    dat %>%
+    mutate(TimeSpent_hours = TimeSpent / 60)
 
-# the same linear model as above, but with the TimeSpent variable in hours
-m_linear_1 <- 
-  lm(final_grade ~ TimeSpent_hours, data = dat)
+# The same linear model as above, but with the TimeSpent variable in hours
+m_linear_1 <-
+    lm(final_grade ~ TimeSpent_hours, data = dat)
 
-# viewing the output of the linear model
-tab_model(m_linear_1,
-          title = "Table 7.2")
+# Viewing the output of the linear model
+tab_model(m_linear_1, title = "Table 7.2")
 ```
 
 ``` {r, echo = F, results = "hide"}
@@ -814,22 +822,20 @@ tab_model(m_linear_1,
           title = "Table 7.2")
 ```
 
-The scale still does not seem quite right. What if we standardized the variable
-to have a mean of zero and a standard deviation of one?
+The scale still does not seem quite right. What if we standardized the variable to have a mean of zero and a standard deviation of one using the `scale()` function?
 
 ``` {r}
-# this is to standardize the TimeSpent variable to have a mean of 0 and a standard deviation of 1
-dat <- 
-  dat %>% 
-  mutate(TimeSpent_std = scale(TimeSpent))
+# This is to standardize the TimeSpent variable to have a mean of 0 and a standard deviation of 1
+dat <-
+    dat %>%
+    mutate(TimeSpent_std = scale(TimeSpent))
 
-# the same linear model as above, but with the TimeSpent variable standardized
-m_linear_2 <- 
-  lm(final_grade ~ TimeSpent_std, data = dat)
+# The same linear model as above, but with the TimeSpent variable standardized
+m_linear_2 <-
+    lm(final_grade ~ TimeSpent_std, data = dat)
 
-# viewing the output of the linear model
-tab_model(m_linear_2,
-          title = "Table 7.3")
+# View the output of the linear model
+tab_model(m_linear_2, title = "Table 7.3")
 ```
 
 ``` {r, echo = F, results = "hide"}
@@ -838,23 +844,16 @@ tab_model(m_linear_2,
           title = "Table 7.3")
 ```
 
-When we look at this output, it seems to make more sense. However, there is a
-different interpretation now for the time spent variable: for every one standard
-deviation increase in the amount of time spent on the course, students' final
-grades increases by 8.24, or around eight percentage points.
+For every one standard deviation increase in the amount of time spent on the course, students' final grades increases by 8.24, or around eight percentage points.
 
 ## Results
 
-Let's extend our regression model and consider the following to be the final
-model in this sequence of models: What other variables may matter? Perhaps there
-are differences based on the subject of the course. We can add subject as a
-variable easily, as follows:
+Let's extend our regression model and consider the following to be the final model in this sequence of models: What other variables may matter? Perhaps there are differences based on the subject of the course. We can add subject as an independent variable by including it with a plus sign (`+`):
 
 ``` {r}
-# a linear model with the subject added 
-# independent variables, such as TimeSpent_std and subject, can simply be separated with a plus symbol:
-m_linear_3 <- 
-  lm(final_grade ~ TimeSpent_std + subject, data = dat)
+# Create a linear model with the subject added as an independent variable
+m_linear_3 <-
+    lm(final_grade ~ TimeSpent_std + subject, data = dat)
 ```
 
 We can use `tab_model()` once again to view the results:
@@ -870,28 +869,13 @@ tab_model(m_linear_3,
           title = "Table 7.4")
 ```
 
-It looks like subject `FrSc` - forensic science - and subject `Ocn` -
-oceanography - are associated with a higher final grade. This indicates that students in those two classes earned higher grades
-than students in other science classes in this dataset.
+It looks like subjects forensic science (`FrSc`) and oceanography (`Ocn`) are associated with a higher final grade. This indicates that students in these two classes earned higher grades than students in other science classes.
 
 ## Conclusion
 
-In this walkthrough, we focused on taking unprocessed, or raw data, and loading,
-viewing, and then processing it through a series of steps. The result was a data
-set which we could use to create visualizations and a simple (but powerful!)
-linear model, also known as a regression model. We found that the time that
-students spent on the course was positively (and statistically significantly)
-related to students' final grades, and that there appeared to be differences by
-subject. While we focused on using this model in a traditional, explanatory
-sense, it could also potentially be used for predictive analytics, in that
-knowing how long students spent on the course and what subject their course is
-could be used to estimate what that students' final grade might be. We focus on
-uses of predictive models further in [Chapter 14](#c14).
+In this walkthrough, we focused on taking raw data, loading it, and processing it through a series of steps. The final result was a dataset ready for creating visualizations and a simple yet powerful! linear model (regression model). We found that the time that students spent on a course was positively related to their final grades, with a statistically significant difference by subject. While we used this model in a traditional, explanatory sense, it also has potential for predictive analytics. Knowing how long students spent on the course and the subject could help estimate their final grade. We explore predictive models in [Chapter 14](#c14).
 
-In the follow-up to this walkthrough (see [Chapter 13](#c13)), we will focus on
-visualizing and then modeling the data using an advanced methodological
-technique, multi-level models, using the data we prepared as a part of this data
-processing pipeline used in this chapter.
+In the follow-up to this walkthrough, [Chapter 13](#c13), we focus on visualizing and modeling the data using multi-level modeling, an advanced methodological technique, to build on the data science pipeline we established here.
 
 ``` {r, eval = FALSE}
 write_csv(dat, "data/online-science-motivation/processed/sci_mo_processed.csv")
