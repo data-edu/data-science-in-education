@@ -13,22 +13,29 @@ This chapter on the education data science pipeline emphasizes:
 
 ## Functions Introduced
 
-- `across()`
+- `dplyr::rename()`
+- `dplyr::mutate()`
+- `dplyr::across()`
+- `tibble::tibble()`
+- `dplyr::case_when()`
+- `tidyr::pivot_longer()` and `tidyr::pivot_wider()`
+- `dplyr::group_by()`
+- `dplyr::summarize()` or `dplyr::summarise()`
+- `tidyr::separate()`
+- `stringr::str_sub()`
 - `as.numeric()`
 - `data.frame()`
-- `dplyr::summarize()`
+- `dplyr::left_join()`, `dplyr::right_join()`, `dplyr::semi_join()`, and `dplyr::anti_join()`
 - `dplyr::distinct()`
-- `group_by()`
-- `tibble()`
-- `tidyr::pivot_longer() and tidyr::pivot_wider()`
-- `tidyr::left_join()`, `tidyr::right_join()`, `tidyr::semi_join()`, and `tidyr::anti_join()`
-- `dplyr::mutate()`
-- `tidyr::separate()`
-- `lm()`
-- `rename()`
 - `ggplot2::ggplot()`
+- `ggplot2::geom()`
+- `ggplot2::geom_bar()`
+- `ggplot2::geom_point()`
+- `ggplot2::geom_smooth()`
+- `lm()`
+- `summary()`
 - `sjPlot::tab_model()`
-- `stringr::str_sub()`
+- `apaTables::apa.reg.table()`
 - `dplyr::filter()`
 - `apaTables::apa.cor.table()`
 
@@ -36,10 +43,13 @@ This chapter on the education data science pipeline emphasizes:
 
 In this walkthrough sections, we include key terms introduced in the chapter:
 
+  - education data science pipeline
+  - tidy data
   - data frame
   - item
   - joins
   - keys
+  - measure
   - log-trace data
   - passed arguments
   - reverse scale
@@ -64,7 +74,7 @@ like a refresher about (or an introduction to) any of those, refer to the previo
 
 ## Chapter Overview
 
-In this walkthrough, we explore some of the key steps that are a part of many data science projects in education. In particular, we focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools that we use throughout *all* of the walkthroughs, those associated with the {tidyverse}, which is a set of packages for data manipulation, exploration, and visualization. 
+In this walkthrough, we explore some of the key steps that are a part of many data science projects in education. In particular, we focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools that we use throughout all of the walkthroughs, those associated with the {tidyverse}, which is a set of packages for data manipulation, exploration, and visualization. 
 
 The {tidyverse} follows the design philosophy of 'tidy' data [@wickham2014]. Tidy data has a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table. We'll discuss the {tidyverse} and tidy data throughout the book. For more information, see the Foundational Skills chapters or <https://www.tidyverse.org/>.
 
@@ -171,7 +181,7 @@ course_minutes <- dataedu::course_minutes
 
 ## View Data
 
-Now that we've successfully loaded all three log-trace datasets, we can visually inspect the data by typing their assigned names. Running each line individually will display the first few rows of each dataset.
+Now that we've successfully loaded all three log-trace datasets, we can visually inspect the data by typing their assigned names. Running each line individually will display the first few rows (or cases/observations) of each dataset.
 
 ```{r}
 pre_survey
@@ -507,7 +517,7 @@ With most types of data, `left_join()` is helpful for carrying out most tasks re
 #### `semi_join()`
 
 The `semi_join()` function joins and retains all of the matching rows in the "left" and
-"right" data frame. This is useful when you are only interested in keeping the rows (or cases/observations) that are able to be joined. `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame.
+"right" data frame. This is useful when you are only interested in keeping the rows that are able to be joined. `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame.
 
 For example, the following returns only the rows that are present in both `course_data` and `pre_survey`, and all rows in `course_data`:
 
@@ -682,7 +692,7 @@ It's ok if those terms are new to you. The main point is there are multiple ways
 
 ### The Relationship between Time Spent on Course and Final Grade
 
-One thing we might want to learn is how time spent on course is related to students' final grade. Let's make a plot to depict that relationship. Below, we'll create a scatterplot usng `geom_point`.
+One thing we might want to learn is how time spent on course is related to students' final grade. Let's make a plot to depict that relationship. Below, we'll create a scatterplot usng `geom_point()`.
 
 ``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent", fig.showtext = TRUE}
 dat %>%
@@ -743,15 +753,11 @@ tab_model(m_linear,
           title = "Table 7.1")
 ```
 
-Tables from {sjPlot} will work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a table in Word format, pass the name of the regression model to a function from the {apaTables} package. Then, you can save the output to a Word document by adding the `filename` argument:
+Tables from {sjPlot} will work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then, you can save the output to a Word document by adding the `filename` argument:
 
 ```r
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
-
-
-
-
 
 Before we proceed to the next code chunk, let's talk about some common functions we use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter.
 
@@ -793,7 +799,7 @@ survey_responses <-
 survey_responses
 ```
 
-Now that we've prepared the survey responses, we can use the `apa.cor.table()` function:
+Now that we've prepared the survey responses, we can use the `apa.cor.table()` function to create a correlation table:
 
 ```{r}
 survey_responses %>% 
@@ -877,6 +883,6 @@ In this walkthrough, we focused on taking raw data, loading it, and processing i
 
 In the follow-up to this walkthrough, [Chapter 13](#c13), we focus on visualizing and modeling the data using multi-level modeling, an advanced methodological technique, to build on the data science pipeline we established here.
 
-``` {r, eval = FALSE}
+```{r, include = FALSE}
 write_csv(dat, "data/online-science-motivation/processed/sci_mo_processed.csv")
 ```
