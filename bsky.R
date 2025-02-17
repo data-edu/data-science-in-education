@@ -1,10 +1,15 @@
 library(bskyr)
 library(tidyverse)
 
+bs_set_user("joshuamrosenberg.bsky.social")
+bs_set_pass("e734-wdl5-5mpy-mk6a")
+
 auth <- bs_auth(user = bs_get_user(), pass = bs_get_pass())
 
 # Search for posts with the hashtag 'rstats'
-posts <- bs_search_posts(query = "#rstats", auth = auth)
+posts <- bs_search_posts(query = "#tidytuesday", limit = 600, auth = auth)
+
+write_rds(posts, "posts.rds")
 
 # Unnest the 'author' column to extract handle and display name
 posts_clean <- posts %>%
