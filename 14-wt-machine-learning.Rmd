@@ -2,7 +2,7 @@
 
 **Abstract** 
 
-This chapter introduces a different type of statistical model that is increasingly common -- machine learning. Specifically, we focus on supervised machine learning, which involves, first, identifying an outcome (another name for a dependent variable), and then building (or training) a model to predict that outcome. Some supervised machine learning models are highly complex, while others are simple. To illustrate and gain experience training and interpreting a supervised machine learning model, this chapter involves predicting whether students will pass a class using a simple model -- a generalized linear model. The Open University Learning Analytics Dataset (OULAD) is used as an example of the type of data used in learning analytics. The tidymodels collection of packages is used to carry out each of the principal supervised machine learning steps. At the conclusion, ways to build more complex models are discussed.
+This chapter introduces an increasingly common statistical model -- machine learning. Specifically, it focuses on supervised machine learning. This involves identifying an outcome or a dependent variable and then or training a model to predict that outcome. Some supervised machine learning models are highly complex, while others are simple. To illustrate this concept, this chapter involves predicting whether students will pass a class using a generalized linear model. The Open University Learning Analytics Dataset (OULAD) is used as an example data used in learning analytics. The tidymodels collection of packages is used to carry out the principal supervised machine learning steps. At the conclusion, ways to build more complex models are discussed.
 
 ## Topics emphasized
 
@@ -36,35 +36,35 @@ This chapter introduces a different type of statistical model that is increasing
 
 ### Background
 
-In a face-to-face classroom, teachers rely on cues from students to help them to respond and engage their students. But, online, educators do not have ready access to such cues---at least, not the same cues. 
+In a face-to-face classroom, teachers use student cues to help them engage. In online classrooms, these cues aren't always available.
 
-For example, in a face-to-face class, cues like students seeming distracted during a lecture can change what teachers do next. Many online educators find themselves looking for ways to understand and support students online in the same way that face-to-face instructors would. One affordance of technology is that it provides new methods of collecting and storing data that can, potentially, serve as the basis for different kinds of cues. 
+For example, in a face-to-face class, teachers can adjust when they notice that students are distracted. Many online educators look for ways to understand and support students online in the same way that face-to-face instructors would. Technology provides new methods of collecting and storing data that can serve as the basis for this kind of student support.
 
-Online Learning Management Systems (LMSs) often automatically track several types of student interactions with the system---and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that data collection in this manner is intrusive, but others see a new opportunity to support students in online contexts in new ways. As long as data are collected and utilized responsibly, data collection can support student success.
+Online Learning Management Systems (LMSs) automatically track student interactions with the system and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that this kind of data collection is intrusive, but others see a new opportunity to support students in online classrooms. As long as data are collected and used responsibly, this kind of data collection can support student success.
 
-In this walkthrough, we examine the question, *How well can we predict students who are at risk of dropping a course?*. To answer this question, we use what is typical of learning analytics data---student records, assessment outcomes, course outcomes, and, critically, measures of students' interactions with the course.
+In this walkthrough, you'll examine the question, *How well can we predict students who are at risk of dropping a course?*. To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
 
-Here's the key supervised machine learning shift. We focus on *predicting* an outcome--whether a student passes a course--more than *explaining* how variables relate to an outcome, such as how the amount of time students spend on the course relates to their final grade. We do so with a relatively simple model, a generalized linear regression model, though we conclude with a nod to other, more sophisticated models.
+Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on *predicting* an outcome, like whether a student passes a course. This is different from *explaining* how variables influence an outcome, like how course time relates to final grades. You'll learn to do this with a generalized linear regression model.
 
 ### Data sources
 
-We'll be using a widely-used data set in the learning analytics field that is also emblematic of this unique type of data: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners participation in one of several Massive Open Online Courses (called *modules* in the OULAD).
+We'll be using a widely-used data set in the learning analytics field: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners participation in one of several Massive Open Online Courses. These courses are called *modules* in the OULAD.
 
-Many students successfully complete these courses, but not all do, highlighting the importance of identifying those who may be at risk
+Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
 ### Methods
 
 #### Predictive analytics and supervised machine learning
 
-A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to try to determine what a person will want, need, or do next. "Predictive analytics" is a blanket term that can be used to describe any statistical approach that yields a prediction. We could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could give you a probability of that computer-sitting happening today. Under the hood, some predictive models are not very complex. 
+A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, you'll compare a machine learning model to another type of regression: multiple regression. 
 
-If we have an outcome with two possibilities, a logistic regression model could be fit to the data in order to help us answer the cat-keyboard question. In this chapter, we'll compare a machine learning model to another type of regression: multiple regression. We want to make sure to fit the simplest model as possible to our data.
+There is an adage: "garbage in, garbage out". This holds true here. If you do not feel confident that the data you collected are accurate, you won't feel confident in your conclusions, regardless of the model. To collect good data, you must first identify what you want to learn and what information you need to learn it. 
 
-There is an adage: "garbage in, garbage out". This holds true here. If we do not feel confident that the data we collected are accurate, we will not be able to be confident in our conclusions no matter what model we build. To collect good data, we must first clarify what it is that we want to know (i.e., what question are we really asking?) and what information we would need in order to effectively answer that question. Sometimes, people approach analysis from the opposite direction---they might look at the data they have and ask what questions could be answered based on that data. That approach is okay, as long as you are willing to acknowledge that sometimes the pre-existing dataset may *not* contain all the information you need, and you might need to go out and find additional information to add to your dataset to truly answer your question.
+Sometimes, people approach analysis from the opposite direction---they look at the data they have and identify questions that could be answered by it. That approach is okay, as long as you acknowledge that the pre-existing dataset may not contain all the information you need to answer your specific questions. You might need to find additional information to add to your dataset to truly answer the questions you have.
 
-When people talk about "machine learning", you might get the image in your head of a desktop computer learning how to spell. You might picture your favorite social media site showing you advertisements that are just a little too accurate. At its core, machine learning is the process of "showing" your statistical model only some of the data at once and training the model to predict accurately on that training dataset (this is the "learning" part of machine learning). Then, the model as developed on the training data is shown new data---data you had all along, but hid from your computer initially---and you see how well the model that you developed on the training data performs on this new testing data. Eventually, you might use the model on entirely new data.
+At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on a new data. At this point, you'll evaluate how well the model works on data that is not the training data. 
 
-Let's dive in to the analysis, starting with something you're familiar with---loading packages!
+Now you'll dive in to the analysis, starting with something you're familiar with---loading packages.
 
 ## Load packages
 
