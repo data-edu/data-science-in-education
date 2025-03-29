@@ -11,6 +11,7 @@ This chapter introduces an increasingly common statistical model -- machine lear
 
 ## Functions introduced
 
+- `stats::quantile()`
 - `rsample::initial_split()`
 - `rsample:training()`
 - `rsample:testing()`
@@ -84,7 +85,7 @@ library(tidymodels)
 
 You have two options for importing the student-level and assessments data:
 
-Option 1: Download the CSV files from the book’s GitHub repository. To set up the folders in your working directory as they are in this book, first, create a folder called "data". Then, inside that folder, create a second folder called "ml" and place the oulad_students.csv and oulad_assessments.csv files in the "ml" folder. Then, load the data using `here()` and `read_csv()`. Alternatively, if you are using a different working directory, change the file path inside of here() to match where you store your data in your working directory.
+Option 1: Download the CSV files from the book’s [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/main/data/ml) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/ml). To set up the folders in your working directory as they are in this book, first, create a folder called "data". Then, inside that folder, create a second folder called "ml" and place the oulad_students.csv and oulad_assessments.csv files in the "ml" folder. Then, load the data using `here()` and `read_csv()`. Alternatively, if you are using a different working directory, change the file path inside of here() to match where you store your data in your working directory.
 
 Option 2: Get the data from the {dataedu} package.
 
@@ -179,6 +180,7 @@ You will now explore the dataset to understand it better.
 *First*, `count()` the `activity_type` variable and sort the resulting output by frequency.
 
 ```{r}
+#| label: ch14-count-activity
 interactions %>% 
     count(activity_type, sort = TRUE)
 ```
@@ -191,6 +193,7 @@ Please summarize the number of clicks for each student, specific to a single cou
 summary variable.
 
 ```{r}
+#| label: ch14-summarize-activity
 interactions_summarized <- 
     interactions %>% 
     group_by(id_student, code_module, code_presentation) %>% 
@@ -202,6 +205,7 @@ interactions_summarized
 How many times did students click? Create a histogram to see. Please use {ggplot} and `geom_histogram()` to visualize the distribution of the `sum_clicks` variable you just created.
 
 ```{r}
+#| label: ch14-activity-histogram
 interactions_summarized %>% 
     ggplot(aes(x = sum_clicks)) +
     geom_histogram()
@@ -212,6 +216,7 @@ This is a good start - you've created the first feature based upon the log-trace
 Try calculating the standard deviation and mean of the number of clicks. Do this by coping the code you wrote above into the code chunk below and then add these two additional summary statistics.
 
 ```{r}
+#| label: ch14-stats-activity
 interactions_summarized <- 
     interactions %>% 
     group_by(id_student, code_module, code_presentation) %>% 
@@ -227,6 +232,7 @@ Use `left_join()` twice, assigning the resulting output the name `students_and_i
 This is a lot of joining. Sometimes, the hardest part of complex analyses lies in the preparation of data.
 
 ```{r}
+#| label: ch14-left-joins
 #| message: false
 students_and_interactions <- 
     students %>% 
@@ -268,14 +274,10 @@ Second, you'll use `step_()` functions, which are used for preprocessing. These 
 ```{r}
 #| label: ch14-create-recipe
 my_rec <-
-    recipe(
-        pass ~ disability + imd_band + mean_weighted_score +
-            num_of_prev_attempts + gender + region + highest_education +
-            sum_clicks +
-            sd_clicks +
-            mean_clicks,
-        data = data_train
-    ) %>%
+    recipe(pass ~ disability + imd_band + mean_weighted_score + 
+                  num_of_prev_attempts + gender + region + highest_education +
+                  sum_clicks + sd_clicks + mean_clicks,
+           data = data_train) %>%
     # This step is to impute missing values for numeric variables
     step_impute_mean(mean_weighted_score, sum_clicks, sd_clicks, mean_clicks) %>%
     # This step is to impute missing values for categorical/factor variables
@@ -290,6 +292,7 @@ my_rec <-
 Inspect the recipe to verify the steps we have specified:
 
 ```{r}
+#| label: ch14-view-recipe
 my_rec
 ```
 
@@ -300,6 +303,7 @@ Next, specify a logistic regression model and bundle the recipe and model into a
 This step has a lot of pieces, but they are fairly boilerplate. First, specify the model:
 
 ```{r}
+#| label: ch14-log-reg
 my_mod <- 
     logistic_reg() %>% # Specifies the type of model
     set_engine("glm") %>% # Specifies the package we use to estimate the model
@@ -309,6 +313,7 @@ my_mod <-
 Next, specify the workflow, will stitch the recipe and model together:
 
 ```{r}
+#| label: ch14-workflow
 my_wf <- 
     workflow() %>% # Initiates the workflow
     add_recipe(my_rec) %>% 
@@ -322,6 +327,7 @@ You're almost there!
 Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. Do this with `metric_set()`, specifying the familiar accuracy and precision.
 
 ```{r}
+#| label: ch14-metric-set
 my_metrics <- metric_set(accuracy, precision, recall)
 ```
 
@@ -330,16 +336,18 @@ Finally, you'll fit the model. Do this by calling the `last_fit()` function on t
 Note that while there are other fitting functions available, you're using `last_fit` to do two steps at once: fitting the model to the training data, then using the test data to evaluating the model's performance. 
 
 ```{r}
+#| label: ch14-last-fit
 final_fit <- last_fit(my_wf, train_test_split, metrics = my_metrics)
 ```
 
-Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. In this case, you'll only examine the performance of the model after you have trained your last model. For more about this technique, consider reading chapter 2 in [@boehmke2019hands]. 
+Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. In this case, you'll only examine the performance of the model after you have trained your last model. For more about this technique, consider reading Chapter 2 in [@boehmke2019hands]. 
 
 ### Step 6: Evaluating Model Performance
 
 Finally, evaluate the model’s performance using the test set. The tidymodels package makes this easy:
 
 ```{r}
+#| label: ch14-evaluate-model
 metrics <-
     final_fit %>%
     collect_metrics()
@@ -356,6 +364,7 @@ Herein lies the value of metrics other than accuracy: they can help you understa
 On that note, how could you improve the model? One affordance of tidymodels is you can easily switch the model and engine. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance improves. How much better did the model do with these? 
 
 ```{r, eval = FALSE}
+#| label: ch14-switch-engines
 my_mod <- 
     rand_forest() %>%
     set_engine("ranger") %>% # install.packages("ranger") needed first
