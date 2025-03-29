@@ -2,7 +2,7 @@
 
 ## Topics Emphasized
 
-In this and future walkthroughs, we focus on the distinct but interconnected steps of the data science process, based on the six steps outlined in R for Data Science by @r4ds2023 (see [Chapter 3](#c03)). Each chapter emphasize specific topics while incorporating elements of the entire process.
+In this and future walkthroughs, you will focus on the distinct but interconnected steps of the data science process based on the six steps outlined in R for Data Science by @r4ds2023 (see [Chapter 3](#c03)). 
 
 This chapter on the education data science pipeline emphasizes:
 
@@ -41,7 +41,7 @@ This chapter on the education data science pipeline emphasizes:
 
 ## Vocabulary
 
-In this walkthrough sections, we include key terms introduced in the chapter:
+In this walkthrough, you'll learn the following key terms: 
 
   - education data science pipeline
   - tidy data
@@ -61,37 +61,34 @@ In this walkthrough sections, we include key terms introduced in the chapter:
 
 ## Introduction to the Walkthroughs
 
-This chapter is the first of eight walkthroughs included in the book, each exploring the *education data science pipeline* through different datasets. The pipeline encompasses common steps in data science projects, such as cleaning, tidying, exploring, visualizing, and modeling data, as depicted by @r4ds2023.
+This chapter is the first of eight walkthroughs, each exploring the *education data science pipeline* through different datasets. The pipeline includes common steps in data science projects, like cleaning, tidying, exploring, visualizing, and modeling data, as depicted by @r4ds2023.
 
 ```{r fig7-1, fig.cap = "Data Science Cycle", echo = FALSE, fig.alt="A diagram displaying the data science cycle: Import -> Tidy -> Understand  (which has the phases Transform -> Visualize -> Model in a cycle) -> Communicate. Surrounding all of these is Program  Import, Tidy, Transform, and Visualize is highlighted."}
 knitr::include_graphics("./man/figures/Figure 7.1.png")
 ```
 
-Using data from a number of sources, we show the end-to-end process of working with an education dataset. While the walkthrough topics vary, their structure and section headings remain consistent. Each walkthrough begins with a vocabulary section, followed by an introduction to the dataset and the central question or problem.
+Using data from a number of sources, you will learn the end-to-end process of working with education datasets. While the walkthrough topics vary, their structure and section headings are consistent. Each walkthrough begins with a vocabulary section, followed by an introduction to the dataset and the central question or problem.
 
-This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would 
-like a refresher about (or an introduction to) any of those, refer to the previous chapter, [Chapter 6](#06).
+This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would need a refresher about these, refer to the previous chapter, [Chapter 6](#06).
 
 ## Chapter Overview
 
-In this walkthrough, we explore some of the key steps that are a part of many data science projects in education. In particular, we focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools that we use throughout all of the walkthroughs, those associated with the {tidyverse}, which is a set of packages for data manipulation, exploration, and visualization. 
+In this walkthrough, you will explore some of the key steps of many data science projects in education. In particular, you'll focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools you'll use in all of the walkthroughs. They are associated with the {tidyverse}, which is a set of packages for data manipulation, exploration, and visualization. 
 
 The {tidyverse} follows the design philosophy of 'tidy' data [@wickham2014]. Tidy data has a specific structure: each variable is a column, each observation is a row, and each type of observational unit is a table. We'll discuss the {tidyverse} and tidy data throughout the book. For more information, see the Foundational Skills chapters or <https://www.tidyverse.org/>.
 
 ### Background
 
-The online science classes we explore in this chapter were created by instructors through a statewide online course provider designed to supplement - but not replace - students' enrollment in their local schools. For example, students may have chosen to enroll in an online physics class if their school did not offer one. The data were originally collected for a research study using multiple data sources to understand students' course-related motivation. These datasets include:
+The online science classes we explore in this chapter were created by instructors through a statewide online course provider designed to supplement students' enrollment in their local schools. For example, students may have enrolled in an online physics class if their school did not offer one. The data were originally collected for a research study using multiple data sources to understand students' course-related motivation. These datasets include:
 
 1.  A self-report survey assessing three aspects of students' motivation
-2.  Log-trace data, such as data output from the learning management system (LMS)
+2.  Log-trace data, like data from a learning management system (LMS)
 3.  Discussion board data
 4.  Academic achievement data
 
-Our primary *purpose* of this walkthrough is to analyze factors that explain students' performance in these online courses. The *problem* is a very common challenge when it comes to data science in education: the data are complex and require significant processing before analysis We will revisit this dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), where we will provide more details on the dataset and the context. 
+The purpose of this walkthrough is to analyze factors that explain students' performance in these online courses. This is a common challenge when it comes to data science in education: the data are complex and require processing before analysis. Note that you will revisit this dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), where you will use machine learning methods to analyze grades. 
 
-To understand students' performance, we will focus on an LMS variable that represents the amount of time students spent in the LMS. we will explore how the type of science course and class section influence performance.
-
-We begin by describing how these data sources were provided by the school.
+To understand students' performance, you will focus on a variable for the amount of time students spent in the LMS. You will explore how the type of science course and class section influence performance.
 
 ### Data Sources
 
