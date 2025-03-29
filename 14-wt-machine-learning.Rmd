@@ -11,18 +11,20 @@ This chapter introduces an increasingly common statistical model -- machine lear
 
 ## Functions introduced
 
-- initial_split()
-- training()
-- testing()
-- recipe()
-- logistic_reg()
-- set_model()
-- set_mode()
-- workflow()
-- collect_predictions()
-- collect_metrics()
+- `rsample::initial_split()`
+- `rsample:training()`
+- `rsample:testing()`
+- `recipes::recipe()`
+- `parsnip::logistic_reg()`
+- `parsnip::set_model()`
+- `parsnip::set_mode()`
+- `workflows::workflow()`
+- `tune::collect_predictions()`
+- `tune::collect_metrics()`
 
 ## Vocabulary
+
+We introduce these key terms in the chapter:
 
 - supervised machine learning
 - training data
@@ -52,6 +54,8 @@ We'll be using a widely-used dataset in the learning analytics field: the Open U
 
 Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
+Our analysis will use three datasets, oulad_students, oulad_assessments, and oulad_interactions_filtered. The oulad_students dataset has undergone minimal preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The oulad_assessments file provides data on students' performance on various assessments throughout their courses.
+
 ### Methods
 
 #### Predictive analytics and supervised machine learning
@@ -71,20 +75,31 @@ Now you'll dive in to the analysis, starting with something you're familiar with
 If you have not installed any of these packages before, do so first using the `install.packages()` function. For a description of packages and their installation, review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
 
 ```{r, message = FALSE, warning = FALSE}
-# load the packages
+#| label: ch14-load-packages
 library(tidyverse)
 library(tidymodels)
 ```
 
-## Reading CSV Data
+## Import data
 
-To begin, load student-level data using the `read_csv()` function. This dataset has undergone minimal preprocessing to streamline the analysis -- it uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`.
+You have two options for importing the student-level and assessments data:
 
-Next, load an assessments dataset. This provides data on students' performance on various assessments throughout their courses. 
+Option 1: Download the CSV files from the book’s GitHub repository. To set up the folders in your working directory as they are in this book, first, create a folder called "data". Then, inside that folder, create a second folder called "ml" and place the oulad_students.csv and oulad_assessments.csv files in the "ml" folder. Then, load the data using `here()` and `read_csv()`. Alternatively, if you are using a different working directory, change the file path inside of here() to match where you store your data in your working directory.
+
+Option 2: Get the data from the {dataedu} package.
 
 ```{r}
-students <- read_csv("data/ml/oulad-students.csv")
-assessments <- read_csv("data/ml/oulad-assessments.csv")
+#| message: false
+#| label: ch14-load-data
+# Option 1: Download the CSV files from the GitHub repository
+# The code below assumes you have set up folders "data" and "ml" within your working directory
+# and that oulad_students.csv and oulad_assessments.csv are in the "ml" folder.
+students <- read_csv(here::here("data", "ml", "oulad_students.csv"))
+assessments <- read_csv(here::here("data", "ml", "oulad_assessments.csv"))
+
+# Option 2: Import the data using {dataedu}
+students <- dataedu::oulad_students
+assessments <- dataedu::oulad_assessments
 ```
 
 ## Preprocessing and Feature Engineering
@@ -98,31 +113,39 @@ How should you decide when to handle feature engineering directly or through a r
 To begin, create the outcome variable (`pass`) and a factor variable for `disability` using `mutate()`:
 
 ```{r}
-students <- students %>%
-    mutate(pass = ifelse(final_result == "Pass", 1, 0)) %>%
-    mutate(pass = as.factor(pass),
+#| label: ch14-create-vars
+students <- 
+    students %>%
+    mutate(pass = case_when(final_result == "Pass" ~ 1, 
+                            .default = 0)) %>%
+    mutate(pass = as.factor(pass), 
            disability = as.factor(disability))
 ```
 
 You will also summarize assessment data to create a new predictor for students’ performance on assessments submitted early in the course. Specifically, you'll calculate the mean weighted score of assessments submitted before the first half of assignment dates.
 
 ```{r}
-code_module_dates <- assessments %>% 
+#| label: ch14-create-pred-mean-score
+code_module_dates <- 
+    assessments %>% 
     group_by(code_module, code_presentation) %>% 
     summarize(quantile_cutoff_date = quantile(date, probs = .5, na.rm = TRUE))
 
-assessments_joined <- assessments %>% 
-    left_join(code_module_dates) %>% 
-    filter(date < quantile_cutoff_date) %>% 
-    mutate(weighted_score = score * weight) %>% 
-    group_by(id_student) %>% 
+assessments_joined <- 
+    assessments %>%
+    left_join(code_module_dates) %>%
+    filter(date < quantile_cutoff_date) %>%
+    mutate(weighted_score = score * weight) %>%
+    group_by(id_student) %>%
     summarize(mean_weighted_score = mean(weighted_score, na.rm = TRUE))
 ```
 
 Last, you will create a socioeconomic status variable (`imd_band`), again outside the recipe:
 
 ```{r}
-students <- students %>%
+#| label: ch14-create-var-imd-band
+students <- 
+    students %>%
     mutate(imd_band = factor(imd_band, levels = c("0-10%",
                                                   "10-20%",
                                                   "20-30%",
@@ -138,10 +161,17 @@ students <- students %>%
 
 Next, load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the class.
 
-Import this dataset:
+Import this dataset using one of the two options mentioned above:
 
 ```{r}
-interactions <- read_csv("data/ml/oulad-interactions-filtered.csv") # need to unzip in the repository
+#| label: ch14-load-logtrace-dat
+# Option 1: Download the CSV files from the GitHub repository
+# The code below assumes you have set up folders "data" and "ml" within your working directory
+# and that oulad_interactions_filtered.csv.zip is in the "ml" folder. 
+interactions <- read_csv(here::here("data", "ml", "oulad_interactions_filtered.csv.zip"))
+
+# Option 2: Import the data using {dataedu}
+interactions <- dataedu::oulad_interactions_filtered
 ```
 
 You will now explore the dataset to understand it better. 
@@ -161,7 +191,8 @@ Please summarize the number of clicks for each student, specific to a single cou
 summary variable.
 
 ```{r}
-interactions_summarized <- interactions %>% 
+interactions_summarized <- 
+    interactions %>% 
     group_by(id_student, code_module, code_presentation) %>% 
     summarize(sum_clicks = sum(sum_click))
 
@@ -176,14 +207,13 @@ interactions_summarized %>%
     geom_histogram()
 ```
 
-This is a good start - you've created the first feature based upon the
-log data, `sum_clicks`. What are some other features you can add? A benefit of using the `summarize()` function in R is that you can create multiple summary statistics at once. 
+This is a good start - you've created the first feature based upon the log-trace data, `sum_clicks`. What are some other features you can add? A benefit of using the `summarize()` function in R is that you can create multiple summary statistics at once. 
 
-Try calculating the standard deviation and mean of the number of clicks. Do this by coping the code you
-wrote above into the code chunk below and then add these two additional summary statistics.
+Try calculating the standard deviation and mean of the number of clicks. Do this by coping the code you wrote above into the code chunk below and then add these two additional summary statistics.
 
 ```{r}
-interactions_summarized <- interactions %>% 
+interactions_summarized <- 
+    interactions %>% 
     group_by(id_student, code_module, code_presentation) %>% 
     summarize(sum_clicks = sum(sum_click),
               sd_clicks = sd(sum_click), 
@@ -197,7 +227,9 @@ Use `left_join()` twice, assigning the resulting output the name `students_and_i
 This is a lot of joining. Sometimes, the hardest part of complex analyses lies in the preparation of data.
 
 ```{r}
-students_and_interactions <- students %>% 
+#| message: false
+students_and_interactions <- 
+    students %>% 
     left_join(assessments_joined) %>% 
     left_join(interactions_summarized)
 ```
@@ -209,13 +241,20 @@ As suggested above, a key step in supervised machine learning is splitting data 
 You'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We also conduct a stratified sample using the outcome variable --- here, `pass`; this is generally a good practice [@boehmke2019hands].
 
 ```{r}
-set.seed(2025) # as this step involves a random sample, this ensures the same result for pedagogical purposes
+#| label: ch14-create-test-train
+set.seed(2025) # As this step involves a random sample, setting the seed ensures the same result for pedagogical purposes
 
-# specify the proportion for the split
-train_test_split <- initial_split(students_and_interactions, prop = 0.8, strata = "pass")
+# Specify the proportion for the split
+train_test_split <- 
+    initial_split(students_and_interactions, prop = 0.8, strata = "pass")
 
-data_train <- training(train_test_split) # create the training data
-data_test  <- testing(train_test_split) # create the testing data
+# Create the training data
+data_train <- 
+    training(train_test_split)
+
+# Create the testing data
+data_test  <- 
+    testing(train_test_split) 
 ```
 
 ### Step 3: Creating a Recipe for Selected Preprocessing Steps
@@ -227,20 +266,24 @@ First, you'll specify which predictor variables predict the outcome. For those f
 Second, you'll use `step_()` functions, which are used for preprocessing. These are described in the comments below.
 
 ```{r}
-my_rec <- recipe(pass ~ disability + imd_band + mean_weighted_score + 
-                     num_of_prev_attempts + gender + region + highest_education +
-                     sum_clicks + 
-                     sd_clicks +
-                     mean_clicks,
-                 data = data_train) %>%
-    # this step is to impute missing values
+#| label: ch14-create-recipe
+my_rec <-
+    recipe(
+        pass ~ disability + imd_band + mean_weighted_score +
+            num_of_prev_attempts + gender + region + highest_education +
+            sum_clicks +
+            sd_clicks +
+            mean_clicks,
+        data = data_train
+    ) %>%
+    # This step is to impute missing values for numeric variables
     step_impute_mean(mean_weighted_score, sum_clicks, sd_clicks, mean_clicks) %>%
-    # same, for categorical/factor variables
-    step_impute_mode(imd_band) %>% 
-    # center and scale these variables
+    # This step is to impute missing values for categorical/factor variables
+    step_impute_mode(imd_band) %>%
+    # Center and scale these variables
     step_center(mean_weighted_score, num_of_prev_attempts) %>%
     step_scale(mean_weighted_score, num_of_prev_attempts) %>%
-    # dummy code all categorical/factor predictors
+    # Dummy code all categorical/factor predictors
     step_dummy(all_nominal_predictors(), -all_outcomes())
 ```
 
@@ -257,15 +300,17 @@ Next, specify a logistic regression model and bundle the recipe and model into a
 This step has a lot of pieces, but they are fairly boilerplate. First, specify the model:
 
 ```{r}
-my_mod <- logistic_reg() %>% # specifies the type of model
-    set_engine("glm") %>% # specifies the package we use to estimate the model
-    set_mode("classification") # specifies whether we are classifying a dichotomous, categorical, or factor variable
+my_mod <- 
+    logistic_reg() %>% # Specifies the type of model
+    set_engine("glm") %>% # Specifies the package we use to estimate the model
+    set_mode("classification") # Specifies whether we are classifying a dichotomous, categorical, or factor variable
 ```
 
 Next, specify the workflow, will stitch the recipe and model together:
 
 ```{r}
-my_wf <- workflow() %>% # this initiates the workflow
+my_wf <- 
+    workflow() %>% # Initiates the workflow
     add_recipe(my_rec) %>% 
     add_model(my_mod)
 ```
@@ -295,7 +340,8 @@ Other times, you may use _cross-validation_, where you'll split the training dat
 Finally, evaluate the model’s performance using the test set. The tidymodels package makes this easy:
 
 ```{r}
-metrics <- final_fit %>%
+metrics <-
+    final_fit %>%
     collect_metrics()
 
 metrics
@@ -310,13 +356,15 @@ Herein lies the value of metrics other than accuracy: they can help you understa
 On that note, how could you improve the model? One affordance of tidymodels is you can easily switch the model and engine. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance improves. How much better did the model do with these? 
 
 ```{r, eval = FALSE}
-my_mod <- rand_forest() %>%
+my_mod <- 
+    rand_forest() %>%
     set_engine("ranger") %>% # install.packages("ranger") needed first
     set_mode("classification")
 
-my_mod <- boost_tree() %>% # install.packages("xgboost") needed first
-  set_engine("xgboost") %>% 
-  set_mode("classification")
+my_mod <-
+    boost_tree() %>% # install.packages("xgboost") needed first
+    set_engine("xgboost") %>%
+    set_mode("classification")
 ```
 
 ## Conclusion
