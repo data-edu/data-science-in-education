@@ -86,19 +86,19 @@ The online science classes we explore in this chapter were created by instructor
 3.  Discussion board data
 4.  Academic achievement data
 
-The purpose of this walkthrough is to analyze factors that explain students' performance in these online courses. This is a common challenge when it comes to data science in education: the data are complex and require processing before analysis. Note that you will revisit this dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), where you will use machine learning methods to analyze grades. 
+The purpose of this walkthrough is to analyze factors that explain students' performance in these online courses. This is a common challenge when it comes to data science in education: the data are complex and need processing before analysis. Note that you will revisit this dataset in the final walkthrough [Walkthrough 8/Chapter 14](#c14), where you will use machine learning methods to analyze grades. 
 
-To understand students' performance, you will focus on a variable for the amount of time students spent in the LMS. You will explore how the type of science course and class section influence performance.
+To understand students' performance, you will focus on a variable for the time students spent in the LMS. You will also explore how the type of science course and class section influenced performance.
 
 ### Data Sources
 
+The following are sources of data you can expect to use when analyzing student performance in online course work. 
+
 #### Data Source \#1: Self-Report Survey about Students' Motivation
 
-The first data source is a self-report survey conducted before the course began. The survey included ten items, each corresponding to one of three motivation *measures*: interest, utility value, and perceived competence. A *measure* is a concept that we try to make concrete and assessable using survey questions. The three motivation measures are from Expectancy-Value Theory, which states that students are motivated to learn when
-they both believe that they can succeed (expectancy, also known as
-perceived competence) and believe that the concept they are trying to learn is
-important (value) [@wigfield2000]. There are multiple types of value, but we
-examine two of them here: interest and utility value. Interest is how engaging or enjoyable students find the subject,  and utility value is how relevant students believe the subject is to their future. This survey included the following ten items:
+The first data source is a self-report survey conducted before the course began. The survey includes ten items, each corresponding to one of three motivation measures: interest, utility value, and perceived competence. A measure is a concept that a survey attempts to quantify through its questions. These three motivation measures are from Expectancy-Value Theory, which states that students are motivated to learn when they believe they can succeed (expectancy, also known as perceived competence) and believe what they are learning is important (value) [@wigfield2000]. 
+
+There are multiple types of value, but in this walkthrough you'll examine two: interest and utility value. Interest is how engaging or enjoyable students find the subject. Utility is how relevant students believe the subject is to their future. This survey includes the following ten items:
 
 1.  I think this course is an interesting subject. (Interest)
 2.  What I am learning in this class is relevant to my life. (Utility value)
@@ -116,28 +116,27 @@ examine two of them here: interest and utility value. Interest is how engaging o
 
 ### Data Source \#2: Log-Trace Data
 
-*Log-trace data* refers to data generated from interactions with digital
-technologies, such as social media posts (see [Chapter 11](#c11) and [Chapter 12](#c12) for walkthroughs with social media posts). In education, an increasingly common source is data from LMSs and other digital tools [@siemens2012]. For this walkthrough, we use a summary form of log-trace data: the number of minutes students spent on the course. While this data is relatively simple, more complex sources of log-trace data can include detailed timestamps, such as when students started and stopped accessing the course.
+*Log-trace data* refers to data generated from interactions with digital technologies, like social media posts (see [Chapter 11](#c11) and [Chapter 12](#c12) for walkthroughs with social media posts). In education, this data increasingly comes from LMSs and other digital tools [@siemens2012]. For this walkthrough, you'll use a summary form of log-trace data which captures the number of minutes students spent on the course. This data is relatively simple. More complex sources of log-trace data may include details like time stamps for when students started and stopped working on the course.
 
 ### Data Source \#3: Academic Achievement and Gradebook Data
 
-A common source of data in the education realm  is students' graded assignments. In this walkthrough, we examine only students' final course grade.
+A common source of data in education is students' graded assignments. In this walkthrough, you will only examine students' final course grade.
 
 ### Data Source \#4: Discussion Board Data
 
-Discussion board data is rich but unstructured because it consists of large text blocks written by students wrote. Although discussion board data was collected for this research project, we do not examine it in this walkthrough. More information about analyzing text data can be found in [Chapter 11](#c11).
+Discussion board data is rich but unstructured. It consists of large text blocks written by students. Although discussion board data was collected for this research project, it is not part of this walkthrough. More information about analyzing text data can be found in [Chapter 11](#c11).
 
 ### Methods
 
-In this walkthrough, we focus on merging datasets using the different joins available in the {dplyr} package and begin exploring how to run linear models in R. 
+In this walkthrough, you will datasets using different joins available in the {dplyr} package. You will also explore linear regression models in R. 
 
 ## Load Packages
 
-This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). We load these packages with the function `library()`. The specific packages used here help us structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot] and {apaTables} [@apaTables], and export datasets with {readxl} [@R-readxl].
+This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). You will load these packages with the function `library()`. You will learn to structure the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot] and {apaTables} [@apaTables], and export datasets with {readxl} [@R-readxl].
 
-***Install packages (if necessary)***
+***Install packages if necessary***
 
-If you haven't installed these packages yet, you need to do so before loading them. If you run the code below *before* installing them, you will see a message indicating that the package is not available. If they're already installed, you can skip this step.
+If you haven't installed these packages yet, you need to do so before loading them. If you run the code below before installing them, you will see a message noting that the package is not available. If you've already installed the required packages, you can skip this step.
 
 You can install a single package, such as the {tidyverse} package, as follows:
 
@@ -151,7 +150,7 @@ If you must install two or more packages, you can do so in a single call to the 
 install.packages(c("tidyverse", "apaTables"))
 ```
 
-Once installed, you only need to load a package with `library()` for future use. For more on the installation of packages, see the [Packages section](#c06p) of [Chapter 6](#c06). 
+Once installed, you need to load a package with `library()` before using its functions. For more on the installation of packages, see the [Packages section](#c06p) of [Chapter 6](#c06). 
 
 ``` {r, loading-packages, message = F, warning = F}
 library(tidyverse)
