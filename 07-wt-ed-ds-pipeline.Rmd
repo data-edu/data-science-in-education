@@ -422,13 +422,13 @@ After running the code above, take a look at the `course_data` dataset to confir
 
 ### Joining the Data
 
-In this chapter, we are working with two datasets that are derived from the same courses. In order for these datasets to be most useful, we want to combine them into one dataset.
+In this chapter, you are working with two datasets that are derived from the same courses. In order for these datasets to be most useful, you will want to combine them into one.
 
-To join the `course_data` and `pre_survey` data, we need to create a common key. Our goal is to have one variable that matches across both datasets. Once we have that common variable in both datasets, we can merge the datasets on the basis of that variable.
+To join the `course_data` and `pre_survey` data, you need to create a common key. The goal is to have one variable that matches across both datasets. Once you have that, you can use it to merge the datasets.
 
-When we look at the `course_data` and `pre_survey` datasets in our environment, we see that both have variables for courses and students. However, they have different variable names in each dataset. Our first step is to rename these variables in each of our datasets so that they match. We are not changing anything in the data other than the column headers, so that the column names align.
+When you look at the `course_data` and `pre_survey` datasets in the environment, you'll notice that both have variables for courses and students. However, they're named differently in each dataset. The first step is to rename these variables in each of our datasets so they match.
 
-Let's start with the `pre_survey` data. We rename `RespondentID` to `student_id` and `opdata_CourseID` to `course_id` using the `rename()` function we learned earlier in this chapter.
+Start with the `pre_survey` data. We rename `RespondentID` to `student_id` and `opdata_CourseID` to `course_id` using the `rename()` function we learned earlier in this chapter.
 
 ```{r}
 pre_survey <-
@@ -441,8 +441,11 @@ pre_survey
 
 The variable names look more consistent now!
 
-When we look at the `student_id` variable more closely, though, we notice that there is another issue. The variable has some extra characters before and after the actual ID. Why does this variable have these additional characters? Why is there a "1" at the end of every 5-digit ID number? We are not sure! Sometimes, educational data from different systems (or used for different purposes) include additional metadata. In any event, we'll need to clean `student_id` by removing these unnecessary characters. Here
-is what the variable looks like before processing:
+When you look at the `student_id` variable more closely, you may notice an issue. The variable has extra characters before and after the ID. 
+
+Why might this variable have a "1" at the end of every 5-digit ID number?  It's hard to know for sure, but this type of thing is common in educational data. 
+
+Whatever the reason, you'll want to clean `student_id` by removing these unnecessary characters. Here is what the variable looks like before processing:
 
 ```{r}
 head(pre_survey$student_id)
@@ -450,30 +453,30 @@ head(pre_survey$student_id)
 
 We need to extract the five characters between the underscore symbols (`_`).
 
-We can use the `str_sub()` function from the {stringr} package. This function lets us subset string variables, that is, variables that store text data. You specify the starting and ending character positions of the string to extract.
+Use the `str_sub()` function from the {stringr} package. This function lets you subset string variables, which store text data. You specify the starting and ending character positions of the string to extract.
  
-Here, for example, we can use `str_sub()` to skip the first underscore and capture only the relevant portion of the string. This next chunk of code will not modify our dataset, but demonstrates how the `str_sub()` function works using a sample string formatted like our data.
+For example, use `str_sub()` to skip the first underscore and capture only the relevant portion of the string. This next chunk of code demonstrates how the `str_sub()` function works using a sample string formatted like our data. It will not modify the dataset.
 
 ```{r}
 str_sub("_99888_1", start = 2)
 ```
 
-We can apply the same function to remove characters from the end of a string. We use a dash (`-`) to indicate that we want to start from the right side of the string of characters. Interestingly, when we specify the argument `end = -3` below, we tell R to keep everything up to the third-to-last character. We end up removing only the last 2 characters. Our new rightmost character will be the final `8`.
+You can apply the same function to remove characters from the end of a string. Use a dash (`-`) to indicate that you want to start from the right side of the string. When you specify the argument `end = -3` you tell R to keep everything up to the third-to-last character. You end up removing only the last 2 characters. Our new rightmost character will be the final `8`.
 
 ```{r}
 str_sub("_99888_1", end = -3)
 ```
 
-Putting the pieces together, the following code should extract the 5-digit ID number we need.
+Putting the pieces together, the following code should extract the 5-digit ID number you need.
 
 ```{r}
 str_sub("_99888_1", start = 2, end = -3)
 ```
 
-_Note: you may receive a warning telling you that `NA` values were introduced by coercion. This happens when we change data types, and we will overlook this warning message for the purposes of this walkthrough._
+Note: you may receive a warning telling you that `NA` values were introduced by coercion. This happens when you change data types. You can overlook this warning for the purposes of this walkthrough.
 
-We can apply this process to our data using `str_sub()` within `mutate()`. We convert the string into a number using `as.numeric()` in the next portion of the code. This step is
-important so the data can be joined to the numeric `student_id` variables in the other datasets.
+Now apply this process to the data using `str_sub()` within `mutate()`. Convert the string into a number using `as.numeric()` in the next portion of the code. This step is
+important because it allows the variable to be matched to the numeric `student_id` variables in the other datasets.
 
 ```{r}
 # Re-create the variable "student_id" so that it excludes the extraneous characters
@@ -485,7 +488,7 @@ pre_survey <- pre_survey %>%
     mutate(student_id = as.numeric(student_id))
 ```
 
-Now that the `student_id` and `course_id` variables are ready to go in the `pre_survey` dataset, let's proceed to `course_data.` Our goal is to rename the two variables that correspond to the course and the student so that we can match with the other variables we just created for the `pre_survey` data. In the code chunk below, we will rename both those variables.
+Now that the `student_id` and `course_id` variables are ready to go in the `pre_survey` dataset, let's proceed to `course_data.` Your goal is to rename the two variables course and student so you can match with the variables you created in the `pre_survey` data. In the code chunk below, you will rename both those variables.
 
 ``` {r}
 course_data <-
@@ -494,11 +497,11 @@ course_data <-
            course_id = CourseSectionOrigID)
 ```
 
-Now that `course_id` and `student_id` match across both datasets, we can join them using the {dplyr} function, `left_join()`.
+Now that `course_id` and `student_id` match across both datasets, you can join them using the {dplyr} function, `left_join()`.
 
-Note the order of the data frames passed to our "left" join. It is named based on the direction that the data is being joined. Left joins retain all of the rows in the left (first) data frame and adds every matching row in the right (second) data frame. We use key variables to join the datasets specified by `by`.
+Note the order of the data frames passed to the "left" join. Left joins retain all of the rows in the left data frame and adds every matching row in the right data frame. We use key variables to join the datasets specified by `by`.
 
-Let's save our joined data in a new object called `dat`.
+Save the joined data in a new object called `dat`.
 
 ```{r}
 dat <-
@@ -508,18 +511,19 @@ dat <-
 dat
 ```
 
-Let's hone in on how this code is structured. After `left_join()`, we see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the first argument), while `pre_survey` is the "right" data frame (passed as the second argument). So, in the above code, what happens? You can run the code yourself to check.
+Let's go deeper on how this code is structured. After `left_join()`, you see `course_data` and then `pre_survey`. In this case, `course_data` is the "left" data frame (passed as the first argument), while `pre_survey` is the "right" data frame (passed as the second argument). Run the code again and see if you can describe which rows were retained and which rows were dropped.
 
-Our aim with that code is that all of the rows in `course_data` are retained in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. An important note is that there are not multiple matching rows of `pre_survey`; otherwise, you would end up with more rows in `dat` than expected. There is a lot packed into this one function. Joins are extremely powerful - and common - in many data analysis processing pipelines, both in education and in any field. Think of all of the times you have data in more than one data frame, but you want everything to be in a single data frame! As a result, we think that joins are well worth investing the time to be able to use.
+The aim of the left join is to retain of the rows in `course_data` in our new data frame, `dat`, with matching rows of `pre_survey` joined to it. 
 
-With most types of data, `left_join()` is helpful for carrying out most tasks related to joining datasets. However, there are functions for other types of joins that we want to make sure you know how to use. They may be less frequently used than `left_join()`, but they are still worth mentioning. Note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second. When running the code chunks below, it can be helpful to pay attention to the number of observations and variables in the datasets before and after the joining. Eventually, the obscure names of these types of joins will start to become more intuitive as you use them more often.
+Joins are extremely common in many education data analysis processing pipelines. Think of all the times you have data in more than one data frame, but you want everything all together. Learning how to do joins in R will help you get the most from the situations.
+
+`left_join()` is helpful in many analysis scenarios. But there are other kinds of joins, which you'll explore below. Note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second. 
+
+When running the code chunks below, pay attention to the number of observations and variables in the datasets before and after joining. 
 
 #### `semi_join()`
 
-The `semi_join()` function joins and retains all of the matching rows in the "left" and
-"right" data frame. This is useful when you are only interested in keeping the rows that are able to be joined. `semi_join()` will not create duplicate rows of the left data frame, even when it finds multiple matches on the right data frame. It will also keep only the columns from the left data frame.
-
-For example, the following returns only the rows that are present in both `course_data` and `pre_survey`, and all rows in `course_data`:
+The `semi_join()` function keeps all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
 
 ```{r}
 dat_semi <- 
@@ -532,7 +536,7 @@ dat_semi
 
 #### `anti_join()`
 
-The `anti_join()` function *removes* all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
+The `anti_join()` function removes all of the rows in the "left" data frame that can be joined with those in the "right" data frame.
 
 ```{r}
 dat_anti <-
@@ -545,7 +549,7 @@ dat_anti
 
 #### `right_join()`
 
-The `right_join()` function works the same as `left_join()`, but retains all of the rows in the "right" data frame, and joining matching rows in the "left" data frame (so, the opposite of `left_join()`).
+The `right_join()` function works the same as `left_join()`, but retains all of the rows in the "right" data frame instead of the left.
 
 ```{r}
 dat_right <-
@@ -556,7 +560,7 @@ dat_right <-
 dat_right
 ```
 
-If we wanted this to return exactly the same output as `left_join()` (and so to create a data frame that is identical to the `dat` data frame we created above), we could switch the order of the two data frames to be the opposite of those used for the `left_join()` above:
+To illustrate further, consider how you would use `right_join()` to return exactly the same output as `left_join()`. You would switch the order of the two data frames in your call to `right_join()`.
 
 ```{r}
 dat_right <-
@@ -567,7 +571,9 @@ dat_right <-
 dat_right
 ```
 
-Now that we've gone through the different types of joins available, we will return to our main focus: joining our course datasets together. While we didn't do any data processing steps on it, we still have the `course_minutes` dataset in our environment from when we loaded it there earlier in the chapter. In the code chunk below, we will rename the key variables to match `dat`. Then, we will merge the `course_minutes` dataset with its newly renamed variables `student_id` and `course_id`, with our `dat` dataset.
+Now that you've gone through the different types of joins available, return to the original goal: joining the course datasets together. 
+
+You should still have the `course_minutes` dataset in you environment from when you loaded it earlier. In the code chunk below, you will rename the key variables to match `dat`. Then, you will merge the `course_minutes` dataset, with its newly renamed variables `student_id` and `course_id`, with the `dat` dataset.
 
 ```{r}
 course_minutes <-
@@ -586,7 +592,7 @@ dat <-
     left_join(course_minutes, by = c("student_id", "course_id"))
 ```
 
-Note that they're now combined, even though the course data had many more rows. The pre-survey data has been joined for each student-course combination. We have a pretty large data frame! Let's take a quick look.
+Note that they're combined, take a quick look.
 
 ``` {r}
 dat
