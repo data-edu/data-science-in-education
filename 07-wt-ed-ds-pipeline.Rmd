@@ -602,54 +602,47 @@ It looks like we have `r scales::comma(nrow(dat))` observations from `r col(dat)
 
 ### Finding Distinct Cases at the Student-Level
 
-If a student was enrolled in two courses, she will have a different final grade for each course. However, our data in its current form has many rows representing each course. An quick way we can visually inspect to make sure each row correctly represents a unique student-course combination to use the `glimpse()` function. Try it below.
+If a student was enrolled in two courses, she will have a different final grade for each course. You might expect that this dataset would have one row per student and course. 
+
+However, the data has many rows with the same student and course. Use the `glimpse()` function and note the `course_id` and `student_id` variables.
 
 ```{r}
 glimpse(dat)
 ```
 
-You can also use `View(dat)` to explore the data in RStudio's viewer.
+You can see a similar pattern by using `View(dat)`. 
 
-Visually inspecting the first several rows of data, we see that they all correspond to the same student for the same course. As we expected, the `FinalGradeCEMs` variable (representing students' final grade) is also consistent across these rows. 
+Visually inspecting the first several rows of data, note how they correspond to the same student and same course. Further, the `FinalGradeCEMs` variable is the same in these rows. 
 
-Since we are not analyzing individual `Gradebook_Item` values, these duplicate rows are not necessary. We only want variables at the student level, not at the gradebook level. We can extract only the unique student-level data using the `distinct()` function.
+For this analysis, you want a dataset at the student level. You can extract the unique student-level data using the `distinct()` function.
 
-Imagine having a bucket of Halloween candy that has 100 pieces of candy. You know that these 100 pieces are really just a bunch of duplicate pieces from a relatively short list of candy brands. `distinct()` takes that bucket of 100 pieces and returns a bucket containing only one of each brand.
+Here's more about the `distinct()` function: Imagine a bucket of Halloween candy that has 100 pieces of candy. You know these 100 pieces are not 100 distinct pieces, but many duplicate pieces from a short list of candy brands. Using `distinct()` on the candy brands would return a tibble where each row is the name of a candy brand. 
 
-By default, `distinct()` will only return the variable(s) (it is possible to pass more than one variable to `distinct()`) you used to determine uniqueness, unless you include the `.keep_all = TRUE` argument. For the sake of simplicity, we omit this argument for now.
-
-Were we to run `distinct(dat, Gradebook_Item)`, what do you think would be returned? Running the following code returns a one-column data frame that lists the names of all unique gradebook items.
+Run `distinct(dat, Gradebook_Item)` to get one-column data frame with the names of all unique gradebook items.
  
 ```{r}
 distinct(dat, Gradebook_Item)
 ```
 
-You might be wondering whether some gradebook items share the same names across different courses. We can find the unique combination of courses and gradebook items by adding another variable to `distinct()`:
+You can also use `distinct()` to identify unique combinations of variables. Do this now to find the unique combination of courses and gradebook items by adding another variable to `distinct()`:
 
 ``` {r}
 distinct(dat, course_id, Gradebook_Item)
 ```
 
-The data frame we get when we run the code chunk above yields a much longer (more
-observations) dataset. Thus, it looks like *a lot* of gradebook items were
-repeated across courses - likely across the different sections of the same
-course. If you'd like, you can continue to investigate this: we would be curious
-to hear what you find if you do!
+The resulting data frame is much longer because there are more distinct combinations of `course_id` and `Gradebook_Item` values than there are distinct `Gradebook_Item` values. It looks like gradebook items were repeated across courses, likely across different sections of the same course.
 
-Next, let's use a similar process to find the unique values at the student
-level. Thus, instead of exploring unique gradebook items, we will explore unique
-students (still accounting for the course, as students could enroll in more than
-one course.) This time, we will add the `keep_all = TRUE` argument.
+Next, use a similar process to find the unique values at the student
+level. Include the course since it's possible students enroll in more than one course. This time, add the `keep_all = TRUE` argument to retain all the variables.
 
 ```{r}
 dat <-
   distinct(dat, course_id, student_id, .keep_all = TRUE)
 ```
 
-This is a much smaller data frame, with just one row for each student in the course. The previous version of `dat` had over 40,000 rows, useful for analyzing specific gradebook items. However, since we are focusing on student-level data, our new dataset keeps only the
-unique combinations of student and course, leaving us with a more manageable number of observations: `r nrow(dat)`. Now that our data are ready to go, we can start to ask some questions of the data.
+This is a much smaller data frame, with just one row for each student in a course. By keeping only the unique combinations of student and course, you've created a more manageable number of observations: `r nrow(dat)`. 
 
-Let's take one last step. Since we use the final grade variable `FinalGradeCEMS` in many of the figures and analyses that follow, let's rename it using`rename()` to something that is a bit easier to type and remember:
+Before moving to analysis, rename `FinalGradeCEMS` to something more intuitive:
 
 ```{r}
 dat <- rename(dat, final_grade = FinalGradeCEMS)
