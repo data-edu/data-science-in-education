@@ -848,7 +848,7 @@ For every one standard deviation increase in the amount of time spent on the cou
 
 ## Results
 
-Let's extend our regression model and consider the following to be the final model in this sequence of models: What other variables may matter? Perhaps there are differences based on the subject of the course. We can add subject as an independent variable by including it with a plus sign (`+`):
+Extend the regression model further by considering the following question: What other variables may influence the final grade? For example, there may be differences based on the course subject. You can add the course subject as an independent variable by including it with a plus sign (`+`):
 
 ``` {r}
 # Create a linear model with the subject added as an independent variable
@@ -856,7 +856,7 @@ m_linear_3 <-
     lm(final_grade ~ TimeSpent_std + subject, data = dat)
 ```
 
-We can use `tab_model()` once again to view the results:
+Use `tab_model()` once again to view the results:
 
 ``` {r}
 tab_model(m_linear_3,
@@ -869,13 +869,13 @@ tab_model(m_linear_3,
           title = "Table 7.4")
 ```
 
-It looks like subjects forensic science (`FrSc`) and oceanography (`Ocn`) are associated with a higher final grade. This indicates that students in these two classes earned higher grades than students in other science classes.
+When controlling for the subject variable, R computes the average change in final grade when the student took the `AnPhA` course. In this example, `AnPhA` is known as the reference level. R then compares the average change in final grade for the remaining subjects, all relative to the reference level `AnPhA`. It looks like subjects `FrSc` and `PhysA` are associated with a higher final grade relative to the subject `AnPhA`. 
 
 ## Conclusion
 
-In this walkthrough, we focused on taking raw data, loading it, and processing it through a series of steps. The final result was a dataset ready for creating visualizations and a simple yet powerful! linear model (regression model). We found that the time that students spent on a course was positively related to their final grades, with a statistically significant difference by subject. While we used this model in a traditional, explanatory sense, it also has potential for predictive analytics. Knowing how long students spent on the course and the subject could help estimate their final grade. We explore predictive models in [Chapter 14](#c14).
+In this walkthrough, we focused on taking raw data, loading it, and processing it. The result was a dataset ready for creating visualizations and a simple linear regression model. Through that model, you discovered that the time students spent on a course was positively related to their final grades, with a statistically significant difference by subject. While you used this model in an explanatory way, it can also be used in a predictive way. You'll explore predictive models in [Chapter 14](#c14).
 
-In the follow-up to this walkthrough, [Chapter 13](#c13), we focus on visualizing and modeling the data using multi-level modeling, an advanced methodological technique, to build on the data science pipeline we established here.
+In the follow-up to this walkthrough, [Chapter 13](#c13), you will build on what you learn here by visualizing and modeling data using multi-level modeling.
 
 ```{r, include = FALSE}
 write_csv(dat, "data/online-science-motivation/processed/sci_mo_processed.csv")
