@@ -650,17 +650,13 @@ dat <- rename(dat, final_grade = FinalGradeCEMS)
 
 ## Analysis
 
-In this section, we focus on some initial analyses in the form of visualizations
-and some models. We expand on these in [Chapter 13](#c13). Before we start
-visualizing relationships between variables in our survey dataset, let's
-introduce {ggplot2}, a visualization package we'll be using in our walkthroughs.
+In this section, you'll analyze the data using visualizations and models. You will expand on these activities in [Chapter 13](#c13). Before you start visualizing relationships between variables, let's introduce {ggplot2}, a visualization package you will be using in this book's walkthroughs.
 
 ### About {ggplot2}
 
-We'll be using the {ggplot2} a package for graphing our education datasets. {ggplot2} is designed to build graphs layer by layer, where each layer is a building block for your graph. Making graphs in layers is useful because we can think of building up our graphs in separate parts: the data comes first, then the x-axis and y-axis, and finally other components like text labels and graph shapes. When something goes wrong and your ggplot2 code returns an error, you can learn about what’s happening by removing one layer at a time and running it again until the code works properly. Once you know which line is causing the
-problem, you can focus on fixing it.
+{ggplot2} is designed to build graphs layer by layer, where each layer is a building block for your graph. This is useful because you can think of building graphs in separate parts: the data comes first, then the x-axis and y-axis, and finally other components, like text labels and graph shapes. When your {ggplot2} code returns an error, you can learn what’s happening by removing one layer at a time and running the code again. This will help you identify the line that is causing the error.
 
-The first two lines of {ggplot2} code look similar for most graphs. The first line tells R which dataset to graph and which columns the x-axis and y-axis will represent. The second line tells R which shape to use when drawing the graph. You can tell R which shape to use in your graphs with a family of {ggplot2} functions that start with `geom_`. {ggplot2} has many graph shapes you can use, including points, bars, lines, and boxplots. Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
+The first two lines of {ggplot2} code look similar for most graphs. The first line tells R which dataset to graph and which columns are the x-axis and y-axis. The second line tells R which shape to use when drawing the graph. You tell R which graph shape to use with a family of {ggplot2} functions that all start with `geom_`. Available shapes include points, bars, lines, and boxplots. Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
 
 ```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example Plot"}
 # Make dataset
@@ -679,7 +675,7 @@ students %>%
   theme_dataedu()
 ```
 
-The `data` argument in the first line tells R we’ll be using the dataset called `students`. The `aes` (aesthetics) argument tells R we’ll be using values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R we’re drawing the graph using the bar chart format. Finally, we customize our graph font and color palette with `theme_dataedu()`, a custom theme we created for the book. Each line of {ggplot2} code is connected by a `+` at the end to tell R the next line of code is an additional {ggplot2} layer to add.
+The `data` argument in the first line tells R to use the dataset called `students`. The `aes` (aesthetics) argument tells R to use values from the `school_id` column for the x-axis and values from the `mean_score` column for the y-axis. In the second line, the `geom_bar` function tells R to draw the graph as a bar chart. Finally, customize your graph font and color palette with `theme_dataedu()`, a custom theme created for this book. Each line of {ggplot2} code is connected by a `+` at the end, which tells R the next line of code is an other {ggplot2} layer.
 
 Writing code is like writing essays. There's a range of acceptable styles and certainly you can practice unusual ways of writing, but other people will find it harder to understand what you want to say. In this book, you'll see variations in {ggplot2} style, but all within what we believe is the range of acceptable conventions. Here are some examples: 
 
@@ -691,7 +687,7 @@ It's ok if those terms are new to you. The main point is there are multiple ways
 
 ### The Relationship between Time Spent on Course and Final Grade
 
-One thing we might want to learn is how time spent on course is related to students' final grade. Let's make a plot to depict that relationship. Below, we'll create a scatterplot usng `geom_point()`.
+What if you wanted to learn about the relationship between time spent on a course a students' final grade? Make a plot to graph that relationship. Below, you'll create a scatterplot usng `geom_point()`.
 
 ``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent", fig.showtext = TRUE}
 dat %>%
@@ -704,9 +700,9 @@ dat %>%
     labs(x = "Time Spent", y = "Final Grade")
 ```
 
-_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is due to the `NA` values that were introduced earlier in this walkthrough, and are not a cause for alarm!_
+_Note: you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is expected and is caused by the `NA` values introduced earlier in this walkthrough.
 
-There appears to be *some* relationship in the data. What if we added a line of best fit using a linear model? The code below builds on our previous plot and adds another layer with `geom_smooth()`. This function fits a smoothed line to the data.
+There appears to be some relationship in the data. Try adding a line of best fit using a linear model. The code below builds on the previous plot and adds another layer with `geom_smooth()`, which fits a smoothed line to the data.
 
 ``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit", fig.showtext = TRUE}
 dat %>%
@@ -722,7 +718,7 @@ dat %>%
 
 Looking at this plot, it appears that students who spent more time on the course tended to have higher final grades.
 
-What is the line doing in the upper right part of the graph? Based upon the trend that is observable in the data, the line of best fit predicts that students who spend a particular amount of time on the course earn a final grade above 100!  Of course, this is not possible, and highlights the importance of understanding your data and carefully interpreting lines of best fit (or any other statistical model). Always keep real-world constraints in mind when analyzing and presenting results.
+What is the line doing in the upper right part of the graph? Based upon the trend in the data, the line of best fit predicts that students who spend a particular amount of time on the course earn a final grade above 100. This is, of course, not possible and highlights the importance of understanding your data. Always keep real-world constraints in mind when analyzing and presenting results.
 
 ### Linear Model (Regression)
 
