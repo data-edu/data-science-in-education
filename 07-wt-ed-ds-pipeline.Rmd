@@ -722,11 +722,11 @@ What is the line doing in the upper right part of the graph? Based upon the tren
 
 ### Linear Model (Regression)
 
-We can understand the relationship between time spent on the course and students' final grade using a linear model. We discuss linear models in more detail in [Chapter 10](#c10).
+You can further explore the relationship between time spent on the course and students' final grade using a linear model. You'll work more with linear models in [Chapter 10](#c10).
 
-Let's model the relationship between these two variables. The dependent variable is the students' final grade (`final_grade`), which is entered first after the `lm()` command and before the tilde (`~`). To the right of the tilde is the independent variable, `TimeSpent`, or the amount of time that students spent on the course. We’ll use the data frame `dat` for the analysis.
+Begin modeling the relationship between these two variables. The dependent variable is the students' final grade (`final_grade`), which is entered first after the `lm()` command and before the tilde (`~`). To the right of the tilde is the independent variable, `TimeSpent`. This is the amount of time that students spent on the course. You'll use the data frame `dat` for the analysis.
 
-We save the results to an object called `lm_linear` and use the `summary()` function to examine the results. Let's run this line of code to see the output.
+Save the results to an object called `lm_linear` and use the `summary()` function to examine the output. Run this line of code to see the output.
 
 ``` {r}
 m_linear <-
@@ -735,7 +735,7 @@ m_linear <-
 summary(m_linear)
 ```
 
-We can also generate table output with the `tab_model()` function from the {sjPlot} package. When you run this code, you should see the results pop up in the "Viewer" pane of RStudio. If you haven't changed the default settings, this will be in the lower right quadrant of your screen.
+You can also generate table output with the `tab_model()` function from the {sjPlot} package. When you run this code, you will see the results in the RStudio's "Viewer" pane. If you haven't changed the default settings, this will be in the lower right quadrant of your screen.
 
 ``` {r}
 tab_model(m_linear, 
@@ -748,24 +748,23 @@ tab_model(m_linear,
           title = "Table 7.1")
 ```
 
-Tables from {sjPlot} will work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then, you can save the output to a Word document by adding the `filename` argument:
+Tables from {sjPlot} work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then save the output to a Word document by adding the `filename` argument:
 
 ```r
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
 ```
 
-Before we proceed to the next code chunk, let's talk about some common functions we use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter.
+Before proceeding to the next code chunk, let's talk about common functions you'll use in this book: `filter()`, `group_by()`, and `summarize()`. You saw the `group_by()` and `summarize()` functions earlier in this chapter.
 
-  - `filter()` removes rows from the dataset that don't match a specified criterion. Use it
-    for tasks like keeping only records for students in the fifth grade.
-  - `group_by()` groups records together so you can perform operations on those
-    groups instead of the entire dataset. Use it for tasks like getting the
-    mean test score of each school instead of a whole school district.
-  - `summarize()` (or `summarise()`) reduces your dataset down to a summary
+  - `filter()` removes rows from the dataset that don't match a specified criterion. Use it for tasks like keeping only rows that have fifth grade students. 
+  - `group_by()` groups rows together so you can perform operations on
+ groups instead of the entire dataset. Use it for tasks like getting the
+    mean test score for each school instead of a whole school district.
+  - `summarize()` (or `summarise()`) reduces the dataset down to a summary
     statistic. Use it for tasks like turning a dataset of student test scores
     into a dataset of average test score for each grade level.
 
-Now let's apply these {dplyr} functions to our survey analysis. We will create the same measures (based on the survey items) that we used earlier to understand how they relate to one another.
+Now apply these {dplyr} functions to our survey analysis. You'll create the same measures that we used earlier to understand how they relate to one another.
 
 ``` {r}
 survey_responses <-
@@ -794,14 +793,14 @@ survey_responses <-
 survey_responses
 ```
 
-Now that we've prepared the survey responses, we can use the `apa.cor.table()` function to create a correlation table:
+Now that you've prepared the survey responses, we can use the `apa.cor.table()` function to create a correlation table:
 
 ```{r}
 survey_responses %>% 
   apa.cor.table()
 ```
 
-The time spent variable is on a very large scale (minutes); what if we transformed it to represent the number of hours that students spent on the course? Let's use the `mutate()` function we used earlier. We'll create a variable ending in `_hours`.
+The time spent variable is in minutes, which is a very large scale; try transforming it into the number of hours students spent on the course. Use the `mutate()` function we used earlier, creating a variable ending in `_hours`.
 
 ``` {r}
 # Creating a new variable for the amount of time spent in hours
@@ -823,7 +822,7 @@ tab_model(m_linear_1,
           title = "Table 7.2")
 ```
 
-The scale still does not seem quite right. What if we standardized the variable to have a mean of zero and a standard deviation of one using the `scale()` function?
+The scale still doesn't seem right. What if we standardized the variable for time spent to have a mean of zero and a standard deviation of one? Do this using the `scale()` function.
 
 ``` {r}
 # This is to standardize the TimeSpent variable to have a mean of 0 and a standard deviation of 1
