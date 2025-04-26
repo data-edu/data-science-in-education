@@ -50,15 +50,15 @@ In the past, if a teacher wanted advice about how to plan a unit or to design a 
 
 ### Packages
 
-In this chapter, we access data using the {rtweet} package [@kearney2016]. Through {rtweet} and a Twitter account, it is easy to access data from Twitter. We will load the {tidyverse} and {rtweet} packages to get started. 
+In this chapter, we access data using the {bksyr} package [@bskyr], providing access to data from the Bluesky social media platform. In the first edition of this book, we used a different data sources---Twitter (X) posts. Due to changes in the accessibility of that data (specifically, that it is now _very_ difficult to access it), we have switched to a different social media platform, Bluesky.
 
-We will also load other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph; @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used in the book), do so using the `install.packages()` function. More on installing packages is included in the ["*Packages*"](#c06p) section of the ["*Foundational Skills*"](#c06) chapter.
+Fortunately, it is about as easy to access data from Bluesky as it _was_ to access data from Twitter. In addition to the {bskyr} package, we'll load a few other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph; @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {rtweet}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used in the book), do so using the `install.packages()` function. More on installing packages is included in the ["*Packages*"](#c06p) section of the ["*Foundational Skills*"](#c06) chapter.
 
 Let's load the packages with the following calls to the `library()` function:
 
 ```{r, message = F, warning = F}
 library(tidyverse)
-library(rtweet)
+library(bskyr)
 library(dataedu)
 library(randomNames)
 library(tidygraph)
@@ -67,28 +67,47 @@ library(ggraph)
 
 ### Data sources and import
 
-Here is an example of searching the most recent 1,000 tweets, which include the hashtag #rstats. When you run this code, you will be prompted to authenticate your access via Twitter. 
+The first step in the use of the {bskyr} package is to gain access ot the Application Programming Interface.
+
+To do so, you'll need to visit XXX in a browser.
+
+IMAGE
+
+Then, 
 
 ```{r, eval = FALSE}
-rstats_tweets <- 
+auth <- bs_auth(user = bs_get_user(), pass = bs_get_pass())
+```
+
+We'll next collect some tweets --- for the #tidytuesday hashtag on Bluesky.
+
+```{r}
+posts_nov <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2022-11-01T00:00:00.000Z', until = '2022-11-30T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+
+posts_dec <- bs_search_posts(query = "#tidytuesday", 
+                         since = '2024-12-01T00:00:00.000Z', until = '2024-12-31T23:59:59.000Z',
+                         limit = 10000,
+                         auth = auth)
+
+posts_jan <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2025-01-01T00:00:00.000Z', until = '2025-01-31T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+
+bind_rows(posts_nov, posts_dec, posts_jan) -> posts
+```
+
+You can easily change the search term to other hashtags terms. For example, to search for #rstats posts, we can replace #tidytuesday with #rstats.
+
+```{r, eval = FALSE}
+rstats_posts  <- 
   search_tweets("#rstats")
 ```
 
-You can easily change the search term to other hashtags terms. For example, to search for #tidytuesday tweets, we can replace #rstats with #tidytuesday: 
-
-```{r, eval = FALSE}
-tt_tweets  <- 
-  search_tweets("#tidytuesday")
-```
-
-You can find a greater number of tweets by adding a greater value to the `n` argument of the `search_tweets()` function, as follows, to collect the most recent 500 tweets:
-
-```{r, eval = FALSE}
-tt_tweets  <- 
-  search_tweets("#tidytuesday", n = 500)
-```
-
-You may notice that the most recent tweets containing the #tidytuesday hashtag are returned. What if you wanted to go further back in time? We’ll discuss this topic in the next section and in Appendix B.
+You may notice that the most recent posts containing the #tidytuesday hashtag are returned. What if you wanted to go further back in time? We’ll discuss this topic in the next section and in Appendix B.
 
 ### Using an Application Programming Interface (or API)
 
@@ -99,6 +118,59 @@ Think of an API as a special door a home builder made for a house that has a lot
 There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you’ll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product, but, rather, is one that can be updated with the most recent data (in this case, Tweets), every time you run it. By using an API to import new data every time you run your code, you create an analysis that can be used again and again on future datasets. However, a key point---and limitation---is that Twitter allows access to their data via their API only for (approximately) the seven most recent days. There are a number of *other* ways to access older data, though we focus on one way here: having access to the URLs of (or the status IDs for) tweets. 
 
 As a result, we used this technique---described in-depth in [Appendix B](#c20b)---to collect older (historical) data from Twitter about the #tidytuesday hashtag, using a different function than the one described above (`rtweet::lookup_statuses()` instead of `rtweet::search_tweets()`). This was important for this chapter because having access to a greater number of tweets allows us to better understand the interactions between a larger number of the individuals participating in #tidytuesday. The data that we prepared from accessing historical data for #tidytuesday is available in the {dataedu} R package as the `tt_tweets` dataset, as we describe next.
+
+### Processing the Data
+
+```{r}
+
+# Unnest the 'author' column to extract handle and display name
+posts_clean <- posts %>%
+    unnest_wider(author, names_sep = "_") %>%
+    rename(
+        author_did = author_did,
+        author_handle = author_handle,
+        author_display_name = author_displayName
+    )
+
+# Unnest the 'record' column to extract post text
+posts_clean <- posts_clean %>%
+    unnest_wider(record, names_sep = "_") %>%
+    rename(
+        post_text = record_text,
+        post_created_at = record_createdAt
+    )
+
+posts_clean
+
+# Extract image URLs from the 'embed' column
+posts_clean <- posts_clean %>%
+    mutate(
+        image_urls = map(embed, ~ {
+            if (!is.null(.x) && "images" %in% names(.x)) {
+                return(map_chr(.x$images, "fullsize"))
+            } else {
+                return(NA_character_)
+            }
+        })
+    )
+
+# Select and arrange relevant columns
+posts_clean <- posts_clean %>%
+    select(
+        uri,
+        author_handle,
+        author_display_name,
+        post_text,
+        post_created_at,
+        reply_count,
+        repost_count,
+        like_count,
+        image_urls
+    )
+
+# View the cleaned posts data
+glimpse(posts_clean)
+```
 
 #### Accessing the data from {dataedu}
 
