@@ -58,7 +58,8 @@ Let's load the packages with the following calls to the `library()` function:
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(bskyr)
-library(dataedu)
+# library(dataedu)
+
 library(randomNames)
 library(tidygraph)
 library(ggraph)
@@ -68,11 +69,20 @@ library(ggraph)
 
 The first step in the use of the {bskyr} package is to gain access ot the Application Programming Interface.
 
-To do so, you'll need to visit XXX in a browser.
+To do so, you'll need to visit <https://bsky.app/settings> in a browser.
 
-IMAGE
+Then, go to "Privacy and Security", and click "App passwords" and "Add App Password". You *do not* need to check, "Allow access to your direct messages". A code will pop up (see the figure below) that you will copy and use next.
 
 Then,
+
+Almost authenticated! You'll run these two lines of code *once*. This saves your username and this passcode in a hidden file (called \`.Renviron\`). That you will use for *all* subsequent analyses.
+
+```{r}
+set_bluesky_user('YOUR-USERNAME.bsky.social') # your username goes here -- including .bky.social at the end!
+set_bluesky_pass('your-apps-pass-word') # the passcode you just copied goes here
+```
+
+The next line is one you'll run *every time* you
 
 ```{r, eval = FALSE}
 auth <- bs_auth(user = bs_get_user(), pass = bs_get_pass())
@@ -80,23 +90,65 @@ auth <- bs_auth(user = bs_get_user(), pass = bs_get_pass())
 
 We'll next collect some tweets --- for the #tidytuesday hashtag on Bluesky.
 
+Let's start with one month – January, 2025. We need to specify a few things:
+
+-   the *query*
+
+-   the *date range*
+
+-   the *maximum number of posts we want to collect*
+
+-   our *authentication* information
+
 ```{r}
-posts_nov <- bs_search_posts(query = "#tidytuesday", 
-                             since = '2022-11-01T00:00:00.000Z', until = '2022-11-30T23:59:59.000Z',
-                             limit = 10000,
-                             auth = auth)
-
-posts_dec <- bs_search_posts(query = "#tidytuesday", 
-                         since = '2024-12-01T00:00:00.000Z', until = '2024-12-31T23:59:59.000Z',
-                         limit = 10000,
-                         auth = auth)
-
 posts_jan <- bs_search_posts(query = "#tidytuesday", 
                              since = '2025-01-01T00:00:00.000Z', until = '2025-01-31T23:59:59.000Z',
                              limit = 10000,
                              auth = auth)
+```
 
-bind_rows(posts_nov, posts_dec, posts_jan) -> posts
+Let's inspect the result:
+
+```{r}
+posts_jan %>% 
+    glimpse()
+```
+
+Let's continue to collect four more months. 
+
+```{r}
+posts_feb <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2025-02-01T00:00:00.000Z', until = '2025-02-28T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+
+
+posts_mar <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2025-03-01T00:00:00.000Z', until = '2025-03-31T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+
+posts_apr <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2025-04-01T00:00:00.000Z', until = '2025-04-30T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+
+posts_may <- bs_search_posts(query = "#tidytuesday", 
+                             since = '2025-05-01T00:00:00.000Z', until = '2025-05-31T23:59:59.000Z',
+                             limit = 10000,
+                             auth = auth)
+```
+
+Now, we can combine these data frames together and assign the results to a single object, `posts`, and then look at the results:
+
+```{r}
+bind_rows(posts_jan, posts_feb, posts_mar, posts_apr, posts_may) -> posts
+
+posts %>% 
+    glimpse()
+
+# write_rds(posts, "posts.rds")
+posts <- read_rds("posts.rds")
 ```
 
 You can easily change the search term to other hashtags terms. For example, to search for #rstats posts, we can replace #tidytuesday with #rstats.
@@ -123,7 +175,45 @@ As a result, we used this technique---described in-depth in [Appendix B](#c20b)-
 
 ### Processing the Data
 
+Check this out - this data is complex! When we look at what we _think_ is the author, we can see it's, in fact, more complex.
+
 ```{r}
+posts$author %>% 
+    pluck(1)
+```
+
+We can check and see a similar situation for the field called "record":
+
+```{r}
+posts$record %>% 
+    pluck(1)
+```
+
+We need the author's handle (vhgauto.bsky.social) to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure. 
+
+```{r}
+
+```
+
+```{r}
+posts_flattened <- posts %>%
+  unnest_wider(col = author, names_sep = "_") %>%
+  unnest_wider(col = record, names_sep = "_")
+
+posts_flattened %>% 
+  select(
+    uri,
+    author_handle,
+    post_text = record_text,
+    created_at = record_createdAt,
+    reply_to = record_reply
+  ) %>%
+  mutate(created_at = as.POSIXct(created_at, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
+
+# The 'reply_to' column will itself be a list or data frame,
+# which we will process in the next step.
+
+
 
 # Unnest the 'author' column to extract handle and display name
 posts_clean <- posts %>%
