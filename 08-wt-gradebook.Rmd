@@ -78,6 +78,31 @@ However, `.csv` files aren't always available. Fortunately, R can import a varie
 
 Next, you'll explore two ways to import the gradebook dataset. The first uses a file path and the second uses the `here()` function from the {here} package. 
 
+### Import using `here()` 
+
+Whenever possible, use `here()` from the {here} package to import data. This function conveniently guesses the correct file path based on the working directory. 
+
+In your working directory, place the `ExcelGradeBook.xlsx` file in a folder called "gradebooks". Then place the "gradebooks" folder in a folder called "data". Finally, make sure your new "data" folder and all its contents are in your working directory. 
+
+Now use this code to read the data in:
+
+```{r read in data, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
+# Use readxl package to read and import file and assign it a name
+ExcelGradeBook <-
+  read_excel(
+    here("data", "gradebooks", "ExcelGradeBook.xlsx"),
+    sheet = 1,
+    skip = 10
+  )
+```
+
+The `ExcelGradeBook` file has been imported into RStudio. Next, assign the data frame to a new name using the code below. Renaming cumbersome file names improves the readability of the code and makes it easier for the user to call on the dataset later in the analysis. 
+
+```{r assign to new name, echo = TRUE, message = FALSE, warning = FALSE}
+# Rename data frame
+gradebook <- ExcelGradeBook
+```
+
 ### Import using a file path 
 
 This code uses the `read_excel()` function from the {readxl} package to find and the data file into R. Note the file path that `read_excel()` uses to find the dataset `ExcelGradeBook.xlsx`. This dataset is in a folder on your computer where you downloaded it. The function `getwd()` helps you locate your working directory. This is the default place where R looks for your files. 
@@ -106,30 +131,7 @@ Try this code. Remember to replace `path/to/file.xlsx` with the correct path fro
 ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
 ```
 
-### Import using `here()` 
-
-Whenever possible, use `here()` from the {here} package because it conveniently guesses the correct file path based on the working directory. In your working directory, place the `ExcelGradeBook.xlsx` file in a folder called "gradebooks". Then place the "gradebooks" folder in a folder called "data". The last step is to make sure your new "data" folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
-
-```{r read in data, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
-# Use readxl package to read and import file and assign it a name
-ExcelGradeBook <-
-  read_excel(
-    here("data", "gradebooks", "ExcelGradeBook.xlsx"),
-    sheet = 1,
-    skip = 10
-  )
-```
-
-The `ExcelGradeBook` file has been imported into RStudio. Next, assign the data frame to a new name using the code below. Renaming cumbersome file names improves the readability of the code and makes it easier for the user to call on the dataset later in the analysis. 
-
-```{r assign to new name, echo = TRUE, message = FALSE, warning = FALSE}
-# Rename data frame
-gradebook <- ExcelGradeBook
-```
-
-Your environment now has two versions of the dataset. There is `ExcelGradeBook`, which is the original dataset you imported. There is also `gradebook`, which is a copy of `ExcelGradeBook`. 
-
-As you progress through this section, you will work primarily with the `gradebook` version. If at any point you'd like to start with a fresh `gradebook` dataset, you can do so by running `gradebook <- ExcelGradeBook` again. This will overwrite any changes in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame.
+Your environment now has two versions of the dataset. Note that `gradebook` is a copy of `ExcelGradeBook`. As you progress through this section, you will work primarily with the `gradebook` version. If at any point you'd like to start with a fresh `gradebook` dataset, you can do so by running `gradebook <- ExcelGradeBook` again. This will overwrite any changes in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame.
 
 Now that you've tried two ways to import the dataset, you will now begin processing the data.
 
