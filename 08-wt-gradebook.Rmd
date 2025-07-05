@@ -70,41 +70,21 @@ library(dataedu)
 
 ## Import data
 
-In [Appendix A](#c20a), it's recommended to use `.csv` files, or comma-separated values files, when working with datasets in R. This is because `.csv` files, with the .csv file extension, are common in the data science world. They are "plain text"---they tend to be faster when imported, do not have formatting, and are generally easier to deal with than Excel files. 
+### About File Types
 
-However, data won't always come in your preferred file format. Fortunately, R can import a variety of data file types. In this walkthrough, you'll import an Excel file. You're likely to encounter these file types, with the `.xlsx` or `.xls` extensions, in the K--12 education world. 
+In [Appendix A](#c20a), it's recommended to use comma-separated values files (`.csv`) when working with datasets in R. `.csv` files have the .csv file extension and are commonly used in data science. They are also plain text, which makes them easier to import and prepare for analysis relative to other formats.
+
+However, `.csv` files aren't always available. Fortunately, R can import a variety of data file types. In this walkthrough, you'll import an Excel file.
 
 Next, you'll explore two ways to import the gradebook dataset. The first uses a file path and the second uses the `here()` function from the {here} package. 
 
-### Import using a file path 
-
-This code uses the `read_excel()` function of the {readxl} package to find and read data in the desired file. Note the file path that `read_excel()` uses to find the simulated dataset named `ExcelGradeBook.xlsx`, which sits in a folder on your computer where you downloaded it. The function `getwd()` helps you locate your current working directory. This location is where R is currently working with files.
-
-```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
-# See the current working directory
-getwd()
-```
-
-For example, an R user on Linux or Mac might see their working directory as: `/home/username/Desktop`. A Windows user might see their working directory as: `C:\Users\Username\Desktop`.
-
-From this location, go deeper into files to find the desired file. For example, if you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) (https[]()://github.com/data-edu/data-science-in-education) from Github to your Desktop, the path to the Excel file might look like one of these:
-
-* `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
-* `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
-
-After locating the sample Excel file, use the code below to run the function `read_excel()`, which reads and saves the data from `ExcelGradeBook.xlsx` to an object called `ExcelGradeBook`. 
-
-Note the two arguments specified in this code: `sheet = 1` and `skip = 10`. This Excel file is similar to one you may encounter in real life, including extra features you don't need for your analysis. Specifically, this file has three different sheets and the first ten rows contain information you don't need. Thus, `sheet = 1` tells `read_excel()` to read only the first sheet in the file and disregard the rest. Then, `skip = 10` tells `read_excel()` to skip the first 10 rows of the sheet and start reading from row 11. This is where the column headers and data actually start inside the Excel file. 
-
-Try this code, but remember to replace `path/to/file.xlsx` with the correct path from your computer. 
-
-```{r import using file path, eval=FALSE}
-ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
-```
-
 ### Import using `here()` 
 
-Whenever possible, use `here()` from the {here} package because it conveniently guesses the correct file path based on the working directory. In your working directory, place the `ExcelGradeBook.xlsx` file in a folder called "gradebooks". Then place the "gradebooks" folder in a folder called "data". The last step is to make sure your new "data" folder and all its contents are in your working directory. Following those steps, use this code to read the data in:
+Whenever possible, use `here()` from the {here} package to import data. This function conveniently guesses the correct file path based on the working directory. 
+
+In your working directory, place the `ExcelGradeBook.xlsx` file in a folder called "gradebooks". Then place the "gradebooks" folder in a folder called "data". Finally, make sure your new "data" folder and all its contents are in your working directory. 
+
+Now use this code to read the data in:
 
 ```{r read in data, eval = TRUE, echo = TRUE, message = FALSE, warning = FALSE}
 # Use readxl package to read and import file and assign it a name
@@ -123,9 +103,35 @@ The `ExcelGradeBook` file has been imported into RStudio. Next, assign the data 
 gradebook <- ExcelGradeBook
 ```
 
-Your environment now has two versions of the dataset. There is `ExcelGradeBook`, which is the original dataset you imported. There is also `gradebook`, which is a copy of `ExcelGradeBook`. 
+### Import using a file path 
 
-As you progress through this section, you will work primarily with the `gradebook` version. If at any point you'd like to start with a fresh `gradebook` dataset, you can do so by running `gradebook <- ExcelGradeBook` again. This will overwrite any changes in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame.
+This code uses the `read_excel()` function from the {readxl} package to find and the data file into R. Note the file path that `read_excel()` uses to find the dataset `ExcelGradeBook.xlsx`. This dataset is in a folder on your computer where you downloaded it. The function `getwd()` helps you locate your working directory. This is the default place where R looks for your files. 
+
+```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
+# See the current working directory
+getwd()
+```
+
+For example, an R user on Linux or Mac might see their working directory as: `/home/username/Desktop`. A Windows user might see their working directory as: `C:\Users\Username\Desktop`.
+
+From this location, go deeper into files to find the one you want. If you downloaded the [book repository](https://github.com/data-edu/data-science-in-education) (https[]()://github.com/data-edu/data-science-in-education) from Github to your Desktop, the path to the Excel file might look like one of these:
+
+* `/home/username/Desktop/data-science-in-education/data/gradebooks/ExcelGradeBook.xlsx` (on Linux & Mac) 
+* `C:\Users\Username\Desktop\data-science-in-education\data\gradebooks\ExcelGradeBook.xlsx` (on Windows)
+
+After locating the sample Excel file, use the code below to run the function `read_excel()`. This reads and saves the data from `ExcelGradeBook.xlsx` to an object called `ExcelGradeBook`. 
+
+Note the two arguments specified in this code: `sheet = 1` and `skip = 10`. These arguments tell R where to begin reading the spreadsheet. This is important because spreadsheets often contain multiple sheets and non-data header rows. 
+
+`sheet = 1` tells `read_excel()` to read only the first sheet in the file and disregard the rest. `skip = 10` tells `read_excel()` to skip the first 10 rows of the sheet and start reading from row 11. This is where the column headers and data actually start inside the Excel file. 
+
+Try this code. Remember to replace `path/to/file.xlsx` with the correct path from your computer.
+
+```{r import using file path, eval=FALSE}
+ExcelGradeBook <- read_excel("path/to/file.xlsx", sheet = 1, skip = 10)
+```
+
+Your environment now has two versions of the dataset. Note that `gradebook` is a copy of `ExcelGradeBook`. As you progress through this section, you will work primarily with the `gradebook` version. If at any point you'd like to start with a fresh `gradebook` dataset, you can do so by running `gradebook <- ExcelGradeBook` again. This will overwrite any changes in the `gradebook` data frame with the originally imported `ExcelGradeBook` data frame.
 
 Now that you've tried two ways to import the dataset, you will now begin processing the data.
 
