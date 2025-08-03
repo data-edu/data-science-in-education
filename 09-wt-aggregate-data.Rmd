@@ -360,17 +360,18 @@ frpl_df2 <-
     filter(
         # Remove blanks
         school_name != "",
-        # Filter out the rows in this list!school_name %in% c(
-        "ELM K_08",
-        "Mid Schl",
-        "High Schl",
-        "Alt HS",
-        "Spec Ed Total",
-        "Cont Alt Total",
-        "Hospital Sites Total",
-        "Dist Total"
-    )
-) %>%
+        # Filter out the rows in this list
+        !school_name %in% c(
+            "ELM K_08",
+            "Mid Schl",
+            "High Schl",
+            "Alt HS",
+            "Spec Ed Total",
+            "Cont Alt Total",
+            "Hospital Sites Total",
+            "Dist Total"
+            )
+        ) %>%
     # Turn percentage columns into numeric and decimal format
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
