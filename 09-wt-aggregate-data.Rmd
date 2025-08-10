@@ -298,7 +298,7 @@ race_df2 <-
 
 After importing the Race/Ethnicity data, you’ll import the Free and Reduced-Price Lunch (FRPL) PDFs.
 
-FRPL data are often used as a proxy for poverty in the U.S. [@frpl]. Students from households with incomes up to 185% of the poverty threshold are eligible for free or reduced-price lunch. 
+FRPL data are often used as a proxy for poverty in the U.S. [@frpl]. When the first edition of this book was written, students from households with incomes up to 185% of the poverty threshold were eligible for free or reduced-price lunch. 
 
 Definitions are very important for disaggregated data. FRPL is used because it's ubiquitous, but there is debate as to whether it actually reflects the level of poverty among students.
 
@@ -366,17 +366,18 @@ frpl_df2 <-
     filter(
         # Remove blanks
         school_name != "",
-        # Filter out the rows in this list!school_name %in% c(
-        "ELM K_08",
-        "Mid Schl",
-        "High Schl",
-        "Alt HS",
-        "Spec Ed Total",
-        "Cont Alt Total",
-        "Hospital Sites Total",
-        "Dist Total"
-    )
-) %>%
+        # Filter out the rows in this list
+        !school_name %in% c(
+            "ELM K_08",
+            "Mid Schl",
+            "High Schl",
+            "Alt HS",
+            "Spec Ed Total",
+            "Cont Alt Total",
+            "Hospital Sites Total",
+            "Dist Total"
+            )
+        ) %>%
     # Turn percentage columns into numeric and decimal format
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
@@ -398,7 +399,7 @@ Did you notice? The total number of students from the Race/Ethnicity table does 
 
 Continue preparing the data by creating new columns based on the merged dataset using `mutate()`.
 
-1.  NCES defines high poverty as schools that are over 75% FRPL [@ncesfrpl]. Calculate the number of students in "high-poverty" schools in a race group. Do this by counting the number of students for a particular race under the variable `[racename]_povnum` when a school is over 75% FRPL. 
+1.  When the first edition of this book was written, NCES defined high poverty as schools that are over 75% FRPL [@ncesfrpl]. Calculate the number of students in "high-poverty" schools in a race group. Do this by counting the number of students for a particular race under the variable `[racename]_povnum` when a school is over 75% FRPL. 
 2.  Calculate the weighted average of students in each category. Start by using `adorn_totals()` in the {janitor} package, which sums columns for you. 
 3.  Create the weighted average of the percentage of each race by dividing the number of students by race by the total number of students.
 4.  Compute the FRPL percentage for all schools by recalculating `frpl_pct`. Doing this gives you a weighted average.
