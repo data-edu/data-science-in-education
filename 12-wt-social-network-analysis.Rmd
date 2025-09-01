@@ -35,19 +35,28 @@ In education, we are used to focusing on *individuals* – students and teachers
 
 Social network analysis is useful for understanding the relationships between individuals. For instance, social network analyses can be useful for asking questions, such as:
 
--   How do relationships between teachers support their implementation of new curricula?
+-   How do relationships between teachers support their implementation of new curricula? (CITE)
 
--   How do gaps in students'
+-   How do gaps in students' (CITE)
+
+-   How do XX (CITE)
 
 In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
 
-While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.
+While social network analysis is increasingly common, it can be hard. Cleaning and tidying the data, especially, can be trickty.can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). 
 
-Like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
+This chapter is designed to take you from not having carried out social network analysis through visualizing social media data (though, as we describe next, we can also use self-report survey and other types of data, as well).
 
-You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
+For those wishing to dive deeper, we've included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
+
+One last note. You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
 
 ### Background
+
+
+Traditionally, social network analysis was carried out using self-report surveys. An example of this is XX
+
+More recently, researchers and analysts have begun other data sources---especially data from digital tools, including social media [@rosenberg-et-al-2025].
 
 There are a few reasons to be interested in social media. For example, if you work in a school district, you may want to know who is interacting with the content you share. If you are a researcher, you may want to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data also provides new contexts for learning to take place, like in professional learning networks [@trust2016].
 
@@ -217,6 +226,9 @@ We need the author's handle to identify them as a node in our network. But we ca
 posts_flattened <- posts %>%
     unnest_wider(col = author, names_sep = "_") %>%
     unnest_wider(col = record, names_sep = "_")
+
+posts_flattened %>% 
+    glimpse()
 
 posts_flattened <- posts_flattened %>% 
     select(
