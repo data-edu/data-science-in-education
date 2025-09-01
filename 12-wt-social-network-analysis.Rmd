@@ -31,15 +31,21 @@ This chapter explores the use of social network analysis (commonly referred to a
 
 ## Chapter overview
 
-This chapter builds on [Walkthrough 5 in Chapter 11](#c11), where we worked with #tidytuesday data. In the previous chapter we focused on using text analysis to understand the *content* of posts. In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
+In education, we are used to focusing on *individuals* – students and teachers, especially. We can learn many things from studying individual students or teachers, but, sometimes, what is interesting lies beyond them–or between them.
+
+Social network analysis is useful for understanding the relationships between individuals. For instance, social network analyses can be useful for asking questions, such as:
+
+-   How do relationships between teachers support their implementation of new curricula?
+
+-   How do gaps in students'
+
+In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
 
 While social network analysis is increasingly common, it remains challenging to carry out. For one, cleaning and tidying the data can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). This chapter is designed to take you from not having carried out social network analysis through visualizing network data.
 
 Like the previous chapter, we've also included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
 
-You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]).
-
-If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
+You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
 
 ### Background
 
@@ -173,46 +179,67 @@ As a result, we used this technique---described in-depth in [Appendix B](#c20b)-
 
 ### Processing the Data
 
-Check this out - this data is complex! When we look at what we *think* is the author, we can see it's, in fact, more complex.
+This data is complex!
+
+If we take a glimpse at `posts`, we see that many of the columns are "named list"s:
 
 ```{r}
-posts$author %>% 
-    pluck(1)
+posts %>% 
+    glimpse()
 ```
 
-We can check and see a similar situation for the field called "record":
+What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to. The author itself contains many things we could call variables. Take a look:
 
 ```{r}
+# need to anonymize
+posts$author %>% 
+    pluck(14)
+```
+
+Even with this complex "named list" data type, this data *can* be shaped up into a table. We'll show how we can do that in a moment.
+
+First, though, we note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, and some interesting meta-data, including whether hashtags are included, mentions of other users are included, or whether the post is a reply.
+
+We won't run the following code, as the output is quite lengthy, but please try to run it (just make sure you've loaded the data, `posts`, earlier)!
+
+```{r, eval = FALSE}
 posts$record %>% 
     pluck(1)
 ```
 
-We need the author's handle (vhgauto.bsky.social) to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure.
+#### What *is* our network?
 
-```{r}
+Recall the discussion at the beginning of this chapter on the wide variety in the types of networks
 
-```
+We need the author's handle to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure.
 
 ```{r}
 posts_flattened <- posts %>%
-  unnest_wider(col = author, names_sep = "_") %>%
-  unnest_wider(col = record, names_sep = "_")
+    unnest_wider(col = author, names_sep = "_") %>%
+    unnest_wider(col = record, names_sep = "_")
 
-posts_flattened %>% 
-  select(
-    uri,
-    author_handle,
-    post_text = record_text,
-    created_at = record_createdAt,
-    reply_to = record_reply
-  ) %>%
-  mutate(created_at = as.POSIXct(created_at, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
+posts_flattened <- posts_flattened %>% 
+    select(
+        uri,
+        author_handle,
+        post_text = record_text,
+        created_at = record_createdAt,
+        reply_to = record_reply
+    ) %>%
+    mutate(created_at = as.POSIXct(created_at, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
 
 # The 'reply_to' column will itself be a list or data frame,
 # which we will process in the next step.
 
+posts_flattened %>%
+    unnest_wider(col = reply_to, names_sep = " ") %>% 
+    janitor::clean_names() %>% 
+    unnest_wider(col = reply_to_parent, names_sep = " ") %>% 
+    unnest_wider(col = reply_to_root, names_sep = " ") %>% View()
+```
 
 
+```{r}
 # Unnest the 'author' column to extract handle and display name
 posts_clean <- posts %>%
     unnest_wider(author, names_sep = "_") %>%
@@ -278,28 +305,28 @@ An edgelist looks like the following, where the `sender` (sometimes called the "
 
 ```{r, include = FALSE}
 names_d1 <-
-  randomNames(6) %>%
-  enframe(name = NULL) %>%
-  mutate(sender = 1:6) %>%
-  set_names(c("sender2", "sender"))
+    randomNames(6) %>%
+    enframe(name = NULL) %>%
+    mutate(sender = 1:6) %>%
+    set_names(c("sender2", "sender"))
 
 names_d2 <-
-  randomNames(6) %>%
-  enframe(name = NULL) %>%
-  mutate(receiver = 1:6) %>%
-  set_names(c("receiver2", "receiver"))
+    randomNames(6) %>%
+    enframe(name = NULL) %>%
+    mutate(receiver = 1:6) %>%
+    set_names(c("receiver2", "receiver"))
 
 example_edgelist <-
-  tibble(
-    sender = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
-    receiver = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6)
-  )
+    tibble(
+        sender = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
+        receiver = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6)
+    )
 
 example_edgelist <-
-  example_edgelist %>%
-  left_join(names_d1) %>%
-  left_join(names_d2) %>%
-  select(sender = receiver2, receiver = sender2)
+    example_edgelist %>%
+    left_join(names_d1) %>%
+    left_join(names_d2) %>%
+    select(sender = receiver2, receiver = sender2)
 ```
 
 ```{r, echo = FALSE}
@@ -321,19 +348,19 @@ Now let's use these functions to extract the mentions from the dataset. Here's h
 regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
 
 posts_clean <-
-  posts_clean %>%
-  # Use regular expression to identify all the usernames in a post
-  mutate(all_mentions = str_extract_all(post_text, regex)) %>%
-  unnest(all_mentions)
+    posts_clean %>%
+    # Use regular expression to identify all the usernames in a post
+    mutate(all_mentions = str_extract_all(post_text, regex)) %>%
+    unnest(all_mentions)
 ```
 
 Let's put these into their own data frame, called `mentions`.
 
 ```{r}
 mentions <-
-  posts_clean %>%
-  mutate(all_mentions = str_trim(all_mentions)) %>%
-  select(sender = author_handle, all_mentions)
+    posts_clean %>%
+    mutate(all_mentions = str_trim(all_mentions)) %>%
+    select(sender = author_handle, all_mentions)
 ```
 
 ### Putting the edgelist together
@@ -348,11 +375,11 @@ Let's remove that "\@" symbol from the columns we created and save the results t
 
 ```{r}
 edgelist <- 
-  mentions %>% 
-  # remove "@" from all_mentions column
-  mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
-  # rename all_mentions to receiver
-  select(sender, receiver = all_mentions)
+    mentions %>% 
+    # remove "@" from all_mentions column
+    mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+    # rename all_mentions to receiver
+    select(sender, receiver = all_mentions)
 ```
 
 ## Analysis and results
@@ -365,10 +392,10 @@ Large networks like this one can be hard to work with because of their size. We 
 
 ```{r}
 interactions_sent <- edgelist %>% 
-  # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
-  count(sender) %>% 
-  # arranges the data frame in descending order of the number of interactions sent
-  arrange(desc(n))
+    # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
+    count(sender) %>% 
+    # arranges the data frame in descending order of the number of interactions sent
+    arrange(desc(n))
 
 interactions_sent
 ```
@@ -377,8 +404,8 @@ interactions_sent
 
 ```{r}
 interactions_sent <- 
-  interactions_sent %>% 
-  filter(n > 1)
+    interactions_sent %>% 
+    filter(n > 1)
 ```
 
 That leaves us with only 349, which will be much easier to work with.
@@ -387,17 +414,17 @@ We now need to filter the edgelist to only include these 349 individuals. The fo
 
 ```{r}
 edgelist <- edgelist %>% 
-  # the first of the two lines below filters to include only senders in the interactions_sent data frame
-  # the second line does the same, for receivers
-  filter(sender %in% interactions_sent$sender,
-         receiver %in% interactions_sent$sender)
+    # the first of the two lines below filters to include only senders in the interactions_sent data frame
+    # the second line does the same, for receivers
+    filter(sender %in% interactions_sent$sender,
+           receiver %in% interactions_sent$sender)
 ```
 
 We'll use the `as_tbl_graph()` function, which identifies the first column as the "sender" and the second as the "receiver". Let's look at the object it creates:
 
 ```{r}
 g <- 
-  as_tbl_graph(edgelist)
+    as_tbl_graph(edgelist)
 
 g
 ```
@@ -408,14 +435,14 @@ Next, we'll use the `ggraph()` function:
 
 ```{r fig12-1, fig.cap="Network Graph"}
 g %>%
-  # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
-  ggraph(layout = "kk") +
-  # this adds the points to the graph
-  geom_node_point() +
-  # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
-  geom_edge_link(alpha = .2) +
-  # this last line of code adds a ggplot2 theme suitable for network graphs
-  theme_graph()
+    # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
+    ggraph(layout = "kk") +
+    # this adds the points to the graph
+    geom_node_point() +
+    # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
+    geom_edge_link(alpha = .2) +
+    # this last line of code adds a ggplot2 theme suitable for network graphs
+    theme_graph()
 ```
 
 Finally, let's size the points based on a measure of centrality. A common way to do this is to measure how influential an individual may be based on the interactions observed.
@@ -426,14 +453,14 @@ extrafont::loadfonts() # needed to add this because of the css sheet, otherwise 
 
 ```{r fig12-2, fig.cap="Network Graph with Centrality"}
 g %>% 
-  # this calculates the centrality of each individual using the built-in centrality_authority() function
-  mutate(centrality = centrality_authority()) %>% 
-  ggraph(layout = "kk") + 
-  geom_node_point(aes(size = centrality, color = centrality)) +
-  # this line colors the points based upon their centrality
-  scale_color_continuous(guide = 'legend') + 
-  geom_edge_link(alpha = .2) +
-  theme_graph()
+    # this calculates the centrality of each individual using the built-in centrality_authority() function
+    mutate(centrality = centrality_authority()) %>% 
+    ggraph(layout = "kk") + 
+    geom_node_point(aes(size = centrality, color = centrality)) +
+    # this line colors the points based upon their centrality
+    scale_color_continuous(guide = 'legend') + 
+    geom_edge_link(alpha = .2) +
+    theme_graph()
 ```
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: <https://ggraph.data-imaginist.com/>
