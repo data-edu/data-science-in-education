@@ -51,7 +51,7 @@ For those wishing to dive deeper, we've included an appendix ([Appendix C](#c20c
 
 One last note. You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
 
-### Background
+## Background
 
 
 Traditionally, social network analysis was carried out using self-report surveys. An example of this is XX
@@ -62,7 +62,7 @@ There are a few reasons to be interested in social media. For example, if you wo
 
 In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would turn to a trusted peer in their building or district [@spillane2012]. Today they are as likely to turn to someone in a social media network. Social media interactions like the ones tagged with the #tidytuesday hashtag are increasingly common in education. Using data science tools to learn from these interactions is valuable for improving the student experience.
 
-### Packages
+## Packages
 
 In this chapter, we access data using the {bskyr} package [@bskyr], providing access to data from the Bluesky social media platform. In the first edition of this book, we used a different data sources---Twitter (X) posts. Due to changes in the accessibility of that data (specifically, that it is now *very* difficult to access it), we have switched to a different social media platform, Bluesky.
 
@@ -78,9 +78,11 @@ library(bskyr)
 library(randomNames)
 library(tidygraph)
 library(ggraph)
+library(igraph)
+
 ```
 
-### Data sources and import
+## Data sources and import
 
 The first step in the use of the {bskyr} package is to gain access ot the Application Programming Interface.
 
@@ -176,7 +178,7 @@ rstats_posts <- bs_search_posts(query = "#rstats",
 
 You may notice that the most recent posts containing the #tidytuesday hashtag are returned. What if you wanted to go further back in time? We’ll discuss this topic in the next section and in Appendix B.
 
-### Using an Application Programming Interface (or API)
+## Using an Application Programming Interface (or API)
 
 It's worth taking a short detour to talk about how you can obtain a dataset spanning a longer period of time. A common way to import data from websites, including social media platforms, is to use something called an Application Programming Interface (API). In fact, if you ran the code above, you just accessed an API!
 
@@ -186,7 +188,7 @@ There are some advantages to using an API to import data at the start of your ed
 
 As a result, we used this technique---described in-depth in [Appendix B](#c20b)---to collect older (historical) data from Twitter about the #tidytuesday hashtag, using a different function than the one described above (`rtweet::lookup_statuses()` instead of `rtweet::search_tweets()`). This was important for this chapter because having access to a greater number of tweets allows us to better understand the interactions between a larger number of the individuals participating in #tidytuesday. The data that we prepared from accessing historical data for #tidytuesday is available in the {dataedu} R package as the `tt_tweets` dataset, as we describe next.
 
-### Processing the Data
+## Processing the Data
 
 This data is complex!
 
@@ -216,42 +218,232 @@ posts$record %>%
     pluck(1)
 ```
 
-#### What *is* our network?
+### What *is* our network?
 
 Recall the discussion at the beginning of this chapter on the wide variety in the types of networks
 
 We need the author's handle to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure.
 
 ```{r}
-posts_flattened <- posts %>%
-    unnest_wider(col = author, names_sep = "_") %>%
-    unnest_wider(col = record, names_sep = "_")
+posts
 
-posts_flattened %>% 
-    glimpse()
+pluck_chr <- function(x, ..., .default = NA_character_) {
+  purrr::pluck(x, ..., .default = .default) %>% as.character()
+}
 
-posts_flattened <- posts_flattened %>% 
-    select(
-        uri,
-        author_handle,
-        post_text = record_text,
-        created_at = record_createdAt,
-        reply_to = record_reply
-    ) %>%
-    mutate(created_at = as.POSIXct(created_at, format = "%Y-%m-%dT%H:%M:%S", tz = "UTC"))
+library(dplyr)
+library(tidygraph)
 
-# The 'reply_to' column will itself be a list or data frame,
-# which we will process in the next step.
+# 0) Make sure node IDs are unique, non-missing
+nodes <- nodes %>%
+  filter(!is.na(did), did != "") %>%
+  distinct(did, .keep_all = TRUE) %>%
+  mutate(label = coalesce(label, did))
 
-posts_flattened %>%
-    unnest_wider(col = reply_to, names_sep = " ") %>% 
-    janitor::clean_names() %>% 
-    unnest_wider(col = reply_to_parent, names_sep = " ") %>% 
-    unnest_wider(col = reply_to_root, names_sep = " ") %>% View()
+# 1) Build a lookup table: DID -> row index
+node_index <- nodes %>%
+  mutate(.idx = row_number()) %>%
+  select(did, .idx)
+
+# 2) Map edge endpoints to integer indices
+edges_idx <- mention_edges %>%
+  filter(!is.na(from), from != "", !is.na(to), to != "") %>%
+  left_join(node_index, by = c("from" = "did")) %>%
+  rename(.from_idx = .idx) %>%
+  left_join(node_index, by = c("to" = "did")) %>%
+  rename(.to_idx = .idx)
+
+# 3) Diagnose any missing endpoints (these would trigger the NaN-like error)
+bad_edges <- edges_idx %>% filter(is.na(.from_idx) | is.na(.to_idx))
+if (nrow(bad_edges) > 0) {
+  message("Dropping ", nrow(bad_edges), " edges with unknown endpoints.\n",
+          "Examples:\n",
+          paste(utils::capture.output(print(head(bad_edges, 5))), collapse = "\n"))
+}
+
+# Keep only valid edges; (optional) drop self-loops
+edges_ok <- edges_idx %>%
+  filter(!is.na(.from_idx), !is.na(.to_idx)) %>%
+  filter(.from_idx != .to_idx) %>%
+  transmute(from = .from_idx, to = .to_idx)
+
+# 4) Build the graph
+g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
+
+g_mentions
 ```
 
+```{r}
+library(dplyr)
+library(tidygraph)
+library(ggraph)
+library(ggplot2)
+library(scales)
+
+# ---- 1) Centralities on the graph ----
+g_metrics <- g_mentions %>%
+  activate(nodes) %>%
+  mutate(
+    in_deg  = centrality_degree(mode = "in"),   # mentions received
+    out_deg = centrality_degree(mode = "out"),  # mentions made others
+    btw     = centrality_betweenness(
+                directed = TRUE, normalized = TRUE  # 0-1 scale
+              )
+  )
+
+nodes_tbl <- g_metrics %>%
+  activate(nodes) %>%
+  as_tibble() %>%
+  mutate(
+    in_deg_rank  = min_rank(desc(in_deg)),
+    out_deg_rank = min_rank(desc(out_deg)),
+    btw_rank     = min_rank(desc(btw))
+  )
+
+# ---- 2) Network plot (size = in-degree, color = betweenness) ----
+# Label only the most-mentioned nodes to avoid clutter:
+label_threshold <- quantile(nodes_tbl$in_deg, 0.95, na.rm = TRUE)
+
+nodes_tbl <- nodes_tbl %>%
+  mutate(lbl = ifelse(in_deg >= label_threshold & in_deg > 0, label, NA))
+
+set.seed(42)
+
+# add a 'lbl' column on nodes
+g_metrics <- g_metrics %>%
+  activate(nodes) %>%
+  mutate(
+    lbl = ifelse(
+      in_deg >= quantile(in_deg, 0.95, na.rm = TRUE) & in_deg > 0,
+      label, NA_character_
+    )
+  )
+
+
+p_net <- ggraph(g_metrics, layout = "fr") +          # Fruchterman–Reingold
+  geom_edge_link(alpha = 0.8, linewidth = 0.2) +
+  geom_node_point(aes(size = in_deg, color = btw), alpha = 0.9) +
+  geom_node_text(aes(label = lbl), size = 3, vjust = -0.8, na.rm = TRUE) +
+  scale_size_continuous(name = "In-degree (mentions)", range = c(2, 12)) +
+  scale_color_continuous(name = "Betweenness", labels = label_percent(accuracy = 0.1)) +
+  guides(color = guide_colorbar(barheight = unit(60, "pt"))) +
+  theme_void() +
+  ggtitle("Mention Network: size = in-degree, color = betweenness")
+
+p_net
+
+# ---- 3) Top-15 bar charts for each metric ----
+top_n_plot <- function(df, metric, title, fill_lab) {
+  df %>%
+    arrange(desc(.data[[metric]])) %>%
+    slice_head(n = 15) %>%
+    mutate(label_short = ifelse(nchar(label) > 28, paste0(substr(label, 1, 25), "…"), label)) %>%
+    ggplot(aes(x = reorder(label_short, .data[[metric]]), y = .data[[metric]], fill = .data[[metric]])) +
+    geom_col() +
+    coord_flip() +
+    labs(x = NULL, y = NULL, title = title) +
+    guides(fill = "none") +
+    theme_minimal(base_size = 11)
+}
+
+p_in  <- top_n_plot(nodes_tbl, "in_deg",  "Top 15 by In-degree (mentioned most)", "In-degree")
+p_out <- top_n_plot(nodes_tbl, "out_deg", "Top 15 by Out-degree (mentions others)", "Out-degree")
+p_btw <- top_n_plot(nodes_tbl, "btw",     "Top 15 by Betweenness (bridging)", "Betweenness")
+
+print(p_in); print(p_out); print(p_btw)
+
+```
 
 ```{r}
+library(tidygraph)
+library(dplyr)
+
+g_no_isolates <- g_mentions %>%
+  activate(nodes) %>%
+  mutate(deg_all = centrality_degree(mode = "all")) %>%
+  filter(deg_all > 0) %>%
+  select(-deg_all)
+
+library(tidygraph)
+library(igraph)
+library(dplyr)
+
+# 1) Compute weak-component membership on an undirected copy
+g_und <- g_mentions %>% convert(to_undirected)
+mem <- igraph::components(igraph::as.igraph(g_und), mode = "weak")$membership
+
+# 2) Attach membership to original graph and keep the largest component
+g_giant <- g_mentions %>%
+  activate(nodes) %>%
+  mutate(comp = mem) %>%
+  filter(comp == which.max(tabulate(mem))) %>%
+  select(-comp)
+
+library(ggraph)
+library(ggplot2)
+
+set.seed(42)
+ggraph(g_giant, layout = "fr") +
+  geom_edge_link(alpha = 0.15, linewidth = 0.2) +
+  geom_node_point(aes(size = centrality_degree(mode = "in"),
+                      color = centrality_betweenness(directed = TRUE, normalized = TRUE)),
+                  alpha = 0.9) +
+  theme_void()
+
+```
+
+```{r}
+posts %>% 
+    select(reply_count, repost_count, like_count, quote_count) %>% 
+    gather(key, val) %>% 
+    ggplot(aes(x = val)) +
+    geom_histogram() +
+    facet_wrap(~key)
+
+posts %>% 
+    select(reply_count, repost_count, like_count, quote_count) %>% 
+    gather(key, val) %>% 
+    ggplot(aes(x = val)) +
+    geom_density() +
+    facet_wrap(~key) +
+    scale_x_log10()
+```
+
+```{r}
+
+pluck_chr <- function(x, ..., .default = NA_character_) {
+  purrr::pluck(x, ..., .default = .default) %>% as.character()
+}
+pluck_lgl <- function(x, ..., .default = NA) {
+  purrr::pluck(x, ..., .default = .default) %>% as.logical()
+}
+
+posts_norm <- posts %>%
+  mutate(
+    # Author fields are usually a small record with did, handle, displayName
+    author_did    = map_chr(author, ~pluck_chr(.x, "did")),
+    author_handle = map_chr(author, ~pluck_chr(.x, "handle")),
+    author_name   = map_chr(author, ~pluck_chr(.x, "displayName")),
+
+    # Record-level fields (createdAt, text, langs)
+    rec_type      = map_chr(record, ~pluck_chr(.x, "$type")),     # "app.bsky.feed.post"
+    created_at    = map_chr(record, ~pluck_chr(.x, "createdAt")),
+    text          = map_chr(record, ~pluck_chr(.x, "text")),
+    langs         = map(record, ~purrr::pluck(.x, "langs", .default = character(0))) %>%
+                      map_chr(~paste(.x, collapse = ",")),
+
+    # Reply references (URIs to parent/root posts)
+    reply_parent_uri = map_chr(record, ~pluck_chr(.x, "reply", "parent", "uri")),
+    reply_parent_cid = map_chr(record, ~pluck_chr(.x, "reply", "parent", "cid")),
+    reply_root_uri   = map_chr(record, ~pluck_chr(.x, "reply", "root", "uri")),
+
+    # Embeds: if it's a record-embed, there is typically record$uri
+    embed_type       = map_chr(record, ~pluck_chr(.x, "embed", "$type")),
+    embed_record_uri = map_chr(record, ~pluck_chr(.x, "embed", "record", "uri"))
+  )
+
+
+
 # Unnest the 'author' column to extract handle and display name
 posts_clean <- posts %>%
     unnest_wider(author, names_sep = "_") %>%
