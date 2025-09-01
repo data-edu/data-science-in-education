@@ -224,9 +224,55 @@ Recall the discussion at the beginning of this chapter on the wide variety in th
 
 We need the author's handle to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure.
 
-```{r}
-posts
+## View data
 
+We can see that there are *quite a few rows* rows for the data:
+
+```{r}
+nrow(posts)
+```
+
+## Methods: process data
+
+Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist". An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an "edge". We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as "ties" or "relations", but these generally refer to the same thing, though they may be used in different contexts.
+
+An edgelist looks like the following, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
+
+```{r, include = FALSE}
+names_d1 <-
+    randomNames(6) %>%
+    enframe(name = NULL) %>%
+    mutate(sender = 1:6) %>%
+    set_names(c("sender2", "sender"))
+
+names_d2 <-
+    randomNames(6) %>%
+    enframe(name = NULL) %>%
+    mutate(receiver = 1:6) %>%
+    set_names(c("receiver2", "receiver"))
+
+example_edgelist <-
+    tibble(
+        sender = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
+        receiver = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6)
+    )
+
+example_edgelist <-
+    example_edgelist %>%
+    left_join(names_d1) %>%
+    left_join(names_d2) %>%
+    select(sender = receiver2, receiver = sender2)
+```
+
+```{r, echo = FALSE}
+example_edgelist
+```
+
+In this edgelist, the `sender` column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their posts. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Bluesky.
+
+### Extracting replies
+
+```{r}
 pluck_chr <- function(x, ..., .default = NA_character_) {
   purrr::pluck(x, ..., .default = .default) %>% as.character()
 }
@@ -273,14 +319,58 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-```{r}
-library(dplyr)
-library(tidygraph)
-library(ggraph)
-library(ggplot2)
-library(scales)
+Let's extract the replies There is a lot going on in the code below; let's break it down line-by-line, starting with `mutate()`:
 
-# ---- 1) Centralities on the graph ----
+-   `mutate(all_mentions = str_extract_all(post_text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the post (*note*: the regex comes from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[ ]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
+-   `unnest(all_mentions)` this line uses a {tidyr} function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: <https://tidyr.tidyverse.org/reference/unnest.html>)).
+
+Now let's use these functions to extract the mentions from the dataset. Here's how all the code looks in action:
+
+```{r, old}
+regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
+
+posts_clean <-
+    posts_clean %>%
+    # Use regular expression to identify all the usernames in a post
+    mutate(all_mentions = str_extract_all(post_text, regex)) %>%
+    unnest(all_mentions)
+```
+
+Let's put these into their own data frame, called `mentions`.
+
+```{r, old}
+mentions <-
+    posts_clean %>%
+    mutate(all_mentions = str_trim(all_mentions)) %>%
+    select(sender = author_handle, all_mentions)
+```
+
+### Putting the edgelist together
+
+Recall that an edgelist is a data structure that has columns for the "sender" and "receiver" of interactions. Someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. To make the edgelist, we'll need to clean it up a little by removing the "\@" symbol. Let's look at our data as it is now.
+
+```{r, old}
+mentions
+```
+
+Let's remove that "\@" symbol from the columns we created and save the results to a new tibble, `edgelist`.
+
+```{r, old}
+edgelist <- 
+    mentions %>% 
+    # remove "@" from all_mentions column
+    mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
+    # rename all_mentions to receiver
+    select(sender, receiver = all_mentions)
+```
+
+## Analysis and results
+
+Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
+
+### Descriptive statistics
+
+```{r}
 g_metrics <- g_mentions %>%
   activate(nodes) %>%
   mutate(
@@ -299,6 +389,14 @@ nodes_tbl <- g_metrics %>%
     out_deg_rank = min_rank(desc(out_deg)),
     btw_rank     = min_rank(desc(btw))
   )
+
+```
+
+### Plotting the network
+
+Large networks like this one can be hard to work with because of their size. We can get around that problem by only including some individuals. Let's explore how many interactions each individual in the network sent by using `count()`:
+
+```{r}
 
 # ---- 2) Network plot (size = in-degree, color = betweenness) ----
 # Label only the most-mentioned nodes to avoid clutter:
@@ -332,269 +430,9 @@ p_net <- ggraph(g_metrics, layout = "fr") +          # Fruchterman–Reingold
 
 p_net
 
-# ---- 3) Top-15 bar charts for each metric ----
-top_n_plot <- function(df, metric, title, fill_lab) {
-  df %>%
-    arrange(desc(.data[[metric]])) %>%
-    slice_head(n = 15) %>%
-    mutate(label_short = ifelse(nchar(label) > 28, paste0(substr(label, 1, 25), "…"), label)) %>%
-    ggplot(aes(x = reorder(label_short, .data[[metric]]), y = .data[[metric]], fill = .data[[metric]])) +
-    geom_col() +
-    coord_flip() +
-    labs(x = NULL, y = NULL, title = title) +
-    guides(fill = "none") +
-    theme_minimal(base_size = 11)
-}
-
-p_in  <- top_n_plot(nodes_tbl, "in_deg",  "Top 15 by In-degree (mentioned most)", "In-degree")
-p_out <- top_n_plot(nodes_tbl, "out_deg", "Top 15 by Out-degree (mentions others)", "Out-degree")
-p_btw <- top_n_plot(nodes_tbl, "btw",     "Top 15 by Betweenness (bridging)", "Betweenness")
-
-print(p_in); print(p_out); print(p_btw)
-
 ```
 
-```{r}
-library(tidygraph)
-library(dplyr)
-
-g_no_isolates <- g_mentions %>%
-  activate(nodes) %>%
-  mutate(deg_all = centrality_degree(mode = "all")) %>%
-  filter(deg_all > 0) %>%
-  select(-deg_all)
-
-library(tidygraph)
-library(igraph)
-library(dplyr)
-
-# 1) Compute weak-component membership on an undirected copy
-g_und <- g_mentions %>% convert(to_undirected)
-mem <- igraph::components(igraph::as.igraph(g_und), mode = "weak")$membership
-
-# 2) Attach membership to original graph and keep the largest component
-g_giant <- g_mentions %>%
-  activate(nodes) %>%
-  mutate(comp = mem) %>%
-  filter(comp == which.max(tabulate(mem))) %>%
-  select(-comp)
-
-library(ggraph)
-library(ggplot2)
-
-set.seed(42)
-ggraph(g_giant, layout = "fr") +
-  geom_edge_link(alpha = 0.15, linewidth = 0.2) +
-  geom_node_point(aes(size = centrality_degree(mode = "in"),
-                      color = centrality_betweenness(directed = TRUE, normalized = TRUE)),
-                  alpha = 0.9) +
-  theme_void()
-
-```
-
-```{r}
-posts %>% 
-    select(reply_count, repost_count, like_count, quote_count) %>% 
-    gather(key, val) %>% 
-    ggplot(aes(x = val)) +
-    geom_histogram() +
-    facet_wrap(~key)
-
-posts %>% 
-    select(reply_count, repost_count, like_count, quote_count) %>% 
-    gather(key, val) %>% 
-    ggplot(aes(x = val)) +
-    geom_density() +
-    facet_wrap(~key) +
-    scale_x_log10()
-```
-
-```{r}
-
-pluck_chr <- function(x, ..., .default = NA_character_) {
-  purrr::pluck(x, ..., .default = .default) %>% as.character()
-}
-pluck_lgl <- function(x, ..., .default = NA) {
-  purrr::pluck(x, ..., .default = .default) %>% as.logical()
-}
-
-posts_norm <- posts %>%
-  mutate(
-    # Author fields are usually a small record with did, handle, displayName
-    author_did    = map_chr(author, ~pluck_chr(.x, "did")),
-    author_handle = map_chr(author, ~pluck_chr(.x, "handle")),
-    author_name   = map_chr(author, ~pluck_chr(.x, "displayName")),
-
-    # Record-level fields (createdAt, text, langs)
-    rec_type      = map_chr(record, ~pluck_chr(.x, "$type")),     # "app.bsky.feed.post"
-    created_at    = map_chr(record, ~pluck_chr(.x, "createdAt")),
-    text          = map_chr(record, ~pluck_chr(.x, "text")),
-    langs         = map(record, ~purrr::pluck(.x, "langs", .default = character(0))) %>%
-                      map_chr(~paste(.x, collapse = ",")),
-
-    # Reply references (URIs to parent/root posts)
-    reply_parent_uri = map_chr(record, ~pluck_chr(.x, "reply", "parent", "uri")),
-    reply_parent_cid = map_chr(record, ~pluck_chr(.x, "reply", "parent", "cid")),
-    reply_root_uri   = map_chr(record, ~pluck_chr(.x, "reply", "root", "uri")),
-
-    # Embeds: if it's a record-embed, there is typically record$uri
-    embed_type       = map_chr(record, ~pluck_chr(.x, "embed", "$type")),
-    embed_record_uri = map_chr(record, ~pluck_chr(.x, "embed", "record", "uri"))
-  )
-
-
-
-# Unnest the 'author' column to extract handle and display name
-posts_clean <- posts %>%
-    unnest_wider(author, names_sep = "_") %>%
-    rename(
-        author_did = author_did,
-        author_handle = author_handle,
-        author_display_name = author_displayName
-    )
-
-# Unnest the 'record' column to extract post text
-posts_clean <- posts_clean %>%
-    unnest_wider(record, names_sep = "_") %>%
-    rename(
-        post_text = record_text,
-        post_created_at = record_createdAt
-    )
-
-posts_clean
-
-# Extract image URLs from the 'embed' column
-posts_clean <- posts_clean %>%
-    mutate(
-        image_urls = map(embed, ~ {
-            if (!is.null(.x) && "images" %in% names(.x)) {
-                return(map_chr(.x$images, "fullsize"))
-            } else {
-                return(NA_character_)
-            }
-        })
-    )
-
-# Select and arrange relevant columns
-posts_clean <- posts_clean %>%
-    select(
-        uri,
-        author_handle,
-        author_display_name,
-        post_text,
-        post_created_at,
-        reply_count,
-        repost_count,
-        like_count,
-        image_urls
-    )
-
-# View the cleaned posts data
-glimpse(posts_clean)
-```
-
-## View data
-
-We can see that there are *many* rows for the data:
-
-```{r}
-nrow(posts_clean)
-```
-
-## Methods: process data
-
-Network data requires some processing before it can be used in subsequent analyses. The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist". An edgelist is a dataset where each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an "edge". We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as "ties" or "relations", but these generally refer to the same thing, though they may be used in different contexts.
-
-An edgelist looks like the following, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
-
-```{r, include = FALSE}
-names_d1 <-
-    randomNames(6) %>%
-    enframe(name = NULL) %>%
-    mutate(sender = 1:6) %>%
-    set_names(c("sender2", "sender"))
-
-names_d2 <-
-    randomNames(6) %>%
-    enframe(name = NULL) %>%
-    mutate(receiver = 1:6) %>%
-    set_names(c("receiver2", "receiver"))
-
-example_edgelist <-
-    tibble(
-        sender = c(2, 1, 3, 1, 2, 6, 3, 5, 6, 4, 3, 4),
-        receiver = c(1, 2, 2, 3, 3, 3, 4, 4, 4, 5, 6, 6)
-    )
-
-example_edgelist <-
-    example_edgelist %>%
-    left_join(names_d1) %>%
-    left_join(names_d2) %>%
-    select(sender = receiver2, receiver = sender2)
-```
-
-```{r, echo = FALSE}
-example_edgelist
-```
-
-In this edgelist, the `sender` column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their posts. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Bluesky.
-
-### Extracting mentions
-
-Let's extract the mentions. There is a lot going on in the code below; let's break it down line-by-line, starting with `mutate()`:
-
--   `mutate(all_mentions = str_extract_all(post_text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the post (*note*: the regex comes from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[ ]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
--   `unnest(all_mentions)` this line uses a {tidyr} function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: <https://tidyr.tidyverse.org/reference/unnest.html>)).
-
-Now let's use these functions to extract the mentions from the dataset. Here's how all the code looks in action:
-
-```{r}
-regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
-
-posts_clean <-
-    posts_clean %>%
-    # Use regular expression to identify all the usernames in a post
-    mutate(all_mentions = str_extract_all(post_text, regex)) %>%
-    unnest(all_mentions)
-```
-
-Let's put these into their own data frame, called `mentions`.
-
-```{r}
-mentions <-
-    posts_clean %>%
-    mutate(all_mentions = str_trim(all_mentions)) %>%
-    select(sender = author_handle, all_mentions)
-```
-
-### Putting the edgelist together
-
-Recall that an edgelist is a data structure that has columns for the "sender" and "receiver" of interactions. Someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. To make the edgelist, we'll need to clean it up a little by removing the "\@" symbol. Let's look at our data as it is now.
-
-```{r}
-mentions
-```
-
-Let's remove that "\@" symbol from the columns we created and save the results to a new tibble, `edgelist`.
-
-```{r}
-edgelist <- 
-    mentions %>% 
-    # remove "@" from all_mentions column
-    mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
-    # rename all_mentions to receiver
-    select(sender, receiver = all_mentions)
-```
-
-## Analysis and results
-
-Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
-
-### Plotting the network
-
-Large networks like this one can be hard to work with because of their size. We can get around that problem by only including some individuals. Let's explore how many interactions each individual in the network sent by using `count()`:
-
-```{r}
+```{r, old}
 interactions_sent <- edgelist %>% 
     # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
     count(sender) %>% 
