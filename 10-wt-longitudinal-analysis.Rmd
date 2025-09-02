@@ -95,9 +95,7 @@ Department of Education website (see Department
 the {dataedu} package that accompanies this book, described in the
 "Importing the Data From the {dataedu} Package" section below.
 
-[^10-wt-longitudinal-analysis-1]: The documentation for the dataset is
-    available here:
-    <https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf>
+[^10-wt-longitudinal-analysis-1]: The documentation for the dataset is available here: <https://www2.ed.gov/programs/osepidea/618-data/collection-documentation/data-documentation-files/part-b/child-count-and-educational-environment/idea-partb-childcountandedenvironment-2017-18.pdf>
 
 ## Methods
 
@@ -193,7 +191,7 @@ task. Alternatively, we make these data files available through the
 {dataedu} package. You'll find more about the {dataedu} package below.
 
 Note that if you use this walkthrough on different datasets or store
-datasets in different locations on your computer, you'll need to your
+datasets in different locations on your computer, you'll need to adjust your
 code accordingly. We suggest only doing this if you have previous
 experience using R.
 
@@ -221,6 +219,8 @@ writing code to import the data.
 
 ### How to download the files
 
+_Note: In "How to download the files," you will write code to download the required datasets into your directory, and then will assign them to the variable "all_files" as a list. If you prefer to skip downloading the files and instead would like to get them from the {dataedu} package, please skip to the "Loading the data from {dataedu}" section. There you will find instructions for loading the datasets from this book's GitHub repository._
+
 One way to download the files is manually---saving them to a working
 directory. Another way is to read them directly into R, using the
 `download.file()` function using the same file path described in the
@@ -233,7 +233,7 @@ Here is how to do it for the first dataset, which contains 2012 data:
 ```{r, eval = FALSE}
 download.file(
   # the url argument takes a URL for a CSV file
-  url = 'https://bit.ly/3dCtVtf', 
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2012.csv', 
   # destfile specifies where the file should be saved
   destfile = here::here("data",
            "longitudinal_data",
@@ -245,35 +245,35 @@ Do this for the remaining five datasets:
 
 ```{r, eval = FALSE}
 download.file(
-  url = 'https://bit.ly/33WXnFX', 
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2013.csv', 
   destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2013.csv"), 
   mode = "wb")
 
 download.file(
-  url = 'https://bit.ly/2UvSwbx', 
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2014.csv', 
   destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2014.csv"), 
   mode = "wb")
 
 download.file(
-  url = 'https://bit.ly/39wQAUg', 
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2015.csv', 
   destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2015.csv"), 
   mode = "wb")
 
 download.file(
-  url = 'https://bit.ly/2JubWHC', 
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2016.csv', 
   destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2016.csv"), 
   mode = "wb")
 
 download.file(
-  url = 'https://bit.ly/2wPLu8w',
+  url = 'https://raw.githubusercontent.com/data-edu/data-science-in-education/refs/heads/main/data/longitudinal_data/bchildcountandedenvironments2017-18.csv',
   destfile = here::here("data",
            "longitudinal_data",
            "bchildcountandedenvironments2017-18.csv"), 
@@ -463,14 +463,16 @@ variables can confuse your thought process.
 Here are the steps you'll be taking to process the data:
 
 1.  Fix the variable names in the 2016 data
-2.  Combine the datasets
-3.  Pick variables
+2.  Select variables
+3.  Combine six datasets into one
 4.  Filter for the desired categories
 5.  Rename the variables
-6.  Standardize the state names
-7.  Transform the column formats from wide to long using `pivot_longer`
-8.  Change the data types of variables
-9.  Explore `NA`'s
+6.  Clean the state names
+7.  Tidy the dataset
+8.  Convert the data types
+9.  Explore and address `NA`'s
+
+_Note: After step 3, "Combine six datasets into one," you'll have a dataset stored in an object `longitudinal_data`. Alternatively, you can skip steps 1-3 and instead start this procedure at the section called "Importing the data from the {dataedu} package."_
 
 In real life, data scientists don't always know the cleaning steps until
 they dive into the work. Learning what cleaning steps are needed
@@ -692,7 +694,7 @@ child_counts <-
 
 ### Clean state names
 
-Have noticed that some state names are in uppercase letters and some are
+Have you noticed that some state names are in uppercase letters and some are
 in lowercase letters?
 
 ```{r count states}
@@ -1246,7 +1248,7 @@ variable, like `year`, as a predictor of a continuous variable,
 like`ratio`. In doing so, you computed the average `ratio` at every
 value of `year`.
 
-Verify this by taking the mean `ratio` of ever `year`:
+Verify this by taking the mean `ratio` of every `year`:
 
 ```{r mean ratio}
 model_data %>%
