@@ -38,7 +38,7 @@ The trick here is to use statistics, programming, and content knowledge to raise
 
 #### Example: Preparing Quiz Data to Compute Average Scores
 
-Let's take our example of the education consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
+Go back to the imaginary consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
 ```{r make quiz data, message=FALSE}
 library(tidyverse)
@@ -55,14 +55,16 @@ quizzes_1 <- tibble(
 quizzes_1
 ```
 
-Tools like Excel and Google Sheets can help you compute statistics like mean scores for each quiz or mean scores for each student fairly quickly, but what if you'd like to do that for five teachers using the exact same method? First, let's tidy the data. This will prepare our data nicely to compute any number of summary statistics or plot results. Using `pivot_longer()` to separate the quiz number and its score for each student will get us a long way: 
+Spreadsheets can help you compute mean quiz scores or mean student scores quickly. But what if you'd like to do that for not one, but five teachers? First, tidy the data. This will prepare the data nicely computing a variety of scores, including the mean. Start by using `pivot_longer()` to separate each student's quiz number and its score: 
 
 ```{r tidy quiz scores}
 quizzes_1 %>% 
     pivot_longer(cols = quiz_1:quiz_3, names_to = "quiz_number", values_to = "score")
 ```
 
-Note now that in the first version of this dataset, each individual row represented a unique combination of teacher and student. After using `pivot_longer()`, each row is now a unique combination of teacher, student, and quiz number. This is often talked about as changing a dataset from "wide" to "narrow" because of the change in the width of the dataset. The benefit to this change is that we can compute summary statistics by grouping values in any of the new columns. For example, here is how we would compute the mean quiz score for each student:
+In the original dataset, each row represents a unique combination of teacher and student. After using `pivot_longer()`, each row now represents a unique combination of teacher, student, and quiz number. 
+
+Data scientists describe this transformation as going from "wide" to "narrow." That's because of the change in the dataset's width. The benefit comes from the ability to group values by any of the columns. For example, here is how you'd group the scores by `student_id` and compute the mean:
 
 ```{r mean quiz scores}
 quizzes_1 %>% 
@@ -71,7 +73,7 @@ quizzes_1 %>%
     summarise(quiz_mean = mean(score))
 ```
 
-Again, for one dataset this computation is fairly straightforward and can be done with many software tools. But what if the education consultant in our example wants to do this repeatedly for 25 teacher quiz exports? Let's look at one way we can do this fairly quickly using R. We'll start by creating two additional datasets as an example. To make things feel authentic, we'll also add a column to show if the students participated in a new intervention. 
+You can use this technique to compute the mean test score across multiple teachers. Start by creating two more datasets. To make the example more authentic, add a column to show if a student received an instructional intervention. 
 
 ```{r make more quiz exports with intervention}
 # Add intervention column to first dataset 
@@ -99,24 +101,24 @@ quizzes_3 <- tibble(
 )
 ```
 
-The method we'll use to compute the mean quiz score for each student is to: 
+Use this method to compute the mean quiz score for each student: 
 
-1. Combine all the datasets into one big dataset: Use `bind_rows()` to combine all three quiz exports into one dataset. Remember, this can be done because each teacher's export uses the same imaginary online quiz system and export feature and thus use the same number of columns and variable names 
+1. Combine all datasets into one: Use `bind_rows()` to combine all three quiz exports into one dataset. This can be done because each teacher's export uses the same number of columns and column names 
 
-1. Reuse the code from the first dataset on the new bigger dataset: Paste the code we used in the first example into the script so it cleans and computes the mean quiz score for each student 
+1. Reuse the code from the first dataset on the new combined dataset: Paste the code used in the first example into the script so it cleans and computes the mean quiz score for each student 
 
 ```{r combine datasets}
 # Use `bind_rows` to combine the three quiz exports into one big dataset
 all_quizzes <- bind_rows(quizzes_1, quizzes_2, quizzes_3) 
 ```
 
-Note there are now nine rows, one for each student in our dataset of three teacher quiz exports: 
+Note there are now nine rows, one for each student across all three teacher quiz exports: 
 
 ```{r view combined datasets}
 all_quizzes
 ```
 
-We'll combine the cleaning and computation of the mean steps neatly into one this chunk of code:
+Use the same approach you used when doing this for one teacher:
 
 ```{r mean student quiz score}
 # Reuse the code from the first dataset on the new bigger dataset
@@ -128,9 +130,9 @@ all_quizzes %>%
     summarise(quiz_mean = mean(score))
 ```
 
-Note here that our imaginary education consultant from the example is thinking ahead by including the `intervention` column. By doing so she's opened the possibility of collaboratively exploring any possible differences in the scores between the students who had the intervention and the students who did not when she reviews and discusses these results with the school staff. Adding these types of details ahead of time is one way to build conversation starters into your collaborations. It is also a way to get faster at responding to curiosities by anticipating useful questions from your clients. 
+Note that the hypothetical consultant is thinking ahead by including the `intervention` column. By doing so, she's preserved the possibility of exploring possible score differences between the students who had the intervention and the students who did not. Thinking ahead in this way builds conversation starters into your collaborations. If you can anticipate your client's questions, you'll be able to respond faster if and when these questions arise.
 
-The difference in the time it takes to do this on three quiz exports using R versus non-programming tools is perhaps not significant. But the speed of computing means across larger volumes of data---say, 30 quiz exports---is truly useful to an education consultant looking to help many educators. 
+Comparing using R and spreadsheets, there may be little difference in the time it takes to do this for three quiz exports. But the gains in speed when computing over many datasets---say, 30 quiz exports---is truly useful. 
 
 #### Summary
 
