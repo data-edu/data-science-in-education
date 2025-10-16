@@ -36,15 +36,19 @@ This chapter explores the use of social network analysis (commonly referred to a
 
 ## Chapter overview
 
-In education, we are used to focusing on *individuals* – students and teachers, especially. We can learn many things from studying individual students or teachers, but, sometimes, what is interesting lies beyond them–or between them.
+In education, we are used to focusing on *individuals* – students and teachers, especially. We can learn many things from studying individual students or teachers, but, sometimes, what is interesting lies beyond them–or *between* individuals.
 
-Social network analysis is useful for understanding the relationships between individuals. For instance, social network analyses can be useful for asking questions, such as:
+Social network analysis is useful for understanding the relationships between individuals.
 
--   How do relationships between teachers support their implementation of new curricula? (CITE)
+For instance, social network analyses can be useful for asking questions about _social influence_ [@frank1998chapter]:
 
--   How do gaps in students' (CITE)
+-   How does the pattern of interactions among teachers in a professional network explain their continued involvement in the network? [@rosenberg2021advancing]
 
--   How do XX (CITE)
+We can also ask questions about _social selection_, 
+
+-   Which parents are the most central 
+
+In this chapter, we consider questions like these 
 
 In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
 
@@ -97,7 +101,7 @@ Then, go to "Privacy and Security", and click "App passwords" and "Add App Passw
 
 Almost authenticated! You'll run these two lines of code *once*. This saves your username and this passcode in a hidden file (called \`.Renviron\`). That you will use for *all* subsequent analyses.
 
-```{r}
+```{r, eval=FALSE}
 set_bluesky_user('YOUR-USERNAME.bsky.social') # your username goes here -- including .bky.social at the end!
 set_bluesky_pass('your-apps-pass-word') # the passcode you just copied goes here
 ```
@@ -120,7 +124,7 @@ Let's start with one month – January, 2025. We need to specify a few things:
 
 -   our *authentication* information
 
-```{r}
+```{r, eval = FALSE}
 posts_jan <- bs_search_posts(query = "#tidytuesday", 
                              since = '2025-01-01T00:00:00.000Z', until = '2025-01-31T23:59:59.000Z',
                              limit = 10000,
@@ -136,7 +140,7 @@ posts_jan %>%
 
 Let's continue to collect four more months.
 
-```{r}
+```{r, eval = FALSE}
 posts_feb <- bs_search_posts(query = "#tidytuesday", 
                              since = '2025-02-01T00:00:00.000Z', until = '2025-02-28T23:59:59.000Z',
                              limit = 10000,
@@ -161,12 +165,14 @@ posts_may <- bs_search_posts(query = "#tidytuesday",
 
 Now, we can combine these data frames together and assign the results to a single object, `posts`, and then look at the results:
 
-```{r}
+```{r, eval = FALSE}
 bind_rows(posts_jan, posts_feb, posts_mar, posts_apr, posts_may) -> posts
 
 posts %>% 
     glimpse()
+```
 
+```{r}
 # write_rds(posts, "posts.rds")
 posts <- read_rds("posts.rds")
 ```
@@ -207,7 +213,6 @@ posts %>%
 What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to. The author itself contains many things we could call variables. Take a look:
 
 ```{r}
-# need to anonymize
 posts$author %>% 
     pluck(14)
 ```
@@ -275,22 +280,87 @@ example_edgelist
 
 In this edgelist, the `sender` column might identify someone who nominates another (the receiver) as someone they go to for help. The sender might also identify someone who interacts with the receiver in other ways, like "liking" or "mentioning" their posts. In the following steps, we will work to create an edgelist from the data from #tidytuesday on Bluesky.
 
-### Extracting replies
+### Extracting nodes and edges
+
+Now we need to extract two key pieces of information from our `posts` data:
+
+1. **Nodes**: The unique individuals (users) in our network
+2. **Edges**: The interactions between users (replies and mentions)
+
+First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data:
 
 ```{r}
 pluck_chr <- function(x, ..., .default = NA_character_) {
   purrr::pluck(x, ..., .default = .default) %>% as.character()
 }
 
-library(dplyr)
-library(tidygraph)
+# Extract nodes (unique users) from posts
+nodes <- posts %>%
+  mutate(
+    did = map_chr(author, ~pluck_chr(.x, "did")),
+    handle = map_chr(author, ~pluck_chr(.x, "handle")),
+    display_name = map_chr(author, ~pluck_chr(.x, "displayName"))
+  ) %>%
+  distinct(did, .keep_all = TRUE) %>%
+  transmute(
+    did = did,
+    label = coalesce(display_name, handle, did)
+  )
+
+# Extract mention edges from posts
+# First, get reply edges (when someone replies to another user)
+reply_edges <- posts %>%
+  mutate(
+    from = map_chr(author, ~pluck_chr(.x, "did")),
+    to = map_chr(reply, ~pluck_chr(.x, "parent", "author", "did"))
+  ) %>%
+  filter(!is.na(to), to != "") %>%
+  select(from, to)
+
+# Second, get mention edges from facets in the post record
+mention_facet_edges <- posts %>%
+  mutate(
+    from = map_chr(author, ~pluck_chr(.x, "did")),
+    facets = map(record, ~pluck(.x, "facets", .default = list()))
+  ) %>%
+  # Expand rows for each facet
+  unnest(facets, keep_empty = FALSE) %>%
+  # Extract mentioned DIDs from facets
+  mutate(
+    feature_type = map_chr(facets, ~pluck_chr(.x, "features", 1, "$type")),
+    to = map_chr(facets, ~pluck_chr(.x, "features", 1, "did"))
+  ) %>%
+  filter(feature_type == "app.bsky.richtext.facet#mention", !is.na(to), to != "") %>%
+  select(from, to)
+
+# Combine reply and mention edges
+mention_edges <- bind_rows(reply_edges, mention_facet_edges) %>%
+  distinct()
 
 # 0) Make sure node IDs are unique, non-missing
 nodes <- nodes %>%
   filter(!is.na(did), did != "") %>%
   distinct(did, .keep_all = TRUE) %>%
   mutate(label = coalesce(label, did))
+```
 
+Let's take a look at what we've created. First, the nodes:
+
+```{r}
+nodes %>% 
+  glimpse()
+```
+
+And the edges (interactions):
+
+```{r}
+mention_edges %>% 
+  glimpse()
+```
+
+Great! Now we have our network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
+
+```{r}
 # 1) Build a lookup table: DID -> row index
 node_index <- nodes %>%
   mutate(.idx = row_number()) %>%
@@ -324,12 +394,11 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-Let's extract the replies There is a lot going on in the code below; let's break it down line-by-line, starting with `mutate()`:
+We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction of the interaction matters—who mentioned or replied to whom.
 
--   `mutate(all_mentions = str_extract_all(post_text, regex))`: this line uses a regex, or regular expression, to identify all of the usernames in the post (*note*: the regex comes from [this Stack Overflow page](https://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r) (https[ ]()://stackoverflow.com/questions/18164839/get-twitter-username-with-regex-in-r))
--   `unnest(all_mentions)` this line uses a {tidyr} function, `unnest()` to move every mention to its own line, while keeping all of the other information the same (see more about `unnest()` here: <https://tidyr.tidyverse.org/reference/unnest.html>)).
+### Alternative approach: Using regular expressions to extract mentions
 
-Now let's use these functions to extract the mentions from the dataset. Here's how all the code looks in action:
+The code below shows an alternative (older) approach to extracting mentions using regular expressions. This approach is kept here for reference, but the method above (using the structured data from Bluesky's API) is more reliable and comprehensive.
 
 ```{r, old}
 regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
@@ -350,17 +419,15 @@ mentions <-
     select(sender = author_handle, all_mentions)
 ```
 
-### Putting the edgelist together
+**(Old approach continued)** Putting the edgelist together
 
-Recall that an edgelist is a data structure that has columns for the "sender" and "receiver" of interactions. Someone "sends" the mention to someone who is mentioned, who can be considered to "receive" it. To make the edgelist, we'll need to clean it up a little by removing the "\@" symbol. Let's look at our data as it is now.
+The alternative regex-based approach would continue by creating an edgelist structure. However, this approach has limitations compared to using the structured API data we extracted above.
 
-```{r, old}
+```{r, old, eval=FALSE}
 mentions
 ```
 
-Let's remove that "\@" symbol from the columns we created and save the results to a new tibble, `edgelist`.
-
-```{r, old}
+```{r, old, eval=FALSE}
 edgelist <- 
     mentions %>% 
     # remove "@" from all_mentions column
@@ -369,9 +436,21 @@ edgelist <-
     select(sender, receiver = all_mentions)
 ```
 
+---
+
+
+
+
+
+
+
+
+
+
+
 ## Analysis and results
 
-Now that we have our edgelist, let's plot the network. We'll use the {tidygraph} and {ggraph} packages to visualize the data. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
+Now that we have our network graph (`g_mentions`), we can analyze and visualize it. We'll use the {tidygraph} and {ggraph} packages to calculate network metrics and create visualizations. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
 
 ### Descriptive statistics
 
@@ -399,7 +478,7 @@ nodes_tbl <- g_metrics %>%
 
 ### Plotting the network
 
-Large networks like this one can be hard to work with because of their size. We can get around that problem by only including some individuals. Let's explore how many interactions each individual in the network sent by using `count()`:
+Now let's create a visualization of our network. We'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting different parts of the network). To avoid clutter, we'll only label the most-mentioned users:
 
 ```{r}
 
@@ -437,74 +516,44 @@ p_net
 
 ```
 
-```{r, old}
+This visualization shows the structure of the #tidytuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting different parts of the network.
+
+### Alternative visualization approach (old)
+
+The code below shows an older approach to network visualization using a simpler filtering method. This is kept for reference.
+
+```{r, old, eval=FALSE}
 interactions_sent <- edgelist %>% 
-    # this counts how many times each sender appears in the data frame, effectively counting how many interactions each individual sent 
     count(sender) %>% 
-    # arranges the data frame in descending order of the number of interactions sent
     arrange(desc(n))
 
-interactions_sent
-```
-
-618 senders of interactions is a lot! What if we focused on only those who sent more than one interaction?
-
-```{r}
-interactions_sent <- 
-    interactions_sent %>% 
+interactions_sent <- interactions_sent %>% 
     filter(n > 1)
-```
 
-That leaves us with only 349, which will be much easier to work with.
-
-We now need to filter the edgelist to only include these 349 individuals. The following code uses the `filter()` function combined with the `%in%` operator to do this:
-
-```{r}
 edgelist <- edgelist %>% 
-    # the first of the two lines below filters to include only senders in the interactions_sent data frame
-    # the second line does the same, for receivers
     filter(sender %in% interactions_sent$sender,
            receiver %in% interactions_sent$sender)
+
+g <- as_tbl_graph(edgelist)
 ```
 
-We'll use the `as_tbl_graph()` function, which identifies the first column as the "sender" and the second as the "receiver". Let's look at the object it creates:
-
-```{r}
-g <- 
-    as_tbl_graph(edgelist)
-
-g
-```
-
-We can see that the network now has 267 individuals, all of whom sent more than one interaction. The individuals in a network are often referred to as "nodes" (and this terminology is used in the {ggraph} functions for plotting the individuals---the nodes---in a network). We note that nodes are sometimes referred to as "vertices" or "actors"; like the different names for edges, these generally mean the same thing.
-
-Next, we'll use the `ggraph()` function:
-
-```{r fig12-1, fig.cap="Network Graph"}
+```{r, old, eval=FALSE, fig.cap="Network Graph"}
 g %>%
-    # we chose the kk layout as it created a graph which was easy-to-interpret, but others are available; see ?ggraph
     ggraph(layout = "kk") +
-    # this adds the points to the graph
     geom_node_point() +
-    # this adds the links, or the edges; alpha = .2 makes it so that the lines are partially transparent
     geom_edge_link(alpha = .2) +
-    # this last line of code adds a ggplot2 theme suitable for network graphs
     theme_graph()
 ```
 
-Finally, let's size the points based on a measure of centrality. A common way to do this is to measure how influential an individual may be based on the interactions observed.
-
-```{r, echo = FALSE, message=F, warning=F}
-extrafont::loadfonts() # needed to add this because of the css sheet, otherwise graph below wouldn't run
+```{r, old, eval=FALSE, echo = FALSE, message=F, warning=F}
+extrafont::loadfonts()
 ```
 
-```{r fig12-2, fig.cap="Network Graph with Centrality"}
+```{r, old, eval=FALSE, fig.cap="Network Graph with Centrality"}
 g %>% 
-    # this calculates the centrality of each individual using the built-in centrality_authority() function
     mutate(centrality = centrality_authority()) %>% 
     ggraph(layout = "kk") + 
     geom_node_point(aes(size = centrality, color = centrality)) +
-    # this line colors the points based upon their centrality
     scale_color_continuous(guide = 'legend') + 
     geom_edge_link(alpha = .2) +
     theme_graph()
