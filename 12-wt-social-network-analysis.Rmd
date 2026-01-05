@@ -1,8 +1,11 @@
 # Walkthrough 6: Exploring relationships using social network analysis with social media data {#c12}
 
 <!-- TODO -->
+
 <!-- framing digital and physical, and when to use -->
+
 <!-- framing different interactions, and how to choose -->
+
 <!-- finish coding and explaining -->
 
 **Abstract**
@@ -40,34 +43,35 @@ In education, we are used to focusing on *individuals* – students and teachers
 
 Social network analysis is useful for understanding the relationships between individuals.
 
-For instance, social network analyses can be useful for asking questions about _social influence_ [@frank1998chapter]:
+For instance, social network analyses can be useful for asking questions about *social influence* [@frank1998chapter]:
 
 -   How does the pattern of interactions among teachers in a professional network explain their continued involvement in the network? [@rosenberg2021advancing]
 
-We can also ask questions about _social selection_, 
+We can also ask questions about *social selection*,
 
--   Which parents are the most central 
+-   Which parents are the most central
 
-In this chapter, we consider questions like these 
+In this chapter, we consider questions like these
 
-In this, we chapter focus on the *interactions* between #tidytuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
+In this, we chapter focus on the *interactions* between #TidyTuesday participants using social network analysis (sometimes simply referred to as network analysis) techniques.
 
-While social network analysis is increasingly common, it can be hard. Cleaning and tidying the data, especially, can be trickty.can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is). 
+While social network analysis is increasingly common, it can be hard. Cleaning and tidying the data, especially, can be trickty.can be even more challenging than for most other data sources because net data for social network analysis (or network data) often includes variables about both individuals (such as information students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is).
 
 This chapter is designed to take you from not having carried out social network analysis through visualizing social media data (though, as we describe next, we can also use self-report survey and other types of data, as well).
 
 For those wishing to dive deeper, we've included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
 
-One last note. You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface [API]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
+One last note. You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface \[API\]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
 
 ## Background
-
 
 Traditionally, social network analysis was carried out using self-report surveys. An example of this is XX
 
 More recently, researchers and analysts have begun other data sources---especially data from digital tools, including social media [@rosenberg-et-al-2025].
 
-There are a few reasons to be interested in social media. For example, if you work in a school district, you may want to know who is interacting with the content you share. If you are a researcher, you may want to investigate what teachers, administrators, and others do through state-based hashtags (e.g., @rosenberg2016). Social media-based data also provides new contexts for learning to take place, like in professional learning networks [@trust2016].
+There are a few things to know before getting started. First, as with most social media platforms, Bluesky places some restrictions on accessing its Application Programming Interface (API). An API is a set of structured http requests that return data in a predictable way. These restrictions involve the number of posts that can be accessed using the API. Bluesky's rate limits are generally generous for typical educational research and #TidyTuesday analysis.
+
+Occasionally, Bluesky will make changes to its API that affect how the `bskyr` package works. When this happens, you may need to wait for the package to be updated. It is a good idea to install the latest version of the package before beginning a new project by running `install.packages("bskyr")` or checking for updates.
 
 In the past, if a teacher wanted advice about how to plan a unit or to design a lesson, they would turn to a trusted peer in their building or district [@spillane2012]. Today they are as likely to turn to someone in a social media network. Social media interactions like the ones tagged with the #tidytuesday hashtag are increasingly common in education. Using data science tools to learn from these interactions is valuable for improving the student experience.
 
@@ -284,8 +288,8 @@ In this edgelist, the `sender` column might identify someone who nominates anoth
 
 Now we need to extract two key pieces of information from our `posts` data:
 
-1. **Nodes**: The unique individuals (users) in our network
-2. **Edges**: The interactions between users (replies and mentions)
+1.  **Nodes**: The unique individuals (users) in our network
+2.  **Edges**: The interactions between users (replies and mentions)
 
 First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data:
 
@@ -396,57 +400,9 @@ g_mentions
 
 We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction of the interaction matters—who mentioned or replied to whom.
 
-### Alternative approach: Using regular expressions to extract mentions
-
-The code below shows an alternative (older) approach to extracting mentions using regular expressions. This approach is kept here for reference, but the method above (using the structured data from Bluesky's API) is more reliable and comprehensive.
-
-```{r, old}
-regex <- "@([A-Za-z]+[A-Za-z0-9_]+)(?![A-Za-z0-9_]*\\.)"
-
-posts_clean <-
-    posts_clean %>%
-    # Use regular expression to identify all the usernames in a post
-    mutate(all_mentions = str_extract_all(post_text, regex)) %>%
-    unnest(all_mentions)
-```
-
-Let's put these into their own data frame, called `mentions`.
-
-```{r, old}
-mentions <-
-    posts_clean %>%
-    mutate(all_mentions = str_trim(all_mentions)) %>%
-    select(sender = author_handle, all_mentions)
-```
-
-**(Old approach continued)** Putting the edgelist together
-
-The alternative regex-based approach would continue by creating an edgelist structure. However, this approach has limitations compared to using the structured API data we extracted above.
-
-```{r, old, eval=FALSE}
-mentions
-```
-
-```{r, old, eval=FALSE}
-edgelist <- 
-    mentions %>% 
-    # remove "@" from all_mentions column
-    mutate(all_mentions = str_sub(all_mentions, start = 2)) %>% 
-    # rename all_mentions to receiver
-    select(sender, receiver = all_mentions)
-```
-
----
 
 
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------
 
 ## Analysis and results
 
