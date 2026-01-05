@@ -204,7 +204,7 @@ As a result, we used this technique---described in-depth in [Appendix B](#c20b)-
 
 ## Processing the Data
 
-This data is complex!
+This data is complex! Unlike the rectangular datasets (like spreadsheets) that we've worked with in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents—we need to open each level to get to the information we want.
 
 If we take a glimpse at `posts`, we see that many of the columns are "named list"s:
 
@@ -213,7 +213,9 @@ posts %>%
     glimpse()
 ```
 
-What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to. The author itself contains many things we could call variables. Take a look:
+What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to.
+
+In a regular spreadsheet, each cell contains a single value (like "John" or "42"). But in a named list, a single cell can contain *multiple* pieces of related information. For the author, this includes their username, display name, profile information, and more—all stored together in one complex cell. Take a look at one author's information:
 
 ```{r}
 posts$author %>% 
@@ -233,23 +235,32 @@ posts$record %>%
 
 ### What *is* our network?
 
-Recall the discussion at the beginning of this chapter on the wide variety in the types of networks
+Before we dive into extracting data, let's be clear about what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
 
-We need the author's handle to identify them as a node in our network. But we can't easily use it while it's buried inside this list structure.
+- **Nodes** (the dots) represent individual Bluesky users who participated in #tidytuesday
+- **Edges** (the connections) represent interactions: when one user mentions or replies to another user
+
+This type of network can help us answer questions like: Who are the most influential members of the #tidytuesday community? Who connects different sub-groups within the community? Who is most active in engaging with others?
+
+To build this network, we need to extract the author's unique identifier (their DID) to identify each person as a node in our network. But we can't easily use it while it's buried inside this nested list structure—that's the challenge we'll tackle next.
 
 ## View data
 
-We can see that there are *quite a few rows* rows for the data:
+Let's get a sense of how much data we're working with. Each row in our `posts` dataset represents one post that used the #tidytuesday hashtag:
 
 ```{r}
 nrow(posts)
 ```
 
-## Methods: process data
+That's quite a bit of data to work with! Each of these posts may contain mentions of other users or be replies to other users—these will become the edges (connections) in our network.
+
+## Methods: processing data into network format
 
 The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist".
 
-An edgelist is a table wherein each row is a unique interaction between two parties. Each row (which represents a single relationship) in the edgelist is referred to as an "edge". We note that one challenge facing data scientists beginning to use network analysis is the different terms that are used for similar (or the same!) aspects of analyses: Edges are sometimes referred to as "ties" or "relations", but these generally refer to the same thing, though they may be used in different contexts.
+An **edgelist** is a special type of table used in network analysis where each row represents a unique interaction between two parties. Think of it like a log of phone calls: each row records who called whom. Each row (which represents a single relationship) in the edgelist is referred to as an "edge".
+
+A note on terminology: You may encounter different terms for the same concepts in network analysis. Edges are sometimes referred to as "ties" or "relations," and the people in a network (nodes) are sometimes called "vertices" or "actors." These terms are generally interchangeable, though they may be used in different contexts or by different research communities.
 
 An edgelist looks *like* the following example, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
 
@@ -292,64 +303,116 @@ Above, we saw that our data is really complex, and we saw what an edgelist looks
 1.  **Nodes**: The unique individuals (users) in our network
 2.  **Edges**: The interactions between users (replies and mentions)
 
-First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data:
+First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data. Remember that our Bluesky data has information stored in complex nested lists (like boxes within boxes), and we need a safe way to open these boxes and get the information inside:
 
 ```{r, extract-data}
+# Create a helper function to extract data from nested lists
+# This function "reaches into" nested list structures and pulls out text values
+# If the value doesn't exist, it returns NA instead of causing an error
 pluck_chr <- function(x, ..., .default = NA_character_) {
   purrr::pluck(x, ..., .default = .default) %>% as.character()
 }
 
 # Extract nodes (unique users) from posts
+# Each row in 'posts' has an 'author' column containing nested information
+# We use map_chr() to apply our pluck_chr function to each row
+# The ~ syntax creates a formula, and .x represents each individual author
 nodes <- posts %>%
   mutate(
+    # Extract the DID (a unique identifier like a social security number for accounts)
     did = map_chr(author, ~pluck_chr(.x, "did")),
+    # Extract the handle (like @username)
     handle = map_chr(author, ~pluck_chr(.x, "handle")),
+    # Extract the display name (the name people see)
     display_name = map_chr(author, ~pluck_chr(.x, "displayName"))
   ) %>%
+  # Keep only one row per unique DID (each person appears once)
   distinct(did, .keep_all = TRUE) %>%
+  # Create our final node table with just the ID and a readable label
   transmute(
     did = did,
+    # coalesce() picks the first non-missing value: tries display_name first,
+    # then handle, then DID if both are missing
     label = coalesce(display_name, handle, did)
   )
 
-# Extract mention edges from posts
-# First, get reply edges (when someone replies to another user)
+# Extract edges (interactions between users)
+# We'll look at two types of interactions: replies and mentions
+
+# First, get reply edges (when someone replies to another user's post)
+# A reply creates a connection from the person replying TO the person they're replying to
 reply_edges <- posts %>%
   mutate(
+    # Who is doing the replying? (the "from" person)
     from = map_chr(author, ~pluck_chr(.x, "did")),
-    # Extract parent URI from record$reply$parent$uri and extract DID from it
+
+    # Who are they replying to? (the "to" person)
+    # Reply information is stored in record$reply$parent$uri
+    # This URI looks like: "at://did:plc:abc123/app.bsky.feed.post/xyz"
     parent_uri = map_chr(record, ~pluck_chr(.x, "reply", "parent", "uri")),
+
+    # Extract just the DID from the URI using a pattern
+    # The pattern "did:[^/]+" means: find "did:" followed by any characters
+    # that aren't a forward slash. This extracts "did:plc:abc123" from the full URI
     to = str_extract(parent_uri, "did:[^/]+")
   ) %>%
+  # Keep only rows where we found a valid recipient
   filter(!is.na(to), to != "") %>%
+  # Keep just the from and to columns for our edgelist
   select(from, to)
 
 # Second, get mention edges from facets in the post record
+# "Facets" are pieces of a post that have special meaning, like @mentions or #hashtags
+# When you @mention someone, that creates an interaction (edge) in the network
 mention_facet_edges <- posts %>%
   mutate(
+    # Who wrote the post? (the "from" person)
     from = map_chr(author, ~pluck_chr(.x, "did")),
+
+    # Extract the facets (special features) from each post's record
+    # Each post can have multiple facets (e.g., mentioning 3 different people)
     facets = map(record, ~pluck(.x, "facets", .default = list()))
   ) %>%
-  # Expand rows for each facet
+
+  # unnest() transforms the data: if a post has 3 facets, we create 3 rows
+  # (one row per facet). This lets us examine each mention separately.
+  # Think of it like expanding a compressed file
   unnest(facets, keep_empty = FALSE) %>%
-  # Extract mentioned DIDs from facets (now each row has a single facet)
+
+  # Now we need to process each row individually to extract mention information
+  # rowwise() tells R: "treat each row separately, not as a whole column"
+  # This is like processing one student's test at a time instead of the whole class at once
   rowwise() %>%
   mutate(
+    # What type of feature is this? (mention, hashtag, link, etc.)
     feature_type = pluck_chr(facets, "features", 1, "$type"),
+
+    # If it's a mention, who was mentioned? (the "to" person)
     to = pluck_chr(facets, "features", 1, "did")
   ) %>%
+
+  # ungroup() tells R we're done processing row-by-row and can work with all rows again
   ungroup() %>%
+
+  # Keep only the mentions (not hashtags or links), and only valid ones
   filter(feature_type == "app.bsky.richtext.facet#mention", !is.na(to), to != "") %>%
+
+  # Keep just the from and to columns for our edgelist
   select(from, to)
 
-# Combine reply and mention edges
+# Combine both types of edges (replies and mentions) into one edgelist
+# bind_rows() stacks the two data frames on top of each other
+# distinct() removes any duplicate interactions
 mention_edges <- bind_rows(reply_edges, mention_facet_edges) %>%
   distinct()
 
-# 0) Make sure node IDs are unique, non-missing
+# Final cleaning of our nodes data
+# Make sure we don't have any missing or blank IDs
 nodes <- nodes %>%
   filter(!is.na(did), did != "") %>%
+  # Ensure each person appears only once
   distinct(did, .keep_all = TRUE) %>%
+  # Make sure everyone has a label (if display_name and handle are missing, use DID)
   mutate(label = coalesce(label, did))
 ```
 
@@ -369,21 +432,31 @@ mention_edges %>%
 
 Great! Now we have our network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
 
-```{r}
-# 1) Build a lookup table: DID -> row index
-node_index <- nodes %>%
-  mutate(.idx = row_number()) %>%
-  select(did, .idx)
+Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," we say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
 
-# 2) Map edge endpoints to integer indices
+```{r}
+# Step 1: Create a lookup table that matches each DID to its row number
+# This is like creating a class roster where each student has a seat number
+node_index <- nodes %>%
+  mutate(.idx = row_number()) %>%  # Assign row numbers: 1, 2, 3, ...
+  select(did, .idx)                # Keep just the ID and row number
+
+# Step 2: Convert edge endpoints from DIDs to row numbers
+# We use left_join() to look up the row number for each "from" and "to" person
 edges_idx <- mention_edges %>%
+  # First, make sure we only have valid, non-empty IDs
   filter(!is.na(from), from != "", !is.na(to), to != "") %>%
+
+  # Look up the row number for the "from" person
   left_join(node_index, by = c("from" = "did")) %>%
   rename(.from_idx = .idx) %>%
+
+  # Look up the row number for the "to" person
   left_join(node_index, by = c("to" = "did")) %>%
   rename(.to_idx = .idx)
 
-# 3) Diagnose any missing endpoints (these would trigger the NaN-like error)
+# Step 3: Check for edges that reference people not in our nodes list
+# This can happen if someone mentioned a user who didn't post with #tidytuesday
 bad_edges <- edges_idx %>% filter(is.na(.from_idx) | is.na(.to_idx))
 if (nrow(bad_edges) > 0) {
   message("Dropping ", nrow(bad_edges), " edges with unknown endpoints.\n",
@@ -391,13 +464,17 @@ if (nrow(bad_edges) > 0) {
           paste(utils::capture.output(print(head(bad_edges, 5))), collapse = "\n"))
 }
 
-# Keep only valid edges; (optional) drop self-loops
+# Step 4: Keep only valid edges and remove self-loops
+# A "self-loop" is when someone mentions themselves (from_idx == to_idx)
+# We filter these out because they're not meaningful interactions
 edges_ok <- edges_idx %>%
-  filter(!is.na(.from_idx), !is.na(.to_idx)) %>%
-  filter(.from_idx != .to_idx) %>%
-  transmute(from = .from_idx, to = .to_idx)
+  filter(!is.na(.from_idx), !is.na(.to_idx)) %>%  # Valid endpoints
+  filter(.from_idx != .to_idx) %>%                 # No self-loops
+  transmute(from = .from_idx, to = .to_idx)       # Keep only the row numbers
 
-# 4) Build the graph
+# Step 5: Build the graph object
+# tbl_graph() combines our nodes and edges into a single network object
+# directed = TRUE means the direction matters (A->B is different from B->A)
 g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 
 g_mentions
@@ -413,24 +490,44 @@ Now that we have our network graph (`g_mentions`), we can analyze and visualize 
 
 ### Descriptive statistics
 
+Now we'll calculate some important network measures that tell us about each person's position and importance in the network. These measures are called "centrality" metrics.
+
 ```{r}
+# Calculate centrality measures for each person in the network
+# activate(nodes) tells tidygraph: "I want to work with the nodes table now"
+# (Remember, our graph has both nodes and edges - we need to specify which one)
 g_metrics <- g_mentions %>%
   activate(nodes) %>%
   mutate(
-    in_deg  = centrality_degree(mode = "in"),   # mentions received
-    out_deg = centrality_degree(mode = "out"),  # mentions made others
+    # IN-DEGREE: How many times was this person mentioned or replied to?
+    # This measures popularity or influence - like counting how many people
+    # call you for advice
+    in_deg  = centrality_degree(mode = "in"),
+
+    # OUT-DEGREE: How many times did this person mention or reply to others?
+    # This measures how active someone is in reaching out to others
+    out_deg = centrality_degree(mode = "out"),
+
+    # BETWEENNESS: How often does this person connect different groups?
+    # Think of this as being a "bridge" between different friend groups
+    # High betweenness means you connect people who wouldn't otherwise interact
+    # normalized = TRUE puts it on a 0-1 scale for easier interpretation
     btw     = centrality_betweenness(
-                directed = TRUE, normalized = TRUE  # 0-1 scale
+                directed = TRUE, normalized = TRUE
               )
   )
 
+# Convert the network back to a regular table and add ranking columns
+# This helps us identify the "top" people by each measure
 nodes_tbl <- g_metrics %>%
   activate(nodes) %>%
-  as_tibble() %>%
+  as_tibble() %>%    # Convert from graph format to regular data frame
   mutate(
-    in_deg_rank  = min_rank(desc(in_deg)),
-    out_deg_rank = min_rank(desc(out_deg)),
-    btw_rank     = min_rank(desc(btw))
+    # Rank people by each measure (1 = highest, 2 = second highest, etc.)
+    # desc() means we rank from high to low (not low to high)
+    in_deg_rank  = min_rank(desc(in_deg)),   # Who gets mentioned most?
+    out_deg_rank = min_rank(desc(out_deg)),  # Who mentions others most?
+    btw_rank     = min_rank(desc(btw))       # Who bridges groups most?
   )
 
 ```
@@ -440,17 +537,21 @@ nodes_tbl <- g_metrics %>%
 Now let's create a visualization of our network. We'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting different parts of the network). To avoid clutter, we'll only label the most-mentioned users:
 
 ```{r}
-
-# ---- 2) Network plot (size = in-degree, color = betweenness) ----
-# Label only the most-mentioned nodes to avoid clutter:
+# Prepare labels - we only want to show labels for the top 5% most-mentioned users
+# quantile(x, 0.95) finds the value where 95% of data points are below it
+# This helps us avoid overcrowding the plot with too many labels
 label_threshold <- quantile(nodes_tbl$in_deg, 0.95, na.rm = TRUE)
 
+# Create a label column: show name if person is in top 5%, otherwise NA (no label)
+# ifelse() works like: ifelse(condition, value_if_true, value_if_false)
 nodes_tbl <- nodes_tbl %>%
   mutate(lbl = ifelse(in_deg >= label_threshold & in_deg > 0, label, NA))
 
+# set.seed() ensures we get the same network layout every time we run this code
+# Network layouts use random starting positions, so this makes our results reproducible
 set.seed(42)
 
-# add a 'lbl' column on nodes
+# Add the label column to our graph object too (we need it in both places)
 g_metrics <- g_metrics %>%
   activate(nodes) %>%
   mutate(
@@ -460,17 +561,40 @@ g_metrics <- g_metrics %>%
     )
   )
 
+# Create the network visualization
+# ggraph works like ggplot2, but for networks
+p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layout
+                                               # This algorithm positions nodes so
+                                               # connected nodes are close together
 
-p_net <- ggraph(g_metrics, layout = "fr") +          # Fruchterman–Reingold
+  # Draw the edges (connections between people) as gray lines
   geom_edge_link(alpha = 0.8, linewidth = 0.2) +
+
+  # Draw the nodes (people) as points
+  # Size represents how many mentions they received (in_deg)
+  # Color represents their betweenness (how much they bridge groups)
   geom_node_point(aes(size = in_deg, color = btw), alpha = 0.9) +
+
+  # Add text labels for the most-mentioned users
+  # vjust = -0.8 moves labels slightly above the points so they don't overlap
   geom_node_text(aes(label = lbl), size = 3, vjust = -0.8, na.rm = TRUE) +
+
+  # Customize the size legend
   scale_size_continuous(name = "In-degree (mentions)", range = c(2, 12)) +
+
+  # Customize the color legend (showing betweenness as percentages)
   scale_color_continuous(name = "Betweenness", labels = label_percent(accuracy = 0.1)) +
+
+  # Adjust the color legend height for better readability
   guides(color = guide_colorbar(barheight = unit(60, "pt"))) +
+
+  # Use a minimal theme (removes grid lines, axes, etc.)
   theme_void() +
+
+  # Add a title
   ggtitle("Mention Network: size = in-degree, color = betweenness")
 
+# Display the plot
 p_net
 
 ```
