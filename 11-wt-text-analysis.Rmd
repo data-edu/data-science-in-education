@@ -98,21 +98,17 @@ Let's return to our `raw_posts` dataset. Run `glimpse(raw_posts)` and notice the
 
 ## Process data
 
-In this section we'll extract the text and create an identifier for our analysis, then we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring.
+In this section we'll extract the text and then we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring.
 
 First, we need to extract the text from the nested `record` structure. Each post's text is stored in `record$text`. We'll also use the `uri` field as our unique identifier for each post, since it uniquely identifies each post on Bluesky.
 
 ```{r pick columns}
 posts <-
   raw_posts %>%
-  # Create a simple numeric ID for easier reference
   mutate(post_id = row_number(),
-         # Extract text from the nested record structure
          text = map_chr(record, ~pluck(.x, "text", .default = ""))) %>%
-  # Keep only posts with text
   filter(text != "") %>%
-  select(post_id, uri, text) %>%
-  # Convert ID to character for consistency
+  select(post_id, text) %>%
   mutate(post_id = as.character(post_id))
 ```
 
@@ -134,14 +130,15 @@ We use `output = word` to tell `unnest_tokens()` that we want our column of toke
 
 Notice that our `tokens` dataset has many more rows than our `posts` dataset. This tells us a lot about how `unnest_tokens()` works. In the `posts` dataset, each row has an entire post and its unique ID. Since that unique ID is assigned to the entire post, each unique ID only appears once in the dataset. When we used `unnest_tokens()` to put each word on its own row, we broke each post into many words. This created additional rows in the dataset. And since each word in a single post shares the same ID for that post, an ID now appears multiple times in our new dataset. 
 
-We're almost ready to start analyzing the dataset! There's one more step we'll take---removing common words that don't help us learn what people are posting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The {tidytext} package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join`() on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. 
+We're almost ready to start analyzing the dataset! There's one more step we'll take---removing common words that don't help us learn what people are posting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The {tidytext} package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join`() on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. You'll also remove account names.
 
 ```{r remove stop words}
 data(stop_words)
 
 tokens <-
   tokens %>%
-  anti_join(stop_words, by = "word")
+  anti_join(stop_words, by = "word") %>%
+  filter(!str_detect(word, "\\.bsky\\.social$")) # removes account names from the words (tolens)
 ```
 
 Why does this work? Let's look closer. `inner_join()` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join()` does the same thing as `inner_join()` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join()`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
@@ -150,18 +147,18 @@ One final note before we start counting words: Remember when we first tokenized 
 
 ## Analysis: counting words 
 
-Now it's time to start exploring our newly cleaned dataset of tweets. Computing the frequency of each word and seeing which words showed up the most often is a good start. We can pipe `tokens` to the `count` function to do this: 
+Now it's time to start exploring our newly cleaned dataset of posts. Computing the frequency of each word and seeing which words showed up the most often is a good start. You can pipe `tokens` to the `count` function to do this: 
 
 ```{r count words}
 tokens %>% 
     count(word, sort = TRUE) 
 ```
 
-We pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the third most frequent word in this dataset. 
+You pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the most frequent word in this dataset (we may wish to remove it given that our search was based on it!).
 
-We may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
+You may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
 
-In our tweets dataset, we'll be calculating the count of words as a percentage of all tweets. We can do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
+In our posts dataset, you'll be calculating the count of words as a percentage of all posts. We can do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
 
 ```{r count words as percentage}
 tokens %>%
@@ -170,17 +167,17 @@ tokens %>%
   mutate(percent = n / sum(n) * 100)
 ```
 
-Even at 4,316 appearances in our dataset, "tidytuesday" represents only about 6% of the total words in our dataset. This makes sense when you consider our dataset contains 15,335 unique words. 
+Even at 622 appearances in our dataset, "tidytuesday" represents only about 6% of the total words in our dataset. This makes sense when you consider our dataset contains thousands (2,963, specifically) unique words. 
 
 ## Analysis: sentiment analysis
 
-Now that we have a sense of the most frequently appearing words, it's time to explore some questions in our posts dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
+Now that you have a sense of the most frequently appearing words, it's time to explore some questions in our posts dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
 
-We'll need to use a technique called "sentiment analysis" to get at the "positivity" of words in these posts. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
+You'll need to use a technique called "sentiment analysis" to get at the "positivity" of words in these posts. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
 
-Earlier we used `anti_join()` to remove stop words in our dataset. We're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the "NRC Word-Emotion Association Lexicon" to help us identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
+Earlier you used `anti_join()` to remove stop words in our dataset. You're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the "NRC Word-Emotion Association Lexicon" to help us identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
 
-We need to install a package called {textdata} to make sure we have the NRC Word-Emotion Association Lexicon dataset available to us. Note that you only need to have this package installed. You do not need to load it with the `library(textdata)` command. 
+You need to install a package called {textdata} to make sure we have the NRC Word-Emotion Association Lexicon dataset available to us. Note that you only need to have this package installed. You do not need to load it with the `library(textdata)` command. 
 
 If you don't already have it, let's install {textdata}: 
 
@@ -222,12 +219,11 @@ pos_tokens_count <-
 pos_tokens_count
 ```
 
-We can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 644 words total, which is hard to convey in a compact chart. We'll solve that problem by filtering our dataset to only words that appear 75 times or more. 
+You can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 213 positive words total, which is hard to convey in a compact chart. You'll solve that problem by filtering our dataset to only words that appear 5 times or more. 
 
 ```{r fig11-1, results='hide', message = FALSE, fig.cap="Count of Words Associated with Positivity", fig.showtext = TRUE}
 pos_tokens_count %>%
-  # only words that appear 75 times or more
-  filter(n >= 75) %>%
+  filter(n >= 5) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
   geom_bar(stat = "identity", fill = "darkblue") +
   labs(
@@ -248,11 +244,11 @@ Earlier in the analysis we learned that "dataviz" was among the most frequently 
 
 There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `post_id` field in the `posts` dataset to filter the posts that have the word `dataviz` in them. Then we need to use the `post_id` field in this new bunch of `dataviz` posts to identify the posts that include at least one positive word.
 
-How do we know which `post_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter()` and `inner_join()` to make two new datasets: one of `post_id` values that have "dataviz" in the `word` column and one of `post_id` values that have a positive word in the `word` column.
+How do you know which `post_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter()` and `inner_join()` to make two new datasets: one of `post_id` values that have "dataviz" in the `word` column and one of `post_id` values that have a positive word in the `word` column.
 
-We'll explore the combinations of "dataviz" and any positive words in our `posts` dataset using these three ingredients: our `posts` dataset, a vector of `post_id`s for posts that have "dataviz" in them, and a vector of `post_id`s for posts that have positive words in them. Now that we have our strategy, let's write some code and see how it works.
+You'll explore the combinations of "dataviz" and any positive words in our `posts` dataset using these three ingredients: our `posts` dataset, a vector of `post_id`s for posts that have "dataviz" in them, and a vector of `post_id`s for posts that have positive words in them. Now that we have our strategy, let's write some code and see how it works.
 
-First, we'll make a vector of `post_id`s for posts that have "dataviz" in them. This will be used later to identify posts that contain "dataviz" in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
+First, you'll make a vector of `post_id`s for posts that have "dataviz" in them. This will be used later to identify posts that contain "dataviz" in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
 
 ```{r post_id with dataviz}
 dv_tokens <-
@@ -286,7 +282,7 @@ The result is a dataset that has `post_id` in one column and a positive word fro
 head(pos_tokens$post_id)
 ```
 
-That's a lot of `post_id`, many of which are duplicates. Let's try and make the vector of `post_id`s a little shorter. We can use `distinct()` to get a data frame of `post_id`, where each `post_id` only appears once:
+That's a lot of `post_id`s, many of which are duplicates. Let's try and make the vector of `post_id`s a little shorter. We can use `distinct()` to get a data frame of `post_id`, where each `post_id` only appears once:
 
 ```{r using distinct}
 pos_tokens <-
@@ -329,7 +325,7 @@ dv_pos %>%
   mutate(perc = n / sum(n))
 ```
 
-About 55% of posts that have "dataviz" in them also had at least one positive word, and about 45% of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 45% of the "dataviz" posts. We can't know precisely why some posts had positive words and some didn't, we just know that more dataviz posts had positive words than not. To put this in perspective, we might have a different impression if 5% or 95% of the posts had positive words. 
+About 41% of posts that have "dataviz" in them also had at least one positive word, and about 59% of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 59% of the "dataviz" posts. We can't know precisely why some posts had positive words and some didn't, we just know that more dataviz posts had positive words than not. To put this in perspective, we might have a different impression if 5% or 95% of the posts had positive words. 
 
 Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of posts for context.
 
@@ -368,13 +364,13 @@ Passing `sample()` a vector of numbers and the size of the sample you want retur
 {dplyr} has a version of this called `sample_n()` that we can use to randomly select rows in our posts dataset. Using `sample_n()` looks like this:
 
 ```{r randomly review}
-set.seed(2020)
+set.seed(2026)
 
 pos_posts %>%
   sample_n(., size = 10)
 ```
 
-That returned ten randomly selected posts that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our posts dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2020)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2020` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected posts that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our posts dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2026)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2026` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion
 
