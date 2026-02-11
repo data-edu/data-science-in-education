@@ -16,14 +16,8 @@ This chapter explores tidying, transforming, visualizing, and analyzing text dat
 - `sample_n()`
 - `set.seed()`
 - `tidytext::unnest_tokens()`
-- `nrc::get_sentiments()`
+- `tidytext::get_sentiments()`
 - `tidytext::inner_join()`
-
-## Functions introduced in the appendix
-
-- `readr::read_rds()`
-- `purrr::map_chr()`
-- `purrr::pluck()`
 
 ## Vocabulary 
 
@@ -77,7 +71,6 @@ Let's load our packages before moving on to import the data:
 
 ```{r load packages, message = F, warning = F}
 library(tidyverse)
-library(here)
 library(tidytext)
 ```
 
@@ -100,7 +93,7 @@ Let's return to our `raw_posts` dataset. Run `glimpse(raw_posts)` and notice the
 
 In this section we'll extract the text and then we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring.
 
-First, we need to extract the text from the nested `record` structure. Each post's text is stored in `record$text`. We'll also use the `uri` field as our unique identifier for each post, since it uniquely identifies each post on Bluesky.
+First, we need to extract the text from the nested `record` structure. Each post's text is stored in `record$text`.
 
 ```{r pick columns}
 posts <-
@@ -138,7 +131,7 @@ data(stop_words)
 tokens <-
   tokens %>%
   anti_join(stop_words, by = "word") %>%
-  filter(!str_detect(word, "\\.bsky\\.social$")) # removes account names from the words (tolens)
+  filter(!str_detect(word, "\\.bsky\\.social$")) # removes account names from the words (tokens)
 ```
 
 Why does this work? Let's look closer. `inner_join()` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join()` does the same thing as `inner_join()` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join()`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
@@ -370,7 +363,7 @@ pos_posts %>%
   sample_n(., size = 10)
 ```
 
-That returned ten randomly selected posts that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our posts dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2026)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2020)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2026` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected posts that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our posts dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2026)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2026)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2026` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion
 
