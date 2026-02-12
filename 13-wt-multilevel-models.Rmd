@@ -8,7 +8,6 @@
 
 ## Functions Introduced
 
-- `dummies::dummy()`
 - `dplyr::bind_cols()`
 - `lme4::lmer()`
 - `performance::icc()`
@@ -45,28 +44,27 @@ To do this, we'll assign codes to the groups so we can include them in our model
 We will load the tidyverse and a few other packages specific to using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
 
-If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {dummies} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
+If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {brms} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
 
 The remaining packages ({tidyverse}, {sjPlot}, and {dataedu}) are used in other chapters, but, if you have not installed these before, you will to install these, too, using the `install.packages()` function, with the name of the package included (in quotations), just like for the previous three packages.
 
 ```{r load packages, message = F, warning = F}
+library(brms)
 library(tidyverse)
-library(dummies)
 library(sjPlot)
 library(lme4)
 library(performance)
 library(dataedu)
-library(brms)
 ```
 
 ## The Role of Dummy Codes
 
-Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this. A note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, we will use base R and data.frame instead of the {tidyverse} and tibbles.
+Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works using the `model.matrix()` function that comes built into R, so no additional packages are needed.
 
-Let's look at the `iris` data that comes built into R.
+Let's look at the `iris` data that comes built into R. You'll use the `glimpse()` function to do so.
 
 ``` {r iris}
-str(iris)
+glimpse(iris)
 ```
 
 As we can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a specific category, or level, of that variable. So how do we consider factor variables in our model? `Species` seems to be made up of, well, words, such as "setosa."
@@ -76,22 +74,20 @@ variables for each of the possible values of `Species` (such as "setosa").These 
 (i.e., the first row in the data frame above would have a 1 for a column named
 `setosa`).
 
-Let's put the {dummies} package to work on this task. How many possible values are there for `Species`? We can check with the `levels` function: 
+How many possible values are there for `Species`? We can check with the `levels` function: 
 
 ``` {r iris levels}
 levels(iris$Species)
 ```
 
-The function `dummy.data.frame()` takes a data frame and creates a `data.frame` where all the specified columns are given dummy attributes. We use it to turn `iris` into a dummy data frame. Then we run the `get.dummy()` function specifically on the `Species` variable. It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+The function `model.matrix()` creates a matrix of dummy-coded variables from a formula. Using `~ Species - 1` tells R to create a column for every level of `Species` (the `- 1` removes the intercept so all three levels get their own column). It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
 
-Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't) and you have to be aware of any changes when using them for analysis.
+``` {r run dummy on species}
+species_dummy_coded <- 
+  model.matrix(~ Species - 1, data = iris) %>% 
+  as.data.frame()
 
-``` {r run dummy on species, eval = FALSE}
-d_iris <-
-  dummy.data.frame(iris)
-
-get.dummy(d_iris, name = "Species") %>% 
-  head()
+head(species_dummy_coded)
 ```
 
 Let's confirm that every row associated with a specific species has a 1 in the
@@ -101,11 +97,7 @@ equals 1 - as is the case for the other species.
 
 Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
 
-```{r add dummy coded variables to iris, eval = FALSE}
-# create matrix of dummy-coded variables
-species_dummy_coded <- 
-  get.dummy(d_iris, name = "Species")
-
+```{r add dummy coded variables to iris}
 # add dummy coded variables to iris
 iris_with_dummy_codes <- 
   bind_cols(iris, species_dummy_coded)
@@ -113,7 +105,7 @@ iris_with_dummy_codes <-
 
 Let's look at the results.
 
-```{r count species, eval = FALSE}
+```{r count species}
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -317,12 +309,6 @@ For `lm()` models, `tab_model()` provides the output, including some fit statist
 
 A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
 
-You can install the {performance} package by typing this code in your console: 
-
-```{r install performance, eval=FALSE}
-install.packages("performance")
-```
-
 After that, try this function: 
 
 ``` {r ICC, eval = TRUE}
@@ -358,15 +344,20 @@ The {lme4} package was designed for complex multilevel models, so you can add ev
 
 As mentioned earlier, there is a deep connection between multilevel models and Bayesian methods. Helpfully, it is _very_ straightforward to specify Bayesian versions of multilevel models.
 
-Let's use the very last model you just specified above.
+Let's use the very last model you specified. You will see a bit more happening ("Compiling Stan program...") as the process is a bit more involved under the hood.
 
 ```{r}
-m_course_school <- 
-  brms(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
-
-m_course_school
+m_course_bayes <- 
+  brm(final_grade ~ TimeSpent + (1|course_id), data = dat)
 ```
 
+Like with the multilevel model, you can simply type the name of the model to see the output.
+
+```{r}
+m_course_bayes
+```
+
+Let's briefly contrast this with the multilevel model (`m_course`). You'll see the same parameter for `TimeSpe
 
 ## Conclusion
 
