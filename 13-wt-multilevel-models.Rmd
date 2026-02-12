@@ -309,8 +309,6 @@ For `lm()` models, `tab_model()` provides the output, including some fit statist
 
 A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
 
-After that, try this function: 
-
 ``` {r ICC, eval = TRUE}
 icc(m_course)
 ```
@@ -331,7 +329,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+  lmer(final_grade ~ TimeSpent_std + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
@@ -346,18 +344,27 @@ As mentioned earlier, there is a deep connection between multilevel models and B
 
 Let's use the very last model you specified. You will see a bit more happening ("Compiling Stan program...") as the process is a bit more involved under the hood.
 
-```{r}
+```{r, bayes-model}
 m_course_bayes <- 
-  brm(final_grade ~ TimeSpent + (1|course_id), data = dat)
+  brm(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
-Like with the multilevel model, you can simply type the name of the model to see the output.
+Like with the multilevel model, you can simply type the name of the model to see the output or use `tab_model()`.
 
-```{r}
-m_course_bayes
+```{r show results of m_course_bayes}
+tab_model(m_course_bayes,
+          title = "Table 13.5")
 ```
 
-Let's briefly contrast this with the multilevel model (`m_course`). You'll see the same parameter for `TimeSpe
+```{r, echo = FALSE, results = "hide"}
+tab_model(m_course_bayes,
+          file = "man/tables/Table 13.2.doc",
+          title = "Table 13.5")
+```
+
+Let's briefly contrast this with the multilevel model (`m_course`). You'll see the same parameter for `TimeSpent_std`. But, look at the columns in the output. Instead of a single estimate and a _p_-value, you now have an estimate, an estimate of the error, and a 95% credible interval (`l-95% CI` and `u-95% CI`), which you cam interpret as a confidence interval. That credible interval is the direct probability statement we mentioned earlier: there is a 95% probability that the true effect of `TimeSpent_std` falls between the lower and upper bounds. You can consult @bayesrulesbook for much more on this (credible intervals and how they differ from confidence intervals).
+
+In this case, we can say there is a 95% probability that the effect of time spent is between 7.75 and 11.15. This is a subtly but meaningfully different kind of statement than what a _p_-value tells you. Also, notice how similar the estimates are to those from the multilevel model — the intercept (75.80 vs. 75.63), the effect of `TimeSpent_std` (9.46 vs. 9.45), and the random effect and residual standard deviations are all very close. This is evidnece of the connection between miultilevel and Bayesian models we suggested earlier.
 
 ## Conclusion
 
@@ -368,10 +375,5 @@ We note that the groups in multilevel models do not need to be nested. They can
 also be "crossed", as may be the case for data from teachers in different schools who attended different teacher preparation programs. Not every teacher in a school necessarily attended the same teacher preparation program, and graduates from every teacher preparation program are
 highly unlikely to all teach in the same school!
 
-Finally, as noted earlier, multilevel models have similarities to the Bayesian
-methods which are becoming more common among some R users - and educational data
-scientists. There are also references to recommended books on Bayesian methods
-in the additional resources chapter.
-
-There is much more that can be done with multilevel models; we have more
+There is much more that can be done with multilevel and Bayesian models; we have more
 recommendations in the [Additional Resources](#c18) chapter.
