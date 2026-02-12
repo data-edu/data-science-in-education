@@ -8,6 +8,7 @@
 
 ## Functions Introduced
 
+- `dummies::dummy()`
 - `dplyr::bind_cols()`
 - `lme4::lmer()`
 - `performance::icc()`
@@ -44,13 +45,13 @@ To do this, we'll assign codes to the groups so we can include them in our model
 We will load the tidyverse and a few other packages specific to using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
 
-If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {brms} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
+If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {dummies} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
 
 The remaining packages ({tidyverse}, {sjPlot}, and {dataedu}) are used in other chapters, but, if you have not installed these before, you will to install these, too, using the `install.packages()` function, with the name of the package included (in quotations), just like for the previous three packages.
 
 ```{r load packages, message = F, warning = F}
-library(brms)
 library(tidyverse)
+library(dummies)
 library(sjPlot)
 library(lme4)
 library(performance)
@@ -59,12 +60,12 @@ library(dataedu)
 
 ## The Role of Dummy Codes
 
-Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works using the `model.matrix()` function that comes built into R, so no additional packages are needed.
+Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this. A note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, we will use base R and data.frame instead of the {tidyverse} and tibbles.
 
-Let's look at the `iris` data that comes built into R. You'll use the `glimpse()` function to do so.
+Let's look at the `iris` data that comes built into R.
 
 ``` {r iris}
-glimpse(iris)
+str(iris)
 ```
 
 As we can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a specific category, or level, of that variable. So how do we consider factor variables in our model? `Species` seems to be made up of, well, words, such as "setosa."
@@ -74,20 +75,22 @@ variables for each of the possible values of `Species` (such as "setosa").These 
 (i.e., the first row in the data frame above would have a 1 for a column named
 `setosa`).
 
-How many possible values are there for `Species`? We can check with the `levels` function: 
+Let's put the {dummies} package to work on this task. How many possible values are there for `Species`? We can check with the `levels` function: 
 
 ``` {r iris levels}
 levels(iris$Species)
 ```
 
-The function `model.matrix()` creates a matrix of dummy-coded variables from a formula. Using `~ Species - 1` tells R to create a column for every level of `Species` (the `- 1` removes the intercept so all three levels get their own column). It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+The function `dummy.data.frame()` takes a data frame and creates a `data.frame` where all the specified columns are given dummy attributes. We use it to turn `iris` into a dummy data frame. Then we run the `get.dummy()` function specifically on the `Species` variable. It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
 
-``` {r run dummy on species}
-species_dummy_coded <- 
-  model.matrix(~ Species - 1, data = iris) %>% 
-  as.data.frame()
+Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't) and you have to be aware of any changes when using them for analysis.
 
-head(species_dummy_coded)
+``` {r run dummy on species, eval = FALSE}
+d_iris <-
+  dummy.data.frame(iris)
+
+get.dummy(d_iris, name = "Species") %>% 
+  head()
 ```
 
 Let's confirm that every row associated with a specific species has a 1 in the
@@ -97,7 +100,11 @@ equals 1 - as is the case for the other species.
 
 Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
 
-```{r add dummy coded variables to iris}
+```{r add dummy coded variables to iris, eval = FALSE}
+# create matrix of dummy-coded variables
+species_dummy_coded <- 
+  get.dummy(d_iris, name = "Species")
+
 # add dummy coded variables to iris
 iris_with_dummy_codes <- 
   bind_cols(iris, species_dummy_coded)
@@ -105,7 +112,7 @@ iris_with_dummy_codes <-
 
 Let's look at the results.
 
-```{r count species}
+```{r count species, eval = FALSE}
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
@@ -309,6 +316,14 @@ For `lm()` models, `tab_model()` provides the output, including some fit statist
 
 A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
 
+You can install the {performance} package by typing this code in your console: 
+
+```{r install performance, eval=FALSE}
+install.packages("performance")
+```
+
+After that, try this function: 
+
 ``` {r ICC, eval = TRUE}
 icc(m_course)
 ```
@@ -329,7 +344,7 @@ We don't have a variable containing the name of different schools. If we did we 
 ``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
 m_course_school <- 
-  lmer(final_grade ~ TimeSpent_std + (1|course_id) + (1|school_id), data = dat)
+  lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
 Were we to estimate this model (and then use the `icc()` function), we would see
@@ -337,34 +352,6 @@ two ICC values representing the proportion of the variation in the dependent
 variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it is not necessary to explicitly nest the courses within schools.
 
 The {lme4} package was designed for complex multilevel models, so you can add even more levels, even those with not nested but crossed random effects. For more on advanced multilevel techniques like these see @west2014linear.
-
-### A Bayesian version
-
-As mentioned earlier, there is a deep connection between multilevel models and Bayesian methods. Helpfully, it is _very_ straightforward to specify Bayesian versions of multilevel models.
-
-Let's use the very last model you specified. You will see a bit more happening ("Compiling Stan program...") as the process is a bit more involved under the hood.
-
-```{r, bayes-model}
-m_course_bayes <- 
-  brm(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
-```
-
-Like with the multilevel model, you can simply type the name of the model to see the output or use `tab_model()`.
-
-```{r show results of m_course_bayes}
-tab_model(m_course_bayes,
-          title = "Table 13.5")
-```
-
-```{r, echo = FALSE, results = "hide"}
-tab_model(m_course_bayes,
-          file = "man/tables/Table 13.2.doc",
-          title = "Table 13.5")
-```
-
-Let's briefly contrast this with the multilevel model (`m_course`). You'll see the same parameter for `TimeSpent_std`. But, look at the columns in the output. Instead of a single estimate and a _p_-value, you now have an estimate, an estimate of the error, and a 95% credible interval (`l-95% CI` and `u-95% CI`), which you cam interpret as a confidence interval. That credible interval is the direct probability statement we mentioned earlier: there is a 95% probability that the true effect of `TimeSpent_std` falls between the lower and upper bounds. You can consult @bayesrulesbook for much more on this (credible intervals and how they differ from confidence intervals).
-
-In this case, we can say there is a 95% probability that the effect of time spent is between 7.75 and 11.15. This is a subtly but meaningfully different kind of statement than what a _p_-value tells you. Also, notice how similar the estimates are to those from the multilevel model — the intercept (75.80 vs. 75.63), the effect of `TimeSpent_std` (9.46 vs. 9.45), and the random effect and residual standard deviations are all very close. This is evidnece of the connection between miultilevel and Bayesian models we suggested earlier.
 
 ## Conclusion
 
@@ -375,5 +362,10 @@ We note that the groups in multilevel models do not need to be nested. They can
 also be "crossed", as may be the case for data from teachers in different schools who attended different teacher preparation programs. Not every teacher in a school necessarily attended the same teacher preparation program, and graduates from every teacher preparation program are
 highly unlikely to all teach in the same school!
 
-There is much more that can be done with multilevel and Bayesian models; we have more
+Finally, as noted earlier, multilevel models have similarities to the Bayesian
+methods which are becoming more common among some R users - and educational data
+scientists. There are also references to recommended books on Bayesian methods
+in the additional resources chapter.
+
+There is much more that can be done with multilevel models; we have more
 recommendations in the [Additional Resources](#c18) chapter.
