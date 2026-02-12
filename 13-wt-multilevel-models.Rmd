@@ -56,6 +56,7 @@ library(sjPlot)
 library(lme4)
 library(performance)
 library(dataedu)
+library(brms)
 ```
 
 ## The Role of Dummy Codes
@@ -352,6 +353,20 @@ two ICC values representing the proportion of the variation in the dependent
 variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it is not necessary to explicitly nest the courses within schools.
 
 The {lme4} package was designed for complex multilevel models, so you can add even more levels, even those with not nested but crossed random effects. For more on advanced multilevel techniques like these see @west2014linear.
+
+### A Bayesian version
+
+As mentioned earlier, there is a deep connection between multilevel models and Bayesian methods. Helpfully, it is _very_ straightforward to specify Bayesian versions of multilevel models.
+
+Let's use the very last model you just specified above.
+
+```{r}
+m_course_school <- 
+  brms(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
+
+m_course_school
+```
+
 
 ## Conclusion
 
