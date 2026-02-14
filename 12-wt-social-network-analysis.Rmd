@@ -217,29 +217,27 @@ You may notice that the most recent posts containing the #tidytuesday hashtag ar
 
 ## Processing the Data
 
-This data is complex! Unlike the rectangular datasets (like spreadsheets) that we've worked with in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents—we need to open each level to get to the information we want.
+This data is complex. Unlike the rectangular datasets (like spreadsheets) that you used in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents. You need to open each level to get to the information you want.
 
-If we take a glimpse at `posts`, we see that many of the columns are "named list"s:
+If you take a glimpse at `posts`, we see that many of the columns are "named list"s:
 
 ```{r}
 posts %>% 
     glimpse()
 ```
 
-What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to.
+What does this "named list" variable type mean? When you look at what looks like the author variable, you can see it's more complex. That's because the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with table data.
 
-In a regular spreadsheet, each cell contains a single value (like "John" or "42"). But in a named list, a single cell can contain *multiple* pieces of related information. For the author, this includes their username, display name, profile information, and more—all stored together in one complex cell. Take a look at one author's information:
+In a regular spreadsheet, each cell contains a single value (like "John" or "42"). But in a named list, a single cell can contain multiple related values. For the author list, this includes their username, display name, profile information, and more, all stored together in one complex cell. Take a look at one author's information:
 
 ```{r}
 posts$author %>% 
     pluck(14)
 ```
 
-Even with this complex "named list" data type, this data *can* be shaped up into a table. We'll show how we can do that in a moment.
+Note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, whether hashtags are included, mentions of other users, and whether the post is a reply.
 
-First, though, we note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, and some interesting meta-data, including whether hashtags are included, mentions of other users are included, or whether the post is a reply.
-
-We won't run the following code, as the output is quite lengthy, but please try to run it (just make sure you've loaded the data, `posts`, earlier)!
+We won't run the following code, as the output is quite lengthy. But please try to run it. Just make sure you've loaded the data, `posts` from earlier.
 
 ```{r, eval = FALSE}
 posts$record %>% 
@@ -248,34 +246,34 @@ posts$record %>%
 
 ### What *is* our network?
 
-Before we dive into extracting data, let's be clear about what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
+Before you dive into extracting data, let's discuss what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
 
 -   **Nodes** (the dots) represent individual Bluesky users who participated in #tidytuesday
--   **Edges** (the connections) represent interactions: when one user mentions or replies to another user
+-   **Edges** (the connections) represent interactions, like when one user mentions or replies to another user
 
 This type of network can help us answer questions like: Who are the most influential members of the #tidytuesday community? Who connects different sub-groups within the community? Who is most active in engaging with others?
 
-To build this network, we need to extract the author's unique identifier (their DID) to identify each person as a node in our network. But we can't easily use it while it's buried inside this nested list structure—that's the challenge we'll tackle next.
+To build this network, you'll need to extract the author's unique identifier (their DID) to identify each person as a node in the network. But you can't use it while it's buried inside this nested list structure—that's the challenge we'll tackle next.
 
 ## View data
 
-Let's get a sense of how much data we're working with. Each row in our `posts` dataset represents one post that used the #tidytuesday hashtag:
+Start with getting a sense of how much data you're working with. Each row in the `posts` dataset represents one post that used the #tidytuesday hashtag:
 
 ```{r}
 nrow(posts)
 ```
 
-That's quite a bit of data to work with! Each of these posts may contain mentions of other users or be replies to other users—these will become the edges (connections) in our network.
+That's quite a bit of data to work with. Each of these posts may contain mentions of other users or be replies to other users. These will become the edges (connections) in our network.
 
 ## Methods: processing data into network format
 
-The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist".
+The network dataset needs a way to identify each participant's role in the interaction. You'll need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? You can process the data by creating an "edgelist".
 
-An **edgelist** is a special type of table used in network analysis where each row represents a unique interaction between two parties. Think of it like a log of phone calls: each row records who called whom. Each row (which represents a single relationship) in the edgelist is referred to as an "edge".
+An edgelist is a special type of table where each row represents a unique interaction between two parties. Think of it like a log of phone calls: each row records who called whom. Each row, which represents a single relationship, is referred to as an "edge".
 
 A note on terminology: You may encounter different terms for the same concepts in network analysis. Edges are sometimes referred to as "ties" or "relations," and the people in a network (nodes) are sometimes called "vertices" or "actors." These terms are generally interchangeable, though they may be used in different contexts or by different research communities.
 
-An edgelist looks *like* the following example, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
+An edgelist looks like the following example, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who receives the interaction:
 
 ```{r, include = FALSE}
 names_d1 <-
@@ -311,14 +309,14 @@ In this edgelist, the `sender` column might identify someone who nominates anoth
 
 ### Extracting nodes and edges
 
-Above, we saw that our data is really complex, and we saw what an edgelist looks like. To create an edgelist from *our* data, we need to extract two key pieces of information from `posts`:
+Above, you saw that the data is really complex and you saw what an edgelist looks like. To create your own edgelist from the data, you'll need to extract two key pieces of information from `posts`:
 
 1.  **Nodes**: The unique individuals (users) in our network
 2.  **Edges**: The interactions between users (replies and mentions)
 
 #### Creating a helper function
 
-First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data. Remember that our Bluesky data has information stored in complex nested lists (like boxes within boxes), and we need a safe way to open these boxes and get the information inside. This function "reaches into" nested list structures and pulls out text values. If the value doesn't exist, it returns `NA` instead of causing an error:
+First, define a helper function to extract data from the nested list structures in the Bluesky data. Remember that the Bluesky data has information stored in complex nested lists (like boxes within boxes), and you'll need a way to open these boxes and get the information inside. This function "reaches into" nested list structures and pulls out text values. If the value doesn't exist, it returns `NA` instead of causing an error:
 
 ```{r helper-function}
 pluck_chr <- function(x, ..., .default = NA_character_) {
@@ -328,7 +326,7 @@ pluck_chr <- function(x, ..., .default = NA_character_) {
 
 #### Extracting nodes
 
-Now we'll extract the nodes—the unique users in our network. Each row in `posts` has an `author` column containing nested information. We use `map_chr()` to apply our `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
+Now extract the nodes to see the unique users in the network. Each row in `posts` has an `author` column containing nested information. You'll use `map_chr()` to apply the `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
 
 ```{r extract-nodes}
 nodes <- posts %>%
@@ -351,11 +349,11 @@ nodes <- posts %>%
   )
 ```
 
-#### Extracting (reply) edges
+#### Extracting reply edges
 
-Next, we'll extract edges—the replies and mentions between users, specifically.
+Next, you'll extract edges—the replies and mentions between users, specifically.
 
-First, let's get reply edges. When someone replies to another user's post, this creates a connection from the person replying to the person they're replying to:
+First, get the reply edges. When someone replies to another user's post, they create a connection from the person replying to the person they're replying to:
 
 ```{r extract-reply-edges}
 reply_edges <- posts %>%
@@ -381,7 +379,7 @@ reply_edges <- posts %>%
 
 #### Extracting mention edges
 
-Second, let's get mention edges from facets in the post record. "Facets" are pieces of a post that have special meaning, like @mentions or #hashtags. When you @mention someone, that creates an interaction (edge) in the network:
+Second, get mention edges from facets in the post record. "Facets" are pieces of a post that have special meaning, like @mentions or #hashtags. When you @mention someone, that creates an interaction (edge) in the network:
 
 ```{r extract-mention-edges}
 mention_facet_edges <- posts %>%
@@ -423,14 +421,14 @@ mention_facet_edges <- posts %>%
 
 #### Combining edges and cleaning nodes
 
-Now we'll combine both types of edges (replies and mentions) into one edgelist. The `bind_rows()` function stacks the two data frames on top of each other, and `distinct()` removes any duplicate interactions:
+Now you'll combine both types of edges (replies and mentions) into one edgelist. The `bind_rows()` function stacks the two data frames on top of each other, and `distinct()` removes any duplicate interactions:
 
 ```{r combine-edges}
 mention_edges <- bind_rows(reply_edges, mention_facet_edges) %>%
   distinct()
 ```
 
-Finally, let's do some final cleaning of our nodes data to make sure we don't have any missing or blank IDs:
+Finally, do some cleaning of the nodes data to make sure you don't have any missing or blank IDs:
 
 ```{r clean-nodes}
 nodes <- nodes %>%
@@ -441,7 +439,7 @@ nodes <- nodes %>%
   mutate(label = coalesce(label, did))
 ```
 
-Let's take a look at what we've created. First, the nodes:
+Have a look at what you've created. First, the nodes:
 
 ```{r}
 nodes %>% 
@@ -455,7 +453,7 @@ mention_edges %>%
   glimpse()
 ```
 
-Great! Now we have our network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
+Great! Now you have the network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
 
 Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," we say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
 
@@ -505,7 +503,7 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction of the interaction matters—who mentioned or replied to whom.
+We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction matters of the interaction—who mentioned or replied to whom—matters.
 
 ## Analysis and results
 
