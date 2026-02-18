@@ -351,9 +351,9 @@ nodes <- posts %>%
 
 #### Extracting reply edges
 
-Next, you'll extract edges—the replies and mentions between users, specifically.
+Next, you'll extract edges. These are the replies and mentions between users.
 
-First, get the reply edges. When someone replies to another user's post, they create a connection from the person replying to the person they're replying to:
+First, get the reply edges. When someone replies to another user's post, they create a connection with the person they're replying to:
 
 ```{r extract-reply-edges}
 reply_edges <- posts %>%
@@ -455,7 +455,7 @@ mention_edges %>%
 
 Great! Now you have the network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
 
-Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," we say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
+Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," you'd say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
 
 ```{r}
 # Step 1: Create a lookup table that matches each DID to its row number
@@ -503,7 +503,7 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction matters of the interaction—who mentioned or replied to whom—matters.
+You've now created a network graph object (`g_mentions`) that contains both the nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction matters of the interaction—who mentioned or replied to whom—matters.
 
 ## Analysis and results
 
