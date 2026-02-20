@@ -503,23 +503,23 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-You've now created a network graph object (`g_mentions`) that contains both the nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction matters of the interaction—who mentioned or replied to whom—matters.
+You've now created a network graph object (`g_mentions`) that contains both the nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction the interaction matters.—who mentioned or replied to whom—matters.
 
 ## Analysis and results
 
-Now that we have our network graph (`g_mentions`), we can analyze and visualize it. We'll use the {tidygraph} and {ggraph} packages to calculate network metrics and create visualizations. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
+Now that you have the network graph (`g_mentions`), you can analyze and visualize it. You'll use the {tidygraph} and {ggraph} packages to calculate network metrics and create visualizations. Note that network visualizations are often referred to as "sociograms." These represent the relationships between individuals in a network. We use "sociograms" and term "network visualization" interchangeably in this chapter.
 
 ### Descriptive statistics
 
-Now we'll calculate some important network measures that tell us about each person's position and importance in the network. These measures are called "centrality" metrics:
+Now you'll calculate some important network measures that describe each person's position and importance in the network. These are called "centrality" metrics:
 
--   **In-degree**: How many times was this person mentioned or replied to? This measures popularity or influence—like counting how many people call you for advice.
+-   **In-degree**: How many times was this person mentioned or replied to? This measures popularity or influence, like counting how many people call you for advice.
 
--   **Out-degree**: How many times did this person mention or reply to others? This measures how active someone is in reaching out to others.
+-   **Out-degree**: How many times did this person mention or reply to others? This measures how much someone reaches out to others.
 
--   **Betweenness**: How often does this person connect different groups? Think of this as being a "bridge" between different friend groups. High betweenness means you connect people who wouldn't otherwise interact. We'll normalize this measure (using `normalized = TRUE`) to put it on a 0-1 scale for easier interpretation.
+-   **Betweenness**: How often does this person connect different groups? Think of this as being a "bridge" between different friend groups. High betweenness means you connect people who wouldn't otherwise interact. You'll normalize this measure (using `normalized = TRUE`) to put it on a 0-1 scale for easier interpretation.
 
-Let's calculate these metrics for each person in our network. We use `activate(nodes)` to tell {tidygraph} that we want to work with the nodes table (remember, our graph has both nodes and edges, so we need to specify which one):
+Calculate these metrics for each person in the network. Use `activate(nodes)` to tell {tidygraph} to work with the nodes table (remember, the graph has both nodes and edges, so you'll need to specify which one):
 
 ```{r calculate-metrics}
 g_metrics <- g_mentions %>%
@@ -531,7 +531,7 @@ g_metrics <- g_mentions %>%
   )
 ```
 
-Now we'll convert the network back to a regular table and add ranking columns. This helps us identify the "top" people by each measure. We use `desc()` to rank from high to low (not low to high):
+Now convert the network back to a regular table and add ranking columns. This helps identify the "top" people by each measure. Use `desc()` to rank from high to low (not low to high):
 
 ```{r rank-nodes}
 nodes_tbl <- g_metrics %>%
@@ -544,7 +544,7 @@ nodes_tbl <- g_metrics %>%
   )
 ```
 
-Let's examine the top users by each centrality measure to see who are the most influential members of the #tidytuesday community:
+Examine the top users by each centrality measure to identify the most influential members of the #tidytuesday community:
 
 ```{r}
 # View the top 10 most-mentioned users (highest in-degree)
@@ -554,11 +554,11 @@ nodes_tbl %>%
   head(10)
 ```
 
-This table shows us the most-mentioned users in our network. The `in_deg` column shows how many times each person was mentioned or replied to, while `out_deg` shows how many times they mentioned or replied to others. The `btw` (betweenness) score indicates how important they are for connecting different parts of the network.
+This table shows the most-mentioned users in our network. The `in_deg` column shows how many times each person was mentioned or replied to, while `out_deg` shows how many times they mentioned or replied to others. The `btw` (betweenness) score indicates how important they are for connecting parts of the network.
 
 ### Plotting the network
 
-Now let's create a visualization of our network. We'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting different parts of the network). To avoid clutter, we'll only label the most-mentioned users:
+Now create a visualization of the network. You'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting parts of the network). To avoid clutter, only label the most-mentioned users:
 
 ```{r}
 # Prepare labels - we only want to show labels for the top 5% most-mentioned users
@@ -621,13 +621,13 @@ p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layo
 p_net
 ```
 
-This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting different parts of the network.
+This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting parts of the network.
 
 ### Refining the graph – filtering isolated nodes
 
-Looking at the visualization above, you may notice many isolated nodes—users who appear in our dataset but have no connections to others in the network. These isolated nodes can make the visualization cluttered and harder to interpret. Often, we're most interested in the connected parts of the network where interactions actually occur.
+Looking at the visualization above, you may notice isolated nodes—users who appear in the dataset but have no connections to others in the network. These isolated nodes can make the visualization cluttered and harder to interpret. Often, you'll be most interested in the connected parts of the network where interactions actually occur.
 
-Let's create a cleaner version by filtering out these isolated nodes. We can do this by keeping only nodes that have at least one connection (either mentioning someone or being mentioned):
+Create a cleaner version by filtering out the isolated nodes. You can do this by keeping only nodes that have at least one connection, either mentioning someone or being mentioned:
 
 ```{r filter-isolated}
 # Filter the graph to remove isolated nodes
@@ -638,7 +638,7 @@ g_connected <- g_metrics %>%
   filter(centrality_degree(mode = "all") > 0)
 ```
 
-Now let's recreate our visualization with only the connected nodes:
+Now recreate the visualization with only the connected nodes:
 
 ```{r plot-connected}
 set.seed(42)
@@ -656,7 +656,7 @@ p_connected <- ggraph(g_connected, layout = "fr") +
 p_connected
 ```
 
-This filtered visualization is much cleaner and makes it easier to see the structure of interactions within the #TidyTuesday community. We can now more clearly identify central figures, clusters of users who interact frequently, and bridges between different groups.
+This filtered visualization is cleaner and makes it easier to see the structure of interactions within the #TidyTuesday community. You can more clearly identify central figures, clusters of users who interact frequently, and bridges between different groups.
 
 ### Interpreting the network through an educational lens
 
