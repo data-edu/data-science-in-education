@@ -81,7 +81,6 @@ Let's load the packages with the following calls to the `library()` function:
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(bskyr)
-
 library(randomNames)
 library(tidygraph)
 library(ggraph)
@@ -246,7 +245,7 @@ posts$record %>%
     pluck(1)
 ```
 
-### What *is* our network?
+### What is our network?
 
 Before we dive into extracting data, let's be clear about what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
 
@@ -328,7 +327,7 @@ pluck_chr <- function(x, ..., .default = NA_character_) {
 
 #### Extracting nodes
 
-Now we'll extract the nodes—the unique users in our network. Each row in `posts` has an `author` column containing nested information. We use `map_chr()` to apply our `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
+Now we'll extract the nodes, the unique users in our network. Each row in `posts` has an `author` column containing nested information. We use `map_chr()` to apply our `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
 
 ```{r extract-nodes}
 nodes <- posts %>%
