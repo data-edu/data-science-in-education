@@ -2,7 +2,7 @@
 
 **Abstract**
 
-This chapter explores the use of social network analysis (commonly referred to as SNA). While much of the data that data scientists in education analyze is about individuals, some data concerns the relationships between individuals, such as friendship between youth, or advice-seeking on the part of teachers. This is called network data. Network data can be difficult to analyze, in part due to the multiple sources of data (about both individuals’ relations and individuals and the complexity of the relations between individuals. This chapter uses data from the Bluesky #tidyuesday network, an R learning community, to demonstrate how such data can be accessed and imported, processed into forms necessary for social network analysis using the {tidygraph} R package, and visualized using the {ggraph} R package.
+This chapter explores the use of social network analysis, commonly referred to as SNA. While much of the data that data scientists in education analyze is about individuals, some data are about the relationships between individuals. Examples include friendship between youth or advice-seeking on the part of teachers. This is called network data. Network data can be difficult to analyze, in part due to multiple sources of data about individuals and their relationships to each other. This chapter uses data from the Bluesky #tidyuesday network, an R learning community, to demonstrate how to import data, prepare for social network analysis using the {tidygraph} R package, and visualize it using the {ggraph} R package.
 
 ## Topics emphasized
 
@@ -42,31 +42,29 @@ This chapter explores the use of social network analysis (commonly referred to a
 
 ## Chapter overview
 
-In education, we are used to focusing on *individuals* – students and teachers, especially. We can learn many things from studying individual students or teachers, but, sometimes, what is interesting lies *between* individuals. Social network analysis is useful for just this – understanding the relationships between individuals.
+In education, it's common to focus on individuals – students and teachers, especially. You can learn many things from studying individual students or teachers, but sometimes what is interesting lies between individuals. Social network analysis is useful for just this – understanding the relationships between individuals.
 
-For instance, social network analyses can be useful for asking questions about *social influence* [@frank1998chapter], such as, how does the pattern of interactions among teachers in a professional network explain their continued involvement in the network? [@rosenberg2021advancing]
+For instance, social network analyses is useful for asking questions about social influence [@frank1998chapter], like How does the pattern of interactions among teachers in a professional network explain their continued involvement in the network? [@rosenberg2021advancing] There are alsoquestions about social selection, like Which parents are the most central in a parent teacher association (PTA) group?
 
-We can also ask questions about *social selection*, such as, which parents are the most central in a parent teacher association (PTA) group?
+In this chapter, you will focus on describing the interactions between #TidyTuesday participants using social network analysis (SNA) techniques as precursors to analyses about influence or selection. #TidyTuesday is a weekly social data project aimed at the R community. Every Monday, a new dataset is posted on social media, and participants create and share visualizations throughout the week, creating a vibrant online learning community.
 
-In this chapter, we focus on *describing the interactions* between #TidyTuesday participants using social network analysis (SNA) techniques as precursors to analyses about influence or selection. #TidyTuesday is a weekly social data project aimed at the R community. Every Monday, a new dataset is posted on social media, and participants create and share visualizations throughout the week, creating a vibrant online learning community.
+While useful for asking questions about social relations, social network analyses can be hard. Cleaning and tidying the data, especially, can be tricky. Sometimes it's more challenging than other data sources because data for social network analysis often includes variables about both individuals (information about students or teachers) and their relationships (whether a relationship exists, the strength of the relationship, or the type of the relationship).
 
-While useful for asking questions about social relations, social network analyses can be hard. Cleaning and tidying the data, especially, can be tricky. It can be even more challenging than for most other data sources because data for social network analysis (or network data) often includes variables about both individuals (such as information about students or teachers) and their relationships (whether they have a relationship at all, for example, or how strong or of what type their relationship is).
+This chapter is designed to take you from importing social media data through visualizing it. Though, as we describe next, you can also use self-report survey and other types of data, as well.
 
-This chapter is designed to take you from not having carried out social network analysis through visualizing social media data (though, as we describe next, we can also use self-report survey and other types of data, as well).
+For those wishing to dive deeper into the aforementioned selection and influence models, we've included an appendix ([Appendix C](#c20c)) to introduce other social network-related ideas for further exploration; these focus on modeling social network processes. In particular, they include the processes for who chooses to interact with whom, their level of influence, or how the relationships impact behaviors.
 
-For those wishing to dive deeper into the aforementioned selection and influence models, we've included an appendix ([Appendix C](#c20c)) to introduce some social network-related ideas for further exploration; these focus on modeling social network processes, particularly, the processes of who chooses (or selects) to interact with whom, and of influence, or how relationships can impact individuals' behaviors.
-
-One last note. You will need a Bluesky account to complete *all* of the code outlined in this chapter in order to access your own Bluesky data (through the Bluesky Application Interface \[API\]). If you do not have a Bluesky account, you can create one and keep it private, or even delete the account once you're done with this walkthrough.
+You will need a Bluesky account to complete the code outlined in this chapter to access your own Bluesky data. You will use the Bluesky Application Interface \[API\]). If you do not have a Bluesky account, you can create one and keep it private or choose to delete it when you're done with this walkthrough.
 
 ## Background
 
-Traditionally, social network analysis was carried out using self-report surveys. An example of this is @frank2004social, whereby teachers were surveyed about who they turned to for advice about teaching. These data were then used to create a network of advice-seeking relationships among teachers.
+Traditionally, social network analysis was carried out using self-report surveys. An example of this is @frank2004social, where teachers were surveyed about who they turned to for advice about teaching. These data were then used to create a network of advice-seeking relationships among teachers.
 
-More recently, researchers and analysts have begun other data sources---especially data from digital tools, including social media [@rosenberg2020idle].
+More recently, researchers and analysts have used other data sources---especially data from digital tools, including social media [@rosenberg2020idle].
 
-In this chapter, we access data using the {bskyr} package [@bskyr], providing access to data from the Bluesky social media platform. In the first edition of this book, we used a different data sources---Twitter (X) posts. Due to changes in the accessibility of that data (specifically, that it is now *very* difficult to access it), we have switched to a different social media platform, Bluesky.
+In this chapter, you will access data using the {bskyr} package [@bskyr], providing access to data from the Bluesky social media platform. In the first edition of this book, you used a different data sources---Twitter (X) posts. Due to changes in the accessibility of that data, we have switched to a different social media platform, Bluesky.
 
-There are a few things to know before getting started. First, as with most social media platforms, Bluesky places some restrictions on accessing its Application Programming Interface (API). An API is a set of structured http requests that return data in a predictable way. These restrictions involve the number of posts that can be accessed using the API. Bluesky's rate limits are generally generous for typical educational research and #TidyTuesday analysis.
+There are a few things to know before getting started. First, as with most social media platforms, Bluesky places restrictions on accessing its Application Programming Interface (API). An API is a set of structured http requests that return data in a predictable way. These restrictions limit the number of posts that can be accessed using the API. Bluesky's rate limits are generally generous for typical educational research and #TidyTuesday analysis.
 
 Occasionally, Bluesky will make changes to its API that affect how the `bskyr` package works. When this happens, you may need to wait for the package to be updated. It is a good idea to install the latest version of the package before beginning a new project by running `install.packages("bskyr")` or checking for updates.
 
@@ -74,13 +72,14 @@ In the past, if a teacher wanted advice about how to plan a unit or to design a 
 
 ## Packages
 
-Fortunately, it is about as easy to access data from Bluesky as it *was* to access data from Twitter, as there is a handy R package for accessing the data, {bskyr}, and great packages for analyzing social network data. In addition to the {bskyr} package, we'll load a few other packages that we will be using in this analysis, including two packages related to social network analysis [@R-tidygraph; @R-ggraph] as well as one that will help us to use not-anonymized names in a savvy way [@R-randomNames]. As always, if you have not installed any of these packages before (which may particularly be the case for the {bskyr}, {randomNames}, {tidygraph}, and {ggraph} packages, which we have not yet used in the book), do so using the `install.packages()` function. More on installing packages is included in the ["*Packages*"](#c06p) section of the ["*Foundational Skills*"](#c06) chapter.
+Fortunately, it is about as easy to access data from Bluesky as it was from Twitter, using R packages like {bskyr} and others. In addition to the {bskyr} package, you'll load [@R-tidygraph; @R-ggraph] for network analysis and [@R-randomNames] for non-anonymized names. As always, if you have not installed these packages before (you won't have used {bskyr}, {randomNames}, {tidygraph}, and {ggraph} at this stage of the book), do so using the `install.packages()` function. You can read more about installing packages in the ["*Packages*"](#c06p) section of the ["*Foundational Skills*"](#c06) chapter.
 
-Let's load the packages with the following calls to the `library()` function:
+Load the packages with the following calls to the `library()` function:
 
 ```{r, message = F, warning = F}
 library(tidyverse)
 library(bskyr)
+library(scales)
 library(randomNames)
 library(tidygraph)
 library(ggraph)
@@ -89,19 +88,21 @@ library(igraph)
 
 ## Data sources and import
 
-There are two ways to walk through this chapter. One is to follow the steps that immediately follow whereby *you* will access data from Bluesky. The other is to load the already-accessed from Blueesky (by us) data via the {dataedu} R package. The choice is yours! Skip ahead to the "Loading already-accessed data" sub-section (below) if you'd prefer to access the data via the R package.
+There are two ways to walk through this chapter. The first is to option is for you to access data from Bluesky on your own. The other is to load the Bluesky data using the {dataedu} R package. The choice is yours! If you'd like to access the Bluesky data through the package, skip ahead to the "Loading already-accessed data" sub-section. 
 
 ### Accessing Bluesky data through the Application Programming Interface (API)
 
-A common way to import data from websites, including social media platforms, is to use something called an Application Programming Interface (API). In fact, if you ran the code above, you just accessed an API!
+A common way to import data from websites, including social media platforms, is using an Application Programming Interface (API). In fact, if you ran the code above, you just accessed an API!
 
-Think of an API as a special door a home builder made for a house that has a lot of cool stuff in it. The home builder doesn't want everyone to be able to walk right in and use a bunch of stuff in the house. But they also don't want to make it too hard because, after all, sharing is caring! Imagine the home builder made a door just for folks who know how to use doors. In order to get through this door, users need to know where to find it along the outside of the house. Once they're there, they have to know the code to open. And, once they're through the door, they have to know how to use the stuff inside. An API for social media platforms like Bluesky works the same way. You can download datasets of social media information, like posts, using some code and authentication credentials organized by the website.
+An API is like a special door for a house that has interesting things in it. The home builder doesn't want everyone to walk right in. But they also don't want to make it too hard because, after all, sharing is caring. The door is a special one, just for folks who know how to use them. Users need to know where to find it and once they're there, they have to know the code to open. Once they're through, they have to know how to use the stuff inside. 
 
-There are some advantages to using an API to import data at the start of your education dataset analysis. Every time you run the code in your analysis, you'll be using the API to contact the social media platform and download a fresh dataset. Now your analysis is not just a one-off product, but, rather, is one that can be updated with the most recent data every time you run it. By using an API to import new data every time you run your code, you create an analysis that can be used again and again on future datasets.
+An API for social media platforms like Bluesky works the same way. You can download datasets about social media posts using code and authentication credentials organized by the website.
 
-One limitation to be aware of: the Bluesky API, like most social media APIs, has rate limits on how many posts you can collect in a given time period. For typical educational research and #TidyTuesday analysis, these limits are usually sufficient. If you need to collect large amounts of historical data, you may need to spread your data collection over multiple sessions or days.
+There are advantages to using an API to import data at the start of your analysis. Every time you run the code in your analysis, you'll use the API to contact the social media platform and download a fresh dataset. Now your analysis is updated with the most recent data every time you run it. By using an API to import new data every time you run your code, you repeat the analysis again and again on future datasets.
 
-Let's get started. The first step in the use of the {bskyr} package is to gain access to the Application Programming Interface.. To do so, you'll need to visit <https://bsky.app/settings> in a browser.
+The Bluesky API, like most social media APIs, has rate limits on how many posts you can collect in a given time period. For typical educational research and #TidyTuesday analysis, these limits are usually sufficient. If you need to collect large amounts of historical data, you may need to spread your data collection over multiple sessions or days.
+
+Let's get started. The first step in using the {bskyr} package is gaining access to the Application Programming Interface. To do so, you'll need to visit <https://bsky.app/settings> in a browser.
 
 Then, go to "Privacy and Security", and click "App passwords" and then "Add App Password". You can use the randomly generated name.
 
@@ -111,16 +112,16 @@ You *do not* need to check, "Allow access to your direct messages".
 
 A password will pop up (see the figure below) that you will copy and use next.
 
-![Example app password (note, this password won't work for you - you'll need to create your own!).](images/bluesky-app-password-example.png)
+![Example app password (note, this password won't work for you - you'll need to create your own).](images/bluesky-app-password-example.png)
 
-Almost authenticated! You'll run these two lines of code *once*. This saves your username and this passcode in a hidden file (called \`.Renviron\`). That you will use for *all* subsequent analyses.
+You're almost authenticated. You'll run these two lines of code once. This saves your username and this passcode in a hidden file (called \`.Renviron\`) that you will use for all subsequent analyses.
 
 ```{r, eval = FALSE}
 set_bluesky_user('YOUR-USERNAME.bsky.social') # your username goes here -- including .bsky.social at the end!
 set_bluesky_pass('your-app-password') # the passcode you just copied goes here
 ```
 
-The next line is one you'll run *every time* you want to collect new Bluesky data in a fresh R session:
+The next line is one you'll run every time you want to collect new Bluesky data in a fresh R session:
 
 ```{r, eval = FALSE}
 auth <- bs_auth(user = bs_get_user(), pass = bs_get_pass())
@@ -193,7 +194,7 @@ posts %>%
 
 ### Loading already-accessed data
 
-The code below allows you to work through the analysis even if you don't have a Bluesky account or want to avoid API rate limits. However, the code above shows you how to collect fresh data yourself for your own network analyses.
+The code above shows you how to collect fresh data yourself for your own network analyses. But you can also load already-accessed data for this walkthrough if you'd prefer. The code below allows you to work through the analysis even if you don't have a Bluesky account.
 
 ```{r}
 # Load the pre-collected data
@@ -216,29 +217,27 @@ You may notice that the most recent posts containing the #tidytuesday hashtag ar
 
 ## Processing the Data
 
-This data is complex! Unlike the rectangular datasets (like spreadsheets) that we've worked with in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents—we need to open each level to get to the information we want.
+This data is complex. Unlike the rectangular datasets (like spreadsheets) that you used in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents. You need to open each level to get to the information you want.
 
-If we take a glimpse at `posts`, we see that many of the columns are "named list"s:
+If you take a glimpse at `posts`, we see that many of the columns are "named list"s:
 
 ```{r}
 posts %>% 
     glimpse()
 ```
 
-What does this "named list" variable type mean? When we look at what we think is the author variable, we can see it's, in fact, more complex. The reason is that the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with the *table* (think spreadsheet) data we are used to.
+What does this "named list" variable type mean? When you look at what looks like the author variable, you can see it's more complex. That's because the Bluesky API returns data in a format called JSON (JavaScript Object Notation), which isn't always compatible with table data.
 
-In a regular spreadsheet, each cell contains a single value (like "John" or "42"). But in a named list, a single cell can contain *multiple* pieces of related information. For the author, this includes their username, display name, profile information, and more—all stored together in one complex cell. Take a look at one author's information:
+In a regular spreadsheet, each cell contains a single value (like "John" or "42"). But in a named list, a single cell can contain multiple related values. For the author list, this includes their username, display name, profile information, and more, all stored together in one complex cell. Take a look at one author's information:
 
 ```{r}
 posts$author %>% 
     pluck(14)
 ```
 
-Even with this complex "named list" data type, this data *can* be shaped up into a table. We'll show how we can do that in a moment.
+Note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, whether hashtags are included, mentions of other users, and whether the post is a reply.
 
-First, though, we note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, and some interesting meta-data, including whether hashtags are included, mentions of other users are included, or whether the post is a reply.
-
-We won't run the following code, as the output is quite lengthy, but please try to run it (just make sure you've loaded the data, `posts`, earlier)!
+We won't run the following code, as the output is quite lengthy. But please try to run it. Just make sure you've loaded the data, `posts` from earlier.
 
 ```{r, eval = FALSE}
 posts$record %>% 
@@ -247,34 +246,34 @@ posts$record %>%
 
 ### What is our network?
 
-Before we dive into extracting data, let's be clear about what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
+Before you dive into extracting data, let's discuss what our network represents. Recall the discussion at the beginning of this chapter about the wide variety in types of networks. In this analysis, we're creating a network where:
 
 -   **Nodes** (the dots) represent individual Bluesky users who participated in #tidytuesday
--   **Edges** (the connections) represent interactions: when one user mentions or replies to another user
+-   **Edges** (the connections) represent interactions, like when one user mentions or replies to another user
 
 This type of network can help us answer questions like: Who are the most influential members of the #tidytuesday community? Who connects different sub-groups within the community? Who is most active in engaging with others?
 
-To build this network, we need to extract the author's unique identifier (their DID) to identify each person as a node in our network. But we can't easily use it while it's buried inside this nested list structure—that's the challenge we'll tackle next.
+To build this network, you'll need to extract the author's unique identifier (their DID) to identify each person as a node in the network. But you can't use it while it's buried inside this nested list structure—that's the challenge we'll tackle next.
 
 ## View data
 
-Let's get a sense of how much data we're working with. Each row in our `posts` dataset represents one post that used the #tidytuesday hashtag:
+Start with getting a sense of how much data you're working with. Each row in the `posts` dataset represents one post that used the #tidytuesday hashtag:
 
 ```{r}
 nrow(posts)
 ```
 
-That's quite a bit of data to work with! Each of these posts may contain mentions of other users or be replies to other users—these will become the edges (connections) in our network.
+That's quite a bit of data to work with. Each of these posts may contain mentions of other users or be replies to other users. These will become the edges (connections) in our network.
 
 ## Methods: processing data into network format
 
-The network dataset needs a way to identify each participant's role in the interaction. We need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? We can process the data by creating an "edgelist".
+The network dataset needs a way to identify each participant's role in the interaction. You'll need to answer questions like: Did someone reach out to another for help? Was someone contacted by another for help? You can process the data by creating an "edgelist".
 
-An **edgelist** is a special type of table used in network analysis where each row represents a unique interaction between two parties. Think of it like a log of phone calls: each row records who called whom. Each row (which represents a single relationship) in the edgelist is referred to as an "edge".
+An edgelist is a special type of table where each row represents a unique interaction between two parties. Think of it like a log of phone calls: each row records who called whom. Each row, which represents a single relationship, is referred to as an "edge".
 
 A note on terminology: You may encounter different terms for the same concepts in network analysis. Edges are sometimes referred to as "ties" or "relations," and the people in a network (nodes) are sometimes called "vertices" or "actors." These terms are generally interchangeable, though they may be used in different contexts or by different research communities.
 
-An edgelist looks *like* the following example, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who is receiving the interaction:
+An edgelist looks like the following example, where the `sender` (sometimes called the "nominator") column identifies who is initiating the interaction and the `receiver` (sometimes called the "nominee") column identifies who receives the interaction:
 
 ```{r, include = FALSE}
 names_d1 <-
@@ -310,14 +309,14 @@ In this edgelist, the `sender` column might identify someone who nominates anoth
 
 ### Extracting nodes and edges
 
-Above, we saw that our data is really complex, and we saw what an edgelist looks like. To create an edgelist from *our* data, we need to extract two key pieces of information from `posts`:
+Above, you saw that the data is really complex and you saw what an edgelist looks like. To create your own edgelist from the data, you'll need to extract two key pieces of information from `posts`:
 
 1.  **Nodes**: The unique individuals (users) in our network
 2.  **Edges**: The interactions between users (replies and mentions)
 
 #### Creating a helper function
 
-First, we'll define a helper function to safely extract data from the nested list structures in the Bluesky data. Remember that our Bluesky data has information stored in complex nested lists (like boxes within boxes), and we need a safe way to open these boxes and get the information inside. This function "reaches into" nested list structures and pulls out text values. If the value doesn't exist, it returns `NA` instead of causing an error:
+First, define a helper function to extract data from the nested list structures in the Bluesky data. Remember that the Bluesky data has information stored in complex nested lists (like boxes within boxes), and you'll need a way to open these boxes and get the information inside. This function "reaches into" nested list structures and pulls out text values. If the value doesn't exist, it returns `NA` instead of causing an error:
 
 ```{r helper-function}
 pluck_chr <- function(x, ..., .default = NA_character_) {
@@ -327,7 +326,7 @@ pluck_chr <- function(x, ..., .default = NA_character_) {
 
 #### Extracting nodes
 
-Now we'll extract the nodes, the unique users in our network. Each row in `posts` has an `author` column containing nested information. We use `map_chr()` to apply our `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
+Now extract the nodes to see the unique users in the network. Each row in `posts` has an `author` column containing nested information. You'll use `map_chr()` to apply the `pluck_chr()` function to each row. The `~` syntax creates a formula, and `.x` represents each individual author:
 
 ```{r extract-nodes}
 nodes <- posts %>%
@@ -350,11 +349,11 @@ nodes <- posts %>%
   )
 ```
 
-#### Extracting (reply) edges
+#### Extracting reply edges
 
-Next, we'll extract edges—the replies and mentions between users, specifically.
+Next, you'll extract edges. These are the replies and mentions between users.
 
-First, let's get reply edges. When someone replies to another user's post, this creates a connection from the person replying to the person they're replying to:
+First, get the reply edges. When someone replies to another user's post, they create a connection with the person they're replying to:
 
 ```{r extract-reply-edges}
 reply_edges <- posts %>%
@@ -380,7 +379,7 @@ reply_edges <- posts %>%
 
 #### Extracting mention edges
 
-Second, let's get mention edges from facets in the post record. "Facets" are pieces of a post that have special meaning, like @mentions or #hashtags. When you @mention someone, that creates an interaction (edge) in the network:
+Second, get mention edges from facets in the post record. "Facets" are pieces of a post that have special meaning, like @mentions or #hashtags. When you @mention someone, that creates an interaction (edge) in the network:
 
 ```{r extract-mention-edges}
 mention_facet_edges <- posts %>%
@@ -422,14 +421,14 @@ mention_facet_edges <- posts %>%
 
 #### Combining edges and cleaning nodes
 
-Now we'll combine both types of edges (replies and mentions) into one edgelist. The `bind_rows()` function stacks the two data frames on top of each other, and `distinct()` removes any duplicate interactions:
+Now you'll combine both types of edges (replies and mentions) into one edgelist. The `bind_rows()` function stacks the two data frames on top of each other, and `distinct()` removes any duplicate interactions:
 
 ```{r combine-edges}
 mention_edges <- bind_rows(reply_edges, mention_facet_edges) %>%
   distinct()
 ```
 
-Finally, let's do some final cleaning of our nodes data to make sure we don't have any missing or blank IDs:
+Finally, do some cleaning of the nodes data to make sure you don't have any missing or blank IDs:
 
 ```{r clean-nodes}
 nodes <- nodes %>%
@@ -440,7 +439,7 @@ nodes <- nodes %>%
   mutate(label = coalesce(label, did))
 ```
 
-Let's take a look at what we've created. First, the nodes:
+Have a look at what you've created. First, the nodes:
 
 ```{r}
 nodes %>% 
@@ -454,9 +453,9 @@ mention_edges %>%
   glimpse()
 ```
 
-Great! Now we have our network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
+Great! Now you have the network data structured properly. The next step is to prepare this data for visualization by converting it into a format that the {tidygraph} and {ggraph} packages can work with.
 
-Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," we say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
+Network visualization packages need edges to reference nodes by their row numbers (like "person in row 5 mentioned person in row 12") rather than by IDs. Think of it like seating charts: instead of saying "Emily mentioned Joshua," you'd say "person in seat 5 mentioned person in seat 12." This next section converts our edge data to use row numbers.
 
 ```{r}
 # Step 1: Create a lookup table that matches each DID to its row number
@@ -504,23 +503,23 @@ g_mentions <- tbl_graph(nodes = nodes, edges = edges_ok, directed = TRUE)
 g_mentions
 ```
 
-We've now created a network graph object (`g_mentions`) that contains both our nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction of the interaction matters—who mentioned or replied to whom.
+You've now created a network graph object (`g_mentions`) that contains both the nodes (users) and edges (interactions). This graph is a directed network, meaning that the direction the interaction matters.—who mentioned or replied to whom—matters.
 
 ## Analysis and results
 
-Now that we have our network graph (`g_mentions`), we can analyze and visualize it. We'll use the {tidygraph} and {ggraph} packages to calculate network metrics and create visualizations. We note that network visualizations are often referred to as "sociograms" or a representation of the relationships between individuals in a network. We use this term and the term network visualization interchangeably in this chapter.
+Now that you have the network graph (`g_mentions`), you can analyze and visualize it. You'll use the {tidygraph} and {ggraph} packages to calculate network metrics and create visualizations. Note that network visualizations are often referred to as "sociograms." These represent the relationships between individuals in a network. We use "sociograms" and term "network visualization" interchangeably in this chapter.
 
 ### Descriptive statistics
 
-Now we'll calculate some important network measures that tell us about each person's position and importance in the network. These measures are called "centrality" metrics:
+Now you'll calculate some important network measures that describe each person's position and importance in the network. These are called "centrality" metrics:
 
--   **In-degree**: How many times was this person mentioned or replied to? This measures popularity or influence—like counting how many people call you for advice.
+-   **In-degree**: How many times was this person mentioned or replied to? This measures popularity or influence, like counting how many people call you for advice.
 
--   **Out-degree**: How many times did this person mention or reply to others? This measures how active someone is in reaching out to others.
+-   **Out-degree**: How many times did this person mention or reply to others? This measures how much someone reaches out to others.
 
--   **Betweenness**: How often does this person connect different groups? Think of this as being a "bridge" between different friend groups. High betweenness means you connect people who wouldn't otherwise interact. We'll normalize this measure (using `normalized = TRUE`) to put it on a 0-1 scale for easier interpretation.
+-   **Betweenness**: How often does this person connect different groups? Think of this as being a "bridge" between different friend groups. High betweenness means you connect people who wouldn't otherwise interact. You'll normalize this measure (using `normalized = TRUE`) to put it on a 0-1 scale for easier interpretation.
 
-Let's calculate these metrics for each person in our network. We use `activate(nodes)` to tell {tidygraph} that we want to work with the nodes table (remember, our graph has both nodes and edges, so we need to specify which one):
+Calculate these metrics for each person in the network. Use `activate(nodes)` to tell {tidygraph} to work with the nodes table (remember, the graph has both nodes and edges, so you'll need to specify which one):
 
 ```{r calculate-metrics}
 g_metrics <- g_mentions %>%
@@ -532,7 +531,7 @@ g_metrics <- g_mentions %>%
   )
 ```
 
-Now we'll convert the network back to a regular table and add ranking columns. This helps us identify the "top" people by each measure. We use `desc()` to rank from high to low (not low to high):
+Now convert the network back to a regular table and add ranking columns. This helps identify the "top" people by each measure. Use `desc()` to rank from high to low (not low to high):
 
 ```{r rank-nodes}
 nodes_tbl <- g_metrics %>%
@@ -545,7 +544,7 @@ nodes_tbl <- g_metrics %>%
   )
 ```
 
-Let's examine the top users by each centrality measure to see who are the most influential members of the #tidytuesday community:
+Examine the top users by each centrality measure to identify the most influential members of the #tidytuesday community:
 
 ```{r}
 # View the top 10 most-mentioned users (highest in-degree)
@@ -555,11 +554,11 @@ nodes_tbl %>%
   head(10)
 ```
 
-This table shows us the most-mentioned users in our network. The `in_deg` column shows how many times each person was mentioned or replied to, while `out_deg` shows how many times they mentioned or replied to others. The `btw` (betweenness) score indicates how important they are for connecting different parts of the network.
+This table shows the most-mentioned users in our network. The `in_deg` column shows how many times each person was mentioned or replied to, while `out_deg` shows how many times they mentioned or replied to others. The `btw` (betweenness) score indicates how important they are for connecting parts of the network.
 
 ### Plotting the network
 
-Now let's create a visualization of our network. We'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting different parts of the network). To avoid clutter, we'll only label the most-mentioned users:
+Now create a visualization of the network. You'll size nodes by their in-degree (how many mentions they received) and color them by betweenness centrality (how important they are for connecting parts of the network). To avoid clutter, only label the most-mentioned users:
 
 ```{r}
 # Prepare labels - we only want to show labels for the top 5% most-mentioned users
@@ -622,13 +621,13 @@ p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layo
 p_net
 ```
 
-This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting different parts of the network.
+This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting parts of the network.
 
 ### Refining the graph – filtering isolated nodes
 
-Looking at the visualization above, you may notice many isolated nodes—users who appear in our dataset but have no connections to others in the network. These isolated nodes can make the visualization cluttered and harder to interpret. Often, we're most interested in the connected parts of the network where interactions actually occur.
+Looking at the visualization above, you may notice isolated nodes—users who appear in the dataset but have no connections to others in the network. These isolated nodes can make the visualization cluttered and harder to interpret. Often, you'll be most interested in the connected parts of the network where interactions actually occur.
 
-Let's create a cleaner version by filtering out these isolated nodes. We can do this by keeping only nodes that have at least one connection (either mentioning someone or being mentioned):
+Create a cleaner version by filtering out the isolated nodes. You can do this by keeping only nodes that have at least one connection, either mentioning someone or being mentioned:
 
 ```{r filter-isolated}
 # Filter the graph to remove isolated nodes
@@ -639,7 +638,7 @@ g_connected <- g_metrics %>%
   filter(centrality_degree(mode = "all") > 0)
 ```
 
-Now let's recreate our visualization with only the connected nodes:
+Now recreate the visualization with only the connected nodes:
 
 ```{r plot-connected}
 set.seed(42)
@@ -657,24 +656,24 @@ p_connected <- ggraph(g_connected, layout = "fr") +
 p_connected
 ```
 
-This filtered visualization is much cleaner and makes it easier to see the structure of interactions within the #TidyTuesday community. We can now more clearly identify central figures, clusters of users who interact frequently, and bridges between different groups.
+This filtered visualization is cleaner and makes it easier to see the structure of interactions within the #TidyTuesday community. You can more clearly identify central figures, clusters of users who interact frequently, and bridges between different groups.
 
 ### Interpreting the network through an educational lens
 
-Social network analysis reveals patterns about learning communities and knowledge sharing that are directly relevant to educational practice. Looking at our #TidyTuesday network, we can identify several key roles:
+Social network analysis reveals patterns about learning communities and knowledge sharing that are relevant to educational practice. Looking at our #TidyTuesday network, you can identify several key roles:
 
-**Influential members** have high in-degree (larger nodes, like Nicola Rennie). In educational settings, these are the teacher leaders or coaches that others turn to for guidance. Their prominence suggests they're creating valuable content or providing support that resonates with the community.
+**Influential members** are larger nodes and have high in-degree. In educational settings, these are the teacher leaders or coaches that others turn to for guidance. Their prominence suggests they're creating valuable content or providing support that resonates with the community.
 
-**Active engagers** have high out-degree—they frequently reach out to others. Users like Jon Harmon exemplify this role. In schools, these connectors maintain community vitality by initiating conversations and fostering collaboration, even if they're not the most "popular" members.
+**Active engagers** have high out-degree. They frequently reach out to others. In schools, these connectors maintain community vitality by initiating conversations and fostering collaboration, even if they're not the most "popular" members.
 
-**Bridge-builders** have high betweenness (lighter blue colors), connecting otherwise separate clusters. In educational contexts, these might be teachers who work across departments or administrators who link different communities. They're crucial for information flow and preventing isolated silos.
+**Bridge-builders** have high betweenness. These are the light blue colors, connecting otherwise separate clusters. In educational contexts, these might be teachers who work across departments or administrators who link different communities. They're crucial for information flow and preventing isolated silos.
 
-The network structure itself offers insights: tight clusters might represent communities of practice, while peripheral members reflect newcomers learning through observation before deeper participation. Understanding these patterns can help educators foster inclusive participation, leverage influential voices strategically, cultivate bridge-builders across groups, and monitor overall network health—ensuring the community has stable leadership without over-dependence on a few individuals.
+The network structure itself offers insights: tight clusters might represent communities of practice, while peripheral members reflect newcomers learning through observation before deeper participation. Understanding these patterns can help educators foster inclusive participation, leverage influential voices strategically, cultivate bridge-builders across groups, and monitor overall network health, ensuring the community has stable leadership without over-dependence on a few individuals.
 
 There is much more you can do with {ggraph} (and {tidygraph}); check out the {ggraph} tutorial here: <https://ggraph.data-imaginist.com/> to explore additional layout algorithms, styling options, and advanced network visualizations.
 
 ## Conclusion
 
-In this chapter, we used social media data from the #tidytuesday hashtag on Bluesky to prepare and visualize social network data. Sociograms are a useful visualization tool to reveal who is interacting with whom---and, in some cases, to suggest why. In our applications of data science, we have found that the individuals (such as teachers or students) who are represented in a network often like to see what the network (and the relationships in it) *look like*. It can be compelling to think about why networks are the way they are, and how changes could be made to---for example---foster more connections between individuals who have few opportunities to interact. In this way, social network analysis can be useful to the data scientist in education because it provides a technique to communicate with other educational stakeholders in a compelling way.
+In this chapter, you used social media data from the #tidytuesday hashtag on Bluesky to prepare and visualize social network data. Sociograms are useful for revealing who interacts with whom---and in some cases, to suggest why. In data science, you'll find that individuals (such as teachers or students) in a network often learn by visualizing these relationships. It's compelling to think about why networks are the way they are and what changes could be made to foster more connections between individuals who have few opportunities to interact. In this way, social network analysis can be a technique to communicate with other educational stakeholders in a compelling way.
 
-Social network analysis is a broad (and growing) domain, and this chapter was intended to present some of its foundation. Fortunately for R users, many recent developments are implemented first in R (e.g., @R-amen). If you are interested in some of the additional steps that you can take to model and analyze network data, consider the appendix on two types of models (for selection and influence processes), [Appendix C](#c20c).
+Social network analysis is a broad and growing domain, and this chapter was intended to present some of its foundation. Fortunately for R users, many recent developments are implemented first in R (e.g., @R-amen). If you are interested in some additional steps that you can take to model and analyze network data, consider the appendix on models for selection and influence processes), [Appendix C](#c20c).
