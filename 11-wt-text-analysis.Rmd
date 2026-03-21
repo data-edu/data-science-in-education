@@ -77,25 +77,24 @@ library(tidytext)
 
 ## Import data
 
-Let's start by getting the data into our environment so we can start analyzing it. In [Chapter 12](#c12), we describe how we accessed this data through Bluesky's Application Programming Interface, or API (and how you can access data from Bluesky on other hashtags or terms, too).
+Next, load the data into your environment so you can start analyzing it. In [Chapter 12](#c12), you learned how to access this data through Bluesky's Application Programming Interface, or API.
 
-We've prepared a dataset of #tidytuesday posts from Bluesky. Let's start by reading in this dataset:
+You'll use the prepared dataset of #tidytuesday posts from Bluesky. Start by reading in this dataset:
 
 ```{r read data}
-# We will need to show how to do this with the {dataedu} package, I think - just need to swich out code below
 # raw_posts <- dataedu::bluesky_posts
 raw_posts <- read_rds("posts.rds")
 ```
 
 ## View data
 
-Let's return to our `raw_posts` dataset. Run `glimpse(raw_posts)` and notice the variables in this dataset. It's good practice to use functions like `glimpse()` or `str()` to look at the data type of each variable. For this walkthrough, we'll need to extract the text from the nested data structure and create an identifier for each post. 
+Return to your `raw_posts` dataset. Run `glimpse(raw_posts)` and notice the variables in this dataset. It's good practice to use functions like `glimpse()` or `str()` to look at the data type of each variable. For this walkthrough, you'll need to extract the text from the nested data structure and create an identifier for each post. 
 
 ## Process data
 
-In this section we'll extract the text and then we'll transform the dataset so each row represents a word. After that, our dataset will be ready for exploring.
+In this section you'll extract the text and transform the dataset so each row represents a word. After that, the dataset will be ready for exploring.
 
-First, we need to extract the text from the nested `record` structure. Each post's text is stored in `record$text`.
+First, extract the text from the nested `record` structure. Each post's text is stored in `record$text`.
 
 ```{r pick columns}
 posts <-
@@ -107,11 +106,11 @@ posts <-
   mutate(post_id = as.character(post_id))
 ```
 
-Now the dataset has a column to identify each post and a column that shows the text that users posted. But each row has the entire post in the `text` variable, which makes it hard to analyze. If we kept our dataset like this, we'd need to use functions on each row to do something like count the number of times the word "good" appears. We can count words more efficiently if each row represented a single word. Splitting sentences in a row into single words in a row is called "tokenizing". In their book *Text Mining With R*, @silge2017text describe tokens this way:
+Now the dataset has a column to identify each post and a column that shows the text that users posted. But each row has the entire post in the `text` variable, which makes it hard to analyze. If dataset stays like this, you'd need to use functions on each row to count words. You can count words more efficiently if each row represents a single word. Splitting sentences in a row into single words in a row is called "tokenizing". In their book *Text Mining With R*, @silge2017text describe tokens this way:
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
-Let's use `unnest_tokens()` from the {tidytext} package to take our dataset of posts and transform it into a dataset of words.
+Use `unnest_tokens()` from the {tidytext} package to transform the dataset of posts into a dataset of words.
 
 ```{r tokenize data}
 tokens <-
@@ -121,11 +120,11 @@ tokens <-
 tokens
 ```
 
-We use `output = word` to tell `unnest_tokens()` that we want our column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens()` to tokenize the posts in the `text` column of our `posts` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `post_id` column that tells us which post the word appears in.
+You use `output = word` to tell `unnest_tokens()` that you want the column of tokens to be called `word`. We use `input = text` to tell `unnest_tokens()` to tokenize the posts in the `text` column of the `posts` dataset. The result is a new dataset where each row has a single word in the `word` column and a unique ID in the `post_id` column that tells us which post the word appears in.
 
-Notice that our `tokens` dataset has many more rows than our `posts` dataset. This tells us a lot about how `unnest_tokens()` works. In the `posts` dataset, each row has an entire post and its unique ID. Since that unique ID is assigned to the entire post, each unique ID only appears once in the dataset. When we used `unnest_tokens()` to put each word on its own row, we broke each post into many words. This created additional rows in the dataset. And since each word in a single post shares the same ID for that post, an ID now appears multiple times in our new dataset. 
+Notice that the `tokens` dataset has more rows than the `posts` dataset. This says a lot about how `unnest_tokens()` works. In the `posts` dataset, each row has an entire post and its unique ID. Since that unique ID is assigned to the entire post, each unique ID only appears once in the dataset. When you used `unnest_tokens()` to put each word on its own row, you broke each post into many words. This created additional rows in the dataset. And since each word in a single post shares the same ID for that post, an ID now appears multiple times in the new dataset. 
 
-We're almost ready to start analyzing the dataset! There's one more step we'll take---removing common words that don't help us learn what people are posting about. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell us much on their own. As a result, they clutter our dataset of useful words and make it harder to manage the volume of words we want to analyze. The {tidytext} package includes a dataset called `stop_words` that we'll use to remove rows containing stop words. We'll use `anti_join`() on our `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. You'll also remove account names.
+You're almost ready to start analyzing the dataset. There's one more step---removing common words that that make will make your analysis difficult. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell you much on their own. As a result, they clutter a dataset of useful words and make it harder to manage the volume of words during analysis. The {tidytext} package includes a dataset called `stop_words` that you'll use to remove rows containing stop words. You'll use `anti_join`() on the `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. You'll also remove account names.
 
 ```{r remove stop words}
 data(stop_words)
@@ -136,9 +135,9 @@ tokens <-
   filter(!str_detect(word, "\\.bsky\\.social$")) # removes account names from the words (tokens)
 ```
 
-Why does this work? Let's look closer. `inner_join()` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join()` does the same thing as `inner_join()` except it drops matching rows and keeps the rows that *don't* match. This is convenient for our analysis because we want to remove rows from `tokens` that contain words in the `stop_words` dataset. When we call `anti_join()`, we're left with rows that *don't* match words in the `stop_words` dataset. These remaining words are the ones we'll be analyzing.
+Why does this work? Let's look closer. `inner_join()` matches the observations in one dataset to another by a specified common variable. Any rows that don't have a match get dropped from the resulting dataset. `anti_join()` does the same thing as `inner_join()` except it drops matching rows and keeps the rows that don't match. This is convenient for the analysis because it removes rows from `tokens` that contain words in the `stop_words` dataset. When you call `anti_join()`, you're left with rows that don't match words in the `stop_words` dataset. These remaining words are the ones you'll be analyzing.
 
-One final note before we start counting words: Remember when we first tokenized our dataset and we passed `unnest_tokens()` the argument `output = word`? We conveniently chose `word` as our column name because it matches the column name `word` in the `stop_words` dataset. This makes our call to `anti_join()` simpler because `anti_join()` knows to look for the column named `word` in each dataset. 
+One final note before you start counting words: Remember when you first tokenized the dataset and passed `unnest_tokens()` the argument `output = word`? You conveniently chose `word` as the column name because it matches the column name `word` in the `stop_words` dataset. This makes the call to `anti_join()` simpler because `anti_join()` knows to look for the column named `word` in each dataset. 
 
 ## Analysis: counting words 
 
