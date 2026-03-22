@@ -141,18 +141,18 @@ One final note before you start counting words: Remember when you first tokenize
 
 ## Analysis: counting words 
 
-Now it's time to start exploring our newly cleaned dataset of posts. Computing the frequency of each word and seeing which words showed up the most often is a good start. You can pipe `tokens` to the `count` function to do this: 
+Now it's time to start exploring the newly cleaned dataset of posts. A good start is computing the frequency of each word and seeing which ones show up the most often. You can pipe `tokens` to the `count` function to do this: 
 
 ```{r count words}
 tokens %>% 
     count(word, sort = TRUE) 
 ```
 
-You pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the most frequent word in this dataset (we may wish to remove it given that our search was based on it!).
+You pass `count()` the argument `sort = TRUE` to sort the `n` variable from the highest value to the lowest value. This makes it easy to see the most frequently occurring words at the top. Not surprisingly, "tidytuesday" was the most frequent word in this dataset. For future analyses, you may wish to remove it given that it was the basis of the search.
 
-You may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in a lot of education scenarios because it helps us make comparisons across different sized groups. For example, you may want to calculate what percentage of students in each classroom receive special education services. 
+You may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in education scenarios because it helps you make comparisons across different sized groups. For example, you can calculate the percentage of students in each classroom that receive special education services. 
 
-In our posts dataset, you'll be calculating the count of words as a percentage of all posts. We can do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, will multiply the result by 100.
+In our posts dataset, you'll calculate the count of words as a percentage of all posts. Do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, multiply the result by 100:
 
 ```{r count words as percentage}
 tokens %>%
@@ -161,25 +161,25 @@ tokens %>%
   mutate(percent = n / sum(n) * 100)
 ```
 
-Even at 622 appearances in our dataset, "tidytuesday" represents only about 6% of the total words in our dataset. This makes sense when you consider our dataset contains thousands (2,963, specifically) unique words. 
+Even at 622 appearances in our dataset, "tidytuesday" represents only about 6% of the total words. This makes sense when you consider our dataset contains 2,963 unique words. 
 
 ## Analysis: sentiment analysis
 
-Now that you have a sense of the most frequently appearing words, it's time to explore some questions in our posts dataset. Let's imagine that we're education consultants trying to learn about the community surrounding the TidyTuesday data visualization ritual. We know from the first part of our analysis that the token "dataviz" (a short name for data visualization) appeared frequently relative to other words, so maybe we can explore that further. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
+Now that you have a sense of the most frequently appearing words, it's time to explore questions using the posts dataset. Imagine you're an education consultant trying to learn about the TidyTuesday data visualization ritual and its community. We know from the first part of our analysis that the token "dataviz" (short for data visualization) appeared frequently relative to other words. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
 
-You'll need to use a technique called "sentiment analysis" to get at the "positivity" of words in these posts. Sentiment analysis tries to evaluate words for their emotional association. If we analyze words by the emotions they convey, we can start to explore patterns in large text datasets like our `tokens` data. 
+You'll need to use a technique called "sentiment analysis" to get at the positivity of words in these posts. Sentiment analysis evaluates words for their emotional association. If you analyze words by the emotions they convey, you can start to explore patterns in large text datasets like the `tokens` data. 
 
-Earlier you used `anti_join()` to remove stop words in our dataset. You're going to do something similar here to reduce our `tokens` dataset to only words that have a positive association. We'll use a dataset called the "NRC Word-Emotion Association Lexicon" to help us identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
+Earlier you used `anti_join()` to remove stop words in the dataset. You're going to do something similar here to reduce the `tokens` dataset to only words that have a positive association. You'll use a dataset called the "NRC Word-Emotion Association Lexicon" to identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
 
-You need to install a package called {textdata} to make sure we have the NRC Word-Emotion Association Lexicon dataset available to us. Note that you only need to have this package installed. You do not need to load it with the `library(textdata)` command. 
+You need to install a package called {textdata} to access the NRC Word-Emotion Association Lexicon dataset. Note that you only need to have the package installed. You do not need to load it with the `library(textdata)` command. 
 
-If you don't already have it, let's install {textdata}: 
+If you don't already have it, install {textdata}: 
 
 ```{r install textdata, eval=FALSE}
 install.packages("textdata")
 ```
 
-To explore this dataset more, we'll use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
+To explore this dataset more, use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 ```{r read nrc}
 #| include: false
@@ -191,11 +191,11 @@ nrc_sentiments <- read_rds("data/nrc_sentiments.Rds")
 nrc_sentiments <- get_sentiments("nrc")
 ```
 
-This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to our `tokens` dataset. 
+This returns a dataset with two columns. The first is `word` and contains a list of words. The second is the `sentiment` column, which contains an emotion associated with each word. This dataset is similar to the `stop_words` dataset. Note that this dataset also uses the column name `word`, which will again make it easy for us to match this dataset to the `tokens` dataset. 
 
 ### Count positive words
 
-Let's begin working on reducing our `tokens` dataset down to only words that the NRC dataset associates with positivity. We'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then we'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, we'll use `count()` to total up the appearances of each positive word. 
+Begin working on reducing the `tokens` dataset down to only words that the NRC dataset associates with positivity. You'll start by creating a new dataset, `nrc_pos`, which contains the NRC words that have the positive sentiment. Then you'll match that new dataset to `tokens` using the `word` column that is common to both datasets. Finally, you'll use `count()` to total up the appearances of each positive word. 
 
 ```{r count positive words}
 # Only positive in the NRC dataset
@@ -213,7 +213,7 @@ pos_tokens_count <-
 pos_tokens_count
 ```
 
-You can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 213 positive words total, which is hard to convey in a compact chart. You'll solve that problem by filtering our dataset to only words that appear 5 times or more. 
+You can visualize these words nicely by using {ggplot2} to show the positive words in a bar chart. There are 213 positive words total, which is hard to convey in a compact chart. Solve that problem by filtering the dataset to words that only appear 5 times or more. 
 
 ```{r fig11-1, results='hide', message = FALSE, fig.cap="Count of Words Associated with Positivity", fig.showtext = TRUE}
 pos_tokens_count %>%
@@ -230,7 +230,7 @@ pos_tokens_count %>%
   theme_minimal()
 ```
 
-Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` here sorts our x-axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
+Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` sorts the x-axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
 
 ### "Dataviz" and other positive words
 
