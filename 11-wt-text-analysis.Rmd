@@ -141,7 +141,7 @@ One final note before you start counting words: Remember when you first tokenize
 
 ## Analysis: counting words 
 
-Now it's time to start exploring the newly cleaned dataset of posts. A good start is computing the frequency of each word and seeing which ones show up the most often. You can pipe `tokens` to the `count` function to do this: 
+Now it's time to start exploring the newly cleaned dataset of posts. A good start is computing the frequency of each word and seeing which ones show up the most. You can pipe `tokens` to the `count` function to do this: 
 
 ```{r count words}
 tokens %>% 
@@ -152,7 +152,7 @@ You pass `count()` the argument `sort = TRUE` to sort the `n` variable from the 
 
 You may want to explore further by showing the frequency of words as a percent of the whole dataset. Calculating percentages like this is useful in education scenarios because it helps you make comparisons across different sized groups. For example, you can calculate the percentage of students in each classroom that receive special education services. 
 
-In our posts dataset, you'll calculate the count of words as a percentage of all posts. Do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, multiply the result by 100:
+In the posts dataset, you'll calculate the count of words as a percentage of all posts. Do that by using `mutate()` to add a column called `percent`. `percent` will divide `n` by `sum(n)`, which is the total number of words. Finally, multiply the result by 100:
 
 ```{r count words as percentage}
 tokens %>%
@@ -165,11 +165,11 @@ Even at 622 appearances in our dataset, "tidytuesday" represents only about 6% o
 
 ## Analysis: sentiment analysis
 
-Now that you have a sense of the most frequently appearing words, it's time to explore questions using the posts dataset. Imagine you're an education consultant trying to learn about the TidyTuesday data visualization ritual and its community. We know from the first part of our analysis that the token "dataviz" (short for data visualization) appeared frequently relative to other words. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
+Now that you have a sense of the most frequently appearing words, it's time to explore sentiment using the posts dataset. Imagine you're an education consultant aiming to learn about the TidyTuesday data visualization ritual and its community. You know from the first part of the analysis that the token "dataviz" (short for data visualization) appeared frequently relative to other words. A good start would be to see how the appearance of that token in a post is associated with other positive words. 
 
 You'll need to use a technique called "sentiment analysis" to get at the positivity of words in these posts. Sentiment analysis evaluates words for their emotional association. If you analyze words by the emotions they convey, you can start to explore patterns in large text datasets like the `tokens` data. 
 
-Earlier you used `anti_join()` to remove stop words in the dataset. You're going to do something similar here to reduce the `tokens` dataset to only words that have a positive association. You'll use a dataset called the "NRC Word-Emotion Association Lexicon" to identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
+Earlier you used `anti_join()` to remove stop words in the dataset. You're going to do something similar here to reduce the `tokens` dataset to words that have a positive association. You'll use a dataset called the "NRC Word-Emotion Association Lexicon" to identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
 
 You need to install a package called {textdata} to access the NRC Word-Emotion Association Lexicon dataset. Note that you only need to have the package installed. You do not need to load it with the `library(textdata)` command. 
 
@@ -179,7 +179,7 @@ If you don't already have it, install {textdata}:
 install.packages("textdata")
 ```
 
-To explore this dataset more, use a {tidytext} function called `get_sentiments()` to view some words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
+To explore this dataset more, use a {tidytext} function called `get_sentiments()` to view words and their associated sentiment. If this is your first time using the NRC Word-Emotion Association Lexicon, you'll be prompted to download the NRC lexicon. Respond "yes" to the prompt and the NRC lexicon will download. Note that you'll only have to do this the first time you use the NRC lexicon. 
 
 ```{r read nrc}
 #| include: false
@@ -230,19 +230,19 @@ pos_tokens_count %>%
   theme_minimal()
 ```
 
-Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` sorts the x-axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier for the reader to identify and compare the most and least common words in the visualization. 
+Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` sorts the x-axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier to identify and compare the most and least common words in the visualization. 
 
 ### "Dataviz" and other positive words
 
-Earlier in the analysis we learned that "dataviz" was among the most frequently occurring words in this dataset. We can continue our exploration of TidyTuesday posts by seeing how many posts with "dataviz" also had at least one positive word from the NRC dataset. Looking at this might give us some clues about how people in the TidyTuesday learning community view dataviz as a tool.
+Earlier in the analysis we learned that "dataviz" was among the most frequently occurring words in this dataset. We can continue our exploration of TidyTuesday posts by seeing how many posts with "dataviz" also had at least one positive word from the NRC dataset. Looking at this can give us clues about how people in the TidyTuesday learning community view dataviz as a tool.
 
-There are a few steps to this part of the analysis, so let's review our strategy. We'll need to use the `post_id` field in the `posts` dataset to filter the posts that have the word `dataviz` in them. Then we need to use the `post_id` field in this new bunch of `dataviz` posts to identify the posts that include at least one positive word.
+There are a few steps to this part of the analysis, so let's review a strategy. You'll need to use the `post_id` field in the `posts` dataset to filter the posts that contain the word `dataviz`. Then you'll use the `post_id` field in these `dataviz` posts to identify the ones that include at least one positive word.
 
-How do you know which `post_id` values contain the word "dataviz" and which ones contain a positive word? Recall that our `tokens` dataset only has one word per row, which makes it easy to use functions like `filter()` and `inner_join()` to make two new datasets: one of `post_id` values that have "dataviz" in the `word` column and one of `post_id` values that have a positive word in the `word` column.
+How do you know which `post_id` values contain the word "dataviz" and which ones contain a positive word? Recall that the `tokens` dataset only has one word per row, which makes it easy to use functions like `filter()` and `inner_join()` to make two new datasets: one of `post_id` values that have "dataviz" in the `word` column and one of `post_id` values that have a positive word in the `word` column.
 
-You'll explore the combinations of "dataviz" and any positive words in our `posts` dataset using these three ingredients: our `posts` dataset, a vector of `post_id`s for posts that have "dataviz" in them, and a vector of `post_id`s for posts that have positive words in them. Now that we have our strategy, let's write some code and see how it works.
+You'll explore the combinations of "dataviz" and any positive words in the `posts` dataset using these three ingredients: the `posts` dataset, a vector of `post_id`s for posts that have "dataviz" in them, and a vector of `post_id`s for posts that have positive words in them. Now that you have the strategy, it's time to write the code and see how it works.
 
-First, you'll make a vector of `post_id`s for posts that have "dataviz" in them. This will be used later to identify posts that contain "dataviz" in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Let's name that new dataset `dv_tokens`. 
+First, you'll make a vector of `post_id`s for posts that have "dataviz" in them. You'll use this later to identify posts that contain "dataviz" in the text. Use `filter()` on the `tokens` dataset to keep only the rows that have "dataviz" in the `word` column. Name that new dataset `dv_tokens`. 
 
 ```{r post_id with dataviz}
 dv_tokens <-
@@ -252,14 +252,14 @@ dv_tokens <-
 dv_tokens
 ```
 
-The result is a dataset that has `post_id` in one column and the word "dataviz" in the other column. We can use `$` to extract a vector of `post_id` for posts that have "dataviz" in the text. This vector has hundreds of values, so we'll use `head` to view just the first ten.
+The result is a dataset that has `post_id` in one column and the word "dataviz" in the other column. Use `$` to extract a vector of `post_id` for posts that have "dataviz" in the text. This vector has hundreds of values, so you can use `head` to view just the first ten.
 
 ```{r just post_id}
 # Extract post_id
 head(dv_tokens$post_id)
 ```
 
-Now let's do this again, but this time, we'll make a vector of `post_id` for posts that have positive words in them. This will be used later to identify posts that contain a positive word in the text. We'll use `filter()` on our `tokens` dataset to keep only the rows that have any of the positive words in the in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. We can use the `%in%` operator in our call to `filter()` to find only words that are in this vector of positive words. Let's name this new dataset `pos_tokens`.
+Now you'll do this again, but this time, you'll make a vector of `post_id` for posts that have positive words in them. This will be used later to identify posts that contain a positive word in the text. We'll use `filter()` on the `tokens` dataset to keep only the rows that have any of the positive words in the `word` column. If you've been running all the code up to this point in the walkthrough, you'll notice that you already have a dataset of positive words called `nrc_pos`, which can be turned into a vector of positive words by typing `nrc_pos$word`. Use the `%in%` operator in the call to `filter()` to find only words that are in this vector of positive words. Name this new dataset `pos_tokens`.
 
 ```{r post_id with positive words}
 pos_tokens <-
@@ -269,14 +269,14 @@ pos_tokens <-
 pos_tokens
 ```
 
-The result is a dataset that has `post_id` in one column and a positive word from `tokens` in the other column. We'll again use `$` to extract a vector of `post_id` for these posts.
+The result is a dataset that has `post_id` in one column and a positive word from `tokens` in the other column. You'll again use `$` to extract a vector of `post_id` for these posts.
 
 ```{r just post_id 2}
 # Extract post_id
 head(pos_tokens$post_id)
 ```
 
-That's a lot of `post_id`s, many of which are duplicates. Let's try and make the vector of `post_id`s a little shorter. We can use `distinct()` to get a data frame of `post_id`, where each `post_id` only appears once:
+That's a lot of `post_id`s, many of which are duplicates. You can make the vector of `post_id`s a little shorter. Use `distinct()` to get a data frame of `post_id`, where each `post_id` only appears once:
 
 ```{r using distinct}
 pos_tokens <-
@@ -284,7 +284,7 @@ pos_tokens <-
   distinct(post_id)
 ```
 
-Note that `distinct()` drops all variables except for `post_id`. For good measure, let's use `distinct()` on our `dv_tokens` data frame too:
+Note that `distinct()` drops all variables except for `post_id`. For good measure, use `distinct()` on the `dv_tokens` data frame too:
 
 ```{r using distinct 2}
 dv_tokens <-
@@ -292,7 +292,7 @@ dv_tokens <-
   distinct(post_id)
 ```
 
-Now we have a data frame of `post_id` for posts containing "dataviz" and another for posts containing a positive word. Let's use these to transform our `posts` dataset. First we'll filter `posts` for rows that have the "dataviz" `post_id`. Then we'll create a new column called `positive` that will tell us if the `post_id` is from our vector of positive word `post_id`s. We'll name this filtered dataset `dv_pos`.
+Now you have a data frame of `post_id` for posts containing "dataviz" and another for posts containing a positive word. Use these to transform the `posts` dataset. First filter `posts` for rows that have the "dataviz" `post_id`. Then create a new column called `positive` that will tell you if the `post_id` is from the vector of positive word `post_id`s. Name this filtered dataset `dv_pos`.
 
 ```{r dataviz posts with positive variable}
 dv_pos <-
@@ -303,15 +303,15 @@ dv_pos <-
   mutate(positive = if_else(post_id %in% pos_tokens$post_id, 1, 0))
 ```
 
-Let's take a moment to dissect how we use `if_else()` to create our `positive` column. We gave `if_else()` three arguments:
+Take a moment to dissect how you use `if_else()` to create a `positive` column. You gave `if_else()` three arguments:
 
  - `post_id %in% pos_tokens$post_id`: a logical statement
  - `1`: the value of `positive` if the logical statement is true
  - `0`: the value of `positive` if the logical statement is false
 
-So our new `positive` column will take the value 1 if the `post_id` was in our `pos_tokens` dataset and the value 0 if the `post_id` was not in our `pos_tokens` dataset. Practically speaking, `positive` is 1 if the post has a positive word and 0 if it does not have a positive word.
+The new `positive` column will take the value 1 if the `post_id` was in the `pos_tokens` dataset and the value 0 if the `post_id` was not in the `pos_tokens` dataset. Practically speaking, `positive` is 1 if the post has a positive word and 0 if it does not have a positive word.
 
-And finally, let's see what percent of posts that had "dataviz" in them also had at least one positive word:
+And finally, look at what percent of posts that had "dataviz" in them also had at least one positive word:
 
 ```{r percent that had a positive word}
 dv_pos %>%
@@ -319,7 +319,7 @@ dv_pos %>%
   mutate(perc = n / sum(n))
 ```
 
-About 41% of posts that have "dataviz" in them also had at least one positive word, and about 59% of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 59% of the "dataviz" posts. We can't know precisely why some posts had positive words and some didn't, we just know that more dataviz posts had positive words than not. To put this in perspective, we might have a different impression if 5% or 95% of the posts had positive words. 
+About 41% of posts that have "dataviz" in them also have at least one positive word, and about 59% of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 59% of the "dataviz" posts. You can't know why some posts had positive words and some didn't, but you can know that more dataviz posts had positive words than not. To put this in perspective, you might have a different impression if 5% or 95% of the posts had positive words. 
 
 Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of posts for context.
 
