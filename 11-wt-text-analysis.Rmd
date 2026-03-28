@@ -325,9 +325,9 @@ Since the point of exploratory data analysis is to explore and develop questions
 
 ### Taking a close read of randomly selected posts
 
-Let's review where we are so far as we work to learn more about the TidyTuesday learning community through posts. So far we've counted frequently used words and estimated the number of posts with positive associations. This dataset is large, so we need to zoom out and find ways to summarize the data. But it's also useful to explore by zooming in and reading some of the posts. Reading posts helps us to build intuition and context about how users talk about TidyTuesday in general. Even though this doesn't lead to quantitative findings, it helps us to learn more about the content we're studying and analyzing. Instead of reading all the posts, let's write some code to randomly select posts to review.
+This dataset is large, so you started by zooming out to summarize the data. But it's also useful to zoom in and read some of the posts. This will help you build intuition and context about how users talk about TidyTuesday in general. Even though this doesn't lead to quantitative findings, it helps you learn more about the underlying post content.
 
-First, let's make a dataset of posts that had positive words from the NRC dataset. Remember earlier when we made a dataset of posts that had "dataviz" and a column that had a value of 1 for containing positive words and 0 for not containing positive words? Let's reuse that technique, but instead of applying to a dataset of posts containing "dataviz", let's use it on our dataset of all posts.
+Start by making a dataset of posts that has positive words from the NRC dataset. Earlier in this walkthrough, you made a dataset of posts that had "dataviz" and a column for positive words. Reuse that technique, but on the dataset of all posts instead of only the "dataviz" ones.
 
 ```{r positive posts}
 pos_posts <-
@@ -336,16 +336,16 @@ pos_posts <-
   filter(positive == 1)
 ```
 
-Again, we're using `if_else` to make a new column called `positive` that takes its value based on whether `post_id %in% pos_tokens$post_id` is true or not.
+Again, you're using `if_else` to make a new column called `positive` that takes its value based on whether `post_id %in% pos_tokens$post_id` is true or not.
 
-We can use `slice()` to help us pick the rows. When we pass `slice()` a row number, it returns that row from the dataset. For example, we can select the 1st and 3rd row of our posts dataset this way:
+You can use `slice()` to help you pick the rows. When you pass `slice()` a row number, it returns that row from the dataset. For example, you can select the 1st and 3rd row of our posts dataset this way:
 
 ```{r first and third post}
 posts %>%
   slice(1, 3)
 ```
 
-Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps us avoid some of the biases we all have when we pick rows to review ourselves.
+Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps you avoid biases when picking rows to review.
 
 Here's one way to do that using base R:
 
@@ -355,7 +355,7 @@ sample(x = 1:10, size = 5)
 
 Passing `sample()` a vector of numbers and the size of the sample you want returns a random selection from the vector. Try changing the value of `x` and `size` to see how this works.
 
-{dplyr} has a version of this called `sample_n()` that we can use to randomly select rows in our posts dataset. Using `sample_n()` looks like this:
+{dplyr} has a version of this called `sample_n()` that you can use to randomly select rows in the posts dataset. Using `sample_n()` looks like this:
 
 ```{r randomly review}
 set.seed(2026)
@@ -364,11 +364,13 @@ pos_posts %>%
   sample_n(., size = 10)
 ```
 
-That returned ten randomly selected posts that we can now read through and discuss. Let's look a little closer at how we did that. We used `sample_n()`, which returns randomly selected rows from our posts dataset. We also specified that `size = 10`, which means we want `sample_n()` to give us 10 randomly selected rows. A few lines before that, we used `set.seed(2026)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, our readers can run this code and get the same result we did. Using `set.seed(2026)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2026` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
+That returned ten randomly selected posts. Let's look a little closer at how that works. You used `sample_n()`, which returns randomly selected rows from the posts dataset. You also specified that `size = 10`, which means `sample_n()` will give you 10 randomly selected rows. 
+
+A few lines before that, you used `set.seed(2026)`. This helps us ensure that, while `sample_n()` theoretically plucks 10 random numbers, the readers can run this code and get the same result you did. Using `set.seed(2026)` at the top of your code makes `sample_n()` pick the same ten rows every time. Try changing `2026` to another number and notice how `sample_n()` picks a different set of ten numbers, but repeatedly picks those numbers until you change the argument in `set.seed()`. 
 
 ## Conclusion
 
-The purpose of this walkthrough is to share code with you so you can practice some basic text-analysis techniques. Now it's time to make your learning more meaningful by adapting this code to text-based files you regularly see at work. Trying reading in some of these and doing a similar analysis:
+The purpose of this walkthrough is to share code with you so you can practice some basic text-analysis techniques. Now it's time to keep learning by adapting this code to text-based files in your work setting. Trying reading in some of these and doing a similar analysis:
 
  - News articles
  - Procedure manuals
@@ -376,4 +378,4 @@ The purpose of this walkthrough is to share code with you so you can practice so
 
 There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html), both described in [@silge2017text].
 
-Finally, if you feel like there is more to analyze where it comes to this particular hashtag, we agree! We use this data set further in the next chapter [on social network analysis](#c12), where we explore how to collect your own Bluesky data and analyze the interactions between individuals in the #tidytuesday community.
+Finally, keep reading if you'd like to explore this data set more. You'll use it further in the next chapter [on social network analysis](#c12), where you explore how to collect your own Bluesky data and analyze the interactions between individuals in the #tidytuesday community.
