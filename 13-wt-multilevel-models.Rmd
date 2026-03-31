@@ -30,28 +30,28 @@ Note that while using multi-level models is accessible through R, some of the co
 
 ### Background
 
-Using multilevel models help us account for the way that individual students are "grouped" together into higher-level units, like classes. Multilevel models do something different than a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10): they estimate the effect of being a student in a particular group. A multilevel model uses a different way to standardize the estimates for each group based on how systematically different the groups are from the other groups, relative to the effect on the dependent variable.
+Using multilevel models will help you account for the way individual students are grouped together into higher-level units, like classes. Multilevel models do something different from a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10). They estimate the effect of being a student in a particular group. A multilevel model uses a different way to standardize the estimates for each group based on how systematically different the groups are, relative to the effect on the dependent variable.
 
-Though these conceptual details are complex,fitting them is fortunately straightforward and should be familiar if you have used R's `lm()` function before. So, let's get started!
+Though these conceptual details are complex, fitting them is fortunately straightforward and should be familiar if you have used R's `lm()` function. Let's get started.
 
 ### Data Source
 
-We'll use the same data source on students' motivation in online science classes that we processed in [Walkthrough 1](#c07).
+We'll use the same data source on students' motivation in online science classes that we used in [Walkthrough 1](#c07).
 
 ### Methods
 
-Does the amount of time students spend on a course depend on the specific course they're in? Does the amount of time students spend on a course affect the points they earn in? There are a number of ways to approach these questions. Let's use our linear model.
+Does the amount of time students spend on a course depend on the specific course they're in? Does the amount of time students spend on a course affect the points they earn? There are a number of ways to approach these questions. One way is to use a linear model.
 
-To do this, we'll assign codes to the groups so we can include them in our model. We'll use a technique called "dummy-coding". Dummy coding means transforming a variable with multiple categories into new variables, where each variable indicates the presence and absence of each category.
+To do this, you'll assign codes to the groups so you can include them in the model. You'll use a technique called "dummy-coding". Dummy coding means transforming a variable with multiple categories into new variables, where each variable indicates the presence and absence of each category.
 
 ## Load Packages
 
-We will load the tidyverse and a few other packages specific to using multilevel models: 
+We will load the tidyverse and a few other packages for using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
 
-If you have not before - as for other packages used for the first time - you'll need to install {lme4}, {performance}, and {dummies} once to do the rest of this walkthrough. If helpful, head to the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
+If you haven't already, you'll need to install {lme4}, {performance}, and {dummies} to do the rest of this walkthrough. If needed, you can review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
 
-The remaining packages ({tidyverse}, {sjPlot}, and {dataedu}) are used in other chapters, but, if you have not installed these before, you will to install these, too, using the `install.packages()` function, with the name of the package included (in quotations), just like for the previous three packages.
+The remaining packages, ({tidyverse}, {sjPlot}, and {dataedu}), are used in other chapters. But if you have not installed these before, you can install them using the `install.packages()` function. 
 
 ```{r load packages, message = F, warning = F}
 library(tidyverse)
@@ -64,22 +64,20 @@ library(dataedu)
 
 ## The Role of Dummy Codes
 
-Before we import our data, let's spend some time learning about a process called dummy-coding. In this discussion, we'll see how dummy coding works through using the {dummies} package, though you often do not need to manually dummy code variables like this. A note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, we will use base R and data.frame instead of the {tidyverse} and tibbles.
+Before we import our data, let's learn about dummy-coding. In this discussion, you'll learn how dummy coding works using the {dummies} package. Note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, you'll use base R and data.frame instead of the {tidyverse} and tibbles.
 
-Let's look at the `iris` data that comes built into R.
+Start by looking at the `iris` data that comes built into R.
 
 ``` {r iris}
 str(iris)
 ```
 
-As we can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a specific category, or level, of that variable. So how do we consider factor variables in our model? `Species` seems to be made up of, well, words, such as "setosa."
+As you can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `Species` seems to be made up of words such as "setosa."
 
-A common way to approach this is through dummy coding, where you create new
-variables for each of the possible values of `Species` (such as "setosa").These new variables will have a value of 1 when the row is associated with that level
-(i.e., the first row in the data frame above would have a 1 for a column named
-`setosa`).
+A common way to approach this is through dummy coding, where you create new variables for each of the possible values of `Species`. These new variables have a value of 1 when the row is associated with that level
+(i.e., the first row in the data frame above would have a 1 for a column named`setosa`).
 
-Let's put the {dummies} package to work on this task. How many possible values are there for `Species`? We can check with the `levels` function: 
+Put the {dummies} package to work on this task. How many possible values are there for `Species`? You can check with the `levels` function: 
 
 ``` {r iris levels}
 levels(iris$Species)
