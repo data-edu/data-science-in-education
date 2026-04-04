@@ -83,9 +83,9 @@ Put the {dummies} package to work on this task. How many possible values are the
 levels(iris$Species)
 ```
 
-The function `dummy.data.frame()` takes a data frame and creates a `data.frame` where all the specified columns are given dummy attributes. We use it to turn `iris` into a dummy data frame. Then we run the `get.dummy()` function specifically on the `Species` variable. It returns *three* variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+The function `dummy.data.frame()` creates a `data.frame` where all the specified columns are given dummy attributes. You can use it to turn `iris` into a dummy data frame. Then you'll run the `get.dummy()` function specifically on the `Species` variable. It returns three variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
 
-Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't) and you have to be aware of any changes when using them for analysis.
+Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't), so you'll need to be aware of any changes when using them for analysis.
 
 ``` {r run dummy on species, eval = FALSE}
 d_iris <-
@@ -95,12 +95,9 @@ get.dummy(d_iris, name = "Species") %>%
   head()
 ```
 
-Let's confirm that every row associated with a specific species has a 1 in the
-column it corresponds to. We can do this by binding together the dummy codes and
-the `iris` data and then counting how many rows were coded with a "1" for each dummy code. For example, when the `Species` is "setosa", the variable `Speciessetosa` always
-equals 1 - as is the case for the other species. 
+Confirm that every row associated with a specific species has a 1 in the column it corresponds to. You can do this by binding together the dummy codes and the `iris` data and then counting how many rows were coded with a "1" for each dummy code. For example, when the `Species` is "setosa", the variable `Speciessetosa` always equals 1 - as is the case for the other species. 
 
-Now we need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
+Now you'll need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
 
 ```{r add dummy coded variables to iris, eval = FALSE}
 # create matrix of dummy-coded variables
@@ -112,28 +109,28 @@ iris_with_dummy_codes <-
   bind_cols(iris, species_dummy_coded)
 ```
 
-Let's look at the results.
+Have a look at the results.
 
 ```{r count species, eval = FALSE}
 iris_with_dummy_codes %>% 
   count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
 ```
 
-Now that we have a basic understanding of how dummy codes work, let's now explore how we use them in our model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
+Now that we have a basic understanding of how dummy codes work, it's time to explore how to use them in the model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
 
-So why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used to facilitate comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations that are in one group. Let's go back to our `iris` example. Consider all the flowers that are in the "setosa" group. To represent how different those flowers are, they have to be compared to another group of flowers. In R, we would compare all the flowers in the "setosa" group to the reference group of flowers. Recall that the reference group of flowers would be the group that is not explicitly named in the model output.
+Why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used for comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations in a group. Go back to the `iris` example. Consider all the flowers that are in the "setosa" group. To represent how different those flowers are, they have to be compared to another group of flowers. In R, you'd compare all the flowers in the "setosa" group to the reference group of flowers. Recall that the reference group of flowers would be the group that is not explicitly named in the model output.
 
-However, if every level of flower groups is dummy-coded, there would be no single group to compare to. For this reason, one group is typically selected as the reference group, to which every other group is compared.
+However, if every level of flower groups is dummy-coded, there would be no single group to compare to. For this reason, one group needs to be selected as the reference group.
 
 ## Import Data 
 
-Now that we have some background on dummy codes, let's return to the online science class data. We'll be using the same dataset that we used in [Chapter 7](#c07). Let's load that dataset now from the {dataedu} package. 
+Let's return to the online science class data. You'll be using the same dataset you used in [Chapter 7](#c07). Load that dataset now from the {dataedu} package. 
 
 ``` {r, message = F, warning = F}
 dat <- dataedu::sci_mo_processed
 ```
 
-To wrap up our discussion about factor variables, levels, and dummy codes, let's look at how many classes are represented in the `course_id` variable. These classes will be our factor levels that we'll be using in our model soon. We can use the `count()` function to see how many courses there are: 
+To wrap up our discussion about factor variables, levels, and dummy codes, let's look at how many classes are represented in the `course_id` variable. These classes will be the factor levels you'll soon use in the model soon. Use the `count()` function to see how many courses there are: 
 
 ```{r count classes}
 dat %>% 
@@ -144,9 +141,9 @@ dat %>%
 
 ### Regression (Linear Model) Analysis with Dummy Codes
 
-Before we fit our model, let's talk about our dataset. We will keep the variables we used in our last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in [Chapter 7](#c07).
+Before you fit the model, let's talk about the dataset. You will keep the variables you used in the last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in [Chapter 7](#c07).
 
-Since we will be using the final grade variable a lot let's rename it to make it easier to type.
+Since you will be using the final grade variable a lot, rename it to make it easier to type.
 
 ```{r}
 dat <- 
@@ -154,14 +151,14 @@ dat <-
   rename(final_grade = FinalGradeCEMS)
 ```
 
-Now we can fit our model. We will save the model object to `m_linear_dc`, where the `dc` stands for dummy code. Later we'll be working with `course_id` as a factor variable, so we can expect to see `lm()` treat it as a dummy coded variable. This means that the model output will include a reference variable for `course_id` that all other levels of `course_id` will be compared against. 
+Now you can fit the model. Save the model object to `m_linear_dc`, where the `dc` stands for dummy code. Later you'll be working with `course_id` as a factor variable, so you can expect to see `lm()` treat it as a dummy coded variable. The model output will include a reference variable for `course_id` that all other levels of `course_id` will be compared against. 
 
 ```{r fit model for course on time spent}
 m_linear_dc <- 
   lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 ```
 
-The output from the model will be long. This is because each course in the `course_id` variable will get its own line in the model output. We can see that using `tab_model()` from {sjPlot}:
+The output from the model will be long. This is because each course in the `course_id` variable will get its own line in the model output. You can see that using `tab_model()` from {sjPlot}:
 
 ```{r show results of m_linear_dc}
 tab_model(m_linear_dc,
@@ -174,15 +171,15 @@ tab_model(m_linear_dc,
           title = "Table 13.1")
 ```
 
-Wow! Those are a lot of effects. The model estimates the effects of being in each class, accounting for the time students spent on a course and the class they were in. We know this because the model output includes the time spent (`TimeSpent_std`) variable and subject variables (like `course_id[AnPhA-S116-02]`). 
+Those are a lot of effects. The model estimates the effects of being in each class, accounting for the time students spent on a course and the class they were in. You know this because the model output includes the time spent (`TimeSpent_std`) variable and subject variables (like `course_id[AnPhA-S116-02]`). 
 
-If we count the number of courses, we see that there are 25 - and not 26! One has
+If you count the number of courses, you see that there are 25, not 26. One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 73.20 represents the number of percentage points that students in the reference
 group class are estimated to earn. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference group.
 
-What if we want to pick another class as the reference variable? For example, say that we want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual *value* of the variable is what is in square brackets in the output, whereas `course_id` is the variable *name*; in the output, these are just combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
+What if you want to pick another class as the reference variable? For example, say you want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual *value* of the variable is what is in square brackets in the output, whereas `course_id` is the variable *name*; in the output, these are just combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
 
 Now let's use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level will change:
 
