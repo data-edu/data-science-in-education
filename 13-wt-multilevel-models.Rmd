@@ -179,9 +179,9 @@ coefficient represents how different each class is from it. The intercept's
 value of 73.20 represents the number of percentage points that students in the reference
 group class are estimated to earn. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference group.
 
-What if you want to pick another class as the reference variable? For example, say you want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. We can do this by using the `fct_relevel()` function, which is a part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when we included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual *value* of the variable is what is in square brackets in the output, whereas `course_id` is the variable *name*; in the output, these are just combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
+What if you want to pick another class as the reference variable? For example, say you want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. You can do this by using the `fct_relevel()` function, which is part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual value of the variable is in square brackets in the output, whereas `course_id` is the variable name; in the output, these are combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
 
-Now let's use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level will change:
+Now use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level changes:
 
 ``` {r relevel course_id}
 dat <-
@@ -189,9 +189,9 @@ dat <-
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
 ```
 
-We can now see that "PhysA-S116-01" is no longer listed as an independent variable. Now every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". We also see that `course_id` is now recognized as a factor data type. 
+You can now see that "PhysA-S116-01" is no longer listed as an independent variable. Every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". You also see that `course_id` is now recognized as a factor data type. 
 
-Now let's fit our model again with the newly releveled `course_id` variable. We'll give it a different name, `m_linear_dc_1`: 
+Now fit the model again with the newly releveled `course_id` variable. Give it a different name, `m_linear_dc_1`: 
 
 ``` {r fit model with new course level}
 m_linear_dc_1 <- 
@@ -207,12 +207,11 @@ tab_model(m_linear_dc_1,
           title = "Table 13.2")
 ```
 
-Using dummy codes is very common - they are used in nearly every case where
-you need to fit a model with variables that are factors. We've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function we discuss later. These functions automatically convert character data types into factor data types. 
+Dummy codes are used in nearly every case where you need to fit a model with variables that are factors. You've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function discussed later. These functions automatically convert character data types into factor data types. 
 
-For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. You'll just need to decide if you want to use the default reference group or if you should use `fct_revel()` to pick a different one. 
+For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. Note that you'll need to decide if you want to use the default reference group or if you should use `fct_revel()` to pick a different one. 
 
-Lastly, there it's worthing noting that there may be some situations where you do not want to dummy code a factor variable. These are situations where you don't want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:
+Lastly, it's worth noting that there may be some situations where you don't want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:
 
 ``` {r same model but without intercept}
 # specifying the same linear model as the previous example, but using a "-1" to indicate that there should not be a reference group
@@ -228,8 +227,6 @@ tab_model(m_linear_dc_2,
           file = "man/tables/Table 13.3.doc",
           title = "Table 13.3")
 ```
-
-In the vast majority of cases, you'll want to dummy code your factor variables so you probably won't be using it very often.
 
 ### A Deep-Dive into Multilevel Models
 
