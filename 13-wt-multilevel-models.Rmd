@@ -268,23 +268,22 @@ So what's the most useful way to report the importance of groups in a model? It'
 
 ### Multilevel Model Analysis
 
-Fortunately, for all of the complicated details, multilevel models are relatively
-easy to use in R. We'll need a new package for this next example. One of the most common for
-estimating these types of models is {lme4}. We use `lme4::lmer()` very similarly to the `lm()` function, but we pass it an additional argument for the *groups* we want to include in the model. This model is often referred to as a "varying intercepts" multilevel model. The difference between the groups is the effect of being a student in a class: the intercepts between the groups vary.
+Fortunately, for all the complicated details, multilevel models are relatively
+easy to use in R. You'll need a new package for this next example. One of the most common for
+estimating these types of models is {lme4}. You'll use `lme4::lmer()` very similarly to the `lm()` function, but you'll pass it an additional argument for the *groups* included in the model. This model is often referred to as a "varying intercepts" multilevel model. The difference between the groups is the effect of being a student in a class: the intercepts between the groups vary.
 
-Now we can fit our multilevel model uisng the `lmer()` function:
+Now you can fit the multilevel model using the `lmer()` function:
 
 ``` {r fit multilevel model}
 m_course <- 
   lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
-You'll notice something here that we didn't see when we used `lm()`. We use a new term (`(1|course_id)`). We use this new term to model the group (in this case, courses)
-in the data. With `lmer()`, these group terms are in parentheses and to the right of the bar. That is what the `|course_id` part means - it is telling `lmer()` that courses are groups in the data that we want to include in the model. The `1` on the left side of the bar tells `lmer()` that we want varying intercepts for each group (1 is used to denote the intercept).
+You'll notice something that you didn't see using `lm()`. You use a new term (`(1|course_id)`), which you'll use to model the group (in this case, courses). With `lmer()`, these group terms are in parentheses and on the right side of the bar. `|course_id` tells `lmer()` that courses are groups in the data and they should be included in the model. The `1` on the left side of the bar tells `lmer()` that you want varying intercepts for each group. 1 is used to denote the intercept.
 
-If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian *prior* for the group estimates.
+If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian prior for the group estimates.
 
-There's more you can do with `lmer()`. For example, you can include different effects for each group in your model output, so each as its own slope. To explore techniques like this and more, we recommend the book by West, Welch, and Galecki [2014], which provides an excellent walkthrough on how to specify varying slopes using `lmer()`. 
+There's more you can do with `lmer()`. For example, you can include different effects for each group in the model output, so each as its own slope. To explore techniques like this and more, we recommend the book by West, Welch, and Galecki [2014], which provides an excellent walkthrough on how to specify varying slopes using `lmer()`. 
 
 ## Results
 
