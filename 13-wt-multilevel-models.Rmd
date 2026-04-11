@@ -300,17 +300,13 @@ tab_model(m_course,
           title = "Table 13.4")
 ```
 
-For `lm()` models, `tab_model()` provides the output, including some fit statistics, coefficients and their standard errors and estimates. There are two things to note about `lmer()` output:
+For `lm()` models, `tab_model()` provides the output, including fit statistics, coefficients and their standard errors and estimates. There are two things to note about this output:
 
-1.  *p*-values are not automatically provided, due to debates in the wider field
-    about how to calculate the degrees of freedom for coefficients^[ Run
-    `?lme4::pvalues` to see a discussion of the issue and solutions. We
-    have found the lmerTest to be helpful as an easy solution, though some of the recommendations available through `?lme4::pvalues` may be preferable because the technique lmerTest implements has some known issues.]
+1.  *p*-values are not automatically provided, due to debates in the wider field about how to calculate the degrees of freedom for coefficients^[ Run `?lme4::pvalues` to see a discussion of the issue and solutions. The lmerTest is helpful as an easy solution, though you may prefer some the recommendations available in `?lme4::pvalues` because the technique lmerTest uses has known issues.]
 
-2.  In addition to the coefficients, there are also estimates for how much
-    variability there is between the groups.
+2.  In addition to the coefficients, there are also estimates for how much variability there is between the groups.
 
-A common way to understand how much variability is at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) that is accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
+A common way to understand variability at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
 
 You can install the {performance} package by typing this code in your console: 
 
@@ -324,18 +320,15 @@ After that, try this function:
 icc(m_course)
 ```
 
-This (shows that 9.1% of the variability in the percentage of points
-students earned can be explained simply by knowing what class they are in. The 
-adjusted ICC is what is typically reported: This value is for the proportion of 
-the variability in the dependent variable that is explained by the groups (courses). See the documentation for `icc()`
-for details on the interpretation of the conditional ICC.
+This (shows that 9.1% of the variability in the percentage of points students earned can be explained by the class they are in. The adjusted ICC is typically reported: This value is for the proportion of the variability in the dependent variable explained by the groups (courses). See the documentation for `icc()` for details on the interpretation of the conditional ICC.
 
 ### Adding Additional Levels
 
-Now let's add some additional levels. The data that we are using is all from one school, and so we cannot estimate a "two-level" model. Imagine, however, that instead of 26 classes, we had student data from 230 classes and that these classes were from 15 schools. We could estimate a two-level, varying intercepts (where there are now two groups
-with effects) model similar to the model we estimated above, but with another group added for the school. The model will automatically account for the way that the classes are nested within the schools automatically (Bates, Maechler, Bolker, & Walker, 2015).
+Now add additional levels. The data you're using is all from one school, so you cannot estimate a "two-level" model. Imagine, however that you have student data from 230 classes instead of 26 and that these classes were from 15 schools. 
 
-We don't have a variable containing the name of different schools. If we did we could fit the model like this, where `school_id` is the variable containing different schools: 
+You could estimate a two-level, varying intercepts (two groups with effects) model similar to the model above, but with another group added for the school. The model will automatically account for the way that the classes are nested within the schools (Bates, Maechler, Bolker, & Walker, 2015).
+
+You don't have a variable containing the name of different schools. But if you did, you could fit the model like this, where `school_id` is the variable containing different schools: 
 
 ``` {r school_id example, eval = FALSE}
 # this model would specify a group effect for both the course and school
@@ -343,25 +336,18 @@ m_course_school <-
   lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
-Were we to estimate this model (and then use the `icc()` function), we would see
-two ICC values representing the proportion of the variation in the dependent
-variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it is not necessary to explicitly nest the courses within schools.
+If you estimated this model (and then use the `icc()` function), you would see two ICC values representing the proportion of the variation in the dependent variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it's not necessary to explicitly nest the courses within schools.
 
-The {lme4} package was designed for complex multilevel models, so you can add even more levels, even those with not nested but crossed random effects. For more on advanced multilevel techniques like these see @west2014linear.
+The {lme4} package was designed for complex multilevel models so you can add more levels. For more on advanced multilevel techniques like these, see @west2014linear.
 
 ## Conclusion
 
-In this walkthrough, the groups in our multilevel model are classes. But, multilevel models can be used for other cases where data is associated with a common group. For example, if students respond to repeated measures (such as quizzes) over time, then the multiple quiz responses for each student are "grouped" within students. In such a case, we'd specify students as the "grouping factor" instead of courses. Moreover, multilevel models can include multiple groups even if the groups are of very different kinds (i.e., if students from multiple
-classes responded to multiple quizzes).
+In this walkthrough, the groups in our multilevel model are classes. But multilevel models can be used for other cases where data is associated with a common group. For example, if students respond to quizzes over time, then the multiple quiz responses for each student are "grouped" within students. In such a case, you'd specify students as the "grouping factor" instead of courses. Moreover, multilevel models can include multiple groups even if the groups are of very different kinds. For example, this would be the case if students from multiple classes responded to multiple quizzes.
 
-We note that the groups in multilevel models do not need to be nested. They can
-also be "crossed", as may be the case for data from teachers in different schools who attended different teacher preparation programs. Not every teacher in a school necessarily attended the same teacher preparation program, and graduates from every teacher preparation program are
-highly unlikely to all teach in the same school!
+Note that the groups in multilevel models do not need to be nested. They can
+also be "crossed", as may be the case for data from teachers in different schools who attended different teacher preparation programs. Not every teacher in a school attended the same teacher preparation program, and graduates from every teacher preparation program are
+highly unlikely to all teach in the same school.
 
 Finally, as noted earlier, multilevel models have similarities to the Bayesian
-methods which are becoming more common among some R users - and educational data
-scientists. There are also references to recommended books on Bayesian methods
-in the additional resources chapter.
-
-There is much more that can be done with multilevel models; we have more
+methods which are becoming more common among educational data scientists. There is much more that can be done with multilevel models; we have more
 recommendations in the [Additional Resources](#c18) chapter.
