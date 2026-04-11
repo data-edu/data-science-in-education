@@ -75,7 +75,7 @@ str(iris)
 As you can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `Species` seems to be made up of words such as "setosa."
 
 A common way to approach this is through dummy coding, where you create new variables for each of the possible values of `Species`. These new variables have a value of 1 when the row is associated with that level
-(i.e., the first row in the data frame above would have a 1 for a column named`setosa`).
+(i.e., the first row in the data frame above would have a 1 for a column named `setosa`).
 
 Put the {dummies} package to work on this task. How many possible values are there for `Species`? You can check with the `levels` function: 
 
@@ -209,7 +209,7 @@ tab_model(m_linear_dc_1,
 
 Dummy codes are used in nearly every case where you need to fit a model with variables that are factors. You've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function discussed later. These functions automatically convert character data types into factor data types. 
 
-For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. Note that you'll need to decide if you want to use the default reference group or if you should use `fct_revel()` to pick a different one. 
+For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. Note that you'll need to decide if you want to use the default reference group or if you should use `fct_relevel()` to pick a different one. 
 
 Lastly, it's worth noting that there may be some situations where you don't want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:
 
@@ -258,7 +258,7 @@ This is directly connected to regularization in multilevel models: the estimates
 
 The Bayesian approach also has a notable difference from more familiar statistical approaches: instead of p-values, we can make direct probability statements about our estimates — for example, stating that there is a 95% probability that the effect of being in a particular class falls within a specific range.
 
-Diving deep into Bayesian methods is beyond the scope of this work, but you willestimate a Bayesian version of a multilevel model near the end of this chapter. There are excellent resources on Bayesian modeling in R, particularly the wonderful @bayesrulesbook. Those interested in the use of Bayesian methods in educational research may also find @kubsch2021beyond helpful.
+Diving deep into Bayesian methods is beyond the scope of this work, but you will estimate a Bayesian version of a multilevel model near the end of this chapter. There are excellent resources on Bayesian modeling in R, particularly the wonderful @bayesrulesbook. Those interested in the use of Bayesian methods in educational research may also find @kubsch2021beyond helpful.
 
 *Intra-class correlation coefficient*
 
