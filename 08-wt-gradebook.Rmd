@@ -107,7 +107,7 @@ gradebook <- ExcelGradeBook
 
 ### Import using a file path 
 
-This code uses the `read_excel()` function from the {readxl} package to find and the data file into R. Note the file path that `read_excel()` uses to find the dataset `ExcelGradeBook.xlsx`. This dataset is in a folder on your computer where you downloaded it. The function `getwd()` helps you locate your working directory. This is the default place where R looks for your files. 
+This code uses the `read_excel()` function from the {readxl} package to find and read the data file into R. Note the file path that `read_excel()` uses to find the dataset `ExcelGradeBook.xlsx`. This dataset is in a folder on your computer where you downloaded it. The function `getwd()` helps you locate your working directory. This is the default place where R looks for your files. 
 
 ```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 # See the current working directory
@@ -201,7 +201,7 @@ gradebook <-
   remove_empty(c("rows", "cols"))
 ```
 
-Now that you've removed the empty rows and columns, notice two columns, `absent` and `late`. It looks like someone started inputting data and then stopped. These two columns weren't removed by the last chunk of code because they contain data. But since the `absent` and `late` columns aren't complete you can remove it from the data frame for the purposes of this analysis.
+Now that you've removed the empty rows and columns, notice two columns, `absent` and `late`. It looks like someone started inputting data and then stopped. These two columns weren't removed by the last chunk of code because they contain data. But since the `absent` and `late` columns aren't complete, you can remove them from the data frame for the purposes of this analysis.
 
 In the "Foundational Skills" chapter, you learned about the `select()` function, which tells R what columns you want to keep. Use that again here, but this time use negative signs to remove `absent` and `late`.
 
@@ -212,7 +212,7 @@ gradebook <-
   select(-absent, -late)
 ```
 
-At last,you've turned the Excel sheet into a useful data frame. Inspect it once more to see the difference.
+At last, you've turned the Excel sheet into a useful data frame. Inspect it once more to see the difference.
 
 ```{r eval = FALSE, echo = TRUE, message = FALSE, warning = FALSE}
 view(gradebook)
@@ -244,7 +244,7 @@ classwork_df <-
     projects,
     summative_assessments,
     contains("classwork_")) %>%
-  mutate_at(vars(contains("classwork_")), list(~ as.numeric(.))) %>%
+  mutate(across(contains("classwork_"), as.numeric)) %>%
   pivot_longer(
     cols = contains("classwork_"),
     names_to = "classwork_number",
@@ -252,7 +252,7 @@ classwork_df <-
   )
 ```
 
-View the new data frame and notice which columns were selected using the code above. Also, note how all the classwork scores were gathered under the new columns `classwork_number` and `score`. 
+View the new data frame and notice which columns were selected using the code above. Also, note how all the classwork scores were gathered under the new columns `classwork_number` and `score`. The data is now clean enough to explore!
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 view(classwork_df)
@@ -416,7 +416,7 @@ gradebook %>%
   theme_dataedu()
 ```
 
-Based on these plots, there doesn't seem to be outliers in either of these variables. 
+Based on these plots, there don't seem to be outliers in either of these variables. 
 
 ### Correlation analysis
 
