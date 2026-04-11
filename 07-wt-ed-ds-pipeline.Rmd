@@ -10,7 +10,7 @@ knitr::include_graphics("./man/figures/Figure 7.1.png")
 
 Using data from a number of sources, you will learn the end-to-end process of working with education datasets. While the walkthrough topics vary, their structure and section headings are consistent. Each walkthrough begins with a vocabulary section, followed by an introduction to the dataset and the central question or problem.
 
-This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would need a refresher about these, refer to the previous chapter, [Chapter 6](#06).
+This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would need a refresher about these, refer to the previous chapter, [Chapter 6](#c06).
 
 ## Topics Emphasized
 
@@ -543,8 +543,8 @@ Save the joined data in a new object called `joined_dat`.
 ```{r}
 #| label: ch07-join-data
 joined_dat <-
-  left_join(course_data, pre_survey,
-            by = c("student_id", "course_id"))
+  left_join(course_data, pre_survey, 
+            by = join_by(student_id, course_id))
 
 joined_dat
 ```
@@ -566,9 +566,8 @@ The `semi_join()` function keeps all of the rows in the "left" data frame that c
 ```{r}
 #| label: ch07-semi-join
 semi_dat <- 
-  semi_join(course_data,
-            pre_survey,
-            by = c("student_id", "course_id"))
+  semi_join(course_data, pre_survey, 
+            by = join_by(student_id, course_id))
 
 semi_dat
 ```
@@ -580,9 +579,8 @@ The `anti_join()` function removes all of the rows in the "left" data frame that
 ```{r}
 #| label: ch07-anti-join
 anti_dat <-
-  anti_join(course_data,
-            pre_survey,
-            by = c("student_id", "course_id"))
+  anti_join(course_data, pre_survey, 
+            by = join_by(student_id, course_id))
 
 anti_dat
 ```
