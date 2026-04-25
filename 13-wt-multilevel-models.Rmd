@@ -31,7 +31,7 @@ Note that while using multi-level models is accessible through R, some of the co
 
 Using multilevel models will help you account for the way individual students are grouped together into higher-level units, like classes. Multilevel models do something different from a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10). They estimate the effect of being a student in a particular group. A multilevel model uses a different way to standardize the estimates for each group based on how systematically different the groups are, relative to the effect on the dependent variable.
 
-Though these conceptual details are complex, fitting them is fortunately straightforward and should be familiar if you have used R's `lm()` function. Let's get started.
+Though these conceptual details are complex, fitting them is fortunately straightforward and will be familiar if you have used R's `lm()` function. Let's get started.
 
 ### Data Source
 
@@ -197,7 +197,7 @@ tab_model(m_linear_dc_1,
 
 Dummy codes are used in nearly every case where you need to fit a model with variables that are factors. You've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function discussed later. These functions automatically convert character data types into factor data types. 
 
-For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. Note that you'll need to decide if you want to use the default reference group or if you should use `fct_revel()` to pick a different one. 
+For example, imagine you include a variable for courses that has values like "mathematics", "science", "english language" (typed like that!), "social studies", and "art" as an argument in `lm()`. `lm()` will automatically dummy-code these for you. Note that you'll need to decide if you want to use the default reference group or if you want to use `fct_revel()` to pick a different one. 
 
 Lastly, it's worth noting that there may be some situations where you don't want a single factor level to act as a reference group. In such cases, no intercept is estimated. This can be done by passing a -1 as the first value after the tilde, as follows:
 
@@ -267,7 +267,7 @@ m_course <-
   lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
-You'll notice something that you didn't see using `lm()`. You use a new term (`(1|course_id)`), which you'll use to model the group (in this case, courses). With `lmer()`, these group terms are in parentheses and on the right side of the bar. `|course_id` tells `lmer()` that courses are groups in the data and they should be included in the model. The `1` on the left side of the bar tells `lmer()` that you want varying intercepts for each group. 1 is used to denote the intercept.
+You'll notice something that you didn't see using `lm()`. You used a new term (`(1|course_id)`) to model the group (in this case, courses). With `lmer()`, these group terms are in parentheses and on the right side of the bar. `|course_id` tells `lmer()` that courses are groups in the data and they should be included in the model. The `1` on the left side of the bar tells `lmer()` that you want varying intercepts for each group. 1 is used to denote the intercept.
 
 If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian prior for the group estimates.
 
