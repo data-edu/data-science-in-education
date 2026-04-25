@@ -83,22 +83,9 @@ library(tidymodels)
 
 ## Import data
 
-You have two options for importing the student-level and assessments data:
-
-Option 1: Download the CSV files from the book’s [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/main/data/ml) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/ml). To set up the folders in your working directory as they are in this book, first, create a folder called "data". Then, inside that folder, create a second folder called "ml" and place the oulad_students.csv and oulad_assessments.csv files in the "ml" folder. Then, load the data using `here()` and `read_csv()`. Alternatively, if you are using a different working directory, change the file path inside of here() to match where you store your data in your working directory.
-
-Option 2: Get the data from the {dataedu} package.
+Get the data from the {dataedu} package.
 
 ```{r}
-#| message: false
-#| label: ch14-load-data
-# Option 1: Download the CSV files from the GitHub repository
-# The code below assumes you have set up folders "data" and "ml" within your working directory
-# and that oulad_students.csv and oulad_assessments.csv are in the "ml" folder.
-students <- read_csv(here::here("data", "ml", "oulad_students.csv"))
-assessments <- read_csv(here::here("data", "ml", "oulad_assessments.csv"))
-
-# Option 2: Import the data using {dataedu}
 students <- dataedu::oulad_students
 assessments <- dataedu::oulad_assessments
 ```
@@ -160,18 +147,12 @@ students <-
     mutate(imd_band = as.factor(imd_band))
 ```
 
-Next, load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the class.
+Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the class.
 
-Import this dataset using one of the two options mentioned above:
+Import the data using the {dataedu} package
 
 ```{r}
 #| label: ch14-load-logtrace-dat
-# Option 1: Download the CSV files from the GitHub repository
-# The code below assumes you have set up folders "data" and "ml" within your working directory
-# and that oulad_interactions_filtered.csv.zip is in the "ml" folder. 
-# interactions <- read_csv(here::here("data", "ml", "oulad_interactions_filtered.csv.zip"))
-
-# Option 2: Import the data using {dataedu}
 interactions <- dataedu::oulad_interactions_filtered
 ```
 
