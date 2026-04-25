@@ -31,7 +31,7 @@ Note that while using multi-level models is accessible through R, some of the co
 
 Using multilevel models will help you account for the way individual students are grouped together into higher-level units, like classes. Multilevel models do something different from a simple linear regression like the ones described in [Walkthrough 1/Chapter 7](#c07) and [Walkthrough 4/Chapter 10](#c10). They estimate the effect of being a student in a particular group. A multilevel model uses a different way to standardize the estimates for each group based on how systematically different the groups are, relative to the effect on the dependent variable.
 
-Though these conceptual details are complex, fitting them is fortunately straightforward and should be familiar if you have used R's `lm()` function. Let's get started.
+Though these conceptual details are complex, fitting them is fortunately straightforward and will be familiar if you have used R's `lm()` function. Let's get started.
 
 ### Data Source
 
@@ -267,7 +267,7 @@ m_course <-
   lmer(final_grade ~ TimeSpent_std + (1|course_id), data = dat)
 ```
 
-You'll notice something that you didn't see using `lm()`. You use a new term (`(1|course_id)`), which you'll use to model the group (in this case, courses). With `lmer()`, these group terms are in parentheses and on the right side of the bar. `|course_id` tells `lmer()` that courses are groups in the data and they should be included in the model. The `1` on the left side of the bar tells `lmer()` that you want varying intercepts for each group. 1 is used to denote the intercept.
+You'll notice something that you didn't see using `lm()`. You used a new term (`(1|course_id)`) to model the group (in this case, courses). With `lmer()`, these group terms are in parentheses and on the right side of the bar. `|course_id` tells `lmer()` that courses are groups in the data and they should be included in the model. The `1` on the left side of the bar tells `lmer()` that you want varying intercepts for each group. 1 is used to denote the intercept.
 
 If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian prior for the group estimates.
 
