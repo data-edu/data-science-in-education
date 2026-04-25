@@ -479,7 +479,9 @@ district_tidy_df %>%
            category != "frpl_pct") %>%
     # Reordering x-axis so bars appear by descending value
     ggplot(aes(x = reorder(category, -value), y = value)) +
-    geom_bar(stat = "identity", aes(fill = category)) +
+    geom_bar(stat = "identity",
+             fill = dataedu_colors("darkblue"),
+             color = "black") +
     labs(title = "Percentage of Population by Subgroup", x = "Subgroup", y = "Percentage of Population") +
     # Make labels more readable
     scale_x_discrete(
@@ -493,7 +495,6 @@ district_tidy_df %>%
     ) +
     # Makes labels present as percentages
     scale_y_continuous(labels = scales::percent) +
-    scale_fill_dataedu() +
     theme_dataedu() +
     theme(legend.position = "none")
 ```
@@ -522,7 +523,8 @@ district_merged_df %>%
     # X-axis will be the percentage of White students within schools
     ggplot(aes(x = wh_pct)) +
     geom_histogram(breaks = seq(0, 1, by = .1), 
-                   fill = dataedu_colors("darkblue"))  +
+                   fill = dataedu_colors("darkblue"),
+                   color = "black")  +
     labs(title = "Count of Schools by White Population", 
          x = "White Percentage", 
          y = "Count") +
@@ -547,7 +549,9 @@ High-poverty schools are defined as public schools where more than 75% of the st
 district_tidy_df %>%
     filter(school_name == "Total", str_detect(category, "povsch")) %>%
     ggplot(aes(x = reorder(category, -value), y = value)) +
-    geom_bar(stat = "identity", aes(fill = factor(category))) +
+    geom_bar(stat = "identity",
+             fill = dataedu_colors("darkblue"),
+                   color = "black") +
     labs(title = "Distribution of Subgroups in High Poverty Schools", 
          x = "Subgroup", 
          y = "Percentage in High Poverty Schools") +

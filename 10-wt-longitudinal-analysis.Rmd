@@ -941,7 +941,8 @@ field:
 high_count %>%
   filter(gender == "m", age == "Total, Age 6-21") %>%
   ggplot(aes(x = year, y = total, color = state)) +
-  geom_freqpoly(stat = "identity", size = 1) +
+  geom_line(size = 1) +
+  geom_point(aes(shape = state), size = 2) +
   labs(title = "Count of Male Students in Special Education Over Time",
        subtitle = "Ages 6-21") +
   scale_color_dataedu() +
@@ -957,9 +958,10 @@ functions: `group_by()` and `summarize()`:
 ```{r fig10-3, results = 'hide', message = FALSE, fig.cap="Total Count of Students in Special Education Over Time", fig.showtext = TRUE}
 high_count %>%
   group_by(year, state) %>%
-  summarize(n = sum(total)) %>%
+  summarize(n = sum(total), .groups = "drop") %>%
   ggplot(aes(x = year, y = n, color = state)) +
-  geom_freqpoly(stat = "identity", size = 1) +
+  geom_line(size = 1) +
+  geom_point(aes(shape = state), size = 2) +
   labs(title = "Total Count of Students in Special Education Over Time",
        subtitle = "Ages 3-21") +
   scale_color_dataedu() +
@@ -1016,14 +1018,12 @@ less than male students.
 ```{r fig10-5, results = 'hide', message = FALSE, fig.cap="Male Student to Female Student Ratio Over Time", fig.showtext = TRUE}
 high_count %>%
   group_by(year, state, gender) %>%
-  summarize(total = sum(total)) %>%
-  # Create new columns for male and female student counts
-  pivot_wider(names_from = gender, 
-              values_from = total) %>% 
-  # Create a new ratio column
+  summarize(total = sum(total), .groups = "drop") %>%
+  pivot_wider(names_from = gender, values_from = total) %>% 
   mutate(ratio = m / f) %>%
   ggplot(aes(x = year, y = ratio, color = state)) +
-  geom_freqpoly(stat = "identity", size = 1) +
+  geom_line(size = 1) +
+  geom_point(aes(shape = state), size = 2) +
   scale_y_continuous(limits = c(1.5, 2.5)) +
   labs(title = "Male Student to Female Student Ratio Over Time",
        subtitle = "Ages 6-21") +
@@ -1313,8 +1313,9 @@ model_data %>%
   pivot_longer(cols = c(f, m), 
                names_to = "gender", 
                values_to = "students") %>% 
-  ggplot(aes(x = year, y = students, color = gender)) +
-  geom_boxplot() +
+  ggplot(aes(x = year, y = students)) +
+  geom_boxplot(aes(fill = gender),
+               color = "black") +
   scale_y_continuous(labels = scales::comma) +
   labs(
     title = "Median Male and Female Student Counts in Special Education",
@@ -1323,7 +1324,7 @@ model_data %>%
     y = "",
     caption = "Data: US Dept of Education"
   ) +
-  scale_color_dataedu() +
+  scale_fill_dataedu() +
   theme_dataedu()
 ```
 
