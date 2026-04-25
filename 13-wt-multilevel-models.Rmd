@@ -8,8 +8,7 @@
 
 ## Functions Introduced
 
-- `dummies::dummy()`
-- `dplyr::bind_cols()`
+- `fastDummies::dummy_cols()`
 - `lme4::lmer()`
 - `performance::icc()`
 
@@ -49,13 +48,13 @@ To do this, you'll assign codes to the groups so you can include them in the mod
 We will load the tidyverse and a few other packages for using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
 
-If you haven't already, you'll need to install {lme4}, {performance}, and {dummies} to do the rest of this walkthrough. If needed, you can review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
+If you haven't already, you'll need to install {lme4}, {performance}, and {fastDummies} to do the rest of this walkthrough. If needed, you can review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter for an overview of installing packages.
 
 The remaining packages, ({tidyverse}, {sjPlot}, and {dataedu}), are used in other chapters. But if you have not installed these before, you can install them using the `install.packages()` function. 
 
 ```{r load packages, message = F, warning = F}
 library(tidyverse)
-library(dummies)
+library(fastDummies)
 library(sjPlot)
 library(lme4)
 library(performance)
@@ -64,63 +63,52 @@ library(dataedu)
 
 ## The Role of Dummy Codes
 
-Before we import our data, let's learn about dummy-coding. In this discussion, you'll learn how dummy coding works using the {dummies} package. Note that the {dummies} package tends to work better with base R as opposed to the {tidyverse}. In this section, you'll use base R and data.frame instead of the {tidyverse} and tibbles.
+Before we import our data, let's learn about dummy-coding. In this discussion, you'll learn how dummy coding works using the {fastDummies} package. this section, you'll use base R and data.frame instead of the {tidyverse} and tibbles.
 
-Start by looking at the `iris` data that comes built into R.
+Start by looking at the `penguins` data that comes loaded with the {tidyverse} using the handy `glimpse()` function
 
-``` {r iris}
-str(iris)
+``` {r ex-data}
+glimpse(penguins)
 ```
 
-As you can see above, the `Species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `Species` seems to be made up of words such as "setosa."
+As you can see above, the `species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `species` seems to be made up of words such as "Adelie"
 
-A common way to approach this is through dummy coding, where you create new variables for each of the possible values of `Species`. These new variables have a value of 1 when the row is associated with that level
-(i.e., the first row in the data frame above would have a 1 for a column named`setosa`).
+A common way to approach this is through dummy coding, where you create new variables for each of the possible values of `species`. These new variables have a value of 1 when the row is associated with that level.
 
-Put the {dummies} package to work on this task. How many possible values are there for `Species`? You can check with the `levels` function: 
+Put the {fastDummies} package to work on this task. How many possible values are there for `species`? You can check with the `levels` function: 
 
-``` {r iris levels}
-levels(iris$Species)
+``` {r penguins levels}
+levels(penguins$species)
 ```
 
-The function `dummy.data.frame()` creates a `data.frame` where all the specified columns are given dummy attributes. You can use it to turn `iris` into a dummy data frame. Then you'll run the `get.dummy()` function specifically on the `Species` variable. It returns three variables, one for each of the three levels of Species - `setosa`, `versicolor`, and `virginica`.
+The function `dummy_cols()` returns a `tibble` where specified columns (such as `species`) are given dummy attributes.
 
 Please note that the code below will trigger a warning. A warning will run the code but alert you that something should be changed. This warning is because of an outdated parameter in the `dummy.data.frame()` function that hasn't been updated. R 3.6 and above triggers a warning when this happens. This is a good reminder that packages evolve (or don't), so you'll need to be aware of any changes when using them for analysis.
 
-``` {r run dummy on species, eval = FALSE}
-d_iris <-
-  dummy.data.frame(iris)
+``` {r run dummy on species, eval = TRUE}
+d_penguins <- penguins %>% 
+  dummy_cols("species")
 
-get.dummy(d_iris, name = "Species") %>% 
-  head()
+glimpse(d_penguins)
 ```
 
-Confirm that every row associated with a specific species has a 1 in the column it corresponds to. You can do this by binding together the dummy codes and the `iris` data and then counting how many rows were coded with a "1" for each dummy code. For example, when the `Species` is "setosa", the variable `Speciessetosa` always equals 1 - as is the case for the other species. 
+`d_penguins` has _all_ of the original variables and three additional variables that `penguins` did not have. Specifically, `d_penguins` has one variable for each of the three species of penguin, with a zero if that particular observation is not associated with that species and a one if it is. 
 
-Now you'll need to combine the dummy-coded variables with the `iris` dataset. `bind_cols()` is a useful {tidyverse} function for binding together data frames by column.           
+You can see this easiest if you select the `species` variable and the three new dummy-coded variables. Look at the first 5 rows to examine and check:
 
-```{r add dummy coded variables to iris, eval = FALSE}
-# create matrix of dummy-coded variables
-species_dummy_coded <- 
-  get.dummy(d_iris, name = "Species")
-
-# add dummy coded variables to iris
-iris_with_dummy_codes <- 
-  bind_cols(iris, species_dummy_coded)
+``` {r show dummy codes}
+d_penguins %>%
+  select(species, species_Adelie, species_Chinstrap, species_Gentoo) %>%
+  slice_head(n = 5)
 ```
 
-Have a look at the results.
-
-```{r count species, eval = FALSE}
-iris_with_dummy_codes %>% 
-  count(Species, Speciessetosa, Speciesversicolor, Speciesvirginica)
-```
+For example, the first row of the data frame above has a 1 for `speciesAdelie` and 0 for the other two dummy-coded variables, which indicates that this row corresponds to an observation of an Adelie penguin.
 
 Now that we have a basic understanding of how dummy codes work, it's time to explore how to use them in the model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
 
-Why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used for comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations in a group. Go back to the `iris` example. Consider all the flowers that are in the "setosa" group. To represent how different those flowers are, they have to be compared to another group of flowers. In R, you'd compare all the flowers in the "setosa" group to the reference group of flowers. Recall that the reference group of flowers would be the group that is not explicitly named in the model output.
+Why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used for comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations in a group. Go back to the `penguins` dataset. Consider all the penguins that are in the "Adelie" group. To represent how different those penguins are, they have to be compared to another group of penguins. In R, you'd compare all the penguins in the "Adelie" group to the reference group of penguins. Recall that the reference group of penguins would be the group that is not explicitly named in the model output.
 
-However, if every level of flower groups is dummy-coded, there would be no single group to compare to. For this reason, one group needs to be selected as the reference group.
+However, if every level of species is dummy-coded, there would be no single group to compare to. For this reason, one group needs to be selected as the reference group.
 
 ## Import Data 
 
