@@ -2,7 +2,7 @@
 
 **Abstract**
 
-This chapter explores tidying, transforming, visualizing, and analyzing text data. Data scientists in education are surrounded by text-based data sources like word processing documents, emails, and survey responses. Data scientists in education can expand their opportunities to learn about the student experience by adding text mining and natural language processing to their toolkit. Using Bluesky data, this chapter shows the reader practical tools for text analysis, including preparing text data, counting and visualizing words, and doing sentiment analysis. The chapter uses posts from #tidytuesday, an R learning community, to put these techniques in an education context. Data science tools in this chapter include transforming text into data frames, filtering datasets for keywords, running sentiment analysis and algorithms, and visualizing data.
+This chapter explores tidying, transforming, visualizing, and analyzing text data. Data scientists in education are surrounded by text-based data sources like word processing documents, emails, and survey responses. Data scientists in education can expand their opportunities to learn about the student experience by adding text mining and natural language processing to their toolkit. Using Bluesky data, this chapter shows the reader practical tools for text analysis, including preparing text data, counting and visualizing words, and doing sentiment analysis. The chapter uses posts from #tidytuesday, a weekly data visualization challenge, to put these techniques in an education context. Data science tools in this chapter include transforming text into data frames, filtering datasets for keywords, running sentiment analysis and algorithms, and visualizing data.
 
 
 ## Topics emphasized
@@ -17,7 +17,8 @@ This chapter explores tidying, transforming, visualizing, and analyzing text dat
 - `set.seed()`
 - `tidytext::unnest_tokens()`
 - `tidytext::get_sentiments()`
-- `tidytext::inner_join()`
+- `dplyr::inner_join()`
+- `dplyr::anti_join()`
 
 ## Vocabulary 
 
@@ -28,19 +29,19 @@ This chapter explores tidying, transforming, visualizing, and analyzing text dat
 
 ## Chapter overview
 
-The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far you've analyzed data in `.csv` files, but that's not the only way data is stored. If you can learn basic techniques for analyzing text, you'll have yet another way to learn about the student experience.
+The ability to work with many kinds of datasets is one of the great features of doing data science with programming. So far you've analyzed data in `.csv` files, but that's not the only way data is stored. Learning basic techniques for analyzing text gives you another way to understand the student experience.
 
-In this chapter, you'll focus on analyzing textual data from Bluesky. We focus on this particular data source because it's relevant to a number of educational topics and questions. In addition, Bluesky data includes information about who posted, when they posted, the post's text, and a great deal more (see [@bskyr])). This makes it especially well-suited for a group of text analysis techniques called Natural Language Processing (often abbreviated NLP) [@hirschberg2015].
+In this chapter, you'll focus on analyzing textual data from Bluesky using the bskyr package [@bskyr]. We focus on this particular data source because it's relevant to a number of educational topics and questions. In addition, Bluesky data includes information about who posted, when they posted, the post's text, and a great deal more. This makes it especially well-suited for a group of text analysis techniques called natural language processing (often abbreviated NLP) [@hirschberg2015].
 
 Note that we use #tidytuesday in this chapter and the next because it exemplifies learning-related data you might find in research. It's also straightforward to access from Bluesky. While this chapter dives deeply into the analysis of the text of posts, [Chapter 12](#c12) explores the nature of the interactions between individuals using the #tidytuesday hashtag.
 
 ### Background 
 
-When thinking about data science in education, one tends to think about data stored in spreadsheets. But what can you learn about the student experience from text data? Take a moment to mentally review all the time in your work day either creating or consuming text data. In education, you're surrounded by it. Lessons are created in word processor documents, students submit assignments online, and the school community posts on public social media platforms. Text can be an authentic reflection of reality in schools, so how might we learn from it?
+When thinking about data science in education, one tends to think about data stored in spreadsheets. But what can you learn about the student experience from text data? Take a moment to mentally review how much of your work day you spend either creating or consuming text data. In education, you're surrounded by it. Lessons are created in word processor documents, students submit assignments online, and the school community posts on public social media platforms. Text can be an authentic reflection of reality in schools, so how might we learn from it?
 
 Even the most basic text analysis techniques will expand your data science toolkit. For example, you can use text analysis to count the number of key words that appear in open-ended survey responses. Or you can analyze word patterns in student responses or message board posts. 
 
-Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed upon values.. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple meanings depending on interpretation and context. 
+Analyzing a collection of text is different from analyzing large numerical datasets because words don't have agreed-upon values. The number 2 will always be more than 1 and less than 3. The word "fantastic", on the other hand, has multiple meanings depending on interpretation and context. 
 
 Using text analysis can help to broadly estimate meaning in the text. When paired with observations, interviews, and close review of the text, this approach can help educators learn from text data. In this chapter, you'll learn how to count the frequency of words in a dataset and associate those words with common feelings like positivity or joy. 
 
@@ -77,7 +78,7 @@ library(tidytext)
 
 ## Import data
 
-Next, load the data into your environment so you can start analyzing it. In [Chapter 12](#c12), you learned how to access this data through Bluesky's Application Programming Interface, or API.
+Next, load the data into your environment so you can start analyzing it. In [Chapter 12](#c12), you'll learn how to access this data through Bluesky's Application Programming Interface, or API.
 
 You'll use the prepared dataset of #tidytuesday posts from Bluesky. Start by reading in this dataset:
 
@@ -106,7 +107,7 @@ posts <-
   mutate(post_id = as.character(post_id))
 ```
 
-Now the dataset has a column to identify each post and a column that shows the text that users posted. But each row has the entire post in the `text` variable, which makes it hard to analyze. If dataset stays like this, you'd need to use functions on each row to count words. You can count words more efficiently if each row represents a single word. Splitting sentences in a row into single words in a row is called "tokenizing". In their book *Text Mining With R*, @silge2017text describe tokens this way:
+Now the dataset has a column to identify each post and a column that shows the text that users posted. But each row has the entire post in the `text` variable, which makes it hard to analyze. If the dataset stays like this, you'd need to use functions on each row to count words. You can count words more efficiently if each row represents a single word. Splitting each sentence into individual words, one per row, is called "tokenizing". In their book *Text Mining With R*, @silge2017text describe tokens this way:
 
 >A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.
 
@@ -124,7 +125,7 @@ You use `output = word` to tell `unnest_tokens()` that you want the column of to
 
 Notice that the `tokens` dataset has more rows than the `posts` dataset. This says a lot about how `unnest_tokens()` works. In the `posts` dataset, each row has an entire post and its unique ID. Since that unique ID is assigned to the entire post, each unique ID only appears once in the dataset. When you used `unnest_tokens()` to put each word on its own row, you broke each post into many words. This created additional rows in the dataset. And since each word in a single post shares the same ID for that post, an ID now appears multiple times in the new dataset. 
 
-You're almost ready to start analyzing the dataset. There's one more step---removing common words that that make will make your analysis difficult. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell you much on their own. As a result, they clutter a dataset of useful words and make it harder to manage the volume of words during analysis. The {tidytext} package includes a dataset called `stop_words` that you'll use to remove rows containing stop words. You'll use `anti_join`() on the `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. You'll also remove account names.
+You're almost ready to start analyzing the dataset. There's one more step---removing common words that will make your analysis difficult. Words like "the" or "a" are in a category of words called "stop words". Stop words serve a function in verbal communication, but don't tell you much on their own. As a result, they clutter a dataset of useful words and make it harder to manage the volume of words during analysis. The {tidytext} package includes a dataset called `stop_words` that you'll use to remove rows containing stop words. You'll use `anti_join()` on the `tokens` dataset and the `stop_words` dataset to keep only rows that have words *not* appearing in the `stop_words` dataset. You'll also remove account names.
 
 ```{r remove stop words}
 data(stop_words)
@@ -141,7 +142,7 @@ One final note before you start counting words: Remember when you first tokenize
 
 ## Analysis: counting words 
 
-Now it's time to start exploring the newly cleaned dataset of posts. A good start is computing the frequency of each word and seeing which ones show up the most. You can pipe `tokens` to the `count` function to do this: 
+Now it's time to start exploring the newly cleaned dataset of posts. A good start is computing the frequency of each word and seeing which ones show up the most. You can pipe `tokens` to the `count()` function to do this: 
 
 ```{r count words}
 tokens %>% 
@@ -169,7 +170,7 @@ Now that you have a sense of the most frequently appearing words, it's time to e
 
 You'll need to use a technique called "sentiment analysis" to get at the positivity of words in these posts. Sentiment analysis evaluates words for their emotional association. If you analyze words by the emotions they convey, you can start to explore patterns in large text datasets like the `tokens` data. 
 
-Earlier you used `anti_join()` to remove stop words in the dataset. You're going to do something similar here to reduce the `tokens` dataset to words that have a positive association. You'll use a dataset called the "NRC Word-Emotion Association Lexicon" to identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013]
+Earlier you used `anti_join()` to remove stop words in the dataset. You're going to do something similar here to reduce the `tokens` dataset to words that have a positive association. You'll use a dataset called the "NRC Word-Emotion Association Lexicon" to identify words with a positive association. This dataset was published in a work called *Crowdsourcing a Word-Emotion Association Lexicon* [@mohammad2013].
 
 You need to install a package called {textdata} to access the NRC Word-Emotion Association Lexicon dataset. Note that you only need to have the package installed. You do not need to load it with the `library(textdata)` command. 
 
@@ -292,14 +293,14 @@ dv_tokens <-
   distinct(post_id)
 ```
 
-Now you have a data frame of `post_id` for posts containing "dataviz" and another for posts containing a positive word. Use these to transform the `posts` dataset. First filter `posts` for rows that have the "dataviz" `post_id`. Then create a new column called `positive` that will tell you if the `post_id` is from the vector of positive word `post_id`s. Name this filtered dataset `dv_pos`.
+Now you have a data frame of `post_id` for posts containing "dataviz" and another for posts containing a positive word. Use these to transform the `posts` dataset. First filter `posts` for rows that have the "dataviz" `post_id`. Then create a new column called `positive` that will tell you if the `post_id` is from the vector of `post_id`s for positive words. Name this filtered dataset `dv_pos`.
 
 ```{r dataviz posts with positive variable}
 dv_pos <-
   posts %>%
   # Only posts that have the dataviz post_id
   filter(post_id %in% dv_tokens$post_id) %>%
-  # Is the post_id from our vector of positive word?
+  # Is the post_id from our vector of positive words?
   mutate(positive = if_else(post_id %in% pos_tokens$post_id, 1, 0))
 ```
 
@@ -319,7 +320,7 @@ dv_pos %>%
   mutate(perc = n / sum(n))
 ```
 
-About 41% of posts that have "dataviz" in them also have at least one positive word, and about 59% of them did not have at least one positive word. It's worth noting here that this finding doesn't necessarily mean users didn't have anything good to say about 59% of the "dataviz" posts. You can't know why some posts had positive words and some didn't, but you can know that more dataviz posts had positive words than not. To put this in perspective, you might have a different impression if 5% or 95% of the posts had positive words. 
+About 41% of posts that have "dataviz" in them also have at least one positive word, and about 59% of them did not have at least one positive word. It's worth noting that this doesn't necessarily mean users had nothing positive to say in the other 59% of "dataviz" posts. You can't know why some posts had positive words and some didn't, but you can know that more dataviz posts had positive words than not. To put this in perspective, you might have a different impression if 5% or 95% of the posts had positive words. 
 
 Since the point of exploratory data analysis is to explore and develop questions, let's continue to do that. In this last section we'll review a random selection of posts for context.
 
@@ -345,7 +346,7 @@ posts %>%
   slice(1, 3)
 ```
 
-Randomly selecting rows from a dataset is great technique to have in your toolkit. Random selection helps you avoid biases when picking rows to review.
+Randomly selecting rows from a dataset is a great technique to have in your toolkit. Random selection helps you avoid biases when picking rows to review.
 
 Here's one way to do that using base R:
 
@@ -370,7 +371,7 @@ A few lines before that, you used `set.seed(2026)`. This helps us ensure that, w
 
 ## Conclusion
 
-The purpose of this walkthrough is to share code with you so you can practice some basic text-analysis techniques. Now it's time to keep learning by adapting this code to text-based files in your work setting. Trying reading in some of these and doing a similar analysis:
+The purpose of this walkthrough is to share code with you so you can practice some basic text-analysis techniques. Now it's time to keep learning by adapting this code to text-based files in your work setting. Try reading some of these and doing a similar analysis:
 
  - News articles
  - Procedure manuals
@@ -378,4 +379,4 @@ The purpose of this walkthrough is to share code with you so you can practice so
 
 There are also advanced text analysis techniques to explore. Consider trying topic modeling (https://www.tidytextmining.com/topicmodeling.html) or finding correlations between terms (https://www.tidytextmining.com/ngrams.html), both described in [@silge2017text].
 
-Finally, keep reading if you'd like to explore this data set more. You'll use it further in the next chapter [on social network analysis](#c12), where you explore how to collect your own Bluesky data and analyze the interactions between individuals in the #tidytuesday community.
+Finally, keep reading if you'd like to explore this dataset more. You'll use it further in the next chapter [on social network analysis](#c12), where you explore how to collect your own Bluesky data and analyze the interactions between individuals in the #tidytuesday community.
