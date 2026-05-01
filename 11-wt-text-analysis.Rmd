@@ -74,6 +74,7 @@ Start by loading these packages:
 ```{r load packages, message = F, warning = F}
 library(tidyverse)
 library(tidytext)
+library(dataedu)
 ```
 
 ## Import data
@@ -220,7 +221,9 @@ You can visualize these words nicely by using {ggplot2} to show the positive wor
 pos_tokens_count %>%
   filter(n >= 5) %>%
   ggplot(., aes(x = reorder(word, -n), y = n)) +
-  geom_bar(stat = "identity", fill = "darkblue") +
+  geom_bar(stat = "identity", 
+           fill = dataedu_colors("darkblue"), 
+           color = "black") +
   labs(
     title = "Count of Words Associated with Positivity",
     subtitle = "Posts with the hashtag #tidytuesday",
@@ -228,7 +231,7 @@ pos_tokens_count %>%
     x = "",
     y = "Count"
   ) +
-  theme_minimal()
+  theme_dataedu()
 ```
 
 Note the use of `reorder()` when mapping the `word` variable to the x aesthetic. Using `reorder()` sorts the x-axis in descending order by the variable `n`. Sorting the bars from highest frequency to lowest makes it easier to identify and compare the most and least common words in the visualization. 
