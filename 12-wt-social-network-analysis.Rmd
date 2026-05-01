@@ -42,7 +42,7 @@ This chapter explores the use of social network analysis, commonly referred to a
 
 ## Chapter overview
 
-In education, it's common to focus on individuals – students and teachers, especially. You can learn many things from studying individual students or teachers, but sometimes what is interesting lies between individuals. Social network analysis is useful for just this – understanding the relationships between individuals.
+In education, it's common to focus on individuals –-- students and teachers, especially. You can learn many things from studying individual students or teachers, but sometimes what is interesting lies between individuals. Social network analysis is useful for just this – understanding the relationships between individuals.
 
 For instance, social network analysis is useful for asking questions about social influence [@frank1998chapter], like How does the pattern of interactions among teachers in a professional network explain their continued involvement in the network? [@rosenberg2021advancing] There are questions about social selection, like which parents are the most central in a parent teacher association (PTA) group?
 
@@ -52,9 +52,9 @@ While useful for asking questions about social relations, social network analysi
 
 This chapter is designed to take you from importing social media data through visualizing it. Though, as we describe next, you can also use self-report survey and other types of data, as well.
 
-For those wishing to dive deeper into the aforementioned selection and influence models, we've included an appendix ([Appendix C](#c20c)) to introduce other social network-related ideas for further exploration; these focus on modeling social network processes. In particular, they include the processes for who chooses to interact with whom, their level of influence, or how the relationships impact behaviors.
+For those wishing to dive deeper into the aforementioned selection and influence models, we've included an appendix ([Appendix C](#c20)) to introduce other social network-related ideas for further exploration; these focus on modeling social network processes. In particular, they include the processes for who chooses to interact with whom, their level of influence, or how the relationships impact behaviors.
 
-You will need a Bluesky account to complete the code outlined in this chapter to access your own Bluesky data. You will use the Bluesky Application Interface (API). If you do not have a Bluesky account, you can create one and keep it private or choose to delete it when you're done with this walkthrough.
+You will need a Bluesky account to complete the code outlined in this chapter to access your own Bluesky data. You will use the Bluesky Application Programming Interface (API). If you do not have a Bluesky account, you can create one and keep it private or choose to delete it when you're done with this walkthrough.
 
 ## Background
 
@@ -180,7 +180,7 @@ posts_may <- bs_search_posts(query = "#tidytuesday",
                              auth = auth)
 ```
 
-Now, we can combine these data frames together and assign the results to a single object, `posts`, and then look at the results:
+Now, we can combine these data frames and assign the results to a single object, `posts`, and then look at the results:
 
 ```{r, eval = FALSE}
 bind_rows(posts_jan, posts_feb, posts_mar, posts_apr, posts_may) -> posts
@@ -219,7 +219,7 @@ You may notice that the most recent posts containing the #tidytuesday hashtag ar
 
 This data is complex. Unlike the rectangular datasets (like spreadsheets) that you used in earlier chapters, social media data from APIs often comes in a nested, hierarchical structure. Think of it like a filing cabinet where each drawer contains folders, and each folder contains documents. You need to open each level to get to the information you want.
 
-If you take a glimpse at `posts`, we see that many of the columns are of the type "named list":
+If you take a glimpse at `posts`, you'll see that many of the columns are of the type "named list":
 
 ```{r}
 posts %>% 
@@ -237,7 +237,7 @@ posts$author %>%
 
 Note that there's a similar situation for the field called "record", which includes the time stamp for the post, its text (i.e., the contents of the post), languages specified, whether hashtags are included, mentions of other users, and whether the post is a reply.
 
-We won't run the following code, as the output is quite lengthy. But please try to run it. Just make sure you've loaded the data, `posts` from earlier.
+We won't run the following code, as the output is quite lengthy. But please try to run it. Just make sure you've loaded the `posts` data from earlier.
 
 ```{r, eval = FALSE}
 posts$record %>% 
@@ -621,7 +621,7 @@ p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layo
 p_net
 ```
 
-This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality—how crucial they are in connecting parts of the network.
+This visualization shows the structure of the #TidyTuesday network on Bluesky. Larger nodes represent users who receive more mentions, and the color indicates their betweenness centrality --- how crucial they are in connecting parts of the network.
 
 ### Refining the graph – filtering isolated nodes
 
