@@ -31,7 +31,7 @@ This chapter uses a freely available school district dataset to examine the dist
 * descriptive analysis
 * disaggregated data
 * data frame
-* Free/Reduced Price Lunch (FRPL)
+* Free and Reduced-Price Lunch (FRPL)
 * histogram
 * lists
 * subgroup
@@ -119,13 +119,13 @@ There are many publicly available aggregate datasets related to education. On th
 
   - [Programme for International Student Assessment (PISA)](https://www.oecd.org/en/about/programmes/pisa.html) (https[]()://www.oecd.org/pisa/), which measures 15-year-old school pupils' academic performance in mathematics, science, and reading. 
 
-On the U.S. federal level, well-known examples include:
+At the U.S. federal level, well-known examples include:
 
-  - [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which reports variables on educational programs and services disaggregated by race and ethnicity, sex, limited English proficiency, and disability. These data are at the school level.
+  - [Civil Rights Data Collection (CRDC)](https://www2.ed.gov/about/offices/list/ocr/data.html) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which reports variables on educational programs and services disaggregated by race and ethnicity, sex, limited English proficiency, and disability. This data is at the school level.
 
-  - [Common Core of Data (CCD)](https://nces.ed.gov/ccd/) (https[]()://www2.ed.gov/about/offices/list/ocr/data.html), which is the U.S. Department of Education's primary database on public elementary and secondary education.
+  - [Common Core of Data (CCD)](https://nces.ed.gov/ccd/) (https[]()://nces.ed.gov/ccd/), which is the U.S. Department of Education's primary database on public elementary and secondary education.
 
-  - [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html) (https[]()://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. These data are at the school and district level.
+  - [EdFacts](https://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html) (https[]()://www2.ed.gov/about/inits/ed/edfacts/data-files/index.html), which includes state assessments and adjusted cohort graduation rates. This data is at the school and district level.
 
   - [Integrated Postsecondary Education Data System (IPEDS)](https://nces.ed.gov/ipeds/) (https[]()://nces.ed.gov/ipeds/), which is the U.S. Department of Education's primary database on postsecondary education.
 
@@ -145,12 +145,12 @@ When we published the first edition of this book in 2020, the school district pr
 
 The district has since changed its reporting process to a school-level dashboard. The PDFs we used in the first edition are no longer available on the district's website. This change in availability and access is a common occurrence in education. We cannot assume that data will remain available in the same format or location, or remain available at all.
 
-Adapting to changes in data availability is crucial for a data scientist in education. You can implement data governance measures in your organization, save backups in an organized manner in accordance with privacy and security policies, and create a centralized repository for data-related resources. To learn more, we recommend Data Management in Large-Scale Education Research by Crystal Lewis [@lewis2024data].
+Adapting to changes in data availability is crucial for a data scientist in education. You can implement data governance measures in your organization, save backups in an organized manner in accordance with privacy and security policies, and create a centralized repository for data-related resources. To learn more, we recommend *Data Management in Large-Scale Education Research* by Crystal Lewis [@lewis2024data].
 
 To ensure consistent access to the PDFs for this chapter, we saved copies in our  [GitHub repository](https://github.com/data-edu/data-science-in-education/tree/master/data/agg_data) (https[]()://github.com/data-edu/data-science-in-education/tree/master/data/agg_data). You can verify their original locations on the district website with the Wayback Machine:
 
 * [Race/ethnicity data](https://web.archive.org/web/20201112024712/https://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf) (https[]()://web.archive.org/web/20201112024712/https[]()://studentaccounting.mpls.k12.mn.us/uploads/mps_fall2018_racial_ethnic_by_school_by_grade.pdf)
-* [FRPL data](https://web.archive.org/web/20220307174824/https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf) (https[]()://web.archive.org/web/20220307174824/https[]()//studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf)
+* [FRPL data](https://web.archive.org/web/20220307174824/https://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf) (https[]()://web.archive.org/web/20220307174824/https[]()://studentaccounting.mpls.k12.mn.us/uploads/fall_2018_meal_eligiblity_official.pdf)
 
 ## Load packages
 
@@ -163,7 +163,7 @@ library(janitor)
 library(dataedu)
 ```
 
-ROpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf) [@sepulveda] package. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
+rOpenSci created the [{tabulapdf}](https://github.com/ropensci/tabulapdf) [@sepulveda] package. It provides R bindings to the Tabula PDF Table Extractor Library, which can be used to computationally extract tables from PDF documents. It is not available on CRAN, so install it by running the code below:
 
 ```{r, eval = FALSE}
 install.packages(
@@ -274,7 +274,7 @@ Next, clean the data further using these steps:
 
 Let's discuss that final step further: `mutate(across(matches("pct"), ~ as.numeric(str_replace(., "%", "")) / 100))`. Using this code, you are telling `mutate` to:
 
-* Use `match()` with `across()` to select columns with names that match the regular expression "pct".
+* Use `matches()` with `across()` to select columns with names that match the regular expression "pct".
 * For the rows in these columns, replace the character `"%"` with blanks `""` by using `str_replace(., "%", "")`.
 * Make these rows numeric by using `as.numeric()`.
 * Divide the values by 100 using `/100`.
@@ -347,12 +347,12 @@ frpl_df <-
             # Number of students receiving free lunch
             "frpl_num",
             # Total number of students (from the FRPL PDF)
-            "frpl_pct" # Free/reduced price lunch percentage
+            "frpl_pct" # Free or reduced price lunch percentage
         )
     )
 ```
 
-## Process the Data
+## Process the data
 
 To clean the dataset further:
 
@@ -382,7 +382,7 @@ frpl_df2 <-
     mutate(frpl_pct = as.numeric(str_replace(frpl_pct, "%", "")) / 100)
 ```
 
-Once the Race/Ethnicity and FRPL data are ready, you’ll join the two tibbles to prepare them for analysis.
+Once the Race/Ethnicity and FRPL data is ready, you’ll join the two tibbles to prepare them for analysis.
 
 1. Join the two tibbles by the variable `school_name`.
 2. Use `mutate()` and `across()` to convert the 2nd to 17th columns into numeric data types.
@@ -499,7 +499,7 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-Look at these data and note the shares of each race group. Almost 40% of students are Black, and around 36% are White. These numbers match the percentages provided in the original PDFs, which validate the calculations you did when you cleaned the data. Good job!
+Look at these data and note the shares of each race group. Almost 40% of students are Black, and around 36% are White. These numbers match the percentages provided in the original PDFs, which validates the calculations you did when you cleaned the data. Good job!
 
 Now, look at these data and note the students who are eligible for FRPL. Recall that `frpl_pct` is the percentage of the students in the district that are eligible for FRPL.
 
@@ -533,7 +533,7 @@ district_merged_df %>%
     theme_dataedu()
 ```
 
-26 of the 74 (35%) schools have between 0 and 10% White students. This number implies that although the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll fewer than 30% of White students, even though White students make up 35% of the district student population.
+26 of the 74 (35%) schools have between 0 and 10% White students. This number implies that although the school district may be diverse, the demographics are not evenly distributed across the schools. More than half of schools enroll less than 30% White students, even though White students make up 35% of the district student population.
 
 The school race demographics do not represent the district populations, but does that also hold for socioeconomic status?
 
@@ -570,7 +570,7 @@ district_tidy_df %>%
     theme(legend.position = "none")
 ```
 
-8% of White students attend high-poverty schools, compared to 43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students. In this district, non-White students disproportionally attend high-poverty schools.
+8% of White students attend high-poverty schools, compared to 43% of Black students, 39% of Hispanic students, 28% of Asian students, and 45% of Native American students. In this district, non-White students disproportionately attend high-poverty schools.
 
 ### Reveal relationships
 
