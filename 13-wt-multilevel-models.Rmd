@@ -1,12 +1,12 @@
 # Walkthrough 7: Multilevel models {#c13}
 
-## Topics Emphasized
+## Topics emphasized
 
 - Transforming data
 - Modeling data
 - Communicating results
 
-## Functions Introduced
+## Functions introduced
 
 - `fastDummies::dummy_cols()`
 - `lme4::lmer()`
@@ -19,13 +19,13 @@
 - intra-class correlation
 - multilevel model  
 
-## Chapter Overview
+## Chapter overview
 
 The purpose of this walkthrough is to explore students' performance in online courses. While this and the analysis in [Walkthrough 1/Chapter 7](#c07) focus on the time students spent in the course, this walkthrough focuses on the effects of attending a particular course. 
 
-To do that, you'll use multilevel models, which will help you account for students who shared classes. While the conceptual details underlying multilevel models are complex, they address a basic problem: How might you include variables like cases and student grouping levels in the model? 
+To do that, you'll use multilevel models, which will help you account for students who shared classes. While the conceptual details underlying multilevel models are complex, they address a basic problem: How might you include variables like classes and student grouping levels in the model? 
 
-Note that while using multi-level models is accessible through R, some of the concepts remain challenging. In these cases, you can start by running the model with data you've already collected. Later, you can revisit the technical details in this chapter to help you go deeper with the analyses.
+Note that while using multilevel models is accessible through R, some of the concepts remain challenging. In these cases, you can start by running the model with data you've already collected. Later, you can revisit the technical details in this chapter to help you go deeper with the analyses.
 
 ### Background
 
@@ -33,7 +33,7 @@ Using multilevel models will help you account for the way individual students ar
 
 Though these conceptual details are complex, fitting them is fortunately straightforward and will be familiar if you have used R's `lm()` function. Let's get started.
 
-### Data Source
+### Data source
 
 We'll use the same data source on students' motivation in online science classes that we used in [Walkthrough 1](#c07).
 
@@ -41,9 +41,9 @@ We'll use the same data source on students' motivation in online science classes
 
 Does the amount of time students spend on a course depend on the specific course they're in? Does the amount of time students spend on a course affect the points they earn? There are a number of ways to approach these questions. One way is to use a linear model.
 
-To do this, you'll assign codes to the groups so you can include them in the model. You'll use a technique called "dummy-coding". Dummy coding means transforming a variable with multiple categories into new variables, where each variable indicates the presence and absence of each category.
+To do this, you'll assign codes to the groups so you can include them in the model. You'll use a technique called "dummy coding". Dummy coding means transforming a variable with multiple categories into new variables, where each variable indicates the presence and absence of each category.
 
-## Load Packages
+## Load packages
 
 We will load the tidyverse and a few other packages for using multilevel models: 
 {lme4} [@R-lme4] and {performance} [@R-performance].
@@ -61,17 +61,17 @@ library(performance)
 library(dataedu)
 ```
 
-## The Role of Dummy Codes
+## The role of dummy codes
 
-Before we import our data, let's learn about dummy-coding. In this discussion, you'll learn how dummy coding works using the {fastDummies} package. this section, you'll use base R and data.frame instead of the {tidyverse} and tibbles.
+Before we import our data, let's learn about dummy coding. In this discussion, you'll learn how dummy coding works using the {fastDummies} package. In this section, you'll use base R and data.frame instead of the {tidyverse} and tibbles.
 
-Start by looking at the `penguins` data that comes loaded with the {tidyverse} using the handy `glimpse()` function
+Start by looking at the `penguins` data that comes loaded with the {tidyverse} using the handy `glimpse()` function.
 
 ``` {r ex-data}
 glimpse(penguins)
 ```
 
-As you can see above, the `species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `species` seems to be made up of words such as "Adelie"
+As you can see above, the `species` variable is a factor. Recall that factor data types are categorical variables. They associate a row with a category, or level, of that variable. So how do you consider factor variables in your model? `species` seems to be made up of words such as "Adelie".
 
 A common way to approach this is through dummy coding, where you create new variables for each of the possible values of `species`. These new variables have a value of 1 when the row is associated with that level.
 
@@ -102,15 +102,15 @@ d_penguins %>%
   slice_head(n = 5)
 ```
 
-For example, the first row of the data frame above has a 1 for `speciesAdelie` and 0 for the other two dummy-coded variables, which indicates that this row corresponds to an observation of an Adelie penguin.
+For example, the first row of the data frame above has a `1` for `species_Adelie` and `0` for the other two dummy-coded variables, which indicates that this row corresponds to an observation of an Adelie penguin.
 
-Now that we have a basic understanding of how dummy codes work, it's time to explore how to use them in the model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compare to.
+Now that we have a basic understanding of how dummy codes work, it's time to explore how to use them in the model. When fitting models in R that include factor variables, R displays coefficients for all but one level in the model output. The factor level that's not explicitly named is called the "reference group". The reference group is the level that all other levels are compared to.
 
-Why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used for comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations in a group. Go back to the `penguins` dataset. Consider all the penguins that are in the "Adelie" group. To represent how different those penguins are, they have to be compared to another group of penguins. In R, you'd compare all the penguins in the "Adelie" group to the reference group of penguins. Recall that the reference group of penguins would be the group that is not explicitly named in the model output.
+Why can't R explicitly name every level of a dummy-coded column? It has to do with how the dummy codes are used for comparison of groups. The purpose of the dummy code is to show how different the dependent variable is for all of the observations in a group. Go back to the `penguins` dataset. Consider all the penguins that are in the "Adelie" group. To represent how different those penguins are, they have to be compared to another group of penguins. In R, you'd compare all the penguins in the "Adelie" group to the reference group of penguins. The reference group of penguins would be the group that is not explicitly named in the model output.
 
 However, if every level of species is dummy-coded, there would be no single group to compare to. For this reason, one group needs to be selected as the reference group.
 
-## Import Data 
+## Import data 
 
 Let's return to the online science class data. You'll be using the same dataset you used in [Chapter 7](#c07). Load that dataset now from the {dataedu} package. 
 
@@ -118,7 +118,7 @@ Let's return to the online science class data. You'll be using the same dataset 
 dat <- dataedu::sci_mo_processed
 ```
 
-To wrap up our discussion about factor variables, levels, and dummy codes, let's look at how many classes are represented in the `course_id` variable. These classes will be the factor levels you'll soon use in the model soon. Use the `count()` function to see how many courses there are: 
+To wrap up our discussion about factor variables, levels, and dummy codes, let's look at how many classes are represented in the `course_id` variable. These classes will be the factor levels you'll use in the model soon. Use the `count()` function to see how many courses there are: 
 
 ```{r count classes}
 dat %>% 
@@ -127,9 +127,9 @@ dat %>%
 
 ## Analysis
 
-### Regression (Linear Model) Analysis with Dummy Codes
+### Regression (linear model) analysis with dummy codes
 
-Before you fit the model, let's talk about the dataset. You will keep the variables you used in the last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough we'll predict students' final grade rather than the `percentage_earned` variable that we created in [Chapter 7](#c07).
+Before you fit the model, let's talk about the dataset. You will keep the variables you used in the last set of models - `TimeSpent` and `course_id` - as independent variables. Recall that `TimeSpent` is the amount of time in minutes that a student spent in a course and `course_id` is a unique identifier for a particular course. In this walkthrough, we'll predict students' final grade rather than the `percentage_earned` variable that we created in [Chapter 7](#c07).
 
 Since you will be using the final grade variable a lot, rename it to make it easier to type.
 
@@ -165,9 +165,9 @@ If you count the number of courses, you see that there are 25, not 26. One has
 been automatically selected as the reference group, and every other class's
 coefficient represents how different each class is from it. The intercept's
 value of 73.20 represents the number of percentage points that students in the reference
-group class are estimated to earn. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first semester physiology course, is picked as the reference group.
+group class are estimated to earn. `lm()` automatically picks the first level of the `course_id` variable as the reference group when it is converted to a factor. In this case, the course associated with course ID `course_idAnPhA-S116-01`, a first-semester physiology course, is picked as the reference group.
 
-What if you want to pick another class as the reference variable? For example, say you want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. You can do this by using the `fct_relevel()` function, which is part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when included it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual value of the variable is in square brackets in the output, whereas `course_id` is the variable name; in the output, these are combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
+What if you want to pick another class as the reference variable? For example, say you want `course\_idPhysA-S116-01` (the first section of the physics class offered during this semester and year) to be the reference group. You can do this by using the `fct_relevel()` function, which is part of the {tidyverse} suite of packages. Note that before using `fct_relevel()`, the variable `course_id` was a character data type, which `lm()` coerced into a factor data type when including it as a predictor variable. Using `fct_relevel()` will explicitly convert `course_id` to a factor data type. It's important to note that the actual value of the variable is in square brackets in the output, whereas `course_id` is the variable name; in the output, these are combined to make it easier to tell what the values represent (e.g., "PhysA-S116-01" is an ID for a course).
 
 Now use `fct_relevel()` and `mutate()` to re-order the levels within a factor, so that the "first" level changes:
 
@@ -176,8 +176,6 @@ dat <-
   dat %>%
   mutate(course_id = fct_relevel(course_id, "PhysA-S116-01"))
 ```
-
-You can now see that "PhysA-S116-01" is no longer listed as an independent variable. Every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". You also see that `course_id` is now recognized as a factor data type. 
 
 Now fit the model again with the newly releveled `course_id` variable. Give it a different name, `m_linear_dc_1`: 
 
@@ -194,6 +192,8 @@ tab_model(m_linear_dc_1,
           file = "man/tables/Table 13.2.doc",
           title = "Table 13.2")
 ```
+
+You can now see that "PhysA-S116-01" is no longer listed as an independent variable. Every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". You also see that `course_id` is now recognized as a factor data type. 
 
 Dummy codes are used in nearly every case where you need to fit a model with variables that are factors. You've already seen one benefit of using R functions like `lm()`, or the `lme4::lmer()` function discussed later. These functions automatically convert character data types into factor data types. 
 
@@ -216,19 +216,19 @@ tab_model(m_linear_dc_2,
           title = "Table 13.3")
 ```
 
-### A Deep-Dive into Multilevel Models
+### A deep-dive into multilevel models
 
 Let's discuss multilevel models more by exploring nuances of using them with education data. 
 
-*Dummy-coding variables and ease of interpretation* 
+*Dummy coding variables and ease of interpretation* 
 
-Using multiple levels is a trade off between accounting for multiple variable and ease of interpretation. A technique like dummy-coding is a helpful strategy for working with multiple groups of predictors. In this walkthrough, we estimated the effects of being in one of the five online science courses. Dummy-coding can go even further by accounting for multiple course sections for each subject. But consider the challenge of interpreting the effects, where each class and section becomes its own line in the model output. It gets complicated interpreting these effects relative to the intercept.
+Using multiple levels is a trade-off between accounting for multiple variables and ease of interpretation. A technique like dummy coding is a helpful strategy for working with multiple groups of predictors. In this walkthrough, we estimated the effects of being in one of the five online science courses. Dummy coding can go even further by accounting for multiple course sections for each subject. But consider the challenge of interpreting the effects, where each class and section becomes its own line in the model output. It gets complicated interpreting these effects relative to the intercept.
 
 *Multilevel models and the assumption of independent data points* 
 
 Including a group in your model helps you meet the assumption of independent data points. Linear regression models assume that each data point is not correlated with another. This is what is meant by the "assumption of independence" or of "independently and identically distributed" (*i.i.d.*) residuals (Field, Miles, & Field, 2012).
 
-A linear regression model that considers students in different sections (i.e., for an introductory life science class and in different laboratory sections) as a single sample will assume that the outcome for each student is not correlated with the outcome of another student. This is a tough assumption, considering that students in the same section may perform similarly. Factors include having the same instructor, common scheduling, or students studying together.
+A linear regression model that considers students in different sections (e.g., for an introductory life science class and in different laboratory sections) as a single sample will assume that the outcome for each student is not correlated with the outcome of another student. This is a tough assumption, considering that students in the same section may perform similarly. Factors include having the same instructor, common scheduling, or students studying together.
 
 Adding a section group to the model helps us meet the assumption of independent data points by considering the effect of being in a particular section. Generally speaking, analysts have the goal of accounting for students sharing a class. This is very different from determining the effect of any one particular class on the outcome.
 
@@ -236,9 +236,9 @@ Adding a section group to the model helps us meet the assumption of independent 
 
 So far we've learned that multilevel models help us meet the assumption of independent data points by considering groups in the model. They do this by estimating the effect of being a student in each group, but with a key distinction from linear models: instead of determining how different the observations in a group are from those in the reference group, the multilevel model "regularizes" the difference based on how systematically different the groups are. 
 
-You may also see the the term "shrink" to describe this. The term "shrinkage" is used because the group-level estimates (e.g., for classes) obtained through multilevel modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of the others.
+You may also see the term "shrink" to describe this. The term "shrinkage" is used because the group-level estimates (e.g., for classes) obtained through multilevel modeling can never be larger than those from a linear regression model. As described earlier, when there are groups included in the model, a regression effectively estimates the effect for each group independent of the others.
 
-Groups comprising individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated difference are close to the estimate from a multilevel model. But groups with only a few individuals or a lot of variability within individuals are regularized more. The way that a multilevel model does this "regularizing" is by considering the groups to be samples from a larger population of classes.  
+Groups comprising individuals who are consistently higher or lower than individuals on average are not regularized very much. Their estimated differences are close to the estimate from a multilevel model. But groups with only a few individuals or a lot of variability within individuals are regularized more. The way that a multilevel model does this "regularizing" is by considering the groups to be samples from a larger population of classes.  
 
 Regularization relates to Bayesian approaches to data analysis. These approaches are different from the statistical approaches you may have learned in quantitative methods courses. The key idea of the Bayesian approach is that it naturally incorporates prior information — what we already know or expect before seeing the data. 
 
@@ -252,9 +252,9 @@ Diving deep into Bayesian methods is beyond the scope of this work, but you will
 
 Multilevel models are very common in educational research because they help account for students taking the same classes or going to the same school (see Raudenbush & Bryk, 2002). Using multilevel models means that the assumption of independence can be addressed. It means that individual coefficients for classes do not need to be included, though they are accounted for in the model. 
 
-So what's the most useful way to report the importance of groups in a model? It's usually in the form of the *intra-class correlation coefficient* (ICC), which explains the proportion of variation in the dependent variable that the groups explain. Smaller ICCs, like ICCs with values of 0.05, representing 5% of the variation in the dependent variable, mean that the groups are not very important. Larger ICCs, like ICCs with values of 0.10 or larger suggest that groups are important. When groups are important, not including them in the model may ignore the assumption of independence. 
+So what's the most useful way to report the importance of groups in a model? It's usually in the form of the *intra-class correlation coefficient* (ICC), which explains the proportion of variation in the dependent variable that the groups explain. Smaller ICCs, like ICCs with values of 0.05, representing 5% of the variation in the dependent variable, mean that the groups are not very important. Larger ICCs, like ICCs with values of 0.10 or larger, suggest that groups are important. When groups are important, not including them in the model may ignore the assumption of independence. 
 
-### Multilevel Model Analysis
+### Multilevel model analysis
 
 Fortunately, for all the complicated details, multilevel models are relatively
 easy to use in R. You'll need a new package for this next example. One of the most common for
@@ -271,7 +271,7 @@ You'll notice something that you didn't see using `lm()`. You used a new term (`
 
 If you're familiar with Bayesian methods, you'll appreciate a connection here (@gelman2006data). Regularizing in a multilevel model takes data across all groups into account when generating estimates for each group. The data for all of the classes can be interpreted as a Bayesian prior for the group estimates.
 
-There's more you can do with `lmer()`. For example, you can include different effects for each group in the model output, so each as its own slope. To explore techniques like this and more, we recommend the book by West, Welch, and Galecki [2014], which provides an excellent walkthrough on how to specify varying slopes using `lmer()`. 
+There's more you can do with `lmer()`. For example, you can include different effects for each group in the model output, so that each group has its own slope. To explore techniques like this and more, we recommend the book by West, Welch, and Galecki [2014], which provides an excellent walkthrough on how to specify varying slopes using `lmer()`. 
 
 ## Results
 
@@ -288,15 +288,15 @@ tab_model(m_course,
           title = "Table 13.4")
 ```
 
-For `lm()` models, `tab_model()` provides the output, including fit statistics, coefficients and their standard errors and estimates. There are two things to note about this output:
+For `lmer()` models, `tab_model()` provides the output, including fit statistics, coefficients and their standard errors and estimates. There are two things to note about this output:
 
-1.  *p*-values are not automatically provided, due to debates in the wider field about how to calculate the degrees of freedom for coefficients^[ Run `?lme4::pvalues` to see a discussion of the issue and solutions. The lmerTest is helpful as an easy solution, though you may prefer some the recommendations available in `?lme4::pvalues` because the technique lmerTest uses has known issues.]
+1.  *p*-values are not automatically provided, due to debates in the wider field about how to calculate the degrees of freedom for coefficients^[ Run `?lme4::pvalues` to see a discussion of the issue and solutions. The lmerTest is helpful as an easy solution, though you may prefer some of the recommendations available in `?lme4::pvalues` because the technique lmerTest uses has known issues.]
 
 2.  In addition to the coefficients, there are also estimates for how much variability there is between the groups.
 
 A common way to understand variability at the group level is to calculate the *intra-class* correlation. This value is the proportion of the variability in the outcome (the *y*-variable) accounted for solely by the groups identified in the model. There is a useful function in the {performance} package for doing this.
 
-You can install the {performance} package by typing this code in your console: 
+You can install the {performance} package by typing this code in your Console: 
 
 ```{r install performance, eval=FALSE}
 install.packages("performance")
@@ -308,11 +308,11 @@ After that, try this function:
 icc(m_course)
 ```
 
-This (shows that 9.1% of the variability in the percentage of points students earned can be explained by the class they are in. The adjusted ICC is typically reported: This value is for the proportion of the variability in the dependent variable explained by the groups (courses). See the documentation for `icc()` for details on the interpretation of the conditional ICC.
+This shows that 9.1% of the variability in the percentage of points students earned can be explained by the class they are in. The adjusted ICC is typically reported. This value is the proportion of the variability in the dependent variable explained by the groups (courses). See the documentation for `icc()` for details on the interpretation of the conditional ICC.
 
-### Adding Additional Levels
+### Adding additional levels
 
-Now add additional levels. The data you're using is all from one school, so you cannot estimate a "two-level" model. Imagine, however that you have student data from 230 classes instead of 26 and that these classes were from 15 schools. 
+Now add additional levels. The data you're using is all from one school, so you cannot estimate a "two-level" model. Imagine, however, that you have student data from 230 classes instead of 26 and that these classes were from 15 schools. 
 
 You could estimate a two-level, varying intercepts (two groups with effects) model similar to the model above, but with another group added for the school. The model will automatically account for the way that the classes are nested within the schools (Bates, Maechler, Bolker, & Walker, 2015).
 
@@ -324,7 +324,7 @@ m_course_school <-
   lmer(final_grade ~ TimeSpent + (1|course_id) + (1|school_id), data = dat)
 ```
 
-If you estimated this model (and then use the `icc()` function), you would see two ICC values representing the proportion of the variation in the dependent variable explained by the course and the school. Note that as long as the courses are uniquely labelled, it's not necessary to explicitly nest the courses within schools.
+If you estimated this model (and then use the `icc()` function), you would see two ICC values representing the proportion of the variation in the dependent variable explained by the course and the school. Note that as long as the courses are uniquely labeled, it's not necessary to explicitly nest the courses within schools.
 
 The {lme4} package was designed for complex multilevel models so you can add more levels. For more on advanced multilevel techniques like these, see @west2014linear.
 
