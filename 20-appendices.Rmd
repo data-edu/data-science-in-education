@@ -3,9 +3,8 @@
 This chapter includes four appendices:
 
 - Appendix A: Importing Data (associated with [Chapter 6](#c06))
-- Appendix B: Accessing Twitter Data (associated with Chapters [11](#c11) and [12](#c12))
-- Appendix C: Social Network Influence and Selection Models (associated with [Chapter 12](#c12))
-- Appendix D: Colophon
+- Appendix B: Social Network Influence and Selection Models (associated with [Chapter 12](#c12))
+- Appendix C: Colophon
 
 ## Appendix A: importing data {#c20a}
 
@@ -200,64 +199,7 @@ df <- gs_title('title')
 df <- gs_read(df)
 ```
 
-## Appendix B: accessing Twitter data {c20b}
-
-The chapter on text analysis, [Chapter 11](#c11), explores the content of tweets containing the #tidytuesday hashtag, while [Chapter 12](#c12) explores the relationships between individuals evidenced through their interactions through the #tidytuesday hashtag. 
-
-As you may now be wondering about how you can collect and analyze tweets that contain *other* hashtags or terms, we have included some ideas (and considerations) for collecting your own Twitter data.
-
-### Accessing Twitter data from the last seven days
-
-As we describe in [Chapter 12](#c12), the {rtweet} package can be used to access Twitter data, with a key limitation: Only tweets from (approximately) the past seven days are able to be accessed. As a reminder, here is code to access data from a hashtag (in this case, #statschat, used by statistics educators), much like we did in [Chapter 12](#c12), but for the #tidytuesday hashtag:
-
-```{r, eval = F}
-library(rtweet)
-
-rstats_tweets <- 
-  search_tweets("#statschat")
-```
-
-### Accessing historical Twitter data when you have access to already-collected status URLs
-
-Because the creator of the interactive web application for exploring #tidytuesday content, #tidytuesday.rocks, searched for (and archived) #tidytuesday tweets on a regular basis, a large dataset from more than one year of weekly #tidytuesday challenges is available through the [GitHub repository](https://github.com/nsgrantham/tidytuesdayrocks) (https[]()://github.com/nsgrantham/tidytuesdayrocks) for the Shiny application. These Tweets (saved in the `data` directory as a `.tsv` (tab-separated-values) file) can be read with the following function:
-
-```{r, eval = FALSE}
-raw_tidytuesday_tweets <-
-  read_delim(
-    "https://raw.githubusercontent.com/nsgrantham/tidytuesdayrocks/master/data/tweets.tsv",
-    "\t",
-    escape_double = FALSE,
-    trim_ws = TRUE
-  )
-```
-
-Then the URL for the tweet (the `status_url` column) can be passed to a different rtweet function than the one we used, `lookup_statuses()`. Before we do this, there is one additional step to take. Because most of the Tweets are from more than seven days ago, Twitter requires an additional authentication step. In short, you need to use keys and tokens for the Twitter API, or application programming interface. The rtweet vignette on accessing keys and tokens (https://rtweet.info/articles/auth.html) explains the process. The end result will be that you will create a token using rtweet that you will use along with your rtweet function (in this case, `lookup_statuses()`):
-
-```{r, eval = FALSE}
-token <-
-  create_token(
-    consumer_key = < add - your - key - here > ,
-    consumer_secret = < add - your - secret - here >
-  )
-
-# here, we pass the status_url variable from raw_tidytuesday_tweets as the statuses to lookup in the lookup_statuses() function, as well as our token
-
-tidytuesday_tweets <-
-  lookup_statuses(raw_tidytuesday_tweets$status_url,
-                  token = token)
-```
-
-The end result will be a tibble, like that above for #rstats, for #tidytuesday tweets.
-
-### Accessing historical data when you do not have access to status URLs
-
-In the above case, we had access to the URLs for tweets because they were saved for the #tidytuesday.rocks Shiny. But, in many cases, historical data will not be available. There are two strategies that may be helpful.
-
-First is [TAGS](https://tags.hawksey.info/) (https[]()://tags.hawksey.info/). TAGS is based in, believe it or not, Google Sheets, and it works great for collecting Twitter data over time---even a long period of time. The only catch is that you need to set up and start to use a TAGS sheet *in advance of the period for which you want to collect data*. For example, you can start a TAGS archiver in August of one year, with the intention to collect data over the coming academic year, or you can start a TAGS archiver before an academic conference for which you want to collect Tweets.
-
-A second option is the Premium API through Twitter. This is an expensive option, but is one that can be done through rtweet, and can also access historical data, even if you have not started a TAGS sheet and do not otherwise have access to the status URLs.
-
-## Appendix C: social network influence and selection models {#c20c}
+## Appendix B: social network influence and selection models {#c20c}
 
 Behind the social network visualizations explored in the chapter on social network analysis, [Chapter 12](#c12), there are also statistical *models* that can be used to further understand relationships in a network.
 
@@ -405,7 +347,7 @@ While this is a straightforward way to carry out a selection model, there are so
  
 These packages are examples of the richness R packages can bring to using social network analysis models and methods. As developments in social network analysis methods continue, more cutting-edge techniques and R packages will be available.
 
-## Appendix D: colophon
+## Appendix C: colophon
 
 This book was written using [bookdown](https://bookdown.org/home/) [@bookdown2016] using [RStudio](https://rstudio.com/) [@rstudio]. The website (https://datascienceineducation.com) is hosted with [Netlify](https://www.netlify.com/) (https://www.netlify.com/).
 
