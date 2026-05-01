@@ -1,18 +1,18 @@
 # Walkthrough 1: The education data science pipeline with online science class data {#c07}
 
-## Introduction to the Walkthroughs
+## Introduction to the walkthroughs
 
 This chapter is the first of eight walkthroughs, each exploring the *education data science pipeline* through different datasets. The pipeline includes common steps in data science projects, like cleaning, tidying, exploring, visualizing, and modeling data, as depicted by @r4ds2023.
 
-```{r fig7-1, fig.cap = "Data Science Cycle", echo = FALSE, fig.alt="A diagram displaying the data science cycle: Import -> Tidy -> Understand  (which has the phases Transform -> Visualize -> Model in a cycle) -> Communicate. Surrounding all of these is Program  Import, Tidy, Transform, and Visualize is highlighted."}
+```{r fig7-1, fig.cap = "Data science cycle", echo = FALSE, fig.alt="A diagram displaying the data science cycle: Import -> Tidy -> Understand  (which has the phases Transform -> Visualize -> Model in a cycle) -> Communicate. Surrounding all of these is Program  Import, Tidy, Transform, and Visualize is highlighted."}
 knitr::include_graphics("./man/figures/Figure 7.1.png")
 ```
 
 Using data from a number of sources, you will learn the end-to-end process of working with education datasets. While the walkthrough topics vary, their structure and section headings are consistent. Each walkthrough begins with a vocabulary section, followed by an introduction to the dataset and the central question or problem.
 
-This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you would need a refresher about these, refer to the previous chapter, [Chapter 6](#c06).
+This chapter assumes familiarity with four core concepts that comprise the foundational skills framework: projects, functions, packages, and data. If you need a refresher about these, refer to the previous chapter, [Chapter 6](#c06).
 
-## Topics Emphasized
+## Topics emphasized
 
 This chapter on the education data science pipeline emphasizes:
 
@@ -21,7 +21,7 @@ This chapter on the education data science pipeline emphasizes:
 - Visualizing data
 - Modeling data
 
-## Functions Introduced
+## Functions introduced
 
 - `dplyr::rename()`
 - `dplyr::mutate()`
@@ -70,7 +70,7 @@ In this walkthrough, you'll learn the following key terms:
   - tidy data
   - tidy selection
 
-## Chapter Overview
+## Chapter overview
 
 In this walkthrough, you will explore some of the key steps of many data science projects in education. In particular, you'll focus on how to tidy and transform data. These steps are sometimes referred to as "data wrangling" or "data manipulation". These tasks rely heavily on a set of tools you'll use in all of the walkthroughs. They are associated with the {tidyverse}, a set of packages for data manipulation, exploration, and visualization. 
 
@@ -91,11 +91,11 @@ The purpose of this walkthrough is to analyze factors that explain students' per
 
 In this walkthrough, you will work with datasets using different joins from the {dplyr} package. You will also explore linear regression models in R. 
 
-## Data Sources
+## Data sources
 
-We will analyze following are sources of data you can expect to use when analyzing student performance in online coursework. 
+The following are sources of data you can expect to use when analyzing student performance in online coursework. 
 
-### Data Source \#1: Self-Report Survey about Students' Motivation
+### Data source #1: Self-report survey about students' motivation
 
 The first data source is a self-report survey conducted before the course began. The survey includes ten items, each corresponding to one of three motivation measures: interest, utility value, and perceived competence. A measure is a concept a survey attempts to quantify through its questions. These three motivation measures are from Expectancy-Value Theory, which states that students are motivated to learn when they believe they can succeed (expectancy, also known as perceived competence) and believe what they are learning is important (value) [@wigfield2000]. 
 
@@ -115,21 +115,21 @@ There are multiple types of value, but in this walkthrough, you'll examine two: 
     value)
 10. I’ve always wanted to learn more about this subject. (Interest)
 
-### Data Source \#2: Log-Trace Data
+### Data source #2: Log-trace data
 
 Log-trace data refers to data generated from interactions with digital technologies, like social media posts (see [Chapter 11](#c11) and [Chapter 12](#c12) for walkthroughs with social media posts). In education, this data increasingly comes from LMSs and other digital tools [@siemens2012]. For this walkthrough, you'll use a summary form of log-trace data, which captures the number of minutes students spent on the course. This data is relatively simple. More complex sources of log-trace data may include details like time stamps for when students started and stopped working on the course.
 
-### Data Source \#3: Academic Achievement and Gradebook Data
+### Data source #3: Academic achievement and gradebook data
 
 A common source of data in education is students' graded assignments. In this walkthrough, you will only examine students' final course grade.
 
-### Data Source \#4: Discussion Board Data
+### Data source #4: Discussion board data
 
 Discussion board data is rich but unstructured. It consists of large text blocks written by students. Although discussion board data was collected for this research project, it is not part of this walkthrough. More information about analyzing text data can be found in [Chapter 11](#c11).
 
-## Load Packages
+## Load packages
 
-This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c1). You will load these packages with the function `library()`. You will learn to structure and visualize the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot] and {apaTables} [@apaTables], and export datasets with {readxl} [@R-readxl].
+This analysis uses R packages, which are collections of R code that help users code more efficiently, as discussed in [Chapter 1](#c01). You will load these packages with the function `library()`. You will learn to structure and visualize the data with the {tidyverse} [@R-tidyverse], create formatted tables with {sjPlot} [@R-sjPlot] and {apaTables} [@R-apaTables], and export datasets with {readxl} [@R-readxl].
 
 ***Install packages if necessary***
 
@@ -160,7 +160,7 @@ library(readxl)
 library(dataedu)
 ```
 
-## Import Data
+## Import data
 
 Throughout this book's walkthroughs, you'll have a chance to import files in different ways. You'll import different file types. You'll also learn how to import files using convenient functions like `here::here()` or using file paths. You'll now proceed to this walkthrough's specific import procedure.
 
@@ -178,7 +178,7 @@ course_data <- dataedu::course_data
 course_minutes <- dataedu::course_minutes
 ```
 
-## View Data
+## View data
 
 You can visually inspect the data by typing their assigned names. Running each line individually displays the first few rows of each dataset.
 
@@ -189,9 +189,9 @@ course_data
 course_minutes
 ```
 
-## Process Data
+## Process data
 
-### Pre-Survey Data
+### Pre-survey data
 
 Survey data often requires processing to be useful. You'll begin processing the pre-survey dataset by transforming the self-report items into three scales: 1) interest, 2) perceived competence, and 3) utility value. You'll follow these steps:
 
@@ -313,7 +313,7 @@ This approach works well, but you can imagine it'd become quite tedious if we ha
 
 In the first part of the code chunk below, you'll define the custom function. Note that running this code won't modify the dataset yet. Instead, it creates a reusable, general-purpose function you can apply to the survey questions you want to recode. 
 
-If you need a refresher on writing custom functions, see the Writing Your Own Functions section in [Chapter 6](#c6).
+If you need a refresher on writing custom functions, see the "Writing your own functions" section in [Chapter 6](#c06).
 
 ```{r}
 #| label: ch07-mutate-reverse-function
@@ -427,13 +427,13 @@ pivoted_dat
 
 With that final step, you've finished processing the `pre_survey` dataset.
 
-### Course Data
+### Course data
 
 Next, you can process the course data to create new variables for analysis.
 
 The `CourseSectionOrigID` variable stores information about the course subject, semester, and section in a single column, such as `AnPhA-S116-01`. This format of data storage is not ideal because it mixes multiple pieces of information in one string and is hard to filter or group by parts (for example, if we want to analyze a specific subject).
 
-Instead, giving each piece of information its own column will create more opportunities for analysis. Use a function called `separate()` from the {tidyr} package to split this variable into distinct columns. Below, you'll load `course_data` and run `separate()` to extract the subject, semester, and section for easier use later on. We define the columns we'd like the column to be separated into using `c()` from before, and we separate it by the hyphen `-`.
+Instead, giving each piece of information its own column will create more opportunities for analysis. Use a function called `separate()` from the {tidyr} package to split this variable into distinct columns. Below, you'll load `course_data` and run `separate()` to extract the subject, semester, and section for easier use later on. We define the new columns we want to split it into using `c()` from before, and we separate it by the hyphen `-`.
 
 ``` {r}
 #| label: ch07-separate-course
@@ -451,7 +451,7 @@ course_data <-
 
 After running the code above, take a look at the `course_data` data frame to confirm it looks as expected. You should have three new variables, increasing the total number of variables from 8 to `r ncol(course_data)`. The original variable `CourseSectionOrigID` is still present in the data.
 
-### Joining the Data
+### Joining the data
 
 In this chapter, you are working with two datasets that are derived from the same courses. In order for these datasets to be most useful, you will want to combine them into a single data frame.
 
@@ -524,7 +524,7 @@ pre_survey <- pre_survey %>%
     mutate(student_id = as.numeric(student_id))
 ```
 
-Now that the `student_id` and `course_id` variables are ready to go in the `pre_survey` dataset, let's proceed to `course_data.` Your goal is to similarly rename the two variables `Bb_UserPK` and `CourseSectionOrigID` so you can match with the variables you created in the `pre_survey` data. In the code chunk below, you will rename both those variables.
+Now that the `student_id` and `course_id` variables are ready to go in the `pre_survey` dataset, let's proceed to `course_data`. Your goal is to similarly rename the two variables `Bb_UserPK` and `CourseSectionOrigID` so you can match with the variables you created in the `pre_survey` data. In the code chunk below, you will rename both those variables.
 
 ``` {r}
 #| label: ch07-rename-course-data-vars
@@ -536,7 +536,7 @@ course_data <-
 
 Now that `course_id` and `student_id` match across both datasets, you can join them using the {dplyr} function, `left_join()`.
 
-Note the order of the data frames passed to the "left" join. Left joins retain all the rows in the left data frame and appends every matching row in the right data frame. We use key variables to join the datasets specified with `by`.
+Note the order of the data frames passed to the "left" join. Left joins retain all the rows in the left data frame and append every matching row in the right data frame. We use key variables to join the datasets specified with `by`.
 
 Save the joined data in a new object called `joined_dat`.
 
@@ -553,7 +553,7 @@ Let's go deeper into how this code is structured. After `left_join()`, you see `
 
 The aim of the left join is to retain the rows in `course_data` in our new data frame, `joined_dat`, with matching rows of `pre_survey` joined to it. 
 
-Joins are extremely common in many education data analysis processing pipelines. Think of all the times you have data in more than one data frame, but you want everything all together. Learning how to do joins in R will help you get the most from the situations.
+Joins are extremely common in many education data analysis processing pipelines. Think of all the times you have data in more than one data frame, but you want everything all together. Learning how to do joins in R will help you get the most out of these situations.
 
 The `left_join()` function is helpful in many analysis scenarios. But there are other kinds of joins, which you'll explore below. Note that for all of these, the "left" data frame is always the first argument, and the "right" data frame is always the second. 
 
@@ -633,16 +633,16 @@ joined_dat <-
     left_join(course_minutes, by = c("student_id", "course_id"))
 ```
 
-Note that they're combined, take a quick look at the final data frame.
+Now that they're combined, take a quick look at the final data frame.
 
 ``` {r}
 #| label: ch07-view-joined-dat
 joined_dat
 ```
 
-It looks like we have `r scales::comma(nrow(joined_dat))` observations from `r ncol(joined_dat)` variables.
+It looks like we have `r scales::comma(nrow(joined_dat))` observations of `r ncol(joined_dat)` variables.
 
-### Finding Distinct Cases at the Student-Level
+### Finding distinct cases at the student level
 
 If a student were enrolled in two courses, she would have a different final grade for each course. You might expect this dataset to have one row per student and course. 
 
@@ -661,7 +661,7 @@ For this analysis, you want a dataset at the student level. You can extract the 
 
 Here's more about the `distinct()` function: Imagine a bucket of Halloween candy with 100 pieces of candy. You know these 100 pieces are not 100 distinct pieces, but many duplicate pieces from a short list of candy brands. Using `distinct()` on the candy brands would return a tibble where each row is the name of a candy brand. 
 
-Run `distinct(joined_dat, Gradebook_Item)` to get one-column data frame with the names of all unique gradebook items.
+Run `distinct(joined_dat, Gradebook_Item)` to get a one-column data frame with the names of all unique gradebook items.
  
 ```{r}
 #| label: ch07-distinct-gradebook-1
@@ -706,7 +706,7 @@ In this section, you'll analyze the data using visualizations and models. You wi
 
 The first two lines of {ggplot2} code look similar for most graphs. The first line tells R which dataset to graph and which columns are the x-axis and y-axis. The second line tells R which shape to use when drawing the graph. You tell R which graph shape to use with a family of {ggplot2} functions that all start with `geom_`. Available shapes include points, bars, lines, and boxplots. Here’s a {ggplot2} example using a dataset of school mean test scores to graph a bar chart:
 
-```{r fig7-1, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example Plot"}
+```{r fig7-2, warning = FALSE, message = FALSE, results = 'hide', fig.showtext = TRUE, fig.cap = "Example plot"}
 #| label: ch07-ggplot2-example
 # Make dataset
 students <- 
@@ -732,13 +732,13 @@ Writing code is like writing essays. There's a range of acceptable styles, and c
  - Using `ggtitle()` for labels vs using `labs()` 
  - Order of `ggplot()` levels 
 
-It's ok if those terms are new to you. The main point is that there are multiple ways to make the plot you want. You'll see that in this book and in other people's code. As you learn, we encourage you to practice empathy and think about how well your code conveys your ideas to other people, including yourself, when you look at it many weeks after you wrote it. 
+It's OK if those terms are new to you. The main point is that there are multiple ways to make the plot you want. You'll see that in this book and in other people's code. As you learn, we encourage you to practice empathy and think about how well your code conveys your ideas to other people, including yourself, when you look at it many weeks after you wrote it. 
 
-### The Relationship between Time Spent on Course and Final Grade
+### The relationship between time spent on course and final grade
 
 What if you wanted to learn about the relationship between time spent on a course and students' final grades? Make a plot to graph that relationship. Below, you'll create a scatterplot using `geom_point()`.
 
-``` {r fig7-2, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage Earned vs. Time Spent", fig.showtext = TRUE}
+``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Percentage earned vs. time spent", fig.showtext = TRUE}
 #| label: ch07-ggplot2-joined-dat-1
 joined_dat %>%
     # aes() tells ggplot2 what variables to map to what feature of a plot
@@ -747,14 +747,14 @@ joined_dat %>%
     # Creates a point with x- and y-axis coordinates specified above
     geom_point(color = dataedu_colors("green")) +
     theme_dataedu() +
-    labs(x = "Time Spent", y = "Final Grade")
+    labs(x = "Time spent", y = "Final grade")
 ```
 
 Note that you may receive a warning that reads `Warning message: Removed 5 rows containing missing values (geom_point).` This is expected and is caused by the `NA` values introduced earlier in this walkthrough.
 
 There appears to be some relationship in the data. Try adding a line of best fit using a linear model. The code below builds on the previous plot and adds another layer with `geom_smooth()`, which fits a smoothed line to the data.
 
-``` {r fig7-3, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a Line of Best Fit", fig.showtext = TRUE}
+``` {r fig7-4, message = FALSE, warning = FALSE, results = 'hide', fig.cap = "Adding a line of best fit", fig.showtext = TRUE}
 #| label: ch07-ggplot2-joined-dat-2
 joined_dat %>%
     ggplot(aes(x = TimeSpent, y = final_grade)) +
@@ -771,13 +771,13 @@ Looking at this plot, it appears that students who spent more time on the course
 
 What is the line doing in the upper right part of the graph? Based on the trend in the data, the line of best fit predicts that students who spend a particular amount of time on the course earn a final grade above 100. This is, of course, generally not possible and highlights the importance of understanding your data. Always keep real-world constraints in mind when analyzing and presenting results.
 
-### Linear Model (Regression)
+### Linear model (regression)
 
 You can further explore the relationship between time spent on the course and students' final grades using a linear model. You'll work more with linear models in [Chapter 10](#c10).
 
 Begin modeling the relationship between these two variables. The dependent variable is the students' final grade (`final_grade`), which is entered first after the `lm()` command and before the tilde (`~`). To the right of the tilde is the independent variable, `TimeSpent`. This is the amount of time that students spent on the course. You'll use the data frame `joined_dat` for the analysis.
 
-Save the results to an object called `lm_linear` and use the `summary()` function to examine the output. Run this line of code to see the output.
+Save the results to an object called `m_linear` and use the `summary()` function to examine the output. Run this line of code to see the output.
 
 ``` {r}
 #| label: ch07-linear-model
@@ -802,7 +802,7 @@ tab_model(m_linear,
           title = "Table 7.1")
 ```
 
-Tables from {sjPlot} work well in R Markdown documents. If you want to save the model for use in a Word document, the [{apaTables}](https://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) (https[]()://cran.r-project.org/web/packages/apaTables/vignettes/apaTables.html) package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then save the output to a Word document by adding the `filename` argument:
+Tables from {sjPlot} work well in R Markdown documents. If you want to save the model for use in a Word document, the {apaTables} package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then save the output to a Word document by adding the `filename` argument:
 
 ```r
 apa.reg.table(m_linear, filename = "regression-table-output.doc")
@@ -816,7 +816,7 @@ Before proceeding to the next code chunk, let's talk about common functions you'
     mean test score for each school instead of a whole school district.
   - `summarize()` (or `summarise()`) reduces the dataset down to a summary
     statistic. Use it for tasks like turning a dataset of student test scores
-    into a dataset of average test scorea for each grade level.
+    into a dataset of average test scores for each grade level.
 
 Now apply these {dplyr} functions to our survey analysis. You'll create the same measures that we used earlier to understand how they relate to one another.
 
@@ -929,9 +929,9 @@ When controlling for the subject variable, R computes the average change in fina
 
 ## Conclusion
 
-In this walkthrough, we focused on taking raw, loading, and processing raw data. The result was a dataset ready for creating visualizations and a simple linear regression model. Through that model, you discovered that the time students spent on a course was positively related to their final grades, with a statistically significant difference by subject. While you used this model in an explanatory way, it can also be used in a predictive way. You'll explore predictive models in [Chapter 14](#c14).
+In this walkthrough, we focused on loading, processing, and analyzing raw data. The result was a dataset ready for creating visualizations and a simple linear regression model. Through that model, you discovered that the time students spent on a course was positively related to their final grades, with a statistically significant difference by subject. While you used this model in an explanatory way, it can also be used in a predictive way. You'll explore predictive models in [Chapter 14](#c14).
 
-In the follow-up to this walkthrough, [Chapter 13](#c13), you will build on what you learn here by visualizing and modeling data using multi-level modeling.
+In the follow-up to this walkthrough, [Chapter 13](#c13), you will build on what you've learned here by visualizing and modeling data using multi-level modeling.
 
 ```{r}
 #| include: false
