@@ -1,8 +1,8 @@
 # Additional resources {#c18}
 
 **Abstract**
-This chapter contains resources relevant for those interested in data science in education. Resources range from freely available courses and materials from workshops to other books on data science in education, equity considerations, the broader field of data science, and related areas, including those on introductory and advanced statistical methods.
 
+This chapter contains resources relevant for those interested in data science in education. Resources range from freely available courses and materials from workshops to other books on data science in education, equity considerations, the broader field of data science, and related areas, including those on introductory and advanced statistical methods.
 
 ## Chapter overview
 
@@ -12,13 +12,13 @@ In this chapter, we provide links and references to additional, recommended reso
 
 Anderson, D. J. (2019). University of Oregon data science specialization for the college of education. https://github.com/uo-datasci-specialization
 
-> A series of courses that emphasize the use of R on data science in education (graduate-level).
+> A series of courses that emphasize the use of R for data science in education (graduate-level).
 
 Landers, R. N. (2019). Data science for social scientists. http://datascience.tntlab.org/
 
 > A data science course for social scientists.
 
-RStudio. (2019). Data science in a box. https://datasciencebox.org/hello/
+Posit. (2019). Data science in a box. https://datasciencebox.org/hello/
 
 > A complete course, including a curriculum and teaching materials, for data science. 
 
@@ -70,7 +70,7 @@ Lee, V. R., & Wilkerson, M. (2018). *Data use by middle and secondary students i
 
 > A comprehensive and incisive review of both recent and foundational research on what is known about how learners at the K--12 level analyze data.
 
-Lehrer, R., & Schauble, L. (2015). *Developing scientific thinking*. In L. S. Liben & U. Müller (Eds.), *Cognitive processes. Handbook of child psychology and developmental science* (Vol. 2, 7th ed., pp. 671--174). Wiley. https://www.wiley.com/en-us/Handbook+of+Child+Psychology+and+Developmental+Science%2C+7th+Edition-p-9781118136850
+Lehrer, R., & Schauble, L. (2015). *Developing scientific thinking*. In L. S. Liben & U. Müller (Eds.), *Cognitive processes. Handbook of child psychology and developmental science* (Vol. 2, 7th ed., pp. 671--714). Wiley. https://www.wiley.com/en-us/Handbook+of+Child+Psychology+and+Developmental+Science%2C+7th+Edition-p-9781118136850
 
 > Describes the "data modeling" approach which has been used to support learners at the K--12 level to develop data analysis-related capabilities.
 
@@ -106,13 +106,13 @@ Data for Black Lives: [http://d4bl.org/](http://d4bl.org/)
 
 Wickham, H., & Grolemund, G. (2017). *R for data science*. O'Reilly.
 
-> "You have data but have no idea on how to make sense of it". If this statement resonates with you, then look no further. Introducing `R` for data analysis. At its core, R is a statistical programming language. It helps derive useful information from the data deluge. This book assumes you're a novice at data analytics and will subtly introduce you to the nuances of R, RStudio, and the tidyverse (which is a collection of R packages designed to ensure your learning curve is minimal).
+> "You have data but have no idea how to make sense of it." If this statement resonates with you, then look no further. This book introduces R for data analysis using the {tidyverse}, a collection of R packages designed to ensure your learning curve is minimal.
 
 Teetor, P. (2011). *R cookbook*. O'Reilly.
 
 > This book provides over 200 practical solutions for analyzing data using R. 
 
-Bryan, J., & Hestor, J. *Happy git and github for the useR*. Retrieved from [https://happygitwithr.com](https://happygitwithr.com) 
+Bryan, J., & Hester, J. *Happy git and github for the useR*. Retrieved from [https://happygitwithr.com](https://happygitwithr.com) 
 
 > A fantastic and accessible introduction to using Git and GitHub. 
 
@@ -128,11 +128,9 @@ Navarro, D. (2019). *Learning statistics with R*. https://learningstatisticswith
 
 > An introductory textbook with a focus on applications to psychological research.
 
-Field, A., Miles, J., & Field, Z. (2012). *Discovering statistics using R*. Sage publications.
+Field, A., Miles, J., & Field, Z. (2012). *Discovering statistics using R*. Sage Publications.
 
-> Emphasizes many of the most common statistical tests, especially those used in psychology and educational psychology.
-
-> Covers the foundations thoroughly and in an entertaining way.
+> This book emphasizes many of the most common statistical tests, especially those used in psychology and educational psychology and covers the foundations thoroughly and in an entertaining way.
 
 Ismay, C., & Kim, A. Y. (2019). *ModernDive: Statistical inference via data science.* CRC Press. https://moderndive.com/
 
@@ -158,15 +156,15 @@ Gelman, A., & Hill, J. (2006). *Data analysis using regression and multilevel/hi
 
 Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The elements of statistical learning: data mining, inference, and prediction*. Springer Science & Business Media.
 
-> A classic text on Machine Learning.
+> A classic text on machine learning.
 
 West, B. T., Welch, K. B., & Galecki, A. T. (2014). *Linear mixed models: a practical guide using statistical software.* Chapman and Hall/CRC.
 
-> A solid introduction to multi-level/hierarchical linear models, including code in R (with an emphasis on the lme4 R package).
+> A solid introduction to multi-level/hierarchical linear models, including code in R (with an emphasis on the {lme4} R package).
 
 McElreath, R. (2018). *Statistical rethinking: A Bayesian course with examples in R and Stan.* Chapman and Hall/CRC. 
 
-> A new classic, accessible introduction to Bayesian methods. We note that this book has been "translated" into tidyverse code by @kurz2019.
+> A new classic, accessible introduction to Bayesian methods. We note that this book has been "translated" into {tidyverse} code by @kurz2019.
 
 ## R packages and statistical software development
 
@@ -186,17 +184,17 @@ Robinson, E., & Nolis, J. (2020). *Building a career in data science*. Manning. 
 
 ## Places to share your work
 
-Twitter: [twitter.com](twitter.com) 
+Bluesky: [bsky.app](https://bsky.app)
 
-> Especially through the hashtags we mentioned below.
+> Bluesky is a place to share data science work and connect with the R community.
 
-LinkedIn: [linkedin.com](linkedin.com) 
+LinkedIn: [linkedin.com](https://linkedin.com) 
 
 > This can be a place to share not only career updates but also data science-related works-in-progress.
 
 
 ## Cheat sheets
 
-[RStudio Cheat Sheets](https://rstudio.com/resources/cheatsheets/) (https[]()://rstudio.com/resources/cheatsheets/)
+[Posit Cheat Sheets](https://opensource.posit.co/resources/cheatsheets/) (https[]()://opensource.posit.co/resources/cheatsheets/)
 
 > See especially the {dplyr}, {tidyr}, {purrr}, {ggplot2}, and other cheat sheets.

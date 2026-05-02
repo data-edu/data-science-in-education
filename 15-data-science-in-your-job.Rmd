@@ -1,7 +1,8 @@
 # Introducing data science tools to your education job {#c15}
 
 **Abstract**
-This chapter explores using the tools of data science in an education job. Learning techniques like cleaning data, visualizing data, and modeling data are the first part of integrating data science tools in an education job. The next part is learning to apply these skills in practical day to day work. Using examples in R, this chapter explains how statistical programming increases the speed and scale of data work. Practicing these skills in day to day work will empower staff to get the most out of their training and develop a meaningful role as a data scientist in education. Data science tools explored in this chapter include empathy, collaboration, and adopting an entrepreneurial mindset.
+
+This chapter explores using the tools of data science in an education job. Learning techniques like cleaning data, visualizing data, and modeling data are the first part of integrating data science tools in an education job. The next part is learning to apply these skills in practical day-to-day work. Using examples in R, this chapter explains how statistical programming increases the speed and scale of data work. Practicing these skills will empower staff to get the most out of their training and develop a meaningful role as a data scientist in education. Data science tools explored in this chapter include empathy, collaboration, and an entrepreneurial mindset.
 
 
 ## Chapter overview
@@ -20,15 +21,15 @@ Data analysts who use an efficient analytic process understand their clients' qu
 
 Lots of data scientists have built and shared analytic routines. Roger Peng and Elizabeth Matsui discuss epicycles of analysis in their book [The Art of Data Science](https://bookdown.org/rdpeng/artofdatascience/epicycles-of-analysis.html). In their book [R for Data Science](https://r4ds.had.co.nz/explore-intro.html), Garrett Grolemund and Hadley Wickham demonstrate a routine for data exploration. 
 
-What's important is to pick a routine that keeps you focused on repeatable steps. When the problem space is unclear, as it often is education data analysis, the path from research question to analysis is full of detours and distractions. Having a routine that points you to the next immediate analytic step helps you start quickly. And many quick starts results in a lot of analysis.
+What's important is to pick a routine that keeps you focused on repeatable steps. When the problem space is unclear, as it often is in education data analysis, the path from research question to analysis is full of detours and distractions. Having a routine that points you to the next immediate analytic step helps you start quickly. And many quick starts result in a lot of analysis.
 
 Moving through data analysis systematically and rapidly has other benefits. It fuels the creativity required to understand problems in education and the imaginative solutions required to address them. Quickly analyzing data keeps the analytic momentum going at the speed needed to engage organic exploration of the problem. 
 
-Imagine an education consultant working with a school district to measure the effect of a new math intervention. The superintendent wants to compare quiz scores across schools. If the consultant can rapidly produce repeatedly reports for discussion, conversations can begin and continue with even more questions.
+Imagine an education consultant working with a school district to measure the effect of a new math intervention. The superintendent wants to compare quiz scores across schools. If the consultant can rapidly produce repeated reports for discussion, conversations can begin and continue with even more questions.
 
 Quickly summarizing a teacher's latest batch of quiz scores and then returning for discussion should feel like a fast-paced and inspiring conversation with a collaborator. Contrast this with sluggish correspondence resulting from slow analysis. In these cases, the teacher's research question might've changed by the time the consultant returns with the data summary. 
 
-You have an opportunity to provide speedy data analyses that sparks more and more important analytic questions. Thinking again about the consultant analyzing quiz scores, it's not hard to imagine new questions arising from rapid cycles of analysis:
+You have an opportunity to provide speedy data analyses that spark more and more important analytic questions. Thinking again about the consultant analyzing quiz scores, it's not hard to imagine new questions arising from rapid cycles of analysis:
 
  - How big was the effect of the new intervention, if any? 
  - Are there similar effects across student groups? 
@@ -36,7 +37,7 @@ You have an opportunity to provide speedy data analyses that sparks more and mor
 
 The trick here is to use statistics, programming, and content knowledge to raise and answer the right questions quickly so the process feels like a conversation. When there's too much time between analytic questions and their answers, educators lose the momentum required to follow the logical and exploratory path towards understanding student success. 
 
-#### Example: Preparing Quiz Data to Compute Average Scores
+#### Example: Preparing quiz data to compute average scores
 
 Go back to the imaginary consultant tasked with computing the average quiz scores. Imagine the school district uses an online quiz system and each teacher's quiz export looks like this:
 
@@ -55,7 +56,7 @@ quizzes_1 <- tibble(
 quizzes_1
 ```
 
-Spreadsheets can help you compute mean quiz scores or mean student scores quickly. But what if you'd like to do that for not one, but five teachers? First, tidy the data. This will prepare the data nicely computing a variety of scores, including the mean. Start by using `pivot_longer()` to separate each student's quiz number and its score: 
+Spreadsheets can help you compute mean quiz scores or mean student scores quickly. But what if you'd like to do that for not one, but five teachers? First, tidy the data. This will prepare the data nicely for computing a variety of scores, including the mean. Start by using `pivot_longer()` to separate each student's quiz number and its score: 
 
 ```{r tidy quiz scores}
 quizzes_1 %>% 
@@ -130,18 +131,18 @@ all_quizzes %>%
     summarise(quiz_mean = mean(score))
 ```
 
-Note that the hypothetical consultant is thinking ahead by including the `intervention` column. By doing so, she's preserved the possibility of exploring possible score differences between the students who had the intervention and the students who did not. Thinking ahead in this way builds conversation starters into your collaborations. If you can anticipate your client's questions, you'll be able to respond faster if and when these questions arise.
+Note that the hypothetical consultant is thinking ahead by including the `intervention` column. By doing so, she's preserved the ability to explore possible score differences between the students who had the intervention and the students who did not. Thinking ahead in this way builds conversation starters into your collaborations. If you can anticipate your client's questions, you'll be able to respond faster if and when these questions arise.
 
-Comparing using R and spreadsheets, there may be little difference in the time it takes to do this for three quiz exports. But the gains in speed when computing over many datasets---say, 30 quiz exports---is truly useful. 
+Comparing using R and spreadsheets, there may be little difference in the time it takes to do this for three quiz exports. But the gains in speed when computing over many datasets---say, 30 quiz exports---are truly useful. 
 
 #### Summary
 
-Learning how to rapidly answering analytic questions is not a silver bullet (but really, what is?). But it can put you on the path to creative solutions. It works something like this: 
+Learning how to rapidly answer analytic questions is not a silver bullet (but really, what is?). But it can put you on the path to creative solutions. It works something like this: 
 
  1. Rapidly answering analytic questions empowers you to help more people
  1. Helping more people creates more chances to practice your analytic skills
  1. Helping more people also creates more chances for clients to see the value of data science
- 1. These two things—increased practice and a growing sense of value—nurtures confidence 
+ 1. These two things—increased practice and a growing sense of value—nurture confidence 
  1. Confidence encourages experimentation and creativity when developing solutions for students
 
 Here are more ways to get faster: 
@@ -155,15 +156,15 @@ Here are more ways to get faster:
 
 When data analysts create more data for their clients, they give them more opportunities to learn what helps their students. In this regard, R is helpful because functions, loops, and scripts work on many datasets in the same time it takes to work on one.
 
-For example, imagine a teacher whose students have an average quiz score of 75%. This helpful to know because it shows her how close her students are to some pre-determined standard, say 95%. But that data alone doesn't tell the teacher how similar or different her class average is from other classrooms. For that, you need context. 
+For example, imagine a teacher whose students have an average quiz score of 75%. This is helpful to know because it shows her how close her students are to some pre-determined standard, say 95%. But that data alone doesn't tell the teacher how similar or different her class average is from other classrooms. For that, you need context. 
 
 Now imagine applying the same script used to compute this teacher's average quiz score to every classroom in the school. And imagine the school average quiz score was 77%. From this, the teacher learns her class average is similar to other classrooms. This is important nuance for developing her improvement strategy.
 
-This example shows how working with scripts super charges your analysis. Using spreadsheets to work with large datasets, say 10,000 rows, requires you to interact directly with the user interface. That includes lots of scrolling, highlighting, and clicking that isn't saved for future use. In contrast, using a programming language with large datasets empowers you to issue complex and repeatable instructions to act on the data.
+This example shows how working with scripts supercharges your analysis. Using spreadsheets to work with large datasets, say 10,000 rows, requires you to interact directly with the user interface. That includes lots of scrolling, highlighting, and clicking that isn't saved for future use. In contrast, using a programming language with large datasets empowers you to issue complex and repeatable instructions to act on the data.
 
-#### Example: replacing many student names with mumerical IDs
+#### Example: replacing many student names with numerical IDs
 
-Say, for example, an elementary school administrator wants to replace each students' name in a classroom dataset with a numerical ID. Doing data entry in a spreadsheet for one classroom is feasible. Doing it for a all classrooms in a school requires a different approach. Instead of the administrator entering unique IDs into a spreadsheet, they can write an R script that executes these steps: 
+Say, for example, an elementary school administrator wants to replace each student's name in a classroom dataset with a numerical ID. Doing data entry in a spreadsheet for one classroom is feasible. Doing it for all classrooms in a school requires a different approach. Instead of the administrator entering unique IDs into a spreadsheet, they can write an R script that executes these steps: 
 
  1. Use `read_csv()` to read every classroom's student list into R
  1. Use `bind_rows()` to combine the separate lists into one long list 
@@ -181,12 +182,12 @@ It's easy to forget about reflecting on your analysis routines. This is especial
 
 For example, when a client or coworker has an analytic question, consider the following: 
 
- 1. At what level is this question about? Is it an analytic question about students, classrooms, schools, districts, regions, the whole state, or the whole country? 
+ 1. What level is this question about? Is it an analytic question about students, classrooms, schools, districts, regions, the whole state, or the whole country? 
  1. What can we learn by answering at that level, but also at the next level?
 
 If a teacher asks you to analyze the attendance pattern of one student, see what you learn by comparing it to the attendance pattern of the whole classroom or the whole school. If a superintendent of a school district asks you to analyze the behavior referrals of a school, analyze the behavior referrals of every school in the district. Remember that once you write code for one dataset, you can use it for many.
 
-### Look for lots of similarly structured sata 
+### Look for lots of similarly structured data 
 
 Be on the lookout for datasets that have the same column structure, then write code to act on multiple datasets at once. 
 
@@ -198,7 +199,7 @@ When you start seeing situations like this as an opportunity for analysis, you p
 
 ### Cleaning data
 
-Cleaning data is the perfect opportunity to work with data at scale. Educators want to look at data with tools like Excel, but very often the data aren't structured for that use case.
+Cleaning data is the perfect opportunity to work with data at scale. Educators want to look at data with tools like Excel, but very often the data isn't structured for that use case.
 
 Offer to clean a dataset so your clients can explore data in their tool of choice. As you demonstrate how quickly you can clean large volumes of data, you accomplish two things. First, you improve your skills through repetition. And second, you expand your client's expectations for what's possible with you on their team.
 
@@ -214,15 +215,15 @@ Data science techniques are a powerful addition to an organization's problem-sol
 
 ### Data science in education and empathy 
 
-In 1990 Elizabeth Newton, then a Stanford University graduate, asked research subjects to tap out well-known songs with their fingers. Then she asked them to estimate how many people would recognize the songs [@newton1991, Heath and Heath 2006]. She found that they overestimated every time.
+In 1990, Elizabeth Newton, then a Stanford University graduate, asked research subjects to tap out well-known songs with their fingers. Then she asked them to estimate how many people would recognize the songs [@newton1991, Heath and Heath 2006]. She found that they overestimated every time.
 
 When you know a subject well, you tend to forget what it's like to not know. Here are suggestions for helping your coworkers feel included as they join you on your data science journey.
 
-First, listen to your coworkers as they work with data. Learn about their their current thinking as they use reports, tables, and graphs. This will help you understand the problems and solutions they focus on.
+First, listen to your coworkers as they work with data. Learn about their current thinking as they use reports, tables, and graphs. This will help you understand the problems and solutions they focus on.
 
 Second, ask them if you can "borrow the problem." "Borrowing a problem" is not solving it for them, it's using data science to get them unstuck so they can continue. For example, if a client is struggling to make a plot, offer to clean and summarize the dataset before they try again.
 
-Third, if your first attempt at borrowing the problem didn't help, listen and learn more. Doing data science together is a conversation. Ask them how it went after you you helped. Listen, understand, and try again. After a few rounds of this, you may find your coworkers willing to try new methods for advancing their goals. 
+Third, if your first attempt at borrowing the problem didn't help, listen and learn more. Doing data science together is a conversation. Ask them how it went after you helped. Listen, understand, and try again. After a few rounds of this, you may find your coworkers willing to try new methods for advancing their goals. 
 
 ### Create a daily practice commitment that answers someone else's question
 
@@ -233,28 +234,28 @@ In his book *Feck Perfuction*, designer @victore2019 writes,
 
 Doing data science, like all skills, needs repetition and mistakes as fuel for learning. But what happens if you are the first person in your organization to do data science? When you have no data science mentors, analytic routines, or examples of past practice, it can feel aimless. The antidote to that aimlessness is to practice daily.
 
-Commit to writing code every day. Even a simple three-line scripts will add to your growing programming instincts. Train your ears to be radars for data projects that are usually done in a spreadsheet. Then take them on and do them in R. Need the average amount of time a student with disabilities spends in special instruction? Try it in R. Need to rename the columns in a student quiz dataset? Try it in R. 
+Commit to writing code every day. Even a simple three-line script will add to your growing programming instincts. Train your ears to be radars for data projects that are usually done in a spreadsheet. Then take them on and do them in R. Need the average amount of time a student with disabilities spends in special instruction? Try it in R. Need to rename the columns in a student quiz dataset? Try it in R. 
 
 ### Build your network 
 
 Participating in personal and professional networks is important for surviving, thriving, and innovating. Connecting with an education data science network is easier if your organization has an analytics department, but you'll have to get creative if you're the lone data scientist.
 
-Naturally, you might seek out programmers and statisticians first. But consider also that data science in education is not just about statistics. In the broader view it's about evolving the whole approach to analytics. When viewed that way, members of a network broaden beyond just programmers and statisticians. It grows to include administrators and staff, graduate students fascinated with unique research methodologies, and designers who create interesting approaches to measurement. 
+Naturally, you might seek out programmers and statisticians first. But consider also that data science in education is not just about statistics. In the broader view, it's about evolving the whole approach to analytics. When viewed that way, members of a network broaden beyond just programmers and statisticians. It grows to include administrators and staff, graduate students fascinated with unique research methodologies, and designers who create interesting approaches to measurement. 
 
 Networks for growing data science in education are not limited to the workplace. There are plenty of online and real-life chances to participate in a network that are just as rewarding as the networks you find at the office. Here are some ideas: 
 
  - Social media networks
  - Local coding communities 
- - Data Science or Education Conferences
+ - Data science or education conferences
  - Online forums 
 
 ## For K-12 teachers 
 
-So far the discussion has been from the data scientist's point of view. What if you're interested in analytics but not in programming and statistics? Teachers in elementary and high schools are faced with a mind-boggling amount of student data. A study by @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57% of the teachers in the study said a lack of time was a barrier to using the data they have. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
+So far the discussion has been from the data scientist's point of view. What if you're interested in analytics but not in programming and statistics? Teachers in elementary and high schools are faced with a mind-boggling amount of student data. A study by @dataqualitycampaign2018 estimated that "95 percent of teachers use a combination of academic data (test scores, graduation rates, etc.) and nonacademic data (attendance, classroom, behavior, etc.) to understand their students' performance". 57% of the teachers in the study said a lack of time was a barrier to using the data they had. Data literacy is also increasingly important within teacher preparation programs [@mandinach2013].
 
 Yet the majority of teachers aren't interested in learning a programming language and statistical methods. Further, scarce time is needed for professional development [@datnow2015]. After all, most teachers chose their profession because they love teaching, not because they enjoy cleaning datasets and building statistical models. But to leave them out feels like a glaring omission in a field where perhaps the most important output is student learning.
 
-If you happen to be a K-12 teacher who wants to use more programming and statistics more, you will find the approaches in this book useful. But if not, there is still much to explore that will help you grow your analytic skills. 
+If you happen to be a K-12 teacher who wants to use programming and statistics more, you will find the approaches in this book useful. But if not, there is still much to explore that will help you grow your analytic skills. 
 
 For example, you can explore an often overlooked element of data analysis: asking the correct question. Chapter three of *The Art of Data Science* [@peng2015] provides a useful process for getting better at asking data questions. 
 

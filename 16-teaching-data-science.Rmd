@@ -1,6 +1,7 @@
 # Teaching data science {#c16}
 
 **Abstract**
+
 This chapter explores strategies for teaching data science to others. While our focus in this book (and the focus of many doing data science in education) is on the use of data science methods to ask and answer questions and identify and solve problems relating to teaching, learning, and educational systems, how data science is taught and learned is also an important consideration. This is particularly true for those tasked with teaching others, whether in formal settings (such as in classes or workshops) or in those that are informal (such as when providing just-in-time help to a colleague or peer). This chapter first draws attention to the pedagogical principles that undergirded this book, and then describes strategies for teaching data science as well as some general pedagogical strategies that have relevance to those teaching data science. The chapter concludes with a call for those teaching data science to carve out a distinctive field of their own.
 
 
@@ -16,8 +17,8 @@ in education, it is important to not only discuss the application of
 data science methods, but also to consider what we know about *how to teach
 data science*. In recognition of these dual meanings of data science in
 education, we've referred to the application of data science methods as 
-"data science *in* education\*, and the teaching and
-learning of data science as "data science \*for" education
+"data science *in* education", and the teaching and
+learning of data science as "data science *for* education"
 [@rosenberg2020mdsc].
 
 Naturally, educators who do data science are positioned well to try to 
@@ -35,7 +36,7 @@ This chapter is organized around three topics:
 As the authors of a book about data science in education---and readers of books
 that taught us about data science---we considered what would make it effective
 for our readers when we set out to write it. The result of this process was a
-pedagogical framework that consists of four principles: problem-based learning,
+pedagogical framework that consisted of four principles: problem-based learning,
 differentiation, building mental models, and working in the open. We consider each of these in turn.
 
 ### Problem-based learning
@@ -80,7 +81,7 @@ we presented the content.
 We then aimed to differentiate the book by recognizing and providing background
 knowledge (either explicitly or through references to other resources) and
 recommendations for where to begin based on prior expertise. We also provided
-screenshots--particularly in [Chapter 5/Getting Started with R and
+screenshots---particularly in [Chapter 5/Getting Started with R and
 RStudio](#c05) and [Chapter 6/Foundational Skills](#c06)---that are annotated and
 reflective of the content in the text to help show readers how to use what they 
 are reading about.
@@ -89,7 +90,7 @@ Lastly, we considered inclusivity and accessibility when differentiating this bo
 For inclusivity, we considered who makes up the audience for this text and how a 
 broader view of who participates in data science informs the types of challenges, 
 topics, and data that we included and its accessibility (technically, in terms of how a wide audience of readers
-is able to access and use the book as well how the
+is able to access and use the book as well as how the
 content is written based on the unique assets that those in education bring),
 along with how we differentiate the book.
 
@@ -97,22 +98,20 @@ along with how we differentiate the book.
 
 We started writing this book in the open, on GitHub. This allowed us to share
 the book as it developed. Writing the book in the open also allowed others from
-the wider educational data science and data science community to contribute.
+the wider educational data science community to contribute.
 These contributions included writing sections of the book in which contributors
-had specific expertise, asking clarifying questions, and, even creating a logo
+had specific expertise, asking clarifying questions, and even creating a logo
 for the book which informed our choice of a color palette. We decided to write
 this book in the open after witnessing the success of other books on data
-science (such as @wickham2019advr *Advanced R* (<https://adv-r.hadley.nz/>)
-book.
+science (such as @wickham2019advr *Advanced R* (<https://adv-r.hadley.nz/>).
 
-## Building mental models
+### Building mental models
 
 In the foundational skills chapter, [Chapter 6](#c06), we introduced the 
 *foundational skills framework*. The purpose of this framework was to emphasize 
 four core concepts (projects, functions, packages, and data) that are relevant to and used in nearly all data science projects. 
 We chose to introduce this *general* framework before walkthroughs, which introduce *specific* techniques, 
-in part to help readers to build a "mental model" of data science: an understanding of 
-how data science tools and techniques at a level deeper than particular functions or individual lines of code (see @krist2019's framework for 
+in part to help readers to build a "mental model" of data science: an understanding of data science tools and techniques at a level deeper than particular functions or individual lines of code (see @krist2019's framework for 
 the development of *mental models* and this type of deeper understanding). Understanding both how R works as a programming language (what R code is) 
 and how R and RStudio work as software programs can make it easier to troubleshoot the 
 (inevitable!) issues and identify possible solutions in the course of working on educational data science projects.
@@ -158,7 +157,7 @@ for learners. Especially when it comes to learning to do
 data science, there are many tools and resources to keep track of, such as:
 
   - How to download and install R
-  - How to download and install R Studio
+  - How to download and install RStudio
   - How to install packages
   - How to access resources related to the workshop or course (or simply other
     resources you wish to share)
@@ -179,18 +178,18 @@ It is important to get learners to start writing code early and often. It can be
 tempting to teach classes or workshops that front-load content about data
 science and using R. While this information is important, it can
 mean that those you are teaching do not have the chance to do the things
-they want to do, including installing R (and R Studio) and beginning to run
+they want to do, including installing R (and RStudio) and beginning to run
 analyses. Because of this, we recommend starting with strategies that lower the
 barrier to writing code for learners. Ways to do this include:
 
-  - Using R Studio Cloud
+  - Using Posit Cloud
   - Providing an R Markdown document for learners to work through
   - Providing a dataset and ideas for how to begin exploring it
 
 While these strategies are especially helpful for courses or workshops, they can
 be translated to teaching and learning R in tutoring (or "one-on-one")
 opportunities for learners. In these cases, being able to work through and
-modify an existing analysis (perhaps in R Studio Cloud) is a way to quickly
+modify an existing analysis (perhaps in Posit Cloud) is a way to quickly
 begin running analyses---and to use the analysis as a template for analyses
 associated with other projects. Also, having a dataset associated with a
 project or analysis---and a real need to analyze it using R---can be an
@@ -257,7 +256,7 @@ interpreting findings with attention to how others will make sense of them
 description of data modeling). From this broader view, choosing representative
 data is a choice, like others, that teachers can make. For example, instructors
 can choose data that directs attention to issues---equity-related issues in
-education, for example---that she or he believes would be valuable for students
+education, for example---that they believe would be valuable for students
 to analyze.
 
 It is important to consider and question what data is collected and why, even with variables that we consider to be objective. For example, some variables are constructed to be dichotomous (e.g., gender) or categorical (e.g., race), but the data that is collected is based on decisions by the observer and may not be inherently objective. 
@@ -281,7 +280,6 @@ perspectives, such as the following:
   - [Data Science for
     Undergraduates](https://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options) (https[]()://www.nap.edu/catalog/25104/data-science-for-undergraduates-opportunities-and-options):
     a report on undergraduate data science education
-  - [R Studio Education](https://education.rstudio.com/) (https[]()://education.rstudio.com/)
 
 There are also a number of data science-related curricula (for the K-12 level)
 which may be helpful:
@@ -292,7 +290,7 @@ which may be helpful:
   - [Oceans of Data Institute
     Curricula](http://oceansofdata.org/our-work/ocean-tracks-high-school-learning-modules) (http[]()://oceansofdata.org/our-work/ocean-tracks-high-school-learning-modules)
 
-Last, there are also books that emphasize the importance---for teachers--of
+Last, there are also books that emphasize the importance---for teachers---of
 understanding their students---every student. These books include
 @paris2017culturally and @kozol2012savage, and will likely be valuable for teachers of data science who wish to understand and honor the diversity of their
 students. @moore2017guide and @emdin2016 may be helpful for data science
@@ -301,7 +299,7 @@ backgrounds other than their own.
 
 ## General strategies related to teaching and learning
 
-The National Academy of Science commissioned a report, *How People Learn*
+The National Academy of Sciences commissioned a report, *How People Learn*
 [@nrc2000], that aimed to summarize research on teaching and learning from educational psychology
 and the learning sciences. In 2018, the report was
 updated in *How People Learn II* [@nrc2018] with a new emphasis on the
@@ -342,7 +340,7 @@ from a problem they try to solve on their own, than from a workshop
 or class (or even a degree!). This also suggests that learners may learn things
 that we do not anticipate.
 
-### Meta-cognition is important (even though it sounds more dophisticated than it is!)
+### Meta-cognition is important (even though it sounds more sophisticated than it is!)
 
 Educators and educational researchers often talk about meta-cognition, or
 thinking (and ideas) about thinking, as if it is something only very
@@ -372,4 +370,4 @@ and more the commitment to teaching their students how to learn.
 ## Summary
 
 Data science educators do not need to reinvent the wheel when it comes to teaching about data science. Insights from other, related educational domains (such as statistics education and computer science education) may prove helpful to those seeking to teach data science to others, whether in a one-on-one setting, a workshop, or through a formal class. In this chapter, we sought to describe both the pedagogical principles for this book and some 
-strategies for teaching data science. As scholarship and practice where it comes to teaching and learning data science continues to develop, we hope that those teaching (and producing scholarship about) data science not only draw upon the findings of those in other domains but carve out a domain of their own---one with findings that may have implications for how statistics, computer science, or even subject matters such as science and mathematics are learned.
+strategies for teaching data science. As scholarship and practice when it comes to teaching and learning data science continues to develop, we hope that those teaching (and producing scholarship about) data science not only draw upon the findings of those in other domains but carve out a domain of their own---one with findings that may have implications for how statistics, computer science, or even subject matters such as science and mathematics are learned.

@@ -2,17 +2,17 @@
 
 **Abstract**
 
-This chapter contains reflections on how to learn more about data science in education as well as some specific suggested activities for doing so. These activities include adopting a growth mindset, seeking out new information, and why it is important to ask for help (along with some suggestions for how to do so).
+This chapter contains reflections on how to learn more about data science in education as well as some specific suggested activities for doing so. These activities include adopting a growth mindset, seeking out new information, and asking for help (along with some suggestions for how to do so).
 
 ## Introduction 
 
 If you're reading this book cover to cover, you've been through quite a journey! So far, you've:
 
- - Learned about the challenges of doing data science in education  
- - Practiced some basic coding and statistics techniques 
- - Worked through examples of analytic routines using education datasets
- - Reflected on introducing data science to your education organization over time 
- - Learned about teaching data science to others 
+- Learned about the challenges of doing data science in education  
+- Practiced some basic coding and statistics techniques 
+- Worked through examples of analytic routines using education datasets
+- Reflected on introducing data science to your education organization over time 
+- Learned about teaching data science to others 
  
 We hope this book sparked an interest in data science that you want to nurture. We've talked to many people in your shoes---folks who care about educating students and want to help by using their data skills. We've found the common thread in our audience is wanting to use data to improve the learning experience. It's important to nurture this passion by keeping the learning going. 
 
@@ -31,17 +31,17 @@ You'll need to use your intuition to find the areas where you want to deepen you
 
 It's normal to feel overwhelmed while learning skills like R and data science. This is particularly true when these fields themselves are learning and growing. The R, data science, and education communities are constantly developing new techniques to move the field forward. It's part of the beauty of this work!
 
-When you're feeling overwhelmed by everything you're trying to learn, consider adopting a growth mindset. Carol Dweck argues that we think of ourselves as *being* or *not being* a type of person. For example, we might think of ourselves as "math people" or "reading people". What matters is whether or not this state is changeable. When we believe we can change, we adopt a desire to learn, choose to be around people who help us learn, and make the effort to learn. When we move from a *fixed* mindset to a *growth* mindset, we create the possibility of mastering new techniques and realizing our vision for using data in education. 
+When you're feeling overwhelmed by everything you're trying to learn, consider adopting a growth mindset. Carol Dweck argues that we think of ourselves as *being* or *not being* a type of person. For example, we might think of ourselves as "math people" or "reading people." What matters is whether or not this state is changeable. When we believe we can change, we adopt a desire to learn, choose to be around people who help us learn, and make the effort to learn. When we move from a *fixed* mindset to a *growth* mindset, we create the possibility of mastering new techniques and realizing our vision for using data in education. 
 
 The nuances of the growth mindset [@dweck2015] are beyond the scope of this book, but we do encourage the general belief that we can learn how to apply these techniques. We encourage you to adopt a growth mindset as a way to inspire learning and belief that you can introduce data science in your education job. In doing so, you'll be joining other data scientists who created a way to contribute to their fields. 
 
 ## Discover new information 
 
-The content you surround yourself with matters. You can learn a lot and stay inspired by high-quality books, blog posts, journals, journalism, and talks. In his book *Steal Like An Artist*, @kleon2012steal encourages people to surround themselves with great content: 
+The content you surround yourself with matters. You can learn a lot and stay inspired by high-quality books, blog posts, journals, journalism, and talks. In his book *Steal Like an Artist*, @kleon2012steal encourages people to surround themselves with great content: 
 
 > There’s an economic theory out there that if you take the incomes of your five closest friends and average them, the resulting number will be pretty close to your own income. I think the same thing is true of our idea incomes. You’re only going to be as good as the stuff you surround yourself with.
 
-In our "Resources" chapter, we share books and online resources that inspire us and help us learn. Use these as a starting point and build on them by seeking out authors, data scientists, and educators that inspire you to learn and master your craft. There are lots of ways to do this. Some folks follow data scientists on social media and take note of articles or talks that are getting attention. Others read data-informed publications like *FiveThirtyEight* (https://fivethirtyeight.com/), *The Economist* (https://www.economist.com/), or *The Upshot* (https://www.nytimes.com/section/upshot) in the New York Times. Whichever you choose, make sure to stick with something that you're drawn to and you just might find yourself with a new learning habit that is rewarding and fun. 
+In our "Resources" chapter, we share books and online resources that inspire us and help us learn. Use these as a starting point and build on them by seeking out authors, data scientists, and educators who inspire you to learn and master your craft. There are lots of ways to do this. Some folks follow data scientists on social media and take note of articles or talks that are getting attention. Others read data-informed publications like *FiveThirtyEight* (https://fivethirtyeight.com/), *The Economist* (https://www.economist.com/), or *The Upshot* (https://www.nytimes.com/section/upshot) in the New York Times. Whichever you choose, make sure to stick with something that you're drawn to and you just might find yourself with a new learning habit that is rewarding and fun. 
 
 ## Ask for help
 
@@ -49,7 +49,7 @@ So far, we've discussed learning activities you can do on your own. Data science
 
 ### Discussion forums 
 
-Visiting discussion forums is a common way to learn and participate in the R community. Websites like R Studio Community (https://community.rstudio.com/) and Stack Overflow (https://stackoverflow.com/) are very popular ways to do this. On these forums, you'll find many years' worth of discussion about R and statistics. It's quite unusual to search these and not find a way to get unstuck. Many discussions include a reproducible example of code that you can copy and paste into your own R console. This is a fantastic way to learn!
+Visiting discussion forums is a common way to learn and participate in the R community. Websites like Posit Community (https://forum.posit.co/) and Stack Overflow (https://stackoverflow.com/) are very popular ways to do this. On these forums, you'll find many years' worth of discussion about R and statistics. It's quite unusual to search these and not find a way to get unstuck. Many discussions include a reproducible example of code that you can copy and paste into your own R Console. This is a fantastic way to learn!
 
 Consider learning best practices for asking forum questions. Including a reproducible example, or "reprex", to communicate problems is a widely-accepted norm. @bryan2019's video about making reproducible examples is a great place to learn more.
 
@@ -75,16 +75,16 @@ Lastly, you can select your best work from all your sharing and use it as an onl
 
 ### Where to share 
 
-There are many ways to share your work online. For rapid-fire conversational sharing---Twitter. Be sure to use the hashtag "#rstats" to reach more data scientists. For long-form sharing, consider posting to a data science blog. @robinson18's blog post *Advice to aspiring data scientists: start a blog* is wonderful inspiration for getting started. 
+There are many ways to share your work online. For rapid-fire conversational sharing, try Bluesky. Be sure to use the hashtag "#rstats" to reach more data scientists. For long-form sharing, consider posting to a data science blog. @robinson18's blog post *Advice to aspiring data scientists: start a blog* is wonderful inspiration for getting started. 
 
-If you decide to post to a blog, there are tools to help you post data science content regularly. As noted earlier, @xie2019blogdown's {blogdown} is designed to help you create websites using R Markdown and a static website creator called "Hugo". Blogdown makes it easy to create, run, and publish code directly from R Studio. @hill2017 has a great introduction on getting started with blogdown.
+If you decide to post to a blog, there are tools to help you post data science content regularly. As noted earlier, @xie2019blogdown's {blogdown} is designed to help you create websites using R Markdown and a static website creator called "Hugo". {blogdown} makes it easy to create, run, and publish code directly from RStudio. @hill2017 has a great introduction on getting started with {blogdown}.
 
-When you do share a blog post or a tweet, broadcast what you have to say! On Twitter, use hashtags or "at" other community members to include them in the Tweet. On your blog, use blog aggregators that help share your posts with a wider audience. Here are two aggregators to get you started:
+When you do share a blog or a social post, broadcast what you have to say! On Bluesky, use hashtags or "at" other community members to include them in the message. On your blog, use blog aggregators that help share your posts with a wider audience. Here are two aggregators to get you started:
 
 * R Weekly newsletter (https://rweekly.org/)
 * R Bloggers (https://www.r-bloggers.com)
 
-Finally, share the love by engaging your fellow data scientists! Retweet others, leave comments, and interact with the vibrant data science and R communities online.
+Finally, share the love by engaging your fellow data scientists! Repost others, leave comments, and interact with the vibrant data science and R communities online.
 
 ## Welcome others
 

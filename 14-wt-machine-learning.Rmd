@@ -1,8 +1,8 @@
-# Walkthrough 8: Predicting students' final grades using supervised machine learning {#c14}
+# Walkthrough 8: Predicting student pass/fail outcomes using supervised machine learning {#c14}
 
 **Abstract** 
 
-This chapter introduces an increasingly common statistical model -- machine learning. Specifically, it focuses on supervised machine learning. This involves identifying an outcome or a dependent variable and then or training a model to predict that outcome. Some supervised machine learning models are highly complex, while others are simple. To illustrate this concept, this chapter involves predicting whether students will pass a class using a generalized linear model. The Open University Learning Analytics Dataset (OULAD) is used as an example data used in learning analytics. The tidymodels collection of packages is used to carry out the principal supervised machine learning steps. At the conclusion, ways to build more complex models are discussed.
+This chapter introduces an increasingly common statistical model --- machine learning. Specifically, it focuses on supervised machine learning. This involves identifying an outcome or a dependent variable and then training a model to predict that outcome. Some supervised machine learning models are highly complex, while others are simple. To illustrate this concept, this chapter involves predicting whether students will pass a class using a generalized linear model. The Open University Learning Analytics Dataset (OULAD) is used as example data in learning analytics. The {tidymodels} collection of packages is used to carry out the principal supervised machine learning steps. At the conclusion, ways to build more complex models are discussed.
 
 ## Topics emphasized
 
@@ -13,11 +13,11 @@ This chapter introduces an increasingly common statistical model -- machine lear
 
 - `stats::quantile()`
 - `rsample::initial_split()`
-- `rsample:training()`
-- `rsample:testing()`
+- `rsample::training()`
+- `rsample::testing()`
 - `recipes::recipe()`
 - `parsnip::logistic_reg()`
-- `parsnip::set_model()`
+- `parsnip::set_engine()`
 - `parsnip::set_mode()`
 - `workflows::workflow()`
 - `tune::collect_predictions()`
@@ -43,33 +43,33 @@ In a face-to-face classroom, teachers use student cues to help them engage. In o
 
 For example, in a face-to-face class, teachers can adjust when they notice that students are distracted. Many online educators look for ways to understand and support students online in the same way that face-to-face instructors would. Technology provides new methods of collecting and storing data that can serve as the basis for this kind of student support.
 
-Online Learning Management Systems (LMSs) automatically track student interactions with the system and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that this kind of data collection is intrusive, but others see a new opportunity to support students in online classrooms. As long as data are collected and used responsibly, this kind of data collection can support student success.
+Online Learning Management Systems (LMSs) automatically track student interactions with the system and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that this kind of data collection is intrusive, but others see a new opportunity to support students in online classrooms. As long as data is collected and used responsibly, this kind of data collection can support student success.
 
-In this walkthrough, you'll examine the question, *How well can we predict students who are at risk of dropping a course?*. To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
+In this walkthrough, you'll examine the question, *How well can we predict students who are at risk of dropping a course?* To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
 
 Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on *predicting* an outcome, like whether a student passes a course. This is different from *explaining* how variables influence an outcome, like how course time relates to final grades. You'll learn to do this with a generalized linear regression model.
 
 ### Data sources
 
-We'll be using a widely-used dataset in the learning analytics field: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners participation in one of several Massive Open Online Courses. These courses are called *modules* in the OULAD.
+We'll be using a widely-used dataset in the learning analytics field: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners' participation in one of several Massive Open Online Courses. These courses are called *modules* in the OULAD.
 
 Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
-Our analysis will use three datasets, oulad_students, oulad_assessments, and oulad_interactions_filtered. The oulad_students dataset has undergone minimal preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The oulad_assessments file provides data on students' performance on various assessments throughout their courses.
+Our analysis will use three datasets, `oulad_students`, `oulad_assessments`, and `oulad_interactions_filtered`. The `oulad_students` dataset has undergone minimal preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The `oulad_assessments` file provides data on students' performance on various assessments throughout their courses.
 
 ### Methods
 
 #### Predictive analytics and supervised machine learning
 
-A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, you'll compare a machine learning model to another type of regression: multiple regression. 
+A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, you'll use one of these simpler predictive models called logistic regression.
 
-There is an adage: "garbage in, garbage out". This holds true here. If you do not feel confident that the data you collected are accurate, you won't feel confident in your conclusions, regardless of the model. To collect good data, you must first identify what you want to learn and what information you need to learn it. 
+There is an adage: "garbage in, garbage out". This holds true here. If you do not feel confident that the data you collected is accurate, you won't feel confident in your conclusions, regardless of the model. To collect good data, you must first identify what you want to learn and what information you need to learn it. 
 
 Sometimes, people approach analysis from the opposite direction---they look at the data they have and identify questions that could be answered by it. That approach is okay, as long as you acknowledge that the pre-existing dataset may not contain all the information you need to answer your specific questions. You might need to find additional information to add to your dataset to truly answer the questions you have.
 
-At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on a new data. At this point, you'll evaluate how well the model works on data that is not the training data. 
+At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, you'll evaluate how well the model works on data that is not the training data. 
 
-Now you'll dive in to the analysis, starting with something you're familiar with---loading packages.
+Now you'll dive into the analysis, starting with something you're familiar with---loading packages.
 
 ## Load packages
 
@@ -79,6 +79,7 @@ If you have not installed any of these packages before, do so first using the `i
 #| label: ch14-load-packages
 library(tidyverse)
 library(tidymodels)
+library(dataedu)
 ```
 
 ## Import data
@@ -90,13 +91,13 @@ students <- dataedu::oulad_students
 assessments <- dataedu::oulad_assessments
 ```
 
-## Preprocessing and Feature Engineering
+## Preprocessing and feature engineering
 
 Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. You will handle some feature engineering directly. Later, you will instead handle feature engineering through something called a "recipe."
 
 How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage", which can bias a model. For now, this will not be an issue for simpler models, like the one you'll be using in this walkthrough. 
 
-### Step 1: Creating Outcome and Predictor Variables Outside the Recipe
+### Step 1: Creating outcome and predictor variables outside the recipe
 
 To begin, create the outcome variable (`pass`) and a factor variable for `disability` using `mutate()`:
 
@@ -147,9 +148,9 @@ students <-
     mutate(imd_band = as.factor(imd_band))
 ```
 
-Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the class.
+Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
 
-Import the data using the {dataedu} package
+Import the data using the {dataedu} package.
 
 ```{r}
 #| label: ch14-load-logtrace-dat
@@ -166,9 +167,9 @@ interactions %>%
     count(activity_type, sort = TRUE)
 ```
 
-You can see there are a range of activities students do. You may wish to explore this data in other ways, even beyond what you do for this exercise. 
+You can see there is a range of activities students do. You may wish to explore this data in other ways, even beyond what you do for this exercise. 
 
-Think about how you would create a feature with `sum_click`? Think back to our discussion in the presentation; we have options for working with such time series data. Perhaps the most simple is to count the clicks.
+Think about how you would create a feature with `sum_click`. Think back to our discussion earlier; we have options for working with such time series data. Perhaps the simplest is to count the clicks.
 
 Please summarize the number of clicks for each student, specific to a single course. This means you will need to group your data by `id_student`, `code_module`, and `code_presentation`, before creating a
 summary variable.
@@ -183,18 +184,21 @@ interactions_summarized <-
 interactions_summarized
 ```
 
-How many times did students click? Create a histogram to see. Please use {ggplot} and `geom_histogram()` to visualize the distribution of the `sum_clicks` variable you just created.
+How many times did students click? Create a histogram to see. Please use {ggplot2} and `geom_histogram()` to visualize the distribution of the `sum_clicks` variable you just created.
 
 ```{r}
 #| label: ch14-activity-histogram
+#| warning: false
 interactions_summarized %>% 
     ggplot(aes(x = sum_clicks)) +
-    geom_histogram()
+    geom_histogram(fill = dataedu_colors("darkblue"),
+                   color = "black") +
+  theme_dataedu()
 ```
 
-This is a good start - you've created the first feature based upon the log-trace data, `sum_clicks`. What are some other features you can add? A benefit of using the `summarize()` function in R is that you can create multiple summary statistics at once. 
+This is a good start --- you've created the first feature based on the log-trace data, `sum_clicks`. What are some other features you can add? A benefit of using the `summarize()` function in R is that you can create multiple summary statistics at once. 
 
-Try calculating the standard deviation and mean of the number of clicks. Do this by coping the code you wrote above into the code chunk below and then add these two additional summary statistics.
+Try calculating the standard deviation and mean of the number of clicks. Do this by copying the code you wrote above into the code chunk below and then add these two additional summary statistics.
 
 ```{r}
 #| label: ch14-stats-activity
@@ -221,11 +225,11 @@ students_and_interactions <-
     left_join(interactions_summarized)
 ```
 
-### Step 2: Splitting the Data
+### Step 2: Splitting the data
 
 As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. You'll be using the training dataset to train the model. Then you'll use the test dataset to evaluate the model's performance. You'll try the model you trained earlier, but this time on new test data by using predictor variables to predict an outcome. The outcome in this walkthrough is students passing the course in question. 
 
-You'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We also conduct a stratified sample using the outcome variable --- here, `pass`; this is generally a good practice [@boehmke2019hands].
+We'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a stratified sample using the outcome variable --- here, `pass`; this is generally a good practice [@boehmke2019hands].
 
 ```{r}
 #| label: ch14-create-test-train
@@ -244,7 +248,7 @@ data_test  <-
     testing(train_test_split) 
 ```
 
-### Step 3: Creating a Recipe for Selected Preprocessing Steps
+### Step 3: Creating a recipe for selected preprocessing steps
 
 This is the recipe step mentioned earlier in the walkthrough. You'll do two things here. 
 
@@ -270,14 +274,14 @@ my_rec <-
     step_dummy(all_nominal_predictors(), -all_outcomes())
 ```
 
-Inspect the recipe to verify the steps we have specified:
+Inspect the recipe to verify the steps you have specified:
 
 ```{r}
 #| label: ch14-view-recipe
 my_rec
 ```
 
-### Step 4: Specifying the Model and Workflow
+### Step 4: Specifying the model and workflow
 
 Next, specify a logistic regression model and bundle the recipe and model into a workflow. 
 
@@ -291,7 +295,7 @@ my_mod <-
     set_mode("classification") # Specifies whether we are classifying a dichotomous, categorical, or factor variable
 ```
 
-Next, specify the workflow, will stitch the recipe and model together:
+Next, specify the workflow, which will stitch the recipe and model together:
 
 ```{r}
 #| label: ch14-workflow
@@ -303,9 +307,9 @@ my_wf <-
 
 You're almost there!
 
-### Step 5: Fitting the Model
+### Step 5: Fitting the model
 
-Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. Do this with `metric_set()`, specifying the familiar accuracy and precision.
+Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. Do this with `metric_set()`, specifying the familiar accuracy, precision, and recall.
 
 ```{r}
 #| label: ch14-metric-set
@@ -314,7 +318,7 @@ my_metrics <- metric_set(accuracy, precision, recall)
 
 Finally, you'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. You'll also specify which metrics to use.
 
-Note that while there are other fitting functions available, you're using `last_fit` to do two steps at once: fitting the model to the training data, then using the test data to evaluating the model's performance. 
+Note that while there are other fitting functions available, you're using `last_fit` to do two steps at once: fitting the model to the training data, then using the test data to evaluate the model's performance. 
 
 ```{r}
 #| label: ch14-last-fit
@@ -323,9 +327,9 @@ final_fit <- last_fit(my_wf, train_test_split, metrics = my_metrics)
 
 Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. In this case, you'll only examine the performance of the model after you have trained your last model. For more about this technique, consider reading Chapter 2 in [@boehmke2019hands]. 
 
-### Step 6: Evaluating Model Performance
+### Step 6: Evaluating model performance
 
-Finally, evaluate the model’s performance using the test set. The tidymodels package makes this easy:
+Finally, evaluate the model’s performance using the test set. The {tidymodels} package makes this easy:
 
 ```{r}
 #| label: ch14-evaluate-model
@@ -338,11 +342,11 @@ metrics
 
 How did the model do? Focus on accuracy for now: you can see the model correctly predicted whether students passed around 64% of the time.
 
-But, the model seemed to perform differently for students who passed versus those who did not. You can see this by looking at the precision and recall metrics. The recall value of .925 tells us that the model correctly predicted when students passed the course around 92% of the time. The precision tells us that when the model predicted a student passed the course, it was correct about 65% of the time. In other words, the model made _false positive_ predictions. 
+But, the model seemed to perform differently for students who passed versus those who did not. You can see this by looking at the precision and recall metrics. The recall value of .925 tells us that the model correctly predicted when students passed the course around 92% of the time. The precision tells us that when the model predicted a student passed the course, it was correct about 65% of the time. In other words, the model tended to make false positive predictions.
 
 Herein lies the value of metrics other than accuracy: they can help you understand how the model is performing for different outcomes: false positives or false negatives may matter more or less depending on the context. Your knowledge as the analyst and researcher is critical in determining whether the model is "good enough" for your purposes.
 
-On that note, how could you improve the model? One affordance of tidymodels is you can easily switch the model and engine. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance improves. How much better did the model do with these? 
+On that note, how could you improve the model? One affordance of {tidymodels} is that you can easily switch the model and engine. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance improves. How much better did the model do with these? 
 
 ```{r, eval = FALSE}
 #| label: ch14-switch-engines
@@ -361,4 +365,4 @@ my_mod <-
 
 Though this is a relatively simple model, many of the ideas explored in this chapter will prove useful for other machine learning methods. The goal is for you to finish this walkthrough with the confidence to explore using machine learning to answer a question or to solve a problem of your own in the areas of teaching, learning, and educational systems.
 
-In this chapter, we introduced general machine learning ideas, like training datasets, test datasets, and evaluating the importance of variables, all in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover on the topic. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
+In this chapter, we introduced general machine learning ideas in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover on the topic. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
