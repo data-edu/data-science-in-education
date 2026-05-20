@@ -30,10 +30,21 @@ We introduce these key terms in the chapter:
 - supervised machine learning
 - training data
 - testing data
+- overfitting
+- generalizability
+- bias-variance tradeoff
 - logistic regression
 - classification
+- feature engineering
+- recipe
+- workflow
+- stratified split
 - predictions
 - metrics
+- confusion matrix
+- sensitivity (recall) and specificity
+- positive predictive value (PPV) and negative predictive value (NPV)
+- AUC-ROC
 
 ## Chapter overview
 
@@ -67,7 +78,57 @@ There is an adage: "garbage in, garbage out". This holds true here. If you do no
 
 Sometimes, people approach analysis from the opposite direction---they look at the data they have and identify questions that could be answered by it. That approach is okay, as long as you acknowledge that the pre-existing dataset may not contain all the information you need to answer your specific questions. You might need to find additional information to add to your dataset to truly answer the questions you have.
 
-At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, you'll evaluate how well the model works on data that is not the training data. 
+At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, you'll evaluate how well the model works on data that is not the training data.
+
+#### Prediction vs. explanation: same model, different goals
+
+You may already be familiar with statistical models used to *explain* relationships between variables. For example, a researcher might use a regression model to estimate how strongly student motivation relates to course grades. The interesting output of that analysis is the *coefficient* itself: how much grades change with motivation, and whether that relationship is statistically significant.
+
+Supervised machine learning can use the very same statistical model --- including the logistic regression you'll use in this walkthrough --- but with a different aim. In an SML approach, the interesting output isn't the coefficients; it's the *predictions* themselves. Rather than asking "how does motivation relate to grades?", you'll ask "how accurately can we predict each student's grade?"
+
+Consider the familiar regression equation:
+
+$$y = b_0 + b_1x_1 + b_2x_2 + \cdots + e$$
+
+If your goal is inference --- explaining how variables relate to an outcome --- you'll typically use theory and prior research to choose a small set of predictors whose individual effects you can interpret. You'll favor a *transparent* model where you understand how each predictor relates to $y$.
+
+If your goal is prediction, you can do things differently:
+
+- You can include many more predictors than is typical in an explanatory model, since you care less about interpreting each one individually.
+- Multicollinearity (predictors being correlated with one another) is less of a concern, since you're not trying to make claims about the effect of any single predictor.
+- You evaluate the model not by its R² or coefficient significance on the data you fit it on, but by how well a *trained* model predicts values in a separate *test* dataset.
+- You can use much more complex models, accepting some loss of interpretability in exchange for better predictive accuracy.
+
+The key idea: it's not about the algorithm, it's about the aim and the use.
+
+#### Why split data into training and testing sets?
+
+A core practice of supervised machine learning is splitting your data into two parts: a *training* set used to fit the model, and a *testing* set used to evaluate how well the model predicts on data it hasn't seen.
+
+Why go through this trouble? If you fit a model using all of your data, you can almost always make the model fit that data extremely well --- even perfectly. But a model that fits its own training data perfectly often performs poorly when given new data. This problem is called *overfitting*: the model has learned the specific patterns and noise of the training sample rather than patterns that *generalize* to new data.
+
+The risk of skipping this step isn't just academic. If you never test your model on data it hasn't seen, you can easily believe you have a much better model than you actually do. When you (or someone using your model) try to apply it to new students or new courses, the predictions can fall apart. That's why training/testing splits aren't optional for SML --- they're how you know whether what you've built is real.
+
+#### The bias-variance tradeoff
+
+Whether your model generalizes well depends on a tradeoff that all models face, called the *bias-variance tradeoff*:
+
+- **Bias** is how far off your model's predictions are from the true outcomes, on average. A model with high bias is *under-fit* --- it fails to capture important relationships in the data.
+- **Variance** is how much your predictions would change if you trained the model on a slightly different sample. A model with high variance is *over-fit* --- it's too tuned to the specific data it saw during training.
+
+A simple model (like linear regression) tends to have higher bias but lower variance: it might miss subtle patterns, but its predictions are stable across different samples. A very complex model (like a deep neural network with many parameters) can fit training data very closely (low bias) but may give very different predictions when shown new data (high variance).
+
+Good SML practice is about balancing the two --- finding a model that captures real patterns in the data without latching onto noise. Splitting data into training and testing sets is one important way to check this balance.
+
+#### A spectrum of interpretability
+
+Models also vary in how easy they are to interpret. It can help to think of three rough categories:
+
+- **Transparent box** models, like linear and logistic regression, have coefficients that map directly to interpretable effects. These are often preferred when inference is the goal.
+- **Gray box** models, like decision trees and random forests, are more complex but still allow you to inspect things like which predictors matter most ("feature importance"). They sit in the middle.
+- **Black box** models, like deep neural networks, can offer the highest predictive accuracy, but their internal logic is largely opaque.
+
+In this chapter, you'll start with a transparent model --- logistic regression --- because it makes the contrast between explanation and prediction especially clear. At the end of the chapter, you'll see how to swap in more complex (gray box) models like random forests and boosted trees with only minor changes to your code.
 
 Now you'll dive into the analysis, starting with something you're familiar with---loading packages.
 
@@ -103,11 +164,13 @@ To begin, create the outcome variable (`pass`) and a factor variable for `disabi
 
 ```{r}
 #| label: ch14-create-vars
-students <- 
+students <-
     students %>%
-    mutate(pass = case_when(final_result == "Pass" ~ 1, 
+    mutate(pass = case_when(final_result == "Pass" ~ 1,
                             .default = 0)) %>%
-    mutate(pass = as.factor(pass), 
+    # Set "1" (pass) as the first level so {yardstick} treats it
+    # as the positive class when computing sensitivity, specificity, etc.
+    mutate(pass = factor(pass, levels = c("1", "0")),
            disability = as.factor(disability))
 ```
 
@@ -309,11 +372,11 @@ You're almost there!
 
 ### Step 5: Fitting the model
 
-Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. Do this with `metric_set()`, specifying the familiar accuracy, precision, and recall.
+Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. We'll use accuracy, plus four other metrics --- sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) --- that you'll interpret in detail in Step 6.
 
 ```{r}
 #| label: ch14-metric-set
-my_metrics <- metric_set(accuracy, precision, recall)
+my_metrics <- metric_set(accuracy, sens, spec, ppv, npv)
 ```
 
 Finally, you'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. You'll also specify which metrics to use.
@@ -329,7 +392,7 @@ Other times, you may use _cross-validation_, where you'll split the training dat
 
 ### Step 6: Evaluating model performance
 
-Finally, evaluate the model’s performance using the test set. The {tidymodels} package makes this easy:
+You've fit the model --- now the question is: how good are its predictions? The {tidymodels} package makes it straightforward to retrieve the metrics you specified earlier:
 
 ```{r}
 #| label: ch14-evaluate-model
@@ -340,17 +403,76 @@ metrics <-
 metrics
 ```
 
-How did the model do? Focus on accuracy for now: you can see the model correctly predicted whether students passed around 64% of the time.
+How did the model do? Focus on accuracy for now: the model correctly predicted whether students passed around 64% of the time.
 
-But, the model seemed to perform differently for students who passed versus those who did not. You can see this by looking at the precision and recall metrics. The recall value of .925 tells us that the model correctly predicted when students passed the course around 92% of the time. The precision tells us that when the model predicted a student passed the course, it was correct about 65% of the time. In other words, the model tended to make false positive predictions.
+#### The limitation of accuracy
 
-Herein lies the value of metrics other than accuracy: they can help you understand how the model is performing for different outcomes: false positives or false negatives may matter more or less depending on the context. Your knowledge as the analyst and researcher is critical in determining whether the model is "good enough" for your purposes.
+Accuracy is easy to interpret, but it can also be deceiving. Imagine that only 20% of students in a course actually pass. A model that *always* predicts "did not pass" --- regardless of any input --- would have 80% accuracy on this data, just because most students did not pass. That model would be useless for the actual purpose of identifying students who passed (or struggled), but its accuracy alone wouldn't tell you that.
 
-On that note, how could you improve the model? One affordance of {tidymodels} is that you can easily switch the model and engine. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance improves. How much better did the model do with these? 
+This is a general issue. Accuracy can be insufficient when:
+
+- Outcomes are imbalanced (one class is much more common than the other).
+- Different kinds of errors have different consequences.
+- You need to tune your model for a specific purpose.
+
+To get past these limitations, you need to look at *which* predictions the model got right and wrong.
+
+#### Looking deeper with a confusion matrix
+
+A *confusion matrix* is a 2 × 2 table that compares the model's predictions against the true outcomes. It breaks the model's predictions into four categories:
+
+- **True positive (TP):** the student passed, and the model predicted "pass."
+- **True negative (TN):** the student did not pass, and the model predicted "did not pass."
+- **False positive (FP):** the student did not pass, but the model predicted "pass."
+- **False negative (FN):** the student passed, but the model predicted "did not pass."
+
+You can produce a confusion matrix directly from `final_fit` by collecting the test-set predictions and passing them to `conf_mat()`:
+
+```{r}
+#| label: ch14-conf-mat
+final_fit %>%
+    collect_predictions() %>%
+    conf_mat(truth = pass, estimate = .pred_class)
+```
+
+The accuracy you saw earlier is just (TP + TN) divided by the total. But the confusion matrix lets you ask much sharper questions --- and several useful metrics can be derived from its four cells.
+
+#### Metrics built from the confusion matrix
+
+The metrics below all come from rearranging the same four numbers in the confusion matrix, but each answers a different question.
+
+| Metric | Equation | Question it answers |
+|--------|----------|---------------------|
+| Accuracy | (TP + TN) / Total | What proportion of all predictions were correct? |
+| Sensitivity (also called recall) | TP / (TP + FN) | Of all the students who actually passed, how many did the model correctly identify? |
+| Specificity | TN / (TN + FP) | Of all the students who actually did not pass, how many did the model correctly identify? |
+| Precision (also called positive predictive value, PPV) | TP / (TP + FP) | Of all the students the model predicted would pass, how many actually did? |
+| Negative predictive value (NPV) | TN / (TN + FN) | Of all the students the model predicted would not pass, how many actually did not? |
+
+Each of these appears in your `collect_metrics()` output, because you included them in `my_metrics` earlier. Look back at those values now in light of the table. The sensitivity value of around 0.17 tells you the model correctly identifies only a small share of students who actually passed --- it misses most of them. The specificity value of around 0.93, by contrast, tells you the model correctly identifies most students who did not pass. The PPV of around 0.59 says that when the model does predict a student will pass, it's right about 59% of the time; the NPV of around 0.65 says that when it predicts a student will not pass, it's right about 65% of the time.
+
+Together, these suggest the model is biased toward predicting "not pass" --- it does well at flagging students who won't pass, but misses many of the students who actually do pass. This pattern is common when the outcome is imbalanced: in our test set, more students did not pass than did, so a model that leans toward predicting "not pass" can achieve reasonable accuracy without being especially good at the harder task of identifying who will pass.
+
+#### When does each metric matter?
+
+Which of these metrics matters most depends entirely on the question you're asking and the consequences of being wrong. Two examples make the point:
+
+- If you're using a model to flag students who might benefit from extra support, a false positive (flagging a student who didn't actually need it) is relatively low-cost. You'd rather catch every student who needs help (high sensitivity) even at the cost of some false flags (lower PPV).
+- If you're using a model to make a high-stakes decision --- say, automatically flagging students for academic dishonesty --- false positives can do real harm to students who didn't actually cheat. You'd want PPV to be very high before acting on a prediction, even if it means missing some real cases (lower sensitivity).
+
+Your judgment as a researcher, and as someone who understands the context, is critical here. There is no metric that is uniformly "best." The right metric is the one that aligns with how the model will be used and what kinds of errors are acceptable in that use.
+
+#### Beyond the confusion matrix: AUC-ROC
+
+You'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the SML literature. The intuition: a classification model usually produces a *probability* of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across *every* possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
+
+#### Improving the model
+
+On the question of how to *improve* the model: a benefit of the {tidymodels} framework is that you can swap in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
 
 ```{r, eval = FALSE}
 #| label: ch14-switch-engines
-my_mod <- 
+my_mod <-
     rand_forest() %>%
     set_engine("ranger") %>% # install.packages("ranger") needed first
     set_mode("classification")
