@@ -56,9 +56,9 @@ For example, in a face-to-face class, teachers can adjust when they notice that 
 
 Online Learning Management Systems (LMSs) automatically track student interactions with the system and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that this kind of data collection is intrusive, but others see a new opportunity to support students in online classrooms. As long as data is collected and used responsibly, this kind of data collection can support student success.
 
-In this walkthrough, you'll examine the question, *How well can we predict students who are at risk of dropping a course?* To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
+In this walkthrough, we'll examine the question, *How well can we predict students who are at risk of dropping a course?* To answer this question, we'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
 
-Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on *predicting* an outcome, like whether a student passes a course. This is different from *explaining* how variables influence an outcome, like how course time relates to final grades. You'll learn to do this with a generalized linear regression model.
+Here's the key shift in thinking we'll make when using a supervised machine learning model: We'll focus on *predicting* an outcome, like whether a student passes a course. This is different from *explaining* how variables influence an outcome, like how course time relates to final grades. We'll learn to do this with a generalized linear regression model.
 
 ### Data sources
 
@@ -66,31 +66,31 @@ We'll be using a widely-used dataset in the learning analytics field: the Open U
 
 Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
-Our analysis will use three datasets, `oulad_students`, `oulad_assessments`, and `oulad_interactions_filtered`. The `oulad_students` dataset has undergone minimal preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The `oulad_assessments` file provides data on students' performance on various assessments throughout their courses.
+Our analysis will use three datasets, `oulad_students`, `oulad_assessments`, and `oulad_interactions_filtered`. The `oulad_students` dataset has undergone some preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The `oulad_assessments` file provides data on students' performance on various assessments throughout their courses.
 
 ### Methods
 
 #### Predictive analytics and supervised machine learning
 
-A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, you'll use one of these simpler predictive models called logistic regression.
+A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, we'll use one of these simpler predictive models called logistic regression.
 
 There is an adage: "garbage in, garbage out". This holds true here. If you do not feel confident that the data you collected is accurate, you won't feel confident in your conclusions, regardless of the model. To collect good data, you must first identify what you want to learn and what information you need to learn it. 
 
 Sometimes, people approach analysis from the opposite direction---they look at the data they have and identify questions that could be answered by it. That approach is okay, as long as you acknowledge that the pre-existing dataset may not contain all the information you need to answer your specific questions. You might need to find additional information to add to your dataset to truly answer the questions you have.
 
-At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, you'll evaluate how well the model works on data that is not the training data.
+At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, we'll evaluate how well the model works on data that is not the training data.
 
 #### Prediction vs. explanation: same model, different goals
 
 You may already be familiar with statistical models used to *explain* relationships between variables. For example, a researcher might use a regression model to estimate how strongly student motivation relates to course grades. The interesting output of that analysis is the *coefficient* itself: how much grades change with motivation, and whether that relationship is statistically significant.
 
-Supervised machine learning can use the very same statistical model --- including the logistic regression you'll use in this walkthrough --- but with a different aim. In an SML approach, the interesting output isn't the coefficients; it's the *predictions* themselves. Rather than asking "how does motivation relate to grades?", you'll ask "how accurately can we predict each student's grade?"
+Supervised machine learning can use the very same statistical model --- including the logistic regression we'll use in this walkthrough --- but with a different aim. In an SML approach, the interesting output isn't the coefficients; it's the *predictions* themselves. Rather than asking "how does motivation relate to grades?", we'll ask "how accurately can we predict each student's grade?"
 
-Consider the familiar regression equation:
+Let's consider a regression equation (below), whereby we are trying to understand how a single variable ($b_1$) relates to an outcome ($y$). There is also an intercept term ($y$) and a residual term ($e$).
 
-$$y = b_0 + b_1x_1 + b_2x_2 + \cdots + e$$
+$$y = b_0 + b_1x_1 + \cdots + e$$
 
-If your goal is inference --- explaining how variables relate to an outcome --- you'll typically use theory and prior research to choose a small set of predictors whose individual effects you can interpret. You'll favor a *transparent* model where you understand how each predictor relates to $y$.
+If your goal is _inference_, or explaining how variables relate to an outcome, we'll typically use theory and prior research to choose a small set of predictors whose individual effects you can interpret. We'll favor a *transparent* model where you understand how each predictor relates to $y$.
 
 If your goal is prediction, you can do things differently:
 
@@ -107,7 +107,7 @@ A core practice of supervised machine learning is splitting your data into two p
 
 Why go through this trouble? If you fit a model using all of your data, you can almost always make the model fit that data extremely well --- even perfectly. But a model that fits its own training data perfectly often performs poorly when given new data. This problem is called *overfitting*: the model has learned the specific patterns and noise of the training sample rather than patterns that *generalize* to new data.
 
-The risk of skipping this step isn't just academic. If you never test your model on data it hasn't seen, you can easily believe you have a much better model than you actually do. When you (or someone using your model) try to apply it to new students or new courses, the predictions can fall apart. That's why training/testing splits aren't optional for SML --- they're how you know whether what you've built is real.
+There are real risks to skipping this step; indeed, if you see a machine learning model that does not do this, beware! If you never test your model on data it hasn't seen, you can easily believe you have a much better model than you actually do. When you (or someone using your model) try to apply it to new students or new courses, the predictions can fall apart. That's why training/testing splits aren't optional for SML --- they're how you know whether what you've built is real.
 
 #### The bias-variance tradeoff
 
@@ -128,9 +128,9 @@ Models also vary in how easy they are to interpret. It can help to think of thre
 - **Gray box** models, like decision trees and random forests, are more complex but still allow you to inspect things like which predictors matter most ("feature importance"). They sit in the middle.
 - **Black box** models, like deep neural networks, can offer the highest predictive accuracy, but their internal logic is largely opaque.
 
-In this chapter, you'll start with a transparent model --- logistic regression --- because it makes the contrast between explanation and prediction especially clear. At the end of the chapter, you'll see how to swap in more complex (gray box) models like random forests and boosted trees with only minor changes to your code.
+In this chapter, we'll start with a transparent model --- logistic regression --- because it makes the contrast between explanation and prediction especially clear. At the end of the chapter, we'll see how to swap in more complex (gray box) models like random forests and boosted trees with only minor changes to your code.
 
-Now you'll dive into the analysis, starting with something you're familiar with---loading packages.
+Now we'll dive into the analysis, starting with something you're familiar with---loading packages.
 
 ## Load packages
 
@@ -154,9 +154,9 @@ assessments <- dataedu::oulad_assessments
 
 ## Preprocessing and feature engineering
 
-Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. You will handle some feature engineering directly. Later, you will instead handle feature engineering through something called a "recipe."
+Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. We will handle some feature engineering directly. Later, we will instead handle feature engineering through something called a "recipe."
 
-How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage", which can bias a model. For now, this will not be an issue for simpler models, like the one you'll be using in this walkthrough. 
+How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage", which can bias a model. For now, this will not be an issue for simpler models, like the one we'll be using in this walkthrough. 
 
 ### Step 1: Creating outcome and predictor variables outside the recipe
 
@@ -174,7 +174,7 @@ students <-
            disability = as.factor(disability))
 ```
 
-You will also summarize assessment data to create a new predictor for students’ performance on assessments submitted early in the course. Specifically, you'll calculate the mean weighted score of assessments submitted before the first half of assignment dates.
+We will also summarize assessment data to create a new predictor for students’ performance on assessments submitted early in the course. Specifically, we'll calculate the mean weighted score of assessments submitted before the first half of assignment dates.
 
 ```{r}
 #| label: ch14-create-pred-mean-score
@@ -192,7 +192,7 @@ assessments_joined <-
     summarize(mean_weighted_score = mean(weighted_score, na.rm = TRUE))
 ```
 
-Last, you will create a socioeconomic status variable (`imd_band`), again outside the recipe:
+Last, we will create a socioeconomic status variable (`imd_band`), again outside the recipe:
 
 ```{r}
 #| label: ch14-create-var-imd-band
@@ -211,7 +211,7 @@ students <-
     mutate(imd_band = as.factor(imd_band))
 ```
 
-Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
+Next, we'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
 
 Import the data using the {dataedu} package.
 
@@ -220,7 +220,7 @@ Import the data using the {dataedu} package.
 interactions <- dataedu::oulad_interactions_filtered
 ```
 
-You will now explore the dataset to understand it better. 
+We will now explore the dataset to understand it better. 
 
 *First*, `count()` the `activity_type` variable and sort the resulting output by frequency.
 
@@ -234,7 +234,7 @@ You can see there is a range of activities students do. You may wish to explore 
 
 Think about how you would create a feature with `sum_click`. Think back to our discussion earlier; we have options for working with such time series data. Perhaps the simplest is to count the clicks.
 
-Please summarize the number of clicks for each student, specific to a single course. This means you will need to group your data by `id_student`, `code_module`, and `code_presentation`, before creating a
+Please summarize the number of clicks for each student, specific to a single course. This means we will need to group your data by `id_student`, `code_module`, and `code_presentation`, before creating a
 summary variable.
 
 ```{r}
@@ -290,7 +290,7 @@ students_and_interactions <-
 
 ### Step 2: Splitting the data
 
-As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. You'll be using the training dataset to train the model. Then you'll use the test dataset to evaluate the model's performance. You'll try the model you trained earlier, but this time on new test data by using predictor variables to predict an outcome. The outcome in this walkthrough is students passing the course in question. 
+As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. We'll be using the training dataset to train the model. Then we'll use the test dataset to evaluate the model's performance. YWe'll try the model we trained earlier but this time on new test data by using predictor variables to predict an outcome. The outcome in this walkthrough is students passing the course in question. 
 
 We'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a *stratified* sample using the outcome variable --- here, `pass`. Stratifying means that the training and testing sets will each contain roughly the same proportion of students who passed and didn't pass as the full dataset does. Without stratification, a random split could (especially with smaller or imbalanced datasets) end up with very different pass rates in training and testing, which would muddy your evaluation. Stratification is generally a good practice [@boehmke2019hands].
 
@@ -313,11 +313,11 @@ data_test  <-
 
 ### Step 3: Creating a recipe for selected preprocessing steps
 
-This is the recipe step mentioned earlier in the walkthrough. You'll do two things here. 
+This is the recipe step mentioned earlier in the walkthrough. We'll do two things here. 
 
-First, you'll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that you'll be using the training data for this. 
+First, we'll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that ywe'll be using the training data for this.
 
-Second, you'll use `step_()` functions, which are used for preprocessing. These are described in the comments below.
+Second, we'll use `step_()` functions, which are used for preprocessing. These are described in the comments below.
 
 ```{r}
 #| label: ch14-create-recipe
@@ -372,14 +372,14 @@ You're almost there!
 
 ### Step 5: Fitting the model
 
-Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ you want to calculate. These are statistics that will help you understand how good the model is at making predictions. We'll use accuracy, plus four other metrics --- sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) --- that you'll interpret in detail in Step 6.
+Now we'll fit the model to the training data. First, we'll need to specify which _metrics_ we want to calculate. These are statistics that will help you understand how good the model is at making predictions. We'll use accuracy, plus four other metrics --- sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) --- that we'll interpret in detail in Step 6.
 
 ```{r}
 #| label: ch14-metric-set
 my_metrics <- metric_set(accuracy, sens, spec, ppv, npv)
 ```
 
-Finally, you'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. You'll also specify which metrics to use.
+Finally, we'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. We'll also specify which metrics to use.
 
 Note that while there are other fitting functions available, you're using `last_fit()` to do two steps at once: fitting the model to the training data, then using the trained model to make predictions on the test data and compute the metrics you specified. This is why you pass `train_test_split` (the split object) rather than the data itself --- `last_fit()` uses the split to know which rows are training and which are testing.
 
@@ -390,7 +390,7 @@ final_fit <- last_fit(my_wf, train_test_split, metrics = my_metrics)
 
 If you wanted to do these steps separately --- for example, to inspect the fitted model before evaluating it --- you could use `fit()` on the training data and then call `predict()` on the test data manually. For the purposes of this walkthrough, `last_fit()` is the cleaner option.
 
-Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. We'll return to cross-validation briefly in the Conclusion. For more on the technique, consider reading Chapter 2 in [@boehmke2019hands].
+Other times, you may use _cross-validation_, where we'll split the training data many times and fit the model to each of these splits. We'll return to cross-validation briefly in the Conclusion. For more on the technique, consider reading Chapter 2 in [@boehmke2019hands].
 
 ### Step 6: Evaluating model performance
 
@@ -466,7 +466,7 @@ Your judgment as a researcher, and as someone who understands the context, is cr
 
 #### Beyond the confusion matrix: AUC-ROC
 
-You'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the SML literature. The intuition: a classification model usually produces a *probability* of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across *every* possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
+We'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the SML literature. The intuition: a classification model usually produces a *probability* of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across *every* possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
 
 #### Improving the model
 
@@ -496,7 +496,5 @@ There are several natural directions to go from here.
 **Cross-validation.** The chapter used a single train/test split. A more robust approach is *cross-validation*: split your training data into several "folds" (typically 5 or 10), fit the model many times with each fold held out as a temporary validation set, and average the resulting metrics. This gives a more stable estimate of how well your model is likely to perform on new data, and is especially useful when you're trying different models or tuning their parameters. The {tidymodels} packages support this with `vfold_cv()` and `fit_resamples()`.
 
 **More complex models.** At the end of Step 6, you saw how to swap in a random forest or a boosted tree model with only a few lines of code. These *gray box* models (per the spectrum of interpretability discussed in the Methods section) can often capture patterns that logistic regression cannot --- but they also have parameters that need to be *tuned* to perform well. Tuning is usually done in combination with cross-validation, using functions like `tune_grid()` from the {tune} package.
-
-**Further reading and practice.** A great free, applied resource is *Tidy Modeling with R* by Max Kuhn and Julia Silge (available at <https://www.tmwr.org/>), which covers the full {tidymodels} workflow including resampling, tuning, and many model types. For a deeper conceptual treatment with additional case studies in education, the LASER Institute's supervised machine learning materials are available at <https://github.com/laser-institute/supervised-machine-learning>.
 
 In this chapter, we introduced general machine learning ideas in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
