@@ -292,7 +292,7 @@ students_and_interactions <-
 
 As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. You'll be using the training dataset to train the model. Then you'll use the test dataset to evaluate the model's performance. You'll try the model you trained earlier, but this time on new test data by using predictor variables to predict an outcome. The outcome in this walkthrough is students passing the course in question. 
 
-We'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a stratified sample using the outcome variable --- here, `pass`; this is generally a good practice [@boehmke2019hands].
+We'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a *stratified* sample using the outcome variable --- here, `pass`. Stratifying means that the training and testing sets will each contain roughly the same proportion of students who passed and didn't pass as the full dataset does. Without stratification, a random split could (especially with smaller or imbalanced datasets) end up with very different pass rates in training and testing, which would muddy your evaluation. Stratification is generally a good practice [@boehmke2019hands].
 
 ```{r}
 #| label: ch14-create-test-train
@@ -381,14 +381,16 @@ my_metrics <- metric_set(accuracy, sens, spec, ppv, npv)
 
 Finally, you'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. You'll also specify which metrics to use.
 
-Note that while there are other fitting functions available, you're using `last_fit` to do two steps at once: fitting the model to the training data, then using the test data to evaluate the model's performance. 
+Note that while there are other fitting functions available, you're using `last_fit()` to do two steps at once: fitting the model to the training data, then using the trained model to make predictions on the test data and compute the metrics you specified. This is why you pass `train_test_split` (the split object) rather than the data itself --- `last_fit()` uses the split to know which rows are training and which are testing.
 
 ```{r}
 #| label: ch14-last-fit
 final_fit <- last_fit(my_wf, train_test_split, metrics = my_metrics)
 ```
 
-Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. In this case, you'll only examine the performance of the model after you have trained your last model. For more about this technique, consider reading Chapter 2 in [@boehmke2019hands]. 
+If you wanted to do these steps separately --- for example, to inspect the fitted model before evaluating it --- you could use `fit()` on the training data and then call `predict()` on the test data manually. For the purposes of this walkthrough, `last_fit()` is the cleaner option.
+
+Other times, you may use _cross-validation_, where you'll split the training data many times and fit the model to each of these splits. We'll return to cross-validation briefly in the Conclusion. For more on the technique, consider reading Chapter 2 in [@boehmke2019hands].
 
 ### Step 6: Evaluating model performance
 
@@ -487,4 +489,14 @@ my_mod <-
 
 Though this is a relatively simple model, many of the ideas explored in this chapter will prove useful for other machine learning methods. The goal is for you to finish this walkthrough with the confidence to explore using machine learning to answer a question or to solve a problem of your own in the areas of teaching, learning, and educational systems.
 
-In this chapter, we introduced general machine learning ideas in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover on the topic. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
+There are several natural directions to go from here.
+
+**More careful feature engineering.** In this walkthrough, you summarized the log-trace (interactions) data with three simple statistics: the sum, standard deviation, and mean of clicks per student. There's a lot more you can do with this kind of time-series data. You could compute clicks within specific time windows (e.g., the first week of the course vs. the week before an assessment), count distinct activity types a student engaged with, or capture how a student's activity pattern changes over time. Each of these is a different *feature* you can engineer, and good feature engineering is often what separates a so-so SML model from a strong one.
+
+**Cross-validation.** The chapter used a single train/test split. A more robust approach is *cross-validation*: split your training data into several "folds" (typically 5 or 10), fit the model many times with each fold held out as a temporary validation set, and average the resulting metrics. This gives a more stable estimate of how well your model is likely to perform on new data, and is especially useful when you're trying different models or tuning their parameters. The {tidymodels} packages support this with `vfold_cv()` and `fit_resamples()`.
+
+**More complex models.** At the end of Step 6, you saw how to swap in a random forest or a boosted tree model with only a few lines of code. These *gray box* models (per the spectrum of interpretability discussed in the Methods section) can often capture patterns that logistic regression cannot --- but they also have parameters that need to be *tuned* to perform well. Tuning is usually done in combination with cross-validation, using functions like `tune_grid()` from the {tune} package.
+
+**Further reading and practice.** A great free, applied resource is *Tidy Modeling with R* by Max Kuhn and Julia Silge (available at <https://www.tmwr.org/>), which covers the full {tidymodels} workflow including resampling, tuning, and many model types. For a deeper conceptual treatment with additional case studies in education, the LASER Institute's supervised machine learning materials are available at <https://github.com/laser-institute/supervised-machine-learning>.
+
+In this chapter, we introduced general machine learning ideas in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
