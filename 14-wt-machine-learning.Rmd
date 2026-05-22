@@ -132,7 +132,9 @@ In this chapter, we'll start with a transparent model --- logistic regression --
 
 Now we'll dive into the analysis, starting with something you're familiar with---loading packages.
 
-## Load packages
+## Analysis 
+
+### Load packages
 
 If you have not installed any of these packages before, do so first using the `install.packages()` function. For a description of packages and their installation, review the [Packages](#c06p) section of the [Foundational Skills](#c06) chapter.
 
@@ -143,7 +145,7 @@ library(tidymodels)
 library(dataedu)
 ```
 
-## Import data
+### Import data
 
 Get the data from the {dataedu} package.
 
@@ -152,13 +154,15 @@ students <- dataedu::oulad_students
 assessments <- dataedu::oulad_assessments
 ```
 
-## Preprocessing and feature engineering
+## The Supervised Machine Learning Workflow
 
-Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. We will handle some feature engineering directly. Later, we will instead handle feature engineering through something called a "recipe."
+Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. 
+
+### Step 1: Creating outcome and predictor variables
+
+We will handle some feature engineering directly. Later, we will instead handle feature engineering through something called a "recipe."
 
 How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage", which can bias a model. For now, this will not be an issue for simpler models, like the one we'll be using in this walkthrough. 
-
-### Step 1: Creating outcome and predictor variables outside the recipe
 
 To begin, create the outcome variable (`pass`) and a factor variable for `disability` using `mutate()`:
 
@@ -405,9 +409,11 @@ metrics <-
 metrics
 ```
 
+## Interpreting results
+
 How did the model do? Focus on accuracy for now: the model correctly predicted whether students passed around 64% of the time.
 
-#### The limitation of accuracy
+### The limitation of accuracy
 
 Accuracy is easy to interpret, but it can also be deceiving. Imagine that only 20% of students in a course actually pass. A model that *always* predicts "did not pass" --- regardless of any input --- would have 80% accuracy on this data, just because most students did not pass. That model would be useless for the actual purpose of identifying students who passed (or struggled), but its accuracy alone wouldn't tell you that.
 
@@ -419,7 +425,7 @@ This is a general issue. Accuracy can be insufficient when:
 
 To get past these limitations, you need to look at *which* predictions the model got right and wrong.
 
-#### Looking deeper with a confusion matrix
+### Looking deeper with a confusion matrix
 
 A *confusion matrix* is a 2 × 2 table that compares the model's predictions against the true outcomes. It breaks the model's predictions into four categories:
 
@@ -439,7 +445,7 @@ final_fit %>%
 
 The accuracy you saw earlier is just (TP + TN) divided by the total. But the confusion matrix lets you ask much sharper questions --- and several useful metrics can be derived from its four cells.
 
-#### Metrics built from the confusion matrix
+### Metrics built from the confusion matrix
 
 The metrics below all come from rearranging the same four numbers in the confusion matrix, but each answers a different question.
 
@@ -455,7 +461,7 @@ Each of these appears in your `collect_metrics()` output, because you included t
 
 Together, these suggest the model is biased toward predicting "not pass" --- it does well at flagging students who won't pass, but misses many of the students who actually do pass. This pattern is common when the outcome is imbalanced: in our test set, more students did not pass than did, so a model that leans toward predicting "not pass" can achieve reasonable accuracy without being especially good at the harder task of identifying who will pass.
 
-#### When does each metric matter?
+### When does each metric matter?
 
 Which of these metrics matters most depends entirely on the question you're asking and the consequences of being wrong. Two examples make the point:
 
@@ -464,11 +470,11 @@ Which of these metrics matters most depends entirely on the question you're aski
 
 Your judgment as a researcher, and as someone who understands the context, is critical here. There is no metric that is uniformly "best." The right metric is the one that aligns with how the model will be used and what kinds of errors are acceptable in that use.
 
-#### Beyond the confusion matrix: AUC-ROC
+### Beyond the confusion matrix: AUC-ROC
 
 We'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the SML literature. The intuition: a classification model usually produces a *probability* of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across *every* possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
 
-#### Improving the model
+### Improving the model
 
 On the question of how to *improve* the model: a benefit of the {tidymodels} framework is that you can swap in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
 
