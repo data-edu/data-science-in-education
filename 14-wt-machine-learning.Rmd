@@ -82,43 +82,43 @@ At its core, machine learning is the process of training a model to accurately p
 
 #### Prediction vs. explanation: same model, different goals
 
-You may already be familiar with statistical models used to *explain* relationships between variables. For example, a researcher might use a regression model to estimate how strongly student motivation relates to course grades. The interesting output of that analysis is the *coefficient* itself: how much grades change with motivation, and whether that relationship is statistically significant.
+You may already be familiar with statistical models used to explain relationships between variables. For example, a researcher might use a regression model to estimate how strongly student motivation relates to course grades. The interesting output of that analysis is the coefficient itself: how much grades change with motivation, and whether that relationship is statistically significant.
 
-Supervised machine learning can use the very same statistical model --- including the logistic regression we'll use in this walkthrough --- but with a different aim. In an SML approach, the interesting output isn't the coefficients; it's the *predictions* themselves. Rather than asking "how does motivation relate to grades?", we'll ask "how accurately can we predict each student's grade?"
+Supervised machine learning can use the very same statistical model --- including the logistic regression we'll use in this walkthrough --- but with a different aim. In an a supervised machine learning approach, the interesting output isn't the coefficients; it's the predictions themselves. Rather than asking "how does motivation relate to grades?", we'll ask "how accurately can we predict each student's grade?"
 
-Let's consider a regression equation (below), whereby we are trying to understand how a single variable ($b_1$) relates to an outcome ($y$). There is also an intercept term ($y$) and a residual term ($e$).
+Let's consider a regression equation (below), used to understand how a single variable ($b_1$) relates to an outcome ($y$). There is also an intercept term ($y$) and a residual term ($e$).
 
 $$y = b_0 + b_1x_1 + \cdots + e$$
 
-If your goal is _inference_, or explaining how variables relate to an outcome, we'll typically use theory and prior research to choose a small set of predictors whose individual effects you can interpret. We'll favor a *transparent* model where you understand how each predictor relates to $y$.
+If your goal is inference, or explaining how variables relate to an outcome, you'll typically use theory and prior research to choose a small set of predictors whose individual effects you can interpret. You'll favor a transparent model where you understand how each predictor relates to $y$.
 
 If your goal is prediction, you can do things differently:
 
 - You can include many more predictors than is typical in an explanatory model, since you care less about interpreting each one individually.
 - Multicollinearity (predictors being correlated with one another) is less of a concern, since you're not trying to make claims about the effect of any single predictor.
-- You evaluate the model not by its R² or coefficient significance on the data you fit it on, but by how well a *trained* model predicts values in a separate *test* dataset.
+- You evaluate the model not by its R², or coefficient significance, but by how well a trained model predicts values in a separate test dataset.
 - You can use much more complex models, accepting some loss of interpretability in exchange for better predictive accuracy.
 
-The key idea: it's not about the algorithm, it's about the aim and the use.
+The key idea is that it's not about the algorithm, it's about the aim and the use.
 
 #### Why split data into training and testing sets?
 
-A core practice of supervised machine learning is splitting your data into two parts: a *training* set used to fit the model, and a *testing* set used to evaluate how well the model predicts on data it hasn't seen.
+A core practice of supervised machine learning is splitting your data into two parts: a training set used to fit the model, and a testing set used to evaluate how well the model predicts on data it hasn't seen.
 
-Why go through this trouble? If you fit a model using all of your data, you can almost always make the model fit that data extremely well --- even perfectly. But a model that fits its own training data perfectly often performs poorly when given new data. This problem is called *overfitting*: the model has learned the specific patterns and noise of the training sample rather than patterns that *generalize* to new data.
+Why go through this trouble? If you fit a model using all of your data, you can almost always make the model fit that data extremely well --- even perfectly. But a model that fits its own training data perfectly often performs poorly when given new data. This problem is called overfitting: the model has learned the specific patterns and noise of the training sample rather than patterns that generalize to new data.
 
-There are real risks to skipping this step; indeed, if you see a machine learning model that does not do this, beware! If you never test your model on data it hasn't seen, you can easily believe you have a much better model than you actually do. When you (or someone using your model) try to apply it to new students or new courses, the predictions can fall apart. That's why training/testing splits aren't optional for SML --- they're how you know whether what you've built is real.
+There are real risks to skipping this step; indeed, if you see a machine learning model that does not do this, beware! If you never test your model on data it hasn't seen, you can easily believe you have a much better model than you actually do. When you or someone using your model try to apply it to new students or new courses, the predictions can fall apart. That's why training/testing splits aren't optional for supervised machine learning --- they're how you evaluate whether what you've built is useful.
 
 #### The bias-variance tradeoff
 
-Whether your model generalizes well depends on a tradeoff that all models face, called the *bias-variance tradeoff*:
+Whether your model generalizes well depends on a tradeoff that all models face called the bias-variance tradeoff:
 
 - **Bias** is how far off your model's predictions are from the true outcomes, on average. A model with high bias is *under-fit* --- it fails to capture important relationships in the data.
 - **Variance** is how much your predictions would change if you trained the model on a slightly different sample. A model with high variance is *over-fit* --- it's too tuned to the specific data it saw during training.
 
 A simple model (like linear regression) tends to have higher bias but lower variance: it might miss subtle patterns, but its predictions are stable across different samples. A very complex model (like a deep neural network with many parameters) can fit training data very closely (low bias) but may give very different predictions when shown new data (high variance).
 
-Good SML practice is about balancing the two --- finding a model that captures real patterns in the data without latching onto noise. Splitting data into training and testing sets is one important way to check this balance.
+Good supervised machine learning practice balances the two --- finding a model that captures real patterns in the data without latching onto noise. Splitting data into training and testing sets is one important way to check this balance.
 
 #### A spectrum of interpretability
 
@@ -160,9 +160,9 @@ Your goal in this walkthrough is to build a model that predicts whether a studen
 
 ### Step 1: Creating outcome and predictor variables
 
-We will handle some feature engineering directly. Later, we will instead handle feature engineering through something called a "recipe."
+You will handle some feature engineering directly. Later, we will instead handle feature engineering through something called a "recipe."
 
-How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage", which can bias a model. For now, this will not be an issue for simpler models, like the one we'll be using in this walkthrough. 
+How should you decide when to handle feature engineering directly or through a recipe? As you progress in your practice, you'll be able to determine if it is more efficient to work outside of a recipe. You'll also get more proficient at determining risks of working outside a recipe, like introducing "data leakage" that biases models. For now, this will not be an issue for the one we'll be using in this walkthrough. 
 
 To begin, create the outcome variable (`pass`) and a factor variable for `disability` using `mutate()`:
 
@@ -178,7 +178,7 @@ students <-
            disability = as.factor(disability))
 ```
 
-We will also summarize assessment data to create a new predictor for students’ performance on assessments submitted early in the course. Specifically, we'll calculate the mean weighted score of assessments submitted before the first half of assignment dates.
+You will also summarize assessment data to create a new predictor for students’ performance on assessments submitted early in the course. Specifically, you'll calculate the mean weighted score of assessments submitted before the first half of assignment dates.
 
 ```{r}
 #| label: ch14-create-pred-mean-score
@@ -196,7 +196,7 @@ assessments_joined <-
     summarize(mean_weighted_score = mean(weighted_score, na.rm = TRUE))
 ```
 
-Last, we will create a socioeconomic status variable (`imd_band`), again outside the recipe:
+Last, you'll create a socioeconomic status variable (`imd_band`), again outside the recipe:
 
 ```{r}
 #| label: ch14-create-var-imd-band
@@ -215,7 +215,7 @@ students <-
     mutate(imd_band = as.factor(imd_band))
 ```
 
-Next, we'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
+Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
 
 Import the data using the {dataedu} package.
 
@@ -224,9 +224,9 @@ Import the data using the {dataedu} package.
 interactions <- dataedu::oulad_interactions_filtered
 ```
 
-We will now explore the dataset to understand it better. 
+You'll now explore the dataset to understand it better. 
 
-*First*, `count()` the `activity_type` variable and sort the resulting output by frequency.
+First, `count()` the `activity_type` variable and sort the resulting output by frequency.
 
 ```{r}
 #| label: ch14-count-activity
@@ -238,7 +238,7 @@ You can see there is a range of activities students do. You may wish to explore 
 
 Think about how you would create a feature with `sum_click`. Think back to our discussion earlier; we have options for working with such time series data. Perhaps the simplest is to count the clicks.
 
-Please summarize the number of clicks for each student, specific to a single course. This means we will need to group your data by `id_student`, `code_module`, and `code_presentation`, before creating a
+Summarize the number of clicks for each student, specific to a single course. This means you'll need to group your data by `id_student`, `code_module`, and `code_presentation`, before creating a
 summary variable.
 
 ```{r}
@@ -251,7 +251,7 @@ interactions_summarized <-
 interactions_summarized
 ```
 
-How many times did students click? Create a histogram to see. Please use {ggplot2} and `geom_histogram()` to visualize the distribution of the `sum_clicks` variable you just created.
+How many times did students click? Create a histogram to see. Use {ggplot2} and `geom_histogram()` to visualize the distribution of the `sum_clicks` variable you just created.
 
 ```{r}
 #| label: ch14-activity-histogram
@@ -277,11 +277,9 @@ interactions_summarized <-
               mean_clicks = mean(sum_click))
 ```
 
-Now join all of the data we'll use for our modeling: `students`, `assessments_joined`, and `interactions_summarized`.
+Now join all of the data you'll use for modeling: `students`, `assessments_joined`, and `interactions_summarized`.
 
 Use `left_join()` twice, assigning the resulting output the name `students_and_interactions`. 
-
-This is a lot of joining. Sometimes, the hardest part of complex analyses lies in the preparation of data.
 
 ```{r}
 #| label: ch14-left-joins
@@ -294,9 +292,9 @@ students_and_interactions <-
 
 ### Step 2: Splitting the data
 
-As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. We'll be using the training dataset to train the model. Then we'll use the test dataset to evaluate the model's performance. YWe'll try the model we trained earlier but this time on new test data by using predictor variables to predict an outcome. The outcome in this walkthrough is students passing the course in question. 
+As suggested above, a key step in supervised machine learning is splitting data into "training" and "testing" datasets. You'll be using the training dataset to train the model. Then you'll use the test dataset to evaluate the model's performance. You'll try the model you trained earlier, but this time on new test data. The outcome in this walkthrough is students passing the course in question. 
 
-We'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a *stratified* sample using the outcome variable --- here, `pass`. Stratifying means that the training and testing sets will each contain roughly the same proportion of students who passed and didn't pass as the full dataset does. Without stratification, a random split could (especially with smaller or imbalanced datasets) end up with very different pass rates in training and testing, which would muddy your evaluation. Stratification is generally a good practice [@boehmke2019hands].
+You'll split the dataset into training and testing sets using an 80-20 split. Generally, a split like this is appropriate with a larger dataset; for smaller datasets, something closer to a 50-50 split may be more appropriate. We'll also conduct a stratified sample using the outcome variable --- here, `pass`. Stratifying means that the training and testing sets will each contain roughly the same proportion of students who passed and didn't pass as the full dataset does. Without stratification, a random split could end up with very different pass rates in training and testing, which would muddy your evaluation. Stratification is generally a good practice [@boehmke2019hands].
 
 ```{r}
 #| label: ch14-create-test-train
@@ -319,9 +317,9 @@ data_test  <-
 
 This is the recipe step mentioned earlier in the walkthrough. We'll do two things here. 
 
-First, we'll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that ywe'll be using the training data for this.
+First, youll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that you'll be using the training data for this.
 
-Second, we'll use `step_()` functions, which are used for preprocessing. These are described in the comments below.
+Second, you'll use `step_()` functions, which are for preprocessing. These are described in the comments below.
 
 ```{r}
 #| label: ch14-create-recipe
@@ -376,14 +374,14 @@ You're almost there!
 
 ### Step 5: Fitting the model
 
-Now we'll fit the model to the training data. First, we'll need to specify which _metrics_ we want to calculate. These are statistics that will help you understand how good the model is at making predictions. We'll use accuracy, plus four other metrics --- sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) --- that we'll interpret in detail in Step 6.
+Now you'll fit the model to the training data. First, you'll need to specify which _metrics_ we want to calculate. These are statistics that will help you understand how good the model is at making predictions. You'll use accuracy, plus four other metrics --- sensitivity, specificity, positive predictive value (PPV), and negative predictive value (NPV) --- that you'll interpret in detail in Step 6.
 
 ```{r}
 #| label: ch14-metric-set
 my_metrics <- metric_set(accuracy, sens, spec, ppv, npv)
 ```
 
-Finally, we'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. We'll also specify which metrics to use.
+Finally, you'll fit the model. Do this by calling the `last_fit()` function on the workflow and the _split_ specification of the data. You'll also specify which metrics to use.
 
 Note that while there are other fitting functions available, you're using `last_fit()` to do two steps at once: fitting the model to the training data, then using the trained model to make predictions on the test data and compute the metrics you specified. This is why you pass `train_test_split` (the split object) rather than the data itself --- `last_fit()` uses the split to know which rows are training and which are testing.
 
@@ -394,7 +392,7 @@ final_fit <- last_fit(my_wf, train_test_split, metrics = my_metrics)
 
 If you wanted to do these steps separately --- for example, to inspect the fitted model before evaluating it --- you could use `fit()` on the training data and then call `predict()` on the test data manually. For the purposes of this walkthrough, `last_fit()` is the cleaner option.
 
-Other times, you may use _cross-validation_, where we'll split the training data many times and fit the model to each of these splits. We'll return to cross-validation briefly in the Conclusion. For more on the technique, consider reading Chapter 2 in [@boehmke2019hands].
+Other times, you may use _cross-validation_, where we'll split the training data many times and fit the model to each of these splits. You'll return to cross-validation briefly in the Conclusion. For more on the technique, consider reading Chapter 2 in [@boehmke2019hands].
 
 ### Step 6: Evaluating model performance
 
@@ -423,7 +421,7 @@ This is a general issue. Accuracy can be insufficient when:
 - Different kinds of errors have different consequences.
 - You need to tune your model for a specific purpose.
 
-To get past these limitations, you need to look at *which* predictions the model got right and wrong.
+To get past these limitations, you need to look at which predictions the model got right and wrong.
 
 ### Looking deeper with a confusion matrix
 
@@ -472,11 +470,11 @@ Your judgment as a researcher, and as someone who understands the context, is cr
 
 ### Beyond the confusion matrix: AUC-ROC
 
-We'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the SML literature. The intuition: a classification model usually produces a *probability* of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across *every* possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
+We'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the supervised machine learning literature. The intuition is that a classification model usually produces a probability of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across every possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. We don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
 
 ### Improving the model
 
-On the question of how to *improve* the model: a benefit of the {tidymodels} framework is that you can swap in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
+On the question of how to improve the model: one benefit of the {tidymodels} framework is swaping in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
 
 ```{r, eval = FALSE}
 #| label: ch14-switch-engines
@@ -495,12 +493,12 @@ my_mod <-
 
 Though this is a relatively simple model, many of the ideas explored in this chapter will prove useful for other machine learning methods. The goal is for you to finish this walkthrough with the confidence to explore using machine learning to answer a question or to solve a problem of your own in the areas of teaching, learning, and educational systems.
 
-There are several natural directions to go from here.
+Here are several natural directions to go from here:
 
 **More careful feature engineering.** In this walkthrough, you summarized the log-trace (interactions) data with three simple statistics: the sum, standard deviation, and mean of clicks per student. There's a lot more you can do with this kind of time-series data. You could compute clicks within specific time windows (e.g., the first week of the course vs. the week before an assessment), count distinct activity types a student engaged with, or capture how a student's activity pattern changes over time. Each of these is a different *feature* you can engineer, and good feature engineering is often what separates a so-so SML model from a strong one.
 
 **Cross-validation.** The chapter used a single train/test split. A more robust approach is *cross-validation*: split your training data into several "folds" (typically 5 or 10), fit the model many times with each fold held out as a temporary validation set, and average the resulting metrics. This gives a more stable estimate of how well your model is likely to perform on new data, and is especially useful when you're trying different models or tuning their parameters. The {tidymodels} packages support this with `vfold_cv()` and `fit_resamples()`.
 
-**More complex models.** At the end of Step 6, you saw how to swap in a random forest or a boosted tree model with only a few lines of code. These *gray box* models (per the spectrum of interpretability discussed in the Methods section) can often capture patterns that logistic regression cannot --- but they also have parameters that need to be *tuned* to perform well. Tuning is usually done in combination with cross-validation, using functions like `tune_grid()` from the {tune} package.
+**More complex models.** At the end of Step 6, you saw how to swap in a random forest or a boosted tree model with only a few lines of code. These gray box models (per the spectrum of interpretability discussed in the Methods section) can often capture patterns that logistic regression cannot --- but they also have parameters that need to be tuned to perform well. Tuning is usually done in combination with cross-validation, using functions like `tune_grid()` from the {tune} package.
 
 In this chapter, we introduced general machine learning ideas in the context of predicting students' passing a course. Like many of the topics in this book, there is much more to discover. We encourage you to consult the books and resources in the [Learning More chapter](#c17) for more about machine learning methods.
