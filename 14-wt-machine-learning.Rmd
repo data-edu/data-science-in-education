@@ -62,7 +62,7 @@ Here's the key shift in thinking you'll make when using a supervised machine lea
 
 ### Data sources
 
-You'll be using a widely-used dataset in the learning analytics field: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners' participation in one of several Massive Open Online Courses. These courses are called *modules* in the OULAD.
+You'll be using a widely-used dataset in the learning analytics field: the Open University Learning Analytics Dataset (OULAD). The OULAD was created by learning analytics researchers at the United Kingdom-based Open University [@kuzilek2017]. It includes data from post-secondary learners' participation in one of several Massive Open Online Courses. These courses are called modules in the OULAD.
 
 Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
@@ -113,8 +113,8 @@ There are real risks to skipping this step; indeed, if you see a machine learnin
 
 Whether your model generalizes well depends on a tradeoff that all models face called the bias-variance tradeoff:
 
-- **Bias** is how far off your model's predictions are from the true outcomes, on average. A model with high bias is *under-fit* --- it fails to capture important relationships in the data.
-- **Variance** is how much your predictions would change if you trained the model on a slightly different sample. A model with high variance is *over-fit* --- it's too tuned to the specific data it saw during training.
+- **Bias** is how far off your model's predictions are from the true outcomes, on average. A model with high bias is under-fit --- it fails to capture important relationships in the data.
+- **Variance** is how much your predictions would change if you trained the model on a slightly different sample. A model with high variance is over-fit --- it's too tuned to the specific data it saw during training.
 
 A simple model (like linear regression) tends to have higher bias but lower variance: it might miss subtle patterns, but its predictions are stable across different samples. A very complex model (like a deep neural network with many parameters) can fit training data very closely (low bias) but may give very different predictions when shown new data (high variance).
 
@@ -213,7 +213,7 @@ students <-
     mutate(imd_band = as.factor(imd_band))
 ```
 
-Next, you'll load a new file with *interactions*, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
+Next, you'll load a new file with interactions, or log-trace, data. This is the most granular data in the OULAD. In the OULAD documentation, this is called the virtual learning environment (VLE) data source. It's a large file---even after taking a few steps to reduce its size. The file was prepared by only including interactions for the first one-third of the course.
 
 Import the data using the {dataedu} package.
 
@@ -423,7 +423,7 @@ To get past these limitations, you need to look at which predictions the model g
 
 ### Looking deeper with a confusion matrix
 
-A *confusion matrix* is a 2 × 2 table that compares the model's predictions against the true outcomes. It breaks the model's predictions into four categories:
+A confusion matrix is a 2 × 2 table that compares the model's predictions against the true outcomes. It breaks the model's predictions into four categories:
 
 - **True positive (TP):** the student passed, and the model predicted "pass."
 - **True negative (TN):** the student did not pass, and the model predicted "did not pass."
@@ -468,7 +468,7 @@ Your judgment as a researcher, and as someone who understands the context, is cr
 
 ### Beyond the confusion matrix: AUC-ROC
 
-You'll also encounter another metric called **AUC-ROC** (Area Under the Curve - Receiver Operating Characteristic) in the supervised machine learning literature. The intuition is that a classification model usually produces a probability of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across every possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. You don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
+You'll also encounter another metric called AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) in the supervised machine learning literature. The intuition is that a classification model usually produces a probability of belonging to a class (e.g., probability of passing), which is then converted to a yes/no prediction by applying a threshold (typically 0.5). AUC-ROC summarizes how well the model's probabilities separate the two classes across every possible threshold, not just the default one. Values closer to 1.0 are better; 0.5 indicates a model that's no better than chance. You don't compute AUC-ROC here, but you can add `roc_auc` to your metric set if you want it.
 
 ### Improving the model
 
@@ -493,9 +493,9 @@ Though this is a relatively simple model, many of the ideas explored in this cha
 
 Here are several natural directions to go from here:
 
-**More careful feature engineering.** In this walkthrough, you summarized the log-trace (interactions) data with three simple statistics: the sum, standard deviation, and mean of clicks per student. There's a lot more you can do with this kind of time-series data. You could compute clicks within specific time windows (e.g., the first week of the course vs. the week before an assessment), count distinct activity types a student engaged with, or capture how a student's activity pattern changes over time. Each of these is a different *feature* you can engineer, and good feature engineering is often what separates a so-so SML model from a strong one.
+**More careful feature engineering.** In this walkthrough, you summarized the log-trace (interactions) data with three simple statistics: the sum, standard deviation, and mean of clicks per student. There's a lot more you can do with this kind of time-series data. You could compute clicks within specific time windows (e.g., the first week of the course vs. the week before an assessment), count distinct activity types a student engaged with, or capture how a student's activity pattern changes over time. Each of these is a different feature you can engineer, and good feature engineering is often what separates a so-so SML model from a strong one.
 
-**Cross-validation.** The chapter used a single train/test split. A more robust approach is *cross-validation*: split your training data into several "folds" (typically 5 or 10), fit the model many times with each fold held out as a temporary validation set, and average the resulting metrics. This gives a more stable estimate of how well your model is likely to perform on new data, and is especially useful when you're trying different models or tuning their parameters. The {tidymodels} packages support this with `vfold_cv()` and `fit_resamples()`.
+**Cross-validation.** The chapter used a single train/test split. A more robust approach is cross-validation: split your training data into several "folds" (typically 5 or 10), fit the model many times with each fold held out as a temporary validation set, and average the resulting metrics. This gives a more stable estimate of how well your model is likely to perform on new data, and is especially useful when you're trying different models or tuning their parameters. The {tidymodels} packages support this with `vfold_cv()` and `fit_resamples()`.
 
 **More complex models.** At the end of Step 6, you saw how to swap in a random forest or a boosted tree model with only a few lines of code. These gray box models (per the spectrum of interpretability discussed in the Methods section) can often capture patterns that logistic regression cannot --- but they also have parameters that need to be tuned to perform well. Tuning is usually done in combination with cross-validation, using functions like `tune_grid()` from the {tune} package.
 
