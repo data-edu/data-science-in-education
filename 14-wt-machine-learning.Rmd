@@ -52,13 +52,13 @@ We introduce these key terms in the chapter:
 
 In a face-to-face classroom, teachers use student cues to help them engage. In online classrooms, these cues aren't always available.
 
-For example, in a face-to-face class, teachers can adjust when they notice that students are distracted. Many online educators look for ways to understand and support students online in the same way that face-to-face instructors would. Technology provides new methods of collecting and storing data that can serve as the basis for this kind of student support.
+For example, in a face-to-face class, teachers adjust when they notice that students are distracted. Many online educators look for ways to support students online in the same way that face-to-face instructors would. Technology provides new methods of collecting and storing data that can serve as the basis for this kind of student support.
 
 Online Learning Management Systems (LMSs) automatically track student interactions with the system and feed that data back to the course instructor. The collection of this data is often met with mixed reactions from educators. Some are concerned that this kind of data collection is intrusive, but others see a new opportunity to support students in online classrooms. As long as data is collected and used responsibly, this kind of data collection can support student success.
 
-In this walkthrough, we'll examine the question, *How well can we predict students who are at risk of dropping a course?* To answer this question, we'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
+In this walkthrough, you'll examine the question, How well can we predict students who are at risk of dropping a course? To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
 
-Here's the key shift in thinking we'll make when using a supervised machine learning model: We'll focus on *predicting* an outcome, like whether a student passes a course. This is different from *explaining* how variables influence an outcome, like how course time relates to final grades. We'll learn to do this with a generalized linear regression model.
+Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on predicting an outcome, like whether a student passes a course. This is different from explaining how variables influence an outcome, like how course time relates to final grades. You'll learn to execute this shift in thinking through a generalized linear regression model.
 
 ### Data sources
 
@@ -66,19 +66,19 @@ We'll be using a widely-used dataset in the learning analytics field: the Open U
 
 Many students successfully complete these courses, but not all do. This highlights the importance of identifying those who may be at risk. 
 
-Our analysis will use three datasets, `oulad_students`, `oulad_assessments`, and `oulad_interactions_filtered`. The `oulad_students` dataset has undergone some preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The `oulad_assessments` file provides data on students' performance on various assessments throughout their courses.
+Our analysis will use three datasets, `oulad_students`, `oulad_assessments`, and `oulad_interactions_filtered`. The `oulad_students` dataset has undergone preprocessing to streamline the analysis. It uses information from three sources that relate to students and the courses they took: `studentInfo`, `courses`, and `studentRegistration`. The `oulad_assessments` file provides data on students' performance on various assessments throughout their courses.
 
 ### Methods
 
 #### Predictive analytics and supervised machine learning
 
-A buzzword in education software spheres these days is "predictive analytics". Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model could estimate the probability of that computer-sitting happening. Under the hood, some predictive models are not complex. In this chapter, we'll use one of these simpler predictive models called logistic regression.
+"Predictive analysis" is a buzzword in education software spheres. Administrators and educators alike are interested in applying the methods long utilized by marketers and other business professionals to predict what a person will want, need, or do. "Predictive analytics" is a blanket term that describes any statistical approach that yields a prediction. You could ask a predictive model: "What is the likelihood that my cat will sit on my keyboard today?" and, given enough past information about your cat's computer-sitting behavior, the model estimates the probability of computer-sitting. Under the hood, some predictive models are not complex. In this chapter, you'll use logistic regression, which is one of the simpler predictive models.
 
 There is an adage: "garbage in, garbage out". This holds true here. If you do not feel confident that the data you collected is accurate, you won't feel confident in your conclusions, regardless of the model. To collect good data, you must first identify what you want to learn and what information you need to learn it. 
 
 Sometimes, people approach analysis from the opposite direction---they look at the data they have and identify questions that could be answered by it. That approach is okay, as long as you acknowledge that the pre-existing dataset may not contain all the information you need to answer your specific questions. You might need to find additional information to add to your dataset to truly answer the questions you have.
 
-At its core, machine learning is the process of training a model to predict accurately on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, we'll evaluate how well the model works on data that is not the training data.
+At its core, machine learning is the process of training a model to accurately predict on a training dataset (this is the "learning" part of machine learning). Then, this newly trained model is used on new data. At this point, you'll evaluate how well the model worked outside of the training data conditions.
 
 #### Prediction vs. explanation: same model, different goals
 
