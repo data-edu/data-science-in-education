@@ -58,7 +58,7 @@ Online Learning Management Systems (LMSs) automatically track student interactio
 
 In this walkthrough, you'll examine the question, How well can we predict students who are at risk of dropping a course? To answer this question, you'll use typical learning analytics data---student records, assessment outcomes, course outcomes, and measures of students' interactions with the course.
 
-Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on predicting an outcome, like whether a student passes a course. This is different from explaining how variables influence an outcome, like how course time relates to final grades. You'll learn to execute this shift in thinking through a generalized linear regression model.
+Here's the key shift in thinking you'll make when using a supervised machine learning model: You'll focus on predicting an outcome, like whether a student passes a course. This is different from explaining how variables influence an outcome, like how course time relates to final grades. You'll learn to execute this shift in thinking through a generalized linear model.
 
 ### Data sources
 
@@ -84,9 +84,9 @@ At its core, machine learning is the process of training a model to accurately p
 
 You may already be familiar with statistical models used to explain relationships between variables. For example, a researcher might use a regression model to estimate how strongly student motivation relates to course grades. The interesting output of that analysis is the coefficient itself: how much grades change with motivation, and whether that relationship is statistically significant.
 
-Supervised machine learning can use the very same statistical model --- including the logistic regression you'll use in this walkthrough --- but with a different aim. In an a supervised machine learning approach, the interesting output isn't the coefficients; it's the predictions themselves. Rather than asking "how does motivation relate to grades?", you'll ask "how accurately can we predict each student's grade?"
+Supervised machine learning can use the very same statistical model --- including the logistic regression you'll use in this walkthrough --- but with a different aim. In a supervised machine learning approach, the interesting output isn't the coefficients; it's the predictions themselves. Rather than asking "how does motivation relate to grades?", you'll ask "how accurately can we predict each student's grade?"
 
-Let's consider a regression equation (below), used to understand how a single variable ($b_1$) relates to an outcome ($y$). There is also an intercept term ($y$) and a residual term ($e$).
+Let's consider a regression equation (below) used to understand how a single variable ($b_1$) relates to an outcome ($y$). There is also an intercept term ($b_0$) and a residual term ($e$).
 
 $$y = b_0 + b_1x_1 + \cdots + e$$
 
@@ -154,7 +154,7 @@ students <- dataedu::oulad_students
 assessments <- dataedu::oulad_assessments
 ```
 
-## The Supervised Machine Learning Workflow
+## The supervised machine learning workflow
 
 Your goal in this walkthrough is to build a model that predicts whether a student is at risk of dropping out. 
 
@@ -315,7 +315,7 @@ data_test  <-
 
 This is the recipe step mentioned earlier in the walkthrough. You'll do two things here. 
 
-First, youll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that you'll be using the training data for this.
+First, you'll specify which predictor variables predict the outcome. For those familiar with the `lm()` function in R, this behaves similarly; the outcome goes on the left side of the `~`, and predictors go on the right. Note that you'll be using the training data for this.
 
 Second, you'll use `step_()` functions, which are for preprocessing. These are described in the comments below.
 
@@ -472,7 +472,7 @@ You'll also encounter another metric called AUC-ROC (Area Under the Curve - Rece
 
 ### Improving the model
 
-On the question of how to improve the model: one benefit of the {tidymodels} framework is swaping in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
+On the question of how to improve the model: one benefit of the {tidymodels} framework is swapping in different algorithms with very few changes to your code. Try one of these modifications for a random forest and a boosted tree model and see how the predictive performance changes. How much better do these models do? Are the gains in accuracy overall, or in particular metrics like sensitivity or PPV?
 
 ```{r, eval = FALSE}
 #| label: ch14-switch-engines
