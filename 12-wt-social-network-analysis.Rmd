@@ -605,8 +605,15 @@ p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layo
   geom_node_point(aes(size = in_deg, color = btw), alpha = 0.9) +
 
   # Add text labels for the most-mentioned users
-  # vjust = -0.8 moves labels slightly above the points so they don't overlap
-  geom_node_text(aes(label = lbl), size = 3, vjust = -0.8, na.rm = TRUE) +
+  # repel = TRUE (via the {ggrepel} package) pushes labels away from points
+  # and from each other; padding values control how much space is left, and
+  # segments connect labels to their points when they are moved far away
+  geom_node_text(
+    aes(label = lbl), size = 4.5, na.rm = TRUE,
+    repel = TRUE, box.padding = 0.6, point.padding = 0.5,
+    min.segment.length = 0, max.overlaps = Inf, seed = 42,
+    segment.size = 0.2, segment.colour = "grey40"
+  ) +
 
   # Customize the size legend
   scale_size_continuous(name = "In-degree (mentions)", range = c(2, 12)) +
@@ -618,7 +625,10 @@ p_net <- ggraph(g_metrics, layout = "fr") +   # "fr" = Fruchterman-Reingold layo
   guides(color = guide_colorbar(barheight = unit(60, "pt"))) +
 
   # Use a minimal theme (removes grid lines, axes, etc.)
-  theme_void() +
+  theme_void(base_size = 16) +
+
+  # theme_void() has no outer margin; add some so the legend text isn't cut off
+  theme(plot.margin = margin(10, 20, 10, 10)) +
 
   # Add a title
   ggtitle("Mention network: size = in-degree, color = betweenness")
@@ -652,11 +662,17 @@ set.seed(42)
 p_connected <- ggraph(g_connected, layout = "fr") +
   geom_edge_link(alpha = 0.8, linewidth = 0.2) +
   geom_node_point(aes(size = in_deg, color = btw), alpha = 0.9) +
-  geom_node_text(aes(label = lbl), size = 3, vjust = -0.8, na.rm = TRUE) +
+  geom_node_text(
+    aes(label = lbl), size = 4.5, na.rm = TRUE,
+    repel = TRUE, box.padding = 0.6, point.padding = 0.5,
+    min.segment.length = 0, max.overlaps = Inf, seed = 42,
+    segment.size = 0.2, segment.colour = "grey40"
+  ) +
   scale_size_continuous(name = "In-degree (mentions)", range = c(2, 12)) +
   scale_color_continuous(name = "Betweenness", labels = label_percent(accuracy = 0.1)) +
   guides(color = guide_colorbar(barheight = unit(60, "pt"))) +
-  theme_void() +
+  theme_void(base_size = 16) +
+  theme(plot.margin = margin(10, 20, 10, 10)) +
   ggtitle("Connected #TidyTuesday network (isolated nodes removed)")
 
 p_connected
