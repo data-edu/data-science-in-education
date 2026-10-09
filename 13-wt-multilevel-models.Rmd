@@ -148,13 +148,13 @@ The output from the model will be long. This is because each course in the `cour
 
 ```{r show results of m_linear_dc}
 tab_model(m_linear_dc,
-          title = "Table 13.1")
+          title = "Table 13.1. Linear model predicting final grade from standardized time spent and dummy-coded course, with the first course as the reference group")
 ```
 
 ```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc,
           file = "man/tables/Table 13.1.doc",
-          title = "Table 13.1")
+          title = "Table 13.1. Linear model predicting final grade from standardized time spent and dummy-coded course, with the first course as the reference group")
 ```
 
 Those are a lot of effects. The model estimates the effects of being in each class, accounting for the time students spent on a course and the class they were in. You know this because the model output includes the time spent (`TimeSpent_std`) variable and subject variables (like `course_id[AnPhA-S116-02]`). 
@@ -182,13 +182,13 @@ m_linear_dc_1 <-
   lm(final_grade ~ TimeSpent_std + course_id, data = dat)
 
 tab_model(m_linear_dc_1,
-          title = "Table 13.2")
+          title = "Table 13.2. Linear model predicting final grade from standardized time spent and dummy-coded course, with PhysA-S116-01 as the reference group")
 ```
 
 ```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc_1,
           file = "man/tables/Table 13.2.doc",
-          title = "Table 13.2")
+          title = "Table 13.2. Linear model predicting final grade from standardized time spent and dummy-coded course, with PhysA-S116-01 as the reference group")
 ```
 
 You can now see that "PhysA-S116-01" is no longer listed as an independent variable. Every coefficient listed in this model is in comparison to the new reference variable, "PhysA-S116-01". You also see that `course_id` is now recognized as a factor data type. 
@@ -205,13 +205,13 @@ m_linear_dc_2 <-
   lm(final_grade ~ -1 + TimeSpent_std + course_id, data = dat)
 
 tab_model(m_linear_dc_2,
-          title = "Table 13.3")
+          title = "Table 13.3. Linear model predicting final grade from standardized time spent and dummy-coded course, with no intercept")
 ```
 
 ```{r, echo = FALSE, results = "hide"}
 tab_model(m_linear_dc_2,
           file = "man/tables/Table 13.3.doc",
-          title = "Table 13.3")
+          title = "Table 13.3. Linear model predicting final grade from standardized time spent and dummy-coded course, with no intercept")
 ```
 
 ### A deep-dive into multilevel models
@@ -277,13 +277,13 @@ Let's view the results using the `tab_model()` function from {sjPlot} again.
 
 ```{r}
 tab_model(m_course,
-          title = "Table 13.4")
+          title = "Table 13.4. Multilevel model predicting final grade from standardized time spent, with varying intercepts by course")
 ```
 
 ```{r, echo = FALSE, results = "hide"}
 tab_model(m_course,
           file = "man/tables/Table 13.4.doc",
-          title = "Table 13.4")
+          title = "Table 13.4. Multilevel model predicting final grade from standardized time spent, with varying intercepts by course")
 ```
 
 For `lmer()` models, `tab_model()` provides the output, including fit statistics, coefficients and their standard errors and estimates. There are two things to note about this output:

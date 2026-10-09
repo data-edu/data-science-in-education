@@ -454,6 +454,8 @@ The metrics below all come from rearranging the same four numbers in the confusi
 | Precision (also called positive predictive value, PPV) | TP / (TP + FP) | Of all the students the model predicted would pass, how many actually did? |
 | Negative predictive value (NPV) | TN / (TN + FN) | Of all the students the model predicted would not pass, how many actually did not? |
 
+Table: Table 14.1. Classification metrics derived from the confusion matrix, with the question each one answers
+
 Each of these appears in your `collect_metrics()` output, because you included them in `my_metrics` earlier. Look back at those values now in light of the table. The sensitivity value of around 0.17 tells you the model correctly identifies only a small share of students who actually passed --- it misses most of them. The specificity value of around 0.93, by contrast, tells you the model correctly identifies most students who did not pass. The PPV of around 0.59 says that when the model does predict a student will pass, it's right about 59% of the time; the NPV of around 0.65 says that when it predicts a student will not pass, it's right about 65% of the time.
 
 Together, these suggest the model is biased toward predicting "not pass" --- it does well at flagging students who won't pass, but misses many of the students who actually do pass. This pattern is common when the outcome is imbalanced: in our test set, more students did not pass than did, so a model that leans toward predicting "not pass" can achieve reasonable accuracy without being especially good at the harder task of identifying who will pass.

@@ -792,14 +792,14 @@ You can also generate table output with the `tab_model()` function from the {sjP
 ``` {r}
 #| label: ch07-linear-model-tab
 tab_model(m_linear, 
-          title = "Table 7.1")
+          title = "Table 7.1. Linear model predicting final grade from time spent in the course, in minutes")
 ```
 
 ``` {r, echo = F, results = "hide"}
 #| label: ch07-linear-model-tab-print
 tab_model(m_linear,
           file = "./man/tables/Table 7.1.doc",
-          title = "Table 7.1")
+          title = "Table 7.1. Linear model predicting final grade from time spent in the course, in minutes")
 ```
 
 Tables from {sjPlot} work well in R Markdown documents. If you want to save the model for use in a Word document, the {apaTables} package may be helpful. To save a regression table in Word format, pass the name of the regression model to the `apa.reg.table()` function from the {apaTables} package. Then save the output to a Word document by adding the `filename` argument:
@@ -869,13 +869,13 @@ m_linear_1 <-
     lm(final_grade ~ TimeSpent_hours, data = joined_dat)
 
 # Viewing the output of the linear model
-tab_model(m_linear_1, title = "Table 7.2")
+tab_model(m_linear_1, title = "Table 7.2. Linear model predicting final grade from time spent in the course, in hours")
 ```
 
 ``` {r, echo = F, results = "hide"}
 tab_model(m_linear_1,
           file = "./man/tables/Table 7.2.doc",
-          title = "Table 7.2")
+          title = "Table 7.2. Linear model predicting final grade from time spent in the course, in hours")
 ```
 
 The scale still doesn't seem right. What if we standardized the variable for time spent to have a mean of zero and a standard deviation of one? Do this using the `scale()` function.
@@ -891,13 +891,13 @@ m_linear_2 <-
     lm(final_grade ~ TimeSpent_std, data = joined_dat)
 
 # View the output of the linear model
-tab_model(m_linear_2, title = "Table 7.3")
+tab_model(m_linear_2, title = "Table 7.3. Linear model predicting final grade from standardized time spent in the course")
 ```
 
 ``` {r, echo = F, results = "hide"}
 tab_model(m_linear_2,
           file = "./man/tables/Table 7.3.doc",
-          title = "Table 7.3")
+          title = "Table 7.3. Linear model predicting final grade from standardized time spent in the course")
 ```
 
 For every one standard deviation increase in the amount of time spent on the course, students' final grades increase by `r round(m_linear_2$coefficients[["TimeSpent_std"]], 2)`, or around eight percentage points.
@@ -916,13 +916,13 @@ Use `tab_model()` once again to view the results:
 
 ``` {r}
 tab_model(m_linear_3,
-          title = "Table 7.4")
+          title = "Table 7.4. Linear model predicting final grade from standardized time spent and course subject")
 ```
 
 ``` {r, echo = F, results = "hide"}
 tab_model(m_linear_3,
           file = "./man/tables/Table 7.4.doc",
-          title = "Table 7.4")
+          title = "Table 7.4. Linear model predicting final grade from standardized time spent and course subject")
 ```
 
 When controlling for the subject variable, R computes the average change in final grade when the student took the `AnPhA` course. In this example, `AnPhA` is known as the reference level. R then compares the `TimeSpent_std` average change in final grade for the remaining subjects, all relative to the reference level `AnPhA`. It looks like subjects `FrSc` and `PhysA` are associated with a higher final grade relative to the subject `AnPhA`. 
